@@ -1,0 +1,16 @@
+material Rubber
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.0 0.0 0.0 
+			diffuse 0.117647 0.117647 0.117647 
+			specular 0.01 0.01 0.01 1
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+

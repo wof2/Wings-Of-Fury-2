@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Antialiasing">
+    <value>Antyaliasing</value>
+  </data>
+  <data name="Back">
+    <value>Powrót</value>
+  </data>
+  <data name="Bloom">
+    <value>Efekt Bloom</value>
+  </data>
+  <data name="Bombs">
+    <value>Bomby</value>
+  </data>
+  <data name="ChangeOptionMessage1">
+    <value>Niektóre zmiany zostaną wprowadzone</value>
+  </data>
+  <data name="ChangeOptionMessage2">
+    <value>po ponownym uruchomieniu gry.</value>
+  </data>
+  <data name="ChooseDifficulty">
+    <value>Proszę wybrać poziom trudności</value>
+  </data>
+  <data name="CompletedLevels">
+    <value>Zakończone misje</value>
+  </data>
+  <data name="Congratulations">
+    <value>Gratulacje</value>
+  </data>
+  <data name="Controls">
+    <value>Ustawienia klawiatury</value>
+  </data>
+  <data name="CreatingGameObjects">
+    <value>Tworzenie obiektów gry</value>
+  </data>
+  <data name="CreatingScene">
+    <value>Tworzenie sceny</value>
+  </data>
+  <data name="CreatingTheRootObject">
+    <value>Tworzenie obiektu głównego</value>
+  </data>
+  <data name="CreatorOfOriginalWingsOfFury">
+    <value>twórcy oryginalnej gry Wings of Fury(1987)</value>
+  </data>
+  <data name="Credits">
+    <value>Twórcy</value>
+  </data>
+  <data name="Details">
+    <value>Liczba szczegółów</value>
+  </data>
+  <data name="Difficulty">
+    <value>Poziom trudności</value>
+  </data>
+  <data name="EnterYourName">
+    <value>Wpisz swój nick</value>
+  </data>
+  <data name="ExitToMenu">
+    <value>Powrót do menu</value>
+  </data>
+  <data name="GameOver">
+    <value>Koniec gry</value>
+  </data>
+  <data name="HallOfFame">
+    <value>Arena chwały</value>
+  </data>
+  <data name="Highscores">
+    <value>Wyniki</value>
+  </data>
+  <data name="InitializingSound">
+    <value>Wczytywanie dźwięku</value>
+  </data>
+  <data name="LanguageID">
+    <value>Polski</value>
+  </data>
+  <data name="Level">
+    <value>Poziom</value>
+  </data>
+  <data name="LoadingResources">
+    <value>Ładowanie źródeł</value>
+  </data>
+  <data name="NewGame">
+    <value>Nowa gra</value>
+  </data>
+  <data name="Next">
+    <value>Następne</value>
+  </data>
+  <data name="OK">
+    <value>OK</value>
+  </data>
+  <data name="Options">
+    <value>Opcje</value>
+  </data>
+  <data name="Pause">
+    <value>Pauza</value>
+  </data>
+  <data name="Previous">
+    <value>Poprzednie</value>
+  </data>
+  <data name="Quit">
+    <value>Wyjście</value>
+  </data>
+  <data name="Resume">
+    <value>Powróć</value>
+  </data>
+  <data name="Rockets">
+    <value>Rakiety</value>
+  </data>
+  <data name="SelectAmmunition">
+    <value>Wybierz amunicję</value>
+  </data>
+  <data name="SetupingResources">
+    <value>Wczytywanie źródeł</value>
+  </data>
+  <data name="Sound">
+    <value>Dźwięk</value>
+  </data>
+  <data name="SpecialThanksToSteveWaldo">
+    <value>Specjalne podziękowania dla Steve Waldo</value>
+  </data>
+  <data name="Tutorial">
+    <value>Tutorial</value>
+  </data>
+  <data name="VideoMode">
+    <value>Rozdzielczość ekranu</value>
+  </data>
+  <data name="VideoOptions">
+    <value>Ustawienia Wideo</value>
+  </data>
+  <data name="VSync">
+    <value>VSync</value>
+  </data>
+  <data name="YouWonTheGame">
+    <value>Gratulacje! Ukończyłeś grę</value>
+  </data>
+  <data name="AddingCompositors">
+    <value>Ładowanie shaderow</value>
+  </data>
+  <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
+    <value>Wszyscy żołnierze zostali zlikwidowani, wyląduj na lotniskowcu i wciśnij X</value>
+  </data>
+  <data name="AverageFPS">
+    <value>Średni FPS</value>
+  </data>
+  <data name="BestFPS">
+    <value>Najlepszy FPS</value>
+  </data>
+  <data name="ChooseAntialiasingMode">
+    <value>Proszę wybrać typ antyaliasingu</value>
+  </data>
+  <data name="ChooseLevelOfDetail">
+    <value>Proszę wybrać poziom szczegółów</value>
+  </data>
+  <data name="ChooseVideoMode">
+    <value>Wybierz rozdzielczość ekranu</value>
+  </data>
+  <data name="CreatingInput">
+    <value>Wczytywanie ustwień</value>
+  </data>
+  <data name="CurrentFPS">
+    <value>Aktualny FPS</value>
+  </data>
+  <data name="EnableBloom">
+    <value>Efekt Bloom</value>
+  </data>
+  <data name="EnableSound">
+    <value>Dźwięk</value>
+  </data>
+  <data name="EnableVSync">
+    <value>Włączyć VSync</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheLeft">
+    <value>Samolot wroga zbliża się z lewej strony</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheRight">
+    <value>Samolot wroga zbliża się z prawej strony</value>
+  </data>
+  <data name="High">
+    <value>Wysokie</value>
+  </data>
+  <data name="InverseKeys">
+    <value>Odwrócić klawisze</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRefuel">
+    <value>Wyląduj na lotniskowcu i wciśnij X aby uzupełnić paliwo</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRepair">
+    <value>Wyląduj na lotniskowcu i wciśnij X aby naprawić silnik</value>
+  </data>
+  <data name="Low">
+    <value>Niski</value>
+  </data>
+  <data name="LowFuelWarning">
+    <value>UWAGA: NISKI POZIOM PALIWA</value>
+  </data>
+  <data name="LowOilWarning">
+    <value>UWAGA: NISKI POZIOM OLEJU</value>
+  </data>
+  <data name="Medium">
+    <value>Średni</value>
+  </data>
+  <data name="No">
+    <value>Nie</value>
+  </data>
+  <data name="PressEToTurnOnTheEngine">
+    <value>Wciśnij E aby uruchomić silnik</value>
+  </data>
+  <data name="PressXToChangeAmmo">
+    <value>Wciśnij X aby uzupełnić broń, paliwo oraz naprawić silnik</value>
+  </data>
+  <data name="ScreenshotWrittenTo">
+    <value>Zrzut ekranu został zapisany do</value>
+  </data>
+  <data name="StartFrom">
+    <value>Wybierz poziom</value>
+  </data>
+  <data name="TriangleCount">
+    <value>Liczba trójkątów</value>
+  </data>
+  <data name="WorstFPS">
+    <value>Najgorszy FPS</value>
+  </data>
+  <data name="Yes">
+    <value>Tak</value>
+  </data>
+  <data name="AreYouTryingToReachStarsCaptain">
+    <value>Kapitanie, chcesz dotknąć gwiazd?</value>
+  </data>
+  <data name="EnemyInstallationDestroyed">
+    <value>Bunkier przeciwnika został zniszczony !</value>
+  </data>
+  <data name="EnemyInstallationsAreBothSideCaptain">
+    <value>Kapitanie, instalacje obronne są z obu stron !</value>
+  </data>
+  <data name="EnemyInstallationsAreLeftCaptain">
+    <value>Kapitanie, instalacje obronne są z lewej strony !</value>
+  </data>
+  <data name="EnemyInstallationsAreRightCaptain">
+    <value>Kapitanie, instalacje obronne są z prawej strony !</value>
+  </data>
+  <data name="EnemyPlaneDownIRepeat">
+    <value>Samolot wroga został zniszczony! Powtarzam! Samolot wroga został zniszczony!</value>
+  </data>
+  <data name="KillAllEnemySoldiers">
+    <value>Należy wyeliminować wszystkich żołnierzy wroga. Do dzieła!</value>
+  </data>
+  <data name="OhNoEnemySoldiersAreRebuildingBunker">
+    <value>O, Nie ! Żołnierze odbudowali bunkier! Zniszcz go!</value>
+  </data>
+  <data name="RetractYourLandingGearWithG">
+    <value>Aby schować/otworzyć podwozie wciśnij G</value>
+  </data>
+  <data name="WARNINGProtectTheCarrierFromEnemyPlane">
+    <value>Uwaga! Samolot wroga atakuje lotniskowiec! Zrób coś!</value>
+  </data>
+  <data name="WeAreNotLeavingYetCaptain">
+    <value>Tam nic nie ma, Kapitanie!</value>
+  </data>
+  <data name="Languages">
+    <value>Języki</value>
+  </data>
+  <!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
+  <data name="CoreTeam">
+    <value>Główny zespół programistów</value>
+  </data>
+  <data name="SupportTeam">
+    <value>Pomocniczy zespół programistów</value>
+  </data>
+  <data name="Graphics">
+    <value>Grafika</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>Społeczność tłumaczy</value>
+  </data>
+  <data name="Poland">
+    <value>Polska</value>
+  </data>
+  <data name="Donate">
+    <value>Wsparcie projektu</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>Sprawdź aktualizacje</value>
+  </data>
+  <!--
+        Next 5 messages will be concatenated into one.        
+    -->
+  <data name="DonateMessagePart1">
+  
+    <value>Jeśli spodobała Ci się gra</value>
+  </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
+  <data name="DonateMessagePart2">
+    <value>prosimy abyś rozważył wsparcie naszego </value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>projektu. Poszukujemy funduszy,</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>które umożliwiłyby dalszy rozwój gry,</value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>na przykład: dodanie nowych jednostek wodnych.</value>
+  </data>
+  
+  <!-- message displayed after pressing 'c' (change camera) key. -->
+  <data name="CameraChanged">
+    <value>Zmiana kamery</value>
+  </data>
+</root>

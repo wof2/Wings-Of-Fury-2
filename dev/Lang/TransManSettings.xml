@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+  <!--
+    ResGenExe - pelna scierzka do pliku ResGen.exe
+    AlExe - pelna scierzka do pliku al.exe.
+  -->
+  <Applications 
+    ResGenExe = "C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\ResGen.exe"
+    AlExe = "C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\Al.exe"/>
+</Settings>

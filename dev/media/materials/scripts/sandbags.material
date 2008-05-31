@@ -1,0 +1,20 @@
+material Sandbags
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.768628 0.705882 
+			diffuse 0.8 0.768628 0.705882 
+			specular 0.045 0.045 0.045 25
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture sandbag.jpg
+			}
+		}
+	}
+}
+
+

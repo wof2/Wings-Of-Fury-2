@@ -1,0 +1,160 @@
+material Panels/Panel1
+{
+	technique
+	{
+		pass
+		{
+			//depth_write off
+			lighting Off
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture panel1.png
+			}
+		}
+	}
+}
+
+material Panels/Panel1_rocket
+{
+	technique
+	{
+		pass
+		{
+			//depth_write off
+			lighting Off
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture panel1_rocket.png
+			}
+		}
+	}
+}
+
+material Panels/Panel2
+{
+	technique
+	{
+		pass
+		{
+			//depth_write off
+			lighting Off
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture panel2.png
+			}
+		}
+	}
+}
+
+
+material Panels/Panel4
+{
+	technique
+	{
+		pass
+		{
+			//depth_write off
+			lighting Off
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture panel4.png
+			}
+		}
+	}
+}
+
+
+material Panels/Panel5
+{
+	technique
+	{
+		pass
+		{
+			//depth_write off
+			lighting Off
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture panel5.png
+			}
+		}
+	}
+}
+
+material Panels/Arrow
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.901961 0.901961 0.901961 
+			diffuse 0.901961 0.901961 0.901961 
+			specular 0 0 0 10
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+material Panels/Screw
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.9 0.9 0.9 
+			diffuse 0.35216 0.35216 0.35216 
+			specular 0 0 0 1
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture RustedMetal.jpg
+			}
+		}
+	}
+}
+
+
+material Panels/Steel
+{
+	technique
+	{
+		pass
+		{			
+			ambient 0.65 0.65 0.65
+			diffuse 0.026216 0.026216 0.026216 
+			specular 0 0 0 1
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture steel.jpg
+			}
+		}
+	}
+}

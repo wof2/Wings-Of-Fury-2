@@ -1,0 +1,53 @@
+
+
+material P47/Airscrew
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			scene_blend alpha_blend
+			depth_write off
+			texture_unit 
+			{
+				texture P47-airscrew.png
+			}
+			
+		}
+	}
+}
+
+
+material P47/Blade
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.388235 0.388235 0.388235 
+			specular 0 0 0 10
+			emissive 0 0 0 
+			
+		}
+	}
+}
+
+
+material P47/Body : NormalMappedSpecular
+{
+  set_texture_alias NormalMap thColNavy_normal.dds
+  set_texture_alias DiffuseMap thColNavy.dds
+
+}
+
+
+
+material P47/DestroyedBody: NormalMappedSpecular
+{
+  set_texture_alias NormalMap thColNavy_normal.dds
+  set_texture_alias DiffuseMap thColNavyDestroyed.dds
+
+}
+

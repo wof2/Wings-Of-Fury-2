@@ -1,0 +1,88 @@
+
+material Carrier : NormalMappedSpecular
+{
+  set_texture_alias NormalMap carrier_normal.jpg
+  set_texture_alias DiffuseMap carrier.jpg
+
+}
+
+
+material Carrier/Panels: NormalMappedSpecular
+{
+  set_texture_alias NormalMap metalPanels_normal.jpg
+  set_texture_alias DiffuseMap metalPanels.jpg
+ 
+}
+
+
+material Carrier/Lane : NormalMappedSpecular
+{
+  set_texture_alias NormalMap lane_normal.dds
+  set_texture_alias DiffuseMap lane.dds
+
+}
+
+material Carrier/Lane_low : NormalMappedSpecular
+{
+  set_texture_alias NormalMap lane_normal.dds
+  set_texture_alias DiffuseMap lane_low.dds
+
+}
+
+
+
+material Carrier/ArrestingWire
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.4 0.18 0.18
+			diffuse 0.4 0.18 0.18
+			specular 0 0 0 10
+			emissive 0 0 0 
+		}
+	}
+}
+
+
+material Carrier/Crew
+{
+    technique
+    {
+        pass
+        {
+            ambient 1.0 1.0 1.0
+            diffuse 1.0 1.0 1.0
+            specular 0.576471 0.541176 0.341176 0.0
+            emissive 0.0 0.0 0.0
+            texture_unit
+            {
+                texture carriercrew.jpg 
+            }
+        }
+    }
+}
+
+
+material Carrier/Signal
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.8 0.8 0.8
+			scene_blend alpha_blend	
+			depth_write off			
+
+			texture_unit
+			{
+				texture carriersignal.png			
+			}
+			
+		}
+	}
+
+}
+
+

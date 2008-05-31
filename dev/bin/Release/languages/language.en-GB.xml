@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Antialiasing">
+    <value>Antialiasing</value>
+  </data>
+  <data name="Back">
+    <value>Back</value>
+  </data>
+
+  <!-- "bloom" effect -->
+  <data name="Bloom">
+    <value>Bloom</value>
+  </data>
+  <data name="Bombs">
+    <value>Bombs</value>
+  </data>
+  <data name="ChangeOptionMessage1">
+    <value>Changes to some options will take</value>
+  </data>
+  <data name="ChangeOptionMessage2">
+    <value>effect after restarting the game.</value>
+  </data>
+  <data name="ChooseDifficulty">
+    <value>Choose difficulty</value>
+  </data>
+  <data name="CompletedLevels">
+    <value>Completed Levels</value>
+  </data>
+  <data name="Congratulations">
+    <value>Congratulations</value>
+  </data>
+  <data name="Controls">
+    <value>Controls</value>
+  </data>
+  <data name="CreatingGameObjects">
+    <value>Creating game objects</value>
+  </data>
+  <data name="CreatingScene">
+    <value>Creating scene</value>
+  </data>
+  <data name="CreatingTheRootObject">
+    <value>Creating the root object</value>
+  </data>
+  <data name="CreatorOfOriginalWingsOfFury">
+    <value>creator of original Wings of Fury (1987)</value>
+  </data>
+  <data name="Credits">
+    <value>Credits</value>
+  </data>
+  <data name="Details">
+    <value>Details</value>
+  </data>
+  <data name="Difficulty">
+    <value>Difficulty</value>
+  </data>
+  <data name="EnterYourName">
+    <value>Enter your name</value>
+  </data>
+  <data name="ExitToMenu">
+    <value>Exit to menu</value>
+  </data>
+  <data name="GameOver">
+    <value>Game Over</value>
+  </data>
+  <data name="HallOfFame">
+    <value>Hall of Fame</value>
+  </data>
+  <data name="Highscores">
+    <value>Highscores</value>
+  </data>
+  <data name="InitializingSound">
+    <value>Initializing sound</value>
+  </data>
+  <!-- ID of the current language -->
+  <data name="LanguageID">
+    <value>English</value>
+  </data>
+  <!-- level / stage of the game -->
+  <data name="Level">
+    <value>Level</value>
+  </data>
+  <data name="LoadingResources">
+    <value>Loading resources</value>
+  </data>
+  <data name="NewGame">
+    <value>New game</value>
+  </data>
+  <!-- next menu option -->
+  <data name="Next">
+    <value>Next</value>
+  </data>
+  <data name="OK">
+    <value>OK</value>
+  </data>
+  <data name="Options">
+    <value>Options</value>
+  </data>
+  <data name="Pause">
+    <value>Pause</value>
+  </data>
+  <!-- previous menu option -->
+  <data name="Previous">
+    <value>Previous</value>
+  </data>
+  <data name="Quit">
+    <value>Quit</value>
+  </data>
+  <data name="Resume">
+    <value>Resume</value>
+  </data>
+  <data name="Rockets">
+    <value>Rockets</value>
+  </data>
+  <data name="SelectAmmunition">
+    <value>Select ammunition</value>
+  </data>
+  <data name="SetupingResources">
+    <value>Setuping resources</value>
+  </data>
+  <data name="Sound">
+    <value>Sound</value>
+  </data>
+  <data name="SpecialThanksToSteveWaldo">
+    <value>Special thanks to Steve Waldo</value>
+  </data>
+  <data name="Tutorial">
+    <value>Tutorial</value>
+  </data>
+  <data name="VideoMode">
+    <value>Video mode</value>
+  </data>
+  <data name="VideoOptions">
+    <value>Video Options</value>
+  </data>
+  <data name="VSync">
+    <value>VSync</value>
+  </data>
+  <data name="YouWonTheGame">
+    <value>You won the game</value>
+  </data>
+  <data name="AddingCompositors">
+    <value>Adding compositors</value>
+  </data>
+  <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
+    <value>All enemy soldiers eliminated, land on the carrier and press X</value>
+  </data>
+  <data name="AverageFPS">
+    <value>Average FPS</value>
+  </data>
+  <data name="BestFPS">
+    <value>Best FPS</value>
+  </data>
+  <data name="ChooseAntialiasingMode">
+    <value>Choose antialiasing mode</value>
+  </data>
+  <data name="ChooseLevelOfDetail">
+    <value>Choose level of detail</value>
+  </data>
+  <data name="ChooseVideoMode">
+    <value>Choose video mode</value>
+  </data>
+  <data name="CreatingInput">
+    <value>Creating input</value>
+  </data>
+  <data name="CurrentFPS">
+    <value>Current FPS</value>
+  </data>
+  <data name="EnableBloom">
+    <value>Enable bloom</value>
+  </data>
+  <data name="EnableSound">
+    <value>Enable sound</value>
+  </data>
+  <data name="EnableVSync">
+    <value>Enable VSync</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheLeft">
+    <value>Enemy plane approaching from the left</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheRight">
+    <value>Enemy plane approaching from the right</value>
+  </data>
+  <!-- high difficulty / details -->
+  <data name="High">
+    <value>High</value>
+  </data>
+  <data name="InverseKeys">
+    <value>Inverse keys</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRefuel">
+    <value>Land on the carrier and press X to refuel</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRepair">
+    <value>Land on the carrier and press X to repair</value>
+  </data>
+  <!-- low difficulty / details -->
+  <data name="Low">
+    <value>Low</value>
+  </data>
+  <data name="LowFuelWarning">
+    <value>LOW FUEL WARNING</value>
+  </data>
+  <data name="LowOilWarning">
+    <value>LOW OIL WARNING</value>
+  </data>
+  
+  <data name="Medium">
+    <value>Medium</value>
+  </data>
+  <data name="No">
+    <value>No</value>
+  </data>
+  <data name="PressEToTurnOnTheEngine">
+    <value>Press E to turn on the engine</value>
+  </data>
+  <data name="PressXToChangeAmmo">
+    <value>Press X to change the ammo, repair and refuel</value>
+  </data>
+  <data name="ScreenshotWrittenTo">
+    <value>Screenshot written to</value>
+  </data>
+  <data name="StartFrom">
+    <value>Start from</value>
+  </data>
+  <data name="TriangleCount">
+    <value>Triangle count</value>
+  </data>
+  <data name="WorstFPS">
+    <value>Worst FPS</value>
+  </data>
+  <data name="Yes">
+    <value>Yes</value>
+  </data>
+  <data name="AreYouTryingToReachStarsCaptain">
+    <value>Are you trying to reach the stars captain?</value>
+  </data>
+  <data name="EnemyInstallationDestroyed">
+    <value>Enemy installation destroyed, Sir!</value>
+  </data>
+  <data name="EnemyInstallationsAreBothSideCaptain">
+    <value>Enemy installations are on the both sides captain!</value>
+  </data>
+  <data name="EnemyInstallationsAreLeftCaptain">
+    <value>Enemy installations are to the left captain!</value>
+  </data>
+  <data name="EnemyInstallationsAreRightCaptain">
+    <value>Enemy installations are to the right captain!</value>
+  </data>
+  <data name="EnemyPlaneDownIRepeat">
+    <value>Enemy plane down! I repeat! Enemy plane down!</value>
+  </data>
+  <data name="KillAllEnemySoldiers">
+    <value>Kill all enemy soldiers. Go get them captain!</value>
+  </data>
+  <data name="OhNoEnemySoldiersAreRebuildingBunker">
+    <value>Oh, no! Enemy soldiers are rebuilding bunker!</value>
+  </data>
+  <data name="RetractYourLandingGearWithG">
+    <value>Retract your landing gear with 'G'</value>
+  </data>
+  <data name="WARNINGProtectTheCarrierFromEnemyPlane">
+    <value>WARNING! Protect the carrier from enemy plane!</value>
+  </data>
+  <data name="WeAreNotLeavingYetCaptain">
+    <value>We are not leaving yet captain!</value>
+  </data>
+  <data name="Languages">
+    <value>Languages</value>
+  </data>
+  <!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
+  <data name="CoreTeam">
+    <value>Core team</value>
+  </data>
+  <data name="SupportTeam">
+    <value>Support team</value>
+  </data>
+  <data name="Graphics">
+    <value>Graphics</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>community translations</value>
+  </data>
+  <data name="Poland">
+    <value>Poland</value>
+  </data>
+  <data name="Donate">
+    <value>Donate</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>Check for updates</value>
+  </data>
+   <!--
+        Next 5 messages will be concatenated into one.        
+    -->
+  <data name="DonateMessagePart1">   
+    <value>If You liked</value>
+  </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
+  <data name="DonateMessagePart2">
+    <value>please consider donating.</value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>We are looking for funds to</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>support further game development</value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>(including naval units).</value>
+  </data>
+  <!-- message displayed after pressing 'c' (change camera) key. -->
+  <data name="CameraChanged">
+    <value>Camera changed</value>
+  </data>
+</root>

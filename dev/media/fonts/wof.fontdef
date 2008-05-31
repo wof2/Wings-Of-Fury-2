@@ -1,0 +1,62 @@
+Wof_en-GB
+{	
+	type 		truetype
+	source 		solo5PL.ttf
+	size 		16
+	resolution 	96
+}
+
+Wof_pl-PL
+{	
+	type 		truetype
+	source 		solo5PL.ttf
+	size 		20
+	resolution 	96
+	code_points     33-166 260-263 280-281 211-211 243-243 321-324 346-347 377-380
+}
+
+Wof_ru-RU
+{	
+	type 		truetype
+	source 	        ru.ttf
+	size 		26
+	resolution 	96
+        code_points     33-122 1040-1103
+}
+
+Wof_ua-UA
+{	
+	type 		truetype
+	source 		ru.ttf
+	size 		20
+	resolution 	96
+	code_points 33-122 1025-1273
+}
+
+Wof_de-DE
+{	
+	type 		truetype
+	source 		solo5PL.ttf
+	size 		16
+	resolution 	96
+	code_points 33-122 196-196 203-203 207-207 214-214 220-220 228-228 235-235 239-239 246-246 252-252
+}
+
+
+Wof_gr-GR
+{	
+	type 		truetype
+	source 		solo5PL.ttf
+	size 		20
+	resolution 	96
+	code_points 33-122 900-973
+}
+
+Wof_pt-PT
+{	
+	type 		truetype
+	source 		solo5PL.ttf
+	size 		20
+	resolution 	96
+	code_points 33-122 193-245
+}

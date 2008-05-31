@@ -1,0 +1,34 @@
+material Soldier
+{
+    technique
+    {
+        pass
+        {
+            ambient 1.0 1.0 1.0
+            diffuse 1.0 1.0 1.0
+            specular 0.576471 0.541176 0.341176 0.0
+            emissive 0.0 0.0 0.0
+            texture_unit
+            {
+                texture soldier.jpg 
+            }
+        }
+    }
+}
+material General
+{
+    technique
+    {
+        pass
+        {
+            ambient 1.0 1.0 1.0
+            diffuse 1.0 1.0 1.0
+            specular 0.576471 0.541176 0.341176 0.0
+            emissive 0.0 0.0 0.0
+            texture_unit
+            {
+                texture general.jpg 
+            }
+        }
+    }
+}

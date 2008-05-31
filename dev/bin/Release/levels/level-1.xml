@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<level dayTime="dawn" enemyPlane="0">
+
+  <ocean width="100"/>
+
+  <aircraft-carrier-begin width="1"/>
+  <aircraft-carrier-middle width="3"/>
+  <aircraft-carrier-restore-ammunition width="1"/>
+  <aircraft-carrier-middle width="1"/>
+  <aircraft-carrier-end width="3"/>
+  <ocean width="12"/>
+  <ocean width="12" variation="1"/>
+  <ocean width="12"/>
+
+  <island-begin variation="3"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <wooden-bunker num-soldiers="3"/>
+  <terrain variation="0"/>
+  <barrels variation="0"/>
+  <terrain variation="2"/>
+  <barrack num-soldiers="6" variation="1"/>
+  <terrain variation="0"/>
+
+  <terrain variation="0"/>
+  <wooden-bunker num-soldiers="3"/>
+  <terrain variation="2"/>
+  <island-end/> 
+
+  <ocean width="100"/>
+</level>

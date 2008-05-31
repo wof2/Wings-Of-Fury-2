@@ -1,0 +1,20 @@
+material Tent
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.239216 0.301961 0.0666667 
+			diffuse 0.239216 0.301961 0.0666667 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture tent.jpg
+			}
+		}
+	}
+}
+
+

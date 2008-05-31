@@ -1,0 +1,13 @@
+material suzanne
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture suzanne.png
+			}
+		}
+	}
+}

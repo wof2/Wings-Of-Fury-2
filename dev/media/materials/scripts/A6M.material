@@ -1,0 +1,34 @@
+material A6M/Airscrew
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			scene_blend alpha_blend
+			depth_write off
+			texture_unit 
+			{
+				texture A6M-airscrew.png
+			}
+			
+		}
+	}
+}
+
+
+
+material A6M/Body : NormalMappedSpecular
+{
+  set_texture_alias NormalMap a6m_normal.jpg
+  set_texture_alias DiffuseMap a6m.jpg
+
+}
+
+material A6M/DestroyedBody: NormalMappedSpecular
+{
+  set_texture_alias NormalMap a6m_normal.jpg
+  set_texture_alias DiffuseMap a6m_destroyed.jpg
+
+}
+

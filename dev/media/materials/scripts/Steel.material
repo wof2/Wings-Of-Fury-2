@@ -1,0 +1,10 @@
+material Steel : NormalMappedSpecular
+{
+  set_texture_alias NormalMap steel_normal.jpg
+  set_texture_alias DiffuseMap steel.jpg
+
+}
+
+
+
+

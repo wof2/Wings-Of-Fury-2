@@ -1,0 +1,67 @@
+Wof/Loading
+{
+	zorder 500
+	// Stats block
+	container BorderPanel(Wof/LoadingScreen)
+	{
+		metrics_mode relative		
+		left 0 
+		top 0
+		width 1
+		height 1
+		material SplashScreen
+
+        	element TextArea(Wof/LoadingScreenText)
+		{
+			metrics_mode relative
+			left 0.03
+			top 0.5
+			width 0.2
+			height 0.025
+			font_name BlueHighway
+			char_height 0.025
+			colour 0 0.1 0			
+		}
+		
+		
+	}
+}
+
+Wof/Intro
+{
+	zorder 500
+	// Stats block
+	container BorderPanel(Wof/IntroScreen)
+	{
+		metrics_mode relative		
+		left 0 
+		top 0
+		width 1
+		height 1
+		material IntroScreen1
+		
+	}
+}
+
+
+Wof/HUD
+{
+	zorder 1
+	
+}
+
+
+
+Wof/Debug
+{
+		element TextArea(Wof/DebugText)
+		{
+			metrics_mode relative
+			left 0
+			top 0
+			width 1
+			height 0.1
+			font_name BlueHighway
+			
+		}
+}
