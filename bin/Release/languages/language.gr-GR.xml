@@ -263,44 +263,47 @@
 
   <!-- meaning primary / main team -->
   <data name="CoreTeam">
-    <value>Core team</value>
+    <value>Βασική Ομάδα</value>
   </data>
   <data name="SupportTeam">
-    <value>Support team</value>
+    <value>Ομάδα Υποστήριξης</value>
   </data>
   <data name="Graphics">
-    <value>Σχηματικά</value>
+    <value>Γραφικά</value>
   </data>
   <data name="CommunityTranslations">
-    <value>Οι μεταφράσεις της κοινωνίας </value>
+    <value>Μεταφράσεις</value>
   </data>
   <data name="Poland">
     <value>Πολωνία</value>
   </data>
   <data name="Donate">
-    <value>Δωρίστε</value>
+    <value>Δωρεά</value>
   </data>
   <data name="CheckForUpdates">
-    <value>Ελέγξτε τις ενημερώσεις</value>
+    <value>Έλεγχος για Ενημερώσεις</value>
   </data>
    <!--
         Next 5 messages will be concatenated into one.        
     -->
-  <data name="DonateMessagePart1">   
-    <value>Αν σας άρεσε</value>
+  <data name="DonateMessag?Part1">   
+    <value>Εάν σου άρεσε</value>
   </data>
   <!-- here will goes "Wings of fury 2" - but it's translated already -->
   <data name="DonateMessagePart2">
-    <value>σας παρακαλούμε να μελετήσετε το να</value>
+    <value>παρακαλώ εκλάβετε υπόψην να δωρίσετε</value>
   </data>
   <data name="DonateMessagePart3">
-    <value>δωρίσετε. Ψάχνουμε πόρους για να στηρίξουμε λεφτά</value>
+    <value>Αναζητούμε κονδύλια για</value>
   </data>
   <data name="DonateMessagePart4">
-    <value>την πρόσθετη ανάπτυξη του παιχνιδιού. Για παράδειγμα </value>
+    <value>την περαιτέρω ανάπτυξη του παιχνιδίου</value>
   </data>
   <data name="DonateMessagePart5">
-    <value>με το να προσθέσουμε τις καινούργιες ναυτικές μονάδες</value>
+    <value>για παράδειγμα ενσωμάτωση ναυτικών μονάδων</value>
+  </data>
+  <data name="Sincerely">
+    <value>Εν κατακλείδι</value>
   </data>
   <!-- message displayed after pressing 'c' (change camera) key. -->
   <data name="CameraChanged">
