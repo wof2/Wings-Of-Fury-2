@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Antialiasing">
+    <value>Antialiasing</value>
+  </data>
+  <data name="Back">
+    <value>Επιστροφή</value>
+  </data>
+  <data name="Bloom">
+    <value>Bloom</value>
+  </data>
+  <data name="Bombs">
+    <value>Βόμβες</value>
+  </data>
+  <data name="ChangeOptionMessage1">
+    <value>Οι αλλαγές σε μερικές επιλογές θα</value>
+  </data>
+  <data name="ChangeOptionMessage2">
+    <value>ενεργοποιηθούν όταν επανεκκινήσεις το παιχνίδι.</value>
+  </data>
+  <data name="ChooseDifficulty">
+    <value>Επέλεξε επίπεδο δυσκολίας</value>
+  </data>
+  <data name="CompletedLevels">
+    <value>Επίπεδα που ολοκληρώθηκαν</value>
+  </data>
+  <data name="Congratulations">
+    <value>Συγχαρητήρια</value>
+  </data>
+  <data name="Controls">
+    <value>Χειρισμός</value>
+  </data>
+  <data name="CreatingGameObjects">
+    <value>Δημιουργία αντικειμένων παιχνιδιού</value>
+  </data>
+  <data name="CreatingScene">
+    <value>Δημιουργία Σκηνής</value>
+  </data>
+  <data name="CreatingTheRootObject">
+    <value>Δημιουργία του αρχικού αντικειμένου</value>
+  </data>
+  <data name="CreatorOfOriginalWingsOfFury">
+    <value>Δημιουργός του αρχικού Wings of Fury (1987)</value>
+  </data>
+  <data name="Credits">
+    <value>Μνεία συνεργατών</value>
+  </data>
+  <data name="Details">
+    <value>Λεπτομέρειες</value>
+  </data>
+  <data name="Difficulty">
+    <value>Δυσκολία</value>
+  </data>
+  <data name="EnterYourName">
+    <value>Εισήγαγε το όνομα σου</value>
+  </data>
+  <data name="ExitToMenu">
+    <value>Επιστροφή στο Μενού</value>
+  </data>
+  <data name="GameOver">
+    <value>Τέλος Παιχνιδιού</value>
+  </data>
+  <data name="HallOfFame">
+    <value>Hall of Fame</value>
+  </data>
+  <data name="Highscores">
+    <value>Τα Υψηλότερα Σκόρ</value>
+  </data>
+  <data name="InitializingSound">
+    <value>Αρχικοποίηση ήχου</value>
+  </data>
+  <data name="LanguageID">
+    <value>Greek</value>
+  </data>
+  <data name="Level">
+    <value>Επίπεδο</value>
+  </data>
+  <data name="LoadingResources">
+    <value>Φόρτωση δεδομένων</value>
+  </data>
+  <data name="NewGame">
+    <value>Νέο Παιχνίδι</value>
+  </data>
+  <data name="Next">
+    <value>Επόμενο</value>
+  </data>
+  <data name="OK">
+    <value>OK</value>
+  </data>
+  <data name="Options">
+    <value>Επιλογές</value>
+  </data>
+  <data name="Pause">
+    <value>Πάυση</value>
+  </data>
+  <data name="Previous">
+    <value>Προηγούμενο</value>
+  </data>
+  <data name="Quit">
+    <value>Έξοδος</value>
+  </data>
+  <data name="Resume">
+    <value>Συνέχεια</value>
+  </data>
+  <data name="Rockets">
+    <value>Ρουκέτες</value>
+  </data>
+  <data name="SelectAmmunition">
+    <value>Επέλεξε Πυρομαχικά</value>
+  </data>
+  <data name="SetupingResources">
+    <value>Δημιουργία δεδομένων</value>
+  </data>
+  <data name="Sound">
+    <value>Ήχος</value>
+  </data>
+  <data name="SpecialThanksToSteveWaldo">
+    <value>Ευχαριστούμε τον Steve Waldo</value>
+  </data>
+  <data name="Tutorial">
+    <value>Εκμάθηση</value>
+  </data>
+  <data name="VideoMode">
+    <value>Κατάσταση Video</value>
+  </data>
+  <data name="VideoOptions">
+    <value>Επιλογές Video</value>
+  </data>
+  <data name="VSync">
+    <value>VSync</value>
+  </data>
+  <data name="YouWonTheGame">
+    <value>Νίκησες το παιχνίδι</value>
+  </data>
+  <data name="AddingCompositors">
+    <value>Προσθήκη στοιχειοθετών</value>
+  </data>
+  <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
+    <value>Όλοι οι στρατιώτες του εχθρού εξολοθρεύτηκαν, επέστρεψε στο αεροπλανοφόρο και πάτησε X</value>
+  </data>
+  <data name="AverageFPS">
+    <value>Μέσος όρος FPS</value>
+  </data>
+  <data name="BestFPS">
+    <value>Βέλτιστο FPS</value>
+  </data>
+  <data name="ChooseAntialiasingMode">
+    <value>Επέλεξε μέθοδος antialiasing</value>
+  </data>
+  <data name="ChooseLevelOfDetail">
+    <value>Επέλεξε επίπεδο λεπτομέρειας</value>
+  </data>
+  <data name="ChooseVideoMode">
+    <value>Επέλεξε Ρύυθμιση Video</value>
+  </data>
+  <data name="CreatingInput">
+    <value>Δημιουργία εισαγωγής</value>
+  </data>
+  <data name="CurrentFPS">
+    <value>Τωρινό FPS</value>
+  </data>
+  <data name="EnableBloom">
+    <value>Ενεργοποίηση bloom</value>
+  </data>
+  <data name="EnableSound">
+    <value>Ενεργοποίηση ηχου</value>
+  </data>
+  <data name="EnableVSync">
+    <value>Ενεργοποίηση VSync</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheLeft">
+    <value>Εχθρικό αεροσκάφος πλησιάζει απο τα αριστερά</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheRight">
+    <value>Εχθρικό αεροσκάφος πλησιάζει απο τα δεξιά</value>
+  </data>
+  <data name="High">
+    <value>Υψηλό</value>
+  </data>
+  <data name="InverseKeys">
+    <value>Αντιστροφή πλήκτρων</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRefuel">
+    <value>Προσνηώσου στο αεροπλανοφόρο και πάτησε X για ανεφοδιασμό</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRepair">
+    <value>Προσνηώσου στο αεροπλανοφόρο και πάτησε X για επισκευή</value>
+  </data>
+  <data name="Low">
+    <value>Χαμηλό</value>
+  </data>
+  <data name="LowFuelWarning">
+    <value>ΠΡΟΕΙΔΟΠΟΙΗΣΗ ΧΑΜΗΛΗΣ ΣΤΑΘΜΗΣ ΚΑΥΣΙΜΟΥ</value>
+  </data>
+  <data name="LowOilWarning">
+    <value>ΠΡΟΕΙΔΟΠΟΙΗΣΗ ΧΑΜΗΛΗΣ ΣΤΑΘΜΗΣ ΛΑΔΙΟΥ</value>
+  </data>
+  <data name="Medium">
+    <value>Μεσαίο</value>
+  </data>
+  <data name="No">
+    <value>Όχι</value>
+  </data>
+  <data name="PressEToTurnOnTheEngine">
+    <value>Πάτησε E για εκκίνηση του κινητήρα</value>
+  </data>
+  <data name="PressXToChangeAmmo">
+    <value>Πάτησε X για αλλαγή πυρομαχικών, επισκευή και ανεφοδιασμό</value>
+  </data>
+  <data name="ScreenshotWrittenTo">
+    <value>Screenshot αποθηκεύτηκε στο</value>
+  </data>
+  <data name="StartFrom">
+    <value>Αρχή από</value>
+  </data>
+  <data name="TriangleCount">
+    <value>Αριθμός Τριγώνων</value>
+  </data>
+  <data name="WorstFPS">
+    <value>Χειρότερο FPS</value>
+  </data>
+  <data name="Yes">
+    <value>Ναί</value>
+  </data>
+  <data name="AreYouTryingToReachStarsCaptain">
+    <value>Προσπαθείς να φτάσεις στα αστέρια κυβερνήτα?</value>
+  </data>
+  <data name="EnemyInstallationDestroyed">
+    <value>Οι εγκαταστάσεις του εχθρού καταστράφηκαν κυβερνήτα!</value>
+  </data>
+  <data name="EnemyInstallationsAreBothSideCaptain">
+    <value>Οι εχθρικές εγκαταστάσεις βρίσκονται και απο τις δυο πλευρές κυβερνήτα!</value>
+  </data>
+  <data name="EnemyInstallationsAreLeftCaptain">
+    <value>Οι εχθρικές εγκαταστάσεις βρίσκονται στα αριστερά κυβερνήτα!</value>
+  </data>
+  <data name="EnemyInstallationsAreRightCaptain">
+    <value>Οι εχθρικές εγκαταστάσεις βρίσκονται στα δεξιά κυβερνήτα!</value>
+  </data>
+  <data name="EnemyPlaneDownIRepeat">
+    <value>Κατάρριψη εχθρικού αεροσκάφους! Επαναλαμβάνω! Λατάρριψη εχθρικού αεροσκάφους!</value>
+  </data>
+  <data name="KillAllEnemySoldiers">
+    <value>Σκότωσε όλους τους στρατιώτες του εχθρού. Επάνω τους κυβερνήτα!</value>
+  </data>
+  <data name="OhNoEnemySoldiersAreRebuildingBunker">
+    <value>Ωω, Όχι! Οι στρατιώτες του εχθρού ξανακατασκευάζουν το οχυρό!</value>
+  </data>
+  <data name="RetractYourLandingGearWithG">
+    <value>Ανασήκωσε το σύστημα τροχών πατώντας'G'</value>
+  </data>
+  <data name="WARNINGProtectTheCarrierFromEnemyPlane">
+    <value>ΠΡΟΣΟΧΗ! Προστάτεψε το αεροπλανοφόρο απο το εχθρικό αεροσκάφος!</value>
+  </data>
+  <data name="WeAreNotLeavingYetCaptain">
+    <value>Δεν φεύγουμε ακόμη κυβερνήτα!</value>
+  </data>
+  <data name="Languages">
+    <value>Γλώσσες</value>
+  </data>
+  
+   <!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
+  <data name="CoreTeam">
+    <value>Core team</value>
+  </data>
+  <data name="SupportTeam">
+    <value>Support team</value>
+  </data>
+  <data name="Graphics">
+    <value>Σχηματικά</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>Οι μεταφράσεις της κοινωνίας </value>
+  </data>
+  <data name="Poland">
+    <value>Πολωνία</value>
+  </data>
+  <data name="Donate">
+    <value>Δωρίστε</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>Ελέγξτε τις ενημερώσεις</value>
+  </data>
+   <!--
+        Next 5 messages will be concatenated into one.        
+    -->
+  <data name="DonateMessagePart1">   
+    <value>Αν σας άρεσε</value>
+  </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
+  <data name="DonateMessagePart2">
+    <value>σας παρακαλούμε να μελετήσετε το να</value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>δωρίσετε. Ψάχνουμε πόρους για να στηρίξουμε λεφτά</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>την πρόσθετη ανάπτυξη του παιχνιδιού. Για παράδειγμα </value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>με το να προσθέσουμε τις καινούργιες ναυτικές μονάδες</value>
+  </data>
+  <!-- message displayed after pressing 'c' (change camera) key. -->
+  <data name="CameraChanged">
+    <value>Η κάμερα άλλαξε</value>
+  </data>
+</root>

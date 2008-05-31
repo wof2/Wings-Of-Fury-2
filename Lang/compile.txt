@@ -1,0 +1,5 @@
+﻿"C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\ResGen.exe" language.pl-PL.resx language.pl-PL.resources
+"C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\ResGen.exe" language.en-GB.resx language.en-GB.resources
+
+"C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\Al.exe" /t:lib /embed:language.pl-PL.resources /culture:pl-PL /v:1.1.0.0 /out:Wof.resources.dll
+"C:\Program Files\Microsoft SDKs\Windows\v6.0A\bin\Al.exe" /t:lib /embed:language.en-GB.resources /culture:en-GB /v:1.1.0.0 /out:Wof.resources.dll

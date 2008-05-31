@@ -1,0 +1,409 @@
+material Effects/Explosion1
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			scene_blend add			
+			depth_write off
+
+			texture_unit
+			{
+				anim_texture explosion1.png 16 0				
+			}
+			
+		}
+	}
+}
+
+material Effects/Explosion2
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			scene_blend add			
+			depth_write off
+
+			texture_unit
+			{
+				anim_texture explosion2.png 19 0			
+			}
+			
+		}
+	}
+}
+
+material Effects/WaterTrail
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			scene_blend add		
+			depth_write off
+
+			texture_unit
+			{
+				anim_texture WaterTrail.png 12 1			
+			}
+			
+		}
+	}
+}
+
+material Effects/PlaneWaterTrail
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			scene_blend add			
+			depth_write off
+
+			texture_unit
+			{
+				anim_texture PlaneWaterTrail.png 12 0			
+			}
+			
+		}
+	}
+}
+
+
+material Effects/GunHit
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			scene_blend add			
+			depth_write off
+
+			texture_unit
+			{
+				anim_texture GunHit.png 5 0			
+			}
+			
+		}
+	}
+}
+
+material Effects/WaterImpact1
+{
+
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1			
+			scene_blend alpha_blend			
+			depth_write off
+			lighting off	
+			texture_unit
+			{
+				anim_texture WaterImpact.png 9 0
+			}		
+
+		}
+
+	}
+
+	
+}
+
+
+material Effects/WaterImpact2
+{
+
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1	
+			lighting off		
+			scene_blend alpha_blend			
+			depth_write off
+			texture_unit
+			{
+				anim_texture WaterImpact2.png 10 0
+			}		
+
+		}
+
+	}
+
+	
+}
+
+material Effects/DirtImpact1
+{
+
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1			
+			scene_blend alpha_blend			
+			depth_write off
+			lighting off	
+			texture_unit
+			{
+				anim_texture DirtImpact.png 21 0
+			}		
+
+		}
+
+	}
+
+	
+}
+
+
+material Effects/DirtImpact2
+{
+
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1	
+			lighting off		
+			scene_blend alpha_blend			
+			depth_write off
+			texture_unit
+			{
+				anim_texture DirtImpact2.png 10 0
+			}		
+
+		}
+
+	}
+
+	
+}
+
+material Effects/PlaneCrash
+{
+
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1	
+			lighting off						
+			scene_blend alpha_blend			
+			depth_write off
+			texture_unit
+			{
+				anim_texture PlaneCrash.png 17 0
+			}		
+
+		}
+
+	}
+
+	
+}
+
+
+
+material Effects/Cloud1
+{
+
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1	
+			lighting off				
+			scene_blend alpha_blend				
+			depth_write off
+			texture_unit
+			{
+				texture cloud1.png
+			}		
+
+		}
+
+	}
+
+	
+}
+
+material Effects/Cloud2
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1	
+			lighting off					
+			scene_blend alpha_blend			
+			depth_write off
+			texture_unit
+			{
+				texture cloud2.png
+			}		
+
+		}
+
+	}
+	
+}
+
+material Effects/Fire
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1	
+			lighting off					
+			scene_blend alpha_blend	
+			depth_write off
+			texture_unit
+			{
+				anim_texture Fire.png 11 0
+				alpha_op_ex modulate src_texture src_manual 0.7 0.7
+			}		
+
+		}
+
+	}
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1	
+			lighting off					
+			scene_blend alpha_blend	
+			depth_write off
+			texture_unit
+			{
+				anim_texture Fire.png 11 0
+			}		
+
+		}
+
+	}
+	
+}
+
+
+
+material Effects/Seagull
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1	
+			lighting off					
+			scene_blend alpha_blend	
+			depth_write off
+			depth_write off
+			texture_unit
+			{
+				anim_texture Seagull.png 5 0
+			        alpha_op_ex modulate src_texture src_manual 0.5 0.5			
+			}			
+
+		}
+
+	}
+
+}
+
+
+material Effects/Submerge
+{
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1	
+			lighting off					
+			scene_blend add
+			depth_write off
+			texture_unit
+			{
+				anim_texture Submerge.png 17 0
+				
+			}		
+
+		}
+
+	}
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1	
+			lighting off					
+			scene_blend alpha_blend		
+			depth_write off
+			texture_unit
+			{
+				anim_texture SubmergeAB.png 14 0
+			        alpha_op_ex modulate src_texture src_manual 0.5 0.5			
+			}		
+
+		}
+
+	}
+	
+}
+
+
+
+
+material Effects/Blood
+{
+	technique
+	{
+		pass
+		{
+			
+			ambient 1 1 1
+			diffuse 1 1 1	
+			lighting off					
+			scene_blend add		
+			depth_write off
+			texture_unit
+			{
+				anim_texture Blood.png 10 0
+			        alpha_op_ex modulate src_texture src_manual 1 1			
+			}	
+			
+		}
+	}
+}
+

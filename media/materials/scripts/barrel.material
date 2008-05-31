@@ -1,0 +1,20 @@
+material Barrel
+{
+	technique
+	{
+		pass
+		{
+			ambient 0.179083 0.0853588 0.0853588 
+			diffuse 0.980392 0.911765 0.956078 
+			specular 0 0 0 1
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture oldwood.jpg
+			}
+		}
+	}
+}
+
+

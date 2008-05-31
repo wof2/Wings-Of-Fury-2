@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Antialiasing">
+    <value>Antyaliasing</value>
+  </data>
+  <data name="Back">
+    <value>Die Rckkehr</value>
+  </data>
+  <data name="Bloom">
+    <value>Bloom</value>
+  </data>
+  <data name="Bombs">
+    <value>Die Bomben</value>
+  </data>
+  <data name="ChangeOptionMessage1">
+    <value>Die Änderungen werden eingeführt</value>
+  </data>
+  <data name="ChangeOptionMessage2">
+    <value>nach dem nächsten Start.</value>
+  </data>
+  <data name="ChooseDifficulty">
+    <value>Wählen Sie bitte Schwierigkeitsgrad</value>
+  </data>
+  <data name="CompletedLevels">
+    <value>Beendete Missionen</value>
+  </data>
+  <data name="Congratulations">
+    <value>Gratulation</value>
+  </data>
+  <data name="Controls">
+    <value>Tastaturaufstellung</value>
+  </data>
+  <data name="CreatingGameObjects">
+    <value>Schaffung der Spielobjekten</value>
+  </data>
+  <data name="CreatingScene">
+    <value>Schaffung der Bühne</value>
+  </data>
+  <data name="CreatingTheRootObject">
+    <value>Schaffung des hauptobjekts</value>
+  </data>
+  <data name="CreatorOfOriginalWingsOfFury">
+    <value>Autor des Oryginal- Wings of Fury- Spiel (1987)</value>
+  </data>
+  <data name="Credits">
+    <value>Autoren</value>
+  </data>
+  <data name="Details">
+    <value>Die Zahl der Deteils</value>
+  </data>
+  <data name="Difficulty">
+    <value>Schwierigkeitsgrad</value>
+  </data>
+  <data name="EnterYourName">
+    <value>Schreib dein Nick</value>
+  </data>
+  <data name="ExitToMenu">
+    <value>Rückkehr zum Menu</value>
+  </data>
+  <data name="GameOver">
+    <value>Das Ende des Spiels </value>
+  </data>
+  <data name="HallOfFame">
+    <value>Die Arena des Ruhms</value>
+  </data>
+  <data name="Highscores">
+    <value>Die Ergebnisse</value>
+  </data>
+  <data name="InitializingSound">
+    <value>Musikeinlesen</value>
+  </data>
+  <data name="LanguageID">
+    <value>Deutsch</value>
+  </data>
+  <data name="Level">
+    <value>Das Niveau</value>
+  </data>
+  <data name="LoadingResources">
+    <value>Ladung der Quellen</value>
+  </data>
+  <data name="NewGame">
+    <value>Das neue Spiel</value>
+  </data>
+  <data name="Next">
+    <value>Nächste</value>
+  </data>
+  <data name="OK">
+    <value>OK</value>
+  </data>
+  <data name="Options">
+    <value>Die Optionen</value>
+  </data>
+  <data name="Pause">
+    <value>Die Pause</value>
+  </data>
+  <data name="Previous">
+    <value>Vorherig</value>
+  </data>
+  <data name="Quit">
+    <value>Der Ausgang</value>
+  </data>
+  <data name="Resume">
+    <value>Kehr züruck</value>
+  </data>
+  <data name="Rockets">
+    <value>Raketen</value>
+  </data>
+  <data name="SelectAmmunition">
+    <value>Wähl Mution</value>
+  </data>
+  <data name="SetupingResources">
+    <value>Lesung der Quellen</value>
+  </data>
+  <data name="Sound">
+    <value>Der Klang</value>
+  </data>
+  <data name="SpecialThanksToSteveWaldo">
+    <value>Speziele Danke an Steve Waldo</value>
+  </data>
+  <data name="Tutorial">
+    <value>Tutorial</value>
+  </data>
+  <data name="VideoMode">
+    <value>Bildauflösung</value>
+  </data>
+  <data name="VideoOptions">
+    <value>Videoeinstellung</value>
+  </data>
+  <data name="VSync">
+    <value>VSync</value>
+  </data>
+  <data name="YouWonTheGame">
+    <value>Gratulation! Du hast das Spiel vollgeendet</value>
+  </data>
+  <data name="AddingCompositors">
+    <value>Loadung Shaders</value>
+  </data>
+  <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
+    <value>> Alle Soldaten wurden beseitigt. Land auf dem Flughaft und drück X</value>
+  </data>
+  <data name="AverageFPS">
+    <value>Mittlere FPS</value>
+  </data>
+  <data name="BestFPS">
+    <value>Beste FPS</value>
+  </data>
+  <data name="ChooseAntialiasingMode">
+    <value>Wählen Sie bitte Antyaliasing Typ</value>
+  </data>
+  <data name="ChooseLevelOfDetail">
+    <value>Wählen Sie bitte das Neveau der Deteil</value>
+  </data>
+  <data name="ChooseVideoMode">
+    <value>Wählen Sie bitte Bildauflösung</value>
+  </data>
+  <data name="CreatingInput">
+    <value>Loadung der Parameter</value>
+  </data>
+  <data name="CurrentFPS">
+    <value>Aktuell FPS</value>
+  </data>
+  <data name="EnableBloom">
+    <value>Bloomeffect</value>
+  </data>
+  <data name="EnableSound">
+    <value>Musik</value>
+  </data>
+  <data name="EnableVSync">
+    <value>VSync einschalten</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheLeft">
+    <value>Der Flug des Feindes nähert sich auf der linken Seite</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheRight">
+    <value>Der Flug des Feindes nähert sich auf der rechten Seite</value>
+  </data>
+  <data name="High">
+    <value>Hoch</value>
+  </data>
+  <data name="InverseKeys">
+    <value>Tasten umdrehen</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRefuel">
+    <value>Land auf dem Flughaft und drück X um aufzutanken</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRepair">
+    <value>Land auf dem Flughaft und drück X um Triebwerk zu reparieren</value>
+  </data>
+  <data name="Low">
+    <value>Niski</value>
+  </data>
+  <data name="LowFuelWarning">
+    <value> ACHTUNG! EIN NIEDRIGES NIVEAU VON TREIBSTOFF</value>
+  </data>
+  <data name="LowOilWarning">
+    <value>ACHTUNG! EIN NIEDRIGES NIVEAU VON ÖL</value>
+  </data>
+  <data name="Medium">
+    <value>Mittler</value>
+  </data>
+  <data name="No">
+    <value>Nein</value>
+  </data>
+  <data name="PressEToTurnOnTheEngine">
+    <value>Drück E um Triebwerk zu starten</value>
+  </data>
+  <data name="PressXToChangeAmmo">
+    <value>Drück X um Waffe, Treibstoff zu ergänzen und Triebwerk zu reparieren</value>
+  </data>
+  <data name="ScreenshotWrittenTo">
+    <value>"Das Bildschirmfoto wurde gespeichert"</value>
+  </data>
+  <data name="StartFrom">
+    <value>Wähl Schwierigkeitsgrad</value>
+  </data>
+  <data name="TriangleCount">
+    <value>Die Zahl der Dreiecke</value>
+  </data>
+  <data name="WorstFPS">
+    <value>Der schlimmste FPS</value>
+  </data>
+  <data name="Yes">
+    <value>Ja</value>
+  </data>
+  <data name="AreYouTryingToReachStarsCaptain">
+    <value>Herr Hauptmann, Versuchen Sie Sterne zu befühlen?</value>
+  </data>
+  <data name="EnemyInstallationDestroyed">
+    <value>Feindschutzanlagen wurden zestört!</value>
+  </data>
+  <data name="EnemyInstallationsAreBothSideCaptain">
+    <value>Herr Hauptmann, Feindschutzanlagen sind auf den beiden Seiten!</value>
+  </data>
+  <data name="EnemyInstallationsAreLeftCaptain">
+    <value>Herr Hauptmann, Feindschutzanlagen sind auf der linken Seite.</value>
+  </data>
+  <data name="EnemyInstallationsAreRightCaptain">
+    <value>Herr Hauptmann, Feindschutzanlagen sind auf der rechten Seite.</value>
+  </data>
+  <data name="EnemyPlaneDownIRepeat">
+    <value>Das Feindflugzeug wurde zerstört! Ich wiederhole. Das Feindflugzeug wurde zerstört!</value>
+  </data>
+  <data name="KillAllEnemySoldiers">
+    <value>Töten Sie alle Feindsoldaten. Gehen Sie, Herr Hauptmann, ans Werk.</value>
+  </data>
+  <data name="OhNoEnemySoldiersAreRebuildingBunker">
+    <value>O Graus! Soldaten bauen den Bunker wiederauf!</value>
+  </data>
+  <data name="RetractYourLandingGearWithG">
+    <value>Drücken Sie G um Fahrwerk einzuziehen.</value>
+  </data>
+  <data name="WARNINGProtectTheCarrierFromEnemyPlane">
+    <value>ACHTUNG! Schützen Sie den Flugzeugträger  vor dem Feindflugzeug!</value>
+  </data>
+  <data name="WeAreNotLeavingYetCaptain">
+    <value>Wir geben nicht auf, Herr Hauptmann!</value>
+  </data>
+  <data name="Languages">
+    <value>Die Sprache</value>
+  </data>
+  
+  <!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
+  <data name="CoreTeam">
+    <value>Core team</value>
+  </data>
+  <data name="SupportTeam">
+    <value>Support team</value>
+  </data>
+  <data name="Graphics">
+    <value>Graphics</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>community translations</value>
+  </data>
+  <data name="Poland">
+    <value>Poland</value>
+  </data>
+  <data name="Donate">
+    <value>Donate</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>Check for updates</value>
+  </data>
+   <!--
+        Next 5 messages will be concatenated into one.        
+    -->
+  <data name="DonateMessagePart1">   
+    <value>If You liked</value>
+  </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
+  <data name="DonateMessagePart2">
+    <value>please consider donating.</value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>We are looking for funds to</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>support further game development</value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>(including naval units).</value>
+  </data>
+  <!-- message displayed after pressing 'c' (change camera) key. -->
+  <data name="CameraChanged">
+    <value>Camera changed</value>
+  </data>
+</root>

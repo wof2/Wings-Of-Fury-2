@@ -1,0 +1,42 @@
+material Concrete
+{
+	technique
+	{
+		pass Texture
+		{
+			ambient 0.179083 0.0653588 0.0653588 
+			diffuse 1 1 1 
+			specular 0 0 0 1
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture concrete.jpg
+			}
+		}
+	}
+}
+
+material Wood
+{
+	technique
+	{
+		pass Texture
+		{
+			ambient 0.179083 0.0653588 0.0653588 
+			diffuse 1 1 1 
+			specular 0 0 0 1
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture oldwood2.jpg
+			}
+		}
+	}
+}
+
+
+
+
+

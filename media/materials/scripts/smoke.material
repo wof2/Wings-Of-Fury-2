@@ -1,0 +1,57 @@
+
+material Examples/Smoke
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture smoke.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Examples/RocketSmoke
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture rocketsmoke.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Examples/TrailSmoke
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture trailsmoke.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}

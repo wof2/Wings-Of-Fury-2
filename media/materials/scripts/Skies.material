@@ -1,0 +1,108 @@
+material Skybox/Morning
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture morning.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Skyplane/Morning
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				texture morning_FR.jpg
+			}
+		}
+	}
+}
+
+material Skybox/Noon
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			
+			texture_unit
+			{
+				cubic_texture cloudy_noon.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Skyplane/Noon
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				texture cloudy_noon_FR.jpg
+			}
+		}
+	}
+}
+
+
+
+material Skybox/Night
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			//fog_override true linear 0.9 0.9 0.9 0.000 100 6000
+
+			texture_unit
+			{
+				cubic_texture night.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+
+material Skyplane/Night
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				texture night_FR.jpg
+			}
+		}
+	}
+}

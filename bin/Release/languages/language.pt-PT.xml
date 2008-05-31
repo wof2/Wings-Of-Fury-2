@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<root><data name="Antialiasing"><value>Anti-aliasing</value></data>
+<data name="Back"><value>Para trás</value></data>
+<data name="Bloom"><value>Brilho</value></data>
+<data name="Bombs"><value>Bombas</value></data>
+<data name="ChangeOptionMessage1"><value>Mudanças a algumas das opções só terão</value></data>
+<data name="ChangeOptionMessage2"><value>efeito após reiniciar o jogo.</value></data>
+<data name="ChooseDifficulty"><value>Escolha a dificuldade</value></data>
+<data name="CompletedLevels"><value>Níveis Completados</value></data>
+<data name="Congratulations"><value>Parabéns</value></data>
+<data name="Controls"><value>Controlos</value></data>
+<data name="CreatingGameObjects"><value>A criar os objectos do jogo</value></data>
+<data name="CreatingScene"><value>A criar o cenário</value></data>
+<data name="CreatingTheRootObject"><value>A criar os objectos de raiz</value></data>
+<data name="CreatorOfOriginalWingsOfFury"><value>Criador do Wings of Fury original (1987)</value></data>
+<data name="Credits"><value>Créditos</value></data>
+<data name="Details"><value>Detalhes</value></data>
+<data name="Difficulty"><value>Dificuldade</value></data>
+<data name="EnterYourName"><value>Insira o seu nome</value></data>
+<data name="ExitToMenu"><value>Para o menu</value></data>
+<data name="GameOver"><value>Jogo Terminado</value></data>
+<data name="HallOfFame"><value>Os Melhores</value></data>
+<data name="Highscores"><value>As Melhores Pontuações</value></data>
+<data name="InitializingSound"><value>Iniciando o som</value></data>
+<data name="LanguageID"><value>Portuguese</value></data>
+<data name="Level"><value>Nível</value></data>
+<data name="LoadingResources"><value>A carregar recursos</value></data>
+<data name="NewGame"><value>Novo Jogo</value></data>
+<data name="Next"><value>Para a frente</value></data>
+<data name="OK"><value>Confirmar</value></data>
+<data name="Options"><value>Opções</value></data>
+<data name="Pause"><value>Pausa</value></data>
+<data name="Previous"><value>Anterior</value></data>
+<data name="Quit"><value>Sair</value></data>
+<data name="Resume"><value>Continuar</value></data>
+<data name="Rockets"><value>Mísseis</value></data>
+<data name="SelectAmmunition"><value>Seleccione a munição</value></data>
+<data name="SetupingResources"><value>A preparar recursos</value></data>
+<data name="Sound"><value>Som</value></data>
+<data name="SpecialThanksToSteveWaldo"><value>Agradecimentos especiais a Steve Waldo</value></data>
+<data name="Tutorial"><value>Tutorial</value></data>
+<data name="VideoMode"><value>Modo de Vídeo</value></data>
+<data name="VideoOptions"><value>Opções de Vídeo</value></data>
+<data name="VSync"><value>VSync</value></data>
+<data name="YouWonTheGame"><value>Ganhou o jogo</value></data>
+<data name="AddingCompositors"><value>A adicionar compositores</value></data>
+<data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX"><value>Todos os soldados inimigos foram eliminados, aterre no Porta-Aviões e prima X</value></data>
+<data name="AverageFPS"><value>Média de FPS</value></data>
+<data name="BestFPS"><value>Melhores FPS</value></data>
+<data name="ChooseAntialiasingMode"><value>Escolha o modo de anti-aliasing</value></data>
+<data name="ChooseLevelOfDetail"><value>Escolha o nível de detalhe</value></data>
+<data name="ChooseVideoMode"><value>Escolha o modo de vídeo</value></data>
+<data name="CreatingInput"><value>A criar input</value></data>
+<data name="CurrentFPS"><value>FPS actuais</value></data>
+<data name="EnableBloom"><value>Activar brilho</value></data>
+<data name="EnableSound"><value>Activar som</value></data>
+<data name="EnableVSync"><value>Activar VSync</value></data>
+<data name="EnemyPlaneApproachingFromTheLeft"><value>Avião inimigo a aproximar-se pela esquerda</value></data>
+<data name="EnemyPlaneApproachingFromTheRight"><value>Avião inimigo a aproximar-se pela direita</value></data>
+<data name="High"><value>Elevado</value></data>
+<data name="InverseKeys"><value>Teclas invertidas</value></data>
+<data name="LandOnTheCarrierAndPressXToRefuel"><value>Aterre no Porta-Aviões e prima X para reabastecer</value></data>
+<data name="LandOnTheCarrierAndPressXToRepair"><value>Aterre no Porta-Aviões e prima X para reparações</value></data>
+<data name="Low"><value>Baixo</value></data>
+<data name="LowFuelWarning"><value>AVISO DE FALTA DE COMBUSTÍVEL</value></data>
+<data name="LowOilWarning"><value>AVISO DE FALTA DE ÓLEO</value></data>
+<data name="Medium"><value>Médio</value></data>
+<data name="No"><value>Não</value></data>
+<data name="PressEToTurnOnTheEngine"><value>Prima E para ligar o motor</value></data>
+<data name="PressXToChangeAmmo"><value>Prima X para mudar as munições, reparar e reabastecer</value></data>
+<data name="ScreenshotWrittenTo"><value>Screenshot enviado para</value></data>
+<data name="StartFrom"><value>Comece no</value></data>
+<data name="TriangleCount"><value>Contagem de triângulos</value></data>
+<data name="WorstFPS"><value>Pior FPS</value></data>
+<data name="Yes"><value>Sim</value></data>
+<data name="AreYouTryingToReachStarsCaptain"><value>Está a tentar chegar às estrelas, Capitão?</value></data>
+<data name="EnemyInstallationDestroyed"><value>Instalações inimigas destruídas, Capitão!</value></data>
+<data name="EnemyInstallationsAreBothSideCaptain"><value>Instalações inimigas em ambos os lados, Capitão!</value></data>
+<data name="EnemyInstallationsAreLeftCaptain"><value>As instalações inimigas estão à esquerda, Capitão!</value></data>
+<data name="EnemyInstallationsAreRightCaptain"><value>As instalações inimigas estão à direita, Capitão!</value></data>
+<data name="EnemyPlaneDownIRepeat"><value>Avião inimigo abatido! Repito! Avião inimigo abatido!</value></data>
+<data name="KillAllEnemySoldiers"><value>Mate todos os soldados inimigos. Apanhe-os, Capitão!</value></data>
+<data name="OhNoEnemySoldiersAreRebuildingBunker"><value>Oh, não! Os soldados inimigos estão a reconstruir o bunker!</value></data>
+<data name="RetractYourLandingGearWithG"><value>Recolha o trem de aterragem com 'G'</value></data>
+<data name="WARNINGProtectTheCarrierFromEnemyPlane"><value>ATENÇÃO! Proteja o Porta-Aviões do avião inimigo!</value></data>
+<data name="WeAreNotLeavingYetCaptain"><value>Ainda não é para ir embora, Capitão!</value></data>
+<data name="Languages"><value>Línguas</value></data>
+
+<!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
+  <data name="CoreTeam">
+    <value>Core team</value>
+  </data>
+  <data name="SupportTeam">
+    <value>Support team</value>
+  </data>
+  <data name="Graphics">
+    <value>Graphics</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>community translations</value>
+  </data>
+  <data name="Poland">
+    <value>Poland</value>
+  </data>
+  <data name="Donate">
+    <value>Donate</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>Check for updates</value>
+  </data>
+   <!--
+        Next 5 messages will be concatenated into one.        
+    -->
+  <data name="DonateMessagePart1">   
+    <value>If You liked</value>
+  </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
+  <data name="DonateMessagePart2">
+    <value>please consider donating.</value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>We are looking for funds to</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>support further game development</value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>(including naval units).</value>
+  </data>
+  <!-- message displayed after pressing 'c' (change camera) key. -->
+  <data name="CameraChanged">
+    <value>Camera changed</value>
+  </data>
+</root>

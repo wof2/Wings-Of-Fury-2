@@ -1,0 +1,309 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Antialiasing">
+    <value>Антиалиясинг</value>
+  </data>
+  <data name="Back">
+    <value>Назад</value>
+  </data>
+  <data name="Bloom">
+    <value>Цветение</value>
+  </data>
+  <data name="Bombs">
+    <value>Бомбы</value>
+  </data>
+  <data name="ChangeOptionMessage1">
+    <value>Изменения некоторых опций происходят</value>
+  </data>
+  <data name="ChangeOptionMessage2">
+    <value>только после возобновления игры.</value>
+  </data>
+  <data name="ChooseDifficulty">
+    <value>Выберите трудность игры</value>
+  </data>
+  <data name="CompletedLevels">
+    <value>Законченные уровни</value>
+  </data>
+  <data name="Congratulations">
+    <value>Поздравления</value>
+  </data>
+  <data name="Controls">
+    <value>Параметры клавиатури</value>
+  </data>
+  <data name="CreatingGameObjects">
+    <value>Создание объектов игры</value>
+  </data>
+  <data name="CreatingScene">
+    <value>Создание сцены</value>
+  </data>
+  <data name="CreatingTheRootObject">
+    <value>Создание главного объекта</value>
+  </data>
+  <data name="CreatorOfOriginalWingsOfFury">
+    <value>создателю оригинальной Wings of Fury (1987)</value>
+  </data>
+  <data name="Credits">
+    <value>Создатели</value>
+  </data>
+  <data name="Details">
+    <value>Подробности</value>
+  </data>
+  <data name="Difficulty">
+    <value>Трудность</value>
+  </data>
+  <data name="EnterYourName">
+    <value>Введите своё имя</value>
+  </data>
+  <data name="ExitToMenu">
+    <value>Вернуться к меню</value>
+  </data>
+  <data name="GameOver">
+    <value>Игра закончена</value>
+  </data>
+  <data name="HallOfFame">
+    <value>Комната славы</value>
+  </data>
+  <data name="Highscores">
+    <value>Рекорды</value>
+  </data>
+  <data name="InitializingSound">
+    <value>Создание звука</value>
+  </data>
+  <data name="LanguageID">
+    <value>Russian</value>
+  </data>
+  <data name="Level">
+    <value>Уровень</value>
+  </data>
+  <data name="LoadingResources">
+    <value>Загрузка ресурсов</value>
+  </data>
+  <data name="NewGame">
+    <value>Новая игра</value>
+  </data>
+  <data name="Next">
+    <value>Следующий</value>
+  </data>
+  <data name="OK">
+    <value>ОК</value>
+  </data>
+  <data name="Options">
+    <value>Варианты</value>
+  </data>
+  <data name="Pause">
+    <value>Пауза</value>
+  </data>
+  <data name="Previous">
+    <value>Предыдущая</value>
+  </data>
+  <data name="Quit">
+    <value>Выйти</value>
+  </data>
+  <data name="Resume">
+    <value>Возобновить</value>
+  </data>
+  <data name="Rockets">
+    <value>Ракеты</value>
+  </data>
+  <data name="SelectAmmunition">
+    <value>Выберите боеприпасы</value>
+  </data>
+  <data name="SetupingResources">
+    <value>Настройка ресурсов</value>
+  </data>
+  <data name="Sound">
+    <value>Звук</value>
+  </data>
+  <data name="SpecialThanksToSteveWaldo">
+    <value>Особая благодарность Steve Waldo</value>
+  </data>
+  <data name="Tutorial">
+    <value>Учебник</value>
+  </data>
+  <data name="VideoMode">
+    <value>Режим видео</value>
+  </data>
+  <data name="VideoOptions">
+    <value>Видео Параметры</value>
+  </data>
+  <data name="VSync">
+    <value>Всинк</value>
+  </data>
+  <data name="YouWonTheGame">
+    <value>Вы выиграли игру</value>
+  </data>
+  <data name="AddingCompositors">
+    <value>Добавление данных</value>
+  </data>
+  <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
+    <value>Все солдаты уничтожны, прилети на авианосец и нажьми X</value>
+  </data>
+  <data name="AverageFPS">
+    <value>Средний ФПС</value>
+  </data>
+  <data name="BestFPS">
+    <value>Самый хороший ФПС</value>
+  </data>
+  <data name="ChooseAntialiasingMode">
+    <value>Выберите режим сглаживания</value>
+  </data>
+  <data name="ChooseLevelOfDetail">
+    <value>Выберите уровень деталей</value>
+  </data>
+  <data name="ChooseVideoMode">
+    <value>Выберите режим видео</value>
+  </data>
+  <data name="CreatingInput">
+    <value>Создание входа</value>
+  </data>
+  <data name="CurrentFPS">
+    <value>Aктуальный ФПС</value>
+  </data>
+  <data name="EnableBloom">
+    <value>Включить цветение</value>
+  </data>
+  <data name="EnableSound">
+    <value>Включить звук</value>
+  </data>
+  <data name="EnableVSync">
+    <value>Включить Всинк</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheLeft">
+    <value>Самолёт неприятеля приближается с левой стороны</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheRight">
+    <value>Самолёт неприятеля приближается с правой стороны</value>
+  </data>
+  <data name="High">
+    <value>Высокий</value>
+  </data>
+  <data name="InverseKeys">
+    <value>Противоположные кнопки</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRefuel">
+    <value>Прилети на авианосец и нажьми X чтобы наремонтировать двигатель</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRepair">
+    <value>Прилети на авианосец и нажьми X чтобы пополнить топливо</value>
+  </data>
+  <data name="Low">
+    <value>Низкий</value>
+  </data>
+  <data name="LowFuelWarning">
+    <value>ВНИМАНИЕ : Низкий уровень топлива</value>
+  </data>
+  <data name="LowOilWarning">
+    <value>ВНИМАНИЕ : Низкий уровень нефти</value>
+  </data>
+  <data name="Medium">
+    <value>Средний</value>
+  </data>
+  <data name="No">
+    <value>Нет</value>
+  </data>
+  <data name="PressEToTurnOnTheEngine">
+    <value>Нажьми Е, чтобы началась работа двигателя</value>
+  </data>
+  <data name="PressXToChangeAmmo">
+    <value>Нажьми X, чтобы пополнить боеприпасы,  пополнить топливо, и наремонтировать двигатель</value>
+  </data>
+  <data name="ScreenshotWrittenTo">
+    <value>Записать в</value>
+  </data>
+  <data name="StartFrom">
+    <value>Начать с</value>
+  </data>
+  <data name="TriangleCount">
+    <value>Количество треугольников</value>
+  </data>
+  <data name="WorstFPS">
+    <value>Самый плохой ФПС</value>
+  </data>
+  <data name="Yes">
+    <value>Да</value>
+  </data>
+  <data name="AreYouTryingToReachStarsCaptain">
+    <value>Командир! Выше невозможно!</value>
+  </data>
+  <data name="EnemyInstallationDestroyed">
+    <value>Командир! Бункер уничтожен!</value>
+  </data>
+  <data name="EnemyInstallationsAreBothSideCaptain">
+    <value>Командир! Бункера находятся с обоих сторон!</value>
+  </data>
+  <data name="EnemyInstallationsAreLeftCaptain">
+    <value>Командир! Бункера находятся справа!</value>
+  </data>
+  <data name="EnemyInstallationsAreRightCaptain">
+    <value>Командир! Бункера находятся слева!</value>
+  </data>
+  <data name="EnemyPlaneDownIRepeat">
+    <value>Самолёт неприятеля уничтохен! Повторяю! Самолёт неприятеля уничтохен!</value>
+  </data>
+  <data name="KillAllEnemySoldiers">
+    <value>Командир! Ликвидируй всех солдатов. Вперёд!</value>
+  </data>
+  <data name="OhNoEnemySoldiersAreRebuildingBunker">
+    <value>ВНИМАНИЕ! Солдаты неприятеля построили заного бункер!</value>
+  </data>
+  <data name="RetractYourLandingGearWithG">
+    <value>Чтобы сохронить шассы нажьми 'Г'</value>
+  </data>
+  <data name="WARNINGProtectTheCarrierFromEnemyPlane">
+    <value>ВНИМАНИЕ! Защищай авианосец от самолёта неприятеля!</value>
+  </data>
+  <data name="WeAreNotLeavingYetCaptain">
+    <value>Командир! Там нечего нет!</value>
+  </data>
+  <data name="Languages">
+    <value>Языки</value>
+  </data>
+  <!-- Add: 23.05.2008 -->
+  <data name="CoreTeam">
+    <value>Основная группа</value>
+  </data>
+  <data name="SupportTeam">
+    <value>Группа поддержки</value>
+  </data>
+  <data name="Graphics">
+    <value>Графика</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>переводчики</value>
+  </data>
+  <data name="Poland">
+    <value>Польша</value>
+  </data>
+  <data name="Donate">
+    <value>Поддержка проекта</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>Проверка наличия обновлений</value>
+  </data>
+  <!--
+   Next 5 translations must create one message.
+  -->
+  <data name="DonateMessagePart1">
+    <!--
+        Full question: If you liked Wings of Fury 2.
+        But You will translate only: If you liked.
+        Wings of Fury 2 - added by developers
+    -->
+    <value>Если Вам понравилась наша игра</value>
+  </data>
+  <data name="DonateMessagePart2">
+    <value>тогда пажалуйста рассмотрите поддержку нашево проекта</value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>Мы ищем средства для поддержки</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>дальнейшего развития игры</value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>например: добавим военно-морские подразделения.</value>
+  </data>
+  <data name="CameraChanged">
+    <value>Модификация камеры</value>
+  </data>
+</root>

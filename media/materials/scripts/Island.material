@@ -1,0 +1,227 @@
+
+material Island
+{
+    receive_shadows on
+    transparency_casts_shadows off
+
+    technique
+    {
+        // base pass
+        pass
+        {
+            // no lighting
+            //lighting on          
+
+            texture_unit
+            {
+                // We use the grass texture as the base. other textures are blended over it
+                texture sand.jpg
+                // Scale the texture so, that it looks nice
+                scale 0.3 0.3
+                // Only blend colour
+                //colour_op_ex source1 src_texture src_texture
+            }
+        }
+
+        // dirt pass
+        pass
+        {
+            // no lighting
+            //lighting on
+
+            // blend with former pass
+            scene_blend alpha_blend
+
+            // only overwrite fragments with the same depth
+            depth_func equal
+
+            // alpha map for the dirt
+            texture_unit
+            {
+                texture island_alpha.png
+
+                // use alpha from this texture
+                alpha_op_ex source1 src_texture src_texture
+                // and colour from last pass
+                colour_op_ex source2 src_texture src_texture
+            }
+
+            // detail texture
+            texture_unit
+            {
+                texture sand2.jpg
+                scale 0.2 0.2
+                // alpha blend colour with colour from last pass
+                colour_op_ex blend_diffuse_alpha src_texture src_current
+            }
+        }
+
+        // .... further detail passes like the former one
+
+        // lighting pass
+        pass
+        {
+	    lighting on
+            ambient 1 1 1 1
+            diffuse 1 0.980392 0.835294 1
+            specular 0.1 0.1 0.1 1 0
+
+            depth_func equal
+            scene_blend zero src_colour
+        }
+
+
+    }
+
+
+
+	// Fallback
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 1
+			diffuse 1 0.980392 0.835294 1
+			specular 0.1 0.1 0.1 1 0
+			emissive 0 0 0 1
+			scene_blend one zero
+			depth_check on
+			depth_write on
+			depth_func less_equal
+			depth_bias 0 0
+			alpha_rejection always_pass 0
+			cull_hardware clockwise
+			cull_software back
+			lighting on
+			shading gouraud
+			polygon_mode solid
+			colour_write on			
+			iteration once 
+			texture_unit
+			{
+				texture sand.jpg 2d unlimited  
+				binding_type fragment
+				tex_coord_set 0
+				tex_address_mode wrap wrap wrap
+				tex_border_colour 0 0 0 1
+				filtering trilinear
+				max_anisotropy 1
+				mipmap_bias 0
+				colour_op_ex modulate src_texture src_current 1 1 1 1 1 1 1
+				alpha_op_ex source1 src_texture src_current 1 1 1
+				colour_op_multipass_fallback one zero
+				env_map off
+			}
+
+		}
+
+	}
+
+}
+
+
+material Palmtree
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1 
+			diffuse 0.611765 0.666667 0.388235 
+			specular 0.1 0.1 0.1 1 0
+		
+			texture_unit 
+			{
+				texture TreeTexture.jpg
+			}
+		}
+	}
+}
+
+
+
+
+material FakePalmTree
+{
+
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1			
+			scene_blend alpha_blend			
+			depth_write off
+			lighting on	
+			texture_unit
+			{
+				texture PalmTree.dds
+			}		
+
+		}
+
+	}
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1			
+			scene_blend alpha_blend			
+			depth_write on
+			lighting off	
+			texture_unit
+			{
+				texture PalmTree.dds
+			}		
+
+		}
+
+	}
+
+	
+}
+
+
+material FakePalmTree2
+{
+
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1			
+			scene_blend alpha_blend			
+			depth_write off
+			lighting on	
+			texture_unit
+			{
+				texture PalmTree2.dds
+			}		
+
+		}
+
+	}
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1			
+			scene_blend alpha_blend			
+			depth_write on
+			lighting off	
+			texture_unit
+			{
+				texture PalmTree2.dds
+			}		
+
+		}
+
+	}
+
+	
+}

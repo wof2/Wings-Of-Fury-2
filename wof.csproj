@@ -1,0 +1,494 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F101F624-0894-4B82-BE03-002A6D0E94F5}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Wof</RootNamespace>
+    <AssemblyName>Wof</AssemblyName>
+    <StartupObject>Wof.Controller.Game</StartupObject>
+    <ApplicationIcon>WofIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.DirectX.AudioVideoPlayback, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.DirectX.DirectSound, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Mogre, Version=1.4.6.0, Culture=neutral, processorArchitecture=x86" />
+    <Reference Include="MOIS, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Splash.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Splash.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Tests\ModelTest\IntersectionTestForm.resx">
+      <DependentUpon>IntersectionTestForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Tests\ModelTest\LevelTest\CommonTest\RectanglesTest\RectanglesTestForm.resx">
+      <DependentUpon>RectanglesTestForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Tests\ModelTest\PlaneTest\PlaneFlyTestForm.resx">
+      <DependentUpon>PlaneFlyTestForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Tests\ModelTest\PlaneTest\PlaneOnAircraftTestForm.resx">
+      <DependentUpon>PlaneOnAircraftTestForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Splash.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Splash.resx</DependentUpon>
+    </Compile>
+    <Compile Include="src\Controller\BetaGUI.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\CameraMotionManager.cs" />
+    <Compile Include="src\Controller\Controller.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Crypto.cs" />
+    <Compile Include="src\Controller\EngineConfig.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Framework.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Game.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Controller\GameEventListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Indicators\MessageEntry.cs" />
+    <Compile Include="src\Controller\Screens\AbstractOptionsScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\AbstractScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\AntialiasingOptionsScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\BloomOptionsScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\ControlsOptionsScreen.cs" />
+    <Compile Include="src\Controller\Screens\DonateScreen.cs" />
+    <Compile Include="src\Controller\Screens\EndingScreen.cs" />
+    <Compile Include="src\Controller\Screens\IntroScreen.cs" />
+    <Compile Include="src\Controller\Screens\LanguagesOptionsScreen.cs" />
+    <Compile Include="src\Controller\Screens\CreditsScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\DifficultyScreen.cs" />
+    <Compile Include="src\Controller\Indicators\GameMessages.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\GameScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\HighscoreEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\HighscoresScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\HighscoreUtil.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Indicators\IndicatorControl.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\LoadGameScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\LoadGameUtil.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\LODOptionsScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\MenuScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\OptionsScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\PositionedMessage.cs" />
+    <Compile Include="src\Controller\Screens\ScoreEnterScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\ScrollingScreen.cs" />
+    <Compile Include="src\Controller\Screens\SoundOptionsScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\StartScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\TutorialScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\VideoModeScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Screens\VSyncOptionsScreen.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Controller\SHA1_Hash.cs" />
+    <Compile Include="src\Controller\SoundManager.cs" />
+    <Compile Include="src\Controller\Sound\FreeSL\FSLOgreCS\FreeSL.cs" />
+    <Compile Include="src\Controller\Sound\FreeSL\FSLOgreCS\FSLAmbientSound.cs" />
+    <Compile Include="src\Controller\Sound\FreeSL\FSLOgreCS\FSLListener.cs" />
+    <Compile Include="src\Controller\Sound\FreeSL\FSLOgreCS\FSLSoundEntity.cs" />
+    <Compile Include="src\Controller\Sound\FreeSL\FSLOgreCS\FSLSoundManager.cs" />
+    <Compile Include="src\Controller\Sound\FreeSL\FSLOgreCS\FSLSoundObject.cs" />
+    <Compile Include="src\Controller\Splash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Splash.designer.cs">
+      <DependentUpon>Splash.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Languages\FontManager.cs" />
+    <Compile Include="src\Languages\LanguageKey.cs" />
+    <Compile Include="src\Languages\LanguageManager.cs" />
+    <Compile Include="src\Languages\LanguageResources.cs" />
+    <Compile Include="src\Languages\WofResourceManager.cs" />
+    <Compile Include="src\Languages\XmlLanguage.cs" />
+    <Compile Include="src\Languages\XmlLanguageManager.cs" />
+    <Compile Include="src\Misc\UnitConverter.cs" />
+    <Compile Include="src\Misc\ViewHelper.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Configuration\ConfigurationAttributes.cs" />
+    <Compile Include="src\Model\Configuration\ConfigurationManager.cs" />
+    <Compile Include="src\Model\Configuration\ConfigurationNames.cs" />
+    <Compile Include="src\Model\Configuration\GameConsts.cs" />
+    <Compile Include="src\Model\Configuration\ReadConfiguration.cs" />
+    <Compile Include="src\Model\Exceptions\ConfigurationFileNotFoundException.cs" />
+    <Compile Include="src\Model\Exceptions\ExceptionService.cs" />
+    <Compile Include="src\Model\Exceptions\LevelCorruptedException.cs" />
+    <Compile Include="src\Model\Exceptions\LevelFileNotFoundException.cs" />
+    <Compile Include="src\Model\Exceptions\TilesFileNotFoundException.cs" />
+    <Compile Include="src\Model\Level\Carriers\Carrier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Common\AircraftElement.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Common\IRenderableQuadrangle.cs" />
+    <Compile Include="src\Model\Level\Common\IMove.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Common\Line.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Common\Mathematics.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Common\PeakManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Common\PointD.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Common\Predicates.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Common\Quadrangle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Common\RectangleD.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Direction.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Level.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelsManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\AircraftCarrierTiles\AircraftCarrierTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\AircraftCarrierTiles\BeginAircraftCarrierTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\AircraftCarrierTiles\EndAircraftCarrierTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\AircraftCarrierTiles\MiddleAircraftCarrierTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\AircraftCarrierTiles\RestoreAmmunitionCarrierTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\IslandTiles\BeginIslandTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\IslandTiles\EndIslandTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\IslandTiles\EnemyInstallationTiles\BarrackTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\IslandTiles\EnemyInstallationTiles\BunkerTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\IslandTiles\EnemyInstallationTiles\ConcreteBunkerTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\IslandTiles\EnemyInstallationTiles\EnemyInstallationState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\IslandTiles\EnemyInstallationTiles\EnemyInstallationTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\IslandTiles\EnemyInstallationTiles\WoodBunkerTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\IslandTiles\ExplosiveObjects\BarrelTile.cs" />
+    <Compile Include="src\Model\Level\LevelTiles\IslandTiles\IslandTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\IslandTiles\MiddleIslandTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\LevelTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\OceanTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Planes\EnemyPlane.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Planes\Plane.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Planes\PlaneState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Planes\StoragePlane.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Troops\Soldier.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Weapon\Ammunition.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Weapon\Bomb.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Weapon\Gun.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Weapon\MissileState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Weapon\Rocket.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Weapon\WeaponManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\Weapon\WeaponType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\XmlParser\Attributes.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\XmlParser\Nodes.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\XmlParser\TilesManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\XmlParser\TilesNode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\Level\XmlParser\XmlLevelParser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Model\ModelProgram.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Tools\FileCRC.cs" />
+    <Compile Include="src\Tools\FileEncrypter.cs" />
+    <Compile Include="src\Tests\KamilTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\IntersectionTest.cs" />
+    <Compile Include="src\Tests\ModelTest\IntersectionTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\IntersectionTestForm.Designer.cs">
+      <DependentUpon>IntersectionTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\LevelTest\CommonTest\RectanglesTest\RectanglesTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\LevelTest\CommonTest\RectanglesTest\RectanglesTestForm.Designer.cs">
+      <DependentUpon>RectanglesTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\LevelTest\CommonTest\RectanglesTest\StartRectangleTestForm.cs" />
+    <Compile Include="src\Tests\ModelTest\LevelTest\CommonTest\TestPointD.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\LevelTest\CommonTest\TestQuadrangle.cs" />
+    <Compile Include="src\Tests\ModelTest\LevelTest\CommonTest\TestRectangleD.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\LevelTest\TestLevel.cs" />
+    <Compile Include="src\Tests\ModelTest\LevelTest\WeaponTest\SoldierTest.cs" />
+    <Compile Include="src\Tests\ModelTest\LevelTest\XmlParserTest\ReadXmlTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\PlaneTest\PlaneFlyTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\PlaneTest\PlaneFlyTestForm.Designer.cs">
+      <DependentUpon>PlaneFlyTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\PlaneTest\PlaneOnAircraftTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\PlaneTest\PlaneOnAircraftTestForm.Designer.cs">
+      <DependentUpon>PlaneOnAircraftTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\PlaneTest\PlaneTest.cs" />
+    <Compile Include="src\Tests\SceneTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\View\AmmunitionViews\AmmunitionView.cs" />
+    <Compile Include="src\View\AmmunitionViews\BombView.cs" />
+    <Compile Include="src\View\AmmunitionViews\RocketView.cs" />
+    <Compile Include="src\View\CameraHolder.cs" />
+    <Compile Include="src\View\CarrierView.cs" />
+    <Compile Include="src\View\CompositeModelView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\View\Effects\EffectsManager.cs" />
+    <Compile Include="src\View\Effects\ParticleManager.cs" />
+    <Compile Include="src\View\Effects\Quadrangle3D.cs" />
+    <Compile Include="src\View\IslandView.cs" />
+    <Compile Include="src\View\LevelView.cs" />
+    <Compile Include="src\View\NodeAnimation\ConstMoveNodeAnimation.cs" />
+    <Compile Include="src\View\NodeAnimation\AccRotateNodeAnimation.cs" />
+    <Compile Include="src\View\NodeAnimation\LightAttenuationAnimation.cs" />
+    <Compile Include="src\View\NodeAnimation\EffectAnimation.cs" />
+    <Compile Include="src\View\NodeAnimation\MoveNodeAnimation.cs" />
+    <Compile Include="src\View\NodeAnimation\SinLightAttenuationAnimation.cs" />
+    <Compile Include="src\View\NodeAnimation\VisibilityNodeAnimation.cs" />
+    <Compile Include="src\View\PlaneViews\EnemyPlaneView.cs" />
+    <Compile Include="src\View\MinimapItem.cs" />
+    <Compile Include="src\View\NodeAnimation\ConstRotateNodeAnimation.cs" />
+    <Compile Include="src\View\NodeAnimation\DummyNodeAnimation.cs" />
+    <Compile Include="src\View\NodeAnimation\GaussRotateNodeAnimation.cs" />
+    <Compile Include="src\View\NodeAnimation\NodeAnimation.cs" />
+    <Compile Include="src\View\NodeAnimation\NodeAnimationManager.cs" />
+    <Compile Include="src\View\NodeAnimation\PlaneNodeAnimationManager.cs" />
+    <Compile Include="src\View\NodeAnimation\RotateNodeAnimation.cs" />
+    <Compile Include="src\View\NodeAnimation\SinRotateNodeAnimation.cs" />
+    <Compile Include="src\View\PlaneViews\P47PlaneView.cs" />
+    <Compile Include="src\View\PlaneViews\PlaneView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\View\PlaneViews\PlayerPlaneView.cs" />
+    <Compile Include="src\View\SoldierView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\View\TileViews\BarrackTileView.cs" />
+    <Compile Include="src\View\TileViews\BeginIslandTileView.cs" />
+    <Compile Include="src\View\TileViews\BunkerTileView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\View\TileViews\BarrelTileView.cs" />
+    <Compile Include="src\View\TileViews\EnemyInstallationTileView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\View\TileViews\MiddleIslandTileView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\View\TileViews\OceanTileView.cs" />
+    <Compile Include="src\View\TileViews\TileView.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="src\View\VertexAnimation\VertexAnimable.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="converterIcon.ico" />
+    <Content Include="Resources\ico.ICO" />
+    <Content Include="Resources\splash.jpg" />
+    <Content Include="WofIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\Tests\ModelTest\LevelTest\LevelTilesTest\EnemyInstallationTest\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <PropertyGroup>
+    <PostBuildEvent>@rem copy /Y  "c:\MogreSDK\bin\$(ConfigurationName)\*.dll" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
+</Project>

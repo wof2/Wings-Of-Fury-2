@@ -1,0 +1,69 @@
+// this material is accessed during runtime and colour is being altered
+material Colours/FlatColour
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                colour_op_ex source1 src_manual src_current 1 0 0
+            }
+        } 
+    }
+}
+
+material Colours/Colour
+{
+    technique
+    {	
+        pass
+        {
+             ambient 1 1 1 1
+             diffuse 1 1 1 1 
+        } 
+    }
+}
+
+
+material Colours/GrayColour
+{
+    technique
+    {
+        pass
+        {
+           	ambient 1 1 1 1
+		diffuse 0.8 0.8 0.8
+        } 
+    }
+}
+
+
+material Colours/FlatRedColour
+{
+    technique
+    {
+        pass
+        {
+            texture_unit
+            {
+                colour_op_ex source1 src_manual src_current 1 0 0
+            }
+        } 
+    }
+}
+
+material Colours/Dummy
+{
+    technique
+    {
+        pass
+        {
+           	ambient 1 1 1
+		diffuse 1 1 1
+        } 
+    }
+}
+
+
+

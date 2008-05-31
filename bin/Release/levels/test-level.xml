@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<level dayTime="noon" enemyPlane="7">
+  <ocean width="100"/>
+
+
+
+
+
+  
+
+  <aircraft-carrier-begin width="1"/>
+  	<aircraft-carrier-middle width="3"/>
+  	<aircraft-carrier-restore-ammunition width="1"/>
+	<aircraft-carrier-middle width="1"/>
+  <aircraft-carrier-end width="3"/>
+
+<ocean width="2"/>
+
+<island-begin/>
+  	<concrete-bunker num-soldiers="3"/>
+  	<concrete-bunker num-soldiers="3"/>
+  	<barrack num-soldiers="2"/>
+  <island-end/>
+
+  <ocean width="1"/>
+
+  <island-begin/>
+  	
+  	<wooden-bunker num-soldiers="5"/>
+	<terrain variation="3"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  <island-end/>
+
+
+  <ocean width="1"/>
+
+  <island-begin/>
+  	<wooden-bunker num-soldiers="5"/>
+  	<wooden-bunker num-soldiers="5"/>
+  	<wooden-bunker num-soldiers="5"/>
+  	<wooden-bunker num-soldiers="5"/>
+  	<wooden-bunker num-soldiers="5"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<concrete-bunker num-soldiers="3"/>
+
+  <island-end/>
+
+  <ocean width="1"/>
+
+  <island-begin/>
+	<concrete-bunker num-soldiers="3"/>
+  	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<concrete-bunker num-soldiers="3"/>
+  <island-end/>
+
+  <ocean width="1"/>
+
+  <island-begin/>
+	<concrete-bunker num-soldiers="3"/>
+  	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<terrain variation="3"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<concrete-bunker num-soldiers="3"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<terrain variation="3"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+	<terrain variation="3"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  <island-end/>
+
+  <ocean width="1"/>
+
+  <island-begin/>
+	<concrete-bunker num-soldiers="3"/>
+  	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<terrain variation="3"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<concrete-bunker num-soldiers="3"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<terrain variation="3"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+	<terrain variation="3"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+	<concrete-bunker num-soldiers="3"/>
+  	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<terrain variation="3"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<barrack num-soldiers="2"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<concrete-bunker num-soldiers="3"/>
+  	<wooden-bunker num-soldiers="5"/>
+	<terrain variation="3"/>
+  	<wooden-bunker num-soldiers="5"/>
+  <island-end/>
+
+
+
+
+  <ocean width="100"/>
+</level>

@@ -1,0 +1,15 @@
+material jorge/ScenaMuestra
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture plate01.jpg
+				tex_address_mode wrap
+				filtering trilinear
+			}
+		}
+	}
+}

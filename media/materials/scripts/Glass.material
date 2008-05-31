@@ -1,0 +1,61 @@
+material Glass
+{
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend
+      			depth_write off
+			texture_unit
+			{
+				colour_op_ex source1 src_manual src_current 0.5 0.85 0.9
+        			alpha_op_ex source1 src_manual src_current 0.3
+			}
+		}
+	}
+}
+
+
+
+fragment_program Ogre/Compositor/GlassFP cg
+{
+	source GlassFP.cg
+	entry_point main_ps
+	profiles ps_2_0 arbfp1
+}
+
+material Ogre/Compositor/GlassPass
+{
+	technique
+	{
+		pass
+		{
+			depth_check off
+
+			vertex_program_ref Ogre/Compositor/StdQuad_Cg_vp
+			{
+			}
+
+			fragment_program_ref Ogre/Compositor/GlassFP
+			{
+			}
+
+			texture_unit RT
+			{
+                tex_coord_set 0
+				tex_address_mode clamp
+				filtering linear linear linear
+			}
+
+			texture_unit
+			{
+				texture WaterNormal1.tga 2d
+                tex_coord_set 1
+				//tex_address_mode clamp
+				filtering linear linear linear
+			}
+		}
+	}
+}
+
+
