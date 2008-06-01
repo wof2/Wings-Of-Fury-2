@@ -188,10 +188,10 @@
     <value>Inverse keys</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
-    <value>Land on the carrier and press X to refuel</value>
+    <value>Land on the carrier and press 'X' to refuel</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRepair">
-    <value>Land on the carrier and press X to repair</value>
+    <value>Land on the carrier and press 'X' to repair</value>
   </data>
   <!-- low difficulty / details -->
   <data name="Low">
@@ -211,10 +211,10 @@
     <value>No</value>
   </data>
   <data name="PressEToTurnOnTheEngine">
-    <value>Press E to turn on the engine</value>
+    <value>Press and hold 'E' to turn on the engine</value>
   </data>
   <data name="PressXToChangeAmmo">
-    <value>Press X to change the ammo, repair and refuel</value>
+    <value>Press 'X' to change the ammo, repair and refuel</value>
   </data>
   <data name="ScreenshotWrittenTo">
     <value>Screenshot written to</value>
