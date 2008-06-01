@@ -21,27 +21,13 @@ material IntroScreen1
 	technique
 	{
 		pass
-		{
-			
-				
-			
+		{			
 			texture_unit
 			{
 				texture Intro1.jpg
-			}
-			texture_unit
-			{
-            	
-            			depth_write off           	
-				colour_op_ex blend_manual src_texture src_current 0.5
-			}
+			}						
 			
-			
-		}
-
-
-		
-       
+		}      
 
 	}
 }
@@ -57,11 +43,6 @@ material IntroScreen2
 			{
 				texture Intro2.jpg
 			}
-
-			/*texture_unit
-			{
-				anim_texture WaterTrail.png 12 0			
-			}*/
 			
 		}
 	}

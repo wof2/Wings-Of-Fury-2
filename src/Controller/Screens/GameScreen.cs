@@ -245,23 +245,28 @@ namespace Wof.Controller.Screens
                 try
                 {
                     loadingStart = DateTime.Now;
-                    Console.WriteLine("About to load level view...");
+                    LogManager.Singleton.LogMessage("About to load level view...", LogMessageLevel.LML_CRITICAL);
                     levelView = new LevelView(framework, this);
-                    Console.WriteLine("About to load model...");
+                    LogManager.Singleton.LogMessage("About to load model...", LogMessageLevel.LML_CRITICAL);
                     currentLevel = new Level(GetLevelName(level), this);
-                    Console.WriteLine("About to register level " + level + "...");
+                    LogManager.Singleton.LogMessage("About to register level " + level + " to view...", LogMessageLevel.LML_CRITICAL);
 
                     levelView.OnRegisterLevel(currentLevel);
+
+                    LogManager.Singleton.LogMessage("About to register player plane", LogMessageLevel.LML_CRITICAL);
                     OnRegisterPlane(currentLevel.UserPlane);
 
 
+                    LogManager.Singleton.LogMessage("About to register enemy planes", LogMessageLevel.LML_CRITICAL);
                     if (currentLevel.EnemyPlanes.Count > 0) //warunek dodany przez Emila
                         OnRegisterPlane(currentLevel.EnemyPlanes[currentLevel.EnemyPlanes.Count - 1]);
+
+                    LogManager.Singleton.LogMessage("About to register storage planes", LogMessageLevel.LML_CRITICAL);
                     foreach (StoragePlane sp in currentLevel.StoragePlanes)
                     {
                         OnRegisterPlane(sp);
                     }
-                    Console.WriteLine("Finished loading level.");
+                    LogManager.Singleton.LogMessage("Finished loading level.", LogMessageLevel.LML_CRITICAL);
                     SoundManager.Instance.PlayIngameMusic(1, EngineConfig.MusicVolume, true);
 
                     if (Level == 1 && firstTakeOff)
@@ -313,6 +318,7 @@ namespace Wof.Controller.Screens
         /// <returns>iloœæ screenóww</returns>
         public int FreeSplashScreens()
         {
+
             string baseName = "Tutorial";
             string lang = "_" + LanguageManager.ActualLanguageCode;
             int n = 1;
@@ -323,7 +329,9 @@ namespace Wof.Controller.Screens
                 n++;
                 TextureManager.Singleton.Unload(baseName + n + lang + ".jpg");
             }
+            LogManager.Singleton.LogMessage("Finished freeing splash screens", LogMessageLevel.LML_CRITICAL);
             return n - 1;
+
         }
 
 
@@ -431,13 +439,16 @@ namespace Wof.Controller.Screens
             }
 
             // przeladuj efekty
-            if (loadingOverlay != null)
+            /*if (loadingOverlay != null)
             {
                 EffectsManager.Singleton.UpdateTimeAndAnimateAll(evt.timeSinceLastFrame);
-            }
+            }*/
+            // wy³¹czone z uwagi na error z 'collection was modified'
 
             lock (loadingLock)
             {
+
+
                 if (!loading && loadingOverlay == null)
                 {
                     isStillFireGun = false;
