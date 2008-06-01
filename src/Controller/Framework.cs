@@ -234,9 +234,20 @@ namespace Wof.Controller
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.SetupingResources)));
                 SetupResources();
                 carryOn = Configure();
-                /*
+                
                 ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
-                foreach (KeyValuePair<string,Mogre.ConfigOption_NativePtr> m in map)
+                if(map.ContainsKey("Rendering Device"))
+                {
+                    ConfigOptionMap.Iterator iterator = map.Find("Rendering Device");
+                    if (iterator != null && !iterator.Value.IsNull)
+                    {
+                        LogManager.Singleton.LogMessage("Rendering device: " + iterator.Value.currentValue);
+                    }
+                }
+               
+                
+
+               /*foreach (KeyValuePair<string,ConfigOption_NativePtr> m in map)
                 {
                     Console.WriteLine(m.Value.name);
                     foreach (String s in m.Value.possibleValues)
@@ -244,6 +255,8 @@ namespace Wof.Controller
                         Console.WriteLine("\t"+s);
                     }
                 }*/
+
+
 
 
                 if (!carryOn) return false;
@@ -272,8 +285,7 @@ namespace Wof.Controller
                 SetupEngineConfig();
                 if (!CreateSoundSystem(camera, EngineConfig.SoundSystem))
                     EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
-
-
+             
                 // Init sound
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.InitializingSound)));
 
