@@ -459,7 +459,7 @@ namespace Wof.Model.Level.Common
         }
 
         /// <summary>
-        /// Robi tzw. lustrzane odbicie czworok¹ta.
+        /// Robi tzw. lustrzane odbicie czworok¹ta. (aktualnie nie robi nic ;) 
         /// </summary>
         /// <author>Adam</author>
         public void HorizontalReflection()
