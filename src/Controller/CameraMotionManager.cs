@@ -81,7 +81,7 @@ namespace Wof.Controller
         /// <param name="playerPlane">Obiekt samolotu gracza (model)</param>
         /// <param name="evt">FrameEvent (chodzi o czas od ostatniej klatki)</param>
         /// <returns></returns>
-        public static void Manage(Camera c, Plane playerPlane, FrameEvent evt)
+        public static void Manage(Camera c, Plane playerPlane, FrameEvent evt, float manualZoom)
         {
             Plane p = null;
             if (playerPlane != null) p = playerPlane;
@@ -143,7 +143,7 @@ namespace Wof.Controller
             //altFactor*=altFactor * altFactor;
             if (playerPlane.Position.Y < 30) altFactor /= (30 - (float) playerPlane.Position.Y)*0.1f;
             if (altFactor > 250) altFactor = 250;
-            zoomFactor = speedFactor*0.1f + altFactor*0.53f + (minCamDistance - c.Position.z);
+            zoomFactor = speedFactor*0.1f + altFactor*0.53f + (manualZoom+ minCamDistance - c.Position.z);
             translateVector.z += zoomFactor;
 
 
@@ -160,7 +160,9 @@ namespace Wof.Controller
                 }
             }
 
-            // ograniczenia awaryjne     
+            // ograniczenia awaryjne  
+           // translateVector.z += manualZoom;
+
             translateVector.x = Math.Min(translateVector.x, 500);
             translateVector.y = Math.Min(translateVector.y, 500);
             translateVector.z = Math.Min(translateVector.z, 500);
@@ -169,6 +171,7 @@ namespace Wof.Controller
             translateVector.y = Math.Max(translateVector.y, -500);
             translateVector.z = Math.Max(translateVector.z, -500);
 
+            
             // uzaleznij od czasu
             translateVector *= t;
             c.MoveRelative(translateVector);

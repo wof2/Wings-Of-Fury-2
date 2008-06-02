@@ -70,8 +70,8 @@ namespace Wof.Controller
     public abstract class FrameWork : Form
     {
 
-      
 
+        protected float cameraZoom = 0;
         protected float minimapHeight = 0.14f;
         protected float minimapWidth = 0.3f;
 
@@ -589,7 +589,19 @@ namespace Wof.Controller
             }
             else
             {
-                if (camera != null) CameraMotionManager.Manage(camera, playerPlane, evt);
+                if (camera.Position.z > 20 && mouseState.Z.rel > 0 && cameraZoom < 10)
+                {
+                    cameraZoom += -mouseState.Z.rel * .02f;
+                }
+
+                // ZOOM OUT
+                if (camera.Position.z < 60 && mouseState.Z.rel < 0 && cameraZoom > -10)
+                {
+                    cameraZoom -= mouseState.Z.rel * .02f;
+                }
+
+
+                if (camera != null) CameraMotionManager.Manage(camera, playerPlane, evt, cameraZoom);
                 if (minimapCamera != null) CameraMotionManager.ManageMini(minimapCamera, playerPlane, evt);
             }
 
