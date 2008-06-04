@@ -1554,6 +1554,7 @@ namespace Wof.View
         {
             // if (EngineConfig.ManualCamera)
             {
+                //framework.CameraZoom = 0;
                 framework.Camera.Position = Vector3.ZERO;
                 framework.Camera.Orientation = Quaternion.IDENTITY;
 

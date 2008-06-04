@@ -70,8 +70,14 @@ namespace Wof.Controller
     public abstract class FrameWork : Form
     {
 
-
+        public float CameraZoom
+        {
+            get { return cameraZoom; }
+            set { cameraZoom = value; }
+        }
         protected float cameraZoom = 0;
+
+
         protected float minimapHeight = 0.14f;
         protected float minimapWidth = 0.3f;
 
@@ -589,19 +595,53 @@ namespace Wof.Controller
             }
             else
             {
-                if (camera.Position.z > 20 && mouseState.Z.rel > 0 && cameraZoom < 10)
+                if (camera != null)
                 {
-                    cameraZoom += -mouseState.Z.rel * .02f;
+
+                    // ZOOM IN
+                    if (inputKeyboard.IsKeyDown(KeyCode.KC_PGUP) || mouseState.Z.rel > 0)
+                    {
+                        if (cameraZoom < 20)
+                        {
+                            if (inputKeyboard.IsKeyDown(KeyCode.KC_PGUP))
+                            {
+                                cameraZoom += 1.0f;
+                            }
+                            else
+                            {
+                                cameraZoom += mouseState.Z.rel * .02f;
+                            }
+                        }
+                    }
+
+                    // ZOOM IN
+                    if (inputKeyboard.IsKeyDown(KeyCode.KC_PGDOWN) || mouseState.Z.rel < 0)
+                    {
+                        if (cameraZoom > -20)
+                        {
+                            if (inputKeyboard.IsKeyDown(KeyCode.KC_PGDOWN))
+                            {
+                                cameraZoom -= 1.0f;
+                                
+                            }
+                            else
+                            {
+                                cameraZoom += mouseState.Z.rel * .02f;
+                            }
+                        }
+                    }
+                
+                  
+
+                    // ZOOM OUT
+                  /*  if (camera.Position.z < 60 && mouseState.Z.rel < 0 && cameraZoom < 10)
+                    {
+                        cameraZoom -= mouseState.Z.rel * .02f;
+                    }*/
+
+                    CameraMotionManager.Manage(camera, playerPlane, evt, cameraZoom);
                 }
-
-                // ZOOM OUT
-                if (camera.Position.z < 60 && mouseState.Z.rel < 0 && cameraZoom > -10)
-                {
-                    cameraZoom -= mouseState.Z.rel * .02f;
-                }
-
-
-                if (camera != null) CameraMotionManager.Manage(camera, playerPlane, evt, cameraZoom);
+             
                 if (minimapCamera != null) CameraMotionManager.ManageMini(minimapCamera, playerPlane, evt);
             }
 
@@ -808,6 +848,8 @@ namespace Wof.Controller
         {
             get { return false; }
         }
+
+       
 
         public virtual void CreateInput()
         {
