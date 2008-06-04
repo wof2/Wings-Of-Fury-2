@@ -143,7 +143,7 @@ namespace Wof.Controller
             //altFactor*=altFactor * altFactor;
             if (playerPlane.Position.Y < 30) altFactor /= (30 - (float) playerPlane.Position.Y)*0.1f;
             if (altFactor > 250) altFactor = 250;
-            zoomFactor = speedFactor*0.1f + altFactor*0.53f + (manualZoom+ minCamDistance - c.Position.z);
+            zoomFactor = speedFactor*0.1f + altFactor*0.53f + (-manualZoom+ minCamDistance - c.Position.z);
             translateVector.z += zoomFactor;
 
 
