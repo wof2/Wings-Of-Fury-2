@@ -81,7 +81,7 @@ namespace Wof.Controller.Screens
 
     internal abstract class AbstractOptionsScreen : AbstractScreen, BetaGUIListener
     {
-        public const int C_MAX_OPTIONS = 11;
+        public const int C_MAX_OPTIONS = 12;
 
         private List<ButtonHolder> options;
         private int currentScreen;

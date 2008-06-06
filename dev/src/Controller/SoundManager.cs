@@ -441,6 +441,11 @@ namespace Wof.Controller
             }
             try
             {
+                if (EngineConfig.SoundVolume == 0)
+                {
+                    return;
+                }
+
                 audio.CurrentPosition = 0.0;
                 audio.Play();
                 audio.Volume = getBaseVolume() + soundVolumeModifier;
@@ -458,7 +463,8 @@ namespace Wof.Controller
 
         private int getBaseVolume()
         {
-            return 10*(EngineConfig.SoundVolume - 100);
+          
+            return 20*(EngineConfig.SoundVolume - 100);
         }
 
         private void Stop(Audio audio)
@@ -588,6 +594,11 @@ namespace Wof.Controller
             }
             try
             {
+                if (EngineConfig.SoundVolume == 0)
+                {
+                    return;
+                }
+
                 buffer.Play(0, BufferPlayFlags.Looping);
                 buffer.Volume = getBaseVolume() + soundVolumeModifier;
             }

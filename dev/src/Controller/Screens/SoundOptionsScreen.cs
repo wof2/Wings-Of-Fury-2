@@ -99,13 +99,13 @@ namespace Wof.Controller.Screens
             }
 
             availableModes.Add("__Music:");
-            for (int i = 10; i <= 100; i += 10)
+            for (int i = 0; i <= 100; i += 10)
             {
                 availableModes.Add("Music volume: " + i.ToString());
             }
 
             availableModes.Add("__Sound:");
-            for (int i = 10; i <= 100; i += 10)
+            for (int i = 0; i <= 100; i += 10)
             {
                 availableModes.Add("Sound volume: " + i.ToString());
             }
@@ -165,7 +165,12 @@ namespace Wof.Controller.Screens
             // music volume
             if (selected.StartsWith("Music volume: "))
             {
+               
                 EngineConfig.MusicVolume = int.Parse(selected.Substring("Music volume: ".Length));
+                if (EngineConfig.MusicVolume == 0)
+                {
+               
+                }
                 SoundManager2.Instance.PlayAmbient(SoundManager2.Instance.CurrentMusic, EngineConfig.MusicVolume);
                 EngineConfig.SaveEngineConfig();
                 return;
