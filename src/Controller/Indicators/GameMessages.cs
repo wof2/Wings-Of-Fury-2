@@ -177,6 +177,7 @@ namespace Wof.Controller.Indicators
             messageElement.SetParameter("colour_bottom", currentMessage.ColourBottom);
 
             messageElement.Caption = currentMessage.Message;
+            messageElement.Show();
         }
 
         private void UpdateMessage()
