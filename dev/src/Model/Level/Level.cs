@@ -94,7 +94,7 @@ namespace Wof.Model.Level
         /// Czas do pojawienia siê nastêpnego samolotu.
         /// Wyra¿ony w ms.
         /// </summary>
-        private const float timeToFirstEnemy = 1*60*1000;
+        private const float timeToFirstEnemy = 1*1*1000;
 
         #endregion
 
