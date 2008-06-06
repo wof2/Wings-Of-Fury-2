@@ -67,7 +67,7 @@ material Effects/PlaneWaterTrail
 
 			texture_unit
 			{
-				anim_texture PlaneWaterTrail.png 12 0			
+				anim_texture PlaneWaterTrail.png 14 0			
 			}
 			
 		}

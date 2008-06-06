@@ -516,7 +516,7 @@ namespace Wof.View.Effects
                     break;
 
                 case EffectType.PLANEWATERTRAIL:
-                    info.duration = 3.0f;
+                    info.duration = 6.0f;
                     info.material = "Effects/PlaneWaterTrail";
                     break;
 
