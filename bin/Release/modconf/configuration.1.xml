@@ -39,7 +39,7 @@
     engineCounterThreshold="1500"
     breakingMinSpeed = "5"
     sinkingSpeed = "1.3"
-    maxHeight = "100"
+    maxHeight = "150"
     landingSpeed = "2.0"
     userRotateStep = "2.3943951"
     userRotateBrakingFactor = "1.5"
