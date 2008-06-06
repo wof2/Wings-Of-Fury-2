@@ -921,7 +921,7 @@ namespace Wof.Controller.Screens
             SoundManager.Instance.HaltEnemyEngineSound();
             mGui = new GUI(FontManager.CurrentFont, 24);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
-            mGui.injectMouse(0, 0, false);
+          //  mGui.injectMouse(0, 0, false);
             guiWindow = mGui.createWindow(new Vector4(0,
                                                       0, viewport.ActualWidth, viewport.ActualHeight),
                                           "bgui.window", (int) wt.NONE, LanguageResources.GetString(LanguageKey.Pause));
@@ -955,7 +955,7 @@ namespace Wof.Controller.Screens
             SoundManager.Instance.HaltOceanSound();
             mGui = new GUI(FontManager.CurrentFont, 24);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
-            mGui.injectMouse(0, 0, false);
+            //mGui.injectMouse(0, 0, false);
             guiWindow = mGui.createWindow(new Vector4(0,
                                                       0, viewport.ActualWidth, viewport.ActualHeight),
                                           "bgui.window", (int) wt.NONE,
@@ -977,7 +977,7 @@ namespace Wof.Controller.Screens
         {
             mGui = new GUI(FontManager.CurrentFont, 24);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
-            mGui.injectMouse(0, 0, false);
+          //  mGui.injectMouse(0, 0, false);
             guiWindow = mGui.createWindow(new Vector4(0,
                                                       0, viewport.ActualWidth, viewport.ActualHeight),
                                           "bgui.window", (int) wt.NONE,

@@ -65,7 +65,7 @@ namespace Wof.Controller.Screens
         {
             mGui = new GUI(Wof.Languages.FontManager.CurrentFont, 22);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
-            mGui.injectMouse(0, 0, false);
+         //   mGui.injectMouse(0, 0, false);
             string message = "";
            
            

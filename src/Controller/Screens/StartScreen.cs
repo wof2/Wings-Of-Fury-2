@@ -70,7 +70,7 @@ namespace Wof.Controller.Screens
         {
             mGui = new GUI(FontManager.CurrentFont, 24);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
-            mGui.injectMouse(0, 0, false);
+          //  mGui.injectMouse(0, 0, false);
 
 
             string version = "v. " + EngineConfig.C_WOF_VERSION;
