@@ -47,6 +47,7 @@
  */
 
 using System;
+using System.IO;
 using FSLOgreCS;
 using Microsoft.DirectX.AudioVideoPlayback;
 using Microsoft.DirectX.DirectSound;
@@ -178,6 +179,7 @@ namespace Wof.Controller
     {
         private static readonly int C_NOMINAL_ENEMY_FREQ = 60000;
 
+
         private static Device dsDevice;
 
         public static Device DsDevice
@@ -217,6 +219,9 @@ namespace Wof.Controller
             set { soundDisabled = value; }
         }
 
+        private int maxMusicTrackNo = 1;
+        private int lastRandomMusicTrackNo = 1;
+
 
         // ekran gry
         private Audio gearUpSound;
@@ -243,13 +248,21 @@ namespace Wof.Controller
         private Buffer enemyEngineSound;
         private Buffer oceanSound;
 
-
+        private Random random; 
         private SoundManager()
         {
             try
             {
-                //mainTheme = new Audio("sounds/themesong.mp3");
-                //mainTheme.Volume = -2000;
+                int i = 1;
+                while(File.Exists("music/music"+i.ToString()+".ogg"))
+                {
+                    maxMusicTrackNo++;
+                    i++;
+                }
+                maxMusicTrackNo--;
+
+                random = new Random();
+
 
                 gearUpSound = new Audio("sounds/gear_up.wav");
                 gearDownSound = new Audio("sounds/gear_down.wav");
@@ -292,6 +305,19 @@ namespace Wof.Controller
             {
                 problemWithSound = true;
             }
+        }
+        /// <summary>
+        /// Plays random music track
+        /// </summary>
+        public void PlayRandomIngameMusic(int volume)
+        {
+            PlayIngameMusic(lastRandomMusicTrackNo, volume);
+        }
+
+        public void PreloadRandomIngameMusic()
+        {
+            lastRandomMusicTrackNo = random.Next(1, maxMusicTrackNo + 1);
+            PlayIngameMusic(lastRandomMusicTrackNo, 100, true);
         }
 
         public void PlayIngameMusic(int no)
