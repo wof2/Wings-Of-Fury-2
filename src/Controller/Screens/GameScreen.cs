@@ -267,7 +267,7 @@ namespace Wof.Controller.Screens
                         OnRegisterPlane(sp);
                     }
                     LogManager.Singleton.LogMessage("Finished loading level.", LogMessageLevel.LML_CRITICAL);
-                    SoundManager.Instance.PlayIngameMusic(1, EngineConfig.MusicVolume, true);
+                    SoundManager.Instance.PreloadRandomIngameMusic();
 
                     if (Level == 1 && firstTakeOff)
                     {
@@ -1160,7 +1160,7 @@ namespace Wof.Controller.Screens
             mayPlaySound = true;
             SoundManager.Instance.PlayStartEngineSound(startEngineSound_Ending);
 
-            SoundManager.Instance.PlayIngameMusic(1, EngineConfig.MusicVolume);
+            SoundManager.Instance.PlayRandomIngameMusic(EngineConfig.MusicVolume);
 
             // wy³¹cz komunikat 
             if (gameMessages.PeekMessage().Equals(LanguageResources.GetString(LanguageKey.PressEToTurnOnTheEngine)))
