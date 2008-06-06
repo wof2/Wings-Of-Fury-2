@@ -70,7 +70,7 @@ namespace Wof.Controller.Screens
         {
             mGui = new GUI(FontManager.CurrentFont, 24);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
-            mGui.injectMouse(0, 0, false);
+           // mGui.injectMouse(0, 0, false);
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth/4,
                                                       viewport.ActualHeight/4, viewport.ActualWidth/2,
                                                       2*viewport.ActualHeight / 3.0f),
