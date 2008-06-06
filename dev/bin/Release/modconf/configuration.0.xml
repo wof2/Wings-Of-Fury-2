@@ -26,9 +26,9 @@
   maxHeight - Maksymalna wysokość na jaką samolot może się wzbić. Typ: int
   -->
   <UserPlane 
-    oilLoss="0.0"
+    oilLoss="0.05"
     moveStep="10"
-    maxSpeed="80"
+    maxSpeed="65"
     petrolLoss="1"
     bombCount="30"
     rocketCount="30"
@@ -41,8 +41,8 @@
     sinkingSpeed = "1.3"
     maxHeight = "100"
     landingSpeed = "4.0"
-    userRotateStep = "2.0943951"
-    userRotateBrakingFactor = "1.5"
+    userRotateStep = "2.5943951"
+    userRotateBrakingFactor = "1.6"
     userMaxRotateValue = "2.0943951"
     godMode = "0"
     width = "5.5"
@@ -62,11 +62,11 @@
   -->
   <EnemyPlane 
     maxEnemyPlanes="3"
-    speed="36"
+    speed="30"
     oilLoss="1"
     minPitch = "10"
     viewRange = "50"
-    rocketCount="3"
+    rocketCount="0"
     nextRocketInterval = "1000"
     storagePlaneDistanceFault = "16"
     safeUserPlaneDistance = "30"
@@ -82,8 +82,8 @@
     homelessTime - Czas jaki musi uplynac, aby zolnierz mogl wejść ponownie do bunkra. Podany w ms. Typ: int
   -->
   <Soldier 
-    minSpeed = "4"
-    maxSpeed = "7"
+    minSpeed = "3"
+    maxSpeed = "6"
     homelessTime = "15000"/>
   
   <!-- Bunkier:
@@ -119,6 +119,6 @@
   -->
   <Rocket
     fireInterval = "350"
-    maxSpeed = "550"/>
+    maxSpeed = "500"/>
   
 </Config>

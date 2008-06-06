@@ -28,7 +28,7 @@
   <UserPlane 
     oilLoss="0.2"
     moveStep="10"
-    maxSpeed="75"
+    maxSpeed="65"
     petrolLoss="1"
     bombCount="30"
     rocketCount="20"
@@ -41,8 +41,8 @@
     sinkingSpeed = "1.3"
     maxHeight = "100"
     landingSpeed = "2.0"
-    userRotateStep = "1.4943951"
-    userRotateBrakingFactor = "1.45"
+    userRotateStep = "2.3943951"
+    userRotateBrakingFactor = "1.5"
     userMaxRotateValue = "2.0943951"
     godMode = "0"
     width = "5.5"
@@ -61,7 +61,7 @@
     carrierDistanceAlarm - Określa na na jakiej odlełości od lotniskowca włacza się alarm. Typ: int
   -->
   <EnemyPlane 
-    speed="36"
+    speed="32"
     oilLoss="1"
     minPitch = "10"
     viewRange = "60"
@@ -82,7 +82,7 @@
   -->
   <Soldier 
     minSpeed = "4"
-    maxSpeed = "7"
+    maxSpeed = "6"
     homelessTime = "12000"/>
   
   <!-- Bunkier:
@@ -118,6 +118,6 @@
   -->
   <Rocket
     fireInterval = "350"
-    maxSpeed = "550"/>
+    maxSpeed = "500"/>
 
 </Config>
