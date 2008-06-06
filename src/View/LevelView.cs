@@ -875,12 +875,13 @@ namespace Wof.View
         {
             PlaneView p = FindPlaneView(plane);
             if (p == null) return; //errro
-            for (uint i = 1; i <= 5; i++)
+            for (uint i = 1; i <= 3; i++)
             {
+                
                 EffectsManager.Singleton.Sprite(sceneMgr, p.OuterNode,
-                                                new Vector3(-2.5f, -1.5f, -3) +
-                                                ViewHelper.UnsignedRandomVector3(5, 3, 6), new Vector2(2, 1),
-                                                EffectsManager.EffectType.GUNHIT, false, 100 + i);
+                                                new Vector3(-5f, -1.5f, -3) +
+                                                ViewHelper.UnsignedRandomVector3(5, 3, 6), new Vector2(12, 12),
+                                                EffectsManager.EffectType.DEBRIS, false, 100 + i);
             }
         }
 

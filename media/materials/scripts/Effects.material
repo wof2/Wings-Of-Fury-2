@@ -94,6 +94,26 @@ material Effects/GunHit
 	}
 }
 
+material Effects/Debris
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			scene_blend add			
+			depth_write off
+
+			texture_unit
+			{
+				anim_texture Debris.png 13 0			
+			}
+			
+		}
+	}
+}
+
+
 material Effects/WaterImpact1
 {
 

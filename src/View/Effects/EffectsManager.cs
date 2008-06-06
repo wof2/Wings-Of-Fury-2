@@ -119,7 +119,8 @@ namespace Wof.View.Effects
             SEAGULL,
             WATERTRAIL,
             PLANEWATERTRAIL,
-            BLOOD
+            BLOOD,
+            DEBRIS
         }
 
         private enum MaterialToPreload
@@ -508,6 +509,11 @@ namespace Wof.View.Effects
                 case EffectType.GUNHIT:
                     info.duration = 0.2f;
                     info.material = "Effects/GunHit";
+                    break;
+
+                case EffectType.DEBRIS:
+                    info.duration = 1.0f;
+                    info.material = "Effects/Debris";
                     break;
 
                 case EffectType.WATERTRAIL:
