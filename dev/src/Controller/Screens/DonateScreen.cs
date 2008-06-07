@@ -87,7 +87,7 @@ namespace Wof.Controller.Screens
 
         protected override void CreateGUI()
         {
-            mGui = new GUI(FontManager.CurrentFont, 24);
+            mGui = new GUI(FontManager.CurrentFont, 17);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
           //  mGui.injectMouse(0, 0, false);
 
@@ -100,10 +100,10 @@ namespace Wof.Controller.Screens
 
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
-            mGui.mFontSize = 18;
+            mGui.mFontSize = 17;
             if(viewport.ActualWidth < 1280)
             {
-                mGui.mFontSize = 13;
+                mGui.mFontSize = 14;
             }
 
             guiWindow.createStaticText(new Vector4(5, 40, -10 + viewport.ActualWidth / 2, 90), donateMessage);
