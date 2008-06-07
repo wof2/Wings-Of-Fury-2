@@ -187,10 +187,10 @@
     <value>Land auf dem Flughaft und drück X um Triebwerk zu reparieren</value>
   </data>
   <data name="Low">
-    <value>Niski</value>
+    <value>Niedrig</value>
   </data>
   <data name="LowFuelWarning">
-    <value> ACHTUNG! EIN NIEDRIGES NIVEAU VON TREIBSTOFF</value>
+    <value>ACHTUNG! EIN NIEDRIGES NIVEAU VON TREIBSTOFF</value>
   </data>
   <data name="LowOilWarning">
     <value>ACHTUNG! EIN NIEDRIGES NIVEAU VON ÖL</value>
@@ -208,7 +208,7 @@
     <value>Drück X um Waffe, Treibstoff zu ergänzen und Triebwerk zu reparieren</value>
   </data>
   <data name="ScreenshotWrittenTo">
-    <value>"Das Bildschirmfoto wurde gespeichert"</value>
+    <value>Das Bildschirmfoto wurde gespeichert</value>
   </data>
   <data name="StartFrom">
     <value>Wähl Schwierigkeitsgrad</value>
@@ -262,48 +262,50 @@
   <!-- Added: 23.05.2008, additional menu options -->
 
   <!-- meaning primary / main team -->
-  <data name="CoreTeam">
-    <value>Core team</value>
-  </data>
-  <data name="SupportTeam">
-    <value>Support team</value>
-  </data>
-  <data name="Graphics">
-    <value>Graphics</value>
-  </data>
-  <data name="CommunityTranslations">
-    <value>community translations</value>
-  </data>
-  <data name="Poland">
-    <value>Poland</value>
-  </data>
-  <data name="Donate">
-    <value>Donate</value>
-  </data>
-  <data name="CheckForUpdates">
-    <value>Check for updates</value>
-  </data>
-   <!--
+  
+ <data name="CoreTeam">
+ 	<value>Hauptteam der Programmierer</value>
+ </data>
+ <data name="SupportTeam">
+ 	<value>Hilfsgruppe der Programierer</value>
+ </data>
+ <data name="Graphics">
+ 	<value>Grafik</value>
+ </data>
+ <data name="CommunityTranslations">
+ 	<value>Übersetzersgemeinschaft</value>
+ </data>
+ <data name="Poland">
+ 	<value>Polen</value>
+ </data>
+ <data name="Donate">
+ 	<value>Projektunterstützung</value>
+ </data>
+ <data name="CheckForUpdates">
+ 	<value>Prüf die Aktualisierung</value>
+ </data>
+  
+ <!--
         Next 5 messages will be concatenated into one.        
-    -->
-  <data name="DonateMessagePart1">   
-    <value>If You liked</value>
-  </data>
-  <!-- here will goes "Wings of fury 2" - but it's translated already -->
-  <data name="DonateMessagePart2">
-    <value>please consider donating.</value>
-  </data>
-  <data name="DonateMessagePart3">
-    <value>We are looking for funds to</value>
-  </data>
-  <data name="DonateMessagePart4">
-    <value>support further game development</value>
-  </data>
-  <data name="DonateMessagePart5">
-    <value>(including naval units).</value>
-  </data>
-  <!-- message displayed after pressing 'c' (change camera) key. -->
-  <data name="CameraChanged">
-    <value>Camera changed</value>
-  </data>
+ -->
+ <data name="DonateMessagePart1">
+ 	<value>Wenn dir das Spiel gefällt,</value>
+ </data>
+ <!-- here will goes "Wings of fury 2" - but it's translated already -->
+ <data name="DonateMessagePart2">
+ 	<value>bitte überleg die Unterstützung unseres</value>
+ </data>
+ <data name="DonateMessagePart3">
+	 <value>Projekts. Wir suchen nach Mitteln, die die</value>
+ </data>
+ <data name="DonateMessagePart4">
+	 <value>Weiterentwicklung des Spiels ermöglichen können.</value>
+ </data>
+ <data name="DonateMessagePart5">
+ 	<value>Zum Beispiel: Zugebung der neuen Wassereinheiten.</value>
+ </data>
+ <data name="CameraChanged">
+ 	<value>Wechsel des Ausblicks</value>
+ </data>
+  
 </root>

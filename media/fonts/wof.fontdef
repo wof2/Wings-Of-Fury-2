@@ -10,16 +10,16 @@ Wof_pl-PL
 {	
 	type 		truetype
 	source 		solo5PL.ttf
-	size 		20
+	size 		16
 	resolution 	96
-	code_points     33-166 260-263 280-281 211-211 243-243 321-324 346-347 377-380
+	code_points     33-380
 }
 
 Wof_ru-RU
 {	
 	type 		truetype
 	source 	        ru.ttf
-	size 		26
+	size 		20
 	resolution 	96
         code_points     33-122 1040-1103
 }
@@ -39,7 +39,8 @@ Wof_de-DE
 	source 		solo5PL.ttf
 	size 		16
 	resolution 	96
-	code_points 33-122 196-196 203-203 207-207 214-214 220-220 228-228 235-235 239-239 246-246 252-252
+	code_points     33-380
+
 }
 
 

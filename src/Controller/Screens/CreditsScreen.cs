@@ -51,10 +51,7 @@ using System.Collections.Generic;
 using BetaGUI;
 using Mogre;
 using Wof.Languages;
-using Wof.Misc;
-using Wof.View;
-using Wof.View.Effects;
-using FontManager=Wof.Languages.FontManager;
+
 
 namespace Wof.Controller.Screens
 {
