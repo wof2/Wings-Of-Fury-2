@@ -390,6 +390,9 @@ namespace Wof.View
             animationState = PlaneEntity.GetAnimationState("die");
             animationState.Loop = false;
             animationState.Enabled = true;
+
+            animationMgr.disableIdle();
+
             SetBladeVisibility(false);
         }
 
