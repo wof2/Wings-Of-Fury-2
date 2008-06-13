@@ -61,7 +61,6 @@
     carrierDistanceAlarm - Określa na na jakiej odlełości od lotniskowca włacza się alarm. Typ: int
   -->
   <EnemyPlane 
-    maxEnemyPlanes="3"
     speed="30"
     oilLoss="1"
     minPitch = "10"
