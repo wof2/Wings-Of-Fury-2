@@ -161,6 +161,11 @@ namespace Wof.View.NodeAnimation
             switchToIdle(true);
         }
 
+        public void disableIdle()
+        {
+            this[AnimationType.IDLE].Enabled = false;
+        }
+
         public void changeBladeSpeed(float rpm)
         {
             (this[AnimationType.BLADE] as ConstRotateNodeAnimation).MaxAngle = rpm;
