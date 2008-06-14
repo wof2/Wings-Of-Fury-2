@@ -82,7 +82,7 @@
   -->
   <Soldier 
     minSpeed = "3"
-    maxSpeed = "6"
+    maxSpeed = "5"
     homelessTime = "15000"/>
   
   <!-- Bunkier:

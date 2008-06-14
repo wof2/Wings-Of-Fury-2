@@ -88,6 +88,7 @@ namespace Wof.Controller.Screens
         private const int C_WOODEN_BUNKER_SCORE = 30;
         private const int C_CONCRETE_BUNKER_SCORE = 50;
         private const int C_ENEMY_PLANE_SCORE = 35;
+        private const int C_LIFE_LEFT = 50;
 
 
         public const float C_RESPONSE_DELAY = 0.16f;
@@ -435,6 +436,8 @@ namespace Wof.Controller.Screens
                 SoundManager.Instance.HaltWaterBubblesSound();
                 SoundManager.Instance.HaltEnemyEngineSound();
                 SoundManager.Instance.HaltOceanSound();
+
+                increaseScore(this.lives * C_LIFE_LEFT);
                 gameEventListener.GotoNextLevel();
             }
 

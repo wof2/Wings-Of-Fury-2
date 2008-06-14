@@ -130,7 +130,7 @@ namespace Wof.View
                 sceneMgr.RootSceneNode.CreateChildSceneNode("SoldierNode" + soldierID.ToString(),
                                                             new Vector3(-100000, -100000, 0));
             soldierNode.AttachObject(soldierModel);
-
+            soldierNode.Scale(1.1f, 1.1f, 1.1f);
             runAnimationState = soldierModel.GetAnimationState("run");
             die1AnimationState = soldierModel.GetAnimationState("die1");
             die2AnimationState = soldierModel.GetAnimationState("die2");
@@ -232,7 +232,7 @@ namespace Wof.View
                 rot += new Quaternion(new Radian(Math.HALF_PI), Vector3.UNIT_Z);
 
 
-                SceneNode n = sceneMgr.RootSceneNode.CreateChildSceneNode("Blood" + this.GetHashCode());
+                SceneNode n = sceneMgr.RootSceneNode.CreateChildSceneNode("Blood" + GetHashCode());
                 n.Position = soldierNode.WorldPosition;
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, n, "Blood", EffectsManager.EffectType.BLOOD,
                                                            new Vector3(0, 1.0f, 0) +

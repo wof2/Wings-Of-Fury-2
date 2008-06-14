@@ -83,7 +83,7 @@
   <Soldier 
     minSpeed = "4"
     maxSpeed = "6"
-    homelessTime = "12000"/>
+    homelessTime = "13000"/>
   
   <!-- Bunkier:
   fireDelay - odstęp pomiedzy każdym strzałem. Podany w ms. Typ: int
