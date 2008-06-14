@@ -96,6 +96,8 @@ namespace Wof.Controller.Screens
                                      String.Format(@"WOF2 {0}:", LanguageResources.GetString(LanguageKey.CommunityTranslations)),
                                      "Makis",
                                      "Andrei Drakonnen",
+                                     "Martyna Kwiatkowska",
+                                     "Kamila Ksiazek",
                                      String.Empty,
                                      LanguageResources.GetString(LanguageKey.SpecialThanksToSteveWaldo),
                                      LanguageResources.GetString(LanguageKey.CreatorOfOriginalWingsOfFury),
@@ -185,7 +187,7 @@ namespace Wof.Controller.Screens
         protected override List<Button> buildButtons()
         {
             List<Button> ret = new List<Button>();
-            ret.Add(guiWindow.createButton(new Vector4(20, 800, viewport.ActualWidth/2, 30),
+            ret.Add(guiWindow.createButton(new Vector4(20, 880, viewport.ActualWidth/2, 30),
                                            "bgui.button", LanguageResources.GetString(LanguageKey.Quit), cc));
             return ret;
         }
