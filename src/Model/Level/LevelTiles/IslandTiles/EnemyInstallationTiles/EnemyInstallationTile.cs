@@ -72,6 +72,20 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
     /// </summary>
     public abstract class EnemyInstallationTile : IslandTile
     {
+        #region Static Fields
+
+        /// <summary>
+        /// Liczba niezniszczonych instalacji obronnych.
+        /// </summary>
+        private static int installationsCount = 0;
+
+        /// <summary>
+        /// Obiekt synchronizujacy.
+        /// </summary>
+        private static Object lockObject = new Object();
+
+        #endregion
+
         #region Fields
 
         /// <summary>
@@ -108,6 +122,10 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         {
             Initializing();
             soldiersCount = soldierNum;
+            //zwiekszam liczbe zolnierzy na planszy.
+            Soldier.AddSoldiers(soldiersCount);
+
+            IncrementCompleteInstallationCount();
         }
 
         #endregion
@@ -173,6 +191,30 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             rand = null;
             //zeruje liczbe zolnierzy w bunkrze.
             soldiersCount = 0;
+
+            DecrementCompleteInstallationCount();
+        }
+
+        /// <summary>
+        /// Zwieksza o 1 liczbe niezniszczonych instalacji obronnych.
+        /// </summary>
+        public static void IncrementCompleteInstallationCount()
+        {
+            lock (lockObject)
+            {
+                installationsCount++;
+            }
+        }
+
+        /// <summary>
+        /// Zmniejsza o 1 liczbe niezniszczonych instalacji obronnych.
+        /// </summary>
+        public static void DecrementCompleteInstallationCount()
+        {
+            lock (lockObject)
+            {
+                installationsCount--;
+            }
         }
 
         #endregion
@@ -185,6 +227,14 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         public Level LevelProperties
         {
             set { refToLevel = value; }
+        }
+
+        /// <summary>
+        /// Zwraca liczbe niezniszczonych instalacji obronnych wroga.
+        /// </summary>
+        public static int Count
+        {
+            get { return installationsCount; }
         }
 
         #endregion

@@ -79,8 +79,8 @@ namespace Wof.Model.Configuration
             try
             {
                 configurations = new ReadConfiguration(path, false);
-                //Console.WriteLine(configurations.ToString());
                 Set(configurations);
+                //Console.WriteLine(configurations.ToString());
                 return true;
             }
             catch
