@@ -331,6 +331,8 @@ namespace Wof.Controller
         public void GotoNextLevel()
         {
             int lives = ((GameScreen) currentScreen).Lives;
+           
+
             int score = ((GameScreen) currentScreen).Score;
             int level = ((GameScreen) currentScreen).Level;
           
