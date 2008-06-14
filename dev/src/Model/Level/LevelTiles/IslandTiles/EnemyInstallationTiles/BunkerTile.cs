@@ -164,6 +164,8 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             enemyState = EnemyInstallationState.Complete;
             angle = NinetyDegree;
             lightAngle = MinAngle;
+            
+            EnemyInstallationTile.IncrementCompleteInstallationCount();
         }
 
         /// <summary>

@@ -46,6 +46,7 @@
  * 
  */
 
+using System;
 using System.Text;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
@@ -62,6 +63,20 @@ namespace Wof.Model.Level.Troops
     /// <author>Michal Ziober</author>
     public class Soldier : IMove
     {
+        #region Static Fields
+
+        /// <summary>
+        /// Licznik zolnierzy, ktorzy pozostali na planszy(zywi).
+        /// </summary>
+        private static int soldiersCount = 0;
+
+        /// <summary>
+        /// Obiekt synchronizujacy.
+        /// </summary>
+        private static object lockObject = new object();
+
+        #endregion
+
         #region Const
 
         /// <summary>
@@ -203,6 +218,14 @@ namespace Wof.Model.Level.Troops
             get { return canDie; }
         }
 
+        /// <summary>
+        /// Zwraca liczbe zywych zolnierzy, ktorzy zostali na planszy.
+        /// </summary>
+        public static int Count
+        {
+            get { return soldiersCount; }
+        }
+
         #endregion
 
         #region PrivateMethod
@@ -283,6 +306,26 @@ namespace Wof.Model.Level.Troops
         {
             //zabijam zolnierza.
             isAlive = false;
+
+            //zmniejszam licznik zywych zolnierzy na planszy.
+            lock (lockObject)
+            {
+                soldiersCount--;
+                soldiersCount = Math.Max(0, soldiersCount);
+            }
+        }
+
+        /// <summary>
+        /// Zwieksza liczbe zywych zolnierzy na planszy.
+        /// </summary>
+        /// <param name="count">Liczba nowych zolnierzy.</param>
+        public static void AddSoldiers(int count)
+        {
+            //zwieksza licznik zywych zolnierzy na planszy
+            lock (lockObject)
+            {
+                soldiersCount += count;
+            }
         }
 
         #endregion
