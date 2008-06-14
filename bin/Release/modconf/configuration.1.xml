@@ -26,7 +26,7 @@
   maxHeight - Maksymalna wysokość na jaką samolot może się wzbić. Typ: int
   -->
   <UserPlane 
-    oilLoss="0.2"
+    oilLoss="0.1"
     moveStep="10"
     maxSpeed="65"
     petrolLoss="1"
