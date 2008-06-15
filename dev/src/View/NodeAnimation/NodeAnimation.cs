@@ -188,7 +188,7 @@ namespace Wof.View.NodeAnimation
             amplitudeAtStart = animationFunction(0);
         }
 
-        public void updateTime(float timeSinceLastFrame)
+        public virtual void updateTime(float timeSinceLastFrame)
         {
             if (enabled)
             {

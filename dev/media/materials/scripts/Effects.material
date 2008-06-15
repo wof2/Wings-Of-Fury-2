@@ -94,6 +94,25 @@ material Effects/GunHit
 	}
 }
 
+material Effects/GunHit2
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			scene_blend add			
+			depth_write off
+
+			texture_unit
+			{
+				anim_texture GunHit2.png 4 0			
+			}
+			
+		}
+	}
+}
+
 material Effects/Debris
 {
 	technique

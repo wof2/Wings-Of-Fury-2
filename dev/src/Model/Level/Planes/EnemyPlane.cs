@@ -501,9 +501,9 @@ namespace Wof.Model.Level.Planes
         private void AvoidUserPlaneCrash(float scaleFactor)
         {
             if (Center.Y - level.UserPlane.Center.Y > 0)
-                RotateUp(scaleFactor*rotateStep);
+                RotateUp(scaleFactor * 1.3f * rotateStep);
             else
-                RotateDown(scaleFactor*rotateStep);
+                RotateDown(scaleFactor * 1.3f * rotateStep);
         }
 
         /// <summary>
@@ -513,9 +513,9 @@ namespace Wof.Model.Level.Planes
         private void AvoidEnemyPlaneCrash(float scaleFactor, EnemyPlane ep)
         {
             if (Center.Y - ep.Center.Y > 0)
-                RotateUp(scaleFactor*1.25f*rotateStep);
+                RotateUp(scaleFactor*1.3f*rotateStep);
             else
-                RotateDown(scaleFactor*1.25f*rotateStep);
+                RotateDown(scaleFactor*1.3f*rotateStep);
         }
 
         #endregion

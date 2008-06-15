@@ -225,3 +225,47 @@ material FakePalmTree2
 
 	
 }
+
+
+material Effects/PalmTop1
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1			
+			scene_blend alpha_blend			
+			depth_write off
+			lighting on	
+
+			texture_unit
+			{
+				texture PalmTop1.png
+			}
+			
+		}
+	}
+}
+
+
+material Effects/PalmTop2
+{
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1			
+			scene_blend alpha_blend			
+			depth_write off
+			lighting on	
+
+			texture_unit
+			{
+				texture PalmTop2.png		
+			}
+			
+		}
+	}
+}
