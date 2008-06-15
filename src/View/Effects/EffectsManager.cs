@@ -115,12 +115,15 @@ namespace Wof.View.Effects
             FIRE,
             PLANECRASH,
             GUNHIT,
+            GUNHIT2,
             SUBMERGE,
             SEAGULL,
             WATERTRAIL,
             PLANEWATERTRAIL,
             BLOOD,
-            DEBRIS
+            DEBRIS,
+            PALMTOP1,
+            PALMTOP2
         }
 
         private enum MaterialToPreload
@@ -511,6 +514,11 @@ namespace Wof.View.Effects
                     info.material = "Effects/GunHit";
                     break;
 
+                case EffectType.GUNHIT2:
+                    info.duration = 0.2f;
+                    info.material = "Effects/GunHit2";
+                    break;
+
                 case EffectType.DEBRIS:
                     info.duration = 1.0f;
                     info.material = "Effects/Debris";
@@ -529,6 +537,16 @@ namespace Wof.View.Effects
                 case EffectType.BLOOD:
                     info.duration = 0.8f;
                     info.material = "Effects/Blood";
+                    break;
+
+                case EffectType.PALMTOP1:
+                    info.duration = 0.0f;
+                    info.material = "Effects/PalmTop1";
+                    break;
+
+                case EffectType.PALMTOP2:
+                    info.duration = 0.0f;
+                    info.material = "Effects/PalmTop2";
                     break;
 
                 default:

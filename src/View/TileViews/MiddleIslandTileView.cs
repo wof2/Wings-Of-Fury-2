@@ -51,6 +51,7 @@ using Mogre;
 using Wof.Controller;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
+using Wof.View.Effects;
 using Wof.View.VertexAnimation;
 
 namespace Wof.View.TileViews
@@ -74,25 +75,28 @@ namespace Wof.View.TileViews
 
             if (EngineConfig.LowDetails)
             {
-                palm = sceneMgr.CreateEntity("Palm" + LevelView.PropCounter.ToString(), "TwoSidedPlane.mesh");
-
+                palm = sceneMgr.CreateEntity("Palm" + LevelView.PropCounter, "TwoSidedPlane.mesh");
                 palm.SetMaterialName("FakePalmTree");
             }
             else
-                palm = sceneMgr.CreateEntity("Palm" + LevelView.PropCounter.ToString(), "PalmTree.mesh");
+            {
+                palm = sceneMgr.CreateEntity("Palm" + LevelView.PropCounter, "PalmTree.mesh");
+            }
+                
             palm.CastShadows = EngineConfig.Shadows;
             palmNode = installationNode.CreateChildSceneNode("PalmNode" + LevelView.PropCounter.ToString(), position);
 
             if (EngineConfig.LowDetails)
             {
-                //float angle = Mogre.Math.RangeRandom(0.0f, Mogre.Math.PI / 3);
-
                 float angle = Math.RangeRandom(-Math.PI/5, Math.PI/5);
 
                 palmNode.Yaw(Math.HALF_PI + angle);
                 palmNode.Scale(0.5f, 1, 1);
                 palmNode.Translate(new Vector3(0, 3, 0));
                 palmNode.Pitch(Math.HALF_PI);
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, installationNode, "PalmTop" + LevelView.PropCounter, EffectsManager.EffectType.PALMTOP1, position + new Vector3(0.0f, 4.5f, -0.0f), new Vector2(1.8f, 1.8f),
+                                  Quaternion.IDENTITY, true).Node.Yaw(angle);
+
             }
             else
             {
@@ -121,14 +125,15 @@ namespace Wof.View.TileViews
 
             if (EngineConfig.LowDetails)
             {
-                //float angle = Mogre.Math.RangeRandom(0.0f, Mogre.Math.PI / 3);
-
+              
                 float angle = Math.RangeRandom(-Math.PI/4, Math.PI/4);
 
                 palmNode.Yaw(Math.HALF_PI + angle);
                 palmNode.Scale(0.5f, 1, 1);
                 palmNode.Translate(new Vector3(0, 3, 0));
                 palmNode.Pitch(Math.HALF_PI);
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, installationNode, "PalmTop" + LevelView.PropCounter, EffectsManager.EffectType.PALMTOP2, position + new Vector3(0.0f, 4.5f, -0.2f), new Vector2(2.5f, 2.5f),
+                                Quaternion.IDENTITY, true).Node.Yaw(angle);
             }
             else
             {

@@ -108,7 +108,7 @@ namespace Wof.View.NodeAnimation
             onFinishInfo = endVisibility;
         }
 
-        public new void updateTime(float timeSinceLastFrame)
+        public override void updateTime(float timeSinceLastFrame)
         {
             if (enabled)
             {

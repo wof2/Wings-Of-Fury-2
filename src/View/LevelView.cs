@@ -865,10 +865,25 @@ namespace Wof.View
         public void OnFireGun(Plane plane)
         {
             PlaneView p = FindPlaneView(plane);
-            EffectsManager.Singleton.Sprite(sceneMgr, p.OuterNode, new Vector3(-4.3f, -0.3f, -4.2f), new Vector2(5, 4),
-                                            EffectsManager.EffectType.GUNHIT, false, 0);
-            EffectsManager.Singleton.Sprite(sceneMgr, p.OuterNode, new Vector3(4.3f, -0.3f, -4.2f), new Vector2(5, 4),
-                                            EffectsManager.EffectType.GUNHIT, false, 1);
+            Quaternion orient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y);
+            orient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
+
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, p.OuterNode, "LeftGunHit", EffectsManager.EffectType.GUNHIT2, new Vector3(-4.3f, -0.3f, -5.3f), new Vector2(4.5f, 3.5f),
+                                           orient, false);
+
+           
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, p.OuterNode, "RightGunHit", EffectsManager.EffectType.GUNHIT2, new Vector3(4.3f, -0.3f, -5.3f), new Vector2(4.5f, 3.5f),
+                                           orient, false);
+
+            orient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, p.OuterNode, "LeftGunHitTop", EffectsManager.EffectType.GUNHIT2, new Vector3(-4.3f, -0.3f, -5.3f), new Vector2(4.5f, 3.5f),
+                                         orient, false);
+
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, p.OuterNode, "RightGunHitTop", EffectsManager.EffectType.GUNHIT2, new Vector3(4.3f, -0.3f, -5.3f), new Vector2(4.5f, 3.5f),
+                                         orient, false);
+            
+
+
         }
 
         public void OnGunHitPlane(Plane plane)

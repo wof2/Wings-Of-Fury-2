@@ -50,6 +50,7 @@ using System;
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
+using Wof.View.Effects;
 using Math=Mogre.Math;
 using Wof.View.TileViews;
 
@@ -303,7 +304,6 @@ namespace Wof.View
 
             if (EngineConfig.LowDetails)
             {
-                //float angle = Mogre.Math.RangeRandom(0.0f, Mogre.Math.PI / 3);
 
                 float angle = Math.RangeRandom(-Math.PI/5, Math.PI/5);
 
@@ -311,6 +311,8 @@ namespace Wof.View
                 palmNode.Scale(0.5f, 1, 1);
                 palmNode.Translate(new Vector3(0, 3, 0));
                 palmNode.Pitch(Math.HALF_PI);
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "PalmTop" + id, EffectsManager.EffectType.PALMTOP1, position + new Vector3(0f, 4.5f, -0.0f), new Vector2(1.8f, 1.8f),
+                                         Quaternion.IDENTITY, true).Node.Yaw(angle);
             }
             else
             {
@@ -318,6 +320,9 @@ namespace Wof.View
                 palmNode.Scale(1, Math.RangeRandom(0.9f, 1.1f), 1);
             }
             palmNode.AttachObject(palm);
+
+
+           
         }
 
         protected void initPalm2(SceneNode parent, Vector3 position)
@@ -350,6 +355,8 @@ namespace Wof.View
                 palmNode.Scale(0.5f, 1, 1);
                 palmNode.Translate(new Vector3(0, 3, 0));
                 palmNode.Pitch(Math.HALF_PI);
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "PalmTop" + id, EffectsManager.EffectType.PALMTOP2, position + new Vector3(0.0f, 4.5f, -0.2f), new Vector2(2.5f, 2.5f),
+                                    Quaternion.IDENTITY, true).Node.Yaw(angle);
             }
             else
             {
@@ -358,6 +365,8 @@ namespace Wof.View
                 palmNode.Translate(new Vector3(0, -0.3f, 0));
             }
             palmNode.AttachObject(palm);
+
+
         }
 
         private void initNonColissionTrees(SceneNode parent, float zMin, float zMax)
