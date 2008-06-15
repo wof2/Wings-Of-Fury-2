@@ -189,7 +189,7 @@ namespace Wof.Model.Configuration
             /// <summary>
             /// Ilość oleju, która wycieka z samolotu wroga w czasie timeUnit.
             /// </summary>
-            public static float OilLoos = 1;
+            public static float OilLoss = 1;
 
             /// <summary>
             /// Najmniejszy pułap na jakim może latać samolot wroga.
