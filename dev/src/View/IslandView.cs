@@ -129,37 +129,37 @@ namespace Wof.View
                     //ISLAND1
                     islandMeshName = "Island1.mesh";
                     adjust = 0;
-                    initNonColissionTrees(staticNode, margin, 5);
-                    initNonColissionTrees(staticNode, -margin, -5);
+                    initNonColissionTrees(staticNode, margin, 5, 0.5f);
+                    initNonColissionTrees(staticNode, -margin, -5, 0.5f);
                     break;
                 case -6: //4
                     //ISLAND ROUND
                     islandMeshName = "IslandRound.mesh";
                     adjust = 0;
-                    initNonColissionTrees(staticNode, margin, 10);
-                    initNonColissionTrees(staticNode, -margin, -10);
+                    initNonColissionTrees(staticNode, margin, 10, 0.5f);
+                    initNonColissionTrees(staticNode, -margin, -10, 0.5f);
                     break;
 
                 case 6: //6
                     //ISLAND2
                     islandMeshName = "Island2.mesh";
                     adjust = LevelView.TileWidth*0.5f;
-                    initNonColissionTrees(staticNode, margin, 5);
-                    initNonColissionTrees(staticNode, -margin, -5);
+                    initNonColissionTrees(staticNode, margin, 5, 0.6f);
+                    initNonColissionTrees(staticNode, -margin, -5, 0.6f);
                     break;
                 case 9: //9
                     //ISLAND3
                     islandMeshName = "Island3.mesh";
                     adjust = LevelView.TileWidth*2;
-                    initNonColissionTrees(staticNode, margin, 5);
-                    initNonColissionTrees(staticNode, -margin, -5);
+                    initNonColissionTrees(staticNode, margin, 5, 0.6f);
+                    initNonColissionTrees(staticNode, -margin, -5, 0.6f);
                     break;
                 case 13: //13
                     //ISLAND4
                     islandMeshName = "Island4.mesh";
                     adjust = LevelView.TileWidth*4;
-                    initNonColissionTrees(staticNode, margin, 5);
-                    initNonColissionTrees(staticNode, -margin, -5);
+                    initNonColissionTrees(staticNode, margin, 5, 0.6f);
+                    initNonColissionTrees(staticNode, -margin, -5, 0.6f);
                     break;
                 case 24:
                     //ISLAND5
@@ -176,13 +176,13 @@ namespace Wof.View
 
                     if (backgroundDummy)
                     {
-                        initNonColissionTrees(staticNode, 1, 15);
-                        initNonColissionTrees(staticNode, -1, -15);
+                        initNonColissionTrees(staticNode, 1, 15, 0.6f);
+                        initNonColissionTrees(staticNode, -1, -15, 0.6f);
                     }
                     else
                     {
-                        initNonColissionTrees(staticNode, margin, 15);
-                        initNonColissionTrees(staticNode, -margin, -15);
+                        initNonColissionTrees(staticNode, margin, 15, 0.6f);
+                        initNonColissionTrees(staticNode, -margin, -15, 0.6f);
                     }
                     break;
                 case 42:
@@ -199,12 +199,12 @@ namespace Wof.View
                     adjust = LevelView.TileWidth*18.5f;
                     if (EngineConfig.LowDetails)
                     {
-                        initNonColissionTrees(staticNode, 4.5f, 33, 0.6f);
+                        initNonColissionTrees(staticNode, 4.5f, 33, 0.5f);
                     }
-                    else initNonColissionTrees(staticNode, 4.5f, 33, 1.2f);
+                    else initNonColissionTrees(staticNode, 4.5f, 33, 0.9f);
 
-                    initNonColissionTrees(staticNode, -4.5f, -60, 0.6f);
-                    initNonColissionTrees(staticNode, -4.5f, -30, 0.6f);
+                    initNonColissionTrees(staticNode, -4.5f, -60, 0.5f);
+                    initNonColissionTrees(staticNode, -4.5f, -30, 0.5f);
                     break;
                 default:
                     return;
