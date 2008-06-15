@@ -708,7 +708,7 @@ namespace Wof.Model.Level.Planes
         private void UpdateDamage(float scaleFactor)
         {
             if (planeState == PlaneState.Damaged)
-                oil -= scaleFactor*GameConsts.EnemyPlane.OilLoos;
+                oil -= scaleFactor*GameConsts.EnemyPlane.OilLoss;
             oil = Math.Max(oil, 0);
 
             if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed && oil == 0)

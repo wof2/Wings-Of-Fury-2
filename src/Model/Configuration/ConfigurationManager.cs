@@ -124,7 +124,7 @@ namespace Wof.Model.Configuration
                     foreach (KeyValuePair<String, float> item in config)
                         foreach (FieldInfo fi in fields)
                         {
-                            if (item.Key.Equals(fi.Name, StringComparison.InvariantCultureIgnoreCase) && item.Value > 0)
+                            if (item.Key.Equals(fi.Name, StringComparison.InvariantCultureIgnoreCase) && item.Value >= 0)
                             {
                                 if (fi.FieldType.Equals(typeof (float)))
                                     fi.SetValue(obj, item.Value);
