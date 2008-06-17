@@ -73,7 +73,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Bezpieczna odleg³oœæ (na osi Y) od samolotu gracza.
         /// </summary>
-        private const float safeUserPlaneHeightDiff = 5;
+        private const float safeUserPlaneHeightDiff = 15;
 
         /// <summary>
         /// Maksymalna odlegloœæ od samolotów na lotniskowcu, na któr¹ mo¿e siê oddaliæ.
@@ -88,7 +88,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Okreœla na jak¹ wysokoœæ nad samolot gracza bêdzie siê wznosi³/opada³ samolot wroga.
         /// </summary>
-        private const float userPlaneHeightDiff = 2;
+        private const float userPlaneHeightDiff = 3;
 
         /// <summary>
         /// Wysokoœæ samolotu.

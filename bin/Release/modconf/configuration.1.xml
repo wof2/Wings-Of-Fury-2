@@ -68,7 +68,7 @@
     rocketCount="4"
     nextRocketInterval = "1000"
     storagePlaneDistanceFault = "16"
-    safeUserPlaneDistance = "20"
+    safeUserPlaneDistance = "40"
     attackStoragePlaneDistance = "15.5"
     carrierDistanceAlarm = "1200"
     enemyRotateStep = "1.04719755"
