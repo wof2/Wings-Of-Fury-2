@@ -313,19 +313,28 @@ namespace Wof.Model.Level
             }
 
             //sprawdzanie kolizji samolotu
-            CheckPlaneCollision(userPlane);
+            CheckPlaneCollisionWithGround(userPlane);
             if (enemyPlanes.Count > 0)
             {
                 Plane ep;
                 for (int i = 0; i < enemyPlanes.Count; i++)
                 {
                     ep = enemyPlanes[i];
-                    CheckPlaneCollision(ep);
+                    CheckPlaneCollisionWithGround(ep);
 
                     // kolizje z samolotem gracza
                     if (userPlane.Bounds.Intersects(ep.Bounds))
                     {
-                        userPlane.Destroy();
+                        // zniszcz samolot gracza przy kolizji tylko w trybie innym ni¿ 'easy'
+                        if(EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Easy))
+                        {
+                            // zabierz trochê ¿ycia przy zderzeniu - ten event bêdzie powtrzany kilka razy (w czasie gdy samolot bêd¹ siê dotykaæ)
+                            userPlane.Hit(userPlane.MaxOil * 0.08f, 0);
+                        }
+                        else
+                        {
+                            userPlane.Destroy(); 
+                        }
                         ep.Destroy();
                     }
 
@@ -444,7 +453,7 @@ namespace Wof.Model.Level
 
             switch (userPlane.Weapon.SelectWeapon)
             {
-                    //jesli uzytkownik wybral bomby jako cierzka amunicje.
+                    //jesli uzytkownik wybral bomby jako ciezka amunicje.
                 case WeaponType.Bomb:
                     if (userPlane.CanFireBomb)
                     {
@@ -778,7 +787,7 @@ namespace Wof.Model.Level
         /// Sprawdza kolizje samolotu z tile'ami i obiektami na tile'ach
         /// </summary>
         /// <param name="plane">Samolot który ma byæ sprawdzony</param>
-        private void CheckPlaneCollision(Plane plane)
+        private void CheckPlaneCollisionWithGround(Plane plane)
         {
             if (plane.PlaneState == PlaneState.Crashed)
                 return;
@@ -799,7 +808,7 @@ namespace Wof.Model.Level
                         }
                     //***kolizja z terenem***
                     //jeœli jest na lotniskowcu nie sprawdzam kolizji z lotniskowcem
-                    if (plane.IsOnAircraftCarrier && LevelTiles[i].TileKind == TileKind.Aircraft)
+                    if (plane.IsOnAircraftCarrier && LevelTiles[i].TileKind == TileKind.AircraftCarrier)
                         continue;
                     if (LevelTiles[i].HitBound != null &&
                         (LevelTiles[i].HitBound.Intersects(plane.Bounds) ||

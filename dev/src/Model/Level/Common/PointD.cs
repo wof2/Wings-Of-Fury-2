@@ -157,11 +157,12 @@ namespace Wof.Model.Level.Common
             get { return Math.Sqrt(X*X + Y*Y); }
             set
             {
-                if (value < 0)
-                    throw new Exception("Nie mo¿na ustawiæ ujemnej d³ugoœci");
-                float oldAngle = Angle;
-                mX = Math.Cos(Angle)*value;
-                mY = Math.Sin(Angle)*value;
+                if (value > 0)
+                {
+                    mX = Math.Cos(Angle)*value;
+                    mY = Math.Sin(Angle)*value;
+                }
+               
             }
         }
 

@@ -232,7 +232,7 @@ namespace Wof.Model.Level.Planes
         /// Iloœæ oleju tracona, gdy samolot zostanie trafiony
         /// 
         /// </summary>
-        private float oilLoss = GameConsts.UserPlane.HitCoefficient;
+        private float oilLeak = GameConsts.UserPlane.HitCoefficient;
 
         /// <summary>
         /// Maksymalny k¹t, pod którym mo¿na zrzuciæ bombê.
@@ -1035,7 +1035,7 @@ namespace Wof.Model.Level.Planes
         }
 
         /// <summary>
-        /// Zwraca prêdkoœc samolotu.
+        /// Szybkoœæ samolotu.
         /// </summary>
         public float Speed
         {
@@ -1310,8 +1310,10 @@ namespace Wof.Model.Level.Planes
                 isChangingDirection)
             {
                 turningTimeLeft -= time;
-                if (!(Speed >= minFlyingSpeed && movementVector.SignX != turningVector.SignX)) //zminei³em Tomek
+                if (!(Speed >= minFlyingSpeed && movementVector.SignX != turningVector.SignX)) 
+                {
                     movementVector = -Math.Cos(turningTimeLeft/turningTime*Math.PI)*turningVector;
+                }
             }
 
             //czy ma w³¹czony silnik, jeœli nie to obrót samolotu, tak ¿eby spada³
@@ -1493,7 +1495,7 @@ namespace Wof.Model.Level.Planes
         {
 //ilosc oleju jaka zostanie odjeta po trafieniu.
             //wartosc zostanie wyznaczona eksperymentalnie.
-            oil -= oilLoss;
+            oil -= oilLeak;
         }
 
         /// <summary>
@@ -1732,7 +1734,7 @@ namespace Wof.Model.Level.Planes
                     movementVector = new PointD(0, 0);
                 }
 
-                isFallingAfterCrash = (tileKind == TileKind.Aircraft && !IsCenterAboveCarrier);
+                isFallingAfterCrash = (tileKind == TileKind.AircraftCarrier && !IsCenterAboveCarrier);
                 if (isFallingAfterCrash)
                 {
                     movementVector.X = 0;
@@ -1759,8 +1761,18 @@ namespace Wof.Model.Level.Planes
 
                 if (IsOnAircraftCarrier)
                 {
-                    Crash(Carrier.Height, TileKind.Aircraft);
+                    Crash(Carrier.Height, TileKind.AircraftCarrier);
                 }
+            }
+        }
+
+        public void Hit(float oilTaken, float oilLeak)
+        {
+            if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed)
+            {
+                this.oilLeak += oilLeak;
+                oil -= oilTaken;
+                oil = System.Math.Max(oil, 0);
             }
         }
 
@@ -1778,8 +1790,8 @@ namespace Wof.Model.Level.Planes
                     oil -= GameConsts.UserPlane.HitCoefficient;
                 else
                 {
-                    oilLoss += GameConsts.UserPlane.HitCoefficient;
-                    oil -= oilLoss;
+                    oilLeak += GameConsts.UserPlane.HitCoefficient;
+                    oil -= oilLeak;
                 }
                 oil = System.Math.Max(oil, 0);
             }
@@ -2083,7 +2095,7 @@ namespace Wof.Model.Level.Planes
             rotateValue = 0;
             float scaleFactor = time/timeUnit;
             float oldAngle = movementVector.Angle;
-            movementVector.Y -= gravitationalAcceleration*scaleFactor;
+            movementVector.Y -= gravitationalAcceleration*scaleFactor*0.5f; // 0.5 aby wolniej spada³ ni¿ teraz
             float newAngle = movementVector.Angle;
             float rot = newAngle - oldAngle;
             bounds.Rotate(rot);
@@ -2182,7 +2194,7 @@ namespace Wof.Model.Level.Planes
             }
         }
 
-        # region Landing Methode
+        #region Landing Methods
 
         /// <summary>
         /// Proces l¹dowania na lotniskowcu.

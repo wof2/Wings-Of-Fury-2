@@ -71,7 +71,7 @@ namespace Wof.Model.Level.LevelTiles
         /// <summary>
         /// Lotniskowiec.
         /// </summary>
-        Aircraft,
+        AircraftCarrier,
 
         /// <summary>
         /// Wyspa.
@@ -207,7 +207,7 @@ namespace Wof.Model.Level.LevelTiles
                 if (this is OceanTile)
                     return TileKind.Ocean;
                 if (this is AircraftCarrierTile)
-                    return TileKind.Aircraft;
+                    return TileKind.AircraftCarrier;
                 throw new Exception("Nieznany typ Tile'a");
             }
         }

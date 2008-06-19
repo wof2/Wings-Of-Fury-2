@@ -179,7 +179,7 @@ namespace Wof.Model.Level.Weapon
         }
 
         /// <summary>
-        /// Sprawdza kolizje z samolotem wroga. 
+        /// Sprawdza kolizje z samolotami wroga. 
         /// </summary>
         /// <author>Michal Ziober</author>
         private void CheckCollisionWithPlanes()
@@ -191,8 +191,8 @@ namespace Wof.Model.Level.Weapon
                     //sprawdzam czy aby nie ma zderzenia.
                     if (boundRectangle.Intersects(ep.Bounds))
                     {
-                        //niszcze samolot przeciwnika.
-                        ep.Destroy();
+                        //powa¿nie uszkadam samolot przeciwnika.
+                        ep.Hit(ep.MaxOil * 0.75f, 0);
 
                         //wysylam sygnal do kontrollera
                         refToLevel.Controller.OnEnemyPlaneBombed(ep, this);

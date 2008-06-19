@@ -126,6 +126,7 @@ namespace Wof.Languages
         public const string EnemyPlaneDownIRepeat = @"EnemyPlaneDownIRepeat";
         public const string EnemyPlaneApproachingFromTheLeft = @"EnemyPlaneApproachingFromTheLeft";
         public const string EnemyPlaneApproachingFromTheRight = @"EnemyPlaneApproachingFromTheRight";
+        public const string EnemySoldiersLeft = @"EnemySoldiersLeft";
         public const string EnterYourName = @"EnterYourName";
         public const string ExitToMenu = @"ExitToMenu";
 
