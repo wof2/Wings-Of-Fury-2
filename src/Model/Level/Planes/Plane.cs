@@ -1280,8 +1280,8 @@ namespace Wof.Model.Level.Planes
         /// <param name="timeUnit">Wartoœæ czasu do której odnoszone s¹ wektor ruchu i wartoœæ obrotu. Wyra¿ona w ms.</param>
         public virtual void Move(float time, float timeUnit)
         {
+       
             float scaleFactor = time/timeUnit;
-
             if (planeState == PlaneState.Crashed)
             {
                 MoveAfterCrash(time, timeUnit);
@@ -1356,18 +1356,13 @@ namespace Wof.Model.Level.Planes
                     //Console.Out.WriteLine("sin2=" + sin);
 
                     liftVectorY = 0.7f*(1 - sin);
-
                     //Console.Out.WriteLine("liftVectorY=" + liftVectorY);
-
                     bounds.Move(0, liftVectorY*scaleFactor);
-
                     //Grawitacja
-
                     bounds.Move(0, (-1.0f)*scaleFactor);
                 }
 
                 bounds.Move(scaleFactor*movementVector); //zwykly ruch
-
                 UpdatePlaneAngle(scaleFactor);
             }
             else if (isLanding) //schodzenie do l¹dowania

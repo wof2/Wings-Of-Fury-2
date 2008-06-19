@@ -46,9 +46,10 @@
  * 
  */
 
-using Mogre;
+using System;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
+using Math=Mogre.Math;
 using Plane = Wof.Model.Level.Planes.Plane;
 
 namespace Wof.Model.Level.Weapon
@@ -131,52 +132,56 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <param name="planeBound">Prostokat opisujacy samolot.</param>
         /// <param name="position">Pozycja samolotu.</param>
-        /// <param name="direction">Kierunek lotu samolotu.</param>
-        /// <returns>Zwwraca punkt zderzenia pocisku z nawierzchnia.</returns>
-        /// <author>Michal Ziober</author>
+        /// <param name="direction">Kierunek lotu samolotu</param>
+        /// <returns>Zwraca punkt zderzenia pocisku z nawierzchnia.</returns>
+        /// <author>Adam Witczak</author>
         public PointD GetHitPosition(Quadrangle planeBound, PointD position, Direction direction)
         {
-            int startIndex = GetStartIndex(position.X);
-            int maxIndex;
-            LevelTile tile = null;
-            if (direction == Direction.Right)
+            // czy trafienie bedzie po prawej od samolotu czy po lewej
+            Direction hitDirection;
+            if (Math.Abs(planeBound.Angle) < Mogre.Math.HALF_PI)
             {
-                maxIndex = startIndex + 10;
-                for (int i = startIndex; i < maxIndex && i < referenceToLevel.LevelTiles.Count; i++)
-                {
-                    tile = referenceToLevel.LevelTiles[i];
-                    if (tile.HitBound != null)
-                    {
-                        Line lineA = new Line(tile.HitBound.Peaks[1], tile.HitBound.Peaks[2]);
-                        Line lineB = new Line(planeBound.Peaks[0], planeBound.Peaks[3]);
-                        PointD cut = lineA.Intersect(lineB);
-                        if (cut == null)
-                            return null;
-                        if (InRange(cut, planeBound.Center))
-                            return cut;
-                    }
-                }
+                hitDirection = Direction.Left;
             }
             else
             {
-                for (int i = System.Math.Max(0, startIndex - 10);
-                     i < startIndex && i < referenceToLevel.LevelTiles.Count;
-                     i++)
-                {
-                    tile = referenceToLevel.LevelTiles[i];
-                    if (tile.HitBound != null)
-                    {
-                        Line lineA = new Line(tile.HitBound.Peaks[1], tile.HitBound.Peaks[2]);
-                        Line lineB = new Line(planeBound.Peaks[0], planeBound.Peaks[3]);
-                        PointD cut = lineA.Intersect(lineB);
-                        if (cut == null)
-                            continue;
-                        if (InRange(cut, planeBound.Center))
-                            return cut;
-                    }
-                }
+                hitDirection = Direction.Right;
             }
 
+            if (direction == Direction.Right)
+            {
+                if (hitDirection == Direction.Left) hitDirection = Direction.Right; else hitDirection = Direction.Left;
+            }
+        
+            LevelTile tile;
+            int startIndex;
+            int maxIndex;
+
+            if (hitDirection == Direction.Left)
+            {
+                maxIndex = GetStartIndex(position.X);
+                startIndex = System.Math.Max(0, maxIndex - 12);
+               
+            } else
+            {
+                startIndex = GetStartIndex(position.X);
+                maxIndex = startIndex + 12;
+            }
+
+            for (int i = startIndex; i < maxIndex && i < referenceToLevel.LevelTiles.Count; i++)
+            {
+                // przeszukaj 12 tile'ów do przodu
+                tile = referenceToLevel.LevelTiles[i];
+                if (tile.HitBound != null)
+                {
+                    Line lineA = new Line(tile.HitBound.Peaks[1], tile.HitBound.Peaks[2]);
+                    Line lineB = new Line(planeBound.Peaks[0], planeBound.Peaks[3]);
+                    PointD cut = lineA.Intersect(lineB);
+                    if (cut == null) continue;
+                    if (cut.X > tile.HitBound.Peaks[2].X || cut.X < tile.HitBound.Peaks[1].X) continue; // sytuacja gdy samolot strzela dalej, za tile'em (czyli de facto kula uderzy³aby gdzies dalej mimo ze jest 'intersection' z prost¹)
+                    if (InRange(cut, planeBound.Center)) return cut;
+                }
+            }
             return null;
         }
 

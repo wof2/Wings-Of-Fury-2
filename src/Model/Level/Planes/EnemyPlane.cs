@@ -511,6 +511,7 @@ namespace Wof.Model.Level.Planes
         /// Steruje tak samolotem, ¿eby nie wpaœæ na inny wrogi samolot
         /// </summary>
         /// <param name="scaleFactor"></param>
+        /// <param name="ep"></param>
         private void AvoidEnemyPlaneCrash(float scaleFactor, EnemyPlane ep)
         {
             if (Center.Y - ep.Center.Y > 0)

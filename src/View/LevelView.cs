@@ -1498,6 +1498,8 @@ namespace Wof.View
         /// <param name="posY"></param>
         public void OnGunHit(LevelTile tile, float posX, float posY)
         {
+        
+            
             SceneNode splashNode = getSplashNode();
             if (splashNode == null) return; // koniec poola
             Boolean ocean = false;
