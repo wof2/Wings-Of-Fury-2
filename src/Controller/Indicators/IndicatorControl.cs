@@ -238,12 +238,12 @@ namespace Wof.Controller.Screens
 
                 if (EngineConfig.DebugInfo)
                 {
-                    infoElement.Caption = String.Format(@"{0}: {1} {2} {3}", LanguageResources.GetString(LanguageKey.Level),
-                        gameScreen.Level, difficulty, gameScreen.Framework.UpdateStats());
+                    infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4} | {5}", LanguageResources.GetString(LanguageKey.Level),
+                        gameScreen.Level, difficulty, LanguageResources.GetString(LanguageKey.EnemySoldiersLeft), Model.Level.Troops.Soldier.Count, gameScreen.Framework.UpdateStats());
                 }
                 else
                 {
-                    infoElement.Caption = String.Format(@"{0}: {1} {2}", LanguageResources.GetString(LanguageKey.Level), gameScreen.Level, difficulty);
+                    infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4}", LanguageResources.GetString(LanguageKey.Level), gameScreen.Level, difficulty, LanguageResources.GetString(LanguageKey.EnemySoldiersLeft), Model.Level.Troops.Soldier.Count);
                 }
 
 
@@ -350,7 +350,7 @@ namespace Wof.Controller.Screens
                                                833, 5),
                                viewport.ActualHeight - minimapViewport.ActualHeight +
                                CountProportion(minimapViewport.ActualHeight,
-                                               84, -10));
+                                               84, -15));
         }
 
 

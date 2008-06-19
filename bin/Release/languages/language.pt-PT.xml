@@ -133,4 +133,10 @@
   <data name="CameraChanged">
     <value>Camera changed</value>
   </data>
+
+
+  <!-- added to rev. 265 -->
+  <data name="EnemySoldiersLeft">
+    <value>Enemy soldiers left</value>
+  </data>
 </root>

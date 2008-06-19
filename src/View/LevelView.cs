@@ -690,7 +690,7 @@ namespace Wof.View
                     }
                     break;
                 case TileKind.Island:
-                case TileKind.Aircraft:
+                case TileKind.AircraftCarrier:
                     {
                     }
                     break;
@@ -956,7 +956,7 @@ namespace Wof.View
 
             if (p.Plane != null)
             {
-                Console.WriteLine(p.Plane.Angle);
+              //  Console.WriteLine(p.Plane.Angle);
                 
                 // slad na wodzie
                 if (p.IsReadyForLastWaterTrail)

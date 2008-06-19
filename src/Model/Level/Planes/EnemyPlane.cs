@@ -248,9 +248,10 @@ namespace Wof.Model.Level.Planes
                 if (locationState == LocationState.AirTurningRound && isChangingDirection)
                 {
                     turningTimeLeft -= time;
-                    movementVector = -Mogre.Math.Cos(turningTimeLeft/turningTime*Mogre.Math.PI)*turningVector;
-                        // zmiana '+' na '-' -> Adam
-                    Speed = MinFlyingSpeed;
+                    movementVector = -Mogre.Math.Cos((turningTimeLeft/turningTime)*Mogre.Math.PI)*turningVector;
+                    // Speed = MinFlyingSpeed; - wylaczone by Adam (samolot dziwnie zawraca³ ;)
+                    // Console.WriteLine(this.Name + " " + movementVector.ToString());
+
                 }
                 if (locationState == LocationState.Air && planeState != PlaneState.Crashed &&
                     motorState == EngineState.ShutOff)
@@ -501,9 +502,9 @@ namespace Wof.Model.Level.Planes
         private void AvoidUserPlaneCrash(float scaleFactor)
         {
             if (Center.Y - level.UserPlane.Center.Y > 0)
-                RotateUp(scaleFactor * 1.3f * rotateStep);
+                RotateUp(scaleFactor * 1.25f * rotateStep);
             else
-                RotateDown(scaleFactor * 1.3f * rotateStep);
+                RotateDown(scaleFactor * 1.25f * rotateStep);
         }
 
         /// <summary>
@@ -513,9 +514,9 @@ namespace Wof.Model.Level.Planes
         private void AvoidEnemyPlaneCrash(float scaleFactor, EnemyPlane ep)
         {
             if (Center.Y - ep.Center.Y > 0)
-                RotateUp(scaleFactor*1.3f*rotateStep);
+                RotateUp(scaleFactor*1.25f*rotateStep);
             else
-                RotateDown(scaleFactor*1.3f*rotateStep);
+                RotateDown(scaleFactor*1.25f*rotateStep);
         }
 
         #endregion
