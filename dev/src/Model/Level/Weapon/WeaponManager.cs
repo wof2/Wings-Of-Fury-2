@@ -51,6 +51,7 @@ using System.Collections.Generic;
 using System.Text;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Troops;
 using LevelRef = Wof.Model.Level.Level;
@@ -342,7 +343,7 @@ namespace Wof.Model.Level.Weapon
                 }
 
                 //trafi w ziemie.
-                HitGroundGun();
+                GunHitsGround();
 
                 //ustawiam nowy czas
                 lastFireTick = Environment.TickCount;
@@ -352,18 +353,23 @@ namespace Wof.Model.Level.Weapon
         /// <summary>
         /// Obsluga trafienia w ziemie.
         /// </summary>
-        private void HitGroundGun()
+        private void GunHitsGround()
         {
-            if (refToLevel.UserPlane.RelativeAngle < 0)
-            {
-                PointD hitPoint = gun.GetHitPosition(refToLevel.UserPlane.Bounds, refToLevel.UserPlane.Center,
-                                                     refToLevel.UserPlane.Direction);
 
+            if (ammunitionOwner.RelativeAngle < 0)
+            {
+              
+           
+                PointD hitPoint = gun.GetHitPosition(ammunitionOwner.Bounds, ammunitionOwner.Center,
+                                                     ammunitionOwner.Direction);
+           
                 if (hitPoint != null)
                 {
+
                     int index = Mathematics.PositionToIndex(hitPoint.X);
                     if (index >= 0 && index < refToLevel.LevelTiles.Count)
                     {
+
                         refToLevel.Controller.OnGunHit(refToLevel.LevelTiles[index], hitPoint.X, Math.Max(hitPoint.Y, 1));
                         KillAvailableSoldiers(hitPoint.X, true);
 
@@ -385,8 +391,7 @@ namespace Wof.Model.Level.Weapon
         /// <summary>
         /// Zabija zolnierzy, ktorzy sa w polu razenia.
         /// </summary>
-        /// <param name="index">Index pola ktore zostalo trafione.</param>
-        /// <param name="step">Zasieg razenia.</param>
+        /// <param name="position">Wspolrzedna X miejsca trafienia</param>
         /// <param name="hitByGun">Czy tafiony dzia³kiem</param>
         private void KillAvailableSoldiers(float position, bool hitByGun)
         {
