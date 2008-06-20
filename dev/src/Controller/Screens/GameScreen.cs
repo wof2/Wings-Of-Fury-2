@@ -825,7 +825,7 @@ namespace Wof.Controller.Screens
 
         public void ControlChangeAmmunition()
         {
-            if (currentLevel.UserPlane.LocationState == LocationState.Aircraft)
+            if (currentLevel.UserPlane.LocationState == LocationState.AircraftCarrier)
             {
                 if (currentLevel.UserPlane.CanChangeAmmunition)
                 {

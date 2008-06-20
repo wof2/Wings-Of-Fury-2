@@ -854,7 +854,7 @@ namespace Wof.Model.Level.Planes
         /// <authore>Tomek</authore>
         public bool CanSlowWheeling
         {
-            get { return LocationState == LocationState.Aircraft && !IsEngineWorking; }
+            get { return LocationState == LocationState.AircraftCarrier && !IsEngineWorking; }
         }
 
         /// <summary>
@@ -864,7 +864,7 @@ namespace Wof.Model.Level.Planes
         /// <authore>Tomek</authore>
         public bool CanFastWheeling
         {
-            get { return LocationState == LocationState.Aircraft && IsEngineWorking; }
+            get { return LocationState == LocationState.AircraftCarrier && IsEngineWorking; }
         }
 
         /// <summary>
@@ -875,10 +875,11 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
-                if (LocationState == LocationState.Aircraft)
-                    return movementVector.X == 0;
-                else
-                    throw new Exception("Samolot nie jest na lotniskowcu.");
+                if (LocationState == LocationState.AircraftCarrier) return movementVector.X == 0;
+                //    return Math.Abs(movementVector.X) <= 0.01f; <- Kamil obczaj co siê dzieje
+
+                
+                return false;
             }
         }
 
@@ -1001,7 +1002,7 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
-                return locationState == LocationState.Aircraft && MovementVector.X == 0 &&
+                return locationState == LocationState.AircraftCarrier && MovementVector.X == 0 &&
                        Bounds.Center.X >= level.Carrier.GetRestoreAmunitionPosition().X &&
                        Bounds.Center.X <= level.Carrier.GetRestoreAmunitionPosition().X + LevelTile.Width;
             }
@@ -1048,7 +1049,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         public bool IsOnAircraftCarrier
         {
-            get { return (locationState == LocationState.Aircraft || locationState == LocationState.CarrierTurningRound); }
+            get { return (locationState == LocationState.AircraftCarrier || locationState == LocationState.CarrierTurningRound); }
         }
 
         /// <summary>
@@ -1162,7 +1163,7 @@ namespace Wof.Model.Level.Planes
             planeState = PlaneState.Intact;
             wheelsState = WheelsState.Out;
             landingState = LandingState.None;
-            locationState = LocationState.Aircraft;
+            locationState = LocationState.AircraftCarrier;
 
             oil = maxOil;
             petrol = maxPetrol;
@@ -1230,7 +1231,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         public void StopEngine()
         {
-            if (locationState == LocationState.Aircraft && landingState == LandingState.None)
+            if (locationState == LocationState.AircraftCarrier && landingState == LandingState.None)
             {
                 if (movementVector.EuclidesLength >= changeWheelsSpeed || isLoweringTail)
                     //jesli podwozie zadarte to je opuœæ
@@ -1389,13 +1390,18 @@ namespace Wof.Model.Level.Planes
         {
             switch (locationState)
             {
-                case LocationState.Aircraft:
+                case LocationState.AircraftCarrier:
                     if (landingState == LandingState.None)
                     {
                         if (this.direction != direction)
                         {
                             if (CanChangeDirectionOnAircraft)
+                            {
+                               // movementVector.X = 0;
+                               // movementVector.Y = 0;
                                 TurnRound(direction, TurnType.Carrier);
+                            }
+                                
 
                             //hamowanie samolotu (MOCNE)
                             float subSpeed = GameConsts.UserPlane.BreakingPower*scaleFactor*
@@ -1596,7 +1602,7 @@ namespace Wof.Model.Level.Planes
                     //this.bounds.Rotate(angleOnCarrier);
                     Rotate(2*angleOnCarrier*(float) direction); //((NA LOTNISKOWCU))
                     isChangingDirection = false;
-                    locationState = LocationState.Aircraft;
+                    locationState = LocationState.AircraftCarrier;
                 }
             }
         }
@@ -1657,7 +1663,7 @@ namespace Wof.Model.Level.Planes
         public Boolean CanPlaneToggleGear()
         {
             return (planeState != PlaneState.Crashed &&
-                    locationState != LocationState.Aircraft &&
+                    locationState != LocationState.AircraftCarrier &&
                     locationState != LocationState.CarrierTurningRound &&
                     landingState == LandingState.None &&
                     wheelsState != WheelsState.TogglingIn &&
@@ -1969,7 +1975,7 @@ namespace Wof.Model.Level.Planes
                     }
                     break;
 
-                case LocationState.Aircraft:
+                case LocationState.AircraftCarrier:
                     if (landingState == LandingState.None)
                     {
                         if (isLeftPressed || isRightPressed)
@@ -2208,7 +2214,7 @@ namespace Wof.Model.Level.Planes
                 Bounds.LowestY <= level.Carrier.Height + 1 &&
                 0 <= ((int) direction)*bounds.Angle && ((int) direction)*bounds.Angle <= landingAngle + 0.01)
             {
-                locationState = LocationState.Aircraft;
+                locationState = LocationState.AircraftCarrier;
                 landingState = LandingState.InitWheeling;
                 level.Controller.OnTouchDown();
             }
@@ -2311,7 +2317,7 @@ namespace Wof.Model.Level.Planes
         /// <param name="breakingEndCarrierTile"></param>
         public void ReleaseLine(AircraftCarrierTile breakingEndCarrierTile)
         {
-            locationState = LocationState.Aircraft;
+            locationState = LocationState.AircraftCarrier;
             landingState = LandingState.None;
             StopPlane();
             this.breakingEndCarrierTile = null;
@@ -2470,7 +2476,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private void LeaveCarrer(float time, float timeUnit)
         {
-            if (locationState == LocationState.Aircraft && landingState == LandingState.None)
+            if (locationState == LocationState.AircraftCarrier && landingState == LandingState.None)
             {
                 if (!isFallingFromCarrier && !IsGearAboveCarrier)
                 {

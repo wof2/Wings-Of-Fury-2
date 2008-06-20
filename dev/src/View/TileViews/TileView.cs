@@ -101,12 +101,18 @@ namespace Wof.View.TileViews
 
         #endregion
 
-        //W odroznieniu od innych Views initOnScene nie moze byc wywolany w konstruktorze TileView
-        //poniewaz potrzebna jest ilosc kawalkow skladowych CompositeModel'u do rozmieszczenia
-        //na scenie.W momencie iteracji przez sparsowana liste LevelTiles trzeba dla kazdego
-        //elementu stworzyc TileView.Dopiero po stworzeniu CompositeModelView wo³ana jest metoda
-        //initOnScene dla skladowych TileViews.
+      
 
+        /// <summary>
+        /// W odroznieniu od innych Views initOnScene nie moze byc wywolany w konstruktorze TileView
+        /// poniewaz potrzebna jest ilosc kawalkow skladowych CompositeModel'u do rozmieszczenia
+        /// na scenie.W momencie iteracji przez sparsowana liste LevelTiles trzeba dla kazdego
+        /// elementu stworzyc TileView.Dopiero po stworzeniu CompositeModelView wo³ana jest metoda
+        /// initOnScene dla skladowych TileViews. 
+        /// </summary>
+        /// <param name="parentNode"></param>
+        /// <param name="tileIndex"></param>
+        /// <param name="compositeModelTilesNumber"></param>
         public virtual void initOnScene(SceneNode parentNode, int tileIndex, int compositeModelTilesNumber)
         {
             this.parentNode = parentNode;

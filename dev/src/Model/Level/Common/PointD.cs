@@ -161,6 +161,11 @@ namespace Wof.Model.Level.Common
                 {
                     mX = Math.Cos(Angle)*value;
                     mY = Math.Sin(Angle)*value;
+                } 
+                else
+                {
+                   mX = 0;
+                   mY = 0;
                 }
                
             }

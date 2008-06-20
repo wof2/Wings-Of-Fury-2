@@ -445,7 +445,7 @@ namespace Wof.Model.Level
         /// <author>Michal Ziober</author>
         public void OnFireRocket()
         {
-            if (userPlane.LocationState == LocationState.Aircraft)
+            if (userPlane.LocationState == LocationState.AircraftCarrier)
             {
                 if (userPlane.CanChangeAmmunition)
                     controller.OnChangeAmmunition();

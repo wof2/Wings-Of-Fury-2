@@ -102,6 +102,15 @@ namespace Wof.View
             get { return meshName; }
         }
 
+
+        private bool isVisible;
+
+        public bool IsVisible
+        {
+            get { return isVisible; }
+        }
+
+
         private Entity sizeEnity;
 
         public Entity SizeEnity
@@ -211,12 +220,20 @@ namespace Wof.View
 
         public void Show()
         {
-            if (EngineConfig.DisplayMinimap) minimapNode.SetVisible(true);
+            if (EngineConfig.DisplayMinimap)
+            {
+                isVisible = true;
+                minimapNode.SetVisible(true);
+            }
         }
 
         public void Hide()
         {
-            if (EngineConfig.DisplayMinimap) minimapNode.SetVisible(false);
+            if (EngineConfig.DisplayMinimap)
+            {
+                isVisible = false;
+                minimapNode.SetVisible(false);
+            }
         }
 
         protected void InitOnScene()
@@ -225,6 +242,7 @@ namespace Wof.View
             minimapNode = minimapMgr.RootSceneNode.CreateChildSceneNode(realObjectNode.Name + "_MinimapNode");
             minimapNode.AttachObject(entity);
             Refresh();
+            isVisible = true;
         }
 
 
