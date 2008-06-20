@@ -451,9 +451,9 @@ namespace Wof.Controller
         public void CreateMinimapCamera()
         {
             minimapCamera = minimapMgr.CreateCamera("minimapCamera");
-            minimapCamera.Position = new Vector3(0, 50, 210);
+            minimapCamera.Position = new Vector3(0, 90, 250);
 
-            minimapCamera.LookAt(new Vector3(0, 50, 0));
+            minimapCamera.LookAt(new Vector3(0, 75, 0));
             minimapCamera.NearClipDistance = 0.0001f;
             minimapCamera.FarClipDistance = 300.0f;
         }
@@ -922,7 +922,7 @@ namespace Wof.Controller
 
             // Alter the camera aspect ratio to match the viewport
             minimapCamera.AspectRatio = ( minimapViewport.ActualWidth)/((float) minimapViewport.ActualHeight);
-            minimapNoseCamera.AspectRatio = 14.0f/3.0f;
+            minimapNoseCamera.AspectRatio = 14.0f/4.0f;
 
             minimapViewport.OverlaysEnabled = false;
          //   Overlay debugo = OverlayManager.Singleton.GetByName("Wof/Debug");

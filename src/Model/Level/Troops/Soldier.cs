@@ -122,7 +122,7 @@ namespace Wof.Model.Level.Troops
         /// <summary>
         /// Referencja do planszy.
         /// </summary>
-        private Level refToLevel;
+        private readonly Level refToLevel;
 
         /// <summary>
         /// Licznik czasu, pod czas ktorego zolnierz nie moze
@@ -146,6 +146,17 @@ namespace Wof.Model.Level.Troops
         /// </summary>
         private bool canDie;
 
+
+        /// <summary>
+        /// Czy ¿o³nierz obecnie przebywa w bunkrze
+        /// </summary>
+        public bool IsInBunker
+        {
+            get { return isInBunker;  }
+        }
+
+        private bool isInBunker;
+
         #endregion
 
         #region Public Constructor
@@ -157,12 +168,13 @@ namespace Wof.Model.Level.Troops
         /// <param name="direct">Kierunek w ktorym sie porusza.(Prawo,Lewo)</param>
         /// <param name="level">Referencja do obiektu planszy.</param>
         /// <author>Michal Ziober</author>
-        internal Soldier(float posX, Direction direct, Level level, float offsite)
+        /// <param name="offset"></param>
+        internal Soldier(float posX, Direction direct, Level level, float offset)
         {
             //przy starcie jest zywy.
             isAlive = true;
-            //pozycja startowa - pozycja zniszczonejinstalacji
-            xPos = posX*LevelTile.Width + offsite;
+            //pozycja startowa - pozycja zniszczonej instalacji
+            xPos = posX*LevelTile.Width + offset;
             startPosition = posX;
             direction = direct;
             refToLevel = level;
@@ -359,9 +371,15 @@ namespace Wof.Model.Level.Troops
                     refToLevel.Controller.UnregisterSoldier(this);
                     //usuwam zolnierza z planszy.
                     isAlive = false;
+
+                    isInBunker = true;
                 }
                 else
+                {
                     ChangeLocation(time);
+                    isInBunker = false;
+                }
+                    
 
                 //sprawdza czy ulynal czas bezsmiertelnosci
                 if (!canDie)
@@ -380,6 +398,8 @@ namespace Wof.Model.Level.Troops
                 }
             }
         }
+
+      
 
         #endregion
     }

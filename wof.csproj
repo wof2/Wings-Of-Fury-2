@@ -344,6 +344,7 @@
     <Compile Include="src\Model\Level\Weapon\Rocket.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\Model\Level\Weapon\Torpedo.cs" />
     <Compile Include="src\Model\Level\Weapon\WeaponManager.cs">
       <SubType>Code</SubType>
     </Compile>

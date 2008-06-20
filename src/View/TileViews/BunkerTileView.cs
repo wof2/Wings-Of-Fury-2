@@ -131,7 +131,7 @@ namespace Wof.View.TileViews
             {
                 minimapItem =
                     new MinimapItem(gunPlaceNode, FrameWork.MinimapMgr, "Cube.mesh", ColourValue.Red, installationEntity);
-                minimapItem.ScaleOverride = new Vector2(0, 10); // stala wysokosc dziala, niezale¿na od bounding box
+                minimapItem.ScaleOverride = new Vector2(0, 15); // stala wysokosc dziala, niezale¿na od bounding box
                 minimapItem.Refresh();
             }
 

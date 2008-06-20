@@ -38,7 +38,7 @@ namespace Wof.View.TileViews
                 minimapItem =
                     new MinimapItem(installationNode, FrameWork.MinimapMgr, "Cube.mesh", new ColourValue(0, 0.8f, 0),
                                     installationEntity);
-                minimapItem.ScaleOverride = new Vector2(0, 8); // stala wysokosc bunkra, niezale¿na od bounding box
+                minimapItem.ScaleOverride = new Vector2(0, 13); // stala wysokosc bunkra, niezale¿na od bounding box
                 minimapItem.Refresh();
             }
         }

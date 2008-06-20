@@ -102,7 +102,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Samolot znajduje siê na lotniskowcu.
         /// </summary>
-        Aircraft,
+        AircraftCarrier,
 
         CarrierTurningRound,
 

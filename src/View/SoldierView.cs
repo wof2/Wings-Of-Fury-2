@@ -88,6 +88,17 @@ namespace Wof.View
         protected static Stack<SoldierView> soldierAvailablePool;
         protected static Dictionary<Soldier, SoldierView> soldierUsedPool;
 
+        #region Minimap representation
+
+        protected MinimapItem minimapItem = null;
+
+        public MinimapItem MinimapItem
+        {
+            get { return minimapItem; }
+        }
+
+        #endregion
+
         public static void InitPool(int poolSize, FrameWork framework)
         {
             soldierAvailablePool = new Stack<SoldierView>(poolSize);
@@ -113,6 +124,15 @@ namespace Wof.View
         {
             SoldierView sv = soldierUsedPool[soldier];
             sv.soldierNode.SetVisible(!hide);
+
+            if (hide && FrameWork.DisplayMinimap)
+            {
+                if (sv.minimapItem != null)
+                {
+                    sv.minimapItem.Hide();
+                }
+            }
+
             soldierUsedPool.Remove(soldier);
             soldierAvailablePool.Push(sv);
         }
@@ -136,6 +156,19 @@ namespace Wof.View
             die2AnimationState = soldierModel.GetAnimationState("die2");
 
             soldierNode.SetVisible(false);
+
+            if (FrameWork.DisplayMinimap)
+            {
+                if (minimapItem == null)
+                {
+                    minimapItem =
+                    new MinimapItem(soldierNode, FrameWork.MinimapMgr, "Cube.mesh", new ColourValue(1.0f, 1.0f, 1.0f),
+                                    soldierModel);
+                    minimapItem.ScaleOverride = new Vector2(4, 7); // stala wysokosc bunkra, niezale¿na od bounding box 
+                }
+                minimapItem.Refresh();
+                minimapItem.Hide();
+            }
         }
 
         protected void postInitOnScene()
@@ -143,38 +176,12 @@ namespace Wof.View
             Run();
             refreshPosition();
             soldierNode.SetVisible(true);
+            if (FrameWork.DisplayMinimap && minimapItem != null)
+            {
+                minimapItem.Show();
+            }
         }
 
-        //Deprecated
-        /*  protected void initOnScene()
-        {
-                soldierModel = sceneMgr.CreateEntity("Soldier" + soldierID.ToString(), "Soldier.mesh");
-
-                if (soldierCounter % 3 == 0)
-                {
-                    soldierModel.SetMaterialName("General");
-                }
-
-                //rot = Mogre.Math.RangeRandom(-30.0f, 30.0f);
-                soldierNode = sceneMgr.RootSceneNode.CreateChildSceneNode("SoldierNode" + soldierID.ToString(), new Vector3(0, 0, 0));
-
-                if (soldier.Direction == Direction.Right)
-                {
-                    soldierNode.Orientation = new Quaternion(Mogre.Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
-                }
-                else
-                {
-                    soldierNode.Orientation = new Quaternion(Mogre.Math.HALF_PI, Vector3.UNIT_Y);
-                }
-
-                refreshPosition();
-
-
-                //soldierNode.Rotate(Vector3.UNIT_Y, rot);
-                soldierNode.AttachObject(soldierModel);
-                Run();
-
-        }*/
 
         public SoldierView(FrameWork framework)
         {
@@ -200,6 +207,11 @@ namespace Wof.View
             {
                 soldierNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
             }
+
+            if (FrameWork.DisplayMinimap && minimapItem != null && minimapItem.IsVisible)
+            {
+                minimapItem.Refresh();
+            }
         }
 
         public void Run()
@@ -223,6 +235,13 @@ namespace Wof.View
 
             animationState = die1AnimationState;
             animationState.TimePosition = 0;
+           
+            
+            if (FrameWork.DisplayMinimap)
+            {
+                minimapItem.Hide();
+            }
+
 
             //  BLOOD
             if (EngineConfig.Gore)
@@ -254,6 +273,11 @@ namespace Wof.View
 
             animationState = die2AnimationState;
             animationState.TimePosition = 0;
+
+            if (FrameWork.DisplayMinimap)
+            {
+                minimapItem.Hide();
+            }
         }
 
 
