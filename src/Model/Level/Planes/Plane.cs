@@ -1306,14 +1306,17 @@ namespace Wof.Model.Level.Planes
                 if (petrol == 0 || oil == 0)
                     OutOfPetrolOrOil();
             }
-            //zmiana wektora ruchu przy zawracaniu
-            if (planeState != PlaneState.Destroyed && locationState == LocationState.AirTurningRound &&
-                isChangingDirection)
+            if (motorState == EngineState.Work)
             {
-                turningTimeLeft -= time;
-                if (!(Speed >= minFlyingSpeed && movementVector.SignX != turningVector.SignX)) 
+                //zmiana wektora ruchu przy zawracaniu
+                if (planeState != PlaneState.Destroyed && locationState == LocationState.AirTurningRound &&
+                    isChangingDirection)
                 {
-                    movementVector = -Math.Cos(turningTimeLeft/turningTime*Math.PI)*turningVector;
+                    turningTimeLeft -= time;
+                    if (!(Speed >= minFlyingSpeed && movementVector.SignX != turningVector.SignX))
+                    {
+                        movementVector = -Math.Cos(turningTimeLeft / turningTime * Math.PI) * turningVector;
+                    }
                 }
             }
 
@@ -1494,7 +1497,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         public void OilSubtraction()
         {
-//ilosc oleju jaka zostanie odjeta po trafieniu.
+            //ilosc oleju jaka zostanie odjeta po trafieniu.
             //wartosc zostanie wyznaczona eksperymentalnie.
             oil -= oilLeak;
         }
@@ -2096,7 +2099,7 @@ namespace Wof.Model.Level.Planes
             rotateValue = 0;
             float scaleFactor = time/timeUnit;
             float oldAngle = movementVector.Angle;
-            movementVector.Y -= gravitationalAcceleration*scaleFactor*0.5f; // 0.5 aby wolniej spada³ ni¿ teraz
+            movementVector.Y -= gravitationalAcceleration * scaleFactor;
             float newAngle = movementVector.Angle;
             float rot = newAngle - oldAngle;
             bounds.Rotate(rot);
