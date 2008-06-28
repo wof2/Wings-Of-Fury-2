@@ -556,6 +556,11 @@ namespace Wof.Controller.Screens
                         mGui.injectKey("u", screenx, screeny);
                         KeyReceived("u");
                     }
+                    if (inputKeyboard.IsKeyDown(KeyCode.KC_V))
+                    {
+                        mGui.injectKey("v", screenx, screeny);
+                        KeyReceived("v");
+                    }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_W))
                     {
                         mGui.injectKey("w", screenx, screeny);
