@@ -59,8 +59,8 @@ namespace Wof.Languages
     {
         /// <summary>
         /// Ustawia jezyk w aplikacji.
-        /// </summary>
-        /// <param name="type">Kod jezyka.</param>
+        /// <param name="langCode">Kod języka</param>
+        /// </summary> 
         public static void SetLanguage(string langCode)
         {
             LanguageResources.Language = langCode;
