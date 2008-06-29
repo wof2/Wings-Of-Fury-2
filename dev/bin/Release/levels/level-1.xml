@@ -2,16 +2,18 @@
 
 <level dayTime="dawn" enemyPlane="0">
 
-  <ocean width="100"/>
-
+  <ocean width="95"/>
+  <ocean width="1" variation="2"/>
+  <ocean width="4"/>
   <aircraft-carrier-begin width="1"/>
   <aircraft-carrier-middle width="3"/>
   <aircraft-carrier-restore-ammunition width="1"/>
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
-  <ocean width="12"/>
-  <ocean width="12" variation="1"/>
-  <ocean width="12"/>
+  <ocean width="1" variation="2"/>
+  <ocean width="11"/>
+  <ocean width="1" variation="4"/>
+  <ocean width="24"/>
 
   <island-begin variation="3"/>
   <terrain variation="1"/>
@@ -27,6 +29,7 @@
   <wooden-bunker num-soldiers="3"/>
   <terrain variation="2"/>
   <island-end/> 
-
+  <ocean width="3"/>
+  <ocean width="1" variation="2" />
   <ocean width="100"/>
 </level>

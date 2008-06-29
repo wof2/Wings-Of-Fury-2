@@ -61,13 +61,11 @@ namespace Wof.Controller.Screens
         private Window guiWindow;
         private TextInput nameInput;
 
-        private List<HighscoreEntry> highscores;
 
         public ScoreEnterScreen(GameEventListener gameEventListener,
                                 SceneManager sceneMgr, Viewport viewport, Camera camera, int score) :
                                     base(gameEventListener, sceneMgr, viewport, camera)
         {
-            highscores = new List<HighscoreEntry>();
             this.score = score;
         }
 
