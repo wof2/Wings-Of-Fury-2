@@ -54,6 +54,9 @@ using Math=System.Math;
 
 namespace Wof.View.TileViews
 {
+    /// <summary>
+    /// Nie wiem dlaczego ale moze reprezentowac równiez endislandtileview
+    /// </summary>
     internal class OceanTileView : TileView
     {
         public OceanTileView(LevelTile levelTile, FrameWork framework)
@@ -61,6 +64,33 @@ namespace Wof.View.TileViews
         {
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="position"></param>
+        protected void initRocks(Vector3 position)
+        {
+            SceneNode rockNode;
+            Entity rock;
+            rockNode = installationNode.CreateChildSceneNode("RockNode" + LevelView.PropCounter, position);
+            rock = sceneMgr.CreateEntity("Rock" + LevelView.PropCounter, "Rock.mesh");
+            rockNode.AttachObject(rock);
+            rockNode.Yaw(Mogre.Math.RangeRandom(0, Mogre.Math.TWO_PI));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="position"></param>
+        protected void initBigRocks(Vector3 position)
+        {
+            SceneNode rockNode;
+            Entity rock;
+            rockNode = installationNode.CreateChildSceneNode("BigRockNode" + LevelView.PropCounter, position);
+            rock = sceneMgr.CreateEntity("BigRock" + LevelView.PropCounter, "BigRock.mesh");
+            rockNode.AttachObject(rock);
+            rockNode.Yaw(Mogre.Math.RangeRandom(0, Mogre.Math.TWO_PI));
+        }
         /// <summary>
         /// 
         /// </summary>
@@ -93,26 +123,42 @@ namespace Wof.View.TileViews
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="parentNode"></param>
+        /// <param name="tileIndex"></param>
+        /// <param name="compositeModelTilesNumber"></param>
         public override void initOnScene(SceneNode parentNode, int tileIndex, int compositeModelTilesNumber)
         {
             base.initOnScene(parentNode, tileIndex, compositeModelTilesNumber);
 
             if (LevelTile is OceanTile)
             {
-                //float positionOnIsland = (compositeModelTilesNumber / 2 - tileIndex + ((compositeModelTilesNumber % 2 == 0) ? -0.15f : 0.3f)) * LevelView.TileWidth;
-                installationNode =
-                    parentNode.CreateChildSceneNode("OceanNode" + tileID.ToString(), new Vector3(0, 0, 0));
-
-
-                //TODO zmiana w modelu model
-                int variant = ((OceanTile) LevelTile).Variant;
+                int variant = LevelTile.Variant;
+                if(variant >= 0)
+                {
+                    float positionOnIsland = LevelView.ModelToViewAdjust + tileIndex *LevelView.TileWidth;
+                    installationNode = parentNode.CreateChildSceneNode("OceanNode" + tileID, new Vector3(positionOnIsland, 0, 0));
+                }
 
                 switch (variant)
                 {
                     case 0:
                         break;
                     case 1:
-                        initBarrel(new Vector3(0, 0, 2), 4);
+                        initRocks(new Vector3(0, 0, 0));
+                        break;
+                    case 2:
+                        initRocks(new Vector3(0, 0, Mogre.Math.RangeRandom(-100, 100)));
+                        break;
+
+                    case 3:
+                        initBigRocks(new Vector3(0, 0, 0));
+                        break;
+
+                    case 4:
+                        initBigRocks(new Vector3(0, 0, Mogre.Math.RangeRandom(-100, 100)));
                         break;
                 }
             }

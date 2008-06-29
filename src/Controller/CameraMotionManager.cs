@@ -77,9 +77,9 @@ namespace Wof.Controller
         /// 
         /// </summary>
         /// <param name="c">Kamera g³ówna</param>
-        /// <param name="minimapC">Kamera minimapy</param>
         /// <param name="playerPlane">Obiekt samolotu gracza (model)</param>
         /// <param name="evt">FrameEvent (chodzi o czas od ostatniej klatki)</param>
+        /// <param name="manualZoom"></param>
         /// <returns></returns>
         public static void Manage(Camera c, Plane playerPlane, FrameEvent evt, float manualZoom)
         {

@@ -384,6 +384,11 @@ namespace Wof.View
                     if (cmv != null) compositeModelViews.Add(cmv);
 
                     tempTileViews = new List<TileView>();
+                } else
+                {
+                    OceanTileView otv = new OceanTileView(levelTile, framework);
+                    tileViews.Add(otv);
+                    otv.initOnScene(this.sceneMgr.RootSceneNode, levelTile.TileIndex, 1);
                 }
             }
             else if (levelTile is IslandTile || levelTile is AircraftCarrierTile)
