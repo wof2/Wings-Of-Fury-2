@@ -339,8 +339,11 @@ namespace Wof.Model.Level.Weapon
                         //niszczy wrogi samolot
                         ep.Destroy();
 
-                        //wyslam sygnal do controllera aby usunal zolnierza z widoku.
+                        //wyslam sygnal do controllera aby usunal samolot z widoku.
                         refToLevel.Controller.OnEnemyPlaneBombed(ep, this);
+
+                        //zwiekszam liczbe trafionych obiektow przez rakiete
+                        refToLevel.Statistics.HitByRocket++;
 
                         //niszcze rakiete.
                         state = MissileState.Destroyed;
@@ -394,7 +397,7 @@ namespace Wof.Model.Level.Weapon
                         {
                             destroyTile.Destroy();
                             refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                            refToLevel.KillVulnerableSoldiers(index, 2);
+                            refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 2);
                         }
                     }
                     else
@@ -406,6 +409,7 @@ namespace Wof.Model.Level.Weapon
                             if ((enemyTale = destroyTile as EnemyInstallationTile) != null && !enemyTale.IsDestroyed)
                             {
                                 refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                                refToLevel.Statistics.HitByRocket++;
                                 enemyTale.Destroy();
                             }
                             else
@@ -414,7 +418,7 @@ namespace Wof.Model.Level.Weapon
                     }
 
                     //zabija zolnierzy, ktorzy sa w zasiegu.
-                    refToLevel.KillVulnerableSoldiers(index, 1);
+                    refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 1);
 
                     //niszcze bombe
                     state = MissileState.Destroyed;
