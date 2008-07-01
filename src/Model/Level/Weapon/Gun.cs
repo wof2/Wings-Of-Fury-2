@@ -161,8 +161,9 @@ namespace Wof.Model.Level.Weapon
             {
                 maxIndex = GetStartIndex(position.X);
                 startIndex = System.Math.Max(0, maxIndex - 12);
-               
-            } else
+
+            }
+            else
             {
                 startIndex = GetStartIndex(position.X);
                 maxIndex = startIndex + 12;

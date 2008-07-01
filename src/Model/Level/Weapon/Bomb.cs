@@ -148,7 +148,7 @@ namespace Wof.Model.Level.Weapon
             //obsluga zderzenia z ziemia.
             CheckCollisionWithGround();
 
-            //sprawdzam kolizje z lotniskowce.
+            //sprawdzam kolizje z lotniskowcem.
             CheckCollisionWithCarrier(this);
         }
 
@@ -197,6 +197,8 @@ namespace Wof.Model.Level.Weapon
                         //wysylam sygnal do kontrollera
                         refToLevel.Controller.OnEnemyPlaneBombed(ep, this);
 
+                        refToLevel.Statistics.HitByBomb++;
+
                         //niszcze bombe.
                         state = MissileState.Destroyed;
                     }
@@ -225,7 +227,7 @@ namespace Wof.Model.Level.Weapon
                         {
                             destroyTile.Destroy();
                             refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                            refToLevel.KillVulnerableSoldiers(index, 2);
+                            refToLevel.Statistics.HitByBomb += refToLevel.KillVulnerableSoldiers(index, 2);
                         }
                     }
                     else
@@ -238,6 +240,7 @@ namespace Wof.Model.Level.Weapon
                             if ((woodbunker = destroyTile as WoodBunkerTile) != null && !woodbunker.IsDestroyed)
                             {
                                 refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                                refToLevel.Statistics.HitByBomb++;
                                 woodbunker.Destroy();
                             }
                             else
@@ -248,6 +251,7 @@ namespace Wof.Model.Level.Weapon
                             if ((barrack = destroyTile as BarrackTile) != null && !barrack.IsDestroyed)
                             {
                                 refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                                refToLevel.Statistics.HitByBomb++;
                                 barrack.Destroy();
                             }
                             else

@@ -47,6 +47,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Wof.Controller;
@@ -60,6 +61,7 @@ using Wof.Model.Level.Planes;
 using Wof.Model.Level.Troops;
 using Wof.Model.Level.Weapon;
 using Wof.Model.Level.XmlParser;
+using Wof.Statistics;
 
 namespace Wof.Model.Level
 {
@@ -190,6 +192,11 @@ namespace Wof.Model.Level
         /// </summary>
         private int enemiesLeft;
 
+        /// <summary>
+        /// Statystyki poziomu
+        /// </summary>
+        private LevelStatistics mStatistics;
+
         #endregion
 
         #region Public Constructors
@@ -203,7 +210,7 @@ namespace Wof.Model.Level
         {
             if (String.IsNullOrEmpty(fileName))
                 throw new IOException("File name must be set !");
-
+           
             ReadEncodedXmlFile(fileName);
             SetAttributesForInstallations();
             soldierList = new List<Soldier>();
@@ -212,6 +219,7 @@ namespace Wof.Model.Level
             aircraftTiles = new List<AircraftCarrierTile>();
             enemyInstallationTiles = levelParser.Tiles.FindAll(Predicates.FindAllEnemyInstallationTiles());
             bunkersList = levelParser.Tiles.FindAll(Predicates.GetAllBunkerTiles());
+            mStatistics = new LevelStatistics();
 
             SetAircraftCarrierList();
             carrier = new Carrier(aircraftTiles);
@@ -637,7 +645,8 @@ namespace Wof.Model.Level
         /// <param name="index">Index pola ktore zostalo trafione.</param>
         /// <param name="step">Zasieg razenia.</param>
         /// <author>Michal Ziober</author>
-        public void KillVulnerableSoldiers(int index, int step)
+        /// <returns>Zwraca liczbe zabitych zolnierzy.</returns>
+        public int KillVulnerableSoldiers(int index, int step)
         {
             List<Soldier> soldiers =
                 SoldiersList.FindAll(Predicates.FindSoldierFromInterval(index - step, index + step));
@@ -650,6 +659,7 @@ namespace Wof.Model.Level
                         s.Kill();
                     }
                 }
+            return soldiers.Count;
         }
 
         #endregion
@@ -959,6 +969,14 @@ namespace Wof.Model.Level
         public IController Controller
         {
             get { return controller; }
+        }
+
+        /// <summary>
+        /// Pobiera statystyki poziomu.
+        /// </summary>
+        public LevelStatistics Statistics
+        {
+            get { return this.mStatistics; }
         }
 
         #region Levels settings

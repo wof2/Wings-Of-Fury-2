@@ -280,7 +280,12 @@ namespace Wof.Model.Level.Weapon
             if (ammunitionOwner is EnemyPlane)
                 EnemyPlaneFire(angle);
             else
+            {
+                //zwieksza liczve wystrzelonych pociskow
+                this.refToLevel.Statistics.GunCount++;
+
                 UserPlaneFire(angle);
+            }
         }
 
         /// <summary>
@@ -355,11 +360,8 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         private void GunHitsGround()
         {
-
             if (ammunitionOwner.RelativeAngle < 0)
             {
-              
-           
                 PointD hitPoint = gun.GetHitPosition(ammunitionOwner.Bounds, ammunitionOwner.Center,
                                                      ammunitionOwner.Direction);
            
@@ -371,7 +373,7 @@ namespace Wof.Model.Level.Weapon
                     {
 
                         refToLevel.Controller.OnGunHit(refToLevel.LevelTiles[index], hitPoint.X, Math.Max(hitPoint.Y, 1));
-                        KillAvailableSoldiers(hitPoint.X, true);
+                        this.refToLevel.Statistics.HitByGun += KillAvailableSoldiers(hitPoint.X, true);
 
                         if (refToLevel.LevelTiles[index] is BarrelTile)
                         {
@@ -380,7 +382,7 @@ namespace Wof.Model.Level.Weapon
                             {
                                 barrel.Destroy();
                                 refToLevel.Controller.OnTileDestroyed(barrel, null);
-                                refToLevel.KillVulnerableSoldiers(index, 2);
+                                this.refToLevel.Statistics.HitByGun += refToLevel.KillVulnerableSoldiers(index, 2);
                             }
                         }
                     }
@@ -393,7 +395,7 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <param name="position">Wspolrzedna X miejsca trafienia</param>
         /// <param name="hitByGun">Czy tafiony dzia³kiem</param>
-        private void KillAvailableSoldiers(float position, bool hitByGun)
+        private int KillAvailableSoldiers(float position, bool hitByGun)
         {
             List<Soldier> soldiers = refToLevel.SoldiersList.FindAll(Predicates.FindSoldierFromInterval(position));
             if (soldiers != null && soldiers.Count > 0)
@@ -405,6 +407,7 @@ namespace Wof.Model.Level.Weapon
                         s.Kill();
                     }
                 }
+            return soldiers.Count;
         }
 
         /// <summary>
@@ -443,9 +446,14 @@ namespace Wof.Model.Level.Weapon
                             this.refToLevel, realAngle, this.ammunitionOwner);
             }*/
 
+            //zwieksza liczbe uzytych rakiet
+            if (!this.ammunitionOwner.IsEnemy)
+                this.refToLevel.Statistics.RocketCount++;
+
             rocketCount--;
             RegisterWeaponToModelEvent(rocket);
             refToLevel.Controller.OnRegisterRocket(rocket);
+
         }
 
         /// <summary>
@@ -457,6 +465,10 @@ namespace Wof.Model.Level.Weapon
             Bomb bomb = new Bomb(position, (PointD) refToLevel.UserPlane.MovementVector.Clone(),
                                  refToLevel, refToLevel.UserPlane.RelativeAngle, ammunitionOwner);
             bombCount--;
+            //zwieksza liczbe uzytych bomb
+            if (!this.ammunitionOwner.IsEnemy)
+                this.refToLevel.Statistics.BombCount++;
+
             RegisterWeaponToModelEvent(bomb);
             refToLevel.Controller.OnRegisterBomb(bomb);
         }
