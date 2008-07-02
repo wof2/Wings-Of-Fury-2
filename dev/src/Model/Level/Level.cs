@@ -319,16 +319,17 @@ namespace Wof.Model.Level
                     currentTimeToNextEnemy = timeToNextEnemy;
                 }
             }
-
+            float scaleFactor = time / timeUnit;
             //sprawdzanie kolizji samolotu
-            CheckPlaneCollisionWithGround(userPlane);
+            CheckPlaneCollisionWithGround(userPlane, scaleFactor);
             if (enemyPlanes.Count > 0)
             {
                 Plane ep;
                 for (int i = 0; i < enemyPlanes.Count; i++)
                 {
                     ep = enemyPlanes[i];
-                    CheckPlaneCollisionWithGround(ep);
+                   
+                    CheckPlaneCollisionWithGround(ep, scaleFactor);
 
                     // kolizje z samolotem gracza
                     if (userPlane.Bounds.Intersects(ep.Bounds))
@@ -797,7 +798,7 @@ namespace Wof.Model.Level
         /// Sprawdza kolizje samolotu z tile'ami i obiektami na tile'ach
         /// </summary>
         /// <param name="plane">Samolot który ma byæ sprawdzony</param>
-        private void CheckPlaneCollisionWithGround(Plane plane)
+        private void CheckPlaneCollisionWithGround(Plane plane ,float scaleFactor)
         {
             if (plane.PlaneState == PlaneState.Crashed)
                 return;
@@ -854,7 +855,7 @@ namespace Wof.Model.Level
                             if(pointsAbove >= 3) terrainHeight = Math.Max(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
                             else terrainHeight = 0;
                         }
-                        else terrainHeight = Math.Max(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
+                        else terrainHeight = Math.Min(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
 
                         plane.Crash(terrainHeight, LevelTiles[i].TileKind);
                     }
