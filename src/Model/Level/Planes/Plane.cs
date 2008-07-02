@@ -1229,13 +1229,14 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Wylacza silnik.
         /// </summary>
-        public void StopEngine()
+        public void StopEngine(float scaleFactor)
         {
             if (locationState == LocationState.AircraftCarrier && landingState == LandingState.None)
             {
                 if (movementVector.EuclidesLength >= changeWheelsSpeed || isLoweringTail)
                     //jesli podwozie zadarte to je opuœæ
-                    lowerTailStep();
+                    if (scaleFactor >=0)
+                        lowerTailStep(scaleFactor);
             }
             if (motorState == EngineState.Work)
             {
@@ -1304,7 +1305,7 @@ namespace Wof.Model.Level.Planes
                 planeState != PlaneState.Crashed)
             {
                 if (petrol == 0 || oil == 0)
-                    OutOfPetrolOrOil();
+                    OutOfPetrolOrOil(scaleFactor);
             }
             if (motorState == EngineState.Work)
             {
@@ -1413,7 +1414,7 @@ namespace Wof.Model.Level.Planes
                             float newSpeed = movementVector.EuclidesLength - subSpeed;
 
                             subSpeedToMin(subSpeed, 0);
-                            changeAngleWhileFastWheeling(oldSpeed, newSpeed);
+                            changeAngleWhileFastWheeling(oldSpeed, newSpeed, scaleFactor);
                         }
                         else
                         {
@@ -1430,7 +1431,7 @@ namespace Wof.Model.Level.Planes
                                 if (movementVector.EuclidesLength == 0)
                                     movementVector.X = (float) direction*addSpeed; //ruszenie samolotem
 
-                                changeAngleWhileFastWheeling(oldSpeed, newSpeed); //zmiana nachylenia dziobu
+                                changeAngleWhileFastWheeling(oldSpeed, newSpeed, scaleFactor); //zmiana nachylenia dziobu
                                 addSpeedToMax(addSpeed, maxFastWheelingSpeed); //przyspieszanie do maxymalnej
                             }
                         }
@@ -1728,7 +1729,7 @@ namespace Wof.Model.Level.Planes
                     //sprawdza pozycje zderzenia z ziemia.
                     DestroyBunkersAndKillSoldiers();
                 }
-                StopEngine();
+                StopEngine(-1);
                 //wyzerowanie czasu do koñca ¿ycia
                 wreckTimeElapsed = 0;
 
@@ -1759,7 +1760,7 @@ namespace Wof.Model.Level.Planes
             if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed)
             {
                 planeState = PlaneState.Destroyed;
-                StopEngine();
+                StopEngine(-1);
                 rotateValue = 0;
                 level.Controller.OnPlaneDestroyed(this);
 
@@ -1915,7 +1916,7 @@ namespace Wof.Model.Level.Planes
                 if (!IsEngineWorking)
                     TryToStartEngine(time);
                 else
-                    TryStopEngine();
+                    TryStopEngine(scaleFactor);
             }
             else
                 ResetEngineParameters();
@@ -1993,7 +1994,7 @@ namespace Wof.Model.Level.Planes
                             float newSpeed = movementVector.EuclidesLength - subSpeed;
 
                             subSpeedToMin(subSpeed, 0);
-                            changeAngleWhileFastWheeling(oldSpeed, newSpeed);
+                            changeAngleWhileFastWheeling(oldSpeed, newSpeed, scaleFactor);
                         }
                     }
                     break;
@@ -2009,18 +2010,18 @@ namespace Wof.Model.Level.Planes
         /// <param name="oldSpeed"></param>
         /// <param name="newSpeed"></param>
         /// <author>Tomek</author>
-        private void changeAngleWhileFastWheeling(float oldSpeed, float newSpeed)
+        private void changeAngleWhileFastWheeling(float oldSpeed, float newSpeed , float scaleFactor)
         {
             if (CanFastWheeling)
             {
                 //przyspieszy³
                 if (oldSpeed < changeWheelsSpeed && changeWheelsSpeed <= newSpeed || isRaisingTail)
                 {
-                    raiseTailStep();
+                    raiseTailStep(scaleFactor);
                 }
                     //zwolni³
                 else if (newSpeed <= changeWheelsSpeed && changeWheelsSpeed < oldSpeed || isLoweringTail)
-                    lowerTailStep();
+                    lowerTailStep(scaleFactor);
             }
         }
 
@@ -2029,12 +2030,12 @@ namespace Wof.Model.Level.Planes
         /// Dzieje siê to p³ynnie , gdy w³¹czona jest flaga isLoweringTail
         /// </summary>
         /// <author>Tomek , Kamil S³awiñski</author>
-        private void lowerTailStep()
+        private void lowerTailStep(float scaleFactor)
         {
             isLoweringTail = true;
             isRaisingTail = false;
-            bounds.Rotate((float) (direction)*(angleOnCarrier/150.0f));
-            if (Math.Abs(Math.Abs(bounds.Angle) - angleOnCarrier) < 0.001)
+            bounds.Rotate((float) (direction)*(angleOnCarrier * 8) * scaleFactor);
+            if (Math.Abs(Math.Abs(bounds.Angle) - angleOnCarrier) < 0.01)
             {
                 isLoweringTail = false;
             }
@@ -2045,12 +2046,13 @@ namespace Wof.Model.Level.Planes
         /// Dzieje siê to p³ynnie , gdy w³¹czona jest flaga isRaisingTail
         /// </summary>
         /// <author>Tomek , Kamil S³awiñski</author>
-        private void raiseTailStep()
+        private void raiseTailStep(float scaleFactor)
         {
             isRaisingTail = true;
             isLoweringTail = false;
-            bounds.Rotate(-(float) (direction)*(angleOnCarrier/30.0f));
-            if (Math.Abs(bounds.Angle) < 0.001)
+            Console.WriteLine("scaleFactor=" + scaleFactor);
+            bounds.Rotate(-(float)(direction) * (angleOnCarrier * 4) * scaleFactor);
+            if (Math.Abs(bounds.Angle) < 0.01)
             {
                 isRaisingTail = false;
                 AirstripCotact();
@@ -2144,11 +2146,11 @@ namespace Wof.Model.Level.Planes
         /// Próba wy³¹czenia silnika.
         /// (nie mozna wy³¹czyæ silnika zaraz po uruchomieniu)
         /// </summary>
-        private void TryStopEngine()
+        private void TryStopEngine(float scaleFactor)
         {
             if (!IsEngineJustStarted)
             {
-                StopEngine();
+                StopEngine(scaleFactor);
                 IsEngineJustStopped = true;
             }
         }
@@ -2188,12 +2190,12 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Powoduje wy³¹czenie silinika i utratê kontroli po tym jak skoñczy siê olej lub paliwo.
         /// </summary>
-        protected void OutOfPetrolOrOil()
+        protected void OutOfPetrolOrOil(float scaleFactor)
         {
             if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed)
             {
                 planeState = PlaneState.Destroyed;
-                StopEngine();
+                StopEngine(scaleFactor);
                 rotateValue = 0;
             }
         }
@@ -2306,7 +2308,9 @@ namespace Wof.Model.Level.Planes
                 Speed = 0;
             }
 
-            changeAngleWhileFastWheeling(oldSpeed, Speed);
+            float scaleFactor = time / timeUnit;
+
+            changeAngleWhileFastWheeling(oldSpeed, Speed, scaleFactor);
             if (Speed <= GameConsts.UserPlane.BreakingMinSpeed)
             {
                 Speed = 0;
@@ -2498,7 +2502,8 @@ namespace Wof.Model.Level.Planes
                     }
                     else
                     {
-                        raiseTailStep();
+                        float scaleFactor = time / timeUnit;
+                        raiseTailStep(scaleFactor);
                         isFallingFromCarrier = true;
                         isSlippingFromCarrier = Speed <= maxSlippingFromCarrierSpeed;
                         AirstripCotact();

@@ -714,7 +714,7 @@ namespace Wof.Model.Level.Planes
             oil = Math.Max(oil, 0);
 
             if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed && oil == 0)
-                OutOfPetrolOrOil();
+                OutOfPetrolOrOil(scaleFactor);
         }
 
         #endregion
