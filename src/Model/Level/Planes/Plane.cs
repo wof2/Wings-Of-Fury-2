@@ -2050,7 +2050,6 @@ namespace Wof.Model.Level.Planes
         {
             isRaisingTail = true;
             isLoweringTail = false;
-            Console.WriteLine("scaleFactor=" + scaleFactor);
             bounds.Rotate(-(float)(direction) * (angleOnCarrier * 4) * scaleFactor);
             if (Math.Abs(bounds.Angle) < 0.01)
             {
