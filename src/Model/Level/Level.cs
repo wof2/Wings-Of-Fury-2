@@ -824,11 +824,38 @@ namespace Wof.Model.Level
                         (LevelTiles[i].HitBound.Intersects(plane.Bounds) ||
                          plane.Bounds.LowestY < OceanTile.depth))
                     {
-                        //Console.WriteLine("Collision with: " + LevelTiles[i].HitBound + " or LowestY < 0");
-                        //Console.WriteLine("Plane position: " + plane.Bounds);
-                        float terrainHeight = LevelTiles[i].IsAircraftCarrierEnding
-                                                  ? 0
-                                                  : Math.Min(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
+                        /*
+                        for (int c = 0; c < plane.Bounds.Peaks.Count; c++)
+                        {
+                            Console.WriteLine("PeakPoint " + plane.Bounds.Peaks[c].ToString());
+                            Console.WriteLine(" inside\n "+ LevelTiles[i].HitBound.ToString()+":"+LevelTiles[i].HitBound.PointInside(plane.Bounds.Peaks[c]));
+                        }
+                        Console.WriteLine("A wiec Level.Rect.Przecina(planeRect):" + LevelTiles[i].HitBound.Intersects(plane.Bounds));
+                        Console.WriteLine("B wiec plane.Bounds.LowestY < OceanTile.depth = " + (plane.Bounds.LowestY < OceanTile.depth));
+                        */
+
+                        /*
+                        Console.WriteLine("Collision with:\n" + LevelTiles[i].HitBound + " or LowestY < 0");
+                        Console.WriteLine("Plane position:\n " + plane.Bounds);
+                        */
+                        float terrainHeight;
+
+                        if (LevelTiles[i].IsAircraftCarrier)
+                        {
+                            int pointsAbove = 0;
+                            for (int j = 0; j < plane.Bounds.Peaks.Count; j++)
+                            {
+                                PointD p = plane.Bounds.Peaks[j];
+                                if (p.Y >= Math.Max(LevelTiles[i].YEnd, LevelTiles[i].YBegin))
+                                {
+                                    pointsAbove++;
+                                }
+                            }
+                            if(pointsAbove >= 3) terrainHeight = Math.Max(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
+                            else terrainHeight = 0;
+                        }
+                        else terrainHeight = Math.Max(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
+
                         plane.Crash(terrainHeight, LevelTiles[i].TileKind);
                     }
                 }

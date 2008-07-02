@@ -145,8 +145,9 @@ namespace Wof.Model.Level.Common
                 throw new ArgumentException("Rozmiar kolekcji powinien byc rowny 4!");
 
             peaks = new List<PointD>();
+
             foreach (PointD peak in peaksCollection)
-                peaks.Add(new PointD(peak.X, peak.Y));
+            peaks.Add(new PointD(peak.X, peak.Y));
         }
 
         /// <summary>
@@ -337,9 +338,10 @@ namespace Wof.Model.Level.Common
         {
             StringBuilder builder = new StringBuilder();
             if (peaks != null)
-                foreach (PointD p in peaks)
-                    builder.AppendLine(p.ToString());
-
+                for (int i = 0; i < peaks.Count; i++)
+                {
+                    builder.AppendLine(peaks[i].ToString());
+                }
             builder.AppendLine("Center point: " + Center.ToString());
 
             return builder.ToString();
@@ -388,11 +390,12 @@ namespace Wof.Model.Level.Common
 
             if (!allLeft && !allRight && !allUp && !allDown)
             {
-                foreach (PointD p in Peaks)
-                    if (q.PointInside(p))
+                for (int i = 0; i < peaks.Count; i++)
+                    if (q.PointInside(peaks[i]))
                         return true;
-                foreach (PointD p in q.Peaks)
-                    if (PointInside(p))
+
+                for (int i = 0; i < q.peaks.Count; i++)
+                    if (PointInside(q.peaks[i]))
                         return true;
             }
             return false;
@@ -406,8 +409,10 @@ namespace Wof.Model.Level.Common
         /// <author>Emil</author>
         public void Move(float dx, float dy)
         {
-            foreach (PointD p in peaks)
-                p.Move(dx, dy);
+            for (int i = 0; i < peaks.Count; i++)
+            {
+                peaks[i].Move(dx, dy);
+            }
         }
 
         /// <summary>
@@ -417,8 +422,10 @@ namespace Wof.Model.Level.Common
         /// <author>Emil</author>
         public void Move(PointD p)
         {
-            foreach (PointD temp in peaks)
-                temp.Move(p);
+            for (int i = 0; i < peaks.Count; i++)
+            {
+                peaks[i].Move(p);
+            }
         }
 
         /// <summary>
@@ -429,10 +436,11 @@ namespace Wof.Model.Level.Common
         public void Rotate(float angle)
         {
             PointD rotateCenter = Center;
-            foreach (PointD p in peaks)
+            for (int i = 0; i < peaks.Count; i++)
             {
-                p.Rotate(rotateCenter, angle);
+                peaks[i].Rotate(rotateCenter, angle);
             }
+
             //zapisanie aktualnego kata nachylenia i obciecie do odpowiedniego przedzialu
             this.angle += angle;
             while (this.angle > Mogre.Math.PI)

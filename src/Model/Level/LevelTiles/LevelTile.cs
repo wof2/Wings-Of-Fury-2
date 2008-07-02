@@ -215,9 +215,9 @@ namespace Wof.Model.Level.LevelTiles
         /// <summary>
         /// Zwraca czy dany tile jest koñcem lub pocz¹tkiem lotniskowca.
         /// </summary>
-        public bool IsAircraftCarrierEnding
+        public bool IsAircraftCarrier
         {
-            get { return (this is BeginAircraftCarrierTile || this is EndAircraftCarrierTile); }
+            get { return (this is BeginAircraftCarrierTile || this is EndAircraftCarrierTile || this is AircraftCarrierTile); }
         }
 
         /// <summary>
