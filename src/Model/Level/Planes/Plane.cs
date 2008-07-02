@@ -2033,7 +2033,7 @@ namespace Wof.Model.Level.Planes
         {
             isLoweringTail = true;
             isRaisingTail = false;
-            bounds.Rotate((float) (direction)*(angleOnCarrier/15.0f));
+            bounds.Rotate((float) (direction)*(angleOnCarrier/150.0f));
             if (Math.Abs(Math.Abs(bounds.Angle) - angleOnCarrier) < 0.001)
             {
                 isLoweringTail = false;
