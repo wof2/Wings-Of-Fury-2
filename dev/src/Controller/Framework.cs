@@ -56,7 +56,14 @@ using FSLOgreCS;
 using Microsoft.DirectX.DirectSound;
 using Mogre;
 using MOIS;
+using OIS;
 using Wof.Languages;
+using Exception=System.Exception;
+using InputManager=MOIS.InputManager;
+using JoyStick=MOIS.JoyStick;
+using Keyboard=MOIS.Keyboard;
+using Math=Mogre.Math;
+using Mouse=MOIS.Mouse;
 using Plane=Wof.Model.Level.Planes.Plane;
 using Type=MOIS.Type;
 using Vector3=Mogre.Vector3;
@@ -164,6 +171,7 @@ namespace Wof.Controller
         protected Overlay debugOverlay;
         protected InputManager inputManager;
         protected Keyboard inputKeyboard;
+        protected JoyStick inputJoystick;
         protected Mouse inputMouse;
 
         protected bool showDebugOverlay = true;
@@ -526,7 +534,7 @@ namespace Wof.Controller
             return !shutDown;
         }
 
-        public void HandleCameraInput(Keyboard inputKeyboard, Mouse inputMouse, FrameEvent evt, Camera camera,
+        public void HandleCameraInput(Keyboard inputKeyboard, Mouse inputMouse, JoyStick inputJoystick, FrameEvent evt, Camera camera,
                                       Camera minimapCamera, Plane playerPlane)
         {
             // Move about 100 units per second,
@@ -664,7 +672,9 @@ namespace Wof.Controller
 
 
             inputKeyboard.Capture();
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE))
+            if(inputJoystick != null) inputJoystick.Capture();
+
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) || GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape)) 
             {
                 // stop rendering loop
                 shutDown = true;
@@ -679,7 +689,7 @@ namespace Wof.Controller
                 camera.Yaw(-scaleRotate);
             }
 
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_UP))
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_UP) )
             {
                 camera.Pitch(scaleRotate);
             }
@@ -688,6 +698,15 @@ namespace Wof.Controller
             {
                 camera.Pitch(-scaleRotate);
             }
+
+            if (inputJoystick !=null)
+            {
+                Vector2 joyVector = GetJoystickVector(inputJoystick);
+                if (joyVector.x != 0) camera.Yaw(-joyVector.x * scaleRotate);
+                if (joyVector.y != 0) camera.Pitch(joyVector.y * scaleRotate);
+            }
+
+
 
             // subtract the time since last frame to delay specific key presses
             toggleDelay -= evt.timeSinceLastFrame;
@@ -787,7 +806,7 @@ namespace Wof.Controller
                 debugTextDelay -= evt.timeSinceLastFrame;
             }
             inputMouse.Capture();
-            HandleCameraInput(inputKeyboard, inputMouse, evt, camera, minimapCamera, null);
+            HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt, camera, minimapCamera, null);
         }
 
         protected void TakeScreenshot()
@@ -866,8 +885,78 @@ namespace Wof.Controller
 
             //Create all devices (We only catch joystick exceptions here, as, most people have Key/Mouse)
             inputKeyboard = (Keyboard) inputManager.CreateInputObject(Type.OISKeyboard, UseBufferedInput);
+
+            try
+            {
+                inputJoystick = (JoyStick)inputManager.CreateInputObject(Type.OISJoyStick, UseBufferedInput);
+            }
+            catch(Exception)
+            {
+                inputJoystick = null; 
+            }
+           
+
             inputMouse = (Mouse) inputManager.CreateInputObject(Type.OISMouse, UseBufferedInput);
         }
+
+        public static bool GetJoystickButton(JoyStick j, EngineConfig.JoystickButtons button)
+        {
+            if(j!=null)
+            {
+                if ((int)button - 1 < j.JoyStickState.ButtonCount)// indexed from 0
+                {
+                  return j.JoyStickState.GetButton((int) button - 1); 
+                }
+            }
+            return false;
+        }
+
+        public static Vector2 GetJoystickVector(JoyStick j)
+        {
+            if(j!=null)
+            {
+                if(j.JoyStickState.VectorCount > 0)
+                {
+                    MOIS.Vector3 v = j.JoyStickState.GetVector(0);
+                    return new Vector2(v.x, v.y);
+                } else 
+                {
+                    double deadZone = 0.01f;
+                    int num = j.JoyStickState.AxisCount;
+                    if(num >= 2)
+                    {
+                        Axis_NativePtr axisV = j.JoyStickState.GetAxis(0);
+                        Axis_NativePtr axisH = j.JoyStickState.GetAxis(1);
+                        
+                        double v = (1.0 * axisV.abs / JoyStick.MAX_AXIS);
+                        double h = (1.0 * axisH.abs / JoyStick.MAX_AXIS);
+
+                       // Console.WriteLine(h + " " + v);
+                     
+                      
+                        if (System.Math.Abs(v) < deadZone) v = 0;
+                        else if (v > 1) v = 1;
+                        else if (v < -1) v = -1;
+
+                        if (System.Math.Abs(h) < deadZone) h = 0;
+                        else if (h > 1) h = 1;
+                        else if (h < -1) h = -1;
+                     
+                      
+                        return new Vector2((float)h, (float)-v);
+                    } else
+                    {
+                        // no joys and no POVs 
+                        return Vector2.ZERO;
+                    }
+                }
+            } else
+            {
+                return Vector2.ZERO;
+            }
+
+        }
+
 
         public abstract void CreateScene(); // pure virtual - this has to be overridden
 

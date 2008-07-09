@@ -57,6 +57,6 @@ namespace Wof.Controller.Screens
     {
         void DisplayGUI(Boolean justMenu);
         void CleanUp(Boolean justMenu);
-        void HandleInput(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard);
+        void HandleInput(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick);
     }
 }
