@@ -350,7 +350,7 @@ namespace Wof.Controller.Screens
             EffectsManager.Singleton.UpdateTimeAndAnimateAll(evt.timeSinceLastFrame);
         }
         
-        public void HandleInput(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard)
+        public void HandleInput(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
             screenTime += evt.timeSinceLastFrame;
             if (initialized)
@@ -368,10 +368,9 @@ namespace Wof.Controller.Screens
 
                 inputMouse.Capture();
                 inputKeyboard.Capture();
-                
-                
-             
-                receiveKeys(inputKeyboard);
+                if (inputJoystick != null) inputJoystick.Capture();
+                             
+                receiveKeys(inputKeyboard, inputJoystick);
 
               
                 
@@ -397,8 +396,6 @@ namespace Wof.Controller.Screens
                     uint screeny;
 
                     getMouseScreenCoordinates(mouseState, out screenx, out screeny);
-
-                   
 
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_BACK))
                     {
@@ -581,7 +578,7 @@ namespace Wof.Controller.Screens
                         mGui.injectKey("z", screenx, screeny);
                         KeyReceived("z");
                     }
-                    if (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE))
+                    if (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape)) 
                     {
                         KeyReceived("ESC");
                         if (tryToPressBackButton()) return;
@@ -592,7 +589,7 @@ namespace Wof.Controller.Screens
                     }
 
 
-                    if (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN))
+                    if (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter)) 
                     {
                         KeyReceived("ENTER");
                         wasEnterKeyPressed = true;
@@ -602,6 +599,9 @@ namespace Wof.Controller.Screens
                     {
                         wasEnterKeyPressed = false;
                     }
+
+                    Vector2 joyVector = FrameWork.GetJoystickVector(inputJoystick);
+
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_UP))
                     {
                         mGui.injectKey("up", screenx, screeny);
@@ -610,8 +610,22 @@ namespace Wof.Controller.Screens
                     }
                     else
                     {
-                        wasUpKeyPressed = false;
+                        if (joyVector.y > 0)
+                        {
+                            mGui.injectKey("up", screenx, screeny);
+                            KeyReceived("UP");
+                            wasUpKeyPressed = true;
+                        }else
+                        {
+                            wasUpKeyPressed = false;   
+                        }
+                       
                     }
+
+
+                
+
+
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN))
                     {
                         mGui.injectKey("down", screenx, screeny);
@@ -620,7 +634,18 @@ namespace Wof.Controller.Screens
                     }
                     else
                     {
-                        wasDownKeyPressed = false;
+
+                        if (joyVector.y < 0)
+                        {
+                            mGui.injectKey("down", screenx, screeny);
+                            KeyReceived("DOWN");
+                            wasDownKeyPressed = true;
+                        }
+                        else
+                        {
+                            wasDownKeyPressed = false;
+                        }
+                        
                     }
 
                    
@@ -657,10 +682,26 @@ namespace Wof.Controller.Screens
             }
         }
 
-        private void receiveKeys(Keyboard inputKeyboard)
+        private void receiveKeys(Keyboard inputKeyboard, JoyStick joystick)
         {
+            Vector2 joyVector = FrameWork.GetJoystickVector(joystick);
+            if(joyVector != Vector2.ZERO)
+            {
+                //Console.WriteLine(joyVector);
+                if (joyVector.y > 0)
+                {
+                    wasUpKeyPressed = true;
+                    KeyReceived("UP");    
+                }
+                if (joyVector.y < 0)
+                {
+                    wasDownKeyPressed = true;
+                    KeyReceived("DOWN");
+                }
+                   
+            }
 
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN))
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(joystick, EngineConfig.JoystickButtons.Enter)) 
             {
                 wasEnterKeyPressed = true;
                 KeyReceived("ENTER");
@@ -817,7 +858,7 @@ namespace Wof.Controller.Screens
             {
                 KeyReceived("z");
             }
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE))
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) || FrameWork.GetJoystickButton(joystick, EngineConfig.JoystickButtons.Escape)) 
             {
                 KeyReceived("ESC");
             }

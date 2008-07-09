@@ -128,7 +128,7 @@ namespace Wof.Controller
         {
             if (currentScreen != null)
             {
-                currentScreen.HandleInput(evt, inputMouse, inputKeyboard);
+                currentScreen.HandleInput(evt, inputMouse, inputKeyboard, inputJoystick);
             }
         }
 

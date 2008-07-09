@@ -111,6 +111,18 @@ namespace Wof.Controller
             Hard = 2
         } ;
 
+        public enum JoystickButtons
+        {
+            Gun = 4,
+            Enter = 4,
+            Gear = 3,
+            Rocket = 1,
+            Camera = 6,
+            Engine = 2,
+            Escape = 5
+
+        } ;
+
         public static DifficultyLevel Difficulty = DifficultyLevel.Easy; 
 
         public static bool SoundEnabled = true;

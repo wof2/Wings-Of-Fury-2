@@ -369,6 +369,7 @@
     <Compile Include="src\Model\ModelProgram.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\Statistics\LevelStatistics.cs" />
     <Compile Include="src\Tools\FileCRC.cs" />
     <Compile Include="src\Tools\FileEncrypter.cs" />
     <Compile Include="src\Tests\KamilTests.cs">

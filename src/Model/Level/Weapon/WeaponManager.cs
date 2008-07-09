@@ -413,7 +413,6 @@ namespace Wof.Model.Level.Weapon
         /// <summary>
         /// Wystrzeliwuje rakiete.
         /// </summary>
-        /// <param name="angle">Kat nachylenia rakiety.</param>
         private void RocketFire()
         {
             Rocket rocket = null;
