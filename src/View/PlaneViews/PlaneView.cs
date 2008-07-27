@@ -344,7 +344,7 @@ namespace Wof.View
                 planeNode.SetPosition(v.x, v.y, 0.0f);
                 if (!plane.IsChangingDirection)
                 {
-                    if (plane.Direction == Direction.Right)
+                    if (plane.Direction == Direction.Right)// && !Plane.spinned)
                     {
                         InnerSteeringNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
                     }
@@ -352,7 +352,11 @@ namespace Wof.View
                     {
                         InnerSteeringNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
                     }
-                    InnerSteeringNode.Orientation *= new Quaternion((float) plane.RelativeAngle, Vector3.UNIT_X);
+
+                    InnerSteeringNode.Orientation *= new Quaternion((float)plane.RelativeAngle, Vector3.UNIT_X);
+
+                    if (Plane.Spinned)
+                        InnerSteeringNode.Orientation *= new Quaternion((float)Math.PI, Vector3.UNIT_Z);
                 }
                 // refresh minimap
                 if (minimapItem != null)

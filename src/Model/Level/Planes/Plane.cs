@@ -657,6 +657,16 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private bool isLoweringTail;
 
+        /// <summary>
+        /// Okreœla czy samolot obróci³ siê ruchem spinu
+        /// </summary>
+        protected bool spinned = false;
+
+        public bool Spinned
+        {
+            get { return spinned; }
+        }
+
         #endregion
 
         #region Public Constructor
@@ -1205,6 +1215,8 @@ namespace Wof.Model.Level.Planes
             isLoweringTail = false;
 
             breakingEndPositionX = Carrier.GetRestoreAmunitionPosition().X + LevelTile.Width;
+
+            spinned = false;
         }
 
         /// <summary>
@@ -1282,7 +1294,6 @@ namespace Wof.Model.Level.Planes
         /// <param name="timeUnit">Wartoœæ czasu do której odnoszone s¹ wektor ruchu i wartoœæ obrotu. Wyra¿ona w ms.</param>
         public virtual void Move(float time, float timeUnit)
         {
-       
             float scaleFactor = time/timeUnit;
             if (planeState == PlaneState.Crashed)
             {
@@ -1342,7 +1353,7 @@ namespace Wof.Model.Level.Planes
                 planeState == PlaneState.Destroyed)
             {
                 float liftVectorY;
-
+                
                 if (locationState == LocationState.Air)
                 {
                     float sin = Math.Sin(RelativeAngle); //Abs(sin)
@@ -1367,7 +1378,7 @@ namespace Wof.Model.Level.Planes
                     bounds.Move(0, (-1.0f)*scaleFactor);
                 }
 
-                bounds.Move(scaleFactor*movementVector); //zwykly ruch
+                bounds.Move(scaleFactor * movementVector); 
                 UpdatePlaneAngle(scaleFactor);
             }
             else if (isLanding) //schodzenie do l¹dowania
@@ -1613,12 +1624,9 @@ namespace Wof.Model.Level.Planes
 
         private void HorizontalReflection()
         {
-            //float newAngle = (Mogre.Math.PI - Mogre.Math.Abs(Angle)) * Mogre.Math.Sign(Angle) * -1;
-            //Rotate(-Angle);
-            //Rotate(newAngle);
-            //Rotate(Mogre.Math.PI / 2);
-            Rotate(-Angle);
+            bounds.HorizontalReflection();
             direction = (Direction)(-1 * (int)direction);
+            spinned = !spinned;
         }
 
         /// <summary>
@@ -1969,7 +1977,7 @@ namespace Wof.Model.Level.Planes
                         }
                         isAfterFlyingDown = false;
                     }
-                    if (!isDownPressed && !isUpPressed) //"hamowanie" obrotu
+                    if (!isDownPressed && !isUpPressed)//"hamowanie" obrotu
                         DecreaseRotateValue(rotateBrakingFactor*scaleFactor*rotateStep);
 
 
@@ -2632,8 +2640,7 @@ namespace Wof.Model.Level.Planes
                     (RelativeAngle <= -maxWheelOutAngle && (float) direction*rotateValue < 0)
                     )
                     rotateValue = 0;
-
-
+           
             Rotate(scaleFactor*rotateValue);
         }
 
