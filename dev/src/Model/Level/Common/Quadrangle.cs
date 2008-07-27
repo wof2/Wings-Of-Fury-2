@@ -472,17 +472,15 @@ namespace Wof.Model.Level.Common
         /// <author>Adam</author>
         public void HorizontalReflection()
         {
-            return;
-
-            PointD temp;
+             PointD temp;
 
             temp = peaks[0];
             peaks[0] = peaks[1];
             peaks[1] = temp;
 
-            temp = peaks[3];
-            peaks[3] = peaks[2];
-            peaks[2] = temp;
+            temp = peaks[2];
+            peaks[2] = peaks[3];
+            peaks[3] = temp;
 
             angle += (float)Math.PI;
 

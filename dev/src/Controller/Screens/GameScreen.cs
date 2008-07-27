@@ -691,11 +691,11 @@ namespace Wof.Controller.Screens
 
                             // obrót z 'pleców na brzuch' samolotu
                             // tymczasowo wy³¹czone - problematyczny obrót samolotu w modelu
-                         /*   if (inputKeyboard.IsModifierDown(Keyboard.Modifier.Ctrl))
+                            if (inputKeyboard.IsModifierDown(Keyboard.Modifier.Ctrl))
                             {
                                 currentLevel.OnSpinPressed();
                             }
-                          */
+                          
 
 
                             // zmiana kamery
@@ -1268,6 +1268,7 @@ namespace Wof.Controller.Screens
         {
             levelView.OnPrepareChangeDirection(newDirection, plane, turnType);
         }
+
 
         public void OnPrepareChangeDirectionEnd(object turnInfo)
         {
