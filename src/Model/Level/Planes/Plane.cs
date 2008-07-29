@@ -1352,28 +1352,16 @@ namespace Wof.Model.Level.Planes
             if (!isLanding && !isAfterFlyingDown || motorState == EngineState.ShutOff ||
                 planeState == PlaneState.Destroyed)
             {
-                float liftVectorY;
-                
                 if (locationState == LocationState.Air)
                 {
-                    float sin = Math.Sin(RelativeAngle); //Abs(sin)
+                    float sin = Math.Sin(RelativeAngle);
 
-                    //Console.Out.WriteLine("sin=" + sin);
+                    if (sin > 0) sin *= -sin*17;
+                    else         sin *=  sin*30;
 
-                    if (sin > 0)
-                    {
-                        sin *= -sin*17;
-                    }
-                    else
-                    {
-                        sin *= sin*30;
-                    }
-
-                    //Console.Out.WriteLine("sin2=" + sin);
-
-                    liftVectorY = 0.7f*(1 - sin);
-                    //Console.Out.WriteLine("liftVectorY=" + liftVectorY);
+                    float liftVectorY = 0.7f*(1 - sin);
                     bounds.Move(0, liftVectorY*scaleFactor);
+
                     //Grawitacja
                     bounds.Move(0, (-1.0f)*scaleFactor);
                 }
@@ -1610,6 +1598,7 @@ namespace Wof.Model.Level.Planes
                     Speed = minFlyingSpeed; //zmini³em Tomek
                     //movementVector = -1 * turningVector;
                     //blockAllInput = false;
+                    spinned = false;
                 }
                 if (type == TurnType.Carrier)
                 {
