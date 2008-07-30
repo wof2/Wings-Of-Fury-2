@@ -803,8 +803,10 @@ namespace Wof.Model.Level
             if (plane.PlaneState == PlaneState.Crashed)
                 return;
             int index = Mathematics.PositionToIndex(plane.Center.X);
+
             //sprawdzam tile nad którym jest samolot i 2 s¹siednie
             for (int i = index - 1; i <= index + 1; i++)
+
                 if (i >= 0 && i < LevelTiles.Count)
                 {
                     //kolizje z obiektami na tile'u
@@ -821,26 +823,12 @@ namespace Wof.Model.Level
                     //jeœli jest na lotniskowcu nie sprawdzam kolizji z lotniskowcem
                     if (plane.IsOnAircraftCarrier && LevelTiles[i].TileKind == TileKind.AircraftCarrier)
                         continue;
+
                     if (LevelTiles[i].HitBound != null &&
                         (LevelTiles[i].HitBound.Intersects(plane.Bounds) ||
                          plane.Bounds.LowestY < OceanTile.depth))
                     {
-                        /*
-                        for (int c = 0; c < plane.Bounds.Peaks.Count; c++)
-                        {
-                            Console.WriteLine("PeakPoint " + plane.Bounds.Peaks[c].ToString());
-                            Console.WriteLine(" inside\n "+ LevelTiles[i].HitBound.ToString()+":"+LevelTiles[i].HitBound.PointInside(plane.Bounds.Peaks[c]));
-                        }
-                        Console.WriteLine("A wiec Level.Rect.Przecina(planeRect):" + LevelTiles[i].HitBound.Intersects(plane.Bounds));
-                        Console.WriteLine("B wiec plane.Bounds.LowestY < OceanTile.depth = " + (plane.Bounds.LowestY < OceanTile.depth));
-                        */
-
-                        /*
-                        Console.WriteLine("Collision with:\n" + LevelTiles[i].HitBound + " or LowestY < 0");
-                        Console.WriteLine("Plane position:\n " + plane.Bounds);
-                        */
                         float terrainHeight;
-
                         if (LevelTiles[i].IsAircraftCarrier)
                         {
                             int pointsAbove = 0;
@@ -852,14 +840,25 @@ namespace Wof.Model.Level
                                     pointsAbove++;
                                 }
                             }
-                            if(pointsAbove >= 3) terrainHeight = Math.Max(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
+                            if (pointsAbove >= 3) terrainHeight = Math.Max(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
                             else terrainHeight = 0;
                         }
-                        else terrainHeight = Math.Min(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
+                        else
+                        {
+                            terrainHeight = Math.Min(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
+                        }
 
                         plane.Crash(terrainHeight, LevelTiles[i].TileKind);
                     }
                 }
+                //Przypadek szczególny gdy rozbijamy sie poza obszarem gdzie s¹ LevelTiles[krañce mapy].
+                //Na przyk³ad w wyniku wy³¹czenia silnika i pe³nej prêdkoœci przy You are not leaving yet.
+                else if ((i < 0 || i >= LevelTiles.Count) && plane.Bounds.LowestY < OceanTile.depth)
+                {
+                    //0.1f terrainHeight dla Ocean
+                    plane.Crash(0.1f, TileKind.Ocean);
+                }
+                
         }
 
         /// <summary>
