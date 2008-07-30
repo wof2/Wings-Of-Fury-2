@@ -2441,7 +2441,7 @@ namespace Wof.Model.Level.Planes
 
             bool normalFlight = (0 <= System.Math.Abs(Bounds.Angle) && System.Math.Abs(Bounds.Angle) <= System.Math.PI/2);
             bool upSideDownFlight = (System.Math.PI/2 < System.Math.Abs(Bounds.Angle) &&
-                                     System.Math.Abs(Bounds.Angle) <= System.Math.PI);
+                                     System.Math.Abs(Bounds.Angle) <= 3.1416f); //3.1416f to zaokr¹glenie numeryczne System.Math.PI
 
             if (Mathematics.PositionToIndex(Bounds.Center.X) <= turningTails)
             {
