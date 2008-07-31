@@ -165,6 +165,11 @@ namespace Wof.Model.Level
         private FlyDirectionHint flyDirectionHint;
 
         /// <summary>
+        /// Liczba zolnierzy na planszy.
+        /// </summary>
+        private volatile int mSoldierCount;
+
+        /// <summary>
         /// Obiekt przetwarzajacy informcacje.
         /// </summary>
         private readonly IController controller;
@@ -210,7 +215,6 @@ namespace Wof.Model.Level
         {
             if (String.IsNullOrEmpty(fileName))
                 throw new IOException("File name must be set !");
-           
             ReadEncodedXmlFile(fileName);
             SetAttributesForInstallations();
             soldierList = new List<Soldier>();
@@ -218,6 +222,7 @@ namespace Wof.Model.Level
             ammunitionList = new List<Ammunition>();
             aircraftTiles = new List<AircraftCarrierTile>();
             enemyInstallationTiles = levelParser.Tiles.FindAll(Predicates.FindAllEnemyInstallationTiles());
+            GetSoldiersCount(enemyInstallationTiles);
             bunkersList = levelParser.Tiles.FindAll(Predicates.GetAllBunkerTiles());
             mStatistics = new LevelStatistics();
 
@@ -656,6 +661,8 @@ namespace Wof.Model.Level
                 {
                     if (s.CanDie)
                     {
+                        //zmniejszam liczbe zolnierzy na planszy
+                        this.SoldiersCount--;
                         Controller.OnSoldierBeginDeath(s, false);
                         s.Kill();
                     }
@@ -914,6 +921,23 @@ namespace Wof.Model.Level
             else flyDirectionHint = FlyDirectionHint.None;
         }
 
+        /// <summary>
+        /// Pobiera liczbe zolnierzy z instalacji obronnych.
+        /// </summary>
+        /// <param name="list">Lista elementow</param>
+        private void GetSoldiersCount(List<LevelTile> list)
+        {
+            int soldierCount = 0;
+            EnemyInstallationTile enemy = null;
+            foreach (LevelTile tile in list)
+                if (tile is EnemyInstallationTile)
+                {
+                    enemy = tile as EnemyInstallationTile;
+                    soldierCount += enemy.SoldierCount;
+                }
+            this.mSoldierCount = soldierCount;
+        }
+
         #endregion
 
         #region properties
@@ -1004,6 +1028,15 @@ namespace Wof.Model.Level
         public LevelStatistics Statistics
         {
             get { return this.mStatistics; }
+        }
+
+        /// <summary>
+        /// Zwraca liczbe zolnierzy, ktorzy znajduja sie obecnie na planszy.
+        /// </summary>
+        public int SoldiersCount
+        {
+            set { this.mSoldierCount = Math.Max(value, 0); }
+            get { return this.mSoldierCount; }
         }
 
         #region Levels settings

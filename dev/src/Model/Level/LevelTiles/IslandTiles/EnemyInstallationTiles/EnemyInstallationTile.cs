@@ -122,9 +122,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         {
             Initializing();
             soldiersCount = soldierNum;
-            //zwiekszam liczbe zolnierzy na planszy.
-            Soldier.AddSoldiers(soldiersCount);
-
+            
             IncrementCompleteInstallationCount();
         }
 
