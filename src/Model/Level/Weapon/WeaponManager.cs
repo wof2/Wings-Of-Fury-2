@@ -403,6 +403,8 @@ namespace Wof.Model.Level.Weapon
                 {
                     if (s.CanDie)
                     {
+                        //zmniejszam liczbe zolnierzy na planszy
+                        refToLevel.SoldiersCount--;
                         refToLevel.Controller.OnSoldierBeginDeath(s, hitByGun);
                         s.Kill();
                     }
