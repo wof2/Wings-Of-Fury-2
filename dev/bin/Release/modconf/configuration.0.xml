@@ -20,7 +20,8 @@
   rangeSlowWheelingSpeed - Określa jaką częścią maksymalnej prędkości jest prędkość przy wolnym kołowaniu. Typ: Double
   breakingPower - Stała mówi ile razy moveStep jest większy w czasie hamowannia na lotniskowcu.
                   Gdy jest przyciskana strzałka przeciwna do ruchu samolotu. Typ: Double 
-  engineCounterThreshold - Prog po przekroczeniu ktorego zostaje uruchomiony silnik. Czas w milisekundach. Typ: int
+  engineCounterThreshold - Prog, po przekroczeniu ktorego zostaje uruchomiony silnik. Czas w milisekundach. Typ: int
+  engineCounterThresholdInAir - Prog, po przekroczeniu ktorego zostaje uruchomiony silnik gdy samolot znajduje sie w powietrzu. Czas w milisekundach. Typ: int 
   breakingMinSpeed - Prędkośc samolotu w czasie lądowania poniżej której samolot sie zatrzymuje. Typ: int
   sinkingSpeed - Określa z jaką prędkością samolot będzie tonąć. Wyrażona jako liczba dodatnia. Typ: Double
   maxHeight - Maksymalna wysokość na jaką samolot może się wzbić. Typ: int
@@ -37,6 +38,7 @@
     rangeSlowWheelingSpeed = "0.004"
     rangeFastWheelingMaxSpeed = "0.3"
     engineCounterThreshold="1500"
+    engineCounterThresholdInAir="500"
     breakingMinSpeed = "5"
     sinkingSpeed = "1.3"
     maxHeight = "150"

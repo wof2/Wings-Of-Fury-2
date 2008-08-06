@@ -118,6 +118,12 @@ namespace Wof.Model.Configuration
             public static int EngineCounterThreshold = 2000;
 
             /// <summary>
+            /// Prog, po przekroczeniu ktorego zostaje uruchomiony silnik, gdy samolot unosi sie
+            /// w powietrzu. Czas podany w milisekundach.
+            /// </summary>
+            public static int EngineCounterThresholdInAir = 50000;
+
+            /// <summary>
             /// Prędkośc samolotu w czasie lądowania poniżej której samolot sie zatrzymuje.
             /// </summary>
             public static int BreakingMinSpeed = 5;

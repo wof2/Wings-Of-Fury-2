@@ -66,6 +66,7 @@ namespace Wof.Model.Configuration
             public const string rangeSlowWheelingSpeed = @"rangeSlowWheelingSpeed";
             public const string rangeFastWheelingMaxSpeed = @"rangeFastWheelingMaxSpeed";
             public const string engineCounterThreshold = @"engineCounterThreshold";
+            public const string engineCounterThresholdInAir = @"engineCounterThresholdInAir";
             public const string breakingMinSpeed = @"breakingMinSpeed";
             public const string sinkingSpeed = @"sinkingSpeed";
             public const string maxHeight = @"maxHeight";
