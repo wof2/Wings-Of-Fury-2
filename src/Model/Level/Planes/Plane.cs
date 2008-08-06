@@ -780,10 +780,12 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
+                //okres czasu jaki musi uplynac aby wlaczyc silnik w zaleznosci od stanu samolotu
+                int timeThreshold = planeState == PlaneState.Intact && !isEnemy && locationState == LocationState.Air ? GameConsts.UserPlane.EngineCounterThresholdInAir : GameConsts.UserPlane.EngineCounterThreshold;
                 return (petrol > 0 && //czy ilosc benzyny > 0
                         oil > 0 && //czy ilosc oleju > 0
                         planeState != PlaneState.Destroyed && //czy samolot nie jest znisczony ?
-                        counterStartedEngine > GameConsts.UserPlane.EngineCounterThreshold);
+                        counterStartedEngine > timeThreshold);
                 //czy mozna juz uruchomic silnik ?
             }
         }
