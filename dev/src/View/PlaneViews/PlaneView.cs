@@ -62,7 +62,7 @@ namespace Wof.View
 {
     /// <summary>
     /// Reprezentaja samolotów w module widoku 
-    /// <author>Adam Witczak</author>
+    /// <author>Adam Witczak , Kamil S³awiñski</author>
     /// </summary>
     public abstract class PlaneView : VertexAnimable, CameraHolder
     {
