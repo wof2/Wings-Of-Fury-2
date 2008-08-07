@@ -1303,8 +1303,9 @@ namespace Wof.Model.Level.Planes
                 return;
             }
 
-            ProcessInput(time, timeUnit);
 
+            ProcessInput(time, timeUnit);
+    
             //odjêcie benzyny i ewentualnie oleju
             if (locationState == LocationState.Air || locationState == LocationState.AirTurningRound)
                 petrol -= scaleFactor*movementVector.EuclidesLength/GameConsts.UserPlane.MaxSpeed*
@@ -1342,7 +1343,7 @@ namespace Wof.Model.Level.Planes
                 airscrewSpeed = minAirscrewSpeed + (int) Math.Abs((int) (15f*movementVector.X));
 
             //opuszczenie lotniskowca (START)
-            LeaveCarrer(time, timeUnit);
+            LeaveCarrier(time, timeUnit);
 
             //proces l¹dowania
             LandingProcess(time, timeUnit);
@@ -1390,7 +1391,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         /// <param name="direction"></param>
         /// <param name="scaleFactor"></param>
-        /// <author>Tomek</author>
+        /// <author>Tomek , Kamil S³awiñski</author>
         public void Steer(Direction direction, float scaleFactor)
         {
             switch (locationState)
@@ -1406,8 +1407,6 @@ namespace Wof.Model.Level.Planes
                                // movementVector.Y = 0;
                                 TurnRound(direction, TurnType.Carrier);
                             }
-                                
-
                             //hamowanie samolotu (MOCNE)
                             float subSpeed = GameConsts.UserPlane.BreakingPower*scaleFactor*
                                              GameConsts.UserPlane.MoveStep;
@@ -1421,7 +1420,20 @@ namespace Wof.Model.Level.Planes
                         {
                             if (CanSlowWheeling)
                             {
-                                movementVector = new PointD((float) direction*slowWheelingSpeed, 0);
+                                if(movementVector.EuclidesLength <= slowWheelingSpeed)
+                                {
+                                    movementVector = new PointD((float)direction * slowWheelingSpeed, 0);
+                                }
+                                else
+                                {
+                                    //hamowanie samolotu (S£ABE)
+                                    float subSpeed = scaleFactor * GameConsts.UserPlane.MoveStep;
+                                    float oldSpeed = movementVector.EuclidesLength;
+                                    float newSpeed = movementVector.EuclidesLength - subSpeed;
+
+                                    subSpeedToMin(subSpeed, 0);
+                                    changeAngleWhileFastWheeling(oldSpeed, newSpeed, scaleFactor);
+                                }
                             }
                             else if (CanFastWheeling)
                             {
@@ -1900,6 +1912,8 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         /// <param name="time">Czas jaki up³yn¹³ od ostatniego wywo³ania ProcessInput. Wyra¿ony w ms.</param>
         /// <param name="timeUnit">Wartoœæ czasu do której odnoszone s¹ wektor ruchu i wartoœæ obrotu. Wyra¿ona w ms.</param>
+        static int dCounter = 0;
+        
         private void ProcessInput(float time, float timeUnit)
         {
             if (planeState == PlaneState.Destroyed && !IsOnAircraftCarrier)
@@ -1919,7 +1933,6 @@ namespace Wof.Model.Level.Planes
             }
             else
                 ResetEngineParameters();
-
 
             switch (locationState)
             {
@@ -2479,7 +2492,7 @@ namespace Wof.Model.Level.Planes
         /// Funkcja odpowiadaj¹ca za opuszczenie lotniskowca 
         /// w czasie startu
         /// </summary>
-        private void LeaveCarrer(float time, float timeUnit)
+        private void LeaveCarrier(float time, float timeUnit)
         {
             if (locationState == LocationState.AircraftCarrier && landingState == LandingState.None)
             {
