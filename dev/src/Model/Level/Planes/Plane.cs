@@ -1985,7 +1985,7 @@ namespace Wof.Model.Level.Planes
                         DecreaseRotateValue(rotateBrakingFactor*scaleFactor*rotateStep);
 
 
-                    if (isSpinPressed && !isBlockSpin)
+                    if (isSpinPressed && !isBlockSpin && wheelsState == WheelsState.In)
                     {
                         Spin();
                     }
