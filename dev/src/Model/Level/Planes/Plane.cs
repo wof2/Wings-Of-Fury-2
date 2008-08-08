@@ -2020,7 +2020,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         /// <param name="oldSpeed"></param>
         /// <param name="newSpeed"></param>
-        /// <author>Tomek</author>
+        /// <author>Tomek , Kamil S³awiñski</author>
         private void changeAngleWhileWheeling(float oldSpeed, float newSpeed , float scaleFactor)
         {
             if (CanFastWheeling)
@@ -2048,7 +2048,7 @@ namespace Wof.Model.Level.Planes
         {
             isLoweringTail = true;
             isRaisingTail = false;
-            bounds.Rotate((float) (direction)*(angleOnCarrier * 8) * scaleFactor);
+            bounds.Rotate((float) (direction)*(angleOnCarrier * 6) * scaleFactor);
             if (Math.Abs(Math.Abs(bounds.Angle) - angleOnCarrier) < 0.01)
             {
                 isLoweringTail = false;
