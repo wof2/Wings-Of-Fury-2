@@ -2034,6 +2034,9 @@ namespace Wof.Model.Level.Planes
                 else if (newSpeed <= changeWheelsSpeed && changeWheelsSpeed < oldSpeed || isLoweringTail)
                     lowerTailStep(scaleFactor);
             }
+            //zwolni³ bo wy³¹czony silnik
+            else if (newSpeed <= changeWheelsSpeed && changeWheelsSpeed < oldSpeed || isLoweringTail)
+                lowerTailStep(scaleFactor);
         }
 
         /// <summary>
