@@ -1420,7 +1420,7 @@ namespace Wof.Model.Level.Planes
                             float newSpeed = movementVector.EuclidesLength - subSpeed;
 
                             subSpeedToMin(subSpeed, 0);
-                            changeAngleWhileFastWheeling(oldSpeed, newSpeed, scaleFactor);
+                            changeAngleWhileWheeling(oldSpeed, newSpeed, scaleFactor);
                         }
                         else
                         {
@@ -1438,7 +1438,7 @@ namespace Wof.Model.Level.Planes
                                     float newSpeed = movementVector.EuclidesLength - subSpeed;
 
                                     subSpeedToMin(subSpeed, 0);
-                                    changeAngleWhileFastWheeling(oldSpeed, newSpeed, scaleFactor);
+                                    changeAngleWhileWheeling(oldSpeed, newSpeed, scaleFactor);
                                 }
                             }
                             else if (CanFastWheeling)
@@ -1450,7 +1450,7 @@ namespace Wof.Model.Level.Planes
                                 if (movementVector.EuclidesLength == 0)
                                     movementVector.X = (float) direction*addSpeed; //ruszenie samolotem
 
-                                changeAngleWhileFastWheeling(oldSpeed, newSpeed, scaleFactor); //zmiana nachylenia dziobu
+                                changeAngleWhileWheeling(oldSpeed, newSpeed, scaleFactor); //zmiana nachylenia dziobu
                                 addSpeedToMax(addSpeed, maxFastWheelingSpeed); //przyspieszanie do maxymalnej
                             }
                         }
@@ -2005,7 +2005,7 @@ namespace Wof.Model.Level.Planes
                             float newSpeed = movementVector.EuclidesLength - subSpeed;
 
                             subSpeedToMin(subSpeed, 0);
-                            changeAngleWhileFastWheeling(oldSpeed, newSpeed, scaleFactor);
+                            changeAngleWhileWheeling(oldSpeed, newSpeed, scaleFactor);
                         }
                     }
                     break;
@@ -2021,7 +2021,7 @@ namespace Wof.Model.Level.Planes
         /// <param name="oldSpeed"></param>
         /// <param name="newSpeed"></param>
         /// <author>Tomek</author>
-        private void changeAngleWhileFastWheeling(float oldSpeed, float newSpeed , float scaleFactor)
+        private void changeAngleWhileWheeling(float oldSpeed, float newSpeed , float scaleFactor)
         {
             if (CanFastWheeling)
             {
@@ -2323,7 +2323,7 @@ namespace Wof.Model.Level.Planes
 
             float scaleFactor = time / timeUnit;
 
-            changeAngleWhileFastWheeling(oldSpeed, Speed, scaleFactor);
+            changeAngleWhileWheeling(oldSpeed, Speed, scaleFactor);
             if (Speed <= GameConsts.UserPlane.BreakingMinSpeed)
             {
                 Speed = 0;
