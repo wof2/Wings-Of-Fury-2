@@ -505,7 +505,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Okreœla czy zosta³a wciœniêty przycisk wy³¹czania silnika od ostatniego odœwie¿enia.
         /// </summary>
-        private bool isEngineOnPressed;
+        private bool isEngineKeyPressed;
 
         /// <summary>
         /// Okreœla czy klawisz jest zablokowany czy nie.
@@ -943,18 +943,19 @@ namespace Wof.Model.Level.Planes
             get
             {
                 bool leftFlag = true;
-                foreach (PointD peak in Bounds.Peaks)
+                for (int i = 0; i < Bounds.Peaks.Count; i++)
                 {
-                    if (Carrier.GetBeginPosition().X <= peak.X)
+                    if (Carrier.GetBeginPosition().X <= Bounds.Peaks[i].X)
                     {
                         leftFlag = false;
                         break;
                     }
                 }
+
                 bool rightFlag = true;
-                foreach (PointD peak in Bounds.Peaks)
+                for (int i = 0; i < Bounds.Peaks.Count; i++)
                 {
-                    if (Carrier.GetEndPosition().X + LevelTile.Width >= peak.X)
+                    if (Carrier.GetEndPosition().X + LevelTile.Width >= Bounds.Peaks[i].X)
                     {
                         rightFlag = false;
                         break;
@@ -972,12 +973,14 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
-                foreach (PointD peak in Bounds.Peaks)
-                    if (Carrier.GetBeginPosition().X >= peak.X)
+                for (int i = 0; i < Bounds.Peaks.Count; i++)
+                    if (Carrier.GetBeginPosition().X >= Bounds.Peaks[i].X)
                         return false;
-                foreach (PointD peak in Bounds.Peaks)
-                    if (peak.X >= Carrier.GetEndPosition().X + LevelTile.Width)
+
+                for (int i = 0; i < Bounds.Peaks.Count; i++)
+                    if (Bounds.Peaks[i].X >= Carrier.GetEndPosition().X + LevelTile.Width)
                         return false;
+
                 return true;
             }
         }
@@ -1088,11 +1091,14 @@ namespace Wof.Model.Level.Planes
         {
             float minDist = float.MaxValue;
             float temp;
-            foreach (EnemyPlane ep in level.EnemyPlanes)
+
+            for (int i = 0 ; i < level.EnemyPlanes.Count; i++)
             {
-                temp = XDistanceToPlane(ep);
+                if (Equals(level.EnemyPlanes[i])) continue;
+                temp = XDistanceToPlane(level.EnemyPlanes[i]);
                 if (temp != -1 && temp < minDist) minDist = temp;
             }
+
             if (minDist.Equals(float.MaxValue)) return -1;
             return minDist;
         }
@@ -1101,10 +1107,11 @@ namespace Wof.Model.Level.Planes
         {
             float minDist = float.MaxValue;
             float temp;
-            foreach (EnemyPlane ep in level.EnemyPlanes)
+
+            for (int i = 0; i < level.EnemyPlanes.Count; i++)
             {
-                if (Equals(ep)) continue;
-                temp = YDistanceToPlane(ep);
+                if (Equals(level.EnemyPlanes[i])) continue;
+                temp = YDistanceToPlane(level.EnemyPlanes[i]);
                 if (temp != -1 && temp < minDist) minDist = temp;
             }
             if (minDist.Equals(float.MaxValue)) return -1;
@@ -1119,10 +1126,10 @@ namespace Wof.Model.Level.Planes
         {
             float minDist = float.MaxValue;
             float temp;
-            foreach (EnemyPlane ep in level.EnemyPlanes)
+            for (int i = 0; i < level.EnemyPlanes.Count; i++)
             {
-                if (Equals(ep)) continue;
-                temp = DistanceToPlane(ep);
+                if (Equals(level.EnemyPlanes[i])) continue;
+                temp = DistanceToPlane(level.EnemyPlanes[i]);
                 if (temp != -1 && temp < minDist) minDist = temp;
             }
             if (minDist.Equals(float.MaxValue)) return -1;
@@ -1302,7 +1309,6 @@ namespace Wof.Model.Level.Planes
                 MoveAfterCrash(time, timeUnit);
                 return;
             }
-
 
             ProcessInput(time, timeUnit);
     
@@ -1570,13 +1576,11 @@ namespace Wof.Model.Level.Planes
                     isRightPressed = true;
                     break;
                 case InputFlag.EngineOn:
-                    isEngineOnPressed = true;
+                    isEngineKeyPressed = true;
                     break;
                 case InputFlag.Spin:
                     isSpinPressed = true;
                     break;
-
-
                 default:
                     break;
             }
@@ -1639,10 +1643,7 @@ namespace Wof.Model.Level.Planes
         {
             if (planeState != PlaneState.Crashed)
             {
-               // Bounds.Rotate(Math.PI);
-                //this.bounds.HorizontalReflection();
-                this.HorizontalReflection();
-                //direction = (Direction)(-1 * (int)direction);
+                HorizontalReflection();
                 isChangingDirection = false;
                 isBlockSpin = false;
                 UnblockMovementInput();
@@ -1864,7 +1865,7 @@ namespace Wof.Model.Level.Planes
             isRightPressed = false;
             isUpPressed = false;
             isDownPressed = false;
-            isEngineOnPressed = false;
+            isEngineKeyPressed = false;
             isSpinPressed = false;
         }
 
@@ -1911,9 +1912,7 @@ namespace Wof.Model.Level.Planes
         /// Przetwarza sygna³y z klawiatury, które pojawi³y siê od ostatniego wywo³ania ProcessInput.
         /// </summary>
         /// <param name="time">Czas jaki up³yn¹³ od ostatniego wywo³ania ProcessInput. Wyra¿ony w ms.</param>
-        /// <param name="timeUnit">Wartoœæ czasu do której odnoszone s¹ wektor ruchu i wartoœæ obrotu. Wyra¿ona w ms.</param>
-        static int dCounter = 0;
-        
+        /// <param name="timeUnit">Wartoœæ czasu do której odnoszone s¹ wektor ruchu i wartoœæ obrotu. Wyra¿ona w ms.</param>       
         private void ProcessInput(float time, float timeUnit)
         {
             if (planeState == PlaneState.Destroyed && !IsOnAircraftCarrier)
@@ -1924,7 +1923,7 @@ namespace Wof.Model.Level.Planes
             float scaleFactor = time/timeUnit;
 
             //ZMIANA STANY SILNIKA
-            if (isEngineOnPressed)
+            if (isEngineKeyPressed)
             {
                 if (!IsEngineWorking)
                     TryToStartEngine(time);
@@ -2124,8 +2123,8 @@ namespace Wof.Model.Level.Planes
         /// <returns></returns>
         private bool isUnderWater()
         {
-            foreach (PointD p in bounds.Peaks)
-                if (p.Y <= 0)
+            for (int i = 0; i < bounds.Peaks.Count; i++)
+                if (bounds.Peaks[i].Y <= 0)
                     return true;
             return false;
         }
@@ -2655,9 +2654,6 @@ namespace Wof.Model.Level.Planes
         /// <param name="value">O ile nale¿y zwiêkszyæ wartoœæ bezwzglêdn¹ rotateValue</param>
         private void IncreaseRotateValue(float value)
         {
-            //angleAdjustFactor = (-Mogre.Math.Sin(RelativeAngle) / 200 + 1);
-            //Console.Out.WriteLine("angleAdjustFactor:" + angleAdjustFactor);
-
             rotateValue += value;
             if (value >= 0)
                 rotateValue = System.Math.Min(rotateValue, maxRotateValue); //nie mo¿e przekroczyæ wartoœci max
@@ -2672,9 +2668,6 @@ namespace Wof.Model.Level.Planes
         /// <param name="value"></param>
         private void DecreaseRotateValue(float value)
         {
-            //angleAdjustFactor = (-Mogre.Math.Sin(RelativeAngle) / 200 + 1);
-            //Console.Out.WriteLine("angleAdjustFactor:" + angleAdjustFactor);
-
             if (Angle == 0)
                 return;
 
@@ -2689,7 +2682,6 @@ namespace Wof.Model.Level.Planes
                 rotateValue = System.Math.Min(rotateValue, 0); //nie mo¿e wskoczyæ powy¿ej 0
             }
         }
-
         #endregion
 
         #region IBoundingBoxes Members
@@ -2709,10 +2701,7 @@ namespace Wof.Model.Level.Planes
             get { return "Plane" + GetHashCode(); }
         }
 
-        #endregion
-
-       
+        #endregion 
     }
-
     #endregion
 }
