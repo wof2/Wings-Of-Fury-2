@@ -397,9 +397,9 @@ namespace Wof.Model.Level
             if (bunkersList.Count > 0)
             {
                 BunkerTile bunker;
-                foreach (LevelTile tile in bunkersList)
+                for (int i = 0; i < bunkersList.Count; i++)
                 {
-                    bunker = tile as BunkerTile;
+                    bunker = bunkersList[i] as BunkerTile;
                     if (bunker != null)
                         bunker.Fire(time);
                 }
@@ -519,9 +519,9 @@ namespace Wof.Model.Level
             if (enemyInstallationTiles != null)
             {
                 EnemyInstallationTile enemyTile;
-                foreach (LevelTile levelTile in enemyInstallationTiles)
+                for (int i = 0 ; i < enemyInstallationTiles.Count ; i++)
                 {
-                    enemyTile = levelTile as EnemyInstallationTile;
+                    enemyTile = enemyInstallationTiles[i] as EnemyInstallationTile;
                     if (enemyTile != null)
                     {
                         if (!enemyTile.IsDestroyed && enemyTile.SoldierCount > 0)
@@ -535,9 +535,9 @@ namespace Wof.Model.Level
             //sprawdzam zolnierzy.
             if (soldierList != null)
             {
-                foreach (Soldier s in soldierList)
+                for (int i = 0; i < soldierList.Count; i++)
                 {
-                    if (s.IsAlive)
+                    if (soldierList[i].IsAlive)
                     {
                         return;
                     }
@@ -656,14 +656,14 @@ namespace Wof.Model.Level
             List<Soldier> soldiers =
                 SoldiersList.FindAll(Predicates.FindSoldierFromInterval(index - step, index + step));
             if (soldiers != null && soldiers.Count > 0)
-                foreach (Soldier s in soldiers)
+                for ( int i = 0 ; i < soldiers.Count ; i++)
                 {
-                    if (s.CanDie)
+                    if (soldiers[i].CanDie)
                     {
                         //zmniejszam liczbe zolnierzy na planszy
                         this.SoldiersCount--;
-                        Controller.OnSoldierBeginDeath(s, false);
-                        s.Kill();
+                        Controller.OnSoldierBeginDeath(soldiers[i], false);
+                        soldiers[i].Kill();
                     }
                 }
             return soldiers.Count;
@@ -706,8 +706,8 @@ namespace Wof.Model.Level
             if (ammunitionList.Count > 0)
             {
                 //zmieniam pozycje kazdego pocisku.
-                foreach (Ammunition ammun in ammunitionList)
-                    ammun.Move(time);
+                for (int i = 0; i < ammunitionList.Count; i++)
+                    ammunitionList[i].Move(time);
                 //usuwam zniszczone pociski.
                 ammunitionList.RemoveAll(Predicates.RemoveAllDestroyedMissile());
             }
@@ -728,8 +728,8 @@ namespace Wof.Model.Level
                 if (soldierList.Count > 0)
                 {
                     //przesuwam zolnierzy znajdujacych sie na planszy
-                    foreach (Soldier soldier in soldierList)
-                        soldier.Move(time);
+                    for ( int i = 0 ; i < soldierList.Count ; i++)
+                        soldierList[i].Move(time);
                 }
             }
         }
@@ -744,9 +744,9 @@ namespace Wof.Model.Level
             if (tmpList != null && tmpList.Count > 0)
             {
                 AircraftCarrierTile airTile = null;
-                foreach (LevelTile tile in tmpList)
+                for (int i = 0; i < tmpList.Count; i++)
                 {
-                    airTile = tile as AircraftCarrierTile;
+                    airTile = tmpList[i] as AircraftCarrierTile;
                     aircraftTiles.Add(airTile);
                 }
             }
@@ -889,19 +889,19 @@ namespace Wof.Model.Level
             if (enemyInstallationTiles != null && enemyInstallationTiles.Count > 0 &&
                 aircraftTiles != null && aircraftTiles.Count > 0)
             {
-                int aircroftIndex = aircraftTiles[0].TileIndex;
+                int aircraftIndex = aircraftTiles[0].TileIndex;
                 bool left = false, right = false;
-                foreach (LevelTile enemyInstallation in enemyInstallationTiles)
+                for (int i = 0; i < enemyInstallationTiles.Count ; i++)
                 {
-                    if (enemyInstallation.TileIndex < aircroftIndex)
+                    if (enemyInstallationTiles[i].TileIndex < aircraftIndex)
                     {
                         left = true;
                         break;
                     }
                 }
-                foreach (LevelTile enemyInstallation in enemyInstallationTiles)
+                for (int i = 0; i < enemyInstallationTiles.Count; i++)
                 {
-                    if (enemyInstallation.TileIndex > aircroftIndex)
+                    if (enemyInstallationTiles[i].TileIndex > aircraftIndex)
                     {
                         right = true;
                         break;
@@ -924,14 +924,14 @@ namespace Wof.Model.Level
         /// Pobiera liczbe zolnierzy z instalacji obronnych.
         /// </summary>
         /// <param name="list">Lista elementow</param>
-        private void GetSoldiersCount(List<LevelTile> list)
+        private void GetSoldiersCount(List<LevelTile> tileList)
         {
             int soldierCount = 0;
             EnemyInstallationTile enemy = null;
-            foreach (LevelTile tile in list)
-                if (tile is EnemyInstallationTile)
+            for (int i = 0; i < tileList.Count; i++)
+                if (tileList[i] is EnemyInstallationTile)
                 {
-                    enemy = tile as EnemyInstallationTile;
+                    enemy = tileList[i] as EnemyInstallationTile;
                     soldierCount += enemy.SoldierCount;
                 }
             this.mSoldierCount = soldierCount;
