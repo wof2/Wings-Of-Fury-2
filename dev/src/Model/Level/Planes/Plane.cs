@@ -2111,12 +2111,13 @@ namespace Wof.Model.Level.Planes
         /// <param name="timeUnit">Wartoœæ czasu do której odnoszone s¹ wektor ruchu i wartoœæ obrotu. Wyra¿ona w ms.</param>
         protected void FallDown(float time, float timeUnit)
         {
+            bool flag = (locationState == LocationState.Air && planeState != PlaneState.Crashed && motorState == EngineState.ShutOff);
             rotateValue = 0;
             float scaleFactor = time/timeUnit;
             float oldAngle = movementVector.Angle;
-            movementVector.Y -= gravitationalAcceleration * scaleFactor;
+            movementVector.Y -= flag ? gravitationalAcceleration * scaleFactor / 10 : gravitationalAcceleration * scaleFactor;
             float newAngle = movementVector.Angle;
-            float rot = newAngle - oldAngle;
+            float rot = flag ? (newAngle - oldAngle) / 10 : (newAngle - oldAngle);
             bounds.Rotate(rot);
         }
 
