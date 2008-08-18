@@ -504,9 +504,29 @@ namespace Wof.View
             }
         }
 
-        public void OnRegisterParticle(Particle particle)
+        public void OnLoopEnemyPlaneEngineSound(EnemyPlane plane)
         {
+            EnemyPlaneView pv = (EnemyPlaneView)FindPlaneView(plane);
+            pv.LoopEngineSound();
         }
+
+        public void OnLoopEnemyPlaneEngineSounds()
+        {
+            foreach (EnemyPlaneView pv in planeViews) pv.LoopEngineSound();
+        }
+
+        public void OnStopPlayingEnemyPlaneEngineSound(EnemyPlane plane)
+        {
+            EnemyPlaneView pv = (EnemyPlaneView)FindPlaneView(plane);
+            pv.StopEngineSound();
+        }
+
+        public void OnStopPlayingEnemyPlaneEngineSounds()
+        {
+            foreach(EnemyPlaneView pv in planeViews) pv.StopEngineSound();
+        }
+
+
 
         public void OnRegisterPlane(Plane plane)
         {

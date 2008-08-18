@@ -80,12 +80,12 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Silnik dziala
         /// </summary>
-        Work,
+        Working,
 
         /// <summary>
         /// Silnik wylaczony.
         /// </summary>
-        ShutOff
+        SwitchedOff
     }
 
     /// <summary>

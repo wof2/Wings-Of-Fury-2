@@ -258,7 +258,7 @@ namespace Wof.View
             dest.Normalise();
 
             if ((1.0f + src.DotProduct(dest)) < 0.0001f)
-                // Work around 180 degree quaternion rotation quirk                         
+                // Working around 180 degree quaternion rotation quirk                         
             {
                 minimapNode.Yaw(new Degree(180));
             }

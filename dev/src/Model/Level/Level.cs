@@ -414,7 +414,7 @@ namespace Wof.Model.Level
             if (userPlane != null && !userPlane.IsBlockLeft)
                 userPlane.SetInputFlag(InputFlag.Left);
         }
-
+        
         /// <summary>
         /// Metoda wywo³ywana po naciœniêciu strza³ki w prawo.
         /// </summary>
@@ -424,6 +424,8 @@ namespace Wof.Model.Level
                 userPlane.SetInputFlag(InputFlag.Right);
         }
 
+
+        // TODO: dodaæ obs³uge miêkkiego podnoszenia i opuszczania dzioba (joystick)
         /// <summary>
         /// Metoda wywo³ywana po naciœniêciu strza³ki w górê.
         /// </summary>
@@ -442,6 +444,8 @@ namespace Wof.Model.Level
                 userPlane.SetInputFlag(InputFlag.Spin);
         }
 
+
+        // TODO: dodaæ obs³uge miêkkiego podnoszenia i opuszczania dzioba (joystick)
         /// <summary>
         /// Metoda wywo³ywana po naciœniêciu strza³ki w dó³.
         /// </summary>

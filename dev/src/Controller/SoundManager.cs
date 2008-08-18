@@ -57,6 +57,9 @@ using Math=Mogre.Math;
 
 namespace Wof.Controller
 {
+    /// <summary>
+    /// Singleton odpowiadaj¹ce za zaawansowane dŸwiêki oraz dekodowanie muzyki. Wykorzystuje FreeSL.
+    /// </summary>
     internal class SoundManager2
     {
         private string currentMusic;
@@ -91,16 +94,27 @@ namespace Wof.Controller
             return soundManager.InitializeSound(camera, ss); //Init sound system
         }
 
-        public void CreateSound(String filename, IRenderable entity, bool loop, bool play)
+        public FSLSoundObject CreateSound(String filename, IRenderable entity, bool loop, bool play)
         {
             FSLSoundObject sound = soundManager.CreateSoundEntity(filename, entity, filename + "_Sound", loop, false);
             if(play)
             {
                 sound.Play();
             }
-            //soundManager.
-        }
+            return sound;
 
+          /*  FreeSL.FSL_EAX_LISTENER_PROPERTIES ret;
+
+            ret.lRoom = 0;
+            ret.lRoomHF = 0;
+            ret.flRoomRolloffFactor = 0.0f;
+            ret.dwFlags = FreeSL.FSL_EAXBUFFERFLAGS_DIRECTHFAUTO | FSL_EAXBUFFERFLAGS_ROOMAUTO | FSL_EAXBUFFERFLAGS_ROOMHFAUTO;
+        */
+
+        }
+        public void PlaySound(String filename, bool loop)
+        {
+        }
 
         private SoundManager2()
         {
@@ -132,7 +146,8 @@ namespace Wof.Controller
             {
                 if (!ambientSound.IsPlaying() && !preloadOnly) ambientSound.Play();
             }
-            ambientSound.SetGain(1.0f * volume / 100);
+            ambientSound.SetGain(1.0f * volume / 100); 
+          
             currentMusic = sound;
         }
 
@@ -174,7 +189,9 @@ namespace Wof.Controller
         }
     }
 
-
+    /// <summary>
+    /// Singleton odpowiadaj¹cy za proste dŸwiêki
+    /// </summary>
     internal class SoundManager
     {
         private static readonly int C_NOMINAL_ENEMY_FREQ = 60000;
@@ -245,7 +262,6 @@ namespace Wof.Controller
         private Buffer engineIdleSound;
         private Buffer gunFireBuffer;
         private Buffer waterBubblesBuffer;
-        private Buffer enemyEngineSound;
         private Buffer oceanSound;
 
         private Random random; 
@@ -287,11 +303,12 @@ namespace Wof.Controller
                                              dsDevice);
 
 
-                enemyEngineSound = new Buffer("sounds/engineidle.wav",
+               /* enemyEngineSound = new Buffer("sounds/engineidle.wav",
                                               dsDevice);
 
                 enemyEngineSound.Frequency =
-                    enemyEngineSound.Format.SamplesPerSecond + C_NOMINAL_ENEMY_FREQ;
+                    enemyEngineSound.Format.SamplesPerSecond + C_NOMINAL_ENEMY_FREQ;*/
+
 
                 gunFireBuffer = new Buffer("sounds/machinegun.wav",
                                            dsDevice);
@@ -530,16 +547,7 @@ namespace Wof.Controller
             HaltDXSound(oceanSound);
         }
 
-        public void LoopEnemyEngineSound()
-        {
-            PlayDXSound(enemyEngineSound, -1000);
-        }
-
-        public void HaltEnemyEngineSound()
-        {
-            HaltDXSound(enemyEngineSound);
-        }
-
+      
         public void SetEngineFrequency(int freq)
         {
             if (ProblemWithSound)
@@ -565,9 +573,9 @@ namespace Wof.Controller
             }
             try
             {
-                enemyEngineSound.Volume = getBaseVolume() - 1000 - (int) System.Math.Floor(dist/2.0);
-                enemyEngineSound.Frequency =
-                    enemyEngineSound.Format.SamplesPerSecond + C_NOMINAL_ENEMY_FREQ + freq;
+               // enemyEngineSound.Volume = getBaseVolume() - 1000 - (int) System.Math.Floor(dist/2.0);
+               // enemyEngineSound.Frequency =
+               //     enemyEngineSound.Format.SamplesPerSecond + C_NOMINAL_ENEMY_FREQ + freq;
             }
             catch (Exception)
             {

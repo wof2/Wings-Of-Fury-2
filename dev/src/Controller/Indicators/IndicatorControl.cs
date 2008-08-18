@@ -98,6 +98,19 @@ namespace Wof.Controller.Screens
         private Entity hud, fuelArrow, oilArrow;
         private SceneNode hudNode, fuelArrowNode, oilArrowNode;
 
+        private Random random;
+
+        /// <summary>
+        /// Kiedy ostatnio zatrz¹s³ siê (graficznie) wskaŸnik paliwa (pomiar w sek.)
+        /// </summary>
+        private float lastFuelIndicatorDither;
+
+        /// <summary>
+        /// Kiedy ostatnio zatrz¹s³ siê (graficznie) wskaŸnik oleju (pomiar w sek.)
+        /// </summary>
+        private float lastOilIndicatorDither;
+
+
 
         public IndicatorControl(Viewport viewport,
                                 Viewport minimapViewport, GameScreen gameScreen)
@@ -106,6 +119,7 @@ namespace Wof.Controller.Screens
             this.viewport = viewport;
             this.gameScreen = gameScreen;
             sceneMgr = FrameWork.OverlayMgr;
+            random = new Random();
 
             wasDisplayed = false;
             closing = false;
@@ -117,6 +131,8 @@ namespace Wof.Controller.Screens
         /// <param name="fuel">przedzia³ 0-1</param>
         private void RefreshFuel(float fuel)
         {
+           
+
             fuelArrowNode.Orientation = new Quaternion(new Degree(fuel*330), Vector3.NEGATIVE_UNIT_Z);
         }
 
@@ -203,7 +219,7 @@ namespace Wof.Controller.Screens
             CreateInfoContainer();
         }
 
-        public void UpdateGUI()
+        public void UpdateGUI(float timeSinceLastFrame)
         {
             if (!EngineConfig.DisplayMinimap) return;
             if (gameScreen != null && gameScreen.CurrentLevel != null && !closing)
@@ -248,8 +264,54 @@ namespace Wof.Controller.Screens
 
 
                 Plane p = gameScreen.CurrentLevel.UserPlane;
-                RefreshFuel((float) (p.Petrol/p.MaxPetrol));
-                RefreshOil((float) (p.Oil/p.MaxOil));
+
+                float var, oil, fuel;
+                
+                // fuel
+                fuel = p.Petrol / p.MaxPetrol;
+                lastFuelIndicatorDither += timeSinceLastFrame;
+                if (lastFuelIndicatorDither > 0.04)// 50ms
+                {
+                    if (p.IsEngineWorking)
+                    {
+                        var = (p.AirscrewSpeed / 1300.0f) * (random.Next(-1, 2) / 100.0f);
+                    }
+                    else
+                    {
+                        var = 0;
+                    }
+                    if (fuel > 1.01f) fuel = 1.0f;
+                    if (fuel < -0.01f) fuel = 0.0f; 
+                    fuel += var;
+                    lastFuelIndicatorDither = 0;
+                }
+
+                RefreshFuel(fuel);
+               
+
+                // oil
+                oil = p.Oil / p.MaxOil;
+                lastOilIndicatorDither += timeSinceLastFrame;
+                if (lastOilIndicatorDither > 0.04) // 50ms
+                {
+                    if (p.IsEngineWorking)
+                    {
+                        var = (p.AirscrewSpeed / 1300.0f) * (random.Next(-1, 2) / 100.0f);
+                    }
+                    else
+                    {
+                        var = 0;
+                    } 
+                    oil += var;
+                    if (oil > 1.01f) oil = 1.0f; 
+                    if (oil < -0.01f) oil = 0.0f; 
+                   
+                    lastOilIndicatorDither = 0;
+                }
+                RefreshOil(oil);
+
+
+
             }
         }
 

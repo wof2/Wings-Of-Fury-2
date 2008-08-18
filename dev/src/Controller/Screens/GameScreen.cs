@@ -195,12 +195,7 @@ namespace Wof.Controller.Screens
         // OnFireGun, dzwiek dzialka bedzie wylaczany
         private Boolean isStillFireGun;
 
-        // zmienna okresla, czy w dalszym ciagu nalezy odtwarzac
-        // dzwiek wrogiego samolotu
-        // jezeli w ktores klatce okaze sie, ze wrogi samolot zniknal z
-        // planszy, dzwiek nalezy wylaczyc i ustawic zmienna na false
-        private Boolean isStillPlayEnemySound;
-
+     
         private Boolean mayPlaySound;
 
         private readonly object loadingLock;
@@ -434,9 +429,8 @@ namespace Wof.Controller.Screens
                 SoundManager.Instance.HaltEngineSound();
                 SoundManager.Instance.HaltGunFireSound();
                 SoundManager.Instance.HaltWaterBubblesSound();
-                SoundManager.Instance.HaltEnemyEngineSound();
+                levelView.OnStopPlayingEnemyPlaneEngineSounds();
                 SoundManager.Instance.HaltOceanSound();
-
                 increaseScore(this.lives * C_LIFE_LEFT);
                 gameEventListener.GotoNextLevel();
             }
@@ -771,7 +765,7 @@ namespace Wof.Controller.Screens
                     }
                     else
                     {
-                        indicatorControl.UpdateGUI();
+                        indicatorControl.UpdateGUI(evt.timeSinceLastFrame);
                         gameMessages.UpdateControl();
                     }
 
@@ -782,7 +776,7 @@ namespace Wof.Controller.Screens
 
                     if (!isGamePaused && !changingAmmo)
                     {
-                        ControlEnemyEngineSound();
+                        ControlEnemyEngineSounds();
                     }
                 }
                 else
@@ -886,35 +880,30 @@ namespace Wof.Controller.Screens
             prevOilTooLow = false;
         }
 
-        private void ControlEnemyEngineSound()
+        private void ControlEnemyEngineSounds()
         {
             float distance;
             foreach (EnemyPlane ep in currentLevel.EnemyPlanes)
             {
                 distance = currentLevel.UserPlane.XDistanceToPlane(ep);
 
-                if (isStillPlayEnemySound && distance != -1)
-                {
-                    // w tej sytuacji nalezy tylko zmienic 
-                    // glosnosc dzwieku samolotu przeciwnika
-                    SoundManager.Instance.SetEnemyEngineVolume((int) distance,
-                                                               (int) ep.AirscrewSpeed*5);
-                }
-                else if (isStillPlayEnemySound && distance == -1)
+                if (distance == -1)
                 {
                     // w tej sytuacji samolot przeciwnika zniknal z planszy 
                     // i trzeba wylaczyc dzwiek
-                    isStillPlayEnemySound = false;
-                    SoundManager.Instance.HaltEnemyEngineSound();
+                
+                   // SoundManager.Instance.HaltEnemyEngineSound();
+                    levelView.OnStopPlayingEnemyPlaneEngineSound(ep);
                 }
-                else if (!isStillPlayEnemySound && distance != -1)
+                else if (distance != -1)
                 {
-                    // nalezy ustawic glosnosc dzwieku samolotu przeciwnika
-                    // i wlaczyc ten dzwiek
-                    isStillPlayEnemySound = true;
-                    SoundManager.Instance.SetEnemyEngineVolume((int) distance,
+                   // glosnosc sterowana przez FreeSL
+                  
+                   /* SoundManager.Instance.SetEnemyEngineVolume((int) distance,
                                                                (int) ep.AirscrewSpeed*5);
-                    SoundManager.Instance.LoopEnemyEngineSound();
+                    SoundManager.Instance.LoopEnemyEngineSound();*/
+
+                    levelView.OnLoopEnemyPlaneEngineSound(ep);
                 }
                 else
                 {
@@ -927,9 +916,10 @@ namespace Wof.Controller.Screens
         private void DisplayPause()
         {
             isGamePaused = true;
-            isInPauseMenu = true;
-            isStillPlayEnemySound = false;
-            SoundManager.Instance.HaltEnemyEngineSound();
+            isInPauseMenu = true;   
+            levelView.OnStopPlayingEnemyPlaneEngineSounds();
+
+
             mGui = new GUI(FontManager.CurrentFont, 24);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
           //  mGui.injectMouse(0, 0, false);
@@ -961,8 +951,7 @@ namespace Wof.Controller.Screens
         private void DisplayGameover()
         {
             isGamePaused = true;
-            isStillPlayEnemySound = false;
-            SoundManager.Instance.HaltEnemyEngineSound();
+            levelView.OnStopPlayingEnemyPlaneEngineSounds();
             SoundManager.Instance.HaltOceanSound();
             mGui = new GUI(FontManager.CurrentFont, 24);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
@@ -1358,8 +1347,7 @@ namespace Wof.Controller.Screens
         {
             currentLevel.OnSoldierEndDeath();
 
-            isStillPlayEnemySound = false;
-            SoundManager.Instance.HaltEnemyEngineSound();
+            levelView.OnStopPlayingEnemyPlaneEngineSounds();
 
             if (!readyForLevelEnd)
             {
