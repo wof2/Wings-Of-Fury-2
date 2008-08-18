@@ -768,7 +768,7 @@ namespace Wof.Model.Level.Planes
         /// <author>Michal Ziober</author>
         public bool IsEngineWorking
         {
-            get { return (motorState == EngineState.Work); }
+            get { return (motorState == EngineState.Working); }
         }
 
         /// <summary>
@@ -1178,7 +1178,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         public void Init()
         {
-            motorState = EngineState.ShutOff;
+            motorState = EngineState.SwitchedOff;
             planeState = PlaneState.Intact;
             wheelsState = WheelsState.Out;
             landingState = LandingState.None;
@@ -1193,7 +1193,7 @@ namespace Wof.Model.Level.Planes
             breakingEndCarrierTile = null;
 
             direction = Direction.Left;
-            bounds = new Quadrangle(GetStartPosition(), width, height);
+            bounds = new Quadrangle(GetStartingPosition(), width, height);
             movementVector = new PointD(0, 0);
             Rotate(angleOnCarrier*(float) direction);
             isChangingDirection = false;
@@ -1243,7 +1243,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         public void StartEngine()
         {
-            motorState = EngineState.Work;
+            motorState = EngineState.Working;
             airscrewSpeed = minAirscrewSpeed;
         }
 
@@ -1259,9 +1259,9 @@ namespace Wof.Model.Level.Planes
                     if (scaleFactor >=0)
                         lowerTailStep(scaleFactor);
             }
-            if (motorState == EngineState.Work)
+            if (motorState == EngineState.Working)
             {
-                motorState = EngineState.ShutOff;
+                motorState = EngineState.SwitchedOff;
                 airscrewSpeed = 0;
                 if (!isEnemy) //wy³¹czam dŸwiêk tylko dla samolotu gracza
                     level.Controller.OnTurnOffEngine();
@@ -1313,9 +1313,11 @@ namespace Wof.Model.Level.Planes
             ProcessInput(time, timeUnit);
     
             //odjêcie benzyny i ewentualnie oleju
-            if (locationState == LocationState.Air || locationState == LocationState.AirTurningRound)
+            if (this.motorState == EngineState.Working && (locationState == LocationState.Air || locationState == LocationState.AirTurningRound))
                 petrol -= scaleFactor*movementVector.EuclidesLength/GameConsts.UserPlane.MaxSpeed*
                           GameConsts.UserPlane.PetrolLoss;
+
+
             petrol = System.Math.Max(petrol, 0);
             if (planeState == PlaneState.Damaged && !IsOnAircraftCarrier)
                 oil -= scaleFactor*GameConsts.UserPlane.OilLoss;
@@ -1327,7 +1329,7 @@ namespace Wof.Model.Level.Planes
                 if (petrol == 0 || oil == 0)
                     OutOfPetrolOrOil(scaleFactor);
             }
-            if (motorState == EngineState.Work)
+            if (motorState == EngineState.Working)
             {
                 //zmiana wektora ruchu przy zawracaniu
                 if (planeState != PlaneState.Destroyed && locationState == LocationState.AirTurningRound &&
@@ -1342,7 +1344,7 @@ namespace Wof.Model.Level.Planes
             }
 
             //czy ma w³¹czony silnik, jeœli nie to obrót samolotu, tak ¿eby spada³
-            if (!IsOnAircraftCarrier && planeState != PlaneState.Crashed && motorState == EngineState.ShutOff)
+            if (!IsOnAircraftCarrier && planeState != PlaneState.Crashed && motorState == EngineState.SwitchedOff)
                 FallDown(time, timeUnit);
 
             if (IsEngineWorking)
@@ -1358,7 +1360,7 @@ namespace Wof.Model.Level.Planes
             HorizontalBoundsLimit(time, timeUnit);
             HeightLimit(time, timeUnit);
 
-            if (!isLanding && !isAfterFlyingDown || motorState == EngineState.ShutOff ||
+            if (!isLanding && !isAfterFlyingDown || motorState == EngineState.SwitchedOff ||
                 planeState == PlaneState.Destroyed)
             {
                 if (locationState == LocationState.Air)
@@ -1928,7 +1930,7 @@ namespace Wof.Model.Level.Planes
                 if (!IsEngineWorking)
                     TryToStartEngine(time);
                 else
-                    TryStopEngine(scaleFactor);
+                    TryToStopEngine(scaleFactor);
             }
             else
                 ResetEngineParameters();
@@ -1936,7 +1938,7 @@ namespace Wof.Model.Level.Planes
             switch (locationState)
             {
                 case LocationState.Air:
-                    if (motorState == EngineState.ShutOff)
+                    if (motorState == EngineState.SwitchedOff)
                         break;
                     if (isLeftPressed || isRightPressed)
                     {
@@ -2105,19 +2107,19 @@ namespace Wof.Model.Level.Planes
         }
 
         /// <summary>
-        /// Spadanie samolotu w dó³ 
+        /// Spadanie/szybowanie samolotu 
         /// </summary>
         /// <param name="time">Czas jaki up³yn¹³ od ostatniego wywo³ania ProcessInput. Wyra¿ony w ms.</param>
         /// <param name="timeUnit">Wartoœæ czasu do której odnoszone s¹ wektor ruchu i wartoœæ obrotu. Wyra¿ona w ms.</param>
         protected void FallDown(float time, float timeUnit)
         {
-            bool flag = (locationState == LocationState.Air && planeState != PlaneState.Crashed && motorState == EngineState.ShutOff);
+            bool isSliding = (locationState == LocationState.Air && planeState != PlaneState.Crashed && motorState == EngineState.SwitchedOff); // samolot moze spadac zniszczony albo szybowaæ po wy³¹czeniu silnika
             rotateValue = 0;
             float scaleFactor = time/timeUnit;
             float oldAngle = movementVector.Angle;
-            movementVector.Y -= flag ? gravitationalAcceleration * scaleFactor / 10 : gravitationalAcceleration * scaleFactor;
+            movementVector.Y -= isSliding ? gravitationalAcceleration * scaleFactor / 8 : gravitationalAcceleration * scaleFactor;
             float newAngle = movementVector.Angle;
-            float rot = flag ? (newAngle - oldAngle) / 10 : (newAngle - oldAngle);
+            float rot = (newAngle - oldAngle);
             bounds.Rotate(rot);
         }
 
@@ -2160,7 +2162,7 @@ namespace Wof.Model.Level.Planes
         /// Próba wy³¹czenia silnika.
         /// (nie mozna wy³¹czyæ silnika zaraz po uruchomieniu)
         /// </summary>
-        private void TryStopEngine(float scaleFactor)
+        private void TryToStopEngine(float scaleFactor)
         {
             if (!IsEngineJustStarted)
             {
@@ -2182,7 +2184,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Zwraca startow¹ pozycje samolotu.
         /// </summary>
-        private PointD GetStartPosition()
+        private PointD GetStartingPosition()
         {
             return Carrier.GetRestoreAmunitionPosition();
         }
@@ -2193,7 +2195,7 @@ namespace Wof.Model.Level.Planes
         /// <returns></returns>
         private void UpdateAirscrewSpeed()
         {
-            if (motorState == EngineState.Work)
+            if (motorState == EngineState.Working)
                 airscrewSpeed =
                     movementVector.EuclidesLength/GameConsts.UserPlane.MaxSpeed*(maxAirscrewSpeed - minAirscrewSpeed) +
                     minAirscrewSpeed;
@@ -2581,7 +2583,7 @@ namespace Wof.Model.Level.Planes
             else
             {
                 if (isSinking)
-                    Sinking(time, timeUnit);
+                    Sink(time, timeUnit);
                 if (isFallingAfterCrash)
                 {
                     movementVector.Y -= gravitationalAcceleration*time/timeUnit;
@@ -2602,7 +2604,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         /// <param name="time"></param>
         /// <param name="timeUnit"></param>
-        private void Sinking(float time, float timeUnit)
+        private void Sink(float time, float timeUnit)
         {
             //czy pod wod¹ nie ma ju¿ wyspy
             int index = Mathematics.PositionToIndex(Center.X);

@@ -154,7 +154,7 @@ namespace Wof.Model.Level.Planes
             movementVector = new PointD((float) direction*GameConsts.EnemyPlane.Speed, 0);
             locationState = LocationState.Air;
             wheelsState = WheelsState.In;
-            motorState = EngineState.Work;
+            motorState = EngineState.Working;
             isAlarmDelivered = false;
             temp = new PointD(0, 0);
 
@@ -185,7 +185,7 @@ namespace Wof.Model.Level.Planes
             movementVector = new PointD((float) direction*GameConsts.EnemyPlane.Speed*0.01f*r.Next(90, 111), 0);
             locationState = LocationState.Air;
             wheelsState = WheelsState.In;
-            motorState = EngineState.Work;
+            motorState = EngineState.Working;
 
             attackObject = AttackObject.None;
 
@@ -254,7 +254,7 @@ namespace Wof.Model.Level.Planes
 
                 }
                 if (locationState == LocationState.Air && planeState != PlaneState.Crashed &&
-                    motorState == EngineState.ShutOff)
+                    motorState == EngineState.SwitchedOff)
                     FallDown(time, timeUnit);
 
                 //atak samolotu gracza

@@ -46,6 +46,7 @@
  * 
  */
 
+using FSLOgreCS;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
@@ -60,6 +61,7 @@ namespace Wof.View
     public class EnemyPlaneView : PlaneView
     {
         private static int enemyPlaneCounter = 1;
+        protected FSLSoundObject engineSound = null;
 
         public EnemyPlaneView(Plane plane, SceneManager sceneMgr, SceneNode parentNode)
             : base(plane, sceneMgr, parentNode, "EnemyPlane" + enemyPlaneCounter.ToString())
@@ -75,6 +77,22 @@ namespace Wof.View
                           new Vector2(2.0f, 2.0f));
             }
         }
+
+        ~EnemyPlaneView()
+        {
+            if(engineSound!=null) engineSound.Destroy();
+        }
+
+        public void LoopEngineSound()
+        {
+            if (EngineConfig.SoundEnabled && !engineSound.IsPlaying())  engineSound.Play();
+        }
+
+        public void StopEngineSound()
+        {
+            if (EngineConfig.SoundEnabled) engineSound.Stop();
+        }
+
 
         // TODO
         public override void ResetCameraHolders()
@@ -101,7 +119,7 @@ namespace Wof.View
         {
             bladeNode.SetVisible(visible);
         }
-
+      
 
         protected override void initOnScene()
         {
@@ -140,6 +158,12 @@ namespace Wof.View
                 minimapItem =
                     new MinimapItem(outerNode, FrameWork.MinimapMgr, "Cube.mesh", ColourValue.Red, planeEntity);
             }
-        }
+
+            // sound
+            if (EngineConfig.SoundEnabled)
+            {
+                engineSound = SoundManager2.Instance.CreateSound("sounds/engineidle.wav", this.planeNode, true, false);
+            }
+    }
     }
 }
