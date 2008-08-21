@@ -1357,7 +1357,7 @@ namespace Wof.Model.Level.Planes
             LandingProcess(time, timeUnit);
 
             //ograniczenia
-            HorizontalBoundsLimit(time, timeUnit);
+            VerticalBoundsLimit(time, timeUnit);
             HeightLimit(time, timeUnit);
 
             if (!isLanding && !isAfterFlyingDown || motorState == EngineState.SwitchedOff ||
@@ -2113,7 +2113,7 @@ namespace Wof.Model.Level.Planes
         /// <param name="timeUnit">Wartoœæ czasu do której odnoszone s¹ wektor ruchu i wartoœæ obrotu. Wyra¿ona w ms.</param>
         protected void FallDown(float time, float timeUnit)
         {
-            bool isSliding = (locationState == LocationState.Air && planeState != PlaneState.Crashed && motorState == EngineState.SwitchedOff); // samolot moze spadac zniszczony albo szybowaæ po wy³¹czeniu silnika
+            bool isSliding = (locationState == LocationState.Air && planeState != PlaneState.Crashed && planeState != PlaneState.Destroyed && motorState == EngineState.SwitchedOff); // samolot moze spadac zniszczony albo szybowaæ po wy³¹czeniu silnika
             rotateValue = 0;
             float scaleFactor = time/timeUnit;
             float oldAngle = movementVector.Angle;
@@ -2454,7 +2454,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         /// <param name="time"></param>
         /// <param name="timeUnit"></param>
-        protected void HorizontalBoundsLimit(float time, float timeUnit)
+        protected void VerticalBoundsLimit(float time, float timeUnit)
         {
             if (isMaxHeightRotate)
                 return;

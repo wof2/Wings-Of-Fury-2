@@ -292,6 +292,13 @@ namespace Wof.Controller.Screens
             camera.Position = new Vector3(0, 20, 70);
         }
 
+        protected void createMouse()
+        {
+            if (mGui == null) mGui = new GUI(FontManager.CurrentFont, 24);
+            mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
+            mGui.injectMouse((uint)(viewport.ActualWidth + 1), (uint)(viewport.ActualHeight + 1), false);  
+        }
+
         protected virtual void CreateGUI()
         {
             buttonsCount = 0;

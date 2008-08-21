@@ -335,7 +335,7 @@ namespace Wof.View
             EffectsManager.Singleton.NoSmoke(sceneMgr, OuterNode);
         }
 
-        public void refreshPosition()
+        public virtual void refreshPosition()
         {
             //Modelowy plane jest null'em dla samolocikow reprezentujacych zycia
             if (plane != null)

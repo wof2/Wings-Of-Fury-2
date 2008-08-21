@@ -85,7 +85,11 @@ namespace Wof.View
 
         public void LoopEngineSound()
         {
-            if (EngineConfig.SoundEnabled && !engineSound.IsPlaying())  engineSound.Play();
+            if (EngineConfig.SoundEnabled && !engineSound.IsPlaying())
+            { 
+                engineSound.Play();
+                SoundManager2.Instance.UpdateSoundObjects();
+            }
         }
 
         public void StopEngineSound()
@@ -93,6 +97,7 @@ namespace Wof.View
             if (EngineConfig.SoundEnabled) engineSound.Stop();
         }
 
+      
 
         // TODO
         public override void ResetCameraHolders()
@@ -123,6 +128,12 @@ namespace Wof.View
 
         protected override void initOnScene()
         {
+            // sound
+            if (EngineConfig.SoundEnabled)
+            {
+                engineSound = SoundManager2.Instance.CreateSound("sounds/enemy_engineidle.wav", this.planeNode, true, false);
+             
+            }
             planeEntity = sceneMgr.CreateEntity(name + "_Body", "A6M.mesh");
             //  planeEntity.SetMaterialName("P47/Body");
             innerNode.AttachObject(planeEntity);
@@ -159,11 +170,7 @@ namespace Wof.View
                     new MinimapItem(outerNode, FrameWork.MinimapMgr, "Cube.mesh", ColourValue.Red, planeEntity);
             }
 
-            // sound
-            if (EngineConfig.SoundEnabled)
-            {
-                engineSound = SoundManager2.Instance.CreateSound("sounds/engineidle.wav", this.planeNode, true, false);
-            }
+           
     }
     }
 }

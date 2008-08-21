@@ -69,8 +69,7 @@ namespace Wof.Controller.Screens
         protected override void CreateGUI()
         {
             mGui = new GUI(FontManager.CurrentFont, 22);
-            mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
-          //  mGui.injectMouse(0, 0, false);
+            createMouse();
 
 
             string version = "v. " + EngineConfig.C_WOF_VERSION;

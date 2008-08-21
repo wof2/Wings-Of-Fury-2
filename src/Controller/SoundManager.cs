@@ -90,8 +90,20 @@ namespace Wof.Controller
             soundManager = FSLSoundManager.Instance;
             currentMusic = null;
             ambientSound = null;
-         
+
             return soundManager.InitializeSound(camera, ss); //Init sound system
+           
+        }
+
+        public void UpdateSoundObjects()
+        {
+           this.soundManager.UpdateSoundObjects();
+            
+        }
+
+        public void SetListener(Camera camera)
+        {
+            this.soundManager.SetListener(camera);
         }
 
         public FSLSoundObject CreateSound(String filename, IRenderable entity, bool loop, bool play)
@@ -102,16 +114,8 @@ namespace Wof.Controller
                 sound.Play();
             }
             return sound;
-
-          /*  FreeSL.FSL_EAX_LISTENER_PROPERTIES ret;
-
-            ret.lRoom = 0;
-            ret.lRoomHF = 0;
-            ret.flRoomRolloffFactor = 0.0f;
-            ret.dwFlags = FreeSL.FSL_EAXBUFFERFLAGS_DIRECTHFAUTO | FSL_EAXBUFFERFLAGS_ROOMAUTO | FSL_EAXBUFFERFLAGS_ROOMHFAUTO;
-        */
-
         }
+
         public void PlaySound(String filename, bool loop)
         {
         }
