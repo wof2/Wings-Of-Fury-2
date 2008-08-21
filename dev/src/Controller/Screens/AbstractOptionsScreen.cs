@@ -114,8 +114,7 @@ namespace Wof.Controller.Screens
             }
             currentButton = 0;
             mGui = new GUI(FontManager.CurrentFont, 20);
-            mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
-            mGui.injectMouse(0, 0, false);
+            createMouse();
 
             guiWindow = mGui.createWindow(new Vector4(0,
                                                       0, viewport.ActualWidth, viewport.ActualHeight),

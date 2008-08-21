@@ -1607,6 +1607,9 @@ namespace Wof.View
                     CurrentCameraHolder.DetachObject(framework.Camera);
                 }
                 cameraHolders[currentCameraHolderIndex].AttachObject(framework.Camera);
+
+                SoundManager2.Instance.SetListener(framework.Camera);
+                SoundManager2.Instance.UpdateSoundObjects();
             }
         }
 

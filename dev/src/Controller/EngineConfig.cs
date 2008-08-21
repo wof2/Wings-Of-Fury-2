@@ -69,7 +69,7 @@ namespace Wof.Controller
         /// <summary>
         /// Czy bie¿¹ca kompilacja jest demem?
         /// </summary>
-        public static readonly bool C_IS_DEMO = true;
+        public static readonly bool C_IS_DEMO = false;
 
 
         public static readonly String C_ENGINE_CONFIG = "wofconf.dat";

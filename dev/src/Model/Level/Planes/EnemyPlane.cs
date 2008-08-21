@@ -88,7 +88,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Okreœla na jak¹ wysokoœæ nad samolot gracza bêdzie siê wznosi³/opada³ samolot wroga.
         /// </summary>
-        private const float userPlaneHeightDiff = 3;
+        private const float userPlaneHeightDiff = 9;
 
         /// <summary>
         /// Wysokoœæ samolotu.
@@ -222,7 +222,7 @@ namespace Wof.Model.Level.Planes
 
             UpdateDamage(scaleFactor); //wyciek oleju
             HeightLimit(time, timeUnit);
-            HorizontalBoundsLimit(time, timeUnit);
+            VerticalBoundsLimit(time, timeUnit);
 
             if (planeState == PlaneState.Destroyed) //jeœli zniszczony to tylko spada
                 FallDown(time, timeUnit);
@@ -308,11 +308,13 @@ namespace Wof.Model.Level.Planes
             }
             finalValue.X /= lastInterpolationNull + 1;
             finalValue.Y /= lastInterpolationNull + 1;
+           
 
-            bounds.Move(scaleFactor*finalValue);
+
+            //bounds.Move(scaleFactor*finalValue);
             //Koniec interpolacji by Kamil
 
-            //bounds.Move(scaleFactor * temp);
+            bounds.Move(scaleFactor * temp);
             // zmiana by Adam
 
             if (IsEngineWorking)
@@ -366,7 +368,7 @@ namespace Wof.Model.Level.Planes
                         if (Center.Y < level.UserPlane.Center.Y - userPlaneHeightDiff && RelativeAngle < maxAngle)
                             RotateUp(scaleFactor*rotateStep);
                         else //czy ma prostowaæ samolot 
-                            if (RelativeAngle != 0)
+                            if (Math.Abs(RelativeAngle) >= 0)
                                 //Rotate(-1.0 * (float)direction * Math.Sign(RelativeAngle) * scaleFactor * Math.Min(rotateStep, Math.Abs(RelativeAngle)));
                                 SteerToHorizon(scaleFactor);
                 }
@@ -502,9 +504,14 @@ namespace Wof.Model.Level.Planes
         private void AvoidUserPlaneCrash(float scaleFactor)
         {
             if (Center.Y - level.UserPlane.Center.Y > 0)
-                RotateUp(scaleFactor * 1.25f * rotateStep);
-            else
-                RotateDown(scaleFactor * 1.25f * rotateStep);
+            {
+                if(RelativeAngle < maxAngle) RotateUp(scaleFactor * 1.25f * rotateStep);
+            } else
+            {
+                if(RelativeAngle > -maxAngle) RotateDown(scaleFactor * 1.25f * rotateStep);
+            }
+                
+            
         }
 
         /// <summary>
@@ -515,9 +522,13 @@ namespace Wof.Model.Level.Planes
         private void AvoidEnemyPlaneCrash(float scaleFactor, EnemyPlane ep)
         {
             if (Center.Y - ep.Center.Y > 0)
-                RotateUp(scaleFactor*1.25f*rotateStep);
+            {
+                if (RelativeAngle < maxAngle) RotateUp(scaleFactor * 1.25f * rotateStep);
+            }
             else
-                RotateDown(scaleFactor*1.25f*rotateStep);
+            {
+                if (RelativeAngle > -maxAngle) RotateDown(scaleFactor * 1.25f * rotateStep);
+            }
         }
 
         #endregion
