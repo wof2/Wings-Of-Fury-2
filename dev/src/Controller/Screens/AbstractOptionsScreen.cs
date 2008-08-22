@@ -291,12 +291,13 @@ namespace Wof.Controller.Screens
                         if (IsOptionSelected(holder.Value))
                         {
                             return;
-                        }
-
+                        } 
+                        PlayClickSound();
                         ProcessOptionSelection(holder.Value);
                         break;
                     }
                 }
+                PlayClickSound();
                 gameEventListener.GotoOptionsScreen();
             }
         }

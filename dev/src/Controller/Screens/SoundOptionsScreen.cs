@@ -171,7 +171,7 @@ namespace Wof.Controller.Screens
                 {
                
                 }
-                SoundManager2.Instance.PlayAmbient(SoundManager2.Instance.CurrentMusic, EngineConfig.MusicVolume);
+                SoundManager3D.Instance.PlayAmbient(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
                 EngineConfig.SaveEngineConfig();
                 return;
             }
@@ -188,7 +188,7 @@ namespace Wof.Controller.Screens
             try
             {
                 EngineConfig.SaveEngineConfig();
-                if (SoundManager2.Instance.Init(camera, EngineConfig.SoundSystem))
+                if (SoundManager3D.Instance.InitializeSound(camera, EngineConfig.SoundSystem))
                 {
                     EngineConfig.SoundEnabled = true;
                 }
@@ -214,7 +214,7 @@ namespace Wof.Controller.Screens
                 {
                     SoundManager.Instance.SoundDisabled = false;
                     SoundManager.Instance.PlayMainTheme();
-                    SoundManager2.Instance.PlayAmbient(SoundManager2.Instance.CurrentMusic, EngineConfig.MusicVolume);
+                    SoundManager3D.Instance.PlayAmbient(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
                 }
             }
             catch (Exception)

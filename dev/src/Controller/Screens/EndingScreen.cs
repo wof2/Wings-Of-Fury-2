@@ -221,9 +221,11 @@ namespace Wof.Controller.Screens
 
                 if (highscore > 0)
                 {
+                    PlayClickSound();
                     gameEventListener.GotoEnterScoreScreen(highscore);
                 } else
                 {
+                    PlayClickSound();
                     gameEventListener.GotoHighscoresScreen();
                 }
             }

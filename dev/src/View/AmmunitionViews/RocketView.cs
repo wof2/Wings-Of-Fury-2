@@ -46,6 +46,7 @@
  * 
  */
 
+using System;
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
@@ -53,13 +54,16 @@ using Wof.Model.Level;
 using Wof.Model.Level.Weapon;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;
+using Math=Mogre.Math;
 
 namespace Wof.View
 {
-    internal class RocketView : AmmunitionView
+    internal class RocketView : AmmunitionView, IDisposable
     {
         protected static Stack<RocketView> rocketAvailablePool;
         protected static Dictionary<Ammunition, RocketView> rocketUsedPool;
+
+        
 
         public static void InitPool(int poolSize, FrameWork framework)
         {
@@ -90,6 +94,22 @@ namespace Wof.View
             rocketAvailablePool.Push(rv);
         }
 
+        public static void DestroyPool()
+        {
+            while (rocketAvailablePool.Count > 0)
+            {
+                rocketAvailablePool.Pop().Dispose();
+            }
+            rocketAvailablePool.Clear();
+
+            Dictionary<Ammunition, RocketView>.Enumerator e = rocketUsedPool.GetEnumerator();
+            while (e.MoveNext())
+            {
+                e.Current.Value.Dispose();
+            }
+            rocketUsedPool.Clear();
+        }
+
 
         private ConstRotateNodeAnimation rocketAnimation;
         private SceneNode innerNode;
@@ -102,14 +122,7 @@ namespace Wof.View
             //initSmoke();
         }
 
-        //Deprecated
-        public RocketView(Ammunition rocket, FrameWork framework)
-            : base(rocket, framework)
-        {
-            initOnScene();
-            initSmoke(false);
-        }
-
+       
         protected new void preInitOnScene()
         {
             ammunitionModel = sceneMgr.CreateEntity("Rocket" + ammunitionID.ToString(), "Rocket.mesh");
@@ -174,7 +187,7 @@ namespace Wof.View
                 sceneMgr.RootSceneNode.CreateChildSceneNode("Rocket" + ammunitionID.ToString(), new Vector3(0, 0, 0));
 
             Vector3 oVector = new Vector3(0, 0, -1);
-
+          
             innerNode =
                 ammunitionNode.CreateChildSceneNode("RocketInner" + ammunitionID.ToString(), new Vector3(0, 0, 0));
             innerNode.AttachObject(ammunitionModel);
@@ -217,6 +230,25 @@ namespace Wof.View
         {
             EffectsManager.Singleton.Smoke(sceneMgr, innerNode, EffectsManager.SmokeType.ROCKET,
                                            new Vector3(0, 0, 0.25f), Vector3.UNIT_Z, new Vector2(1f, 1f), enabled);
+        }
+
+        public void Dispose()
+        {
+            if (FrameWork.DisplayMinimap)
+            {
+                minimapItem.Dispose();
+                minimapItem = null;
+            }
+            innerNode.DetachAllObjects();
+            innerNode.Dispose();
+            innerNode = null;
+            ammunitionModel.Dispose();
+            ammunitionModel = null;
+
+            rocketAnimation = null;
+            ammunitionNode.DetachAllObjects();
+            ammunitionNode.Dispose();
+            ammunitionNode = null;
         }
     }
 }

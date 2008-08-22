@@ -48,6 +48,7 @@
 
 using System;
 using System.Collections.Generic;
+using FSLOgreCS;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
@@ -59,7 +60,7 @@ using Math=Mogre.Math;
 
 namespace Wof.View
 {
-    internal class SoldierView : VertexAnimable
+    internal class SoldierView : VertexAnimable, IDisposable
     {
         protected static int soldierCounter = 1;
 
@@ -91,6 +92,8 @@ namespace Wof.View
         #region Minimap representation
 
         protected MinimapItem minimapItem = null;
+        private FSLSoundEntity dieSound1 = null;
+        private FSLSoundEntity dieSound2 = null;
 
         public MinimapItem MinimapItem
         {
@@ -98,6 +101,24 @@ namespace Wof.View
         }
 
         #endregion
+
+
+        public void Dispose()
+        {
+            
+            if (dieSound1 != null)
+            {
+                 SoundManager3D.Instance.RemoveSound(dieSound1.Name); 
+                 dieSound1 = null;
+            }
+            if (dieSound2 != null)
+            {
+                 SoundManager3D.Instance.RemoveSound(dieSound2.Name); 
+                 dieSound2 = null;
+            }
+            GC.SuppressFinalize(this);
+
+        }
 
         public static void InitPool(int poolSize, FrameWork framework)
         {
@@ -110,6 +131,24 @@ namespace Wof.View
                 soldierAvailablePool.Push(dummyView);
             }
         }
+
+        public static void DestroyPool()
+        {
+            while(soldierAvailablePool.Count > 0)
+            {
+                soldierAvailablePool.Pop().Dispose();
+            }
+            soldierAvailablePool.Clear();
+            
+            Dictionary<Soldier,SoldierView>.Enumerator e = soldierUsedPool.GetEnumerator();
+            while(e.MoveNext())
+            {
+                e.Current.Value.Dispose();
+            }
+            soldierUsedPool.Clear();
+        }
+
+
 
         public static SoldierView GetInstance(Soldier soldier)
         {
@@ -132,13 +171,39 @@ namespace Wof.View
                     sv.minimapItem.Hide();
                 }
             }
-
+           
             soldierUsedPool.Remove(soldier);
             soldierAvailablePool.Push(sv);
         }
 
+     
+       
+
+        public void PlaySoldierDeathSound()
+        {
+            if (EngineConfig.SoundEnabled)
+            {
+                if (Math.RangeRandom(0.0f, 1.0f) > 0.5f)
+                {
+                   dieSound1.Play();
+                   
+                }
+                else
+                {
+                    dieSound2.Play();
+                }
+                SoundManager3D.Instance.UpdateSoundObjects();
+            }
+        }
+
+
+     
+
         protected void preInitOnScene()
         {
+
+         
+
             soldierModel = sceneMgr.CreateEntity("Soldier" + soldierID.ToString(), "Soldier.mesh");
 
             if (soldierID%3 == 0)
@@ -148,7 +213,21 @@ namespace Wof.View
 
             soldierNode =
                 sceneMgr.RootSceneNode.CreateChildSceneNode("SoldierNode" + soldierID.ToString(),
-                                                            new Vector3(-100000, -100000, 0));
+                                                            new Vector3(-1000000, -1000000, 0));
+
+            if (EngineConfig.SoundEnabled)
+            {
+                dieSound1 = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_1, this.soldierNode, false, false); 
+                dieSound1.SetReferenceDistance(60); // make it a bit louder but dissapear faster
+                dieSound1.SetGain(3.5f);
+               // dieSound1.Play();
+
+                dieSound2 = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_2, this.soldierNode, false, false);
+                dieSound2.SetReferenceDistance(60); // make it a bit louder
+                dieSound1.SetGain(4.0f);
+            }
+
+
             soldierNode.AttachObject(soldierModel);
             soldierNode.Scale(1.1f, 1.1f, 1.1f);
             runAnimationState = soldierModel.GetAnimationState("run");

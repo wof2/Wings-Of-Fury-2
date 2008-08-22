@@ -50,6 +50,7 @@
 using System;
 using System.Collections.Generic;
 using BetaGUI;
+using FSLOgreCS;
 using Mogre;
 using MOIS;
 using Wof.Languages;
@@ -156,6 +157,7 @@ namespace Wof.Controller.Screens
         }
 
         protected Boolean initialized;
+        protected FSLSoundObject clickSound;
 
         public AbstractScreen(GameEventListener gameEventListener,
                               SceneManager sceneMgr, Viewport viewport, Camera camera)
@@ -173,6 +175,8 @@ namespace Wof.Controller.Screens
             wasEnterKeyPressed = false;
 
             keyDelay = new Timer();
+            clickSound = SoundManager3D.Instance.GetSound("menuClick");
+            if(clickSound == null) clickSound = SoundManager3D.Instance.CreateAmbientSound(SoundManager3D.C_MENU_CLICK, "menuClick", false, false); // destroyed together with SoundManager3D singleton
         }
 
         /// <summary>
@@ -340,7 +344,7 @@ namespace Wof.Controller.Screens
                 viewport.Dispose();
                 viewport = null;
             }
-
+           // clickSound.Destroy();
             initialized = false;
         }
 
@@ -656,8 +660,8 @@ namespace Wof.Controller.Screens
                     }
 
                    
-                    int id = mGui.injectMouse(screenx, screeny, false);
-
+                    int id = -1;
+                   
                     if (mouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
                     {
                        wasLeftMousePressed = true;
@@ -667,11 +671,13 @@ namespace Wof.Controller.Screens
                        // w poprzedniej klatce uzytkownik
                        // trzymal wcisniety przycisk myszki
                        // a teraz go zwolnil
-                       mGui.injectMouse(screenx, screeny, true);
+                       id = mGui.injectMouse(screenx, screeny, true);
                        wasLeftMousePressed = false;
                     }
                     else
                     {
+                        id = mGui.injectMouse(screenx, screeny, false);
+
                         // zaznacz te na ktore pokazuje klawiatura
                         if (wasDownKeyPressed)
                         {
@@ -682,7 +688,7 @@ namespace Wof.Controller.Screens
                             tryToChangeSelectedButton(currentButton - 1);
                         } else if(id!= -1)
                         {
-                            selectButton(id); currentButton = id;
+                            selectButton(id, true); currentButton = id;
                         }
                     }
                 }
@@ -950,11 +956,16 @@ namespace Wof.Controller.Screens
                 }
             }
         }
+        protected void selectButton(int i, bool playSound)
+        {
+           if (i == -1) return;
+           buttons[i].activate(true);
+           
 
+        }
         protected void selectButton(int i)
         {
-            if(i==-1) return;
-            buttons[i].activate(true);
+            selectButton(i, false);
         }
 
         protected void initButtons(int count)
@@ -968,6 +979,12 @@ namespace Wof.Controller.Screens
             buttonsCount = count;
             buttons = new Button[buttonsCount];
             this.backButtonIndex = backButtonIndex;
+        }
+
+
+        public void PlayClickSound()
+        {
+            if (!clickSound.IsPlaying()) clickSound.Play();
         }
     }
 }

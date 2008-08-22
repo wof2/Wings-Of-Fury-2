@@ -132,11 +132,13 @@ namespace Wof.Controller.Screens
             {
                 if (referer == buttons[backButtonIndex])
                 {
+                    PlayClickSound();
                     gameEventListener.GotoStartScreen();
                 }
 
                 if (referer == buttons[0])
                 {
+                    PlayClickSound();
                     gameEventListener.GotoDonateWebPage();
                 }
             }

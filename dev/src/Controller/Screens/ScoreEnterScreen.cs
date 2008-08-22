@@ -99,7 +99,7 @@ namespace Wof.Controller.Screens
             {
                 String name = nameInput.getValue();
                 saveHighscore(name, score);
-
+                PlayClickSound();
                 gameEventListener.GotoHighscoresScreen();
             }
         }

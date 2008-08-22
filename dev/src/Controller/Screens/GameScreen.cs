@@ -554,6 +554,7 @@ namespace Wof.Controller.Screens
                         if (isInGameOverMenu && (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter))) 
                         {
                             Button.TryToPressButton(gameOverButton);
+                            
                         }
 
                         // zmiana amunicji za pomoc¹ klawiatury
@@ -1126,7 +1127,6 @@ namespace Wof.Controller.Screens
         /// <param name="gun"></param>
         public void OnSoldierBeginDeath(Soldier soldier, bool gun)
         {
-            SoundManager.Instance.PlaySoldierDeathSound();
             levelView.OnKillSoldier(soldier, !gun);
             increaseScore(C_SOLDIER_SCORE);
             currentLevel.OnSoldierEndDeath();

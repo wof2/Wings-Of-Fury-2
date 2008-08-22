@@ -58,7 +58,9 @@ using Mogre;
 using MOIS;
 using OIS;
 using Wof.Languages;
+using Wof.View.Effects;
 using Exception=System.Exception;
+using FontManager=Mogre.FontManager;
 using InputManager=MOIS.InputManager;
 using JoyStick=MOIS.JoyStick;
 using Keyboard=MOIS.Keyboard;
@@ -213,8 +215,17 @@ namespace Wof.Controller
 
             // clean up
 
-            DestroyScenes();
 
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
+            EffectsManager.Singleton.Clear();
+            DestroyScenes();
+            TextureManager.Singleton.UnloadAll();
+            MaterialManager.Singleton.UnloadAll();
+            MeshManager.Singleton.UnloadAll();
+            FontManager.Singleton.UnloadAll();
+            GpuProgramManager.Singleton.UnloadAll();
+            HighLevelGpuProgramManager.Singleton.UnloadAll();
+        
             window.RemoveAllListeners();
             window.RemoveAllViewports();
             Root.Singleton.RenderSystem.DestroyRenderWindow(window.Name);
@@ -300,7 +311,7 @@ namespace Wof.Controller
                 if (!CreateSoundSystem(camera, EngineConfig.SoundSystem))
                     EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
              
-                // Init sound
+                // InitializeSound sound
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.InitializingSound)));
 
 
@@ -490,7 +501,7 @@ namespace Wof.Controller
 
         protected bool CreateSoundSystem(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)
         {
-            return SoundManager2.Instance.Init(camera, ss);
+            return SoundManager3D.Instance.InitializeSound(camera, ss);
         }
 
         public virtual void CreateCamera()
@@ -515,7 +526,7 @@ namespace Wof.Controller
             root.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
             root.RenderSystem.EventOccurred +=
                 new RenderSystem.Listener.EventOccurredHandler(RenderSystem_EventOccurred);
-            SoundManager2.Instance.CreateFrameListener(root);
+            SoundManager3D.Instance.CreateFrameListener(root);
         }
 
         private void RenderSystem_EventOccurred(string eventName, Const_NameValuePairList parameters)

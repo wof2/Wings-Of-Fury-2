@@ -109,6 +109,7 @@ namespace Wof.Controller.Screens
         {
             if (screenTime > C_RESPONSE_DELAY)
             {
+                PlayClickSound();
                 if (referer == buttons[0])
                 {
                     gameEventListener.GotoVideoModeScreen();

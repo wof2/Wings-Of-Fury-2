@@ -154,7 +154,7 @@ namespace Wof.Controller
                 }
             }
             StartWOFApplication();
-            SoundManager2.Instance.Dispose();
+            SoundManager3D.Instance.Dispose();
             if (getGame().afterExit != null) getGame().afterExit();
         }
 
