@@ -172,6 +172,9 @@ namespace Wof.View
                 ammunitionViews.Clear();
                 ammunitionViews = null;
             }
+            RocketView.DestroyPool(); 
+            BombView.DestroyPool();
+
             if (backgroundViews != null)
             {
                 backgroundViews.Clear();
@@ -185,11 +188,7 @@ namespace Wof.View
                 compositeModelViews.Clear();
                 compositeModelViews = null;
             }
-            if (dyingSoldierViews != null)
-            {
-                dyingSoldierViews.Clear();
-                dyingSoldierViews = null;
-            }
+          
 
             cameraHolders = null;
 
@@ -200,11 +199,19 @@ namespace Wof.View
             }
             playerPlaneView = null;
 
+
+            if (dyingSoldierViews != null)
+            {
+                dyingSoldierViews.Clear();
+                dyingSoldierViews = null;
+            }
             if (soldierViews != null)
             {
                 soldierViews.Clear();
                 soldierViews = null;
             }
+            SoldierView.DestroyPool();
+        
             if (tempTileViews != null)
             {
                 tempTileViews.Clear();
@@ -464,6 +471,7 @@ namespace Wof.View
             if (index == -1) return;
 
             SoldierView soldierView = soldierViews[index];
+            soldierView.PlaySoldierDeathSound();
 
             soldierViews.Remove(soldierView);
             dyingSoldierViews.Add(soldierView);
@@ -1303,8 +1311,8 @@ namespace Wof.View
                 OnRegisterTile(lvlTiles[i]);
             }
             BombView.InitPool(100, framework);
-            RocketView.InitPool(150, framework);
-            SoldierView.InitPool(150, framework);
+            RocketView.InitPool(80, framework);
+            SoldierView.InitPool(70, framework);
 
             InitSplashPool(350);
 
@@ -1608,8 +1616,8 @@ namespace Wof.View
                 }
                 cameraHolders[currentCameraHolderIndex].AttachObject(framework.Camera);
 
-                SoundManager2.Instance.SetListener(framework.Camera);
-                SoundManager2.Instance.UpdateSoundObjects();
+                SoundManager3D.Instance.SetListener(framework.Camera);
+                SoundManager3D.Instance.UpdateSoundObjects();
             }
         }
 

@@ -150,6 +150,7 @@ namespace Wof.Controller.Screens
             {
                 if (referer == buttons[0])
                 {
+                    PlayClickSound();
                     gameEventListener.GotoStartScreen();
                 }
             }

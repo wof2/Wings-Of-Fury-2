@@ -57,7 +57,7 @@ namespace Wof.View
     /// Reprezentacja obiektów na minimapie
     /// <author>Adam Witczak</author>
     /// </summary>
-    public class MinimapItem
+    public class MinimapItem : IDisposable
     {
         public enum ColourType
         {
@@ -279,14 +279,23 @@ namespace Wof.View
                 scale = ViewHelper.DropXCoordinate(sizeEnity.BoundingBox.Size);
                     // z ma byc rowne 0. Jako ze modele ladowane sa przodem do -Z, obciêcie X daje po obrocie odpowiedni efekt
             }
-
-            if (scaleOverride != null)
-            {
-                if (scaleOverride != null && scaleOverride.x > 0) scale.z = scaleOverride.x;
-                if (scaleOverride != null && scaleOverride.y > 0) scale.y = scaleOverride.y;
-            }
+           
+           
+            if (scaleOverride.x > 0) scale.z = scaleOverride.x;
+            if (scaleOverride.y > 0) scale.y = scaleOverride.y;
+            
             scale.x = minimapObjectsDepth;
             minimapNode.SetScale(scale);
+        }
+
+        public void Dispose()
+        {
+            entity.Dispose();
+            entity = null;
+            sizeEnity.Dispose();
+            sizeEnity = null;
+            minimapNode.Dispose();
+            minimapNode = null;
         }
     }
 }

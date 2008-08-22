@@ -115,6 +115,7 @@ namespace Wof.Controller.Screens
             {
                 if (referer == buttons[completedLevels.Count]) // przycisk exit
                 {
+                    PlayClickSound();
                     gameEventListener.GotoStartScreen();
                 }
                 else
@@ -125,6 +126,7 @@ namespace Wof.Controller.Screens
                     {
                         if (referer == e.Current)
                         {
+                            PlayClickSound();
                             gameEventListener.StartGame((int) ((Button) e.Current).id);
                         }
                         i++;

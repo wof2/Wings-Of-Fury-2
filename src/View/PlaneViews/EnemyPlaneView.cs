@@ -46,6 +46,7 @@
  * 
  */
 
+using System;
 using FSLOgreCS;
 using Mogre;
 using Wof.Controller;
@@ -78,9 +79,22 @@ namespace Wof.View
             }
         }
 
+
+        /*public void Dispose()
+        {
+            if (engineSound != null) engineSound.Destroy();
+
+        }*/
+
+
         ~EnemyPlaneView()
         {
-            if(engineSound!=null) engineSound.Destroy();
+            if(engineSound!=null)
+            {
+                SoundManager3D.Instance.RemoveSound(engineSound.Name); 
+                engineSound.Destroy();
+                engineSound = null; 
+            }
         }
 
         public void LoopEngineSound()
@@ -88,7 +102,7 @@ namespace Wof.View
             if (EngineConfig.SoundEnabled && !engineSound.IsPlaying())
             { 
                 engineSound.Play();
-                SoundManager2.Instance.UpdateSoundObjects();
+                SoundManager3D.Instance.UpdateSoundObjects();
             }
         }
 
@@ -131,9 +145,10 @@ namespace Wof.View
             // sound
             if (EngineConfig.SoundEnabled)
             {
-                engineSound = SoundManager2.Instance.CreateSound("sounds/enemy_engineidle.wav", this.planeNode, true, false);
-             
+                engineSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_ENEMY_ENGINE_IDLE, this.planeNode, true, false);
             }
+
+
             planeEntity = sceneMgr.CreateEntity(name + "_Body", "A6M.mesh");
             //  planeEntity.SetMaterialName("P47/Body");
             innerNode.AttachObject(planeEntity);

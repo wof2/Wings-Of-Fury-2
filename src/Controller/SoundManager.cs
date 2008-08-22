@@ -57,150 +57,14 @@ using Math=Mogre.Math;
 
 namespace Wof.Controller
 {
-    /// <summary>
-    /// Singleton odpowiadaj¹ce za zaawansowane dŸwiêki oraz dekodowanie muzyki. Wykorzystuje FreeSL.
-    /// </summary>
-    internal class SoundManager2
-    {
-        private string currentMusic;
-
-        public string CurrentMusic
-        {
-            get { return currentMusic; }
-        }
-
-        private static SoundManager2 instance;
-
-        public static SoundManager2 Instance
-        {
-            get
-            {
-                if (instance == null) instance = new SoundManager2();
-                return instance;
-            }
-        }
-
-
-        private FSLSoundManager soundManager = null;
-        private FSLSoundObject ambientSound;
-
-        public bool Init(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)
-        {
-            FSLSoundManager.Instance.Destroy();
-            soundManager = FSLSoundManager.Instance;
-            currentMusic = null;
-            ambientSound = null;
-
-            return soundManager.InitializeSound(camera, ss); //Init sound system
-           
-        }
-
-        public void UpdateSoundObjects()
-        {
-           this.soundManager.UpdateSoundObjects();
-            
-        }
-
-        public void SetListener(Camera camera)
-        {
-            this.soundManager.SetListener(camera);
-        }
-
-        public FSLSoundObject CreateSound(String filename, IRenderable entity, bool loop, bool play)
-        {
-            FSLSoundObject sound = soundManager.CreateSoundEntity(filename, entity, filename + "_Sound", loop, false);
-            if(play)
-            {
-                sound.Play();
-            }
-            return sound;
-        }
-
-        public void PlaySound(String filename, bool loop)
-        {
-        }
-
-        private SoundManager2()
-        {
-        }
-
-        public void PlayAmbient(String sound, int volume)
-        {
-            PlayAmbient(sound, volume, false);
-        }
-
-        /// <summary>
-        /// Odgrywa dŸwiêk/muzykê jako ambient (slychaæ z tak¹ sam¹ g³oœnoœci¹ bez wzglêdu na po³o¿enie kamery)
-        /// </summary>
-        /// <param name="sound">plik z muzyk¹/dŸwiêkiem</param>
-        /// <param name="volume">0-100</param>
-        /// <param name="preloadOnly">czy tylko preloadowaæ muzykê</param>
-        /// <param name="loop">zapêtlenie dziêku</param>
-        public void PlayAmbient(String sound, int volume, bool preloadOnly, bool loop)
-        {
-            if (ambientSound == null || (ambientSound != null && !ambientSound.Name.Equals(sound + "_Music")))
-            {
-                if (ambientSound != null) ambientSound.Destroy();
-
-                ambientSound = soundManager.CreateAmbientSound(sound, sound + "_Music", loop, false);
-                //Create Ambient sound  
-                if (!preloadOnly) ambientSound.Play();
-            }
-            else
-            {
-                if (!ambientSound.IsPlaying() && !preloadOnly) ambientSound.Play();
-            }
-            ambientSound.SetGain(1.0f * volume / 100); 
-          
-            currentMusic = sound;
-        }
-
-      
-        public void PlayAmbient(String sound, int volume, bool preloadOnly)
-        {
-           PlayAmbient(sound, volume, preloadOnly, true);
-        }
-
-
-        public void PlayAmbient(String sound)
-        {
-            PlayAmbient(sound, EngineConfig.MusicVolume);
-        }
-
-        public void StopAmbient()
-        {
-            if (ambientSound != null)
-            {
-                ambientSound.Stop();
-            }
-        }
-
-
-
-        public void CreateFrameListener(Root root)
-        {
-            root.FrameStarted += new FrameListener.FrameStartedHandler(soundManager.FrameStarted);
-                //Add sound listener so it will update every frame
-        }
-
-        public void Dispose()
-        {
-            if (soundManager != null)
-            {
-                soundManager.Destroy();
-                soundManager = null;
-            }
-        }
-    }
+   
 
     /// <summary>
     /// Singleton odpowiadaj¹cy za proste dŸwiêki
     /// </summary>
     internal class SoundManager
     {
-        private static readonly int C_NOMINAL_ENEMY_FREQ = 60000;
-
-
+     
         private static Device dsDevice;
 
         public static Device DsDevice
@@ -354,19 +218,19 @@ namespace Wof.Controller
         public void PlayIngameMusic(int no, int volume, bool preloadOnly)
         {
             string music = "music/music" + no + ".ogg";
-            SoundManager2.Instance.PlayAmbient(music, volume, preloadOnly);
+            SoundManager3D.Instance.PlayAmbient(music, volume, preloadOnly);
         }
 
         public void PlayMainTheme()
         {
-            SoundManager2.Instance.PlayAmbient("music/themesong.ogg");
+            SoundManager3D.Instance.PlayAmbient("music/themesong.ogg");
             // Play(mainTheme);
         }
 
         public void StopMusic()
         {
             // Stop(mainTheme);
-            SoundManager2.Instance.StopAmbient();
+            SoundManager3D.Instance.StopAmbient();
         }
 
 
@@ -418,18 +282,7 @@ namespace Wof.Controller
             Play(bunkerFireSound);
         }
 
-        public void PlaySoldierDeathSound()
-        {
-            if (Math.RangeRandom(0.0f, 1.0f) > 0.5f)
-            {
-                Play(soldierDeathSound);
-            }
-            else
-            {
-                Play(soldierDeathSound2);
-            }
-        }
-
+     
         public void PlayExposionSound()
         {
             Play(explosionSound);
@@ -532,7 +385,7 @@ namespace Wof.Controller
 
         public void LoopEngineSound()
         {
-           // SoundManager2.Instance.CreateSound("sounds/fanfare.wav", this.planeNode, true, true);
+           // SoundManager3D.Instance.CreateSound("sounds/fanfare.wav", this.planeNode, true, true);
             PlayDXSound(engineIdleSound, -1000);
         }
 

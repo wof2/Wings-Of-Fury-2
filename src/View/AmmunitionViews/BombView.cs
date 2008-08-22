@@ -89,6 +89,24 @@ namespace Wof.View
             bombAvailablePool.Push(bv);
         }
 
+
+        public static void DestroyPool()
+        {
+            while (bombAvailablePool.Count > 0)
+            {
+                bombAvailablePool.Pop().Dispose();
+            }
+            bombAvailablePool.Clear();
+
+            Dictionary<Ammunition, BombView>.Enumerator e = bombUsedPool.GetEnumerator();
+            while (e.MoveNext())
+            {
+                e.Current.Value.Dispose();
+            }
+            bombUsedPool.Clear();
+        }
+
+
         protected AnimationState animationState;
 
         //Deprecated
@@ -142,29 +160,7 @@ namespace Wof.View
             fly();
         }
 
-        /*
-        protected void postInitOnScene()
-        {
-             if (ammunition.Direction == Wof.Model.Level.Direction.Right)
-             {
-                 ammunitionNode.Orientation = new Quaternion(Mogre.Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
-             }
-             else
-             {
-                 ammunitionNode.Orientation = new Quaternion(Mogre.Math.HALF_PI, Vector3.UNIT_Y);
-             }
-            
-             ammunitionNode.Orientation *= new Quaternion((float)ammunition.Angle, Vector3.UNIT_X);
-
-
-             minimapItem.Show();
-
-             fly();
-
-             refreshPosition();
-
-             ammunitionNode.SetVisible(true , false);
-        }*/
+        
 
         //Deprecated
         protected void initOnScene()
@@ -217,6 +213,24 @@ namespace Wof.View
         public void disableAnimation()
         {
             animationState.Enabled = false;
+        }
+
+
+        public void Dispose()
+        {
+            if (FrameWork.DisplayMinimap)
+            {
+                minimapItem.Dispose();
+                minimapItem = null;
+            }
+            ammunitionNode.DetachAllObjects();
+            ammunitionNode.Dispose();
+            ammunitionNode = null;
+            ammunitionModel.Dispose();
+            ammunitionModel = null;
+            if(animationState!=null) animationState.Dispose();
+            animationState = null;
+
         }
     }
 }

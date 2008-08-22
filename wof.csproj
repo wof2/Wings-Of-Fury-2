@@ -92,6 +92,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Splash.resx</DependentUpon>
     </Compile>
+    <Compile Include="src\Controller\SoundManager3D.cs" />
     <Compile Include="src\Controller\BetaGUI.cs">
       <SubType>Code</SubType>
     </Compile>

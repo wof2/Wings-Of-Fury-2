@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Mogre;
 
@@ -15,7 +16,7 @@ namespace FSLOgreCS
 
         #region Singleton Stuff
 
-        private FSLSoundManager()
+        protected FSLSoundManager() // changed private -> protected
         {
             _initSound = false;
             _listener = null;
@@ -88,7 +89,12 @@ namespace FSLOgreCS
             if (sound == null)
                 return;
             else
+            {
+                _soundObjectVector.Remove(sound); // zmiana
+                sound.Destroy();
                 sound = null;
+            }
+               
         }
 
         public FSLSoundObject GetSound(string name)

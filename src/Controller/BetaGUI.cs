@@ -284,6 +284,7 @@ namespace BetaGUI
             if (keyDelay.Milliseconds > 5*C_RESPONSE_DELAY*1000)
             {
                 b.callback.LS.onButtonPress(b);
+               
                 ResetButtonTimer();
                 return true;
             }
@@ -356,12 +357,14 @@ namespace BetaGUI
             OverlayManager.Singleton.DestroyOverlayElement(mO);
         }
 
-        public void activate(bool a)
+        public bool activate(bool a)
         {
+            bool ret = activated;
             if (!a && mmn != "")
             {
                 activated = false; // Adam Witczak
                 mO.MaterialName = mmn;
+                return false;
             }
 
             if (a && mma != "")
@@ -369,6 +372,7 @@ namespace BetaGUI
                 activated = true; // Adam Witczak
                 mO.MaterialName = mma;
             }
+            return ret;
         }
 
         public bool isin(float mx, float my, float px, float py)
@@ -567,8 +571,12 @@ namespace BetaGUI
 
 
             int ret = -1;
+ 
             if (mAB != null)
+            {
                 mAB.activate(false);
+            }
+                
 
             for (int i = 0; i < mB.Count; i++)
             {
@@ -579,11 +587,15 @@ namespace BetaGUI
                 }
 
                 if (mAB != null)
-                    mAB.activate(false);
+                {
+                   mAB.activate(false);
+                }
+                    
 
                 mAB = mB[i];
                 ret = i;
-                mAB.activate(true);
+                mAB.activate(true); // activated manually here: AbstractScreen.selectButton()
+             
                 if (mATI != null)
                 {
                     mATI.activate(false);
