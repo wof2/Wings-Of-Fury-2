@@ -556,7 +556,7 @@ namespace Wof.Controller
             initScreenAfter(currentScreen);
 
             SoundManager.Instance.PlayMainTheme();
-            currentScreen = new CreditsScreen(this, sceneMgr, viewport, camera, true, 25);
+            currentScreen = new CreditsScreen(this, sceneMgr, viewport, camera, true, 35);
 
             if (ss != null)
             {
@@ -839,7 +839,7 @@ namespace Wof.Controller
         }
         public void GotoDonateWebPageDo()
         {
-            string url = "http://wingsoffury2.com/page/donate";
+            string url = "http://wingsoffury2.com/page/donate?v="+EngineConfig.C_WOF_VERSION+"_"+EngineConfig.C_IS_DEMO.ToString();
             try
             {
                 // launch default browser
