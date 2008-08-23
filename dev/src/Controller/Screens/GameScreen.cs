@@ -385,11 +385,13 @@ namespace Wof.Controller.Screens
             EffectsManager.Singleton.Clear();
             FrameWork.DestroyScenes();
             SoundManager.Instance.StopMusic();
-            //  LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"usage:"+TextureManager.Singleton.MemoryUsage);
-            TextureManager.Singleton.UnloadUnreferencedResources();
-            MaterialManager.Singleton.UnloadUnreferencedResources();
 
-            MeshManager.Singleton.UnloadUnreferencedResources();
+
+            // test pamiêci
+            TextureManager.Singleton.UnloadAll();
+            MaterialManager.Singleton.UnloadAll();
+            MeshManager.Singleton.UnloadAll();
+
 
             try
             {

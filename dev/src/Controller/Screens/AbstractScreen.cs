@@ -174,6 +174,11 @@ namespace Wof.Controller.Screens
             wasDownKeyPressed = false;
             wasEnterKeyPressed = false;
 
+
+            TextureManager.Singleton.UnloadUnreferencedResources();
+            MaterialManager.Singleton.UnloadUnreferencedResources();
+            MeshManager.Singleton.UnloadUnreferencedResources();
+
             keyDelay = new Timer();
             clickSound = SoundManager3D.Instance.GetSound("menuClick");
             if(clickSound == null) clickSound = SoundManager3D.Instance.CreateAmbientSound(SoundManager3D.C_MENU_CLICK, "menuClick", false, false); // destroyed together with SoundManager3D singleton
@@ -984,7 +989,7 @@ namespace Wof.Controller.Screens
 
         public void PlayClickSound()
         {
-            if (!clickSound.IsPlaying()) clickSound.Play();
+            if (EngineConfig.SoundEnabled && !clickSound.IsPlaying()) clickSound.Play();
         }
     }
 }
