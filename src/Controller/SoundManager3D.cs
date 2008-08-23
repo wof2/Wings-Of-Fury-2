@@ -17,7 +17,7 @@ namespace Wof.Controller
         public static readonly string C_SOLDIER_DIE_2 = "sounds/oh2.wav";
         public static readonly string C_MENU_CLICK = "sounds/click.wav";
 
-
+        private FreeSL.FSL_SOUND_SYSTEM soundSystem;
         private string currentMusic;
         public string CurrentMusic
         {
@@ -57,15 +57,18 @@ namespace Wof.Controller
         public new bool InitializeSound(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)
         {
 
-            if(Instance.Initialized)
+            if (Instance.Initialized && ss == soundSystem) 
             {
-                this.SetListener(camera);
+                this.SetListener(camera); 
                 return true;
             }
+
+            if(Instance.Initialized) Instance.Destroy();
             
             bool ok = base.InitializeSound(camera, ss); //InitializeSound sound system
             if (ok)
             {
+                soundSystem = ss;
                 currentMusic = null;
                 ambientSound = null;
                 return true;

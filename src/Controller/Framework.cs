@@ -219,8 +219,10 @@ namespace Wof.Controller
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
             EffectsManager.Singleton.Clear();
             DestroyScenes();
+                        
             TextureManager.Singleton.UnloadAll();
             MaterialManager.Singleton.UnloadAll();
+            
             MeshManager.Singleton.UnloadAll();
             FontManager.Singleton.UnloadAll();
             GpuProgramManager.Singleton.UnloadAll();
