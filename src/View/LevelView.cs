@@ -1403,6 +1403,7 @@ namespace Wof.View
                     break;
             }
             MaterialPtr m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_GLSL");
+            m.Load(false);
             Pass p = m.GetBestTechnique().GetPass(0);
             TextureUnitState tu = p.GetTextureUnitState("Reflection");
             if (tu != null)

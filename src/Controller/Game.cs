@@ -94,14 +94,24 @@ namespace Wof.Controller
         {
             if (currentScreen == null)
             {
-                if(EngineConfig.ShowIntro)
+                if(EngineConfig.DebugStart)
                 {
-                    currentScreen = new IntroScreen(this, sceneMgr, viewport, camera);
+                    StartGame(EngineConfig.DebugStartLevel);
+                    return;
+
                 } else
                 {
-                    SoundManager.Instance.PlayMainTheme();
-                    currentScreen = new StartScreen(this, sceneMgr, viewport, camera);
+                    if (EngineConfig.ShowIntro)
+                    {
+                        currentScreen = new IntroScreen(this, sceneMgr, viewport, camera);
+                    }
+                    else
+                    {
+                        SoundManager.Instance.PlayMainTheme();
+                        currentScreen = new StartScreen(this, sceneMgr, viewport, camera);
+                    }  
                 }
+             
          
      
             }
@@ -150,7 +160,23 @@ namespace Wof.Controller
                     else if (args[i].Equals("-DebugInfo"))
                     {
                         EngineConfig.DebugInfo = true;
-                    }
+                    } else if (args[i].Equals("-DebugStart"))
+                    {
+                        EngineConfig.DebugStart = true;
+                        if(i + 1 < args.Length )
+                        {
+                            int levelNo;
+                            if(int.TryParse(args[i + 1], out levelNo))
+                            {
+                                EngineConfig.DebugStartLevel = levelNo;
+                                i++;
+                            }
+                            
+                            
+                        }
+
+                    } 
+                        
                 }
             }
             StartWOFApplication();
@@ -308,7 +334,10 @@ namespace Wof.Controller
             }
 
             SoundManager.Instance.StopMusic();
-            currentScreen.CleanUp(false);
+            if(currentScreen !=null)
+            {
+                currentScreen.CleanUp(false);
+            }
 
             if (EngineConfig.DisplayMinimap)
             {
@@ -319,6 +348,9 @@ namespace Wof.Controller
 
             CreateViewports();
             AddCompositors();
+       
+
+           
             if (!CreateSoundSystem(camera, EngineConfig.SoundSystem))
                 EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
 

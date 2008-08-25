@@ -76,8 +76,8 @@ namespace Wof.Controller
 
 
         public static readonly bool UseLastHardwareSettings = false;
-       
 
+        
         public static readonly bool DisplayAxes = false;
         public static readonly bool DisplayBoundingQuadrangles = false;
 
@@ -146,7 +146,20 @@ namespace Wof.Controller
         /// </summary>
         public static bool Shadows = true;
 
+        /// <summary>
+        /// Pokazuje dodatkowe informacje w trakcie gry
+        /// </summary>
         public static bool DebugInfo = false;
+
+        /// <summary>
+        /// Szybki start z pominiêciem intro oraz menu
+        /// </summary>
+        public static bool DebugStart = false;
+
+        /// <summary>
+        /// Poziom uruchamiany przy trybie DebugStart
+        /// </summary>
+        public static int DebugStartLevel = 1;
 
 
         public static readonly int LOADING_DELAY = 3500;
