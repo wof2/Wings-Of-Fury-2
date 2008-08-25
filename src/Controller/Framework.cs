@@ -244,6 +244,7 @@ namespace Wof.Controller
 
         public virtual bool Setup()
         {
+        
             Splash splash = new Splash();
             splash.Show();
             splash.SetStepsCount(10);
@@ -256,6 +257,7 @@ namespace Wof.Controller
                 root = new Root();
                 //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
                 LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
+                LogManager.Singleton.LogMessage("Starting Wings of Fury 2 ver. "+EngineConfig.C_WOF_VERSION);
 
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.SetupingResources)));
@@ -501,7 +503,7 @@ namespace Wof.Controller
             overlayCamera.FarClipDistance = 100.0f;
         }
 
-        protected bool CreateSoundSystem(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)
+        protected static bool CreateSoundSystem(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)
         {
             return SoundManager3D.Instance.InitializeSound(camera, ss);
         }

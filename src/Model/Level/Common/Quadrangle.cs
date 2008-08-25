@@ -81,6 +81,8 @@ namespace Wof.Model.Level.Common
         /// </summary>
         private float height;
 
+        private float climbingAngle;
+
         #endregion
 
         #region Public Constructor
@@ -97,6 +99,7 @@ namespace Wof.Model.Level.Common
             peaks.Add(new PointD(0, 0));
             peaks.Add(new PointD(0, 0));
             angle = 0;
+            climbingAngle = 0;
             width = 0;
             height = 0;
         }
@@ -122,6 +125,7 @@ namespace Wof.Model.Level.Common
                 peaks = new List<PointD>();
             }
             angle = 0;
+            climbingAngle = 0;
             width = Mathematics.MaxCoordinate(true, point1, point2, point3, point4).X -
                     Mathematics.MinCordinate(true, point1, point2, point3, point4).X;
             height = Mathematics.MaxCoordinate(false, point1, point2, point3, point4).Y -
@@ -170,6 +174,7 @@ namespace Wof.Model.Level.Common
             peaks.Add(tmpPoint); //czwarty punkt
 
             angle = 0;
+            climbingAngle = 0;
             this.width = width;
             this.height = height;
         }
@@ -447,6 +452,12 @@ namespace Wof.Model.Level.Common
                 this.angle -= 2*Mogre.Math.PI;
             while (this.angle < -Mogre.Math.PI)
                 this.angle += 2*Mogre.Math.PI;
+         
+            climbingAngle += angle;
+         
+            
+            
+
         }
 
         /// <summary>
@@ -488,6 +499,12 @@ namespace Wof.Model.Level.Common
                 this.angle -= 2 * Mogre.Math.PI;
             while (this.angle < -Mogre.Math.PI)
                 this.angle += 2 * Mogre.Math.PI;
+
+            climbingAngle += (float)Math.PI;
+            while (this.climbingAngle > Mogre.Math.HALF_PI)
+                this.climbingAngle -= Mogre.Math.HALF_PI;
+            while (this.climbingAngle < -Mogre.Math.HALF_PI)
+                this.climbingAngle += Mogre.Math.HALF_PI;
         }
 
 
