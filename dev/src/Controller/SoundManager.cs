@@ -188,7 +188,7 @@ namespace Wof.Controller
             }
             catch (Exception)
             {
-                problemWithSound = true;
+                ProblemWithSound = true;
             }
         }
         /// <summary>
@@ -352,7 +352,7 @@ namespace Wof.Controller
             }
             catch (Exception)
             {
-                problemWithSound = true;
+                ProblemWithSound = true;
             }
         }
 
@@ -379,7 +379,7 @@ namespace Wof.Controller
             }
             catch (Exception)
             {
-                problemWithSound = true;
+                ProblemWithSound = true;
             }
         }
 
@@ -418,7 +418,7 @@ namespace Wof.Controller
             }
             catch (Exception)
             {
-                problemWithSound = true;
+                ProblemWithSound = true;
             }
         }
 
@@ -436,7 +436,7 @@ namespace Wof.Controller
             }
             catch (Exception)
             {
-                problemWithSound = true;
+                ProblemWithSound = true;
             }
         }
 
@@ -495,7 +495,7 @@ namespace Wof.Controller
             }
             catch (Exception)
             {
-                problemWithSound = true;
+                ProblemWithSound = true;
             }
         }
 
@@ -511,7 +511,7 @@ namespace Wof.Controller
             }
             catch (Exception)
             {
-                problemWithSound = true;
+                ProblemWithSound = true;
             }
         }
     }

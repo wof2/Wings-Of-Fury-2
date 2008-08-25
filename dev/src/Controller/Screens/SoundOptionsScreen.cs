@@ -187,7 +187,7 @@ namespace Wof.Controller.Screens
 
             try
             {
-                EngineConfig.SaveEngineConfig();
+                
                 if (SoundManager3D.Instance.InitializeSound(camera, EngineConfig.SoundSystem))
                 {
                     EngineConfig.SoundEnabled = true;
@@ -216,6 +216,8 @@ namespace Wof.Controller.Screens
                     SoundManager.Instance.PlayMainTheme();
                     SoundManager3D.Instance.PlayAmbient(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
                 }
+
+                EngineConfig.SaveEngineConfig();
             }
             catch (Exception)
             {

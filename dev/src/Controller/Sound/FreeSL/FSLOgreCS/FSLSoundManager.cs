@@ -116,7 +116,8 @@ namespace FSLOgreCS
             _listener.Update();
             foreach (FSLSoundObject sound in _soundObjectVector)
             {
-                sound.Update();
+              //  if (sound.IsPlaying())
+                    sound.Update(); // doda³em  "if (sound.IsPlaying())"
             }
         }
 

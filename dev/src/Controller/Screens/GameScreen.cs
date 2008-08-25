@@ -1033,6 +1033,11 @@ namespace Wof.Controller.Screens
             }
             if (referer == gameOverButton)
             {
+                if (levelView != null)
+                {
+                    levelView.Destroy();
+                }
+
                 HighscoreUtil util = new HighscoreUtil();
                 int leastScore = util.FindLeastHighscore();
 
