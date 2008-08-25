@@ -356,6 +356,8 @@ namespace Wof.Controller.Screens
             OverlayElement loadingText = OverlayManager.Singleton.GetOverlayElement("Wof/LoadingScreenText");
             if (n > 0)
             {
+                TextureManager.Singleton.Load(baseName + n + lang + ".jpg", "General").Load(false); // preload
+
                 overlayMaterial.Load();
                 overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(baseName + n + lang +
                                                                                                    ".jpg");
@@ -388,8 +390,8 @@ namespace Wof.Controller.Screens
 
 
             // test pamiêci
-            TextureManager.Singleton.UnloadUnreferencedResources();
-            MaterialManager.Singleton.UnloadUnreferencedResources();
+            TextureManager.Singleton.UnloadAll();
+            MaterialManager.Singleton.UnloadAll();
             MeshManager.Singleton.UnloadAll();
 
 
