@@ -195,7 +195,7 @@ namespace Wof.Controller
             return Game.game;
         }
         /// <summary>
-        /// Uruchamia pierwsza instancje na tym komputrerze
+        /// Uruchamia pierwsza instancje na tym komputerze
         /// </summary>
         private static void StartFirstInstance()
         {

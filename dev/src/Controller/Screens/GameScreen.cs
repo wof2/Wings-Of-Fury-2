@@ -388,8 +388,8 @@ namespace Wof.Controller.Screens
 
 
             // test pamiêci
-            TextureManager.Singleton.UnloadAll();
-            MaterialManager.Singleton.UnloadAll();
+            TextureManager.Singleton.UnloadUnreferencedResources();
+            MaterialManager.Singleton.UnloadUnreferencedResources();
             MeshManager.Singleton.UnloadAll();
 
 
@@ -434,6 +434,7 @@ namespace Wof.Controller.Screens
                 levelView.OnStopPlayingEnemyPlaneEngineSounds();
                 SoundManager.Instance.HaltOceanSound();
                 increaseScore(this.lives * C_LIFE_LEFT);
+                levelView.Destroy();
                 gameEventListener.GotoNextLevel();
             }
 
