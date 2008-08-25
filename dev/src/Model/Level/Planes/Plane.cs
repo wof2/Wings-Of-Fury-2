@@ -916,6 +916,28 @@ namespace Wof.Model.Level.Planes
             get { return (float) direction*bounds.Angle; }
         }
 
+
+        /// <summary>
+        /// K¹t pod jakim unosi siê / spada samolot: [-pi;pi]
+        /// </summary>
+        public float ClimbingAngle
+        {
+            get
+            {
+                if(RelativeAngle >= 0)
+                {
+                    if (RelativeAngle > Math.HALF_PI) return Math.PI - RelativeAngle;
+                    return RelativeAngle;
+                }
+
+                if (RelativeAngle < -Math.HALF_PI) return -(Math.PI + RelativeAngle);
+                return RelativeAngle;
+
+               
+            }
+        }
+
+
         public Direction Direction
         {
             get { return direction; }
@@ -1303,6 +1325,7 @@ namespace Wof.Model.Level.Planes
         /// <param name="timeUnit">Wartoœæ czasu do której odnoszone s¹ wektor ruchu i wartoœæ obrotu. Wyra¿ona w ms.</param>
         public virtual void Move(float time, float timeUnit)
         {
+            //Console.WriteLine(Speed);
             float scaleFactor = time/timeUnit;
             if (planeState == PlaneState.Crashed)
             {
@@ -2117,7 +2140,17 @@ namespace Wof.Model.Level.Planes
             rotateValue = 0;
             float scaleFactor = time/timeUnit;
             float oldAngle = movementVector.Angle;
-            movementVector.Y -= isSliding ? gravitationalAcceleration * scaleFactor / 8 : gravitationalAcceleration * scaleFactor;
+            movementVector.Y -= isSliding ?  gravitationalAcceleration * scaleFactor / 8 : gravitationalAcceleration * scaleFactor;
+       
+            // szybszy spadek wektora jeœli dziob jest do gory
+            if (isSliding) movementVector.Y -= 0.2f * ClimbingAngle / Math.PI * gravitationalAcceleration * scaleFactor;
+
+            // spowalniamy
+            if (isSliding && ClimbingAngle > 0) movementVector.X -= 0.10f * movementVector.X * scaleFactor * ClimbingAngle / Math.PI;
+
+            
+
+
             float newAngle = movementVector.Angle;
             float rot = (newAngle - oldAngle);
             bounds.Rotate(rot);
