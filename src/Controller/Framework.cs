@@ -360,8 +360,9 @@ namespace Wof.Controller
                 SoundManager.DsDevice = directSound;
                 SoundManager manager = SoundManager.Instance;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                if(EngineConfig.SoundEnabled) LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Problem with sound: "+ex.Message);
                 SoundManager.Instance.ProblemWithSound = true;
             }
         }

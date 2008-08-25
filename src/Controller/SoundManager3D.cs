@@ -51,8 +51,6 @@ namespace Wof.Controller
             get { return SingletonCreator.instance; }
         }
 
-    
-
 
         public new bool InitializeSound(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)
         {
