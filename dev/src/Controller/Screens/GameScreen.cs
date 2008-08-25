@@ -790,7 +790,7 @@ namespace Wof.Controller.Screens
                     if (loading == false)
                     {
                         TimeSpan diff = DateTime.Now.Subtract(loadingStart);
-                        if (diff.TotalMilliseconds > EngineConfig.LOADING_DELAY)
+                        if (EngineConfig.DebugStart || diff.TotalMilliseconds > EngineConfig.LOADING_DELAY)
                         {
                             levelView.BuildCameraHolders();
                             if (!EngineConfig.FreeLook)

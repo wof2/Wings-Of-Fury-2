@@ -294,11 +294,14 @@ namespace Wof.Controller
                     String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingGameObjects)));
 
 
-                ChooseSceneManager();
-                CreateCamera();
-                initDirectSound(splash.Handle);
 
-                CreateViewports();
+                if(!EngineConfig.DebugStart)
+                {
+                    ChooseSceneManager();
+                    CreateCamera();
+                    CreateViewports();
+                }
+                InitDirectSound(splash.Handle);
 
 
                 // Set default mipmap level (NB some APIs ignore this)
@@ -348,7 +351,7 @@ namespace Wof.Controller
             SoundManager.Instance.SoundDisabled = !EngineConfig.SoundEnabled;
         }
 
-        private void initDirectSound(IntPtr handle)
+        protected void InitDirectSound(IntPtr handle)
         {
             try
             {
