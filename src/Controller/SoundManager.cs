@@ -186,8 +186,9 @@ namespace Wof.Controller
                 oceanSound = new Buffer("sounds/ocean.wav", dsDevice);
                 oceanSound.Volume = -2400;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "DirectSound init error: "+ex.Message);
                 ProblemWithSound = true;
             }
         }

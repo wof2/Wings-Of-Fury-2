@@ -301,7 +301,7 @@ namespace Wof.Controller
                     CreateCamera();
                     CreateViewports();
                 }
-                InitDirectSound(splash.Handle);
+                
 
 
                 // Set default mipmap level (NB some APIs ignore this)
@@ -313,13 +313,18 @@ namespace Wof.Controller
                 LoadResources();
                 splash.Increment(4);
 
-                // load presets
-                SetupEngineConfig();
-                if (!CreateSoundSystem(camera, EngineConfig.SoundSystem))
-                    EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
+               
+              
              
                 // InitializeSound sound
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.InitializingSound)));
+                InitDirectSound(splash.Handle);
+                if (!CreateSoundSystem(camera, EngineConfig.SoundSystem))
+                    EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
+              
+                
+                // load presets
+                SetupEngineConfig();
 
 
                 // Create the scene
