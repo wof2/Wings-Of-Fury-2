@@ -274,7 +274,7 @@ namespace Wof.Controller.Screens
                 {
                     if (p.IsEngineWorking)
                     {
-                        var = (p.AirscrewSpeed / 1300.0f) * (random.Next(-1, 2) / 100.0f);
+                        var = (0.7f * p.AirscrewSpeed / 1300.0f) * (random.Next(-1, 2) / 100.0f);
                     }
                     else
                     {
@@ -296,7 +296,7 @@ namespace Wof.Controller.Screens
                 {
                     if (p.IsEngineWorking)
                     {
-                        var = (p.AirscrewSpeed / 1300.0f) * (random.Next(-1, 2) / 100.0f);
+                        var = (0.7f * p.AirscrewSpeed / 1300.0f) * (random.Next(-1, 2) / 100.0f);
                     }
                     else
                     {
