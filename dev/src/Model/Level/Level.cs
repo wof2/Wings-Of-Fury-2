@@ -379,6 +379,7 @@ namespace Wof.Model.Level
                     ep.Move(time, timeUnit);
                     if ((ep.Oil <= 0 || ep.Petrol <= 0) && isEventAboutDestroySend)
                     {
+                        Statistics.PlanesShotDown++;
                         controller.OnPlaneDestroyed(ep);
                         isEventAboutDestroySend = false;
                     }

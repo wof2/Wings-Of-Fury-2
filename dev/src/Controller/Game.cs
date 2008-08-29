@@ -71,7 +71,7 @@ namespace Wof.Controller
         /// <summary>
         /// Nazwa gry: Wings of Fury 2
         /// </summary>
-        public const string Name = @"Wings of Fury 2";
+        public new const string Name = @"Wings of Fury 2";
 
         public delegate void DelegateVoidVoid();
 

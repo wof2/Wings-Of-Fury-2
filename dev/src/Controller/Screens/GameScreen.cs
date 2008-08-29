@@ -376,11 +376,7 @@ namespace Wof.Controller.Screens
             loaderThread.Start();
         }
 
-        public void DisplayGUI(bool justMenu, bool rebuildScene)
-        {
-            return;
-        }
-
+    
         public void CleanUp(Boolean justMenu)
         {
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
@@ -956,6 +952,7 @@ namespace Wof.Controller.Screens
 
         private void DisplayGameover()
         {
+            OverlayContainer c;
             isGamePaused = true;
             levelView.OnStopPlayingEnemyPlaneEngineSounds();
             SoundManager.Instance.HaltOceanSound();
@@ -967,14 +964,64 @@ namespace Wof.Controller.Screens
                                           "bgui.window", (int) wt.NONE,
                                           LanguageResources.GetString(LanguageKey.Pause));
             Callback cc = new Callback(this);
-            guiWindow.createStaticText(
+            c = guiWindow.createStaticText(
                 new Vector4(viewport.ActualWidth/4, viewport.ActualHeight/4 + 30, viewport.ActualWidth/2, 30),
                 LanguageResources.GetString(LanguageKey.GameOver));
+            AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.0f, 0.0f), new ColourValue(0.9f, 0.1f, 0.0f));
+
+            mGui.mFontSize = 20;
+           
+
+
+            // game stats
+            c = guiWindow.createStaticText(
+              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 90, viewport.ActualWidth / 2, 30),
+               LanguageResources.GetString(LanguageKey.GameStats));
+
+            AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f,0.8f,0.0f), new ColourValue(0.9f,0.7f,0.0f));
+         
+
+            guiWindow.createStaticText(
+               new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 120, viewport.ActualWidth / 2, 30),
+                LanguageResources.GetString(LanguageKey.BombsDropped) + " "+ this.currentLevel.Statistics.BombCount);
+
+            guiWindow.createStaticText(
+              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 150, viewport.ActualWidth / 2, 30),
+                LanguageResources.GetString(LanguageKey.BombsAccuracy) + " " + this.currentLevel.Statistics.BombStats + "%");
+
+
+            guiWindow.createStaticText(
+              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 180, viewport.ActualWidth / 2, 30),
+               LanguageResources.GetString(LanguageKey.RocketsFired) + " " + this.currentLevel.Statistics.RocketCount);
+            
+            guiWindow.createStaticText(
+              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 210, viewport.ActualWidth / 2, 30),
+                LanguageResources.GetString(LanguageKey.RocketsAccuracy) + " " + this.currentLevel.Statistics.RocketStats + "%");
+
+           
+            guiWindow.createStaticText(
+              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 240, viewport.ActualWidth / 2, 30),
+                LanguageResources.GetString(LanguageKey.GunShellsFired) + " " + this.currentLevel.Statistics.GunCount);
+
+            guiWindow.createStaticText(
+              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 270, viewport.ActualWidth / 2, 30),
+               LanguageResources.GetString(LanguageKey.GunAccuracy) + " " + this.currentLevel.Statistics.GunStats + "%");
+
+
+            guiWindow.createStaticText(
+                new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 310, viewport.ActualWidth / 2, 30),
+                 LanguageResources.GetString(LanguageKey.PlanesDestroyed) + " " + this.currentLevel.Statistics.PlanesShotDown);
+
+
+            mGui.mFontSize = 24;
+
             gameOverButton =
                 guiWindow.createButton(
-                    new Vector4(viewport.ActualWidth/4, viewport.ActualHeight/4 + 60, viewport.ActualWidth/2, 30),
+                    new Vector4(viewport.ActualWidth/4, viewport.ActualHeight/4 + 370, viewport.ActualWidth/2, 30),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.OK), cc);
+
+
             guiWindow.show();
             isInGameOverMenu = true;
         }
@@ -1364,7 +1411,8 @@ namespace Wof.Controller.Screens
                 changingAmmo = true;
                 SoundManager.Instance.HaltEngineSound();
                 SoundManager.Instance.HaltOceanSound();
-                DisplayChangeAmmo();
+              //  DisplayChangeAmmo();
+                DisplayGameover();
             }
             else
             {
@@ -1381,6 +1429,7 @@ namespace Wof.Controller.Screens
                 gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.EnemyPlaneDownIRepeat));
                     // GameMessages.C_ENEMY_PLANE_DOWN);
                 increaseScore(C_ENEMY_PLANE_SCORE);
+
             }
             levelView.OnPlaneDestroyed(plane);
             SoundManager.Instance.PlayExposionSound();
