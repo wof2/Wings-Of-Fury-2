@@ -1411,8 +1411,8 @@ namespace Wof.Controller.Screens
                 changingAmmo = true;
                 SoundManager.Instance.HaltEngineSound();
                 SoundManager.Instance.HaltOceanSound();
-              //  DisplayChangeAmmo();
-                DisplayGameover();
+                DisplayChangeAmmo();
+                //DisplayGameover();
             }
             else
             {
