@@ -46,6 +46,8 @@
  * 
  */
 
+using Wof.Controller;
+
 namespace Wof.Languages
 {
     /// <summary>
@@ -72,6 +74,10 @@ namespace Wof.Languages
         public const string Back = @"Back";
         public const string BestFPS = @"BestFPS";
         public const string Bombs = @"Bombs";
+        public const string BombsAccuracy = @"BombsAccuracy";
+        public const string BombsDropped = @"BombsDropped";
+
+        
         public const string Bloom = @"Bloom";
 
         #endregion
@@ -135,7 +141,11 @@ namespace Wof.Languages
         #region ---G---
 
         public const string GameOver = @"GameOver";
+        public const string GameStats = @"GameStats";
         public const string Graphics = @"Graphics";
+        public const string GunAccuracy = @"GunAccuracy";
+        public const string GunShellsFired = @"GunShellsFired";
+        
 
         #endregion
 
@@ -199,6 +209,7 @@ namespace Wof.Languages
         #region ---P---
 
         public const string Pause = @"Pause";
+        public const string PlanesDestroyed = @"PlanesDestroyed";
         public const string Poland = @"Poland";
         public const string PressEToTurnOnTheEngine = @"PressEToTurnOnTheEngine";
         public const string PressXToChangeAmmo = @"PressXToChangeAmmo";
@@ -217,7 +228,9 @@ namespace Wof.Languages
         public const string RetractYourLandingGearWithG = @"RetractYourLandingGearWithG";
         public const string Resume = @"Resume";
         public const string Rockets = @"Rockets";
-
+        public const string RocketsFired = @"RocketsFired";
+        public const string RocketsAccuracy = @"RocketsAccuracy";
+     
         #endregion
 
         #region ---S---

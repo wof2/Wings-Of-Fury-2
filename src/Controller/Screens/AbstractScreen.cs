@@ -991,5 +991,16 @@ namespace Wof.Controller.Screens
         {
             if (EngineConfig.SoundEnabled && !clickSound.IsPlaying()) clickSound.Play();
         }
+
+
+        public static void SetOverlayColor(OverlayContainer c, ColourValue top, ColourValue bottom)
+        {
+            foreach (OverlayElement element in c.GetChildIterator())
+            {
+                element.SetParameter("colour_top", String.Format("{0:f} {1:f} {2:f}", StringConverter.ToString(top.r), StringConverter.ToString(top.g), StringConverter.ToString(top.b)));
+                element.SetParameter("colour_bottom", String.Format("{0:f} {1:f} {2:f}", StringConverter.ToString(bottom.r), StringConverter.ToString(bottom.g), StringConverter.ToString(bottom.b)));
+            }
+
+        }
     }
 }

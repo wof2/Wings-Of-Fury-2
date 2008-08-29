@@ -312,4 +312,39 @@
   <data name="EnemySoldiersLeft">
     <value>Pozostało żołnierzy</value>
   </data>
+
+
+  <!-- added to rev. 305 - game stats -->
+  <data name="GameStats">
+    <value>Statystyki</value>
+  </data>
+
+  <data name="BombsDropped">
+    <value>Zrzuconych bomb:</value>
+  </data>
+
+  <data name="BombsAccuracy">
+    <value>Celność bomb:</value>
+  </data>
+
+  <data name="RocketsFired">
+    <value>Odpalonych rakiet:</value>
+  </data>
+
+  <data name="RocketsAccuracy">
+    <value>Celność rakiet:</value>
+  </data>
+
+  <data name="GunShellsFired">
+    <value>Wystrzelonych pocisków:</value>
+  </data>
+
+  <data name="GunAccuracy">
+    <value>Celność działka:</value>
+  </data>
+
+  <data name="PlanesDestroyed">
+    <value>Zniszonych samolotów:</value>
+  </data>
+
 </root>

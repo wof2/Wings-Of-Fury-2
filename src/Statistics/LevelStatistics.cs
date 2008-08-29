@@ -60,6 +60,17 @@ namespace Wof.Statistics
     {
         #region Private Fields
 
+
+
+        
+
+        /// <summary>
+        /// Ilość zestrzelonych samolotów.
+        /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int mPlanesShotDown;
+
+
         /// <summary>
         /// Liczba wystrzelonych rakiet.
         /// </summary>
@@ -118,6 +129,18 @@ namespace Wof.Statistics
             set { this.mRocketCount = value; }
         }
 
+
+         /// <summary>
+        /// Pobiera lub ustawia liczbe zestrzelonych / rozbitych samolotów.
+        /// </summary>
+        public int PlanesShotDown
+        {
+            get { return this.mPlanesShotDown; }
+            set { this.mPlanesShotDown = value; }
+        }
+
+
+        
         /// <summary>
         /// Pobiera lub ustawia liczbe uzytych bomb.
         /// </summary>

@@ -311,4 +311,40 @@
   <data name="EnemySoldiersLeft">
     <value>Живих солдатів</value>
   </data>
+
+
+
+  <!-- added to rev. 305 - game stats -->
+  <data name="GameStats">
+    <value>Game stats</value>
+  </data>
+
+  <data name="BombsDropped">
+    <value>Bombs dropped:</value>
+  </data>
+
+  <data name="BombsAccuracy">
+    <value>Bombs accuracy:</value>
+  </data>
+
+  <data name="RocketsFired">
+    <value>Rockets fired:</value>
+  </data>
+
+  <data name="RocketsAccuracy">
+    <value>Rockets accuracy:</value>
+  </data>
+
+  <data name="GunShellsFired">
+    <value>Gun shells fired:</value>
+  </data>
+
+  <data name="GunAccuracy">
+    <value>Gun accuracy:</value>
+  </data>
+
+  <data name="PlanesDestroyed">
+    <value>Planes destroyed:</value>
+  </data>
+
 </root>
