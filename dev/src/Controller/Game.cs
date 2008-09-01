@@ -454,8 +454,9 @@ namespace Wof.Controller
             {
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
-
+          
             currentScreen = new StartScreen(this, sceneMgr, viewport, camera);
+         
 
             if (ss != null)
             {

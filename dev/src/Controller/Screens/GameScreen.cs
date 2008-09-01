@@ -113,7 +113,7 @@ namespace Wof.Controller.Screens
         // Obiekty kontroli GUI
         private GUI mGui;
         private Window guiWindow;
-        private Button resumeButton = null, exitButton = null, gameOverButton = null;
+        private Button resumeButton = null, exitButton = null, gameOverButton = null, nextLevelButton = null;
         private Button bombsButton, rocketsButton;
         private uint mousePosX, mousePosY;
 
@@ -162,6 +162,16 @@ namespace Wof.Controller.Screens
             set { isInGameOverMenu = value; }
         }
 
+
+        private Boolean isInNextLevelMenu = false;
+
+        public Boolean IsInNextLevelMenu
+        {
+            get { return isInNextLevelMenu; }
+            set { isInNextLevelMenu = value; }
+        }
+
+
         private Boolean isInPauseMenu = false;
 
         public Boolean IsInPauseMenu
@@ -169,6 +179,9 @@ namespace Wof.Controller.Screens
             get { return isInPauseMenu; }
             set { isInPauseMenu = value; }
         }
+
+
+        
 
 
         private Boolean changingAmmo;
@@ -433,6 +446,7 @@ namespace Wof.Controller.Screens
                 SoundManager.Instance.HaltOceanSound();
                 increaseScore(this.lives * C_LIFE_LEFT);
                 levelView.Destroy();
+                if(mGui!=null) mGui.killGUI();
                 gameEventListener.GotoNextLevel();
             }
 
@@ -461,14 +475,14 @@ namespace Wof.Controller.Screens
                     {
                         if (!isGamePaused)
                         {
-                            DisplayPause();
+                            DisplayPauseScreen();
                             SoundManager.Instance.HaltEngineSound();
                             SoundManager.Instance.HaltWaterBubblesSound();
                             SoundManager.Instance.HaltOceanSound();
                         }
                         else
                         {
-                            ClearPause();
+                            ClearPauseScreen();
                             SoundManager.Instance.LoopOceanSound();
                             if (mayPlaySound)
                             {
@@ -558,6 +572,13 @@ namespace Wof.Controller.Screens
                             
                         }
 
+                        // przyciski - next level
+                        if (isInNextLevelMenu && (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter)))
+                        {
+                            Button.TryToPressButton(nextLevelButton);
+
+                        }
+
                         // zmiana amunicji za pomoc¹ klawiatury
                         if (changingAmmo && Button.CanChangeSelectedButton(3.0f))
                         {
@@ -578,7 +599,7 @@ namespace Wof.Controller.Screens
 
                             if (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape))
                             {
-                                ClearRestoreAmmunition();
+                                ClearRestoreAmmunitionScreen();
                                 Button.ResetButtonTimer();
                             }
                         }
@@ -915,7 +936,7 @@ namespace Wof.Controller.Screens
         }
 
 
-        private void DisplayPause()
+        private void DisplayPauseScreen()
         {
             isGamePaused = true;
             isInPauseMenu = true;   
@@ -924,35 +945,158 @@ namespace Wof.Controller.Screens
 
             mGui = new GUI(FontManager.CurrentFont, 24);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
-          //  mGui.injectMouse(0, 0, false);
-            guiWindow = mGui.createWindow(new Vector4(0,
-                                                      0, viewport.ActualWidth, viewport.ActualHeight),
+            guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth / 4 - 10,
+                                                      viewport.ActualHeight / 8 - 10, viewport.ActualWidth / 2 + 10, 435),
                                           "bgui.window", (int) wt.NONE, LanguageResources.GetString(LanguageKey.Pause));
             Callback cc = new Callback(this);
+
+            int left = 20;
+            int top = 10;
+            int width = -10 + viewport.ActualWidth/2;
+            int y = 0;
+
+            y += 30;
             resumeButton =
                 guiWindow.createButton(
-                    new Vector4(viewport.ActualWidth/4, viewport.ActualHeight/4 + 30, viewport.ActualWidth/2, 30),
+                    new Vector4(left - 10, top + y, width, 30),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.Resume), cc);
+
+            y += 30;
             exitButton =
                 guiWindow.createButton(
-                    new Vector4(viewport.ActualWidth/4, viewport.ActualHeight/4 + 60, viewport.ActualWidth/2, 30),
+                    new Vector4(left - 10, top + y, width, 30),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.ExitToMenu), cc);
             resumeButton.activate(true);
+
+
+            OverlayContainer c;
+            y += 60;
+            c = guiWindow.createStaticText(new Vector4(left - 10, top + y, width, 30), LanguageResources.GetString(LanguageKey.Controls));
+            AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
+
+            uint oldFontSize = mGui.mFontSize;
+            mGui.mFontSize = 16;
+
+            y += 25;
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Engine: E (hold)");
+            y += 25;
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Accelerate/Break/Turn: Left/right arrow");
+            y += 25;
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Pitch: Up/down arrow");
+            y += 25;
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Spin: Ctrl");
+            y += 25;
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Gear: G");
+            y += 25;
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Gun: Z");
+            y += 25;
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Bombs/Rockets: X");
+            y += 25;
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Camera: C");
+            y += 25;
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Zoom in: Page UP");
+            y += 25;
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Zoom out: Page DOWN");
+            y += 25;
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Re-arm/End mission: X");
+
+            mGui.mFontSize = oldFontSize;
+
+
             guiWindow.show();
+
+
         }
 
-        private void ClearPause()
+        private void ClearPauseScreen()
         {
             isGamePaused = false;
             isInPauseMenu = false;
             mGui.killGUI();
         }
 
-        private void DisplayGameover()
+        private void BuildStatsScreen(Window window)
         {
+            uint oldSize = mGui.mFontSize;
+            mGui.mFontSize = 20;
+
+
             OverlayContainer c;
+            // Level stats
+            c = window.createStaticText(
+              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 90, viewport.ActualWidth / 2, 30),
+               LanguageResources.GetString(LanguageKey.LevelStats));
+
+            AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
+
+
+            window.createStaticText(
+               new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 120, viewport.ActualWidth / 2, 30),
+                LanguageResources.GetString(LanguageKey.BombsDropped) + " " + this.currentLevel.Statistics.BombCount);
+
+            window.createStaticText(
+              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 150, viewport.ActualWidth / 2, 30),
+                LanguageResources.GetString(LanguageKey.BombsAccuracy) + " " + this.currentLevel.Statistics.BombStats + "%");
+
+
+            window.createStaticText(
+              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 180, viewport.ActualWidth / 2, 30),
+               LanguageResources.GetString(LanguageKey.RocketsFired) + " " + this.currentLevel.Statistics.RocketCount);
+
+            window.createStaticText(
+              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 210, viewport.ActualWidth / 2, 30),
+                LanguageResources.GetString(LanguageKey.RocketsAccuracy) + " " + this.currentLevel.Statistics.RocketStats + "%");
+
+
+            window.createStaticText(
+              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 240, viewport.ActualWidth / 2, 30),
+                LanguageResources.GetString(LanguageKey.GunShellsFired) + " " + this.currentLevel.Statistics.GunCount);
+
+            window.createStaticText(
+              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 270, viewport.ActualWidth / 2, 30),
+               LanguageResources.GetString(LanguageKey.GunAccuracy) + " " + this.currentLevel.Statistics.GunStats + "%");
+
+
+            window.createStaticText(
+                new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 310, viewport.ActualWidth / 2, 30),
+                 LanguageResources.GetString(LanguageKey.PlanesDestroyed) + " " + this.currentLevel.Statistics.PlanesShotDown);
+
+            mGui.mFontSize = oldSize;
+
+        }
+
+
+        private void DisplayNextLevelScreen()
+        {
+
+            mGui = new GUI(FontManager.CurrentFont, 24);
+            mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
+            guiWindow = mGui.createWindow(new Vector4(0,
+                                                      0, viewport.ActualWidth, viewport.ActualHeight),
+                                          "bgui.window", (int)wt.NONE,
+                                          LanguageResources.GetString(LanguageKey.LevelCompleted));
+
+
+            BuildStatsScreen(guiWindow);
+           
+
+            Callback cc = new Callback(this);
+            nextLevelButton =
+              guiWindow.createButton(
+                  new Vector4(viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 370, viewport.ActualWidth / 2, 30),
+                  "bgui.button",
+                  LanguageResources.GetString(LanguageKey.OK), cc);
+
+
+            isInNextLevelMenu = true;
+        }
+
+
+        private void DisplayGameoverScreen()
+        {
+           
             isGamePaused = true;
             levelView.OnStopPlayingEnemyPlaneEngineSounds();
             SoundManager.Instance.HaltOceanSound();
@@ -962,58 +1106,16 @@ namespace Wof.Controller.Screens
             guiWindow = mGui.createWindow(new Vector4(0,
                                                       0, viewport.ActualWidth, viewport.ActualHeight),
                                           "bgui.window", (int) wt.NONE,
-                                          LanguageResources.GetString(LanguageKey.Pause));
+                                          LanguageResources.GetString(LanguageKey.GameOver));
             Callback cc = new Callback(this);
+
+            OverlayContainer c;
             c = guiWindow.createStaticText(
                 new Vector4(viewport.ActualWidth/4, viewport.ActualHeight/4 + 30, viewport.ActualWidth/2, 30),
                 LanguageResources.GetString(LanguageKey.GameOver));
             AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.0f, 0.0f), new ColourValue(0.9f, 0.1f, 0.0f));
-
-            mGui.mFontSize = 20;
-           
-
-
-            // game stats
-            c = guiWindow.createStaticText(
-              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 90, viewport.ActualWidth / 2, 30),
-               LanguageResources.GetString(LanguageKey.GameStats));
-
-            AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f,0.8f,0.0f), new ColourValue(0.9f,0.7f,0.0f));
-         
-
-            guiWindow.createStaticText(
-               new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 120, viewport.ActualWidth / 2, 30),
-                LanguageResources.GetString(LanguageKey.BombsDropped) + " "+ this.currentLevel.Statistics.BombCount);
-
-            guiWindow.createStaticText(
-              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 150, viewport.ActualWidth / 2, 30),
-                LanguageResources.GetString(LanguageKey.BombsAccuracy) + " " + this.currentLevel.Statistics.BombStats + "%");
-
-
-            guiWindow.createStaticText(
-              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 180, viewport.ActualWidth / 2, 30),
-               LanguageResources.GetString(LanguageKey.RocketsFired) + " " + this.currentLevel.Statistics.RocketCount);
             
-            guiWindow.createStaticText(
-              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 210, viewport.ActualWidth / 2, 30),
-                LanguageResources.GetString(LanguageKey.RocketsAccuracy) + " " + this.currentLevel.Statistics.RocketStats + "%");
-
-           
-            guiWindow.createStaticText(
-              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 240, viewport.ActualWidth / 2, 30),
-                LanguageResources.GetString(LanguageKey.GunShellsFired) + " " + this.currentLevel.Statistics.GunCount);
-
-            guiWindow.createStaticText(
-              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 270, viewport.ActualWidth / 2, 30),
-               LanguageResources.GetString(LanguageKey.GunAccuracy) + " " + this.currentLevel.Statistics.GunStats + "%");
-
-
-            guiWindow.createStaticText(
-                new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 310, viewport.ActualWidth / 2, 30),
-                 LanguageResources.GetString(LanguageKey.PlanesDestroyed) + " " + this.currentLevel.Statistics.PlanesShotDown);
-
-
-            mGui.mFontSize = 24;
+            BuildStatsScreen(guiWindow);
 
             gameOverButton =
                 guiWindow.createButton(
@@ -1026,7 +1128,7 @@ namespace Wof.Controller.Screens
             isInGameOverMenu = true;
         }
 
-        private void DisplayChangeAmmo()
+        private void DisplayChangeAmmoScreen()
         {
             mGui = new GUI(FontManager.CurrentFont, 24);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
@@ -1049,7 +1151,7 @@ namespace Wof.Controller.Screens
             guiWindow.show();
         }
 
-        private void ClearRestoreAmmunition()
+        private void ClearRestoreAmmunitionScreen()
         {
             changingAmmo = false;
             mGui.killGUI();
@@ -1066,7 +1168,7 @@ namespace Wof.Controller.Screens
         {
             if (referer == resumeButton)
             {
-                ClearPause();
+                ClearPauseScreen();
                 SoundManager.Instance.LoopOceanSound();
                 if (mayPlaySound)
                 {
@@ -1075,6 +1177,7 @@ namespace Wof.Controller.Screens
             }
             if (referer == exitButton)
             {
+                mGui.killGUI();
                 if (levelView != null)
                 {
                     levelView.Destroy();
@@ -1083,6 +1186,7 @@ namespace Wof.Controller.Screens
             }
             if (referer == gameOverButton)
             {
+                mGui.killGUI();
                 if (levelView != null)
                 {
                     levelView.Destroy();
@@ -1104,11 +1208,18 @@ namespace Wof.Controller.Screens
                     return;
                 }
             }
+            if (referer == nextLevelButton)
+            {
+                nextFrameGotoNextLevel = true;
+                isInNextLevelMenu = false;
+            }
+
+
             if (referer == rocketsButton)
             {
                 // zmieniam bron na rakiety
                 currentLevel.OnRestoreAmmunition(WeaponType.Rocket);
-                ClearRestoreAmmunition();
+                ClearRestoreAmmunitionScreen();
                 SoundManager.Instance.PlayReloadSound();
                 indicatorControl.ChangeAmmoType(WeaponType.Rocket);
 
@@ -1118,7 +1229,7 @@ namespace Wof.Controller.Screens
             {
                 // zmieniam bron na bomby
                 currentLevel.OnRestoreAmmunition(WeaponType.Bomb);
-                ClearRestoreAmmunition();
+                ClearRestoreAmmunitionScreen();
                 SoundManager.Instance.PlayReloadSound();
                 indicatorControl.ChangeAmmoType(WeaponType.Bomb);
                 return;
@@ -1411,13 +1522,15 @@ namespace Wof.Controller.Screens
                 changingAmmo = true;
                 SoundManager.Instance.HaltEngineSound();
                 SoundManager.Instance.HaltOceanSound();
-                DisplayChangeAmmo();
-                //DisplayGameover();
+                DisplayChangeAmmoScreen();
+
+                //DisplayNextLevelScreen();
+                //DisplayGameoverScreen();
             }
             else
             {
                 isGamePaused = true;
-                nextFrameGotoNextLevel = true;
+                DisplayNextLevelScreen();
             }
         }
 
@@ -1467,7 +1580,7 @@ namespace Wof.Controller.Screens
                 if (lives < 0 || currentLevel.Lives - 1 < 0)
                 {
                     isGamePaused = true;
-                    DisplayGameover();
+                    DisplayGameoverScreen();
                 }
                 else
                 {

@@ -314,8 +314,8 @@
   </data>
 
 
-  <!-- added to rev. 305 - game stats -->
-  <data name="GameStats">
+  <!-- added to rev. 305 - Level stats -->
+  <data name="LevelStats">
     <value>Statystyki</value>
   </data>
 
@@ -346,5 +346,10 @@
   <data name="PlanesDestroyed">
     <value>Zniszonych samolotów:</value>
   </data>
+
+  <data name="LevelCompleted">
+    <value>Poziom ukończony</value>
+  </data>
+
 
 </root>

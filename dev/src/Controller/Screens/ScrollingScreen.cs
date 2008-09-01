@@ -88,11 +88,15 @@ namespace Wof.Controller.Screens
                 }
                 
             }
-
+            OverlayContainer container;
             foreach(PositionedMessage m in messages)
             {
-                 
-                 messageOverlays.Add(guiWindow.createStaticText(new Vector4(m.X, y, m.Width, m.Height), m.Message));
+                 container = guiWindow.createStaticText(new Vector4(m.X, y, m.Width, m.Height), m.Message);
+                 if(m.ColourTop != null)
+                 {
+                     SetOverlayColor(container, m.ColourTop, m.ColourBottom);
+                 }
+                 messageOverlays.Add(container);
                  y += m.YSpace;
             }
                      

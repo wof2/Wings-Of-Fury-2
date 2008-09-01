@@ -162,6 +162,9 @@ namespace Wof.Controller.Screens
         public AbstractScreen(GameEventListener gameEventListener,
                               SceneManager sceneMgr, Viewport viewport, Camera camera)
         {
+            clickSound = SoundManager3D.Instance.GetSound("menuClick");
+            if (clickSound == null || !clickSound.HasSound()) clickSound = SoundManager3D.Instance.CreateAmbientSound(SoundManager3D.C_MENU_CLICK, "menuClick", false, false); // destroyed together with SoundManager3D singleton
+ 
             this.gameEventListener = gameEventListener;
             this.sceneMgr = sceneMgr;
             this.viewport = viewport;
@@ -180,9 +183,7 @@ namespace Wof.Controller.Screens
             MeshManager.Singleton.UnloadUnreferencedResources();
 
             keyDelay = new Timer();
-            clickSound = SoundManager3D.Instance.GetSound("menuClick");
-            if(clickSound == null) clickSound = SoundManager3D.Instance.CreateAmbientSound(SoundManager3D.C_MENU_CLICK, "menuClick", false, false); // destroyed together with SoundManager3D singleton
-        }
+         }
 
         /// <summary>
         /// Pobiera ze screenu aktualny stan: samoloty oraz pozycje myszki

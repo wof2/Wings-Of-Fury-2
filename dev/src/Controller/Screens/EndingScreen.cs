@@ -74,34 +74,38 @@ namespace Wof.Controller.Screens
         /// </summary>
         /// <see cref="CreditsScreen"/>
         private string[] names = {
-                                     LanguageResources.GetString(LanguageKey.Congratulations),
-                                     LanguageResources.GetString(LanguageKey.YouWonTheGame),
-                                     String.Empty,
-                                     Game.Name,
-                                     String.Empty,
-                                     String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.CoreTeam)),
-                                     "Adam Witczak  Kamil Slawinski  Michal Ziober",
-                                     String.Empty,
-                                     String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.SupportTeam)),
-                                     "Emil Hornung",
-                                     "Tomasz Bilski",
-                                     "Jakub Tezycki",
-                                     String.Empty,
-                                     String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.Graphics)),
-                                     "Adam Witczak",
-                                     String.Empty,
-                                     String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.Sound)),
-                                     "Jakub Tezycki",
-                                     String.Empty,
-                                     String.Format(@"WOF2 {0}:", LanguageResources.GetString(LanguageKey.CommunityTranslations)),
-                                     "Makis",
-                                     "Andrei Drakonnen",
-                                     "Martyna Kwiatkowska",
-                                     "Kamila Ksiazek",
-                                     String.Empty,
-                                     LanguageResources.GetString(LanguageKey.SpecialThanksToSteveWaldo),
-                                     LanguageResources.GetString(LanguageKey.CreatorOfOriginalWingsOfFury),
-                                     String.Format(@"{0} 2008", LanguageResources.GetString(LanguageKey.Poland))
+                                    LanguageResources.GetString(LanguageKey.Congratulations),
+                                    LanguageResources.GetString(LanguageKey.YouWonTheGame),
+                                    String.Empty,
+                                    Game.Name,
+                                    String.Empty,
+                                    String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.CoreTeam)),
+                                    "Adam Witczak  Kamil Slawinski  Michal Ziober",
+                                    String.Empty,
+                                    String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.SupportTeam)),
+                                    "Emil Hornung",
+                                    "Tomasz Bilski",
+                                    "Jakub Tezycki",
+                                    String.Empty,
+                                    String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.Graphics)),
+                                    "Adam Witczak",
+                                    String.Empty,
+                                    String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.Sound)),
+                                    "Jakub Tezycki",
+                                    String.Empty,
+                                    String.Format(@"WOF2 {0}:", LanguageResources.GetString(LanguageKey.CommunityTranslations)),
+                                    "Makis", 
+                                    "Andrei Drakonnen", 
+                                    "Beauty",
+                                    "RedFox2879",
+                                    String.Empty,
+                                    "Community Support",
+                                    "Winnow Driscoll",
+                                    "Detlef Spengler",
+                                    String.Empty,
+                                    LanguageResources.GetString(LanguageKey.SpecialThanksToSteveWaldo),
+                                    LanguageResources.GetString(LanguageKey.CreatorOfOriginalWingsOfFury),
+                                    String.Format(@"{0} 2008", LanguageResources.GetString(LanguageKey.Poland)) 
                                  };
 
         #endregion
@@ -187,7 +191,7 @@ namespace Wof.Controller.Screens
         protected override List<Button> buildButtons()
         {
             List<Button> ret = new List<Button>();
-            ret.Add(guiWindow.createButton(new Vector4(20, 880, viewport.ActualWidth/2, 30),
+            ret.Add(guiWindow.createButton(new Vector4(20, 900, viewport.ActualWidth/2, 30),
                                            "bgui.button", LanguageResources.GetString(LanguageKey.Quit), cc));
             return ret;
         }
@@ -196,10 +200,19 @@ namespace Wof.Controller.Screens
         {
             
             List<PositionedMessage> ret = new List<PositionedMessage>();
-          
+            PositionedMessage m;
+            int i = 0;
             foreach (string s in names)
             {
-                ret.Add(new PositionedMessage(20, 30, viewport.ActualWidth / 2, 30, s));
+                if(i ==0)
+                {
+                    m = new PositionedMessage(20, 30, viewport.ActualWidth/2, 30, s, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
+                } else
+                {
+                    m = new PositionedMessage(20, 30, viewport.ActualWidth / 2, 30, s);
+                }
+                ret.Add(m);
+                i++;
             }
             return ret;
         }

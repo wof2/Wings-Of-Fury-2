@@ -257,15 +257,15 @@ namespace Wof.Controller
                 root = new Root();
                 //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
                 LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
-                LogManager.Singleton.LogMessage("Starting Wings of Fury 2 ver. "+EngineConfig.C_WOF_VERSION);
+                LogManager.Singleton.LogMessage("Starting Wings of Fury 2 ver. " + EngineConfig.C_WOF_VERSION);
 
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.SetupingResources)));
                 SetupResources();
                 carryOn = Configure();
-                
+
                 ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
-                if(map.ContainsKey("Rendering Device"))
+                if (map.ContainsKey("Rendering Device"))
                 {
                     ConfigOptionMap.Iterator iterator = map.Find("Rendering Device");
                     if (iterator != null && !iterator.Value.IsNull)
@@ -273,10 +273,9 @@ namespace Wof.Controller
                         LogManager.Singleton.LogMessage("Rendering device: " + iterator.Value.currentValue);
                     }
                 }
-               
-                
 
-               /*foreach (KeyValuePair<string,ConfigOption_NativePtr> m in map)
+
+                /*foreach (KeyValuePair<string,ConfigOption_NativePtr> m in map)
                 {
                     Console.WriteLine(m.Value.name);
                     foreach (String s in m.Value.possibleValues)
@@ -286,22 +285,18 @@ namespace Wof.Controller
                 }*/
 
 
-
-
                 if (!carryOn) return false;
                 splash.Activate();
                 splash.Increment(
                     String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingGameObjects)));
 
 
-
-                if(!EngineConfig.DebugStart)
+                if (!EngineConfig.DebugStart)
                 {
                     ChooseSceneManager();
                     CreateCamera();
                     CreateViewports();
                 }
-                
 
 
                 // Set default mipmap level (NB some APIs ignore this)
@@ -313,21 +308,26 @@ namespace Wof.Controller
                 LoadResources();
                 splash.Increment(4);
 
-               
-              
-             
+
+                // load presets
+
+
                 // InitializeSound sound
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.InitializingSound)));
                 InitDirectSound(splash.Handle);
-                if (!CreateSoundSystem(camera, EngineConfig.SoundSystem))
-                    EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
-              
-                
-                // load presets
                 SetupEngineConfig();
+                
+                
+                if (!EngineConfig.DebugStart)
+                {
+                    // Jesli jest debugstart to nie ma jeszcze kamery wiec nie moge zrobic sound system. Zrobi sie samo przy StartGame()
+                    if (!CreateSoundSystem(camera, EngineConfig.SoundSystem))
+                        EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
+                }
+            
 
 
-                // Create the scene
+            // Create the scene
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingScene)));
                 CreateScene();
 
