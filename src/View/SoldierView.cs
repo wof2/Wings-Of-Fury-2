@@ -92,9 +92,8 @@ namespace Wof.View
         #region Minimap representation
 
         protected MinimapItem minimapItem = null;
-        private FSLSoundEntity dieSound1 = null;
-        private FSLSoundEntity dieSound2 = null;
-
+        private FSLSoundEntity dieSound = null;
+   
         public MinimapItem MinimapItem
         {
             get { return minimapItem; }
@@ -105,17 +104,11 @@ namespace Wof.View
 
         public void Dispose()
         {
-            
-            if (dieSound1 != null)
+            if (dieSound != null)
             {
-                 SoundManager3D.Instance.RemoveSound(dieSound1.Name); 
-                 dieSound1 = null;
+                 SoundManager3D.Instance.RemoveSound(dieSound.Name); 
             }
-            if (dieSound2 != null)
-            {
-                 SoundManager3D.Instance.RemoveSound(dieSound2.Name); 
-                 dieSound2 = null;
-            }
+        
             GC.SuppressFinalize(this);
 
         }
@@ -183,15 +176,7 @@ namespace Wof.View
         {
             if (EngineConfig.SoundEnabled)
             {
-                if (Math.RangeRandom(0.0f, 1.0f) > 0.5f)
-                {
-                   dieSound1.Play();
-                   
-                }
-                else
-                {
-                    dieSound2.Play();
-                }
+                dieSound.Play();
                 SoundManager3D.Instance.UpdateSoundObjects();
             }
         }
@@ -202,7 +187,6 @@ namespace Wof.View
         protected void preInitOnScene()
         {
 
-         
 
             soldierModel = sceneMgr.CreateEntity("Soldier" + soldierID.ToString(), "Soldier.mesh");
 
@@ -217,14 +201,24 @@ namespace Wof.View
 
             if (EngineConfig.SoundEnabled)
             {
-                dieSound1 = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_1, this.soldierNode, false, false); 
-                dieSound1.SetReferenceDistance(60); // make it a bit louder but dissapear faster
-                dieSound1.SetGain(3.5f);
-               // dieSound1.Play();
-
-                dieSound2 = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_2, this.soldierNode, false, false);
-                dieSound2.SetReferenceDistance(60); // make it a bit louder
-                dieSound1.SetGain(4.0f);
+                float rand = Math.RangeRandom(0.0f, 3.0f);
+                if (rand >= 0 && rand < 1.0)
+                {
+                    dieSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_1, soldierNode, false, false); 
+                      dieSound.SetGain(3.5f);
+                   
+                }
+                else if (rand >= 1 && rand < 2.0)
+                {
+                    dieSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_2, soldierNode, false, false); 
+                    dieSound.SetGain(4.0f);
+                }else
+                {
+                    dieSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_3, soldierNode, false, false); 
+                    dieSound.SetGain(3.0f);
+                }
+                dieSound.SetReferenceDistance(60); // make it a bit louder but dissapear faster
+            
             }
 
 

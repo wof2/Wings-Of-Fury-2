@@ -12,10 +12,11 @@ namespace Wof.Controller
     internal class SoundManager3D : FSLSoundManager
     {
 
-        public static readonly string C_ENEMY_ENGINE_IDLE = "sounds/enemy_engineidle.wav";
-        public static readonly string C_SOLDIER_DIE_1 = "sounds/oh.wav";
-        public static readonly string C_SOLDIER_DIE_2 = "sounds/oh2.wav";
-        public static readonly string C_MENU_CLICK = "sounds/click.wav";
+        public static readonly string C_ENEMY_ENGINE_IDLE = "sounds/enemy_engineidle.ogg";
+        public static readonly string C_SOLDIER_DIE_1 = "sounds/oh.ogg";
+        public static readonly string C_SOLDIER_DIE_2 = "sounds/oh2.ogg";
+        public static readonly string C_SOLDIER_DIE_3 = "sounds/oh3.ogg";
+        public static readonly string C_MENU_CLICK = "sounds/click.ogg";
 
         private FreeSL.FSL_SOUND_SYSTEM soundSystem;
         private string currentMusic;
@@ -115,6 +116,7 @@ namespace Wof.Controller
             }
             else
             {
+              
                 if (!ambientSound.IsPlaying() && !preloadOnly) ambientSound.Play();
             }
             ambientSound.SetGain(1.0f * volume / 100);

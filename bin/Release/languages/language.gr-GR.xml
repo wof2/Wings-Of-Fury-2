@@ -316,9 +316,9 @@
   </data>
 
 
-  <!-- added to rev. 305 - game stats -->
-  <data name="GameStats">
-    <value>Game stats</value>
+  <!-- added to rev. 305 - Level stats -->
+  <data name="LevelStats">
+    <value>Level stats</value>
   </data>
 
   <data name="BombsDropped">
@@ -348,5 +348,10 @@
   <data name="PlanesDestroyed">
     <value>Planes destroyed:</value>
   </data>
+
+  <data name="LevelCompleted">
+    <value>Level completed</value>
+  </data>
+
 
 </root>

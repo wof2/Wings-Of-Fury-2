@@ -141,7 +141,6 @@ namespace Wof.Languages
         #region ---G---
 
         public const string GameOver = @"GameOver";
-        public const string GameStats = @"GameStats";
         public const string Graphics = @"Graphics";
         public const string GunAccuracy = @"GunAccuracy";
         public const string GunShellsFired = @"GunShellsFired";
@@ -177,6 +176,8 @@ namespace Wof.Languages
         public const string LanguageID = @"LanguageID";
         public const string Languages = @"Languages";
         public const string Level = @"Level";
+        public const string LevelCompleted = @"LevelCompleted";
+        public const string LevelStats = @"LevelStats";
         public const string LoadingResources = @"LoadingResources";
         public const string Low = @"Low";
         public const string LowFuelWarning = @"LowFuelWarning";
