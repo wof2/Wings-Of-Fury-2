@@ -353,5 +353,49 @@
     <value>Level completed</value>
   </data>
 
+  
+  
+  <data name="Engine">
+    <value>Engine</value>
+  </data>
+
+  <data name="AccelerateBreakTurn">
+    <value>Accelerate/Break/Turn</value>
+  </data>
+
+  <data name="Pitch">
+    <value>Pitch</value>
+  </data>
+  
+  <data name="Spin">
+    <value>Spin</value>
+  </data>
+  
+  <data name="Gear">
+    <value>Gear</value>
+  </data>
+
+  <data name="Gun">
+    <value>Gun</value>
+  </data>
+  
+  <data name="Camera">
+    <value>Camera</value>
+  </data>
+  
+  <data name="Zoomin">
+    <value>Zoom-in</value>
+  </data>
+
+  
+  <data name="Zoomout">
+    <value>Zoom-out</value>
+  </data>
+
+  <data name="RearmEndMission">
+    <value>Re-arm / End mission</value>
+  </data>
+  
+  
 
 </root>

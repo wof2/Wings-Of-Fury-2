@@ -351,5 +351,46 @@
     <value>Poziom ukończony</value>
   </data>
 
+  <data name="Engine">
+    <value>Engine</value>
+  </data>
+
+  <data name="AccelerateBreakTurn">
+    <value>Przyspieszenie/hamowanie/zawracanie</value>
+  </data>
+
+  <data name="Pitch">
+    <value>Wysokość</value>
+  </data>
+
+  <data name="Spin">
+    <value>Obrót</value>
+  </data>
+
+  <data name="Gear">
+    <value>Podwozie</value>
+  </data>
+
+  <data name="Gun">
+    <value>Działko</value>
+  </data>
+
+  <data name="Camera">
+    <value>Kamera</value>
+  </data>
+
+  <data name="Zoomin">
+    <value>Zoom-in</value>
+  </data>
+
+
+  <data name="Zoomout">
+    <value>Zoom-out</value>
+  </data>
+
+  <data name="RearmEndMission">
+    <value>Zmiana uzbrojenia / Koniec misji</value>
+  </data>
+
 
 </root>

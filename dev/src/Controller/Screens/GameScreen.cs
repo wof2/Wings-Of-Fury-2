@@ -945,27 +945,27 @@ namespace Wof.Controller.Screens
 
             mGui = new GUI(FontManager.CurrentFont, 24);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
-            guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth / 4 - 10,
-                                                      viewport.ActualHeight / 8 - 10, viewport.ActualWidth / 2 + 10, 435),
+            guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
+                                                      viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 435),
                                           "bgui.window", (int) wt.NONE, LanguageResources.GetString(LanguageKey.Pause));
             Callback cc = new Callback(this);
 
             int left = 20;
             int top = 10;
-            int width = -10 + viewport.ActualWidth/2;
+            int width = -10 + (int)(viewport.ActualWidth*0.7f);
             int y = 0;
 
             y += 30;
             resumeButton =
                 guiWindow.createButton(
-                    new Vector4(left - 10, top + y, width, 30),
+                    new Vector4(left - 10, top + y, width / 2.0f, 30),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.Resume), cc);
 
             y += 30;
             exitButton =
                 guiWindow.createButton(
-                    new Vector4(left - 10, top + y, width, 30),
+                    new Vector4(left - 10, top + y, width / 2.0f, 30),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.ExitToMenu), cc);
             resumeButton.activate(true);
@@ -980,27 +980,47 @@ namespace Wof.Controller.Screens
             mGui.mFontSize = 16;
 
             y += 25;
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Engine: E (hold)");
+            c =
+                guiWindow.createStaticText(new Vector4(left, top + y, width, 30),
+                                           LanguageResources.GetString(LanguageKey.Engine) + ": " + "E (hold)");
+            
+            // "Engine: E (hold)");
             y += 25;
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Accelerate/Break/Turn: Left/right arrow");
+            c =
+                guiWindow.createStaticText(new Vector4(left, top + y, width, 30),
+                                           LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + ": " +
+                                                                       "Left/right arrow");
+          
             y += 25;
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Pitch: Up/down arrow");
+            c =
+                guiWindow.createStaticText(new Vector4(left, top + y, width, 30),
+                                           LanguageResources.GetString(LanguageKey.Pitch) + ": " + "Up/down arrow");
             y += 25;
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Spin: Ctrl");
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30),  
+                                           LanguageResources.GetString(LanguageKey.Spin) + ": " + "Ctrl");
             y += 25;
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Gear: G");
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), 
+                                           LanguageResources.GetString(LanguageKey.Gear) + ": " + "G");
             y += 25;
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Gun: Z");
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), 
+                                           LanguageResources.GetString(LanguageKey.Gun) + ": " + "Z");
             y += 25;
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Bombs/Rockets: X");
+
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), 
+                                           LanguageResources.GetString(LanguageKey.Bombs) + "/" + LanguageResources.GetString(LanguageKey.Rockets)+ ": " + "X");
             y += 25;
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Camera: C");
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), 
+                                           LanguageResources.GetString(LanguageKey.Camera) + ": " + "C");
             y += 25;
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Zoom in: Page UP");
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30),
+                                           LanguageResources.GetString(LanguageKey.Zoomin) + ": " + "Page UP");
+                
             y += 25;
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Zoom out: Page DOWN");
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), 
+                                           LanguageResources.GetString(LanguageKey.Zoomout) + ": " + "Page DOWN");
             y += 25;
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30), "Re-arm/End mission: X");
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, 30),
+                                           LanguageResources.GetString(LanguageKey.RearmEndMission) + ": " + "X");
 
             mGui.mFontSize = oldFontSize;
 

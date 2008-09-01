@@ -58,8 +58,9 @@ namespace Wof.Languages
     {
         #region ---A---
 
+      
         public const string AddingCompositors = @"AddingCompositors";
-
+        public const string AccelerateBreakTurn = @"AccelerateBreakTurn";
         public const string AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX =
             @"AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX";
 
@@ -70,7 +71,7 @@ namespace Wof.Languages
         #endregion
 
         #region ---B---
-
+       
         public const string Back = @"Back";
         public const string BestFPS = @"BestFPS";
         public const string Bombs = @"Bombs";
@@ -83,7 +84,7 @@ namespace Wof.Languages
         #endregion
 
         #region ---C---
-
+        public const string Camera = @"Camera";
         public const string CameraChanged = @"CameraChanged";
         public const string ChangeOptionMessage1 = @"ChangeOptionMessage1";
         public const string ChangeOptionMessage2 = @"ChangeOptionMessage2";
@@ -133,6 +134,7 @@ namespace Wof.Languages
         public const string EnemyPlaneApproachingFromTheLeft = @"EnemyPlaneApproachingFromTheLeft";
         public const string EnemyPlaneApproachingFromTheRight = @"EnemyPlaneApproachingFromTheRight";
         public const string EnemySoldiersLeft = @"EnemySoldiersLeft";
+        public const string Engine = @"Engine";
         public const string EnterYourName = @"EnterYourName";
         public const string ExitToMenu = @"ExitToMenu";
 
@@ -141,7 +143,9 @@ namespace Wof.Languages
         #region ---G---
 
         public const string GameOver = @"GameOver";
+        public const string Gear = @"Gear";
         public const string Graphics = @"Graphics";
+        public const string Gun = @"Gun";
         public const string GunAccuracy = @"GunAccuracy";
         public const string GunShellsFired = @"GunShellsFired";
         
@@ -210,6 +214,7 @@ namespace Wof.Languages
         #region ---P---
 
         public const string Pause = @"Pause";
+        public const string Pitch = @"Pitch";
         public const string PlanesDestroyed = @"PlanesDestroyed";
         public const string Poland = @"Poland";
         public const string PressEToTurnOnTheEngine = @"PressEToTurnOnTheEngine";
@@ -225,9 +230,9 @@ namespace Wof.Languages
         #endregion
 
         #region ---R---
-
-        public const string RetractYourLandingGearWithG = @"RetractYourLandingGearWithG";
+        public const string RearmEndMission = @"RearmEndMission";
         public const string Resume = @"Resume";
+        public const string RetractYourLandingGearWithG = @"RetractYourLandingGearWithG";
         public const string Rockets = @"Rockets";
         public const string RocketsFired = @"RocketsFired";
         public const string RocketsAccuracy = @"RocketsAccuracy";
@@ -241,6 +246,7 @@ namespace Wof.Languages
         public const string SetupingResources = @"SetupingResources";
         public const string Sound = @"Sound";
         public const string SpecialThanksToSteveWaldo = @"SpecialThanksToSteveWaldo";
+        public const string Spin = @"Spin";
         public const string StartFrom = @"StartFrom";
         public const string SupportTeam = @"SupportTeam";
 
@@ -275,5 +281,15 @@ namespace Wof.Languages
         public const string YouWonTheGame = @"YouWonTheGame";
 
         #endregion
+
+        #region ---Z---
+
+        public const string Zoomin = @"Zoomin";
+        public const string Zoomout = @"Zoomout";
+
+        #endregion
+
+
+        
     }
 }
