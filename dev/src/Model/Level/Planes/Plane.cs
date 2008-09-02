@@ -754,7 +754,7 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
-//jesli samolot porusza sie w prawo.
+                //jesli samolot porusza sie w prawo.
                 if (direction == Direction.Right)
                     return bounds.Peaks[0];
                 else //w lewo
@@ -794,7 +794,7 @@ namespace Wof.Model.Level.Planes
         /// Pobiera lub ustawia licznik prob uruchomien silnika.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public int StartCounter
+        public int StartEngineCounter
         {
             get { return counterStartedEngine; }
             set { counterStartedEngine = value; }
@@ -894,6 +894,22 @@ namespace Wof.Model.Level.Planes
                 return false;
             }
         }
+
+        /// <summary>
+        /// Sprawdza czy samolot mo¿e rozpocz¹æ spin
+        /// </summary>
+        /// <author>Adam</author>
+        public bool CanSpin
+        {
+            get
+            {
+                Console.WriteLine(rotateValue / rotateStep);
+                return (Math.Abs(rotateValue / rotateStep) <= 0.15f && wheelsState == WheelsState.In);
+            }
+        }
+
+
+       
 
         /// <summary>
         /// Zwraca k¹t nachylenia samolotu do kierunku wyznaczonego przez wektor ruchu.
@@ -2007,9 +2023,8 @@ namespace Wof.Model.Level.Planes
                     }
                     if (!isDownPressed && !isUpPressed)//"hamowanie" obrotu
                         DecreaseRotateValue(rotateBrakingFactor*scaleFactor*rotateStep);
-
-
-                    if (isSpinPressed && !isBlockSpin && wheelsState == WheelsState.In)
+                                      
+                    if (isSpinPressed && !isBlockSpin && CanSpin)
                     {
                         Spin();
                     }
@@ -2178,14 +2193,14 @@ namespace Wof.Model.Level.Planes
             {
                 if (CanEngineBeStarted)
                 {
-                    StartCounter = 0; //zeruje licznik.
+                    StartEngineCounter = 0; //zeruje licznik.
                     StartEngine(); //uruchamiam silnik.
                     IsEngineJustStarted = true;
                     level.Controller.OnTurnOnEngine();
                 }
                 else
                 {
-                    StartCounter += (int) time; //zwiekszam licznik prob odpalenia silnika.
+                    StartEngineCounter += (int) time; //zwiekszam licznik prob odpalenia silnika.
                     level.Controller.OnStartEngineFailed();
                 }
             }
