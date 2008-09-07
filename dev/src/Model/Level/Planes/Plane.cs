@@ -934,7 +934,7 @@ namespace Wof.Model.Level.Planes
 
 
         /// <summary>
-        /// K¹t pod jakim unosi siê / spada samolot: [-pi;pi]
+        /// K¹t pod jakim unosi siê / spada samolot: [-pi;pi]. Parametr niezale¿ny od kierunku lotu.
         /// </summary>
         public float ClimbingAngle
         {
