@@ -312,85 +312,81 @@
     <value>Живих солдатів</value>
   </data>
 
-
-
   <!-- added to rev. 305 - Level stats -->
   <data name="LevelStats">
-    <value>Level stats</value>
+    <value>Статистики</value>
   </data>
 
   <data name="BombsDropped">
-    <value>Bombs dropped:</value>
+    <value>Скєнутих бомб:</value>
   </data>
 
   <data name="BombsAccuracy">
-    <value>Bombs accuracy:</value>
+    <value>Влучність бомб:</value>
   </data>
 
   <data name="RocketsFired">
-    <value>Rockets fired:</value>
+    <value>Вистрелених ракет:</value>
   </data>
 
   <data name="RocketsAccuracy">
-    <value>Rockets accuracy:</value>
+    <value>Влучність ракет:</value>
   </data>
 
   <data name="GunShellsFired">
-    <value>Gun shells fired:</value>
+    <value>Вистрелених снарядів:</value>
   </data>
 
   <data name="GunAccuracy">
-    <value>Gun accuracy:</value>
+    <value>Влучність кулемета:</value>
   </data>
 
   <data name="PlanesDestroyed">
-    <value>Planes destroyed:</value>
+    <value>Знищених літаків:</value>
   </data>
 
-
   <data name="LevelCompleted">
-    <value>Level completed</value>
+    <value>Рівень закінчений</value>
   </data>
 
   <data name="Engine">
-    <value>Engine</value>
+    <value>Двигун</value>
   </data>
 
   <data name="AccelerateBreakTurn">
-    <value>Accelerate/Break/Turn</value>
+    <value>Прискорювати/Затримувати/Повернути</value>
   </data>
 
   <data name="Pitch">
-    <value>Pitch</value>
+    <value>Висота</value>
   </data>
 
   <data name="Spin">
-    <value>Spin</value>
+    <value>Поворот</value>
   </data>
 
   <data name="Gear">
-    <value>Gear</value>
+    <value>Шасі</value>
   </data>
 
   <data name="Gun">
-    <value>Gun</value>
+    <value>Кулемет</value>
   </data>
 
   <data name="Camera">
-    <value>Camera</value>
+    <value>Камера</value>
   </data>
 
   <data name="Zoomin">
-    <value>Zoom-in</value>
+    <value>Приближати</value>
   </data>
-
-
+  
   <data name="Zoomout">
-    <value>Zoom-out</value>
+    <value>Віддалювати</value>
   </data>
 
   <data name="RearmEndMission">
-    <value>Re-arm / End mission</value>
+    <value>Переозброєння / Кінець місії</value>
   </data>
 
 </root>
