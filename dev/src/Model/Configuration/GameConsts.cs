@@ -163,7 +163,14 @@ namespace Wof.Model.Configuration
             /// <summary>
             /// Określa czy samolot gracza reaguje na brak paliwa i oleju.
             /// </summary>
-            public static int GodMode = 0;
+            public static bool GodMode = false;
+
+
+            /// <summary>
+            /// Czy włączony jest 'PlaneCheat' - cheat
+            /// </summary>
+            public static bool PlaneCheat = false;
+
 
             /// <summary>
             /// Szerokość prostokąta ograniczającego samolot
@@ -357,6 +364,20 @@ namespace Wof.Model.Configuration
             /// Maksymalna predkosc pozioma rakiety.
             /// </summary>
             public static int MaxSpeed = 550;
+
+            #endregion
+        }
+
+        public class Game
+        {
+            #region Consts
+
+            /// <summary>
+            /// Czy ma być aktywny cheat 'AllLevels'
+            /// </summary>
+            public static bool AllLevelsCheat = false;
+
+          
 
             #endregion
         }

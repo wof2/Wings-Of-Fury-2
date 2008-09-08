@@ -60,6 +60,7 @@ using Mogre;
 using MOIS;
 using Wof.Controller.Indicators;
 using Wof.Languages;
+using Wof.Model.Configuration;
 using Wof.Model.Exceptions;
 using Wof.Model.Level;
 using Wof.Model.Level.LevelTiles;
@@ -238,6 +239,8 @@ namespace Wof.Controller.Screens
             loadingLock = new object();
             score = 0;
             this.lives = 2;
+            
+            
 
             loading = true;
             wasLeftMousePressed = false;
@@ -1293,6 +1296,8 @@ namespace Wof.Controller.Screens
 
         private void increaseScore(int baseScore)
         {
+            if (GameConsts.UserPlane.GodMode || GameConsts.Game.AllLevelsCheat || GameConsts.UserPlane.PlaneCheat) return;
+
             switch (EngineConfig.Difficulty)
             {
                 case EngineConfig.DifficultyLevel.Easy:
@@ -1596,7 +1601,7 @@ namespace Wof.Controller.Screens
 
             if (!Plane.IsEnemy)
             {
-                lives--;
+                if(!GameConsts.UserPlane.GodMode) lives--;
                 if (lives < 0 || currentLevel.Lives - 1 < 0)
                 {
                     isGamePaused = true;

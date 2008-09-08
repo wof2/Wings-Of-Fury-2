@@ -55,7 +55,20 @@ namespace Wof.Controller.Screens
 {
     public class LoadGameUtil
     {
-        public static List<uint> LoadCompletedLevels()
+
+        public static List<uint> GetAllPossibleLevels()
+        {
+            List<uint> completedLevels = new List<uint>();
+
+            int i = 0;
+            while (File.Exists(GameScreen.GetLevelName(++i)))
+            {
+                completedLevels.Add((uint) i);
+            }
+            return completedLevels;
+        }
+
+        public static List<uint> GetCompletedLevels()
         {
             List<uint> completedLevels = new List<uint>();
 
@@ -93,7 +106,7 @@ namespace Wof.Controller.Screens
             List<uint> completedLevels = new List<uint>();
             if (levelNo != 1)
             {
-                completedLevels = LoadCompletedLevels();
+                completedLevels = GetCompletedLevels();
                 if (completedLevels.Contains(levelNo))
                 {
                     return;

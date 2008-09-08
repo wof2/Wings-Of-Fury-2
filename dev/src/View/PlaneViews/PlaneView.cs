@@ -366,10 +366,33 @@ namespace Wof.View
             }
         }
 
-        public void Restore()
-        {
-            if (!EngineConfig.LowDetails) ViewHelper.ReplaceMaterial(planeEntity, "P47/DestroyedBody", "P47/Body");
+       
 
+       
+        public virtual void SmashPaint()
+        {
+             
+        }
+        public virtual void Smash()
+        {
+            SmashPaint();
+            animationState = PlaneEntity.GetAnimationState("die");
+            animationState.Loop = false;
+            animationState.Enabled = true;
+
+            animationMgr.disableIdle();
+
+            SetBladeVisibility(false);
+        }
+
+        public virtual void RestorePaint()
+        {
+        }
+
+
+        public virtual void Restore()
+        {
+            RestorePaint();
             animationState = PlaneEntity.GetAnimationState("manual");
             animationState.Loop = false;
             animationState.Enabled = true;
@@ -384,21 +407,6 @@ namespace Wof.View
             animationMgr.enableBlade();
         }
 
-        public void Smash()
-        {
-            if (this is P47PlaneView)
-            {
-                if (!EngineConfig.LowDetails) ViewHelper.ReplaceMaterial(planeEntity, "P47/Body", "P47/DestroyedBody");
-            }
-
-            animationState = PlaneEntity.GetAnimationState("die");
-            animationState.Loop = false;
-            animationState.Enabled = true;
-
-            animationMgr.disableIdle();
-
-            SetBladeVisibility(false);
-        }
 
         #region VertexAnimable members
 

@@ -903,7 +903,6 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
-                Console.WriteLine(rotateValue / rotateStep);
                 return (Math.Abs(rotateValue / rotateStep) <= 0.15f && wheelsState == WheelsState.In);
             }
         }
@@ -1362,7 +1361,7 @@ namespace Wof.Model.Level.Planes
                 oil -= scaleFactor*GameConsts.UserPlane.OilLoss;
             oil = System.Math.Max(oil, 0);
 
-            if (GameConsts.UserPlane.GodMode == 0 && planeState != PlaneState.Destroyed &&
+            if (!GameConsts.UserPlane.GodMode && planeState != PlaneState.Destroyed &&
                 planeState != PlaneState.Crashed)
             {
                 if (petrol == 0 || oil == 0)
@@ -1845,10 +1844,29 @@ namespace Wof.Model.Level.Planes
             {
                 planeState = PlaneState.Damaged;
                 if (hitByPlane) //ma³e trafienie
+                {
                     oil -= GameConsts.UserPlane.HitCoefficient;
+                    if(GameConsts.UserPlane.PlaneCheat)
+                    {
+                        if(isEnemy)
+                        {
+                            oil -= GameConsts.UserPlane.HitCoefficient / 4.0f; // lepsze dzia³ko
+                        } else
+                        {
+                            oil += GameConsts.UserPlane.HitCoefficient / 4.0f; // dwa razy mniejsze uszkodzenia
+                        }
+                        
+                    }
+                }
+
                 else
                 {
                     oilLeak += GameConsts.UserPlane.HitCoefficient;
+                    if (GameConsts.UserPlane.PlaneCheat && !isEnemy)
+                    {
+                        oilLeak -= GameConsts.UserPlane.HitCoefficient / 4.0f; // mniejszy wyciek 
+                    }
+
                     oil -= oilLeak;
                 }
                 oil = System.Math.Max(oil, 0);
