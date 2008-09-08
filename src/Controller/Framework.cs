@@ -633,11 +633,11 @@ namespace Wof.Controller
                     // ZOOM IN
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_PGUP) || mouseState.Z.rel > 0)
                     {
-                        if (cameraZoom < 20)
+                        if (cameraZoom < 25)
                         {
                             if (inputKeyboard.IsKeyDown(KeyCode.KC_PGUP))
                             {
-                                cameraZoom += 1.0f;
+                                cameraZoom += 1.2f;
                             }
                             else
                             {
@@ -649,11 +649,11 @@ namespace Wof.Controller
                     // ZOOM IN
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_PGDOWN) || mouseState.Z.rel < 0)
                     {
-                        if (cameraZoom > -20)
+                        if (cameraZoom > -25)
                         {
                             if (inputKeyboard.IsKeyDown(KeyCode.KC_PGDOWN))
                             {
-                                cameraZoom -= 1.0f;
+                                cameraZoom -= 1.2f;
                                 
                             }
                             else

@@ -50,6 +50,7 @@ using System;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
+using Wof.Model.Configuration;
 using Wof.Model.Level.Planes;
 using Wof.View.Effects;
 using Math=Mogre.Math;
@@ -68,6 +69,8 @@ namespace Wof.View
         protected Entity airscrew;
 
         protected bool hasSmokeTrail = false;
+        protected string bodyMaterialName = "P47/Body";
+        protected string destroyedBodyMaterialName = "P47/DestroyedBody";
 
         public bool HasSmokeTrail
         {
@@ -211,10 +214,37 @@ namespace Wof.View
             // cameraHolders[2].Yaw(new Radian(Mogre.Math.HALF_PI));
         }
 
+        public override void SmashPaint()
+        {
+            if (!EngineConfig.LowDetails && !GameConsts.UserPlane.PlaneCheat)
+            {
+                ViewHelper.ReplaceMaterial(planeEntity, bodyMaterialName, destroyedBodyMaterialName);
+            }
+        }
+
+
+        public override void RestorePaint()
+        {
+            // polski samolot ma niezniszalny lakier;)
+            if (!EngineConfig.LowDetails && !GameConsts.UserPlane.PlaneCheat)
+            {
+                ViewHelper.ReplaceMaterial(planeEntity, destroyedBodyMaterialName, bodyMaterialName);
+            }
+        }
+
+    
         protected override void initOnScene()
         {
             // main nodes init
             planeEntity = sceneMgr.CreateEntity(name + "_Body", "P47Body.mesh");
+          
+            if(GameConsts.UserPlane.PlaneCheat)
+            {
+                ViewHelper.ReplaceMaterial(planeEntity, bodyMaterialName, "P47/BodyPL");
+                bodyMaterialName = "P47/BodyPL";
+            }
+
+
             planeEntity.CastShadows = EngineConfig.Shadows;
             innerNode.AttachObject(planeEntity);
             outerNode.Scale(new Vector3(0.4f, 0.4f, 0.4f));

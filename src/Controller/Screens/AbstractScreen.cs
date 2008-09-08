@@ -48,12 +48,14 @@
 
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using BetaGUI;
 using FSLOgreCS;
 using Mogre;
 using MOIS;
 using Wof.Languages;
+using Wof.Model.Configuration;
 using Wof.View;
 using Wof.View.Effects;
 using FontManager=Wof.Languages.FontManager;
@@ -121,6 +123,21 @@ namespace Wof.Controller.Screens
         protected Camera camera;
         protected float screenTime;
 
+        protected delegate void VoidDelegateVoid();
+
+        /// <summary>
+        /// Wszystkie cheaty dostêpne w menu. 
+        /// Kluczem jest sekwencja znaków wywo³uj¹ca cheat. Wartoœci¹ jest para: delegat, który ma zostaæ wykonany oraz liczba informuj¹ca na której literze aktualnie znajduje siê user. Na pocz¹tku liczba ta jest 0. 
+        /// </summary>
+        protected IDictionary<KeyCode[], KeyValuePair<VoidDelegateVoid, uint>> cheats;
+
+        // KC_GRAVE oznacza tyldê
+        protected KeyCode[] cheatGodMode = { KeyCode.KC_GRAVE, KeyCode.KC_I, KeyCode.KC_D, KeyCode.KC_D, KeyCode.KC_Q, KeyCode.KC_D};
+        protected KeyCode[] cheatPlane = { KeyCode.KC_GRAVE, KeyCode.KC_P, KeyCode.KC_L };
+        protected KeyCode[] cheatAllLevels = { KeyCode.KC_GRAVE, KeyCode.KC_I, KeyCode.KC_D, KeyCode.KC_K, KeyCode.KC_F, KeyCode.KC_A };
+
+
+
         protected List<PlaneView> planeViews;
 
         public List<PlaneView> PlaneViews
@@ -158,13 +175,24 @@ namespace Wof.Controller.Screens
 
         protected Boolean initialized;
         protected FSLSoundObject clickSound;
+        protected FSLSoundObject cheatSound;
+    
+        /// <summary>
+        /// Czy w poprzedniej klatce wszystkie przyciski by³y puszczone
+        /// </summary>
+        private bool wereAllKeysReleased = false; 
 
         public AbstractScreen(GameEventListener gameEventListener,
                               SceneManager sceneMgr, Viewport viewport, Camera camera)
         {
             clickSound = SoundManager3D.Instance.GetSound("menuClick");
             if (clickSound == null || !clickSound.HasSound()) clickSound = SoundManager3D.Instance.CreateAmbientSound(SoundManager3D.C_MENU_CLICK, "menuClick", false, false); // destroyed together with SoundManager3D singleton
- 
+
+            cheatSound = SoundManager3D.Instance.GetSound("cheatSound");
+            if (cheatSound == null || !cheatSound.HasSound()) cheatSound = SoundManager3D.Instance.CreateAmbientSound(SoundManager3D.C_MENU_CHEAT, "cheatSound", false, false); // destroyed together with SoundManager3D singleton
+
+
+
             this.gameEventListener = gameEventListener;
             this.sceneMgr = sceneMgr;
             this.viewport = viewport;
@@ -177,13 +205,21 @@ namespace Wof.Controller.Screens
             wasDownKeyPressed = false;
             wasEnterKeyPressed = false;
 
+            cheats = new Dictionary<KeyCode[], KeyValuePair<VoidDelegateVoid, uint>>();
+            cheats[cheatGodMode] = new KeyValuePair<VoidDelegateVoid, uint>(doCheatGodMode, 0);
+            cheats[cheatPlane] = new KeyValuePair<VoidDelegateVoid, uint>(doCheatPlane, 0); ;
+            cheats[cheatAllLevels] = new KeyValuePair<VoidDelegateVoid, uint>(doCheatAllLevels, 0); ;
 
             TextureManager.Singleton.UnloadUnreferencedResources();
             MaterialManager.Singleton.UnloadUnreferencedResources();
             MeshManager.Singleton.UnloadUnreferencedResources();
 
             keyDelay = new Timer();
-         }
+        }
+
+
+      
+        
 
         /// <summary>
         /// Pobiera ze screenu aktualny stan: samoloty oraz pozycje myszki
@@ -311,6 +347,7 @@ namespace Wof.Controller.Screens
 
         protected virtual void CreateGUI()
         {
+          
             buttonsCount = 0;
             mGui = new GUI(FontManager.CurrentFont, 24);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
@@ -413,6 +450,8 @@ namespace Wof.Controller.Screens
                     uint screeny;
 
                     getMouseScreenCoordinates(mouseState, out screenx, out screeny);
+                    doCheating(inputKeyboard, inputJoystick);
+
 
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_BACK))
                     {
@@ -606,7 +645,7 @@ namespace Wof.Controller.Screens
                     }
 
 
-                    if (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter)) 
+                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter))) 
                     {
                         KeyReceived("ENTER");
                         wasEnterKeyPressed = true;
@@ -638,10 +677,6 @@ namespace Wof.Controller.Screens
                         }
                        
                     }
-
-
-                
-
 
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN))
                     {
@@ -699,6 +734,8 @@ namespace Wof.Controller.Screens
                     }
                 }
             }
+
+            wereAllKeysReleased = areAllKeysReleased(inputKeyboard, inputJoystick);
         }
 
         private void receiveKeys(Keyboard inputKeyboard, JoyStick joystick)
@@ -719,6 +756,7 @@ namespace Wof.Controller.Screens
                 }
                    
             }
+           
 
             if (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(joystick, EngineConfig.JoystickButtons.Enter)) 
             {
@@ -887,6 +925,107 @@ namespace Wof.Controller.Screens
             }
         }
 
+        /// <summary>
+        /// Sprawdza czy w bie¿¹cej klatce ¿aden klawisz / button na joysticku (bez osi) nie jest wciœniêty.
+        /// </summary>
+        /// <param name="inputKeyboard">Mo¿na przekazaæ null</param>
+        /// <param name="inputJoystick">Mo¿na przekazaæ null</param>
+        /// <returns>True jeœli nic nie by³o wciœniête</returns>
+        protected virtual bool areAllKeysReleased(Keyboard inputKeyboard, JoyStick inputJoystick)
+        {
+            if(inputKeyboard != null)
+            {
+                IEnumerator k = Enum.GetValues(typeof(KeyCode)).GetEnumerator();
+                while (k.MoveNext())
+                {
+                    if (inputKeyboard.IsKeyDown((KeyCode)k.Current)) return false;
+                }
+
+            }
+          
+            if (inputJoystick != null)
+            {
+                for (int i = 0; i < inputJoystick.JoyStickState.ButtonCount; i++)
+                {
+                    if (inputJoystick.JoyStickState.GetButton(i)) return false;
+                }
+            }
+           
+            return true;
+        }
+
+        protected virtual bool doCheating(Keyboard inputKeyboard, JoyStick inputJoystick)
+        {
+            if (wereAllKeysReleased)
+            {
+                if (areAllKeysReleased(inputKeyboard, inputJoystick)) return true;
+
+                KeyValuePair<VoidDelegateVoid, uint> info;
+                ICollection<KeyCode[]> keys = cheats.Keys;
+                KeyCode[][] tempCodes = new KeyCode[cheats.Keys.Count][];
+                IEnumerator<KeyCode[]> e = keys.GetEnumerator();
+                int i = 0;
+              
+                while (e.MoveNext())
+                {
+                    tempCodes[i] = new KeyCode[e.Current.Length];
+                    tempCodes[i] = e.Current;
+                    i++;
+                }
+               // Console.WriteLine("czy cheat?");
+                foreach (KeyCode[] code in tempCodes)
+                {
+                    info = cheats[code];
+
+                    if(inputKeyboard.IsKeyDown(code[info.Value]))
+                    {
+                        //Console.WriteLine("klawisz sie zgadza: " + code[info.Value].ToString());
+                        if (info.Value + 1 >= code.Length)
+                        {
+                            //Console.WriteLine("invoke");
+                            // udany cheat
+                            info.Key.Invoke();
+                            PlayCheatSound();
+                            cheats[code] = new KeyValuePair<VoidDelegateVoid, uint>(info.Key, 0);
+                            return true;
+                        }
+
+                        // krok naprzód
+                        cheats[code] = new KeyValuePair<VoidDelegateVoid, uint>(info.Key, info.Value + 1);
+                    } else
+                    {
+                        //Console.WriteLine("reset");
+                        // zerujemy
+                        cheats[code] = new KeyValuePair<VoidDelegateVoid, uint>(info.Key, 0);
+                    }
+
+                }
+
+            }
+            return false;
+
+        }
+
+
+
+        public void doCheatGodMode()
+        {
+            GameConsts.UserPlane.GodMode = !GameConsts.UserPlane.GodMode;
+        }
+
+        public void doCheatPlane()
+        {
+            GameConsts.UserPlane.PlaneCheat = !GameConsts.UserPlane.PlaneCheat;
+        }
+
+        public void doCheatAllLevels()
+        {
+            GameConsts.Game.AllLevelsCheat = !GameConsts.Game.AllLevelsCheat;
+        }
+
+
+        
+     
         private void getMouseScreenCoordinates(MouseState_NativePtr mouseState, out uint screenx, out uint screeny)
         {
             mousePosX = (uint) (mousePosX + mouseState.X.rel*2);
@@ -992,6 +1131,14 @@ namespace Wof.Controller.Screens
         {
             if (EngineConfig.SoundEnabled && !clickSound.IsPlaying()) clickSound.Play();
         }
+
+
+        public void PlayCheatSound()
+        {
+            if (EngineConfig.SoundEnabled && !cheatSound.IsPlaying()) cheatSound.Play();
+        }
+
+        
 
 
         public static void SetOverlayColor(OverlayContainer c, ColourValue top, ColourValue bottom)

@@ -53,6 +53,7 @@ using System.Collections.Generic;
 using BetaGUI;
 using Mogre;
 using Wof.Languages;
+using Wof.Model.Configuration;
 using FontManager=Wof.Languages.FontManager;
 
 namespace Wof.Controller.Screens
@@ -70,7 +71,15 @@ namespace Wof.Controller.Screens
                               SceneManager sceneMgr, Viewport viewport, Camera camera) :
                                   base(gameEventListener, sceneMgr, viewport, camera)
         {
-            completedLevels = LoadGameUtil.LoadCompletedLevels();
+
+            if(GameConsts.Game.AllLevelsCheat)
+            {
+                completedLevels = LoadGameUtil.GetAllPossibleLevels();
+            } else
+            {
+                completedLevels = LoadGameUtil.GetCompletedLevels();
+            }
+            
         }
 
         protected override void CreateGUI()

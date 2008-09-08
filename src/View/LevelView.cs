@@ -51,6 +51,7 @@ using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
+using Wof.Model.Configuration;
 using Wof.Model.Level;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
@@ -1033,8 +1034,9 @@ namespace Wof.View
                         {
                             EffectsManager.Singleton.NoSmoke(sceneMgr, p.OuterNode, EffectsManager.SmokeType.LIGHTSMOKE);
                             EffectsManager.Singleton.Smoke(sceneMgr, p.OuterNode, Vector3.ZERO, Vector3.UNIT_Z);
-                            if (!EngineConfig.LowDetails)
-                                ViewHelper.ReplaceMaterial(p.PlaneEntity, "P47/Body", "P47/DestroyedBody");
+                            p.SmashPaint();
+                           // if (!EngineConfig.LowDetails)
+                          //      ViewHelper.ReplaceMaterial(p.PlaneEntity, "P47/Body", "P47/DestroyedBody");
                             p.IsSmokingHeavily = true;
                             p.IsSmokingSlightly = false;
                         }
@@ -1047,8 +1049,9 @@ namespace Wof.View
                     {
                         EffectsManager.Singleton.NoSmoke(sceneMgr, p.OuterNode, EffectsManager.SmokeType.NORMAL);
                         EffectsManager.Singleton.NoSmoke(sceneMgr, p.OuterNode, EffectsManager.SmokeType.LIGHTSMOKE);
-                        if (!EngineConfig.LowDetails)
-                            ViewHelper.ReplaceMaterial(p.PlaneEntity, "P47/DestroyedBody", "P47/Body");
+                        p.RestorePaint();
+                     //   if (!EngineConfig.LowDetails)
+                     //       ViewHelper.ReplaceMaterial(p.PlaneEntity, "P47/DestroyedBody", "P47/Body");
                         p.IsSmokingHeavily = false;
                         p.IsSmokingSlightly = false;
                     }
@@ -1165,7 +1168,7 @@ namespace Wof.View
             {
                 Console.WriteLine("BUG - view nie odes³a³ komunikatu");
             }
-            carrierView.RemoveStoragePlaneFromCarrier();
+            if(!GameConsts.UserPlane.GodMode) carrierView.RemoveStoragePlaneFromCarrier();
             carrierView.CrewStatePlaneOnCarrier();
             playerPlaneView.Restore();
 

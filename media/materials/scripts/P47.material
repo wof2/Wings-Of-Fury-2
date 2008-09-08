@@ -43,6 +43,13 @@ material P47/Body : NormalMappedSpecular
 }
 
 
+material P47/BodyPL : NormalMappedSpecular
+{
+  set_texture_alias NormalMap thColNavyPL_normal.dds
+  set_texture_alias DiffuseMap thColNavyPL.dds
+
+}
+
 
 material P47/DestroyedBody: NormalMappedSpecular
 {

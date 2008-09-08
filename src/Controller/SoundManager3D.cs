@@ -17,6 +17,8 @@ namespace Wof.Controller
         public static readonly string C_SOLDIER_DIE_2 = "sounds/oh2.ogg";
         public static readonly string C_SOLDIER_DIE_3 = "sounds/oh3.ogg";
         public static readonly string C_MENU_CLICK = "sounds/click.ogg";
+        public static readonly string C_MENU_CHEAT = "sounds/mario.ogg";
+
 
         private FreeSL.FSL_SOUND_SYSTEM soundSystem;
         private string currentMusic;

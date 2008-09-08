@@ -73,6 +73,8 @@ namespace Wof.View
         }
 
 
+
+
         protected override void initOnScene()
         {
             base.initOnScene();
