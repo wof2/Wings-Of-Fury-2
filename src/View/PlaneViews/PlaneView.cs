@@ -333,6 +333,10 @@ namespace Wof.View
         {
             EffectsManager.Singleton.Smoke(sceneMgr, OuterNode);
             EffectsManager.Singleton.NoSmoke(sceneMgr, OuterNode);
+
+
+          //  EffectsManager.Singleton.Smoke(sceneMgr, planeNode, new Vector3(0, -1, 0), Vector3.UNIT_Y);
+          //  EffectsManager.Singleton.NoSmoke(sceneMgr, planeNode);
         }
 
         public virtual void refreshPosition()

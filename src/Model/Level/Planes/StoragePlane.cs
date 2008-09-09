@@ -70,6 +70,7 @@ namespace Wof.Model.Level.Planes
             bounds =
                 new Quadrangle(new PointD(Mathematics.IndexToPosition(tile.TileIndex), level.Carrier.Height), Width,
                                Height);
+           
         }
     }
 }

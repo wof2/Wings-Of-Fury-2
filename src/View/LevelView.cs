@@ -574,12 +574,13 @@ namespace Wof.View
             {
                 OnUnregisterBoundingQuadrangle(plane);
             }
+
             // TODO: na razie samoloty sa ukrywane
             if (plane is StoragePlane)
             {
                 if (carrierView != null)
                 {
-                    carrierView.RemoveStoragePlaneFromCarrier((plane as StoragePlane).Tile);
+                    carrierView.DestoryStoragePlane((plane as StoragePlane).Tile);
                 }
                 else
                 {
@@ -655,8 +656,15 @@ namespace Wof.View
         /// </summary>
         /// <param name="p"></param>
         /// <returns></returns>
-        private Vector3 smokeUpVector(PlaneView p)
+        public static Vector3 SmokeUpVector(PlaneView p)
         {
+            // niestety coœ nie dzia³a w przypadku storage planes. 'Rêcznie' bêd¹ dymiæ do góry.
+            if(p.Plane != null && p.Plane is StoragePlane)
+            {
+                return new Vector3(0,1,0);
+            }
+
+
             Vector3 smokeUp = Vector3.NEGATIVE_UNIT_Z;
             Quaternion q = smokeUp.GetRotationTo(p.OuterNode.WorldOrientation*Vector3.NEGATIVE_UNIT_Z);
             smokeUp = q*smokeUp;
@@ -676,6 +684,8 @@ namespace Wof.View
         public void OnPlaneDestroyed(Plane plane)
         {
             PlaneView p = FindPlaneView(plane);
+            if(p == null) return; //error
+
             EffectsManager.Singleton.Sprite(sceneMgr, p.PlaneNode, new Vector3(0, 0, 0), new Vector2(20, 20),
                                             EffectsManager.EffectType.PLANECRASH, false);
 
@@ -686,7 +696,7 @@ namespace Wof.View
             }
 
             p.IsSmokingHeavily = false; // aby updateplaneview nie wylaczyl zaraz dymu
-            EffectsManager.Singleton.Smoke(sceneMgr, p.OuterNode, Vector3.ZERO, smokeUpVector(p));
+            EffectsManager.Singleton.Smoke(sceneMgr, p.OuterNode, Vector3.ZERO, SmokeUpVector(p));
 
 
             // korkoci¹g
@@ -695,39 +705,42 @@ namespace Wof.View
                 p.AnimationMgr.switchToDeathSpin(true, null, null);
             }
 
+
             p.Smash(); // vertex animation
         }
 
         public void OnPlaneCrashed(Plane plane, TileKind tileKind)
         {
             PlaneView p = FindPlaneView(plane);
+            if(p==null) return; //error
             switch (tileKind)
             {
                 case TileKind.Ocean:
-                    {
-                        float adjustSpeedFactor = plane.Speed - 24; //24 predkosc minimalna samolotu
-                        float cos = Math.Cos(plane.Angle);
-                        float cos2 = Math.Cos(plane.Angle + 0.1f);
-                        float adjust = (1.4f + cos*3.8f) + adjustSpeedFactor*cos2*0.2f;
-                        Vector3 posView =
-                            new Vector3(
-                                UnitConverter.LogicToWorldUnits(plane.Position).x +
-                                ((plane.Direction == Direction.Left) ? -adjust : adjust), 0.5f, 0);
+                {
+                    float adjustSpeedFactor = plane.Speed - 24; //24 predkosc minimalna samolotu
+                    float cos = Math.Cos(plane.Angle);
+                    float cos2 = Math.Cos(plane.Angle + 0.1f);
+                    float adjust = (1.4f + cos*3.8f) + adjustSpeedFactor*cos2*0.2f;
+                    Vector3 posView =
+                        new Vector3(
+                            UnitConverter.LogicToWorldUnits(plane.Position).x +
+                            ((plane.Direction == Direction.Left) ? -adjust : adjust), 0.5f, 0);
 
-                        if (!EngineConfig.LowDetails)
-                            EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
-                                                                       "Submerge" + plane.GetHashCode(),
-                                                                       EffectsManager.EffectType.SUBMERGE, posView,
-                                                                       new Vector2(25, 25), Quaternion.IDENTITY, false);
-                        EffectsManager.Singleton.WaterImpact(sceneMgr, sceneMgr.RootSceneNode, posView,
-                                                             new Vector2(20, 32), false);
-                    }
-                    break;
+                    if (!EngineConfig.LowDetails)
+                        EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
+                                                                   "Submerge" + plane.GetHashCode(),
+                                                                   EffectsManager.EffectType.SUBMERGE, posView,
+                                                                   new Vector2(25, 25), Quaternion.IDENTITY, false);
+                    EffectsManager.Singleton.WaterImpact(sceneMgr, sceneMgr.RootSceneNode, posView,
+                                                         new Vector2(20, 32), false);
+                }
+                break;
                 case TileKind.Island:
                 case TileKind.AircraftCarrier:
-                    {
-                    }
-                    break;
+                {
+                  
+                }
+                break;
             }
 
             if (EngineConfig.DisplayBoundingQuadrangles)
@@ -747,7 +760,7 @@ namespace Wof.View
             }
 
 
-            EffectsManager.Singleton.Smoke(sceneMgr, p.OuterNode, Vector3.ZERO, smokeUpVector(p));
+            EffectsManager.Singleton.Smoke(sceneMgr, p.OuterNode, Vector3.ZERO, SmokeUpVector(p));
             p.IsSmokingHeavily = false; // aby updateplaneview nie wylaczylo dymu
         }
 
@@ -1168,7 +1181,7 @@ namespace Wof.View
             {
                 Console.WriteLine("BUG - view nie odes³a³ komunikatu");
             }
-            if(!GameConsts.UserPlane.GodMode) carrierView.RemoveStoragePlaneFromCarrier();
+            if(!GameConsts.UserPlane.GodMode) carrierView.RemoveNextStoragePlane();
             carrierView.CrewStatePlaneOnCarrier();
             playerPlaneView.Restore();
 

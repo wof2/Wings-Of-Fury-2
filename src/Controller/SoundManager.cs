@@ -202,6 +202,7 @@ namespace Wof.Controller
 
         public void PreloadRandomIngameMusic()
         {
+            random = new Random();
             lastRandomMusicTrackNo = random.Next(1, maxMusicTrackNo + 1);
             PlayIngameMusic(lastRandomMusicTrackNo, 100, true);
         }

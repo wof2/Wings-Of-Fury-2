@@ -348,7 +348,7 @@ namespace Wof.Model.Level
                         {
                             userPlane.Destroy(); 
                         }
-                        Statistics.PlanesShotDown++;
+                       // Statistics.PlanesShotDown++;
                         ep.Destroy();
                     }
 
@@ -362,7 +362,7 @@ namespace Wof.Model.Level
                             {
                                 enemyPlanes[j].Destroy();
                                 ep.Destroy();
-                                Statistics.PlanesShotDown+=2;
+                                //Statistics.PlanesShotDown+=2;
                             }
                         }
                     }

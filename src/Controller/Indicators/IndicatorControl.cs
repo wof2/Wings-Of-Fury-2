@@ -255,11 +255,11 @@ namespace Wof.Controller.Screens
                 if (EngineConfig.DebugInfo)
                 {
                     infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4} | {5}", LanguageResources.GetString(LanguageKey.Level),
-                        gameScreen.Level, difficulty, LanguageResources.GetString(LanguageKey.EnemySoldiersLeft), gameScreen.CurrentLevel.SoldiersCount, gameScreen.Framework.UpdateStats());
+                        gameScreen.LevelNo, difficulty, LanguageResources.GetString(LanguageKey.EnemySoldiersLeft), gameScreen.CurrentLevel.SoldiersCount, gameScreen.Framework.UpdateStats());
                 }
                 else
                 {
-                    infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4}", LanguageResources.GetString(LanguageKey.Level), gameScreen.Level, difficulty, LanguageResources.GetString(LanguageKey.EnemySoldiersLeft), gameScreen.CurrentLevel.SoldiersCount);
+                    infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4}", LanguageResources.GetString(LanguageKey.Level), gameScreen.LevelNo, difficulty, LanguageResources.GetString(LanguageKey.EnemySoldiersLeft), gameScreen.CurrentLevel.SoldiersCount);
                 }
 
 

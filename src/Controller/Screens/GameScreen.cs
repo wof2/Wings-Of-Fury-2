@@ -129,11 +129,11 @@ namespace Wof.Controller.Screens
             get { return currentLevel; }
         }
 
-        private int level;
+        private int levelNo;
 
-        public int Level
+        public int LevelNo
         {
-            get { return level; }
+            get { return levelNo; }
         }
 
         private LevelView levelView;
@@ -233,7 +233,7 @@ namespace Wof.Controller.Screens
             mousePosX = (uint) viewport.ActualWidth/2;
             mousePosY = (uint) viewport.ActualHeight/2;
             this.framework = framework;
-            level = levelNo;
+            this.levelNo = levelNo;
             mayPlaySound = false;
             changingAmmo = false;
             loadingLock = new object();
@@ -260,8 +260,8 @@ namespace Wof.Controller.Screens
                     LogManager.Singleton.LogMessage("About to load level view...", LogMessageLevel.LML_CRITICAL);
                     levelView = new LevelView(framework, this);
                     LogManager.Singleton.LogMessage("About to load model...", LogMessageLevel.LML_CRITICAL);
-                    currentLevel = new Level(GetLevelName(level), this);
-                    LogManager.Singleton.LogMessage("About to register level " + level + " to view...", LogMessageLevel.LML_CRITICAL);
+                    currentLevel = new Level(GetLevelName(levelNo), this);
+                    LogManager.Singleton.LogMessage("About to register level " + levelNo + " to view...", LogMessageLevel.LML_CRITICAL);
 
                     levelView.OnRegisterLevel(currentLevel);
 
@@ -281,7 +281,7 @@ namespace Wof.Controller.Screens
                     LogManager.Singleton.LogMessage("Finished loading level.", LogMessageLevel.LML_CRITICAL);
                     SoundManager.Instance.PreloadRandomIngameMusic();
 
-                    if (Level == 1 && firstTakeOff)
+                    if (LevelNo == 1 && firstTakeOff)
                     {
                         MessageEntry message =
                             new MessageEntry(0.2f, 0.4f,
@@ -378,7 +378,7 @@ namespace Wof.Controller.Screens
                 overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(baseName + n + lang +
                                                                                                    ".jpg");
                 overlayMaterial = null;
-                loadingText.Caption = LanguageResources.GetString(LanguageKey.Level) + ": "+ level;
+                loadingText.Caption = LanguageResources.GetString(LanguageKey.Level) + ": "+ levelNo;
                 loadingText.SetParameter("font_name", FontManager.CurrentFont);
                 loadingText = null;
             }
@@ -567,6 +567,7 @@ namespace Wof.Controller.Screens
                             }
                         }
 
+                       
 
                         // przyciski - game over
                         if (isInGameOverMenu && (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter))) 
@@ -615,6 +616,9 @@ namespace Wof.Controller.Screens
                     // moze miec mozliwosci ruszac samolotem
                     if (!isGamePaused && !changingAmmo)
                     {
+                        
+
+
                         //  if (timeCounter > 0.5f)
                         {
                             if (EngineConfig.DebugInfo)
@@ -750,7 +754,7 @@ namespace Wof.Controller.Screens
                             // natomiast model potrzebuje wartosci w milisekundach
                             // dlatego mnoze przez 1000 i zaokraglam     
 
-
+                            Console.WriteLine(this.currentLevel.Statistics.PlanesShotDown);
                             currentLevel.Update((int) Math.Round(evt.timeSinceLastFrame*1000));
 
                             if (!readyForLevelEnd)
@@ -1570,6 +1574,12 @@ namespace Wof.Controller.Screens
 
             }
             levelView.OnPlaneDestroyed(plane);
+          
+            
+            if(plane is StoragePlane)
+            {
+                SoundManager3D.Instance.PlayAmbient(SoundManager3D.C_STORAGE_PLANE_DESTROYED, false);
+            }
             SoundManager.Instance.PlayExposionSound();
         }
 
@@ -1645,7 +1655,7 @@ namespace Wof.Controller.Screens
 
         public void OnTakeOff()
         {
-            if (firstTakeOff && level == 1)
+            if (firstTakeOff && levelNo == 1)
             {
                 gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.RetractYourLandingGearWithG));
                 gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.KillAllEnemySoldiers));
