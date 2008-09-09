@@ -200,6 +200,12 @@ namespace BetaGUI
 
             if (C != "")
             {
+                if(A)
+                {
+                    e.Top = 6;
+                    e.Left = 6;
+                }
+               
                 e.Caption = C;
                 e.SetParameter("font_name", mFont);
                 e.SetParameter("char_height", StringConverter.ToString(mFontSize));

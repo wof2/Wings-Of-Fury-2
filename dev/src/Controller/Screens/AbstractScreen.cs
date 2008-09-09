@@ -634,7 +634,7 @@ namespace Wof.Controller.Screens
                         mGui.injectKey("z", screenx, screeny);
                         KeyReceived("z");
                     }
-                    if (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape)) 
+                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape))) 
                     {
                         KeyReceived("ESC");
                         if (tryToPressBackButton()) return;
