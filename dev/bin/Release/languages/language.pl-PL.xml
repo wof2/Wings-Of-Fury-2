@@ -202,7 +202,7 @@
     <value>Nie</value>
   </data>
   <data name="PressEToTurnOnTheEngine">
-    <value>Wciśnij E aby uruchomić silnik</value>
+    <value>Przytrzymaj E aby uruchomić silnik</value>
   </data>
   <data name="PressXToChangeAmmo">
     <value>Wciśnij X aby uzupełnić broń, paliwo oraz naprawić silnik</value>
