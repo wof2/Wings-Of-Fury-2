@@ -1820,6 +1820,9 @@ namespace Wof.Model.Level.Planes
                 {
                     Crash(Carrier.Height, TileKind.AircraftCarrier);
                 }
+
+                if (isEnemy) level.Statistics.PlanesShotDown++;
+                
             }
         }
 
@@ -2069,6 +2072,7 @@ namespace Wof.Model.Level.Planes
                     break;
             }
             //zawsze resetujê wszystkie flagi !!!
+            
             ResetInputFlags();
         }
 

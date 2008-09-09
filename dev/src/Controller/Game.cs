@@ -366,7 +366,7 @@ namespace Wof.Controller
            
 
             int score = ((GameScreen) currentScreen).Score;
-            int level = ((GameScreen) currentScreen).Level;
+            int level = ((GameScreen) currentScreen).LevelNo;
           
             if (File.Exists(GameScreen.GetLevelName(level + 1)))
             {

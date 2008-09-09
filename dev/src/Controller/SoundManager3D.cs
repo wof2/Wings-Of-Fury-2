@@ -18,7 +18,7 @@ namespace Wof.Controller
         public static readonly string C_SOLDIER_DIE_3 = "sounds/oh3.ogg";
         public static readonly string C_MENU_CLICK = "sounds/click.ogg";
         public static readonly string C_MENU_CHEAT = "sounds/mario.ogg";
-
+        public static readonly string C_STORAGE_PLANE_DESTROYED = "sounds/storage_plane.ogg";
 
         private FreeSL.FSL_SOUND_SYSTEM soundSystem;
         private string currentMusic;
@@ -132,6 +132,10 @@ namespace Wof.Controller
             PlayAmbient(sound, volume, preloadOnly, true);
         }
 
+        public void PlayAmbient(String sound, bool loop)
+        {
+            PlayAmbient(sound, EngineConfig.MusicVolume, false, loop);
+        }
 
         public void PlayAmbient(String sound)
         {

@@ -50,10 +50,12 @@ using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
+using Wof.Model.Level;
 using Wof.Model.Level.Carriers;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.Planes;
+using Wof.View.Effects;
 using Wof.View.NodeAnimation;
 using Wof.View.TileViews;
 
@@ -404,7 +406,13 @@ namespace Wof.View
             planeView.PlaneEntity.GetAnimationState("storage").Enabled = true;
         }
 
-        public bool RemoveStoragePlaneFromCarrier()
+        
+        public PlaneView FindStoragePlaneView(StoragePlane sp)
+        {
+            return storagePlanes.Find(delegate(PlaneView pv) { return pv.Plane == sp; });
+        }
+
+        public bool RemoveNextStoragePlane()
         {
             if (storagePlanes.Count == 0) return false;
             PlaneView view = storagePlanes[storagePlanes.Count - 1];
@@ -416,25 +424,31 @@ namespace Wof.View
                 ViewHelper.DetachQuadrangles(sceneMgr, view.Plane);
             }
 
-
             storagePlanes.RemoveAt(storagePlanes.Count - 1);
             return true;
         }
 
-        public PlaneView FindStoragePlaneView(StoragePlane sp)
+
+        public void DestoryStoragePlanes()
         {
-            return storagePlanes.Find(delegate(PlaneView pv) { return pv.Plane == sp; });
+            if (storagePlanes.Count == 0) return;
+            foreach(TileView tv in tileViews)
+            {
+                if (tv.LevelTile is AircraftCarrierTile)
+                {
+                    DestoryStoragePlane(tv.LevelTile as AircraftCarrierTile);
+                }
+            }
         }
 
-        public bool RemoveStoragePlaneFromCarrier(AircraftCarrierTile storageTile)
+        public bool DestoryStoragePlane(AircraftCarrierTile storageTile)
         {
             if (storagePlanes.Count == 0) return false;
             PlaneView view =
                 storagePlanes.Find(delegate(PlaneView pv) { return (pv.Plane as StoragePlane).Tile == storageTile; });
             if (view == null) return false;
-            view.PlaneNode.SetVisible(false);
-            view.MinimapItem.Hide();
-            storagePlanes.Remove(view);
+            
+            view.Smash(); // ustawia animation state na 'die'
             return true;
         }
 
@@ -601,6 +615,16 @@ namespace Wof.View
             }
             else
             {
+                for (int i = 0; i < storagePlanes.Count; i++ )
+                {
+                    storagePlanes[i].updateTime(timeSinceLastFrameUpdate);
+                    if(storagePlanes[i].AnimationState.AnimationName == "die" && storagePlanes[i].AnimationState.HasEnded)
+                    {
+                        storagePlanes[i].MinimapItem.Hide();
+                        storagePlanes.Remove(storagePlanes[i]);
+                    }
+                }
+
                 for (int i = 0; i < crewAnimationStates.Length; i++)
                 {
                     crewAnimationStates[i].AddTime(timeSinceLastFrameUpdate);
