@@ -310,13 +310,12 @@
 
   <!-- added to rev. 265 -->
   <data name="EnemySoldiersLeft">
-    <value>Feindliche Truppen bleiben zurueck</value>  <!-- meaning ??  maybe better "Feindliche Truppen fliehen" -->
-  </data>
-  
-  
+    <value>Feindliche Truppen bleiben zurueck</value>  <!-- meaning ??  maybe better "Feindliche Truppen fliehen" --> <!-- this means: Enemy soldiers left to be eliminated: X -->
+  </data>  
+ 
   <!-- added to rev. 305 - Level stats -->
   <data name="LevelStats">
-    <value>Level stats</value>  
+    <value>Level stats</value>
   </data>
 
   <data name="BombsDropped">
@@ -338,11 +337,11 @@
   <data name="GunShellsFired">
     <value>Gun shells fired:</value>
   </data>
-  
+
   <data name="GunAccuracy">
     <value>Gun accuracy:</value>
   </data>
-  
+
   <data name="PlanesDestroyed">
     <value>Planes destroyed:</value>
   </data>
@@ -351,24 +350,23 @@
     <value>Level completed</value>
   </data>
 
-
-  <data name="Engine">
+  <data name="Engine"><!-- plane engine -->
     <value>Engine</value>
   </data>
 
-  <data name="AccelerateBreakTurn">
+  <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
     <value>Accelerate/Break/Turn</value>
   </data>
 
-  <data name="Pitch">
+  <data name="Pitch"><!-- changing of plane's altitude. -->
     <value>Pitch</value>
   </data>
 
-  <data name="Spin">
+  <data name="Spin"><!-- rolling the plane around its longwise -->
     <value>Spin</value>
   </data>
 
-  <data name="Gear">
+  <data name="Gear"><!-- landing gear -->
     <value>Gear</value>
   </data>
 
@@ -392,6 +390,5 @@
   <data name="RearmEndMission">
     <value>Re-arm / End mission</value>
   </data>
-
 
 </root>
