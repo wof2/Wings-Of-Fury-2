@@ -357,23 +357,23 @@
     <value>Level completed</value>
   </data>
 
-  <data name="Engine">
+  <data name="Engine"><!-- plane engine -->
     <value>Engine</value>
   </data>
 
-  <data name="AccelerateBreakTurn">
+  <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
     <value>Accelerate/Break/Turn</value>
   </data>
 
-  <data name="Pitch">
+  <data name="Pitch"><!-- changing of plane's altitude. -->
     <value>Pitch</value>
   </data>
 
-  <data name="Spin">
+  <data name="Spin"><!-- rolling the plane around its longwise -->
     <value>Spin</value>
   </data>
 
-  <data name="Gear">
+  <data name="Gear"><!-- landing gear -->
     <value>Gear</value>
   </data>
 

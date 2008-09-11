@@ -310,11 +310,10 @@
     <value>Η κάμερα άλλαξε</value>
   </data>
 
-  <!-- added to rev. 265 -->
+    <!-- added to rev. 265 -->
   <data name="EnemySoldiersLeft">
     <value>Enemy soldiers left</value>
   </data>
-
 
   <!-- added to rev. 305 - Level stats -->
   <data name="LevelStats">
@@ -353,41 +352,39 @@
     <value>Level completed</value>
   </data>
 
-  
-  
-  <data name="Engine">
+  <data name="Engine"><!-- plane engine -->
     <value>Engine</value>
   </data>
 
-  <data name="AccelerateBreakTurn">
+  <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
     <value>Accelerate/Break/Turn</value>
   </data>
 
-  <data name="Pitch">
+  <data name="Pitch"><!-- changing of plane's altitude. -->
     <value>Pitch</value>
   </data>
-  
-  <data name="Spin">
+
+  <data name="Spin"><!-- rolling the plane around its longwise -->
     <value>Spin</value>
   </data>
-  
-  <data name="Gear">
+
+  <data name="Gear"><!-- landing gear -->
     <value>Gear</value>
   </data>
 
   <data name="Gun">
     <value>Gun</value>
   </data>
-  
+
   <data name="Camera">
     <value>Camera</value>
   </data>
-  
+
   <data name="Zoomin">
     <value>Zoom-in</value>
   </data>
 
-  
+
   <data name="Zoomout">
     <value>Zoom-out</value>
   </data>
