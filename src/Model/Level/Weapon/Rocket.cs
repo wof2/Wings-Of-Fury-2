@@ -200,7 +200,8 @@ namespace Wof.Model.Level.Weapon
             moveVector = new PointD(planeSpeed.X, yDropSpeed);
 
             //weektor ruchu podczas pracy silnika.
-            flyVector = new PointD(speedX, GameConsts.Rocket.MaxSpeed*Math.Sin(angle)/Math.Cos(angle));
+            flyVector = new PointD(planeSpeed.X * GameConsts.Rocket.MaxSpeed, planeSpeed.Y * GameConsts.Rocket.MaxSpeed);
+            //flyVector = new PointD(speedX, GameConsts.Rocket.MaxSpeed * Math.Sin(angle) / Math.Cos(angle));
         }
 
         /// <summary>
@@ -312,12 +313,12 @@ namespace Wof.Model.Level.Weapon
             timeCounter += time;
             if (timeCounter <= dropTime) //swobodne spadanie
             {
-                PointD vector = new PointD(moveVector.X*coefficient*6, moveVector.Y*coefficient);
+                PointD vector = new PointD(moveVector.X * coefficient * 6, moveVector.Y * coefficient);
                 boundRectangle.Move(vector);
             }
             else //naped silnikowy
             {
-                PointD vector = new PointD(flyVector.X*coefficient, flyVector.Y*coefficient);
+                PointD vector = new PointD(flyVector.X * coefficient, flyVector.Y * coefficient);
                 boundRectangle.Move(vector);
             }
         }
