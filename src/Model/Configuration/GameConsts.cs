@@ -363,7 +363,7 @@ namespace Wof.Model.Configuration
             /// <summary>
             /// Maksymalna predkosc pozioma rakiety.
             /// </summary>
-            public static int MaxSpeed = 550;
+            public static int MaxSpeed = 13;
 
             #endregion
         }
