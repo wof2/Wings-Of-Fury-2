@@ -120,6 +120,6 @@
   -->
   <Rocket
     fireInterval = "350"
-    maxSpeed = "500"/>
+    maxSpeed = "13"/>
   
 </Config>
