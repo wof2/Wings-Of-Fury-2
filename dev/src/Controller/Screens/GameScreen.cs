@@ -754,7 +754,6 @@ namespace Wof.Controller.Screens
                             // natomiast model potrzebuje wartosci w milisekundach
                             // dlatego mnoze przez 1000 i zaokraglam     
 
-                            Console.WriteLine(this.currentLevel.Statistics.PlanesShotDown);
                             currentLevel.Update((int) Math.Round(evt.timeSinceLastFrame*1000));
 
                             if (!readyForLevelEnd)
