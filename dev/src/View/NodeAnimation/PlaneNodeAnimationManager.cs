@@ -59,7 +59,12 @@ namespace Wof.View.NodeAnimation
     /// </summary>
     public class PlaneNodeAnimationManager : NodeAnimationManager
     {
-        private readonly PlaneView planeView;
+        protected PlaneView planeView;
+
+        public PlaneView PlaneView
+        {
+            get { return planeView; }
+        }
 
         public Degree IdleMaxAngle
         {
@@ -512,13 +517,15 @@ namespace Wof.View.NodeAnimation
                     {
                         this[animationName] = new SinRotateNodeAnimation(
                                                             planeView.OuterNode,
-                                                            3,
+                                                            2.25f,
                                                             new Degree(180),
                                                             Math.HALF_PI,
                                                             Vector3.UNIT_Z,
                                                             animationName
                                                             );
                         this[animationName].Looped = false;
+
+
                     }
                     break;
 
