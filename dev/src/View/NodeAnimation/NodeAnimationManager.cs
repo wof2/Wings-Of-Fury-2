@@ -243,18 +243,8 @@ namespace Wof.View.NodeAnimation
 
         public void updateTimeAll(float timeSinceLastFrame)
         {
-            foreach (NodeAnimation a in this)
-            {
-                if (this is PlaneNodeAnimationManager && a.Name.Equals("SPIN"))
-                {
-                    PlaneNodeAnimationManager p = (PlaneNodeAnimationManager)this;
-                    p.PlaneView.refreshPosition();
-                }
-                a.updateTime(timeSinceLastFrame);
-    
-            }
+            foreach (NodeAnimation a in this) a.updateTime(timeSinceLastFrame);
         }
-
 
         public void animate()
         {
