@@ -517,7 +517,7 @@ namespace Wof.View.NodeAnimation
                     {
                         this[animationName] = new SinRotateNodeAnimation(
                                                             planeView.OuterNode,
-                                                            2.25f,
+                                                            2.3f,
                                                             new Degree(180),
                                                             Math.HALF_PI,
                                                             Vector3.UNIT_Z,
