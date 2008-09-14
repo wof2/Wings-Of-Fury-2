@@ -1522,9 +1522,15 @@ namespace Wof.Model.Level.Planes
             if (planeState != PlaneState.Crashed)
             {
               //  rotateValue = 0; //hamujê zmianê k¹ta
-                isChangingDirection = true;
+                //isChangingDirection = true;
+                //isBlockSpin = true;
+
+                isBlockLeft = true;
+                isBlockRight = true;
+                //isBlockUp = true;
+                //isBlockDown = true;
                 isBlockSpin = true;
-                BlockMovementInput();
+                //BlockMovementInput();
                 level.Controller.OnSpinBegin(this);
                
             }
@@ -1686,7 +1692,10 @@ namespace Wof.Model.Level.Planes
                 HorizontalReflection();
                 isChangingDirection = false;
                 isBlockSpin = false;
-                UnblockMovementInput();
+                //UnblockMovementInput();
+                isBlockLeft = false;
+                isBlockRight = false;
+
             }
         }
 
@@ -2072,7 +2081,7 @@ namespace Wof.Model.Level.Planes
                     break;
             }
             //zawsze resetujê wszystkie flagi !!!
-            
+
             ResetInputFlags();
         }
 
