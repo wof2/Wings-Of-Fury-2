@@ -59,12 +59,7 @@ namespace Wof.View.NodeAnimation
     /// </summary>
     public class PlaneNodeAnimationManager : NodeAnimationManager
     {
-        protected PlaneView planeView;
-
-        public PlaneView PlaneView
-        {
-            get { return planeView; }
-        }
+        private readonly PlaneView planeView;
 
         public Degree IdleMaxAngle
         {
