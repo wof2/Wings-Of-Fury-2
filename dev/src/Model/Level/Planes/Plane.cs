@@ -152,9 +152,9 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Minimalna prêdkoœæ lotu.//musialem usunac const aby mozna bylo je ustwic. Michal
         /// </summary>
-        private readonly float minFlyingSpeed = GameConsts.UserPlane.RangeFastWheelingMaxSpeed*GameConsts.UserPlane.MaxSpeed;
+        private static readonly float minFlyingSpeed = GameConsts.UserPlane.RangeFastWheelingMaxSpeed * GameConsts.UserPlane.MaxSpeed;
 
-        public float MinFlyingSpeed
+        public static float MinFlyingSpeed
         {
             get { return minFlyingSpeed; }
         }
