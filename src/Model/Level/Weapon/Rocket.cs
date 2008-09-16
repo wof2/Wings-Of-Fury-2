@@ -46,9 +46,9 @@
  * 
  */
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Mogre;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
@@ -56,6 +56,7 @@ using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.Planes;
 using Plane=Wof.Model.Level.Planes.Plane;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
+using Math=Mogre.Math;
 
 namespace Wof.Model.Level.Weapon
 {
@@ -162,6 +163,13 @@ namespace Wof.Model.Level.Weapon
         /// <author>Michal Ziober</author>
         private PointD flyVector;
 
+        /// <summary>
+        /// Pocz¹tkowy wektor ruchu z napedem silnika.
+        /// </summary>
+        /// <author>Adam Witczak</author>
+        private PointD initPlaneSpeed;
+        
+
         #endregion
 
         #region Public Constructor
@@ -194,14 +202,24 @@ namespace Wof.Model.Level.Weapon
 
 
             //kierunek ruchu podczas lotu z silnikiem.
-            float speedX = planeSpeed.X >= 0 ? GameConsts.Rocket.MaxSpeed : -GameConsts.Rocket.MaxSpeed;
+            float speedX = planeSpeed.X >= 0 ? GameConsts.Rocket.BaseSpeed : -GameConsts.Rocket.BaseSpeed;
 
             //wektor ruchu podczas spadania.
             moveVector = new PointD(planeSpeed.X, yDropSpeed);
-
+            
             //weektor ruchu podczas pracy silnika.
-            flyVector = new PointD(planeSpeed.X * GameConsts.Rocket.MaxSpeed, planeSpeed.Y * GameConsts.Rocket.MaxSpeed);
-            //flyVector = new PointD(speedX, GameConsts.Rocket.MaxSpeed * Math.Sin(angle) / Math.Cos(angle));
+            if (planeSpeed.X >= 0)
+            {
+                flyVector = new PointD(planeSpeed.X * 0.7f * GameConsts.Rocket.BaseSpeed, planeSpeed.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
+            } else
+            {
+                flyVector = new PointD(planeSpeed.X * 0.7f * GameConsts.Rocket.BaseSpeed, planeSpeed.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
+            }
+
+            initPlaneSpeed = planeSpeed;
+            
+           
+           
         }
 
         /// <summary>
@@ -318,6 +336,19 @@ namespace Wof.Model.Level.Weapon
             }
             else //naped silnikowy
             {
+               // Console.WriteLine(flyVector.X);
+
+                // rakieta wytraca prêdkoœæ uzyskan¹ od samolotu
+                if (Math.Abs(flyVector.X) > Math.Abs(Plane.MinFlyingSpeed * GameConsts.Rocket.BaseSpeed))
+                {
+                    flyVector.X *= 0.995f;
+                }
+
+                if (Math.Abs(flyVector.Y) > Math.Abs(Plane.MinFlyingSpeed * GameConsts.Rocket.BaseSpeed))
+                {
+                    flyVector.Y *= 0.995f;
+                }
+
                 PointD vector = new PointD(flyVector.X * coefficient, flyVector.Y * coefficient);
                 boundRectangle.Move(vector);
             }

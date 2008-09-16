@@ -120,7 +120,7 @@ namespace Wof.Model.Configuration
         public static class Rocket
         {
             public const string fireInterval = @"fireInterval";
-            public const string maxSpeed = @"maxSpeed";
+            public const string baseSpeed = @"baseSpeed";
         }
     }
 }
