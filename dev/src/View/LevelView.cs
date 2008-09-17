@@ -598,7 +598,7 @@ namespace Wof.View
                 {
                     (p as P47PlaneView).StopSmokeTrails();
                 }
-                p.MinimapItem.Hide();
+                if(p.MinimapItem !=null) p.MinimapItem.Hide();
             }
             else
             {
