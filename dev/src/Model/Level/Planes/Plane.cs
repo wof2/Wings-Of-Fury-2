@@ -898,12 +898,13 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Sprawdza czy samolot mo¿e rozpocz¹æ spin
         /// </summary>
-        /// <author>Adam</author>
+        /// <author>Adam,Kamil</author>
         public bool CanSpin
         {
             get
             {
-                return (Math.Abs(rotateValue / rotateStep) <= 0.15f && wheelsState == WheelsState.In);
+                return (/*Math.Abs(rotateValue / rotateStep) <= 0.15f && */
+                    wheelsState == WheelsState.In);
             }
         }
 
@@ -2193,9 +2194,6 @@ namespace Wof.Model.Level.Planes
 
             // spowalniamy
             if (isSliding && ClimbingAngle > 0) movementVector.X -= 0.10f * movementVector.X * scaleFactor * ClimbingAngle / Math.PI;
-
-            
-
 
             float newAngle = movementVector.Angle;
             float rot = (newAngle - oldAngle);
