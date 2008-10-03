@@ -191,7 +191,7 @@ namespace Wof.Controller.Screens
         protected override List<Button> buildButtons()
         {
             List<Button> ret = new List<Button>();
-            ret.Add(guiWindow.createButton(new Vector4(20, 900, viewport.ActualWidth/2, 30),
+            ret.Add(guiWindow.createButton(new Vector4(20, 30*GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                                            "bgui.button", LanguageResources.GetString(LanguageKey.Quit), cc));
             return ret;
         }
@@ -206,10 +206,10 @@ namespace Wof.Controller.Screens
             {
                 if(i ==0)
                 {
-                    m = new PositionedMessage(20, 30, viewport.ActualWidth/2, 30, s, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
+                    m = new PositionedMessage(20, GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing(), s, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
                 } else
                 {
-                    m = new PositionedMessage(20, 30, viewport.ActualWidth / 2, 30, s);
+                    m = new PositionedMessage(20, GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing(), s);
                 }
                 ret.Add(m);
                 i++;

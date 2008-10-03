@@ -106,6 +106,23 @@ namespace Wof.Controller.Screens
     /// </summary>
     class AbstractScreen : MenuScreen
     {
+        protected uint fontSize;
+       
+        public void SetFontSize(uint fontSize)
+        {
+           this.fontSize = fontSize;
+        }
+        public uint GetFontSize()
+        {
+            return fontSize;   
+        }
+
+        public uint GetTextVSpacing()
+        {
+            return (uint)(fontSize * 1.2f);
+        }
+
+
         protected enum KeyDirection
         {
             UP,
@@ -173,6 +190,8 @@ namespace Wof.Controller.Screens
             set { mousePosY = value; }
         }
 
+     
+
         protected Boolean initialized;
         protected FSLSoundObject clickSound;
         protected FSLSoundObject cheatSound;
@@ -183,7 +202,14 @@ namespace Wof.Controller.Screens
         private bool wereAllKeysReleased = false; 
 
         public AbstractScreen(GameEventListener gameEventListener,
-                              SceneManager sceneMgr, Viewport viewport, Camera camera)
+                              SceneManager sceneMgr, Viewport viewport, Camera camera) : this(gameEventListener, sceneMgr, viewport, camera, 0)
+        {
+           
+
+        }
+
+        public AbstractScreen(GameEventListener gameEventListener,
+                              SceneManager sceneMgr, Viewport viewport, Camera camera, uint fontSize)
         {
             clickSound = SoundManager3D.Instance.GetSound("menuClick");
             if (clickSound == null || !clickSound.HasSound()) clickSound = SoundManager3D.Instance.CreateAmbientSound(SoundManager3D.C_MENU_CLICK, "menuClick", false, false); // destroyed together with SoundManager3D singleton
@@ -214,6 +240,14 @@ namespace Wof.Controller.Screens
             MaterialManager.Singleton.UnloadUnreferencedResources();
             MeshManager.Singleton.UnloadUnreferencedResources();
 
+            if(fontSize == 0)
+            {
+                this.fontSize = (uint)(viewport.ActualHeight * EngineConfig.C_FONT_SIZE);
+            } else
+            {
+                this.fontSize = fontSize;
+            }
+            
             keyDelay = new Timer();
         }
 
@@ -340,7 +374,7 @@ namespace Wof.Controller.Screens
 
         protected void createMouse()
         {
-            if (mGui == null) mGui = new GUI(FontManager.CurrentFont, 24);
+            if (mGui == null) mGui = new GUI(FontManager.CurrentFont, fontSize);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
             mGui.injectMouse((uint)(viewport.ActualWidth + 1), (uint)(viewport.ActualHeight + 1), false);  
         }
@@ -349,7 +383,7 @@ namespace Wof.Controller.Screens
         {
           
             buttonsCount = 0;
-            mGui = new GUI(FontManager.CurrentFont, 24);
+            mGui = new GUI(FontManager.CurrentFont, fontSize);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
         }
 

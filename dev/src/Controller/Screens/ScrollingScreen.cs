@@ -63,7 +63,7 @@ namespace Wof.Controller.Screens
      
         protected override void CreateGUI()
         {
-            mGui = new GUI(Wof.Languages.FontManager.CurrentFont, 22);
+            mGui = new GUI(Wof.Languages.FontManager.CurrentFont, fontSize);
             createMouse();
             string message = "";
            

@@ -71,7 +71,7 @@ namespace Wof.Controller.Screens
 
         protected override void CreateGUI()
         {
-            mGui = new GUI(FontManager.CurrentFont, 24);
+            mGui = new GUI(FontManager.CurrentFont, fontSize);
             createMouse(); 
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth/4,
                                                       viewport.ActualHeight/4, viewport.ActualWidth/2,
@@ -80,11 +80,11 @@ namespace Wof.Controller.Screens
                                           String.Format("{0}!", LanguageResources.GetString(LanguageKey.Congratulations)));
             Callback cc = new Callback(this);
             initButtons(1, 0);
-            guiWindow.createStaticText(new Vector4(0, 60, viewport.ActualWidth/2, 30),
+            guiWindow.createStaticText(new Vector4(0, 2 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                                        String.Format("{0}: ", LanguageResources.GetString(LanguageKey.EnterYourName)));
             nameInput =
-                guiWindow.createTextInput(new Vector4(0, 90, viewport.ActualWidth/2, 30), "bgui.textinput", "aaa", 3);
-            buttons[0] = guiWindow.createButton(new Vector4(0, 120, viewport.ActualWidth/2, 30), "bgui.button",
+                guiWindow.createTextInput(new Vector4(0, 3 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.textinput", "aaa", 3);
+            buttons[0] = guiWindow.createButton(new Vector4(0, 4*GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.OK), cc);
             nameInput.activate(true);
             guiWindow.mATI = nameInput;

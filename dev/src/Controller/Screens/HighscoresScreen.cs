@@ -76,7 +76,7 @@ namespace Wof.Controller.Screens
 
         protected override void CreateGUI()
         {
-            mGui = new GUI(FontManager.CurrentFont, 24);
+            mGui = new GUI(FontManager.CurrentFont, fontSize);
             createMouse();
 
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth/4,
@@ -91,11 +91,11 @@ namespace Wof.Controller.Screens
             {
               
                 OverlayContainer c;
-               
 
-                c = guiWindow.createStaticText(new Vector4(105, 60 + y, 100, 30), highscores[i].Score.ToString());
 
-                c = guiWindow.createStaticText(new Vector4(5, 60 + y, 100, 30), highscores[i].Name);
+                c = guiWindow.createStaticText(new Vector4(105, 2 * GetTextVSpacing() + y, 100, GetTextVSpacing()), highscores[i].Score.ToString());
+
+                c = guiWindow.createStaticText(new Vector4(5, 2 * GetTextVSpacing() + y, 100, GetTextVSpacing()), highscores[i].Name);
                 
                 y += 30;
                 if(i==2)
@@ -128,7 +128,7 @@ namespace Wof.Controller.Screens
             }
 
             initButtons(1, 0);
-            buttons[0] = guiWindow.createButton(new Vector4(0, 90 + 10*30, viewport.ActualWidth/2, 30), "bgui.button",
+            buttons[0] = guiWindow.createButton(new Vector4(0, 13 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.OK), cc, 0);
             selectButton(0);
             guiWindow.show();

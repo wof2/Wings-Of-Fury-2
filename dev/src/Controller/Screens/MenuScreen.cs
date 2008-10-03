@@ -58,5 +58,20 @@ namespace Wof.Controller.Screens
         void DisplayGUI(Boolean justMenu);
         void CleanUp(Boolean justMenu);
         void HandleInput(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick);
+        
+        /// <summary>
+        /// Zwraca bazow¹ wielkoœæ czcionki u¿ytej na screenie w pikselach
+        /// </summary>
+        /// <returns></returns>
+        uint GetFontSize();
+
+        void SetFontSize(uint fontSize);
+
+        /// <summary>
+        /// Zwraca bazow¹ wysokoœæ (w pikselach) linii tekstu. Zazwyczaj to samo co wysokoœæ przycisków, odstêpów miêdzy liniami tekstu.
+        /// </summary>
+        /// <returns></returns>
+        uint GetTextVSpacing();
     }
+
 }

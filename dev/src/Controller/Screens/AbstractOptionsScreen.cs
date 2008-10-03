@@ -98,6 +98,7 @@ namespace Wof.Controller.Screens
                                          base(gameEventListener, sceneMgr, viewport, camera)
         {
             this.root = root;
+            this.fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka w opcjach
         }
 
         protected override void CreateGUI()
@@ -113,7 +114,7 @@ namespace Wof.Controller.Screens
                 mGui.killGUI();
             }
             currentButton = 0;
-            mGui = new GUI(FontManager.CurrentFont, 20);
+            mGui = new GUI(FontManager.CurrentFont, fontSize);
             createMouse();
 
             guiWindow = mGui.createWindow(new Vector4(0,
@@ -149,7 +150,7 @@ namespace Wof.Controller.Screens
                 else if (optionValue.StartsWith("__"))
                 {
                     guiWindow.createStaticText(
-                        new Vector4(viewport.ActualWidth/6, j*30 + 30, 2*viewport.ActualWidth/3, 30),
+                        new Vector4(viewport.ActualWidth / 6, (j + 2) * GetTextVSpacing(), 2 * viewport.ActualWidth / 3, GetTextVSpacing()),
                         optionValue.Substring(2));
                     continue;
                 }
@@ -158,9 +159,9 @@ namespace Wof.Controller.Screens
                 Button button = guiWindow.createButton(
                     new Vector4(
                         viewport.ActualWidth/6,
-                        j*30 + 30, 2*viewport.ActualWidth/3, 30),
-                    IsOptionSelected(optionValue) ? "bgui.selected.button" : "bgui.button",
-                    optionValue, cc, j);
+                        (j + 2) * GetTextVSpacing(), 2 * viewport.ActualWidth / 3, GetTextVSpacing()),
+                        IsOptionSelected(optionValue) ? "bgui.selected.button" : "bgui.button",
+                        optionValue, cc, j);
 
                 options.Add(new ButtonHolder(button, optionValue));
             }
@@ -172,7 +173,9 @@ namespace Wof.Controller.Screens
                     (
                     new Vector4(
                         viewport.ActualWidth/6,
-                        C_MAX_OPTIONS*30 + 60, viewport.ActualWidth/3, 30),
+                        (C_MAX_OPTIONS + 2) * GetTextVSpacing(), 
+                        viewport.ActualWidth / 3, 
+                        GetTextVSpacing()),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.Previous),
                     cc,
@@ -191,8 +194,9 @@ namespace Wof.Controller.Screens
                     (
                     new Vector4(
                         viewport.ActualWidth/2,
-                        C_MAX_OPTIONS*30 + 60,
-                        viewport.ActualWidth/3, 30),
+                        (C_MAX_OPTIONS + 2) * GetTextVSpacing(),
+                        viewport.ActualWidth / 3, 
+                        GetTextVSpacing()),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.Next),
                     cc,
@@ -209,9 +213,9 @@ namespace Wof.Controller.Screens
                 (
                 new Vector4(
                     viewport.ActualWidth/3,
-                    C_MAX_OPTIONS*30 + 90,
+                    (C_MAX_OPTIONS + 3) * GetTextVSpacing(),
                     viewport.ActualWidth/3,
-                    30),
+                    GetTextVSpacing()),
                 "bgui.button",
                 LanguageResources.GetString(LanguageKey.Back),
                 cc,
@@ -248,10 +252,10 @@ namespace Wof.Controller.Screens
             backButtonIndex = (int) totalOptions - 1;
 
             guiWindow.createStaticText(
-                new Vector4(viewport.ActualWidth/6, C_MAX_OPTIONS*30 + 150, viewport.ActualWidth/2, 30),
+                new Vector4(viewport.ActualWidth / 6, C_MAX_OPTIONS * GetTextVSpacing() + 5 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                 LanguageResources.GetString(LanguageKey.ChangeOptionMessage1));
             guiWindow.createStaticText(
-                new Vector4(viewport.ActualWidth/6, C_MAX_OPTIONS*30 + 180, viewport.ActualWidth/2, 30),
+                new Vector4(viewport.ActualWidth / 6, C_MAX_OPTIONS * GetTextVSpacing() + 6 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                 LanguageResources.GetString(LanguageKey.ChangeOptionMessage2));
         }
 
