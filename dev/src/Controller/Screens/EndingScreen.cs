@@ -125,6 +125,7 @@ namespace Wof.Controller.Screens
                                  base(gameEventListener, sceneMgr, viewport, camera, startFromBottom, speed)
         {
             this.highscore = highscore;
+           
         }
 
         public override void CreateOcean()
