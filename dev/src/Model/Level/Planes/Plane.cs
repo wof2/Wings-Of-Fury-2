@@ -197,6 +197,13 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private const float gravitationalAcceleration = 50;
 
+
+        /// <summary>
+        /// Okreœla czas przez jaki samolot œwie¿o po starcie jest traktowany jako 'isJustAfterTakeOff'
+        /// </summary>
+        private const float justAfterTakeOffTimerMax = 1.7f;
+      
+
         /// <summary>
         /// Maksymalna iloœæ oleju.
         /// </summary>
@@ -524,13 +531,25 @@ namespace Wof.Model.Level.Planes
         /// Flaga okreœla czy przed chwil¹ zosta³ uruchomiony silnik.
         /// Jest resretowana po puszczeniu przycisku uruchomienia silnika.
         /// </summary>
-        private bool IsEngineJustStarted;
+        private bool isEngineJustStarted;
 
         /// <summary>
         /// Flaga okreœla czy przed chwil¹ zosta³ wy³¹czony silnik.
         /// Jest resretowana po puszczeniu przycisku uruchomienia silnika.
         /// </summary>
-        private bool IsEngineJustStopped;
+        private bool isEngineJustStopped;
+
+        /// <summary>
+        /// Okreœla czy samolot przed chwil¹ wystartowa³ (z lewej strony lotniskowca)
+        /// </summary>
+        private bool isJustAfterTakeOff;
+
+        /// <summary>
+        /// pomocniczy licznik dla 'isJustAfterTakeOff'
+        /// </summary>
+        private float justAfterTakeOffTimer;
+
+     
 
         /// <summary>
         /// Mówi ile czasu bêdzie trwa³o ca³e zawracanie.
@@ -1224,8 +1243,8 @@ namespace Wof.Model.Level.Planes
 
             oil = maxOil;
             petrol = maxPetrol;
-            IsEngineJustStarted = false;
-            IsEngineJustStopped = false;
+            isEngineJustStarted = false;
+            isEngineJustStopped = false;
             counterStartedEngine = 0;
 
             breakingEndCarrierTile = null;
@@ -1257,6 +1276,9 @@ namespace Wof.Model.Level.Planes
             isFallingFromCarrier = false;
             isSlippingFromCarrier = false;
             isFallingAfterCrash = false;
+
+            isJustAfterTakeOff = false;
+            justAfterTakeOffTimer = 0; 
 
             isRaisingTail = false;
             isLoweringTail = false;
@@ -2218,13 +2240,13 @@ namespace Wof.Model.Level.Planes
         /// <param name="time"></param>
         private void TryToStartEngine(float time)
         {
-            if (!IsEngineJustStopped)
+            if (!isEngineJustStopped)
             {
                 if (CanEngineBeStarted)
                 {
                     StartEngineCounter = 0; //zeruje licznik.
                     StartEngine(); //uruchamiam silnik.
-                    IsEngineJustStarted = true;
+                    isEngineJustStarted = true;
                     level.Controller.OnTurnOnEngine();
                 }
                 else
@@ -2241,10 +2263,10 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private void TryToStopEngine(float scaleFactor)
         {
-            if (!IsEngineJustStarted)
+            if (!isEngineJustStarted)
             {
                 StopEngine(scaleFactor);
-                IsEngineJustStopped = true;
+                isEngineJustStopped = true;
             }
         }
 
@@ -2253,8 +2275,8 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private void ResetEngineParameters()
         {
-            IsEngineJustStarted = false;
-            IsEngineJustStopped = false;
+            isEngineJustStarted = false;
+            isEngineJustStopped = false;
             counterStartedEngine = 0;
         }
 
@@ -2576,6 +2598,33 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private void LeaveCarrier(float time, float timeUnit)
         {
+            float scaleFactor = time / timeUnit;
+
+            // co siê dzieje zaraz po prawid³owym starcie
+            if (isJustAfterTakeOff)
+            {
+                if(justAfterTakeOffTimer > justAfterTakeOffTimerMax)
+                {
+                    justAfterTakeOffTimer = 0;
+                    isJustAfterTakeOff = false;
+                } else
+                {
+                    //Console.WriteLine(time);
+                    if (justAfterTakeOffTimer < 0.5f * justAfterTakeOffTimerMax)
+                    {
+                        // spadanie (szybciej)
+                        movementVector.Y += -29.5f * scaleFactor * Math.Sin(Math.HALF_PI +  Math.TWO_PI * (justAfterTakeOffTimer / justAfterTakeOffTimerMax));
+                    } else
+                    {
+                        // unoszenie (wolniej)
+                        movementVector.Y += -5.0f * scaleFactor * Math.Sin(Math.HALF_PI + Math.TWO_PI * (justAfterTakeOffTimer / justAfterTakeOffTimerMax));
+                    }
+                    
+                    justAfterTakeOffTimer += scaleFactor;
+                }
+                
+            }
+
             if (locationState == LocationState.AircraftCarrier && landingState == LandingState.None)
             {
                 if (!isFallingFromCarrier && !IsGearAboveCarrier)
@@ -2588,6 +2637,9 @@ namespace Wof.Model.Level.Planes
                             {
                                 level.Controller.OnPlaneWrongDirectionStart();
                                 oil -= rightTakeOffOilLoss;
+                            } else
+                            {
+                                this.isJustAfterTakeOff = true;
                             }
                             locationState = LocationState.Air;
                             level.Controller.OnTakeOff();
@@ -2595,7 +2647,7 @@ namespace Wof.Model.Level.Planes
                     }
                     else
                     {
-                        float scaleFactor = time / timeUnit;
+                        
                         raiseTailStep(scaleFactor);
                         isFallingFromCarrier = true;
                         isSlippingFromCarrier = Speed <= maxSlippingFromCarrierSpeed;
@@ -2638,6 +2690,9 @@ namespace Wof.Model.Level.Planes
                     else
                         FallDown(time, timeUnit);
                 }
+            } else
+            {
+                
             }
         }
 
