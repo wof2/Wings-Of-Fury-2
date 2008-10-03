@@ -95,7 +95,7 @@ namespace Wof.Controller.Screens
                                     String.Empty,
                                     String.Format(@"WOF2 {0}:", LanguageResources.GetString(LanguageKey.CommunityTranslations)),
                                     "Makis", 
-                                    "Andrei Drakonnen", 
+                                    "Joao Andre Colaco Caine da Silva", 
                                     "Beauty",
                                     "RedFox2879",
                                     String.Empty,
