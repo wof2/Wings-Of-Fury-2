@@ -1061,51 +1061,53 @@ namespace Wof.Controller.Screens
 
         private void BuildStatsScreen(Window window)
         {
-            uint oldSize = mGui.mFontSize;
-            mGui.mFontSize = (uint)(oldSize * 0.83f);
+           // uint oldSize = mGui.mFontSize;
+           // mGui.mFontSize = (uint)(oldSize * 0.83f);
 
+            int left = 20;
+            int top = 10;
 
             OverlayContainer c;
             // Level stats
             c = window.createStaticText(
-              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 3*GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+              new Vector4(left, top + 3 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                LanguageResources.GetString(LanguageKey.LevelStats));
 
             AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
 
 
             window.createStaticText(
-               new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 4 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+               new Vector4(left, top + 4 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                 LanguageResources.GetString(LanguageKey.BombsDropped) + " " + this.currentLevel.Statistics.BombCount);
 
             window.createStaticText(
-              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 5 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+              new Vector4(left, top + 5 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                 LanguageResources.GetString(LanguageKey.BombsAccuracy) + " " + this.currentLevel.Statistics.BombStats + "%");
 
 
             window.createStaticText(
-              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 6 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+              new Vector4(left, top + 6 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                LanguageResources.GetString(LanguageKey.RocketsFired) + " " + this.currentLevel.Statistics.RocketCount);
 
             window.createStaticText(
-              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 7 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+              new Vector4(left, top + 7 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                 LanguageResources.GetString(LanguageKey.RocketsAccuracy) + " " + this.currentLevel.Statistics.RocketStats + "%");
 
 
             window.createStaticText(
-              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 8 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+              new Vector4(left, top + 8 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                 LanguageResources.GetString(LanguageKey.GunShellsFired) + " " + this.currentLevel.Statistics.GunCount);
 
             window.createStaticText(
-              new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 9 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+              new Vector4(left, top + 9 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                LanguageResources.GetString(LanguageKey.GunAccuracy) + " " + this.currentLevel.Statistics.GunStats + "%");
 
 
             window.createStaticText(
-                new Vector4(10 + viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 10.5f * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+                new Vector4(left, top + 10.5f * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                  LanguageResources.GetString(LanguageKey.PlanesDestroyed) + " " + this.currentLevel.Statistics.PlanesShotDown);
 
-            mGui.mFontSize = oldSize;
+           // mGui.mFontSize = oldSize;
 
         }
 
@@ -1115,11 +1117,11 @@ namespace Wof.Controller.Screens
 
             mGui = new GUI(FontManager.CurrentFont, fontSize);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
-            guiWindow = mGui.createWindow(new Vector4(0,
-                                                      0, viewport.ActualWidth, viewport.ActualHeight),
-                                          "bgui.window", (int)wt.NONE,
-                                          LanguageResources.GetString(LanguageKey.LevelCompleted));
 
+            guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
+                                                    viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 14.5f * GetTextVSpacing()),
+                                                    "bgui.window", (int)wt.NONE,LanguageResources.GetString(LanguageKey.LevelCompleted));
+         
 
             BuildStatsScreen(guiWindow);
            
@@ -1145,15 +1147,23 @@ namespace Wof.Controller.Screens
             mGui = new GUI(FontManager.CurrentFont, fontSize);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
             //mGui.injectMouse(0, 0, false);
-            guiWindow = mGui.createWindow(new Vector4(0,
+            /*guiWindow = mGui.createWindow(new Vector4(0,
                                                       0, viewport.ActualWidth, viewport.ActualHeight),
                                           "bgui.window", (int) wt.NONE,
                                           LanguageResources.GetString(LanguageKey.GameOver));
+            */
+            int left = 20;
+            int top = 10;
+            guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
+                                                      viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 14.5f * GetTextVSpacing()), 
+                                                      "bgui.window", (int)wt.NONE,"");
+
+
             Callback cc = new Callback(this);
 
             OverlayContainer c;
             c = guiWindow.createStaticText(
-                new Vector4(viewport.ActualWidth / 4, viewport.ActualHeight / 4 + GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+                new Vector4(left, top + GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                 LanguageResources.GetString(LanguageKey.GameOver));
             AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.0f, 0.0f), new ColourValue(0.9f, 0.1f, 0.0f));
             
@@ -1161,7 +1171,7 @@ namespace Wof.Controller.Screens
 
             gameOverButton =
                 guiWindow.createButton(
-                    new Vector4(viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 12.33f * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+                    new Vector4(left, top + 12.33f * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.OK), cc);
 

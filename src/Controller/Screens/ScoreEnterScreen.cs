@@ -66,6 +66,7 @@ namespace Wof.Controller.Screens
                                 SceneManager sceneMgr, Viewport viewport, Camera camera, int score) :
                                     base(gameEventListener, sceneMgr, viewport, camera)
         {
+            fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
             this.score = score;
         }
 
