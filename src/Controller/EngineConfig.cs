@@ -157,12 +157,17 @@ namespace Wof.Controller
         public static bool DebugStart = false;
 
         /// <summary>
-        /// Poziom uruchamiany przy trybie DebugStart
+        /// Poziom (level) uruchamiany przy trybie DebugStart
         /// </summary>
         public static int DebugStartLevel = 1;
 
 
-        public static readonly int LOADING_DELAY = 3500;
+        public static readonly int C_LOADING_DELAY = 3500;
+
+        /// <summary>
+        /// Bazowa wysokoœæ czcionki wyra¿ona w procentowej wysokoœci wzglêdem ekranu. Wykorzystywane przez AbstractScreen
+        /// </summary>
+        public static readonly float C_FONT_SIZE = 0.035f;
 
 
         public static void LoadEngineConfig()

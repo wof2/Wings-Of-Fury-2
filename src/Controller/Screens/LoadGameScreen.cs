@@ -72,6 +72,7 @@ namespace Wof.Controller.Screens
                                   base(gameEventListener, sceneMgr, viewport, camera)
         {
 
+            fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
             if(GameConsts.Game.AllLevelsCheat)
             {
                 completedLevels = LoadGameUtil.GetAllPossibleLevels();
@@ -85,7 +86,7 @@ namespace Wof.Controller.Screens
         protected override void CreateGUI()
         {
            
-            mGui = new GUI(FontManager.CurrentFont, 24);
+            mGui = new GUI(FontManager.CurrentFont, fontSize);
             createMouse();
 
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth/4,
@@ -101,12 +102,12 @@ namespace Wof.Controller.Screens
             {
                 // pole 'id' w button bedzie trzymac nr poziomu
                 buttons[i] =
-                    (guiWindow.createButton(new Vector4(0, 60 + i*30, viewport.ActualWidth/2, 30), "bgui.button",
+                    (guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing() + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                             String.Format("{0} ", LanguageResources.GetString(LanguageKey.Level)) +
                                             completedLevels[i], cc, completedLevels[i]));
             }
             buttons[completedLevels.Count] =
-                guiWindow.createButton(new Vector4(0, 90 + 10*30, viewport.ActualWidth/2, 30), "bgui.button",
+                guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing() + 10 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                        LanguageResources.GetString(LanguageKey.Back), cc);
 
   //          selectButton(0);

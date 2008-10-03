@@ -58,6 +58,7 @@ namespace Wof.Controller.Screens
 {
     internal class DonateScreen : AbstractScreen, BetaGUIListener
     {
+        protected uint smallFontSize = 0; 
         #region Private Fields
 
         private Window guiWindow;
@@ -83,11 +84,14 @@ namespace Wof.Controller.Screens
                                 SceneManager sceneMgr, Viewport viewport, Camera camera) :
                                     base(gameEventListener, sceneMgr, viewport, camera)
         {
+            fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
+            smallFontSize = (uint) (0.7f*fontSize); // bardzo ma³e napisy
+            // uwaga 'smallFontSize', moze byc nie zainicjalizowane jesli uzyto innego kontruktora!!!
         }
 
         protected override void CreateGUI()
         {
-            mGui = new GUI(FontManager.CurrentFont, 17);
+            mGui = new GUI(FontManager.CurrentFont, smallFontSize);
             createMouse();
 
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth/4,
@@ -98,24 +102,18 @@ namespace Wof.Controller.Screens
             
 
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
-
-            mGui.mFontSize = 17;
-            if(viewport.ActualWidth < 1280)
-            {
-                mGui.mFontSize = 14;
-            }
-
-            guiWindow.createStaticText(new Vector4(5, 40, -10 + viewport.ActualWidth / 2, 90), donateMessage);
+         
+            guiWindow.createStaticText(new Vector4(5, 1.2f*GetTextVSpacing(), -10 + viewport.ActualWidth / 2, 3 * GetTextVSpacing()), donateMessage);
             
-            mGui.mFontSize = 24;
+            mGui.mFontSize = fontSize;
             initButtons(2, 1);
 
-            buttons[0] = guiWindow.createButton(new Vector4(5, 90 + 3 * 30, -10 + viewport.ActualWidth / 2, 30), "bgui.button",
+            buttons[0] = guiWindow.createButton(new Vector4(5, 6*GetTextVSpacing(), -10 + viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Donate), 
                                                 cc, 0);
-            
-            
-            buttons[1] = guiWindow.createButton(new Vector4(5, 90 + 10 * 30, -10 + viewport.ActualWidth / 2, 30), "bgui.button",
+
+
+            buttons[1] = guiWindow.createButton(new Vector4(5, 13*GetTextVSpacing(), -10 + viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                LanguageResources.GetString(LanguageKey.OK), cc, 0);
             selectButton(0);
             guiWindow.show();
