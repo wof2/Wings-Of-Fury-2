@@ -4,28 +4,28 @@
     <value>Antialiasing</value>
   </data>
   <data name="Back">
-    <value>Zurueck</value>
+    <value>Zurück</value>
   </data>
   <data name="Bloom">
-    <value>Blut</value> 
+    <value>Bloom</value> 
   </data>
   <data name="Bombs">
     <value>Bomben</value>
   </data>
   <data name="ChangeOptionMessage1">
-    <value>Einige aenderungen werden erst</value>
+    <value>Einige Änderungen werden</value>
   </data>
   <data name="ChangeOptionMessage2">
-    <value>beim Neustart uebernommen.</value>
+    <value>erst nach Neustart übernommen.</value>
   </data>
   <data name="ChooseDifficulty">
-    <value>Schwierigkeitsgrad waehlen</value>
+    <value>Schwierigkeitsgrad wählen</value>
   </data>
   <data name="CompletedLevels">
     <value>Missionen</value>
   </data>
   <data name="Congratulations">
-    <value>Glueckwunsch</value>
+    <value>Glückwunsch</value>
   </data>
   <data name="Controls">
     <value>Tastaturbelegung</value> <!-- or "Eingabe-Tasten" -->
@@ -40,7 +40,7 @@
     <value>Erstelle Hauptobjekt</value>
   </data>
   <data name="CreatorOfOriginalWingsOfFury">
-    <value>Autor des Original -Wings of Fury- Spiel (1987)</value>
+    <value>Autor des Originals -Wings of Fury- (1987)</value>
   </data>
   <data name="Credits">
     <value>Autoren</value>
@@ -55,10 +55,10 @@
     <value>Name eingeben</value>
   </data>
   <data name="ExitToMenu">
-    <value>Zurueck zum Menue</value>
+    <value>Zurück zum Menü</value>
   </data>
   <data name="GameOver">
-    <value>Sie haben Verloren</value>
+    <value>Sie haben versagt</value>
   </data>
   <data name="HallOfFame">
     <value>Halle des Ruhms</value>
@@ -82,7 +82,7 @@
     <value>Neues Spiel</value>
   </data>
   <data name="Next">
-    <value>Weiter</value>  <!-- or "Naechstes" -->
+    <value>Weiter</value>  <!-- or "Nächstes" or "Nächste" ... dependent to content -->
   </data>
   <data name="OK">
     <value>OK</value>
@@ -94,7 +94,7 @@
     <value>Pause</value>
   </data>
   <data name="Previous">
-    <value>Zurueck</value>  <!-- or "Vorheriges" or "Letztes" -->
+    <value>Zurück</value>  <!-- or "Vorheriges" or "Letztes" or "Vorherige" or "Letzte" -->
   </data>
   <data name="Quit">
     <value>Beenden</value>
@@ -106,7 +106,7 @@
     <value>Raketen</value>
   </data>
   <data name="SelectAmmunition">
-    <value>Waehle Muniton</value>
+    <value>Wähle Muniton</value>
   </data>
   <data name="SetupingResources">
     <value>Bearbeite Daten</value>
@@ -118,25 +118,25 @@
     <value>Besonderen Dank an Steve Waldo</value>
   </data>
   <data name="Tutorial">
-    <value>Einfuehrung</value>
+    <value>Einführung</value>
   </data>
   <data name="VideoMode">
-    <value>Bildschirmaufloesung</value>  <!-- ?? -->
+    <value>Auflösung</value>  <!-- ?? -->
   </data>
   <data name="VideoOptions">
     <value>Bildeinstellungen</value> 
   </data>
   <data name="VSync">
-    <value>Bild-Synchronisation (VSync)</value>
+    <value>Bild-Synchronisation</value>
   </data>
   <data name="YouWonTheGame">
-    <value>Herzlichen Glueckwunsch, du hast es geschafft </value>
+    <value>Herzlichen Glückwunsch, du hast es geschafft </value>
   </data>
   <data name="AddingCompositors">
     <value>Lade Shader</value>
   </data>
   <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
-    <value>Alle Soldaten wurden getoetet, lande auf dem Flugzeugtraeger und druecke X</value>
+    <value>Alle Soldaten wurden getötet, lande auf dem Flugzeugträger und drücke X</value>
   </data>
   <data name="AverageFPS">
     <value>Mittlere Bildrate (FPS)</value>
@@ -145,13 +145,13 @@
     <value>Beste Bildrate (FPS)</value>
   </data>
   <data name="ChooseAntialiasingMode">
-    <value>Waehle Antialiasing</value>  <!-- or "Waehle Antialiasing-Art" -->
+    <value>Wähle Antialiasing-Art</value>  <!-- or "Wähle Antialiasing-Art" -->
   </data>
   <data name="ChooseLevelOfDetail">
-    <value>Waehle Details</value>  <!-- or "Waehle Detail-Grad"  -->
+    <value>Wähle Details</value>  <!-- or "Wähle Detail-Grad"  -->
   </data>
   <data name="ChooseVideoMode">
-    <value>Waehle Bildschirmaufloesung</value>
+    <value>Wähle Bildschirmauflösung</value>
   </data>
   <data name="CreatingInput">
     <value>Lade Eingabe-Parameter</value>
@@ -160,13 +160,13 @@
     <value>Aktuelle Bildrate (FPS)</value>
   </data>
   <data name="EnableBloom">
-    <value>Blut-Effekte</value>
+    <value>Blut-Effekte verwenden</value>
   </data>
   <data name="EnableSound">
-    <value>Ton</value>
+    <value>Ton-Einstellung ändern</value>
   </data>
   <data name="EnableVSync">
-    <value>Bild-Syncronisation einschalten (VSync)</value>
+    <value>Bild-Synchronisation einschalten (VSync)</value>
   </data>
   <data name="EnemyPlaneApproachingFromTheLeft">
     <value>Feindliches Flugzeug kommt von links</value>
@@ -178,13 +178,13 @@
     <value>Hoch</value>
   </data>
   <data name="InverseKeys">
-    <value>Tasten vertauschen</value>    <!-- meaning ?? -->
+    <value>Tasten oben/unten vertauschen</value>    <!-- means top/down keys -->
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
-    <value>Lande auf dem Flugzeugtraeger und druecke X um aufzutanken</value>
+    <value>Lande auf dem Flugzeugträger und drücke X um aufzutanken</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRepair">
-    <value>Lande auf dem Flugtraeger und druecke X zum reparieren</value>
+    <value>Lande auf dem Flugträger und drücke X zum reparieren</value>
   </data>
   <data name="Low">
     <value>Niedrig</value>
@@ -193,7 +193,7 @@
     <value>TREIBSTOFF IST FAST ALLE</value>
   </data>
   <data name="LowOilWarning">
-    <value>OEL IST FAST ALLE</value>
+    <value>ÖL IST FAST ALLE</value>
   </data>
   <data name="Medium">
     <value>Mittel</value>
@@ -202,16 +202,16 @@
     <value>Nein</value>
   </data>
   <data name="PressEToTurnOnTheEngine">
-    <value>Druecke (lange) E um Triebwerk zu starten</value>
+    <value>Drücke E, bis der Motor gestartet ist</value>
   </data>
   <data name="PressXToChangeAmmo">
-    <value>Druecke X zum Nachladen, Tanken, Reparieren</value>
+    <value>Drücke X zum Nachladen, Tanken, Reparieren</value>
   </data>
   <data name="ScreenshotWrittenTo">
     <value>Das Bildschirmfoto wurde gespeichert</value>
   </data>
   <data name="StartFrom">
-    <value>Waehle Schwierigkeitsgrad</value>
+    <value>Schwierigkeitsgrad</value>
   </data>
   <data name="TriangleCount">
     <value>Anzahl der Dreiecke</value>
@@ -223,10 +223,10 @@
     <value>Ja</value>
   </data>
   <data name="AreYouTryingToReachStarsCaptain">
-    <value>Herr Pilot, versuchen Sie Sterne zu bekommen?</value>
+    <value>Herr Pilot, versuchen Sie die Sterne zu erreichen?</value>
   </data>
   <data name="EnemyInstallationDestroyed">
-    <value>Gegnerische Anlagen wurden zestoert!</value>
+    <value>Gegnerische Anlagen wurden zestört!</value>
   </data>
   <data name="EnemyInstallationsAreBothSideCaptain">
     <value>Gegnerische Anlagen auf beiden Seiten!</value>    <!-- or starting with "Herr Pilot, ..." or "Herr Hauptmann, ..." -->
@@ -238,19 +238,19 @@
     <value>Gegnerische Anlagen auf der rechten Seite.</value>
   </data>
   <data name="EnemyPlaneDownIRepeat">
-    <value>Feindliches Flugzeug zerstoert! Ich wiederhole. Feindliches Flugzeug zerstoert!</value>
+    <value>Feindliches Flugzeug zerstört! Ich wiederhole. Feindliches Flugzeug zerstört!</value>
   </data>
   <data name="KillAllEnemySoldiers">
-    <value>Toeten Sie alle Gegner! Keine Gnade, Herr Pilot.</value>
+    <value>Töten Sie alle Gegner! Keine Gnade, Herr Pilot.</value>
   </data>
   <data name="OhNoEnemySoldiersAreRebuildingBunker">
     <value>Oh Nein! Soldaten bauen den Bunker wieder auf!</value>
   </data>
   <data name="RetractYourLandingGearWithG">
-    <value>Druecken Sie G um Fahrwerk einzufahren</value>
+    <value>Drücken Sie G um Fahrwerk einzufahren</value>
   </data>
   <data name="WARNINGProtectTheCarrierFromEnemyPlane">
-    <value>ACHTUNG! Schuetzen Sie den Flugzeugtraeger vor feindlichen Flugzeugen!</value>
+    <value>ACHTUNG! Schützen Sie den Flugzeugträger vor feindlichen Flugzeugen!</value>
   </data>
   <data name="WeAreNotLeavingYetCaptain">
     <value>Wir geben nicht auf, Herr Pilot!</value>
@@ -273,36 +273,36 @@
  	<value>Grafik</value>
  </data>
  <data name="CommunityTranslations">
- 	<value>Uebersetzer</value>
+ 	<value>Übersetzer</value>
  </data>
  <data name="Poland">
  	<value>Polen</value>
  </data>
  <data name="Donate">
- 	<value>Projektunterstuetzung</value>   <!-- or "Spende" -->
+ 	<value>Unterstützung</value>   <!-- or "Spende" -->
  </data>
  <data name="CheckForUpdates">
- 	<value>Schaue nach Aktualisierung</value>
+ 	<value>Suche nach Updates</value>
  </data>
   
  <!--
         Next 5 messages will be concatenated into one.        
  -->
  <data name="DonateMessagePart1">
- 	<value>Wenn dir das Spiel gefaellt,</value>
+ 	<value>Wenn dir das Spiel gefällt,</value>
  </data>
- <!-- here will goes "Wings of fury 2" - but it's translated already -->
+ <!-- here will goes "Wings of fury 2" - but it's translated already -->  <!-- Fuck up this forced include -->
  <data name="DonateMessagePart2">
- 	<value>wuerden wir uns ueber eine kleine Spende freuen.</value>
+ 	<value>würden wir uns sehr über eine </value>
  </data>
  <data name="DonateMessagePart3">
-	 <value>Wir suchen nach Mitteln,</value>
+	 <value>kleine Spende freuen.</value>
  </data>
  <data name="DonateMessagePart4">
-	 <value>um Weiterentwicklung des Spiels zu ermoeglichen.</value>
+	 <value>Geplante Weiterentwicklung:</value>
  </data>
  <data name="DonateMessagePart5">
- 	<value>Zum Beispiel: Erstellung von Wassereinheiten.</value>
+ 	<value>Erstellung von Wassereinheiten</value>
  </data>
  <data name="CameraChanged">
  	<value>Kamera gewechselt</value>
@@ -310,85 +310,85 @@
 
   <!-- added to rev. 265 -->
   <data name="EnemySoldiersLeft">
-    <value>Feindliche Truppen bleiben zurueck</value>  <!-- meaning ??  maybe better "Feindliche Truppen fliehen" --> <!-- this means: Enemy soldiers left to be eliminated: X -->
+    <value>Feindliche Truppen bleiben zurück</value>  <!-- meaning ??  maybe better "Feindliche Truppen fliehen" --> <!-- this means: Enemy soldiers left to be eliminated: X -->
   </data>  
  
   <!-- added to rev. 305 - Level stats -->
   <data name="LevelStats">
-    <value>Level stats</value>
+    <value>Level-Statistik</value>
   </data>
 
   <data name="BombsDropped">
-    <value>Bombs dropped:</value>
+    <value>Bomben abgewurfen:</value>
   </data>
 
   <data name="BombsAccuracy">
-    <value>Bombs accuracy:</value>
+    <value>Bomben-Genauigkeit:</value>
   </data>
 
   <data name="RocketsFired">
-    <value>Rockets fired:</value>
+    <value>Racketen abgefeuert:</value>
   </data>
 
   <data name="RocketsAccuracy">
-    <value>Rockets accuracy:</value>
+    <value>Racketen-Genauigkeit:</value>
   </data>
 
   <data name="GunShellsFired">
-    <value>Gun shells fired:</value>
+    <value>Kanone abgefeuert:</value>
   </data>
 
   <data name="GunAccuracy">
-    <value>Gun accuracy:</value>
+    <value>Kanone-Genauigkeit:</value>
   </data>
 
   <data name="PlanesDestroyed">
-    <value>Planes destroyed:</value>
+    <value>Flugzeuge zerstört:</value>
   </data>
 
   <data name="LevelCompleted">
-    <value>Level completed</value>
+    <value>Level geschafft</value>
   </data>
 
   <data name="Engine"><!-- plane engine -->
-    <value>Engine</value>
+    <value>Motor</value>
   </data>
 
   <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
-    <value>Accelerate/Break/Turn</value>
+    <value>Beschleunigung/Bremse/Drehung</value>
   </data>
 
   <data name="Pitch"><!-- changing of plane's altitude. -->
-    <value>Pitch</value>
+    <value>Neigung</value>
   </data>
 
   <data name="Spin"><!-- rolling the plane around its longwise -->
-    <value>Spin</value>
+    <value>Rollen</value>
   </data>
 
   <data name="Gear"><!-- landing gear -->
-    <value>Gear</value>
+    <value>Fahrwerk</value>
   </data>
 
   <data name="Gun">
-    <value>Gun</value>
+    <value>Kanone</value>
   </data>
 
   <data name="Camera">
-    <value>Camera</value>
+    <value>Kamera</value>
   </data>
 
   <data name="Zoomin">
-    <value>Zoom-in</value>
+    <value>Zoome rein</value>
   </data>
 
 
   <data name="Zoomout">
-    <value>Zoom-out</value>
+    <value>Zoome raus</value>
   </data>
 
   <data name="RearmEndMission">
-    <value>Re-arm / End mission</value>
+    <value>Wiederbewaffnung / Missionsende</value>
   </data>
 
 </root>
