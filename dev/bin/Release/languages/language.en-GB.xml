@@ -305,10 +305,10 @@
     <value>We are looking for funds to</value>
   </data>
   <data name="DonateMessagePart4">
-    <value>support further game development</value>
+    <value>support further game devel-</value>
   </data>
   <data name="DonateMessagePart5">
-    <value>(including naval units).</value>
+    <value>-opment (including naval units).</value>
   </data>
   <!-- message displayed after pressing 'c' (change camera) key. -->
   <data name="CameraChanged">

@@ -300,7 +300,7 @@ namespace Wof.Controller.Screens
                     if (LevelNo == 1 && firstTakeOff)
                     {
                         MessageEntry message =
-                            new MessageEntry(0.2f, 0.4f,
+                            new MessageEntry(0.15f, 0.4f,
                                              LanguageResources.GetString(LanguageKey.PressEToTurnOnTheEngine), true,
                                              true);
                         message.IncreaseY(-message.CharHeight/2.0f);
@@ -961,87 +961,103 @@ namespace Wof.Controller.Screens
         private void DisplayPauseScreen()
         {
             isGamePaused = true;
-            isInPauseMenu = true;   
+            isInPauseMenu = true;
+
+            int left = 20;
+            int top = 10;
+            int width = -10 + (int)(viewport.ActualWidth * 0.7f);
+            int y = 0;
+            int h = (int)GetTextVSpacing();
+
             levelView.OnStopPlayingEnemyPlaneEngineSounds();
 
 
             mGui = new GUI(FontManager.CurrentFont, fontSize);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
-                                                      viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 14.5f * GetTextVSpacing()),
+                                                      viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 14.5f * h),
                                           "bgui.window", (int) wt.NONE, LanguageResources.GetString(LanguageKey.Pause));
             Callback cc = new Callback(this);
 
-            int left = 20;
-            int top = 10;
-            int width = -10 + (int)(viewport.ActualWidth*0.7f);
-            int y = 0;
+          
 
-            y += (int)GetTextVSpacing();
+            y += h;
             resumeButton =
                 guiWindow.createButton(
-                    new Vector4(left - 10, top + y, width / 2.0f, GetTextVSpacing()),
+                    new Vector4(left - 10, top + y, width / 2.0f, h),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.Resume), cc);
 
-            y += (int)GetTextVSpacing();
+            y += (int)h;
             exitButton =
                 guiWindow.createButton(
-                    new Vector4(left - 10, top + y, width / 2.0f, GetTextVSpacing()),
+                    new Vector4(left - 10, top + y, width / 2.0f, h),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.ExitToMenu), cc);
             resumeButton.activate(true);
 
 
             OverlayContainer c;
-            y += (int)(GetTextVSpacing()*2);
-            c = guiWindow.createStaticText(new Vector4(left - 10, top + y, width, GetTextVSpacing()), LanguageResources.GetString(LanguageKey.Controls));
+            y += (int)(h*2);
+            c = guiWindow.createStaticText(new Vector4(left - 10, top + y, width, h), LanguageResources.GetString(LanguageKey.Controls));
             AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
 
             uint oldFontSize = mGui.mFontSize;
             mGui.mFontSize = (uint)(fontSize * 0.67f);
 
-            y += (int)GetTextVSpacing();
+            y += (int)h;
             c =
-                guiWindow.createStaticText(new Vector4(left, top + y, width, GetTextVSpacing()),
+                guiWindow.createStaticText(new Vector4(left, top + y, width, h),
                                            LanguageResources.GetString(LanguageKey.Engine) + ": " + "E (hold)");
             
             // "Engine: E (hold)");
-            y += (int)(GetTextVSpacing() * 0.83f);
+            y += (int)(h * 0.83f);
             c =
-                guiWindow.createStaticText(new Vector4(left, top + y, width, GetTextVSpacing()),
-                                           LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + ": " +
-                                                                       "Left/right arrow");
+                guiWindow.createStaticText(new Vector4(left, top + y, width, h),
+                                           LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + ": ");
 
-            y += (int)(GetTextVSpacing() * 0.83f);
+
+            guiWindow.createStaticImage(new Vector4(left + width * 0.5f, top + y - 0.41f * GetFontSize(), GetFontSize() * 0.95f, GetFontSize() * 0.95f), "arrow_left.png");
+            guiWindow.createStaticImage(new Vector4(left + width * 0.5f + h * 0.95f, top + y - 0.41f * GetFontSize(), GetFontSize() * 0.95f, GetFontSize() * 0.95f), "arrow_right.png");
+
+
+            y += (int)(h * 0.83f);
             c =
-                guiWindow.createStaticText(new Vector4(left, top + y, width, GetTextVSpacing()),
-                                           LanguageResources.GetString(LanguageKey.Pitch) + ": " + "Up/down arrow");
-            y += (int)(GetTextVSpacing() * 0.83f);
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, GetTextVSpacing()),  
+                guiWindow.createStaticText(new Vector4(left, top + y, width, h),
+                                           LanguageResources.GetString(LanguageKey.Pitch) + ": ");
+
+            guiWindow.createStaticImage(new Vector4(left + width * 0.5f, top + y - 0.35f * GetFontSize(), GetFontSize() * 0.95f, GetFontSize() * 0.95f), "arrow_up.png");
+            guiWindow.createStaticImage(new Vector4(left + width * 0.5f + h * 0.95f, top + y - 0.35f * GetFontSize(), GetFontSize() * 0.95f, GetFontSize() * 0.95f), "arrow_down.png");
+
+
+
+
+
+            y += (int)(h * 0.83f);
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, h),  
                                            LanguageResources.GetString(LanguageKey.Spin) + ": " + "Ctrl");
-            y += (int)(GetTextVSpacing() * 0.83f);
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, GetTextVSpacing()), 
+            y += (int)(h * 0.83f);
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, h), 
                                            LanguageResources.GetString(LanguageKey.Gear) + ": " + "G");
-            y += (int)(GetTextVSpacing() * 0.83f);
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, GetTextVSpacing()), 
+            y += (int)(h * 0.83f);
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, h), 
                                            LanguageResources.GetString(LanguageKey.Gun) + ": " + "Z");
-            y += (int)(GetTextVSpacing() * 0.83f);
+            y += (int)(h * 0.83f);
 
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, GetTextVSpacing()), 
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, h), 
                                            LanguageResources.GetString(LanguageKey.Bombs) + "/" + LanguageResources.GetString(LanguageKey.Rockets)+ ": " + "X");
-            y += (int)(GetTextVSpacing() * 0.83f);
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, GetTextVSpacing()), 
+            y += (int)(h * 0.83f);
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, h), 
                                            LanguageResources.GetString(LanguageKey.Camera) + ": " + "C");
-            y += (int)(GetTextVSpacing() * 0.83f);
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, GetTextVSpacing()),
+            y += (int)(h * 0.83f);
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, h),
                                            LanguageResources.GetString(LanguageKey.Zoomin) + ": " + "Page UP");
 
-            y += (int)(GetTextVSpacing() * 0.83f);
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, GetTextVSpacing()), 
+            y += (int)(h * 0.83f);
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, h), 
                                            LanguageResources.GetString(LanguageKey.Zoomout) + ": " + "Page DOWN");
-            y += (int)(GetTextVSpacing() * 0.83f);
-            c = guiWindow.createStaticText(new Vector4(left, top + y, width, GetTextVSpacing()),
+            y += (int)(h * 0.83f);
+            c = guiWindow.createStaticText(new Vector4(left, top + y, width, h),
                                            LanguageResources.GetString(LanguageKey.RearmEndMission) + ": " + "X");
 
             mGui.mFontSize = oldFontSize;

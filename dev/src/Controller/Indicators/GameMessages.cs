@@ -184,7 +184,7 @@ namespace Wof.Controller.Indicators
         {
             if (messageElement != null && currentMessage.Blinking)
             {
-                if (((DateTime.Now.Millisecond/100.0f)%10) > 5)
+                if (((DateTime.Now.Millisecond/100.0f)%100) > 7)
                 {
                     if (messageElement.IsVisible) messageElement.Hide();
                 }
