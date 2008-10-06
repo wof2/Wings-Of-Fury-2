@@ -173,10 +173,15 @@ namespace Wof.Model.Level.LevelTiles
         {
             set
             {
+                int mod = 10;
                 tilesIndex = value;
                 int positionX = value*Width;
-                hitBound = new Quadrangle(new PointD(positionX, 0), new PointD(positionX, YBegin),
-                                          new PointD(positionX + Width, yEnd), new PointD(positionX + Width, 0));
+                if (this is Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles.BunkerTile)
+                    hitBound = new Quadrangle(new PointD(positionX, 0 + mod), new PointD(positionX, YBegin + mod),
+                                              new PointD(positionX + Width, yEnd + mod), new PointD(positionX + Width, 0 + mod));
+                else
+                    hitBound = new Quadrangle(new PointD(positionX, 0), new PointD(positionX, YBegin),
+                                              new PointD(positionX + Width, yEnd), new PointD(positionX + Width, 0));
 
                 if (collisionRectangles != null && collisionRectangles.Count > 0)
                 {
@@ -188,7 +193,10 @@ namespace Wof.Model.Level.LevelTiles
                     }
                     for (int i = 0; i < collisionRectangles.Count; i++)
                     {
-                        collisionRectangles[i].Move(positionX, 0);
+                        if (this is Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles.BunkerTile)
+                            collisionRectangles[i].Move(positionX, mod);
+                        else
+                            collisionRectangles[i].Move(positionX, 0);
                     }
                 }
             }
