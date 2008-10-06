@@ -381,10 +381,36 @@ namespace Wof.Controller.Screens
 
         protected virtual void CreateGUI()
         {
-          
-            buttonsCount = 0;
+            int h = (int)GetTextVSpacing();
             mGui = new GUI(FontManager.CurrentFont, fontSize);
-            mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
+            createMouse();
+            string version = "v. " + EngineConfig.C_WOF_VERSION;
+            if (EngineConfig.C_IS_DEMO)
+            {
+                version += "d";
+            }
+            mGui.mFontSize = (uint)(fontSize * 0.7f);
+            Window infoWindow = mGui.createWindow(new Vector4(viewport.ActualWidth - 5 * h, viewport.ActualHeight - 1.33f * h, 4.33f * h, 0.83f * h), "bgui.window", (int)wt.NONE, version);
+            infoWindow.show();
+
+
+            Window logoWindow = mGui.createWindow(new Vector4(h, h, 12.0f * h, 1.40f * h), "", (int)wt.NONE, "");
+            logoWindow.createStaticImage(new Vector4(0, 0, 12.0f * h, 1.40f * h), "wof2.png");
+            logoWindow.show();
+
+            Window ravenWindow = mGui.createWindow(new Vector4(viewport.ActualWidth - 9 * h, 0.8f * h, 8.0f * h, 4.27f * h), "", (int)wt.NONE, "");
+            ravenWindow.createStaticImage(new Vector4(0, 0, 8.0f * h, 4.27f * h), "ravenlore.png");
+            ravenWindow.show();
+
+
+            mGui.mFontSize = fontSize;
+
+
+           /* buttonsCount = 0;
+            mGui = new GUI(FontManager.CurrentFont, fontSize);
+            mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");*/
+
+
         }
 
 

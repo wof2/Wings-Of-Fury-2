@@ -291,7 +291,7 @@
  <data name="DonateMessagePart1">
  	<value>Wenn dir das Spiel gefällt,</value>
  </data>
- <!-- here will goes "Wings of fury 2" - but it's translated already -->  <!-- Fuck up this forced include -->
+ <!-- here will goes "Wings of fury 2" - but it's translated already -->
  <data name="DonateMessagePart2">
  	<value>würden wir uns sehr über eine </value>
  </data>

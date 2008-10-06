@@ -77,8 +77,7 @@ namespace Wof.Controller.Screens
 
         protected override void CreateGUI()
         {
-            mGui = new GUI(FontManager.CurrentFont, fontSize);
-            createMouse();
+            base.CreateGUI();
 
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth/4,
                                                       viewport.ActualHeight/9, viewport.ActualWidth/2,
@@ -97,11 +96,11 @@ namespace Wof.Controller.Screens
                 c = guiWindow.createStaticText(new Vector4(105, 2 * GetTextVSpacing() + y, 100, GetTextVSpacing()), highscores[i].Score.ToString());
 
                 c = guiWindow.createStaticText(new Vector4(5, 2 * GetTextVSpacing() + y, 100, GetTextVSpacing()), highscores[i].Name);
-                
-                y += 30;
+
+                y += GetTextVSpacing();
                 if(i==2)
                 {
-                    y += 30;
+                    y += GetTextVSpacing();
                 }
                 foreach (OverlayElement element in c.GetChildIterator())
                 {

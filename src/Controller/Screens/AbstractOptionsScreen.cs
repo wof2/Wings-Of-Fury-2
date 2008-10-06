@@ -103,6 +103,7 @@ namespace Wof.Controller.Screens
 
         protected override void CreateGUI()
         {
+            base.CreateGUI();
             currentScreen = 0;
             createScreen();
         }

@@ -1,6 +1,8 @@
 /// Betajaen's GUI 015, C#/MOgre version by funguine.
 /// Written by Robin "Betajaen" Southern 07-Nov-2006, http://www.ogre3d.org/wiki/index.php/BetaGUI
 /// This code is under the Whatevar! licence. Do what you want; but keep the original copyright header.
+/// 
+/// Heavily modified by Adam Witczak 2008
 
 using System;
 using System.Collections.Generic;
@@ -183,7 +185,16 @@ namespace BetaGUI
         {
             mXW = w;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="N">Name</param>
+        /// <param name="P"></param>
+        /// <param name="D"></param>
+        /// <param name="M">Material</param>
+        /// <param name="C">Caption</param>
+        /// <param name="A">Is Window?</param>
+        /// <returns></returns>
         public OverlayContainer createOverlay(String N, Vector2 P, Vector2 D,
                                               String M, String C, bool A)
         {
@@ -502,6 +513,35 @@ namespace BetaGUI
             x.Show();
             return x;
         }
+
+        public OverlayContainer createStaticImage(Vector2 pos, String imageName)
+        {
+            TexturePtr t = TextureManager.Singleton.Load(imageName, "General");
+            uint width = t.SrcWidth;
+            uint height = t.SrcHeight;
+            t = null;
+            return createStaticImage(new Vector4(pos.x, pos.y, width, height), imageName);
+
+        }
+
+        public OverlayContainer createStaticImage(Vector4 posAndSize, String imageName)
+        {
+            mGUI.tc++;
+            MaterialPtr ptr = Wof.Misc.ViewHelper.CloneMaterial("bgui.image", "bgui.image_" + imageName + mO.Name + StringConverter.ToString(mGUI.tc));
+            ptr.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(imageName);
+
+
+            OverlayContainer x = mGUI.createOverlay(mO.Name + StringConverter.ToString(mGUI.tc) + imageName,
+                                                    new Vector2(posAndSize.x, posAndSize.y), new Vector2(posAndSize.z, posAndSize.w), ptr.Name, "", false);
+            ptr = null;
+
+            mO.AddChild(x);
+            x.Show();
+            return x;
+        }
+
+
+
 
         public void hide()
         {
