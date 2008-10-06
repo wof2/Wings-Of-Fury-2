@@ -79,7 +79,7 @@ namespace Wof.Controller
 
         
         public static readonly bool DisplayAxes = false;
-        public static readonly bool DisplayBoundingQuadrangles = false;
+        public static readonly bool DisplayBoundingQuadrangles = true;
 
         /// <summary>
         /// Ustawiane tylko przy ladowaniu zmiennych z argv (-FreeLook). Punkt odniesienia
