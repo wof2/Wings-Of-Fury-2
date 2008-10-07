@@ -104,7 +104,7 @@ namespace Wof.View.NodeAnimation
               
         private bool prepareToSpin = false;
 
-                /// <summary>
+        /// <summary>
         /// Jeœli ustawione na true oznacza, ¿e samolot za chwilê wykona obrót ('z pleców na brzuch')
         /// </summary>
         public bool PrepareToSpin
@@ -113,7 +113,29 @@ namespace Wof.View.NodeAnimation
             set { prepareToSpin = value; }
         }
 
-     
+        /// <summary>
+        /// Pole przechowuj¹ce delegata, który ma byæ odpalony po drugiej czêœci dwuetapowej animacji np.:Spin
+        /// </summary>
+        /// <author>Kamil S³awiñski</author>
+        private NodeAnimation.NotityFinish queuedOnFinish = null;
+
+        /// <summary>
+        /// Argumenty delegata, który ma byæ odpalony po drugiej czêœci dwuetapowej animacji np.:Spin
+        /// </summary>
+        /// <author>Kamil S³awiñski</author>
+        public object queuedOnFinishInfo = null;
+
+        
+        private bool queuedWaiting;
+
+        /// <summary>
+        /// Zwraca true jeœli zakolejkowana jest druga czêœæ dwuetapowej animacji np.:Spin
+        /// </summary>
+        /// <author>Kamil S³awiñski</author>
+        public bool QueuedWaiting
+        {
+            get { return queuedWaiting; }
+        }
 
         #region Animation types
 
@@ -285,7 +307,7 @@ namespace Wof.View.NodeAnimation
         }
 
         public void switchToSpin(bool disableOthers, NodeAnimation.NotityStart onStart,
-                                 NodeAnimation.NotityFinish onFinish)
+                                 NodeAnimation.NotityFinish onFinish, object onFinishInfo , bool queue)
         {
             if (disableOthers) disableAll();
             enableBlade();
@@ -303,8 +325,23 @@ namespace Wof.View.NodeAnimation
             }
             if (onFinish != null)
             {
-                currentAnimation.onFinish = onFinish;
-                currentAnimation.onFinishInfo = null;
+                //1sza faza spinu
+                if (queue)
+                {    
+                    queuedWaiting = true;
+                    currentAnimation.onFinish = OnFinishHalfSpin;
+
+                    queuedOnFinish = onFinish;
+                    queuedOnFinishInfo = onFinishInfo;
+                }
+                //2ga faza spinu
+                else
+                {
+                    queuedWaiting = false;
+                    currentAnimation.onFinish = onFinish;
+                    currentAnimation.onFinishInfo = onFinishInfo;
+                }
+
             }
         }
 
@@ -323,7 +360,6 @@ namespace Wof.View.NodeAnimation
                                        NodeAnimation.NotityFinish onFinish)
         {
             if (disableOthers) disableAll();
-
 
             switchTo(AnimationType.L_GEAR_UP);
             (currentAnimation as RotateNodeAnimation).MaxAngle *= -1;
@@ -510,21 +546,17 @@ namespace Wof.View.NodeAnimation
 
                     case AnimationType.SPIN:
                     {
+
                         this[animationName] = new SinRotateNodeAnimation(
                                                             planeView.OuterNode,
-                                                            2.3f,
+                                                            1.2f,
                                                             new Degree(90),
                                                             Math.HALF_PI,
                                                             Vector3.UNIT_Z,
                                                             animationName
                                                             );
 
-                        this[animationName].onFinishInfo = animationName;
-                        this[animationName].onFinish = testOnFinish;
-                        
                         this[animationName].Looped = false;
-
-
                     }
                     break;
 
@@ -552,18 +584,9 @@ namespace Wof.View.NodeAnimation
             return true;
         }
 
-        private void testOnFinish(object args)
+        private void OnFinishHalfSpin(object args)
         {
-            string animName = (string)args;
-            Console.WriteLine("testOnFinish:" + animName);
-            this[animName] = new SinRotateNodeAnimation(
-                                                           planeView.OuterNode,
-                                                           2.3f,
-                                                           new Degree(90),
-                                                           Math.HALF_PI,
-                                                           Vector3.UNIT_Z,
-                                                           animName
-                                                           );
+            switchToSpin(true, null, queuedOnFinish, queuedOnFinishInfo , false);
         }
 
         #endregion

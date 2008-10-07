@@ -1108,8 +1108,7 @@ namespace Wof.View
                 }
                 else if (p.AnimationMgr.CurrentAnimation.Ended) // zacznij obracaæ jak zakoñczysz stara animacje
                 {
-                    p.AnimationMgr.switchToSpin(true, null, controller.OnSpinEnd);
-                    p.AnimationMgr.CurrentAnimation.onFinishInfo = p.Plane;
+                    p.AnimationMgr.switchToSpin(true, null, controller.OnSpinEnd, p.Plane , true);
                     p.AnimationMgr.PrepareToSpin = false;
                 }
             }
@@ -1118,7 +1117,7 @@ namespace Wof.View
             if (p.AnimationMgr.isCurrentAnimation(PlaneNodeAnimationManager.AnimationType.SPIN))
             {
                 if (p.AnimationMgr.CurrentAnimation == null || p.AnimationMgr.CurrentAnimation.Ended ||
-                    !p.AnimationMgr.CurrentAnimation.Enabled)
+                    !p.AnimationMgr.CurrentAnimation.Enabled && !p.AnimationMgr.QueuedWaiting)
                 {
                     p.AnimationMgr.switchToIdle(true);
                 }
