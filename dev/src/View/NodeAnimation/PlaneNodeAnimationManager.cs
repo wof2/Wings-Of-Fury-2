@@ -513,11 +513,15 @@ namespace Wof.View.NodeAnimation
                         this[animationName] = new SinRotateNodeAnimation(
                                                             planeView.OuterNode,
                                                             2.3f,
-                                                            new Degree(180),
+                                                            new Degree(90),
                                                             Math.HALF_PI,
                                                             Vector3.UNIT_Z,
                                                             animationName
                                                             );
+
+                        this[animationName].onFinishInfo = animationName;
+                        this[animationName].onFinish = testOnFinish;
+                        
                         this[animationName].Looped = false;
 
 
@@ -546,6 +550,20 @@ namespace Wof.View.NodeAnimation
 
             if (animations.Count == 1) currentName = animationName;
             return true;
+        }
+
+        private void testOnFinish(object args)
+        {
+            string animName = (string)args;
+            Console.WriteLine("testOnFinish:" + animName);
+            this[animName] = new SinRotateNodeAnimation(
+                                                           planeView.OuterNode,
+                                                           2.3f,
+                                                           new Degree(90),
+                                                           Math.HALF_PI,
+                                                           Vector3.UNIT_Z,
+                                                           animName
+                                                           );
         }
 
         #endregion
