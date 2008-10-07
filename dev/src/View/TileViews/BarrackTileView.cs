@@ -28,6 +28,8 @@ namespace Wof.View.TileViews
             installationNode.AttachObject(installationEntity);
             installationNode.Scale(new Vector3(1.0f, 1.2f, 1.0f));
 
+            installationNode.Translate(new Vector3(0.0f, levelTile.HitBound.LowestY, 0.0f));
+
             if (LevelView.IsNightScene)
             {
                 InitLightFlare(new ColourValue(1f, 1f, 0.9f), new Vector3(0, 1.9f, -2.6f), new Vector2(1.5f, 1.5f));
