@@ -20,12 +20,12 @@
   <terrain variation="2"/>
   <wooden-bunker num-soldiers="3"/>
   <terrain variation="0"/>
-  <barrels variation="0"/>
+  <barrels variation="0" traversable="false"/>
   <terrain variation="2"/>
   <barrack num-soldiers="6" variation="1"/>
   <terrain variation="0"/>
 
-  <terrain variation="0"/>
+  <terrain variation="0" traversable="false"/>
   <wooden-bunker num-soldiers="3"/>
   <terrain variation="2"/>
   <island-end/> 
