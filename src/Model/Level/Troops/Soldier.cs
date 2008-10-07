@@ -132,17 +132,6 @@ namespace Wof.Model.Level.Troops
         /// </summary>
         private bool canDie;
 
-
-        /// <summary>
-        /// Czy ¿o³nierz obecnie przebywa w bunkrze
-        /// </summary>
-        public bool IsInBunker
-        {
-            get { return isInBunker;  }
-        }
-
-        private bool isInBunker;
-
         #endregion
 
         #region Public Constructor
@@ -316,28 +305,26 @@ namespace Wof.Model.Level.Troops
                 if (canReEnter //czy moze wejsc ponownie do bunkra.
                     && (tileIndex != startPosition) //jesli bunkier nie jest rodzicem.
                     && IsBunker(tileIndex) //jesli to jest bunkier.
-                    && (time%ProbabilityCoefficient == 0)) //losowosc.
+                    && (time % ProbabilityCoefficient == 0)) //losowosc.
                 {
                     BunkerTile bunker = refToLevel.LevelTiles[tileIndex] as BunkerTile;
-                    if (bunker.IsDestroyed)
+                    if (bunker.IsDestroyed && bunker.CanReconstruct)
                     {
                         bunker.Reconstruct();
                         refToLevel.Controller.OnTileRestored(bunker);
                     }
-                    //dodaje zolnierza do bunkra.
-                    bunker.AddSoldier();
-                    //wyslam sygnal do controllera aby usunal zolnierza z widoku.
-                    refToLevel.Controller.UnregisterSoldier(this);
-                    //usuwam zolnierza z planszy.
-                    isAlive = false;
-
-                    isInBunker = true;
+                    if (!bunker.IsDestroyed)
+                    {
+                        //dodaje zolnierza do bunkra.
+                        bunker.AddSoldier();
+                        //wyslam sygnal do controllera aby usunal zolnierza z widoku.
+                        refToLevel.Controller.UnregisterSoldier(this);
+                        //usuwam zolnierza z planszy.
+                        isAlive = false;
+                    }
+                    else ChangeLocation(time);
                 }
-                else
-                {
-                    ChangeLocation(time);
-                    isInBunker = false;
-                }
+                else ChangeLocation(time);
                     
 
                 //sprawdza czy ulynal czas bezsmiertelnosci

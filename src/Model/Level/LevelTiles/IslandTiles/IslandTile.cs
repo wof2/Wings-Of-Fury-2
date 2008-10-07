@@ -60,7 +60,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
 
         /// <summary>
         /// Zmienna informujaca czy na dane pole moze wejsc zolnierz.
-        /// Jesli zmienna jest ustawiona na false, to zolnierz moze wejsc;
+        /// Jesli zmienna jest ustawiona na true, to zolnierz moze wejsc;
         /// w przeciwnym przypadku zolnierz nie moze wejsc na dane pole.
         /// </summary>
         private bool traversable;
