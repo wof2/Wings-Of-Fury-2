@@ -173,15 +173,10 @@ namespace Wof.Model.Level.LevelTiles
         {
             set
             {
-                int mod = 10;
                 tilesIndex = value;
-                int positionX = value*Width;
-                if (this is Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles.BunkerTile)
-                    hitBound = new Quadrangle(new PointD(positionX, 0 + mod), new PointD(positionX, YBegin + mod),
-                                              new PointD(positionX + Width, yEnd + mod), new PointD(positionX + Width, 0 + mod));
-                else
-                    hitBound = new Quadrangle(new PointD(positionX, 0), new PointD(positionX, YBegin),
-                                              new PointD(positionX + Width, yEnd), new PointD(positionX + Width, 0));
+                int positionX = value * Width;
+                hitBound = new Quadrangle(new PointD(positionX, 0), new PointD(positionX, YBegin),
+                                          new PointD(positionX + Width, yEnd), new PointD(positionX + Width, 0));
 
                 if (collisionRectangles != null && collisionRectangles.Count > 0)
                 {
@@ -193,10 +188,7 @@ namespace Wof.Model.Level.LevelTiles
                     }
                     for (int i = 0; i < collisionRectangles.Count; i++)
                     {
-                        if (this is Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles.BunkerTile)
-                            collisionRectangles[i].Move(positionX, mod);
-                        else
-                            collisionRectangles[i].Move(positionX, 0);
+                        collisionRectangles[i].Move(positionX, 0);
                     }
                 }
             }
@@ -274,6 +266,18 @@ namespace Wof.Model.Level.LevelTiles
                 builder.AppendLine("Hit bound: " + hitBound.ToString());
 
             return builder.ToString();
+        }
+
+        /// <summary>
+        /// Funkcja sprawdza czy dany obiekt jest w kolizji
+        /// z innym prostokatem:bomba, rakieta, etc
+        /// </summary>
+        /// <param name="quad">Prostokat z ktorym sprawdzamy kolizje.</param>
+        /// <returns>Jesli kolizja wystapila choc z jednym elementem zwraca true;
+        /// w przeciwnym przypadku zwraca false.</returns>
+        public virtual bool InCollision(Quadrangle quad)
+        {
+            return (quad != null && hitBound != null && hitBound.Intersects(quad));      
         }
 
         #endregion

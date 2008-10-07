@@ -77,12 +77,6 @@ namespace Wof.Model.Level.Weapon
         /// <author>Michal Ziober</author>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const float BombHeight = 0.85f;
 
-        /// <summary>
-        /// Minimalna wspolrzedna y, po przekroczeniu ktorej sprawdzana jest kolizja
-        /// z powierzchnia.
-        /// </summary>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const float MinYPosition = 0.5f;
-
         #endregion
 
         #region Private Fields
@@ -212,59 +206,60 @@ namespace Wof.Model.Level.Weapon
         /// <author>Michal Ziober</author>
         private void CheckCollisionWithGround()
         {
-            if (Center.Y < MinYPosition)
+            int index = Mathematics.PositionToIndex(Center.X);
+            if (index > -1 && index < refToLevel.LevelTiles.Count)
             {
-                int index = Mathematics.PositionToIndex(Center.X);
-                if (index > -1 && index < refToLevel.LevelTiles.Count)
+                //jeœli nie ma kolizji wyjdz.
+                if (!refToLevel.LevelTiles[index].InCollision(this.boundRectangle))
+                    return;
+                
+                //jesli nie da sie zniszczyc dany obiekt bomba.
+                if (!IsDestroyed(index))
+                    refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
+                else if (refToLevel.LevelTiles[index] is BarrelTile)
                 {
-                    //jesli nie da sie zniszczyc dany obiekt bomba.
-                    if (!IsDestroyed(index))
-                        refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
-                    else if (refToLevel.LevelTiles[index] is BarrelTile)
+                    BarrelTile destroyTile = refToLevel.LevelTiles[index] as BarrelTile;
+                    if (!destroyTile.IsDestroyed)
                     {
-                        BarrelTile destroyTile = refToLevel.LevelTiles[index] as BarrelTile;
-                        if (!destroyTile.IsDestroyed)
-                        {
-                            destroyTile.Destroy();
-                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                            refToLevel.Statistics.HitByBomb += refToLevel.KillVulnerableSoldiers(index, 2);
-                        }
+                        destroyTile.Destroy();
+                        refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                        refToLevel.Statistics.HitByBomb += refToLevel.KillVulnerableSoldiers(index, 2);
                     }
-                    else
-                    {
-                        WoodBunkerTile woodbunker = null;
-                        BarrackTile barrack = null;
-                        LevelTile destroyTile = refToLevel.LevelTiles[index];
-                        if (destroyTile is WoodBunkerTile)
-                        {
-                            if ((woodbunker = destroyTile as WoodBunkerTile) != null && !woodbunker.IsDestroyed)
-                            {
-                                refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                                refToLevel.Statistics.HitByBomb++;
-                                woodbunker.Destroy();
-                            }
-                            else
-                                refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
-                        }
-                        else if (destroyTile is BarrackTile)
-                        {
-                            if ((barrack = destroyTile as BarrackTile) != null && !barrack.IsDestroyed)
-                            {
-                                refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                                refToLevel.Statistics.HitByBomb++;
-                                barrack.Destroy();
-                            }
-                            else
-                                refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
-                        }
-                    }
-
-                    //zabijam zolnierzy, ktorzy sa w polu razenia.
-                    refToLevel.KillVulnerableSoldiers(index, 0);
-
-                    //niszcze bombe.
-                    state = MissileState.Destroyed;
                 }
+                else
+                {
+                    WoodBunkerTile woodbunker = null;
+                    BarrackTile barrack = null;
+                    LevelTile destroyTile = refToLevel.LevelTiles[index];
+                    if (destroyTile is WoodBunkerTile)
+                    {
+                        if ((woodbunker = destroyTile as WoodBunkerTile) != null && !woodbunker.IsDestroyed)
+                        {
+                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                            refToLevel.Statistics.HitByBomb++;
+                            woodbunker.Destroy();
+                        }
+                        else
+                            refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
+                    }
+                    else if (destroyTile is BarrackTile)
+                    {
+                        if ((barrack = destroyTile as BarrackTile) != null && !barrack.IsDestroyed)
+                        {
+                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                            refToLevel.Statistics.HitByBomb++;
+                            barrack.Destroy();
+                        }
+                        else
+                            refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
+                    }
+                }
+
+                //zabijam zolnierzy, ktorzy sa w polu razenia.
+                refToLevel.KillVulnerableSoldiers(index, 0);
+
+                //niszcze bombe.
+                state = MissileState.Destroyed;
             }
         }
 

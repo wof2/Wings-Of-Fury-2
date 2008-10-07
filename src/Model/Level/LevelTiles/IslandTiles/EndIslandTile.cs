@@ -65,7 +65,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
         /// <param name="hitBound">Prostokat opisujacy podatny na zniszczenie kawalek elementu.</param>
         /// <param name="variation">Wariant pola.</param>
         public EndIslandTile(float yBegin, float yEnd, Quadrangle hitBound, int variation)
-            : base(yBegin, yEnd, hitBound, variation, null)
+            : base(yBegin, yEnd, hitBound, variation, null, false)
         {
         }
 

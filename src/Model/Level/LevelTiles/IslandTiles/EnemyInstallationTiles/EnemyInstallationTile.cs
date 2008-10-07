@@ -118,7 +118,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// <param name="collisionRectangle">Lista prostokatow z ktorymi moga wystapic zderzenia.</param>
         public EnemyInstallationTile(float yBegin, float yEnd, Quadrangle hitBound, int soldierNum, int type,
                                      List<Quadrangle> collisionRectangle)
-            : base(yBegin, yEnd, hitBound, type, collisionRectangle)
+            : base(yBegin, yEnd, hitBound, type, collisionRectangle, true)
         {
             Initializing();
             soldiersCount = soldierNum;
@@ -161,6 +161,23 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         #endregion
 
         #region Public Method
+
+        /// <summary>
+        /// Funkcja sprawdza czy dany obiekt jest w kolizji
+        /// z innym prostokatem:bomba, rakieta, etc
+        /// </summary>
+        /// <param name="quad">Prostokat z ktorym sprawdzamy kolizje.</param>
+        /// <returns>Jesli kolizja wystapila choc z jednym elementem zwraca true;
+        /// w przeciwnym przypadku zwraca false.</returns>
+        public override bool InCollision(Quadrangle quad)
+        {
+            if (quad == null) return false;
+            List<Quadrangle> list = BoundingQuadrangles;
+            for (int i = 0; i < list.Count; i++)
+                if (list[i].Intersects(quad))
+                    return true;
+            return false;
+        }
 
         /// <summary>
         /// Funkcja niszczy instalacje obronna.
