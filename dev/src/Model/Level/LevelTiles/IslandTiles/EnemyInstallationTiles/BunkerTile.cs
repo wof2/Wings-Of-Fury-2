@@ -88,6 +88,12 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// </summary>
         private const float EpsilonAngle = Math.PI / 90.0f;
 
+        /// <summary>
+        /// Minimalny czas, ktory jest potrzebny na odbudowe bunkru.
+        /// Podany w milisekundach.
+        /// </summary>
+        private const int RecoveryTime = 10000;
+
         #endregion
 
         #region Protected & Private Fields
@@ -121,6 +127,11 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// Kierunek ruchu reflektora.
         /// </summary>
         private Direction lightDirection = Direction.Right;
+
+        /// <summary>
+        /// Zmienna przetrzymuje czas zniszczenia bunkra.
+        /// </summary>
+        private int destroyTime;
 
         #endregion
 
@@ -176,6 +187,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         {
             angle = 0;
             lightAngle = MinAngle;
+            this.destroyTime = System.Environment.TickCount;
             base.Destroy();
         }
 
@@ -312,6 +324,14 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         public bool TurnReflector
         {
             get { return this.refToLevel != null && this.refToLevel.DayTime == DayTime.Night; }
+        }
+
+        /// <summary>
+        /// Zwraca informacje o tym czy bunkier moze zostac odbudowany.
+        /// </summary>
+        public bool CanReconstruct
+        {
+            get { return System.Environment.TickCount - RecoveryTime > destroyTime; }
         }
 
         #endregion
