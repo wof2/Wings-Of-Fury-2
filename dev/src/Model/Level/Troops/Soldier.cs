@@ -63,7 +63,6 @@ namespace Wof.Model.Level.Troops
     /// <author>Michal Ziober</author>
     public class Soldier : IMove
     {
-
         #region Const
 
         /// <summary>
@@ -229,8 +228,9 @@ namespace Wof.Model.Level.Troops
         /// false w przeciwnym przypadku.</returns>
         private bool Check(int index)
         {
-            LevelTile tiles = refToLevel.LevelTiles[index];
-            return !(tiles is BeginIslandTile || tiles is EndIslandTile || tiles is OceanTile);
+            IslandTile tiles = refToLevel.LevelTiles[index] as IslandTile;
+            if (tiles == null) return false;
+            return tiles.Traversable;
         }
 
         /// <summary>
@@ -255,7 +255,7 @@ namespace Wof.Model.Level.Troops
             //jesli idzie w prawo
             if (direction == Direction.Right)
             {
-                float tmpPosition = xPos + speed*Mathematics.GetMoveFactor(time, TimeUnit);
+                float tmpPosition = xPos + speed * Mathematics.GetMoveFactor(time, TimeUnit);
                 //sprawdza czy moze wejsc na to pole.
                 if (Check(Mathematics.PositionToIndex(tmpPosition)))
                     xPos = tmpPosition;
@@ -264,7 +264,7 @@ namespace Wof.Model.Level.Troops
             } //jesli idzie w lewo
             else
             {
-                float tmpPosition = xPos - speed*Mathematics.GetMoveFactor(time, TimeUnit);
+                float tmpPosition = xPos - speed * Mathematics.GetMoveFactor(time, TimeUnit);
                 //sprawdza czy moze wejsc na to pole.
                 if (Check(Mathematics.PositionToIndex(tmpPosition)))
                     xPos = tmpPosition; //wchodzi na sasiednie pole.

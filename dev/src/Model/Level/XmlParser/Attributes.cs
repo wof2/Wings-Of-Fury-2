@@ -62,6 +62,7 @@ namespace Wof.Model.Level.XmlParser
         public const string DayTime = @"dayTime";
         public const string Variation = @"variation";
         public const string EnemyPlane = @"enemyPlane";
+        public const string Traversable = @"traversable";
         public const string NumSoldiers = @"num-soldiers";
     }
 }

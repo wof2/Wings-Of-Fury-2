@@ -145,13 +145,6 @@ namespace Wof.Model.Level.Weapon
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const float MinYPositionForAircraft = 9;
 
         /// <summary>
-        /// Minimalna wspolrzedna y, po przekroczeniu ktorej sprawdzana jest kolizja
-        /// z powierzchnia.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const float MinYPosition = 0.5f;
-
-        /// <summary>
         /// Licznik czasu.
         /// </summary>
         /// <author>Michal Ziober</author>
@@ -414,47 +407,47 @@ namespace Wof.Model.Level.Weapon
         /// <author>Michal Ziober</author>
         private void CheckCollisionWithGround()
         {
-            if (Position.Y < MinYPosition)
+            int index = Mathematics.PositionToIndex(Position.X);
+            if (index > -1 && index < refToLevel.LevelTiles.Count)
             {
-                int index = Mathematics.PositionToIndex(Position.X);
-                if (index > -1 && index < refToLevel.LevelTiles.Count)
+                //jesli nie ma kolizji z zadnym obiektem
+                if (!refToLevel.LevelTiles[index].InCollision(this.boundRectangle))
+                    return;
+                //jesli nie da sie zniszczyc dany obiekt rakieta.
+                if (IsBombed(index))
+                    refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
+                else if (refToLevel.LevelTiles[index] is BarrelTile)
                 {
-//jesli nie da sie zniszczyc dany obiekt rakieta.
-                    if (IsBombed(index))
-                        refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
-                    else if (refToLevel.LevelTiles[index] is BarrelTile)
+                    BarrelTile destroyTile = refToLevel.LevelTiles[index] as BarrelTile;
+                    if (!destroyTile.IsDestroyed)
                     {
-                        BarrelTile destroyTile = refToLevel.LevelTiles[index] as BarrelTile;
-                        if (!destroyTile.IsDestroyed)
-                        {
-                            destroyTile.Destroy();
-                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                            refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 2);
-                        }
+                        destroyTile.Destroy();
+                        refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                        refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 2);
                     }
-                    else
-                    {
-                        EnemyInstallationTile enemyTale = null;
-                        LevelTile destroyTile = refToLevel.LevelTiles[index];
-                        if (destroyTile is EnemyInstallationTile)
-                        {
-                            if ((enemyTale = destroyTile as EnemyInstallationTile) != null && !enemyTale.IsDestroyed)
-                            {
-                                refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                                refToLevel.Statistics.HitByRocket++;
-                                enemyTale.Destroy();
-                            }
-                            else
-                                refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
-                        }
-                    }
-
-                    //zabija zolnierzy, ktorzy sa w zasiegu.
-                    refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 1);
-
-                    //niszcze bombe
-                    state = MissileState.Destroyed;
                 }
+                else
+                {
+                    EnemyInstallationTile enemyTale = null;
+                    LevelTile destroyTile = refToLevel.LevelTiles[index];
+                    if (destroyTile is EnemyInstallationTile)
+                    {
+                        if ((enemyTale = destroyTile as EnemyInstallationTile) != null && !enemyTale.IsDestroyed)
+                        {
+                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                            refToLevel.Statistics.HitByRocket++;
+                            enemyTale.Destroy();
+                        }
+                        else
+                            refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
+                    }
+                }
+
+                //zabija zolnierzy, ktorzy sa w zasiegu.
+                refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 1);
+
+                //niszcze bombe
+                state = MissileState.Destroyed;
             }
         }
 

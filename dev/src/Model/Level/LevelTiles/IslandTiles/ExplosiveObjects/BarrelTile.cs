@@ -81,7 +81,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects
         /// <param name="collisionRectangles">Lista prostokatow z ktorymi moga wystapic kolizje.</param>
         public BarrelTile(float yBegin, float yEnd, Quadrangle hitBound, int type,
                                 List<Quadrangle> collisionRectangles)
-            : base(yBegin, yEnd, hitBound, type, collisionRectangles)
+            : base(yBegin, yEnd, hitBound, type, collisionRectangles, true)
         {
         }
 
@@ -107,6 +107,23 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects
         public void Destroy()
         {
             this.mIsDestroyed = true;
+        }
+
+        /// <summary>
+        /// Funkcja sprawdza czy dany obiekt jest w kolizji
+        /// z innym prostokatem:bomba, rakieta, etc
+        /// </summary>
+        /// <param name="quad">Prostokat z ktorym sprawdzamy kolizje.</param>
+        /// <returns>Jesli kolizja wystapila choc z jednym elementem zwraca true;
+        /// w przeciwnym przypadku zwraca false.</returns>
+        public override bool InCollision(Quadrangle quad)
+        {
+            if (quad == null) return false;
+            List<Quadrangle> list = BoundingQuadrangles;
+            for (int i = 0; i < list.Count; i++)
+                if (list[i].Intersects(quad))
+                    return true;
+            return false;
         }
 
         #endregion

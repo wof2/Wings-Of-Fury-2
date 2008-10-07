@@ -66,9 +66,10 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
         /// <param name="hitBound">Czworokat</param>
         /// <param name="type">Typ pola.</param>
         /// <param name="collisionRectangles">Lista prostokatow z ktorymi moga wystapic kolizje.</param>
+        /// <param name="reflect">Czy zolnierz moze wejsc na to pole.</param>
         public MiddleIslandTile(float yBegin, float yEnd, Quadrangle hitBound, int type,
-                                List<Quadrangle> collisionRectangles)
-            : base(yBegin, yEnd, hitBound, type, collisionRectangles)
+                                List<Quadrangle> collisionRectangles, bool reflect)
+            : base(yBegin, yEnd, hitBound, type, collisionRectangles, reflect)
         {
         }
 

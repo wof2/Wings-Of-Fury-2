@@ -266,6 +266,7 @@ namespace Wof.Model.Level.XmlParser
         {
             int width = -1;
             int variation = -1;
+            bool traversable = true;
             if (reader.HasAttributes) //Read attributes
             {
                 for (int i = 0; i < reader.AttributeCount; i++)
@@ -293,6 +294,17 @@ namespace Wof.Model.Level.XmlParser
                             return false;
                         }
                     }
+                    else if (reader.Name.Equals(Attributes.Traversable))
+                    {
+                        try
+                        {
+                            traversable = Boolean.Parse(reader.Value);
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
             else return false;
@@ -306,7 +318,7 @@ namespace Wof.Model.Level.XmlParser
             for (int i = 0; i < width; i++)
             {
                 MiddleIslandTile terrain =
-                    new MiddleIslandTile(node.YStart, node.YEnd, node.HitRectangle, variation, node.CollisionRectangle);
+                    new MiddleIslandTile(node.YStart, node.YEnd, node.HitRectangle, variation, node.CollisionRectangle, traversable);
                 levelTiles.Add(terrain);
             }
             return true;
