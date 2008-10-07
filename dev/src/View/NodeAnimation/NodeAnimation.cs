@@ -267,24 +267,31 @@ namespace Wof.View.NodeAnimation
                 {
                     onFinish(onFinishInfo);
                 }
-                if (looped)
+
+                //W delegacie onFinish mog³a zacz¹æ siê nowa animacja , dlatego jeszcze raz sprawdzany jest percentAfter
+                if (percentAfter >= 1.0f)
                 {
-                    // Zacznij od pocz¹tku. 
-                    // trzeba wyzerowaæ licznik i zacz¹æ od pocz¹tku, ¿eby nie przekrêciæ licznika
-                    // potrzebne takze w przypadku funkcji nieokresowych (lub niecyklicznych d³ugoœci cykli)
-                    animationTime = Duration*(percentAfter%1);
-                    percentAfter = percentAfter%1;
 
-                    startNewLoop = true;
+                    if (looped)
+                    {
+                        // Zacznij od pocz¹tku. 
+                        // trzeba wyzerowaæ licznik i zacz¹æ od pocz¹tku, ¿eby nie przekrêciæ licznika
+                        // potrzebne takze w przypadku funkcji nieokresowych (lub niecyklicznych d³ugoœci cykli)
+                        animationTime = Duration * (percentAfter % 1);
+                        percentAfter = percentAfter % 1;
 
-                    if (repeatNextAnimation) nextAnimationStarted = false; // aby mozna byl ponownie uruchomic
-                }
-                else
-                {
-                    // Koniec animacji. Uló¿ w ostatecznej pozycji                 
-                    enabled = false;
+                        startNewLoop = true;
 
-                    percentAfter = 1.0f; // ulozenie ostateczne                        
+                        if (repeatNextAnimation) nextAnimationStarted = false; // aby mozna byl ponownie uruchomic
+                    }
+                    else
+                    {
+                        // Koniec animacji. Uló¿ w ostatecznej pozycji                 
+                        enabled = false;
+
+                        percentAfter = 1.0f; // ulozenie ostateczne                        
+                    }
+
                 }
             }
             else
