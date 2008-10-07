@@ -101,7 +101,8 @@ namespace Wof.View.TileViews
             String nameSuffix = tileID.ToString();
 
             gunPlaceNode = islandNode.CreateChildSceneNode("GunEmplacement" + nameSuffix, new Vector3(0.0f, 0.1f, 5.0f));
-            gunPlaceNode.Translate(new Vector3(0.0f, 0.0f, positionOnIsland));
+            //gunPlaceNode.Translate(new Vector3(0.0f, 0.0f, positionOnIsland));
+            gunPlaceNode.Translate(new Vector3(0.0f, levelTile.HitBound.LowestY, positionOnIsland));
 
             Entity sandbags = sceneMgr.CreateEntity("Sandbags" + nameSuffix, "Sandbags.mesh");
             gunPlaceNode.AttachObject(sandbags);
