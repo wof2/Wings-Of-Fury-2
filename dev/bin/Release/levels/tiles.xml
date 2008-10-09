@@ -169,14 +169,14 @@
   <!-- wysoki teren -->  
   
   <!-- pochylosc poczatek -->
-  <tile name="terrain" y-start="1.5" y-end="8.0" variation="10" />
+  <tile name="terrain" y-start="1.5" y-end="8.0" variation="10"></tile>
 
   <!-- pochylosc poczatek z wody -->
-  <tile name="terrain" y-start="0.0" y-end="8.0" variation="11" />
+  <tile name="terrain" y-start="0.0" y-end="8.0" variation="11"></tile>
 
 
   <!-- zwykły wysoki -->
-  <tile name="terrain" y-start="8.8" y-end="8.0" variation="12" />
+  <tile name="terrain" y-start="8.8" y-end="8.0" variation="12"></tile>
   
   <tile name="terrain" y-start="8.0" y-end="8.0" variation="13">
     <collision-rect rectangle="[3, 4.5][4][3]"/> <!-- 3 drzewka uniesione -->
@@ -191,10 +191,10 @@
   </tile>
 
   <!-- pochylosc koniec -->
-  <tile name="terrain" y-start="8.0" y-end="1.5" variation="16" />
+  <tile name="terrain" y-start="8.0" y-end="1.5" variation="16"></tile>
   
   <!-- pochylosc koniec do wody -->
-  <tile name="terrain" y-start="8.0" y-end="0.0" variation="17" />
+  <tile name="terrain" y-start="8.0" y-end="0.0" variation="17"></tile>
 
 
 
