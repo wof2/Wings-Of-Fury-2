@@ -154,6 +154,15 @@ namespace Wof.View
                     initNonColissionTrees(staticNode, margin, 5, 0.7f);
                     initNonColissionTrees(staticNode, -margin, -5, 0.7f);
                     break;
+                case 12: //12
+                    //ISLAND12u
+                    islandMeshName = "Island12u.mesh";
+                    adjust = LevelView.TileWidth*3.5f;
+                    float max = (Math.Abs(count) - 1) * LevelView.TileWidth / 16;
+                    initNonColissionTrees(staticNode, margin, 5, -max / 4.0f, max / 2.0f, 0.5f);
+                    initNonColissionTrees(staticNode, -margin, -5, -max / 4.0f, max / 2.0f, 0.5f);
+                    break;
+
                 case 13: //13
                     //ISLAND4
                     islandMeshName = "Island4.mesh";
@@ -373,36 +382,32 @@ namespace Wof.View
         {
             initNonColissionTrees(parent, zMin, zMax, 1);
         }
-
-        private void initNonColissionTrees(SceneNode parent, float zMin, float zMax, float intensity)
+        private void initNonColissionTrees(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity)
         {
-            int c = (int) Math.Abs(count);
-            float max = (c - 1)*LevelView.TileWidth/16;
+            int c = (int)Math.Abs(count);
+            int count_l = (int)(c * 2 * intensity);
 
-            int count_l;
-
-            /* if (EngineConfig.LowDetails)
-            {
-                count_l = c / 10;
-            }
-            else
-            {*/
-            count_l = (int) (c*2*intensity);
-            //}
             for (int i = 0; i < count_l; i++)
             {
                 float z = Math.RangeRandom(zMin, zMax);
-                float adjust = Math.Abs((z - zMin)/(4*zMin));
+                float adjust = Math.Abs((z - zMin) / (4 * zMin));
 
-                if (i%10 == 1) //Co dziesiata palma jest z wieksza iloscia trojkatow
+                if (i % 10 == 1) //Co dziesiata palma jest z wieksza iloscia trojkatow
                 {
-                    initPalm(parent, new Vector3(z, -0.5f, Math.RangeRandom(-max, max)*(8 - adjust)));
+                    initPalm(parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax) * (8 - adjust)));
                 }
                 else
                 {
-                    initPalm2(parent, new Vector3(z, -0.5f, Math.RangeRandom(-max, max)*(8 - adjust)));
+                    initPalm2(parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax) * (8 - adjust)));
                 }
             }
+        }
+
+        private void initNonColissionTrees(SceneNode parent, float zMin, float zMax, float intensity)
+        {
+            int c = (int)Math.Abs(count);
+            float max = (c - 1) * LevelView.TileWidth / 16;
+            initNonColissionTrees(parent, zMin, zMax, -max, max, intensity);
         }
     }
 }

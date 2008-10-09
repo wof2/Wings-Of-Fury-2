@@ -238,13 +238,13 @@ namespace Wof.Model.Level.Weapon
             set
             {
                 if (value == WeaponType.Gun)
-                    throw new Exception("Typ cierzkiej amunicji nie moze byc Gun");
+                    throw new Exception("Typ ciezkiej amunicji nie moze byc Gun");
                 selectWeapon = value;
             }
             get
             {
                 if (selectWeapon == WeaponType.Gun)
-                    throw new Exception("Typ cierzkiej amunicji nie zostal wybrany");
+                    throw new Exception("Typ ciezkiej amunicji nie zostal wybrany");
                 return selectWeapon;
             }
         }

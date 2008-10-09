@@ -265,6 +265,8 @@ namespace Wof.View.NodeAnimation
             {
                 if (onFinish != null)
                 {
+                  
+
                     onFinish(onFinishInfo);
                 }
 

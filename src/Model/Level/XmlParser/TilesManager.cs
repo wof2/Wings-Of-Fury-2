@@ -167,10 +167,11 @@ namespace Wof.Model.Level.XmlParser
             {
                 node = new TilesNode();
                 ReadAttributes(node, reader, format);
+               
             }
 
             //collision rectangle
-            if (node != null && !String.IsNullOrEmpty(node.Name) && IsVariantionTiles(node.Name, node.Variation))
+            if (node != null && !String.IsNullOrEmpty(node.ID) && IsVariantionTiles(node.ID, node.Variation))
             {
                 while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
                 {
@@ -186,9 +187,9 @@ namespace Wof.Model.Level.XmlParser
             }
 
             //Dodaje do slownika
-            if (node != null && node.IsValidateName)
-                if (!dictionary.ContainsKey(node.Name))
-                    dictionary.Add(node.Name, node);
+            if (node != null && node.IsValidName)
+                if (!dictionary.ContainsKey(node.ID))
+                    dictionary.Add(node.ID, node);
 
             reader.MoveToElement();
         }
@@ -224,35 +225,35 @@ namespace Wof.Model.Level.XmlParser
                 reader.MoveToAttribute(i);
                 if (reader.Name.Equals(Attributes.Name))
                 {
-                    //jesli jest to element o nazwie terrain 
-                    //nalezy zmienic mu nazwe
+                    node.BaseName = reader.Value;
+                  
                     if (reader.Value.Equals(Nodes.Terrain))
                     {
-                        node.Name = reader.Value + terrainCount;
                         terrainCount++;
                     }
                     else if (reader.Value.Equals(Nodes.WoodenBunker))
                     {
-                        node.Name = reader.Value + woodenbunkerCount;
                         woodenbunkerCount++;
                     }
                     else if (reader.Value.Equals(Nodes.ConcreteBunker))
                     {
-                        node.Name = reader.Value + concretebunkerCount;
                         concretebunkerCount++;
                     }
                     else if (reader.Value.Equals(Nodes.Barrack))
                     {
-                        node.Name = reader.Value + barrackCount;
                         barrackCount++;
                     }
                     else if (reader.Value.Equals(Nodes.Barrels))
                     {
-                        node.Name = reader.Value + barrelCount;
                         barrelCount++;
                     }
-                    else
-                        node.Name = reader.Value;
+                   /* else if (reader.Value.Equals(Nodes.Ocean))
+                    {
+                        // wyj¹tek dla oceanu
+                        node.ID = node.BaseName;
+                        
+                    }*/
+                   
                 }
                 else if (reader.Name.Equals(Attributes.YStart))
                     node.YStart = float.Parse(reader.Value, format);
@@ -261,6 +262,7 @@ namespace Wof.Model.Level.XmlParser
                 else if (reader.Name.Equals(Attributes.Variation))
                     node.Variation = int.Parse(reader.Value);
             }
+            if(node.ID.Length ==0 ) node.GenerateID();
         }
 
 
