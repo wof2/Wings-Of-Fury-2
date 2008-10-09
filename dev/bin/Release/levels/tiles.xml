@@ -13,21 +13,38 @@
 
 -->
 
-
+<!-- 
+  Note: elevated tiles should have variation >= 10 (for legibility)
+-->
 <tiles>
   <!-- Ocean -->
 
   <tile name="ocean" y-start="0.1" y-end="0.1"/>
-  <tile name="ocean" y-start="0.1" y-end="0.15" variation="1"/> <!-- szczatki na oceanie -->
-  
-  <!-- Enemy Installation  -->
+  <tile name="ocean" y-start="0.1" y-end="0.15" variation="1"/> <!-- male skaly na oceanie -->
+  <tile name="ocean" y-start="0.0" y-end="0.0" variation="2"/>  <!-- male skaly na oceanie oddalone -->
 
-<!-- Wooden Bunker -->
+  <tile name="ocean" y-start="1.0" y-end="1.0" variation="3"/>  <!-- duze skaly na oceanie -->
+  <tile name="ocean" y-start="0.0" y-end="0.0" variation="4"/>  <!-- duze skaly na oceanie oddalone -->
+  
+  
+  <!-- Enemy Installations  -->
+
+  <!-- Wooden Bunker -->
 
   <tile name="wooden-bunker" y-start="1.5" y-end="1.5" variation="0">
 	<collision-rect rectangle="[0, 3.1 ][5  ][1.6]"/> <!-- bunkier -->
 	<collision-rect rectangle="[6, 2.5 ][1.5][1  ]"/> <!-- dzialko -->	
   </tile>
+
+  
+  <!-- wersja uniesiona -->
+  <tile name="wooden-bunker" y-start="8.0" y-end="8.0" variation="10">
+    <collision-rect rectangle="[0, 3.1 ][5  ][1.6]"/>
+    <!-- bunkier -->
+    <collision-rect rectangle="[6, 2.5 ][1.5][1  ]"/>
+    <!-- dzialko -->
+  </tile>
+
 
   <tile name="wooden-bunker" y-start="1.5" y-end="1.5" variation="1">
 	<collision-rect rectangle="[0, 3.1 ][5  ][1.6]"/> <!-- bunkier -->
@@ -60,6 +77,14 @@
 	<collision-rect rectangle="[6, 2.5 ][1.5][1  ]"/> <!-- dzialko -->	
   </tile>
 
+  <!-- wersja uniesiona -->
+  <tile name="concrete-bunker" y-start="8.0" y-end="8.0" variation="10">
+    <collision-rect rectangle="[0, 3.1 ][5  ][1.6]"/>
+    <!-- bunkier -->
+    <collision-rect rectangle="[6, 2.5 ][1.5][1  ]"/>
+    <!-- dzialko -->
+  </tile>
+
   <tile name="concrete-bunker" y-start="1.5" y-end="1.5" variation="1">
 	<collision-rect rectangle="[0, 3.1  ][5  ][1.6]"/> <!-- bunkier -->
 	<collision-rect rectangle="[6, 2.5  ][1.5][1  ]"/> <!-- dzialko -->
@@ -89,6 +114,12 @@
 
   <tile name="barrack" y-start="1.5" y-end="1.5" variation="0">
 	<collision-rect rectangle="[2.5, 3.8 ][5  ][2.3]"/> <!-- budynek -->
+  </tile>
+
+  <!-- wersja uniesiona -->
+  <tile name="barrack" y-start="8.0" y-end="8.0" variation="10">
+    <collision-rect rectangle="[2.5, 3.8 ][5  ][2.3]"/>
+    <!-- budynek -->
   </tile>
 
 
@@ -133,6 +164,39 @@
   <tile name="terrain" y-start="1.5" y-end="1.5" variation="3">
     <collision-rect rectangle="[5, 3][1][1.5]"/> <!-- flaga -->
   </tile>
+
   
+  <!-- wysoki teren -->  
+  
+  <!-- pochylosc poczatek -->
+  <tile name="terrain" y-start="1.5" y-end="8.0" variation="10" />
+
+  <!-- pochylosc poczatek z wody -->
+  <tile name="terrain" y-start="0.0" y-end="8.0" variation="11" />
+
+
+  <!-- zwykły wysoki -->
+  <tile name="terrain" y-start="8.8" y-end="8.0" variation="12" />
+  
+  <tile name="terrain" y-start="8.0" y-end="8.0" variation="13">
+    <collision-rect rectangle="[3, 4.5][4][3]"/> <!-- 3 drzewka uniesione -->
+  </tile>
+
+  <tile name="terrain" y-start="8.0" y-end="8.0" variation="14">
+    <collision-rect rectangle="[3, 4.5][4][3]"/> <!-- 4 drzewka uniesione -->
+  </tile>
+
+  <tile name="terrain" y-start="8.0" y-end="8.0" variation="15">
+    <collision-rect rectangle="[5, 3][1][1.5]"/>  <!-- flaga uniesiona -->
+  </tile>
+
+  <!-- pochylosc koniec -->
+  <tile name="terrain" y-start="8.0" y-end="1.5" variation="16" />
+  
+  <!-- pochylosc koniec do wody -->
+  <tile name="terrain" y-start="8.0" y-end="0.0" variation="17" />
+
+
+
 </tiles>
 

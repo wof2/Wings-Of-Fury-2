@@ -198,6 +198,13 @@ namespace Wof.View.TileViews
                         initFlag(new Vector3(0, 0, 7));
                         break;
 
+                    // uniesione palmy
+                    case 4:
+                        initPalm2(new Vector3(-1, 6, 8.5f));
+                        initPalm(new Vector3(0.5f, 6, 6.6f));
+                        initPalm(new Vector3(-1, 6, 5.4f));
+                        break;
+
                 }
             }
         }

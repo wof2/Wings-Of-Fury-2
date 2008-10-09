@@ -55,7 +55,8 @@ namespace Wof.Model.Level.XmlParser
 {
     public class TilesNode
     {
-        private string name;
+        private string baseName;
+        private string id;
         private float yEnd;
         private float yStart;
         private int variation;
@@ -67,9 +68,11 @@ namespace Wof.Model.Level.XmlParser
         {
             yEnd = -1.0f;
             yStart = -1.0f;
-            variation = -1;
+            variation = 0;
             hitRectangle = null;
             rectangle = null;
+            baseName = "";
+            id = "";
             collisionRectangle = new List<Quadrangle>();
         }
 
@@ -108,39 +111,49 @@ namespace Wof.Model.Level.XmlParser
             get { return collisionRectangle; }
             set { collisionRectangle = value; }
         }
-
-        public String Name
+        /// <summary>
+        /// Identyfikator tile'a (basename+variation)
+        /// </summary>
+        public String ID
         {
-            get { return name; }
-            set { name = value; }
+            get { return id; }
+            set { id = value; }
+        }
+        /// <summary>
+        /// Nazwa bazowa (terrain/barrack/barrel)
+        /// </summary>
+        public String BaseName
+        {
+            get { return baseName; }
+            set { baseName = value; }
         }
 
-        public bool IsValidateName
+        public bool IsValidName
         {
-            get { return !String.IsNullOrEmpty(name); }
+            get { return !String.IsNullOrEmpty(id); }
         }
 
-        public bool IsValidateYEnd
+        public bool IsValidYEnd
         {
             get { return (yEnd != -1.0); }
         }
 
-        public bool IsValidateYStart
+        public bool IsValidYStart
         {
             get { return (yStart != -1.0); }
         }
 
-        public bool IsValidateRectangle
+        public bool IsValidRectangle
         {
             get { return (rectangle != null); }
         }
 
-        public bool IsValidateHitRectangle
+        public bool IsValidHitRectangle
         {
             get { return (hitRectangle != null); }
         }
 
-        public bool IsValidateVariation
+        public bool IsValidVariation
         {
             get { return (variation != -1); }
         }
@@ -148,20 +161,30 @@ namespace Wof.Model.Level.XmlParser
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            if (IsValidateName)
-                builder.AppendLine("Name: " + name);
-            if (IsValidateYEnd)
+            if (IsValidName)
+                builder.AppendLine("ID: " + id);
+            if (IsValidYEnd)
                 builder.AppendLine("Y-End: " + yEnd);
-            if (IsValidateYStart)
+            if (IsValidYStart)
                 builder.AppendLine("Y-Start: " + yStart);
-            if (IsValidateVariation)
+            if (IsValidVariation)
                 builder.AppendLine("Variation: " + variation);
-            if (IsValidateRectangle)
+            if (IsValidRectangle)
                 builder.AppendLine("Ractangle: " + rectangle.ToString());
-            if (IsValidateHitRectangle)
+            if (IsValidHitRectangle)
                 builder.AppendLine("Hit rectangle: " + hitRectangle.ToString());
 
             return builder.ToString();
+        }
+
+        public void GenerateID()
+        {
+            this.id = baseName + variation.ToString();
+        }
+
+        public static string GenerateID(string baseName, int variation)
+        {
+            return baseName + variation.ToString();
         }
     }
 }

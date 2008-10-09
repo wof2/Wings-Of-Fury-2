@@ -15,6 +15,26 @@
   <ocean width="1" variation="4"/>
   <ocean width="24"/>
 
+  <!-- high island: Island12u -->
+  <island-begin/>
+  <terrain variation="10" traversable="false"/>
+  <terrain variation="16" traversable="false"/>
+  <barrels variation="0" />
+  <barrack num-soldiers="6" variation="1"/>
+  <wooden-bunker num-soldiers="3"/>
+  <terrain variation="0" width="1" traversable="true"/>
+  <terrain variation="10" width="1" traversable="false"/>
+  <terrain variation="12" width="1" traversable="false"/>
+  <terrain variation="13" width="1" traversable="false"/>
+  <terrain variation="16" width="1" traversable="false"/>
+  <island-end/>
+  <!-- high island: Island12u -->
+  
+  
+
+  <ocean width="11"/>
+
+
   <island-begin variation="3"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
@@ -29,6 +49,9 @@
   <wooden-bunker num-soldiers="3"/>
   <terrain variation="2"/>
   <island-end/> 
+
+
+
   <ocean width="3"/>
   <ocean width="1" variation="2" />
   <ocean width="100"/>

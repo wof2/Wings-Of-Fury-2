@@ -79,7 +79,7 @@ namespace Wof.Model.Level.XmlParser
         /// <summary>
         /// Obiekt wczytujacy plik tiles.xml
         /// </summary>
-        private TilesManager tilesMenager;
+        private TilesManager tilesManager;
 
         /// <summary>
         /// Tablica obiektow znajdujacych sie w pliku tiles.xml
@@ -101,11 +101,11 @@ namespace Wof.Model.Level.XmlParser
                 throw new LevelFileNotFoundException(Path.GetFileName(path));
 
             Initializing();
-            if (!tilesMenager.IsReadOK)
+            if (!tilesManager.IsReadOK)
                 throw new IOException("Error while reading tiles file ..." + path);
 
-            tileNodeArray = new TilesNode[tilesMenager.Dictionary.Values.Count];
-            tilesMenager.Dictionary.Values.CopyTo(tileNodeArray, 0);
+            tileNodeArray = new TilesNode[tilesManager.Dictionary.Values.Count];
+            tilesManager.Dictionary.Values.CopyTo(tileNodeArray, 0);
 
             Read(path);
             SetIndex();
@@ -121,7 +121,7 @@ namespace Wof.Model.Level.XmlParser
         private void Initializing()
         {
             levelTiles = new List<LevelTile>();
-            tilesMenager = new TilesManager();
+            tilesManager = new TilesManager();
         }
 
         /// <summary>
@@ -218,8 +218,8 @@ namespace Wof.Model.Level.XmlParser
                             //AircroftCarier
                         else if (reader.Name.Contains(Nodes.AircraftCarrier))
                         {
-                            if (!ReadAircroftElement(reader, reader.Name))
-                                throw new XmlException("AircroftCarier");
+                            if (!ReadAircraftElement(reader, reader.Name))
+                                throw new XmlException("AircraftCarier");
                         }
                             //terrain
                         else if (reader.Name.Equals(Nodes.Terrain))
@@ -265,7 +265,7 @@ namespace Wof.Model.Level.XmlParser
         private bool ReadTerrain(XmlReader reader)
         {
             int width = -1;
-            int variation = -1;
+            int variation = 0;
             bool traversable = true;
             if (reader.HasAttributes) //Read attributes
             {
@@ -310,8 +310,9 @@ namespace Wof.Model.Level.XmlParser
             else return false;
             //Add to list
             TilesNode node;
-            if (variation < 0) variation = 1;
-            node = GetTilesForName(Nodes.Terrain + variation);
+            if (variation < 0) variation = 0;
+            node = GetTilesForID(TilesNode.GenerateID(Nodes.Terrain,variation));
+            
             if (node == null) return false;
             if (width <= 0) width = 1;
 
@@ -330,7 +331,7 @@ namespace Wof.Model.Level.XmlParser
 
         private bool ReadBarrels(XmlReader reader)
         {
-            int variation = -1;
+            int variation = 0;
             int width = 1;
             if (reader.HasAttributes) //Read attributes
             {
@@ -354,7 +355,7 @@ namespace Wof.Model.Level.XmlParser
             //Add to list
             TilesNode node;
             if (variation < 0) variation = 0;
-            node = GetTilesForName(Nodes.Barrels + variation);
+            node = GetTilesForID(TilesNode.GenerateID(Nodes.Barrels,variation));
             if (node == null) return false;
             if (width <= 0) width = 1;
 
@@ -368,10 +369,11 @@ namespace Wof.Model.Level.XmlParser
 
         #endregion
 
-        #region Read Aircroft
+        #region Read Aircraft
 
-        private bool ReadAircroftElement(XmlReader reader, String fullName)
+        private bool ReadAircraftElement(XmlReader reader, String fullName)
         {
+            int variation = 0;
             int width = 0;
             if (reader.HasAttributes)
             {
@@ -389,12 +391,25 @@ namespace Wof.Model.Level.XmlParser
                             return false;
                         }
                     }
+
+                    if (reader.Name.Equals(Attributes.Variation))
+                    {
+                        try
+                        {
+                            variation = int.Parse(reader.Value);
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
             else return false;
             //wczytanie sie powiodlo teraz nalezy stworzyc obiekt.
             AircraftCarrierTile aircraft = null;
-            TilesNode node = GetTilesForName(fullName);
+            TilesNode node = GetTilesForID(TilesNode.GenerateID(fullName, variation));
+
             if (node == null) return false;
             for (int i = 0; i < width; i++)
             {
@@ -422,7 +437,7 @@ namespace Wof.Model.Level.XmlParser
         private bool ReadWoodenBunkerOrBarracksOrConcreteBunker(XmlReader reader, String bunkerName)
         {
             int numSoldiers = -1;
-            int variation = -1;
+            int variation = 0;
             if (reader.HasAttributes)
             {
                 for (int i = 0; i < reader.AttributeCount; i++)
@@ -454,7 +469,7 @@ namespace Wof.Model.Level.XmlParser
             }
             else return false;
             if (variation < 0) variation = 0;
-            TilesNode node = GetTilesForName(bunkerName + variation);
+            TilesNode node = GetTilesForID(TilesNode.GenerateID(bunkerName, variation));
             if (node == null) return false;
             BunkerTile bunker = null;
             BarrackTile barrack = null;
@@ -481,7 +496,7 @@ namespace Wof.Model.Level.XmlParser
 
         private bool ReadIslandBegin(XmlReader reader)
         {
-            int variation = -1;
+            int variation = 0;
             if (reader.HasAttributes)
             {
                 for (int i = 0; i < reader.AttributeCount; i++)
@@ -501,10 +516,10 @@ namespace Wof.Model.Level.XmlParser
                 }
             }
             if (variation < 0) variation = 0;
-            TilesNode node = GetTilesForName(Nodes.IslandBegin);
+            TilesNode node = GetTilesForID(TilesNode.GenerateID(Nodes.IslandBegin, variation));
             if (node != null)
             {
-                if (node.IsValidateYEnd && node.IsValidateYStart)
+                if (node.IsValidYEnd && node.IsValidYStart)
                     levelTiles.Add(new BeginIslandTile(node.YStart, node.YEnd, node.HitRectangle, variation));
                 else return false;
                 return true;
@@ -514,7 +529,7 @@ namespace Wof.Model.Level.XmlParser
 
         private bool ReadIslandEnd(XmlReader reader)
         {
-            int variation = -1;
+            int variation = 0;
             if (reader.HasAttributes)
             {
                 for (int i = 0; i < reader.AttributeCount; i++)
@@ -534,10 +549,10 @@ namespace Wof.Model.Level.XmlParser
                 }
             }
             if (variation < 0) variation = 0;
-            TilesNode node = GetTilesForName(Nodes.IslandEnd);
+            TilesNode node = GetTilesForID(TilesNode.GenerateID(Nodes.IslandEnd, variation));
             if (node != null)
             {
-                if (node.IsValidateYEnd && node.IsValidateYStart)
+                if (node.IsValidYEnd && node.IsValidYStart)
                     levelTiles.Add(new EndIslandTile(node.YStart, node.YEnd, node.HitRectangle, variation));
                 else return false;
                 return true;
@@ -595,7 +610,7 @@ namespace Wof.Model.Level.XmlParser
         /// <param name="reader">Strumien do pliku xml.</param>
         private bool ReadOcean(XmlReader reader)
         {
-            int variation = -1;
+            int variation = 0;
 
             // Check if the element has any attributes
             if (reader.HasAttributes)
@@ -630,9 +645,9 @@ namespace Wof.Model.Level.XmlParser
                     }
                 }
                 //dodanie elementow ocean do listy.
-                TilesNode tilesNode = GetTilesForName(Nodes.Ocean);
+                TilesNode tilesNode = GetTilesForID(TilesNode.GenerateID(Nodes.Ocean, variation));
                 if (tilesNode == null) return false;
-                if (tilesNode.IsValidateYEnd && tilesNode.IsValidateYStart)
+                if (tilesNode.IsValidYEnd && tilesNode.IsValidYStart)
                 {
                     OceanTile ocean = null;
                     for (int i = 0; i < width; i++)
@@ -658,16 +673,16 @@ namespace Wof.Model.Level.XmlParser
         /// Funkcja pobiera obiekt typu TilesNode z tablicy 
         /// tiles-ow na podstawie nazwy.
         /// </summary>
-        /// <param name="name">Nazwa obiektu.</param>
+        /// <param name="id">Nazwa obiektu.</param>
         /// <returns>Jesli szukany obiekt istnieje w tablicy zostanie zwrocony,
         /// w przeciwnym przypadku zwruci null.</returns>
-        private TilesNode GetTilesForName(String name)
+        private TilesNode GetTilesForID(String id)
         {
             TilesNode tiles = null;
             foreach (TilesNode n in tileNodeArray)
             {
-                if (n.IsValidateName)
-                    if (n.Name.Equals(name) || n.Name.Contains(name))
+                if (n.IsValidName)
+                    if (n.ID.Equals(id)) //|| n.ID.Contains(id))
                     {
                         tiles = n;
                         break;
@@ -725,7 +740,7 @@ namespace Wof.Model.Level.XmlParser
 
         public void Dispose()
         {
-            tilesMenager = null;
+            tilesManager = null;
             tileNodeArray = null;
             if (levelTiles != null)
                 levelTiles.Clear();
