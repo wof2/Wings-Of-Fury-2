@@ -131,7 +131,10 @@ namespace Wof.Model.Level.XmlParser
             try
             {
                 string contents = RijndaelSimple.Decrypt(File.ReadAllText(TilesPath));
-                using (XmlReader reader = XmlReader.Create(new StringReader(contents)))
+                XmlReaderSettings settings = new XmlReaderSettings();
+                settings.IgnoreComments = true;
+                settings.IgnoreWhitespace = true;
+                using (XmlReader reader = XmlReader.Create(new StringReader(contents), settings))
                 {
                     NumberFormatInfo format = new NumberFormatInfo();
                     format.NumberGroupSeparator = ",";
@@ -166,8 +169,7 @@ namespace Wof.Model.Level.XmlParser
             if (reader.HasAttributes)
             {
                 node = new TilesNode();
-                ReadAttributes(node, reader, format);
-               
+                ReadAttributes(node, reader, format); 
             }
 
             //collision rectangle
