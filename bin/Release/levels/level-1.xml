@@ -35,7 +35,7 @@
   <ocean width="11"/>
 
 
-  <island-begin variation="3"/>
+  <island-begin/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <wooden-bunker num-soldiers="3"/>
