@@ -272,6 +272,7 @@ namespace Wof.View
 
         public void ResetWheels()
         {
+            if (rWheelInnerNode == null || lWheelInnerNode==null) return;
             rWheelInnerNode.ResetOrientation();
             lWheelInnerNode.ResetOrientation();
             rearWheelInnerNode.ResetOrientation();

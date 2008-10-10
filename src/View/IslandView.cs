@@ -122,6 +122,7 @@ namespace Wof.View
             {
                 margin = 0.3f;
             }
+            float maxX = (Math.Abs(count) - 1) * LevelView.TileWidth / 16;
 
             switch (count)
             {
@@ -158,9 +159,9 @@ namespace Wof.View
                     //ISLAND12u
                     islandMeshName = "Island12u.mesh";
                     adjust = LevelView.TileWidth*3.5f;
-                    float max = (Math.Abs(count) - 1) * LevelView.TileWidth / 16;
-                    initNonColissionTrees(staticNode, margin, 5, -max / 4.0f, max / 2.0f, 0.5f);
-                    initNonColissionTrees(staticNode, -margin, -5, -max / 4.0f, max / 2.0f, 0.5f);
+                   
+                    initNonColissionTrees(staticNode, margin, 5, -maxX / 4.0f, maxX / 2.0f, 0.5f);
+                    initNonColissionTrees(staticNode, -margin, -5, -maxX / 4.0f, maxX / 2.0f, 0.5f);
                     break;
 
                 case 13: //13
@@ -170,6 +171,30 @@ namespace Wof.View
                     initNonColissionTrees(staticNode, margin, 5, 0.7f);
                     initNonColissionTrees(staticNode, -margin, -5, 0.7f);
                     break;
+
+                case 18: //18
+                    //ISLAND18u
+                    islandMeshName = "Island18u.mesh";
+                    adjust = LevelView.TileWidth * 6.5f;
+                    initNonColissionTrees(staticNode, 10, 14, -maxX, maxX/10.0f, 0.5f);
+                    initNonColissionTrees(staticNode, -11, -13, -maxX, maxX / 10.0f, 0.5f);
+
+                    // zwolnic pamiec
+                    EnemyPlaneView epv = new EnemyPlaneView(null, sceneMgr, staticNode);
+                    epv.PlaneNode.SetPosition(-3, 0.8f, -18);
+                    epv.PlaneNode.Yaw(new Radian(new Degree(60)));
+                    
+                    EnemyPlaneView epv2 = new EnemyPlaneView(null, sceneMgr, staticNode);
+                    epv2.PlaneNode.SetPosition(-3, 0.8f, -25);
+                    epv2.PlaneNode.Yaw(new Radian(new Degree(62)));
+
+                    initLampPosts(staticNode, -7, maxX * 0.4f, -maxX * 0.6f, 12, new Radian(new Degree(0)));
+                   // initLampPosts(staticNode, 7, maxX * 0.4f, -maxX * 0.6f, 12, new Radian(new Degree(180)));
+
+
+                    break;
+
+
                 case 24:
                     //ISLAND5
                     if (EngineConfig.LowDetails)
@@ -378,10 +403,36 @@ namespace Wof.View
 
         }
 
+        protected void initLampPost(SceneNode parent, Vector3 position, Radian direction)
+        {
+            Entity lamp;
+            SceneNode lampNode;
+            int id = LevelView.PropCounter;
+            lamp = sceneMgr.CreateEntity("Lamp" + id, "LampPost.mesh");
+            lamp.CastShadows = EngineConfig.Shadows;
+
+            lampNode = parent.CreateChildSceneNode("LampNode" + LevelView.PropCounter, position);
+            lampNode.Yaw(direction);
+            lampNode.AttachObject(lamp);
+
+        }
+
         private void initNonColissionTrees(SceneNode parent, float zMin, float zMax)
         {
             initNonColissionTrees(parent, zMin, zMax, 1);
         }
+
+        private void initLampPosts(SceneNode parent, float z, float xMin, float xMax, float num, Radian direction)
+        {
+            float dist = xMin; 
+            for (int i = 0; i < num; i++)
+            {
+                initLampPost(parent, new Vector3(z, -0.5f, dist), direction);
+                dist += (xMax - xMin) * 8 / num;
+               
+            }
+        }
+
         private void initNonColissionTrees(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity)
         {
             int c = (int)Math.Abs(count);

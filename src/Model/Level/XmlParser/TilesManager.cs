@@ -60,9 +60,14 @@ namespace Wof.Model.Level.XmlParser
     public class TilesManager : IDisposable
     {
         /// <summary>
-        /// Sciezka do katalogu z poziomami gry.
+        /// Sciezka do katalogu z tileami gry (dat).
         /// </summary>
         private static string path = String.Empty;
+
+        /// <summary>
+        /// Sciezka do katalogu z tileami gry (xml).
+        /// </summary>
+        private static string rawPath = String.Empty;
 
         /// <summary>
         /// Slownik dla obiektow.
@@ -107,7 +112,7 @@ namespace Wof.Model.Level.XmlParser
         }
 
         /// <summary>
-        /// Zwraca sciezke do pliku tiles.xml.
+        /// Zwraca sciezke do pliku tiles.dat.
         /// </summary>
         private static String TilesPath
         {
@@ -123,10 +128,36 @@ namespace Wof.Model.Level.XmlParser
             }
         }
 
-        private void Read()
+        /// <summary>
+        /// Zwraca sciezke do pliku tiles.xml.
+        /// </summary>
+        private static String RAWTilesPath
         {
+            get
+            {
+                if (String.IsNullOrEmpty(rawPath))
+                {
+                    rawPath = Directory.GetCurrentDirectory();
+                    rawPath = Path.Combine(rawPath, @"levels");
+                    rawPath = Path.Combine(rawPath, @"tiles.xml");
+                }
+                return rawPath;
+            }
+        }
+
+        private void Read()
+        { 
+            // automatically reencode XML file to DAT file
+            if (EngineConfig.AutoEncodeXMLs && File.Exists(RAWTilesPath))
+            {
+                File.WriteAllText(TilesPath,  RijndaelSimple.Encrypt(File.ReadAllText(RAWTilesPath)));
+            }
+
             if (!File.Exists(TilesPath))
-                throw new TilesFileNotFoundException(Path.GetFileName(TilesPath));
+            {
+                 throw new TilesFileNotFoundException(Path.GetFileName(TilesPath));
+            }
+               
 
             try
             {
