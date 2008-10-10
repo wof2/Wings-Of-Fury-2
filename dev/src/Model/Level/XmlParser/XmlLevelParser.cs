@@ -165,11 +165,20 @@ namespace Wof.Model.Level.XmlParser
             XmlReader reader = null;
             try
             {
-                string contents = RijndaelSimple.Decrypt(File.ReadAllText(fileName));
-
                 int firstDigitPosition = fileName.LastIndexOf("level-") + 6;
                 int numberLenght = fileName.LastIndexOf(".") - firstDigitPosition;
                 string levelNumer = fileName.Substring(firstDigitPosition, numberLenght);
+                
+                // automatically reencode XML file to DAT file
+                if (EngineConfig.AutoEncodeXMLs && File.Exists(fileName.Replace(".dat", ".xml")))
+                {
+                    File.WriteAllText(fileName, RijndaelSimple.Encrypt(File.ReadAllText(fileName.Replace(".dat", ".xml"))));
+                }
+
+
+                string contents = RijndaelSimple.Decrypt(File.ReadAllText(fileName));
+
+             
 
                 int level = Int32.Parse(levelNumer);
 

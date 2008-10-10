@@ -1406,7 +1406,7 @@ namespace Wof.View
                 case DayTime.Dawn:
                     material = "Skyplane/Morning";
                     texture = "morning.jpg";
-                    InitLight();
+                    InitDawnLight();
                     break;
 
                 case DayTime.Night:
@@ -1480,21 +1480,35 @@ namespace Wof.View
              */
         }
 
-        private void InitLight()
+        private void InitDawnLight()
         {
             // create a default point light
             Light light = sceneMgr.CreateLight("MainLight");
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
             light.Position = new Vector3(0, 1000, -500);
-            light.Direction = new Vector3(0, -10, 5);
-            light.DiffuseColour = new ColourValue(1.0f, 1.0f, 1.0f);
+            light.Direction = new Vector3(10, -20, 10);
+            light.DiffuseColour = new ColourValue(0.95f, 0.90f, 0.90f);
             light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);
 
+            Camera texCamera = new Camera("TexCamera", sceneMgr);
+            LiSPSMShadowCameraSetup c = new LiSPSMShadowCameraSetup();
+            c.GetShadowCamera(sceneMgr, framework.Camera, framework.Viewport, light, texCamera);
+            ShadowCameraSetupPtr p = new ShadowCameraSetupPtr(c);
+            sceneMgr.SetShadowCameraSetup(p);
 
-            /*light.Type = Light.LightTypes.LT_POINT;
-            light.Position = new Vector3(0, 1000, -100);
-            light.DiffuseColour = new ColourValue(1.0f, 1.0f, 1.0f);
-            light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);*/
+            sceneMgr.ShadowFarDistance = 200;
+            sceneMgr.ShadowColour = new ColourValue(0.8f, 0.8f, 0.8f);
+        }
+
+        private void InitLight()
+        {
+            // create a default point light
+            Light light = sceneMgr.CreateLight("MainLight");
+            light.Type = Light.LightTypes.LT_DIRECTIONAL;
+            light.Position = new Vector3(0, 1000, 500);
+            light.Direction = new Vector3(2, -10, -20);
+            light.DiffuseColour = new ColourValue(0.97f, 0.97f, 0.97f);
+            light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);
 
             Camera texCamera = new Camera("TexCamera", sceneMgr);
             LiSPSMShadowCameraSetup c = new LiSPSMShadowCameraSetup();

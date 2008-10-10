@@ -183,27 +183,47 @@ namespace Wof.View.TileViews
                 {
                     case 0:
                         break;
+
+                    // 3 palmy
                     case 1:
                         initPalm2(new Vector3(-1, 0, 8.5f));
                         initPalm(new Vector3(0.5f, 0, 6.6f));
                         initPalm(new Vector3(-1, 0, 5.4f));
                         break;
+
+                    // 4 palmy
                     case 2:
                         initPalm(new Vector3(-1, 0, 7));
                         initPalm2(new Vector3(1, 0, 6));
                         initPalm(new Vector3(1, 0, 8));
                         initPalm2(new Vector3(-1, 0, 5));
                         break;
+
+                    // flaga
                     case 3:
                         initFlag(new Vector3(0, 0, 7));
                         break;
 
-                    // uniesione palmy
-                    case 4:
-                        initPalm2(new Vector3(-1, 6, 8.5f));
-                        initPalm(new Vector3(0.5f, 6, 6.6f));
-                        initPalm(new Vector3(-1, 6, 5.4f));
+                    // uniesione 3 palmy
+                    case 12:
+                        initPalm2(new Vector3(-1, 7.5f, 8.5f));
+                        initPalm(new Vector3(0.5f, 7.5f, 6.6f));
+                        initPalm(new Vector3(-1, 7.5f, 5.4f));
                         break;
+
+                    // uniesione 4 palmy
+                    case 13:
+                        initPalm(new Vector3(-1, 7.5f, 7));
+                        initPalm2(new Vector3(1, 7.5f, 6));
+                        initPalm(new Vector3(1, 7.5f, 8));
+                        initPalm2(new Vector3(-1, 7.5f, 5));
+                        break;
+
+                    // uniesiona flaga
+                    case 14:
+                        initFlag(new Vector3(0, 6.5f, 7));
+                        break;
+
 
                 }
             }
