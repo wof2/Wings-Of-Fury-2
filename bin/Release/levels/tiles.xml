@@ -6,7 +6,7 @@
 	collision-rect rectangle="[X, Y][W][H]"
 	
 	Describes object's collision rectangle
-	X,Y - coordinates of left, lower side of bounding rectangle
+	X,Y - coordinates of left, UPPER side of bounding rectangle
 	W - width in meters (rectangles 'grow' from the top)
 	H - height in meters
 
@@ -166,9 +166,13 @@
   </tile>
 
   <tile name="terrain" y-start="1.5" y-end="1.5" variation="3">
-    <collision-rect rectangle="[5, 3][1][1.5]"/> <!-- flaga -->
+    <collision-rect rectangle="[4.0, 3][1][1.5]"/> <!-- flaga -->
   </tile>
 
+  <tile name="terrain" y-start="1.5" y-end="1.5" variation="4">
+    <collision-rect rectangle="[0.5, 5][10][4.0]"/> <!-- glazy -->
+    <collision-rect rectangle="[0.7, 6][4][1.2]"/> <!-- glazy -->
+  </tile>
   
   <!-- wysoki teren -->  
   
