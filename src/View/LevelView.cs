@@ -1114,11 +1114,12 @@ namespace Wof.View
             }
 
             // jeœli zakoñczy³ siê obrót powróæ do IDLE
-            if (p.AnimationMgr.isCurrentAnimation(PlaneNodeAnimationManager.AnimationType.SPIN))
+            if (p.AnimationMgr.isCurrentAnimation(PlaneNodeAnimationManager.AnimationType.SPIN_PHASE_TWO))
             {
                 if (p.AnimationMgr.CurrentAnimation == null || p.AnimationMgr.CurrentAnimation.Ended ||
-                    !p.AnimationMgr.CurrentAnimation.Enabled && !p.AnimationMgr.QueuedWaiting)
+                    !p.AnimationMgr.CurrentAnimation.Enabled)
                 {
+                    EngineConfig.SpinKeys = false;
                     p.AnimationMgr.switchToIdle(true);
                 }
             }

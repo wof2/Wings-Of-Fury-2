@@ -663,7 +663,8 @@ namespace Wof.Controller.Screens
                           
 
                             // góra / dó³
-                            if (!EngineConfig.InverseKeys)
+                            if ((!EngineConfig.InverseKeys && !EngineConfig.SpinKeys) ||
+                                 (EngineConfig.InverseKeys &&  EngineConfig.SpinKeys))
                             {
                                 // podobnie, uzytkownik nie powinien miec mozliwosci
                                 // ruszyc sie w tym samym momencie do gory i w dol.
