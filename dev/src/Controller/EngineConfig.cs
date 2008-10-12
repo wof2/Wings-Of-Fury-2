@@ -101,6 +101,7 @@ namespace Wof.Controller
         public static readonly bool StaticGeometryIslands = true; // wysypy u¿ywaj¹ geometri statycznej do renderownia (untested)
         public static bool LowDetails = false; // niskie detale obiektow, mniej efektow (nadpisywane przez wofconf.dat)
         public static bool InverseKeys = false; // czy przyciski UP / DOWN s¹ zamienione? (nadpisywane przez wofconf.dat)
+        public static bool SpinKeys = false; // Nie zapisywane do Wofconf.dat , czy trzeba chwilowo odwrócic przyciski podczas spinu
         public static bool ShowIntro = true; // czy ma byæ odgrywane intro? (nadpisywane przez wofconf.dat)
         public static bool DisplayMinimap = true; // czy pokazywaæ minimape? (nadpisywane przez wofconf.dat)
 

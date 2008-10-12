@@ -47,6 +47,8 @@
  */
 
 using Mogre;
+using System;
+using Math = Mogre.Math;
 
 namespace Wof.View.NodeAnimation
 {
@@ -256,6 +258,9 @@ namespace Wof.View.NodeAnimation
 
         protected void frameInit()
         {
+            //By Kamil - jeœli kolejna animacja jest odpalana w delegacie to musi byæ ten warunek
+            if (timeSinceLastFrame == -1) return;
+
             delta = timeSinceLastFrame*TimeScale;
             percent = getPercent();
             animationTime += delta;
@@ -265,15 +270,12 @@ namespace Wof.View.NodeAnimation
             {
                 if (onFinish != null)
                 {
-                  
-
                     onFinish(onFinishInfo);
                 }
 
                 //W delegacie onFinish mog³a zacz¹æ siê nowa animacja , dlatego jeszcze raz sprawdzany jest percentAfter
                 if (percentAfter >= 1.0f)
                 {
-
                     if (looped)
                     {
                         // Zacznij od pocz¹tku. 
@@ -293,7 +295,6 @@ namespace Wof.View.NodeAnimation
 
                         percentAfter = 1.0f; // ulozenie ostateczne                        
                     }
-
                 }
             }
             else

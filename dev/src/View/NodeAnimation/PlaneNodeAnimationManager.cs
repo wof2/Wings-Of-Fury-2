@@ -49,6 +49,7 @@
 using System;
 using Mogre;
 using Wof.Model.Level.Planes;
+using Wof.Controller;
 using Math=Mogre.Math;
 
 namespace Wof.View.NodeAnimation
@@ -125,7 +126,7 @@ namespace Wof.View.NodeAnimation
         /// <author>Kamil S³awiñski</author>
         public object queuedOnFinishInfo = null;
 
-        
+        /*
         private bool queuedWaiting;
 
         /// <summary>
@@ -135,7 +136,7 @@ namespace Wof.View.NodeAnimation
         public bool QueuedWaiting
         {
             get { return queuedWaiting; }
-        }
+        }*/
 
         #region Animation types
 
@@ -149,7 +150,8 @@ namespace Wof.View.NodeAnimation
             L_GEAR_UP,
             R_GEAR_UP,
             REAR_GEAR_UP,
-            SPIN,
+            SPIN_PHASE_ONE,
+            SPIN_PHASE_TWO,
             DEATH_SPIN
         } ;
 
@@ -290,7 +292,7 @@ namespace Wof.View.NodeAnimation
                 enableBlade();
             }
 
-            switchTo(AnimationType.SPIN);
+            switchTo(AnimationType.DEATH_SPIN);
             rewind(true);
             Looped = true;
 
@@ -314,7 +316,7 @@ namespace Wof.View.NodeAnimation
 
             //  this.planeView.OuterNode.ResetOrientation();
 
-            switchTo(AnimationType.SPIN);
+            switchTo(queue ? AnimationType.SPIN_PHASE_ONE : AnimationType.SPIN_PHASE_TWO);
             rewind(true);
             Looped = false;
 
@@ -328,7 +330,6 @@ namespace Wof.View.NodeAnimation
                 //1sza faza spinu
                 if (queue)
                 {    
-                    queuedWaiting = true;
                     currentAnimation.onFinish = OnFinishHalfSpin;
 
                     queuedOnFinish = onFinish;
@@ -337,7 +338,6 @@ namespace Wof.View.NodeAnimation
                 //2ga faza spinu
                 else
                 {
-                    queuedWaiting = false;
                     currentAnimation.onFinish = onFinish;
                     currentAnimation.onFinishInfo = onFinishInfo;
                 }
@@ -544,16 +544,33 @@ namespace Wof.View.NodeAnimation
 
                     #endregion
 
-                    case AnimationType.SPIN:
+                    case AnimationType.SPIN_PHASE_ONE:
                     {
 
-                        this[animationName] = new SinRotateNodeAnimation(
+                        this[animationName] = new HalfSinRotateNodeAnimation(
                                                             planeView.OuterNode,
                                                             1.2f,
                                                             new Degree(90),
-                                                            Math.HALF_PI,
+                                                            Math.PI,
                                                             Vector3.UNIT_Z,
-                                                            animationName
+                                                            animationName,
+                                                            true
+                                                            );
+
+                        this[animationName].Looped = false;
+                    }
+                    break;
+                    case AnimationType.SPIN_PHASE_TWO:
+                    {
+
+                        this[animationName] = new HalfSinRotateNodeAnimation(
+                                                            planeView.OuterNode,
+                                                            1.2f,
+                                                            new Degree(90),
+                                                            Math.PI,
+                                                            Vector3.UNIT_Z,
+                                                            animationName,
+                                                            false
                                                             );
 
                         this[animationName].Looped = false;
@@ -586,6 +603,7 @@ namespace Wof.View.NodeAnimation
 
         private void OnFinishHalfSpin(object args)
         {
+            EngineConfig.SpinKeys = true;
             switchToSpin(true, null, queuedOnFinish, queuedOnFinishInfo , false);
         }
 
