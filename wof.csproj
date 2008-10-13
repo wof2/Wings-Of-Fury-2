@@ -433,6 +433,7 @@
     <Compile Include="src\View\LevelView.cs" />
     <Compile Include="src\View\NodeAnimation\ConstMoveNodeAnimation.cs" />
     <Compile Include="src\View\NodeAnimation\AccRotateNodeAnimation.cs" />
+    <Compile Include="src\View\NodeAnimation\HalfSinRotateNodeAnimation.cs" />
     <Compile Include="src\View\NodeAnimation\LightAttenuationAnimation.cs" />
     <Compile Include="src\View\NodeAnimation\EffectAnimation.cs" />
     <Compile Include="src\View\NodeAnimation\MoveNodeAnimation.cs" />

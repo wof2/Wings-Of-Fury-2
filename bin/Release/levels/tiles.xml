@@ -148,7 +148,8 @@
   <tile name="aircraft-carrier-end" y-start="5.3" y-end="5.3"/>
 
   <!-- Island -->
-  <tile name="island-begin" y-start="0.0" y-end="1.5"/>
+  <tile name="island-begin" y-start="0.0" y-end="1.5" />
+  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="5" /> <!-- ktos wymyslil w levelu 6 -->
   
   <tile name="island-begin" y-start="0.0" y-end="8.0" variation="10"/>
   

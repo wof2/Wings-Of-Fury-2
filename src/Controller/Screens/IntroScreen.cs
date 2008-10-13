@@ -162,7 +162,7 @@ namespace Wof.Controller.Screens
         {
             if(i == 1)
             {
-                SoundManager3D.Instance.PlayAmbient("sounds/raven.wav", 100, false, false);
+                SoundManager3D.Instance.PlayAmbient("sounds/raven.wav", EngineConfig.SoundVolume, false, false);
             }
             MaterialPtr overlayMaterial = MaterialManager.Singleton.GetByName(C_MATERIAL_NAME + currentScreen);
             TextureUnitState unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
