@@ -100,9 +100,10 @@ namespace Wof.View
         public void LoopEngineSound()
         {
             if (EngineConfig.SoundEnabled && !engineSound.IsPlaying())
-            { 
+            {
+                engineSound.SetGain(EngineConfig.SoundVolume / 100.0f);
                 engineSound.Play();
-                SoundManager3D.Instance.UpdateSoundObjects();
+                //SoundManager3D.Instance.UpdateSoundObjects();
             }
         }
 

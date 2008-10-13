@@ -131,8 +131,20 @@ namespace Wof.Controller
         public static bool SoundEnabled = true;
         public static FreeSL.FSL_SOUND_SYSTEM SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_DIRECTSOUND;
         public static int MusicVolume = 80;
-        public static int SoundVolume = 100;
 
+        protected static int soundVolume = 100;
+        public static int SoundVolume
+        {
+             set 
+             { 
+                 soundVolume = value;
+             }
+
+             get
+             {
+                 return soundVolume;
+             }
+        }
 
         /// <summary>
         /// Wartoœæ przeciwna do LowDetails

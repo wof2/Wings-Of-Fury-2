@@ -113,15 +113,27 @@ namespace Wof.Controller
                 }
 
                 ambientSound = CreateAmbientSound(sound, sound + "_Ambient", loop, false);
+                ambientSound.SetGain(1.0f * volume / 100);
                 //Create Ambient sound  
-                if (!preloadOnly) ambientSound.Play();
+                if (!preloadOnly)
+                {
+                    
+                    ambientSound.Play();
+                }
             }
             else
             {
-              
-                if (!ambientSound.IsPlaying() && !preloadOnly) ambientSound.Play();
+                if (ambientSound!=null)
+                {
+                    ambientSound.SetGain(1.0f * volume / 100);
+                    if (!ambientSound.IsPlaying() && !preloadOnly)
+                    {
+                        ambientSound.Play();
+                    }
+                }
+                
             }
-            ambientSound.SetGain(1.0f * volume / 100);
+           
 
             currentMusic = sound;
         }

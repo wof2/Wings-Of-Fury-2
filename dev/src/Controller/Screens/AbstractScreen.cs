@@ -1189,13 +1189,21 @@ namespace Wof.Controller.Screens
 
         public void PlayClickSound()
         {
-            if (EngineConfig.SoundEnabled && !clickSound.IsPlaying()) clickSound.Play();
+            if (EngineConfig.SoundEnabled && !clickSound.IsPlaying())
+            {
+                clickSound.SetGain(EngineConfig.SoundVolume / 100.0f);
+                clickSound.Play();
+            }
         }
 
 
         public void PlayCheatSound()
         {
-            if (EngineConfig.SoundEnabled && !cheatSound.IsPlaying()) cheatSound.Play();
+            if (EngineConfig.SoundEnabled && !cheatSound.IsPlaying())
+            {
+                clickSound.SetGain(EngineConfig.SoundVolume / 100.0f);
+                cheatSound.Play();
+            }
         }
 
         

@@ -277,6 +277,7 @@ namespace Wof.Controller.Screens
                 screenTime = 0;
                 if (referer == nextButton)
                 {
+                    PlayClickSound();
                     currentScreen++;
                     createScreen();
                     return;
@@ -284,6 +285,7 @@ namespace Wof.Controller.Screens
 
                 if (referer == prevButton)
                 {
+                    PlayClickSound();
                     currentScreen--;
                     createScreen();
                     return;
