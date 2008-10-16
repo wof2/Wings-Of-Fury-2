@@ -148,8 +148,12 @@
   <tile name="aircraft-carrier-end" y-start="5.3" y-end="5.3"/>
 
   <!-- Island -->
-  <tile name="island-begin" y-start="0.0" y-end="1.5" />
-  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="5" /> <!-- ktos wymyslil w levelu 6 -->
+  <tile name="island-begin" y-start="0.0" y-end="1.5" /> <!-- nic -->  <!-- Wszystko 2gi plan -->
+  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="1" /> <!-- Lotniskowiec -->
+  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="2" /> <!-- 5 wysepek    -->
+  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="3" /> <!-- 3 wysepki    -->
+  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="4" /> <!-- Duza wyspa   -->
+  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="5" /> <!-- 3 wysepki + lotniskowiec -->
   
   <tile name="island-begin" y-start="0.0" y-end="8.0" variation="10"/>
   
