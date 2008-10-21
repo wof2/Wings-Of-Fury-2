@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="night" enemyPlane="5">
+<level dayTime="noon" enemyPlane="6">
   <ocean width="1" variation="3"/>
   <ocean width="19"/>
   <ocean width="1" variation="2"/>
   <ocean width="19"/>
   <ocean width="1" variation="4"/>
   <ocean width="19"/>
-  <island-begin variation="1"/>
+  <island-begin variation="0"/>
   <concrete-bunker num-soldiers="3"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
@@ -26,18 +26,12 @@
   <ocean width="1" variation="3"/>
   <ocean width="10"/>
   <!-- high island: Island12u -->
-  <island-begin variation="10" traversable="false"/>
-  <terrain variation="14" traversable="false"/>
-  <terrain variation="15" traversable="false"/>
-  <barrels variation="0" />
-  <barrack num-soldiers="6" variation="1"/>
-  <wooden-bunker num-soldiers="3"/>
-  <terrain variation="0" width="1" traversable="true"/>
-  <terrain variation="10" width="1" traversable="false"/>
-  <terrain variation="13" width="1" traversable="false"/>
-  <terrain variation="12" width="1" traversable="false"/>
-  <terrain variation="11" width="1" traversable="false"/>
-  <island-end variation="10" traversable="false"/>
+  <island-begin variation="1"/>
+  <terrain variation="1"/>
+  <concrete-bunker num-soldiers="3" variation="2"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <island-end/> 
   <!-- high island: Island12u -->
   <ocean width="12"/>
 
@@ -79,7 +73,7 @@
 
   <!-- lane island: Island18u -->
   <island-begin variation="3"/>  
-  <wooden-bunker num-soldiers="3"/>
+  <concrete-bunker num-soldiers="3"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
   <barrack num-soldiers="8" variation="1"/>
@@ -90,7 +84,7 @@
   <terrain variation="0" width="4"/>  
   <terrain variation="0" width="2" />
   <terrain variation="0" />
-  <wooden-bunker num-soldiers="3"/>
+  <concrete-bunker num-soldiers="3"/>
   <island-end/>
   <!-- lane island: Island18u -->
 
@@ -100,7 +94,12 @@
 
   <ocean width="21"/>
 
-
+  <island-begin variation="4"/>
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <wooden-bunker num-soldiers="3"/>
+  <terrain variation="0"/>
+  <island-end/> 
 
   <ocean width="100"/>
 </level>
