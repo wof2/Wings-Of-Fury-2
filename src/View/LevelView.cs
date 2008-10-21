@@ -1413,7 +1413,7 @@ namespace Wof.View
                 case DayTime.Night:
                     material = "Skyplane/Night";
                     texture = "night.jpg";
-                    ambient = new ColourValue(0.3f, 0.3f, 0.3f);
+                    ambient = new ColourValue(0.27f, 0.27f, 0.32f);
                     InitNightLight();
                     isNightScene = true;
                     break;
@@ -1506,10 +1506,10 @@ namespace Wof.View
             // create a default point light
             Light light = sceneMgr.CreateLight("MainLight");
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
-            light.Position = new Vector3(0, 1000, 500);
-            light.Direction = new Vector3(2, -10, -20);
-            light.DiffuseColour = new ColourValue(0.97f, 0.97f, 0.97f);
-            light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);
+            light.Position = new Vector3(0, 2000, 500);
+            light.Direction = new Vector3(2, -18, -20);
+            light.DiffuseColour = new ColourValue(0.55f, 0.55f, 0.57f);
+            light.SpecularColour = new ColourValue(0.03f, 0.03f, 0.03f);
 
             Camera texCamera = new Camera("TexCamera", sceneMgr);
             LiSPSMShadowCameraSetup c = new LiSPSMShadowCameraSetup();
@@ -1526,10 +1526,12 @@ namespace Wof.View
             // create a default point light
             Light light = sceneMgr.CreateLight("MainLight");
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
-            light.Position = new Vector3(-100, 1000, 1000);
-            light.Direction = new Vector3(1, -5, 5);
-            light.DiffuseColour = new ColourValue(0.6f, 0.6f, 0.9f);
-            light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);
+            light.Position = new Vector3(-300, 1000, 200);
+            light.Direction = new Vector3(1, -5, 2);
+            light.DiffuseColour = new ColourValue(0.7f, 0.7f, 0.80f);
+            light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.07f);
+
+            sceneMgr.ShadowColour = new ColourValue(0.65f, 0.65f, 0.75f);
         }
 
         /// <summary>
