@@ -201,7 +201,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Okreœla czas przez jaki samolot œwie¿o po starcie jest traktowany jako 'isJustAfterTakeOff'
         /// </summary>
-        private const float justAfterTakeOffTimerMax = 1.7f;
+        private const float justAfterTakeOffTimerMax = 1.0f;
       
 
         /// <summary>
@@ -2613,7 +2613,7 @@ namespace Wof.Model.Level.Planes
                     if (justAfterTakeOffTimer < 0.5f * justAfterTakeOffTimerMax)
                     {
                         // spadanie (szybciej)
-                        movementVector.Y += -29.5f * scaleFactor * Math.Sin(Math.HALF_PI +  Math.TWO_PI * (justAfterTakeOffTimer / justAfterTakeOffTimerMax));
+                        movementVector.Y += -40.5f * scaleFactor * Math.Sin(Math.HALF_PI +  Math.TWO_PI * (justAfterTakeOffTimer / justAfterTakeOffTimerMax));
                     } else
                     {
                         // unoszenie (wolniej)
