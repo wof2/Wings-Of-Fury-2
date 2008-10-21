@@ -49,13 +49,13 @@
   <tile name="wooden-bunker" y-start="1.5" y-end="1.5" variation="1">
 	<collision-rect rectangle="[0, 3.1 ][5  ][1.6]"/> <!-- bunkier -->
 	<collision-rect rectangle="[6, 2.5 ][1.5][1  ]"/> <!-- dzialko -->
-	<collision-rect rectangle="[5, 7.5 ][1.5][6  ]"/> <!-- drzewka -->	
+	<collision-rect rectangle="[5, 5.5 ][1.5][4  ]"/> <!-- drzewka -->	
   </tile>
 
   <tile name="wooden-bunker" y-start="1.5" y-end="1.5" variation="2">
 	<collision-rect rectangle="[0, 3.1 ][5  ][1.6]"/> <!-- bunkier -->
 	<collision-rect rectangle="[6, 2.5 ][1.5][1  ]"/> <!-- dzialko -->
-	<collision-rect rectangle="[5, 7.5 ][1.5][6  ]"/> <!-- drzewka -->	
+	<collision-rect rectangle="[5, 5.5 ][1.5][4  ]"/> <!-- drzewka -->	
   </tile>
 
   <tile name="wooden-bunker" y-start="1.5" y-end="1.5" variation="3">
@@ -88,13 +88,13 @@
   <tile name="concrete-bunker" y-start="1.5" y-end="1.5" variation="1">
 	<collision-rect rectangle="[0, 3.1  ][5  ][1.6]"/> <!-- bunkier -->
 	<collision-rect rectangle="[6, 2.5  ][1.5][1  ]"/> <!-- dzialko -->
-	<collision-rect rectangle="[5, 7.5  ][1.5][6  ]"/> <!-- drzewka -->	
+	<collision-rect rectangle="[5, 5.5  ][1.5][4  ]"/> <!-- drzewka -->	
   </tile>
 
   <tile name="concrete-bunker" y-start="1.5" y-end="1.5" variation="2">
 	<collision-rect rectangle="[0, 3.1  ][5  ][1.6]"/> <!-- bunkier -->
 	<collision-rect rectangle="[6, 2.5  ][1.5][1  ]"/> <!-- dzialko -->
-	<collision-rect rectangle="[5, 7.5  ][1.5][6  ]"/> <!-- drzewka -->	
+	<collision-rect rectangle="[5, 5.5  ][1.5][4  ]"/> <!-- drzewka -->	
   </tile>
 
   <tile name="concrete-bunker" y-start="1.5" y-end="1.5" variation="3">
