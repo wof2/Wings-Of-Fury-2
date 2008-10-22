@@ -46,8 +46,8 @@ namespace BetaGUI
             bc = 0;
             tc = 0;
             oc = 0;
-            mO = OverlayManager.Singleton.Create("BetaGUI");
-            name = "BetaGUI";
+            mO = OverlayManager.Singleton.Create("BetaGUI" + DateTime.Now.Ticks);
+            name = "BetaGUI" + DateTime.Now.Ticks;
             mO.Show();
         }
 
@@ -201,7 +201,7 @@ namespace BetaGUI
             String t = "Panel";
             if (C != "")
                 t = "TextArea";
-            OverlayElement e = OverlayManager.Singleton.CreateOverlayElement(t, N + DateTime.Now.Ticks);
+            OverlayElement e = OverlayManager.Singleton.CreateOverlayElement(t, N + this.name + DateTime.Now.Ticks);
             e.MetricsMode = GuiMetricsMode.GMM_PIXELS;
             e.SetDimensions(D.x, D.y);
             e.SetPosition(0, 0);
@@ -569,7 +569,7 @@ namespace BetaGUI
             mRZ = null;
             mATI = null;
             mAB = null;
-            mO = G.createOverlay("BetaGUI.w" + StringConverter.ToString(G.wc++),
+            mO = G.createOverlay("BetaGUI.w" + mGUI.name + StringConverter.ToString(G.wc++),
                                  new Vector2(D.x, D.y),
                                  new Vector2(D.z, D.w), M, C, true);
             if (t >= 2)

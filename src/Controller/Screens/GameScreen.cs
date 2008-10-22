@@ -128,7 +128,16 @@ namespace Wof.Controller.Screens
 
         // Obiekty kontroli GUI
         private GUI mGui;
+
+        
         private Window guiWindow;
+
+
+        private GUI mGuiHint;
+        /// <summary>
+        /// Okienko dla hinta (wyspy po lewej / prawej / obu stronach)
+        /// </summary>
+        private Window hintWindow;
         private Button resumeButton = null, exitButton = null, gameOverButton = null, nextLevelButton = null;
         private Button bombsButton, rocketsButton;
         private uint mousePosX, mousePosY;
@@ -297,8 +306,26 @@ namespace Wof.Controller.Screens
                     LogManager.Singleton.LogMessage("Finished loading level.", LogMessageLevel.LML_CRITICAL);
                     SoundManager.Instance.PreloadRandomIngameMusic();
 
+                    
+                    mGuiHint = new GUI(FontManager.CurrentFont, fontSize);
+                    hintWindow = mGuiHint.createWindow(new Vector4(0, 0.45f * viewport.ActualHeight, viewport.ActualWidth, 0.2f * viewport.ActualHeight), "", (int)wt.NONE, "");
+                    
+                    if(currentLevel.FlyDirectionHint == FlyDirectionHint.Left || currentLevel.FlyDirectionHint == FlyDirectionHint.Both)
+                    {
+                        hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.01f, 0, 0.15f * viewport.ActualWidth, 0.045f * viewport.ActualWidth), "hint_left.png");
+                       
+                    } 
+                    if(currentLevel.FlyDirectionHint == FlyDirectionHint.Right || currentLevel.FlyDirectionHint == FlyDirectionHint.Both)
+                    {
+
+                        hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.84f, 0, 0.15f * viewport.ActualWidth, 0.045f * viewport.ActualWidth), "hint_right.png");
+                    }
+                    hintWindow.show();
+                  
+
                     if (LevelNo == 1 && firstTakeOff)
                     {
+
                         MessageEntry message =
                             new MessageEntry(0.15f, 0.4f,
                                              LanguageResources.GetString(LanguageKey.PressEToTurnOnTheEngine), true,
@@ -428,6 +455,13 @@ namespace Wof.Controller.Screens
                 if (mGui != null)
                 {
                     mGui.killGUI();
+                    mGui = null;
+                }
+
+                if(mGuiHint != null)
+                {
+                    mGuiHint.killGUI();
+                    mGuiHint = null;
                 }
             }
             catch 
@@ -465,7 +499,16 @@ namespace Wof.Controller.Screens
                 SoundManager.Instance.HaltOceanSound();
                 increaseScore(this.lives * C_LIFE_LEFT);
                 levelView.Destroy();
-                if(mGui!=null) mGui.killGUI();
+                if(mGui!=null)
+                {
+                    mGui.killGUI();
+                    mGui = null;
+                }
+                if (mGuiHint != null)
+                {
+                    mGuiHint.killGUI();
+                    mGuiHint = null;
+                }
                 gameEventListener.GotoNextLevel();
             }
 
@@ -634,7 +677,7 @@ namespace Wof.Controller.Screens
                     {
                         
 
-
+                
                         //  if (timeCounter > 0.5f)
                         {
                             if (EngineConfig.DebugInfo)
@@ -972,7 +1015,6 @@ namespace Wof.Controller.Screens
 
             levelView.OnStopPlayingEnemyPlaneEngineSounds();
 
-
             mGui = new GUI(FontManager.CurrentFont, fontSize);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
@@ -1074,6 +1116,7 @@ namespace Wof.Controller.Screens
             isGamePaused = false;
             isInPauseMenu = false;
             mGui.killGUI();
+            mGui = null;
         }
 
         private void BuildStatsScreen(Window window)
@@ -1224,6 +1267,7 @@ namespace Wof.Controller.Screens
         {
             changingAmmo = false;
             mGui.killGUI();
+            mGui = null;
             SoundManager.Instance.LoopOceanSound();
             if (mayPlaySound)
             {
@@ -1246,7 +1290,17 @@ namespace Wof.Controller.Screens
             }
             if (referer == exitButton)
             {
-                mGui.killGUI();
+                if (mGui != null)
+                {
+                    mGui.killGUI();
+                    mGui = null;
+                }
+                if (mGuiHint != null)
+                {
+                    mGuiHint.killGUI();
+                    mGuiHint = null;
+                }
+
                 if (levelView != null)
                 {
                     levelView.Destroy();
@@ -1255,7 +1309,17 @@ namespace Wof.Controller.Screens
             }
             if (referer == gameOverButton)
             {
-                mGui.killGUI();
+                if (mGui != null)
+                {
+                    mGui.killGUI();
+                    mGui = null;
+                }
+                if (mGuiHint != null)
+                {
+                    mGuiHint.killGUI();
+                    mGuiHint = null;
+                }
+
                 if (levelView != null)
                 {
                     levelView.Destroy();
@@ -1722,6 +1786,9 @@ namespace Wof.Controller.Screens
                     gameMessages.AppendMessage(message);
                     break;
             }
+
+            mGuiHint.killGUI();
+            mGuiHint = null;
 
             firstTakeOff = false;
             levelView.OnTakeOff();
