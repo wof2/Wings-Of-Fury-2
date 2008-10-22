@@ -170,7 +170,6 @@ namespace Wof.Controller.Indicators
             currentMessage.IncreaseX(xMargin);
             currentMessage.IncreaseY(yMargin);
 
-
             messageContainer.SetPosition(currentMessage.X, currentMessage.Y);
             messageElement.SetParameter("char_height", currentMessage.getCharHeightString());
             messageElement.SetParameter("colour_top", currentMessage.ColourTop);
