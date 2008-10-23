@@ -203,6 +203,24 @@ namespace Wof.Controller.Indicators
             else return "";
         }
 
+        public void ClearMessages(String messageTxt)
+        {
+            if (PeekMessage().Equals(messageTxt))
+            {
+                ClearMessage();
+            }
+           
+            for (int i = 0; i < messageQueue.Count; i++)
+            {
+                if (messageQueue[i].Message.Equals(messageTxt))
+                {
+                    messageQueue.Remove(messageQueue[i]);
+                }
+            }
+           
+
+        }
+
         public void ClearMessage()
         {
             //startTime = null;
