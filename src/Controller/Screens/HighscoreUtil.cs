@@ -110,7 +110,7 @@ namespace Wof.Controller.Screens
                 String name = "aa";
                 Char c = (char) ((int) 'a' + i);
                 name += c;
-                int score = 1100 - i*100;
+                int score = 3500 - i*250;
                 highscores.Add(new HighscoreEntry(name, score));
             }
 

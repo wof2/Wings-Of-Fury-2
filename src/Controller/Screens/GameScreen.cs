@@ -312,13 +312,13 @@ namespace Wof.Controller.Screens
                     
                     if(currentLevel.FlyDirectionHint == FlyDirectionHint.Left || currentLevel.FlyDirectionHint == FlyDirectionHint.Both)
                     {
-                        hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.01f, 0, 0.15f * viewport.ActualWidth, 0.045f * viewport.ActualWidth), "hint_left.png");
+                        hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.01f, 0, 0.9f * 0.15f * viewport.ActualWidth, 0.9f * 0.045f * viewport.ActualWidth), "hint_left.png");
                        
                     } 
                     if(currentLevel.FlyDirectionHint == FlyDirectionHint.Right || currentLevel.FlyDirectionHint == FlyDirectionHint.Both)
                     {
 
-                        hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.84f, 0, 0.15f * viewport.ActualWidth, 0.045f * viewport.ActualWidth), "hint_right.png");
+                        hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.84f, 0, 0.9f * 0.15f * viewport.ActualWidth, 0.9f * 0.045f * viewport.ActualWidth), "hint_right.png");
                     }
                     hintWindow.show();
                   
