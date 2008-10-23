@@ -308,7 +308,7 @@ namespace Wof.Controller.Screens
 
                     
                     mGuiHint = new GUI(FontManager.CurrentFont, fontSize);
-                    hintWindow = mGuiHint.createWindow(new Vector4(0, 0.45f * viewport.ActualHeight, viewport.ActualWidth, 0.2f * viewport.ActualHeight), "", (int)wt.NONE, "");
+                    hintWindow = mGuiHint.createWindow(new Vector4(0, 0.35f * viewport.ActualHeight, viewport.ActualWidth, 0.2f * viewport.ActualHeight), "", (int)wt.NONE, "");
                     
                     if(currentLevel.FlyDirectionHint == FlyDirectionHint.Left || currentLevel.FlyDirectionHint == FlyDirectionHint.Both)
                     {
@@ -1189,7 +1189,7 @@ namespace Wof.Controller.Screens
             Callback cc = new Callback(this);
             nextLevelButton =
               guiWindow.createButton(
-                  new Vector4(viewport.ActualWidth / 4, viewport.ActualHeight / 4 + 12.33f*GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+                  new Vector4(5 + viewport.ActualWidth * 0.1f, 13.50f * GetTextVSpacing(), viewport.ActualWidth / 2.0f, GetTextVSpacing()),
                   "bgui.button",
                   LanguageResources.GetString(LanguageKey.OK), cc);
 
@@ -1466,10 +1466,8 @@ namespace Wof.Controller.Screens
             SoundManager.Instance.PlayRandomIngameMusic(EngineConfig.MusicVolume);
 
             // wy³¹cz komunikat 
-            if (gameMessages.PeekMessage().Equals(LanguageResources.GetString(LanguageKey.PressEToTurnOnTheEngine)))
-            {
-                gameMessages.ClearMessage();
-            }
+            gameMessages.ClearMessages(LanguageResources.GetString(LanguageKey.PressEToTurnOnTheEngine));
+         
         }
 
         private void startEngineSound_Ending(object sender, EventArgs e)
@@ -1787,8 +1785,12 @@ namespace Wof.Controller.Screens
                     break;
             }
 
-            mGuiHint.killGUI();
-            mGuiHint = null;
+            if(mGuiHint!=null)
+            {
+                mGuiHint.killGUI();
+                mGuiHint = null;
+            }
+          
 
             firstTakeOff = false;
             levelView.OnTakeOff();
