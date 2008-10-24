@@ -101,11 +101,12 @@ namespace FSLOgreCS
         {
             if (_soundObjectVector.Count == 0)
                 return null;
-            foreach (FSLSoundObject sound in _soundObjectVector)
+
+            for (int i = 0; i < _soundObjectVector.Count; i++)
             {
-                if (sound.Name == name)
-                    return sound;
-            }
+                if (_soundObjectVector[i].Name == name) return _soundObjectVector[i];
+            }  
+           
             return null;
         }
 
@@ -114,11 +115,20 @@ namespace FSLOgreCS
             if (!_initSound)
                 return;
             _listener.Update();
-            foreach (FSLSoundObject sound in _soundObjectVector)
+
+            try
             {
-              //  if (sound.IsPlaying())
-                    sound.Update(); // doda³em  "if (sound.IsPlaying())"
+                for (int i = 0; i < _soundObjectVector.Count; i++)
+                {
+                    if (_soundObjectVector[i] != null) _soundObjectVector[i].Update();
+                }  
             }
+            catch 
+            {
+                
+               
+            }
+           
         }
 
         public void SetListener(Camera listener)
@@ -164,10 +174,11 @@ namespace FSLOgreCS
         {
             if (_soundObjectVector.Count != 0)
             {
-                foreach (FSLSoundObject sound in _soundObjectVector)
+
+                for (int i = 0; i < _soundObjectVector.Count; i++)
                 {
-                    sound.Destroy();
-                }
+                    _soundObjectVector[i].Destroy();
+                }  
                 _soundObjectVector.Clear();
             }
             if (_listener != null)
