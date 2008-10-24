@@ -169,6 +169,12 @@ namespace Wof.View.TileViews
             }
             EffectsManager.Singleton.NoSmoke(sceneMgr, installationNode);
             EffectsManager.Singleton.HideSprite(sceneMgr, installationNode, EffectsManager.EffectType.FIRE, 0);
+
+            if (FrameWork.DisplayMinimap)
+            {
+                minimapItem.Colour = ColourValue.Red;
+                minimapItem.Refresh();
+            }
         }
 
         public override void Destroy()
@@ -182,6 +188,12 @@ namespace Wof.View.TileViews
             else
             {
                 ViewHelper.ReplaceMaterial(installationEntity, "Wood", "DestroyedWood");
+            }
+
+            if (FrameWork.DisplayMinimap)
+            {
+                //Kolor szary
+                minimapItem.Colour = new ColourValue(0.752f, 0.752f, 0.752f);
             }
         }
 

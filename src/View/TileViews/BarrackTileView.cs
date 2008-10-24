@@ -17,7 +17,6 @@ namespace Wof.View.TileViews
         {
         }
 
-
         protected void initBarrack(SceneNode islandNode, float positionOnIsland)
         {
             String nameSuffix = tileID.ToString();
@@ -64,8 +63,8 @@ namespace Wof.View.TileViews
                     initFlag(new Vector3(0, 2.2f, 0));
                     break;
             }
-           
         }
+
         public override void updateTime(float timeSinceLastFrameUpdate)
         {
             base.updateTime(timeSinceLastFrameUpdate);
@@ -82,17 +81,18 @@ namespace Wof.View.TileViews
                     SetLightFlareVisibility(true);
                 }
             }
-           
         }
 
         public override void Destroy()
         {
             base.Destroy();
             ViewHelper.ReplaceMaterial(installationEntity, "Wood", "DestroyedWood");
+
+            if (FrameWork.DisplayMinimap)
+            {
+                //Kolor szary
+                minimapItem.Colour = new ColourValue(0.752f, 0.752f, 0.752f);
+            }
         }
-
-   
-
-
     }
 }

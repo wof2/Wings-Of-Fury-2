@@ -55,7 +55,7 @@ namespace Wof.View
 {
     /// <summary>
     /// Reprezentacja obiektów na minimapie
-    /// <author>Adam Witczak</author>
+    /// <author>Adam Witczak , Kamil S³awiñski</author>
     /// </summary>
     public class MinimapItem : IDisposable
     {
@@ -146,47 +146,63 @@ namespace Wof.View
             InitOnScene();
         }
 
+        public ColourValue Colour
+        {
+            set 
+            {
+                MaterialPtr matPtr, clonedMaterial;
+                string colourTxt = value.r + "." + value.g + "." + value.b;
+
+                if (colourType == ColourType.SOLID)
+                {
+                    clonedMaterial = MaterialManager.Singleton.GetByName("Colours/FlatColour/" + colourTxt);
+                    if (clonedMaterial == null)
+                    {
+                        matPtr = MaterialManager.Singleton.GetByName("Colours/FlatColour");
+                        matPtr.Load();
+                        clonedMaterial = matPtr.Clone("Colours/FlatColour/" + colourTxt);
+
+                        TextureUnitState textureUnit1 = clonedMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
+                        textureUnit1.SetColourOperationEx(LayerBlendOperationEx.LBX_SOURCE1, LayerBlendSource.LBS_MANUAL,
+                                                          LayerBlendSource.LBS_CURRENT, value);
+                    }
+
+                    entity.SetMaterialName(clonedMaterial.Name);
+                }
+                else if (colourType == ColourType.SHADED)
+                {
+                    clonedMaterial = MaterialManager.Singleton.GetByName("Colours/Colour/" + colourTxt);
+                    if (clonedMaterial == null)
+                    {
+                        matPtr = MaterialManager.Singleton.GetByName("Colours/Colour");
+                        matPtr.Load();
+                        clonedMaterial = matPtr.Clone("Colours/Colour/" + colourTxt);
+                    }
+
+                    entity.SetMaterialName(clonedMaterial.Name);
+                    Pass pass1 = entity.GetSubEntity(0).GetMaterial().GetTechnique(0).GetPass(0);
+                    pass1.SetDiffuse(value.r, value.g, value.b, value.a);
+                    pass1.SetAmbient(value.r, value.g, value.b);
+                }
+                matPtr = null;
+                clonedMaterial = null;
+            }
+        }
+
+        private ColourType colourType;
+        public ColourType ColourTypeInstance
+        {
+            set { colourType = value; }
+            get { return colourType; }
+
+        }
 
         private MinimapItem(SceneNode realObjectNode, SceneManager minimapMgr, String meshName, ColourValue colour,
                             ColourType colourType, Entity sizeEnity, Vector2 scaleOverride)
             : this(realObjectNode, minimapMgr, meshName, sizeEnity, scaleOverride)
         {
-            MaterialPtr matPtr, clonedMaterial;
-            string colourTxt = colour.r + "." + colour.g + "." + colour.b;
-
-            if (colourType == ColourType.SOLID)
-            {
-                clonedMaterial = MaterialManager.Singleton.GetByName("Colours/FlatColour/" + colourTxt);
-                if (clonedMaterial == null)
-                {
-                    matPtr = MaterialManager.Singleton.GetByName("Colours/FlatColour");
-                    matPtr.Load();
-                    clonedMaterial = matPtr.Clone("Colours/FlatColour/" + colourTxt);
-
-                    TextureUnitState textureUnit1 = clonedMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
-                    textureUnit1.SetColourOperationEx(LayerBlendOperationEx.LBX_SOURCE1, LayerBlendSource.LBS_MANUAL,
-                                                      LayerBlendSource.LBS_CURRENT, colour);
-                }
-
-                entity.SetMaterialName(clonedMaterial.Name);
-            }
-            else if (colourType == ColourType.SHADED)
-            {
-                clonedMaterial = MaterialManager.Singleton.GetByName("Colours/Colour/" + colourTxt);
-                if (clonedMaterial == null)
-                {
-                    matPtr = MaterialManager.Singleton.GetByName("Colours/Colour");
-                    matPtr.Load();
-                    clonedMaterial = matPtr.Clone("Colours/Colour/" + colourTxt);
-                }
-
-                entity.SetMaterialName(clonedMaterial.Name);
-                Pass pass1 = entity.GetSubEntity(0).GetMaterial().GetTechnique(0).GetPass(0);
-                pass1.SetDiffuse(colour.r, colour.g, colour.b, colour.a);
-                pass1.SetAmbient(colour.r, colour.g, colour.b);
-            }
-            matPtr = null;
-            clonedMaterial = null;
+            this.colourType = colourType;
+            this.Colour = colour;
         }
 
 
