@@ -662,6 +662,7 @@ namespace Wof.Model.Level
         {
             List<Soldier> soldiers =
                 SoldiersList.FindAll(Predicates.FindSoldierFromInterval(index - step, index + step));
+            int numberOfDeaths = 0;
             if (soldiers != null && soldiers.Count > 0)
                 for ( int i = 0 ; i < soldiers.Count ; i++)
                 {
@@ -669,11 +670,12 @@ namespace Wof.Model.Level
                     {
                         //zmniejszam liczbe zolnierzy na planszy
                         this.SoldiersCount--;
-                        Controller.OnSoldierBeginDeath(soldiers[i], false);
                         soldiers[i].Kill();
+                        numberOfDeaths++;
+                        Controller.OnSoldierBeginDeath(soldiers[i], false);
                     }
                 }
-            return soldiers.Count;
+            return numberOfDeaths;
         }
 
         #endregion

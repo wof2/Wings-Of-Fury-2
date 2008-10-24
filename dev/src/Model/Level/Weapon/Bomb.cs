@@ -256,7 +256,7 @@ namespace Wof.Model.Level.Weapon
                 }
 
                 //zabijam zolnierzy, ktorzy sa w polu razenia.
-                refToLevel.KillVulnerableSoldiers(index, 0);
+                refToLevel.Statistics.HitByBomb += refToLevel.KillVulnerableSoldiers(index, 0);
 
                 //niszcze bombe.
                 state = MissileState.Destroyed;

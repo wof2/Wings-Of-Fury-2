@@ -162,6 +162,7 @@ namespace Wof.Statistics
         /// <summary>
         /// Pobiera lub ustawia liczbe trafien przez rakiete.
         /// </summary>
+        /// <remarks>Jest to liczba zniszczonych instalacji obronnych plus liczba zabitych zolnierzy.</remarks>
         public int HitByRocket
         {
             get { return this.mHitByRocket; }
@@ -171,6 +172,7 @@ namespace Wof.Statistics
         /// <summary>
         /// Pobiera lub ustawia liczbe trafien przez bombe.
         /// </summary>
+        /// <remarks>Jest to liczba zniszczonych instalacji obronnych plus liczba zabitych zolnierzy.</remarks>
         public int HitByBomb
         {
             get { return this.mHitByBomb; }
@@ -180,6 +182,7 @@ namespace Wof.Statistics
         /// <summary>
         /// Pobiera lub ustawia liczbe trafien przez dzialko.
         /// </summary>
+        /// <remarks>Jest to liczba zabitych zolnierzy.</remarks>
         public int HitByGun
         {
             get { return this.mHitByGun; }

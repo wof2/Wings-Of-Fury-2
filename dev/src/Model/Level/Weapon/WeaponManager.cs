@@ -373,7 +373,6 @@ namespace Wof.Model.Level.Weapon
                     {
 
                         refToLevel.Controller.OnGunHit(refToLevel.LevelTiles[index], hitPoint.X, Math.Max(hitPoint.Y, 1));
-                        this.refToLevel.Statistics.HitByGun += KillAvailableSoldiers(hitPoint.X, true);
 
                         if (refToLevel.LevelTiles[index] is BarrelTile)
                         {
@@ -385,31 +384,11 @@ namespace Wof.Model.Level.Weapon
                                 this.refToLevel.Statistics.HitByGun += refToLevel.KillVulnerableSoldiers(index, 2);
                             }
                         }
+                        else
+                            this.refToLevel.Statistics.HitByGun += refToLevel.KillVulnerableSoldiers(index, 0);
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// Zabija zolnierzy, ktorzy sa w polu razenia.
-        /// </summary>
-        /// <param name="position">Wspolrzedna X miejsca trafienia</param>
-        /// <param name="hitByGun">Czy tafiony dzia³kiem</param>
-        private int KillAvailableSoldiers(float position, bool hitByGun)
-        {
-            List<Soldier> soldiers = refToLevel.SoldiersList.FindAll(Predicates.FindSoldierFromInterval(position));
-            if (soldiers != null && soldiers.Count > 0)
-                foreach (Soldier s in soldiers)
-                {
-                    if (s.CanDie)
-                    {
-                        //zmniejszam liczbe zolnierzy na planszy
-                        refToLevel.SoldiersCount--;
-                        refToLevel.Controller.OnSoldierBeginDeath(s, hitByGun);
-                        s.Kill();
-                    }
-                }
-            return soldiers.Count;
         }
 
         /// <summary>
