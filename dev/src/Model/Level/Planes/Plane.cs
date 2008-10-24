@@ -988,7 +988,10 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         public bool HasSpeedToStart
         {
-            get { return movementVector.EuclidesLength == maxFastWheelingSpeed; }
+            get
+            {
+                return movementVector.EuclidesLength >= maxFastWheelingSpeed;
+            }
         }
 
         /// <summary>
@@ -1074,7 +1077,7 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
-                return locationState == LocationState.AircraftCarrier && MovementVector.X == 0 &&
+                return locationState == LocationState.AircraftCarrier && MovementVector.X <= 0.01f &&
                        Bounds.Center.X >= level.Carrier.GetRestoreAmunitionPosition().X &&
                        Bounds.Center.X <= level.Carrier.GetRestoreAmunitionPosition().X + LevelTile.Width;
             }
