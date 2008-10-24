@@ -1508,8 +1508,8 @@ namespace Wof.View
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
             light.Position = new Vector3(0, 2000, 500);
             light.Direction = new Vector3(2, -18, -20);
-            light.DiffuseColour = new ColourValue(0.55f, 0.55f, 0.57f);
-            light.SpecularColour = new ColourValue(0.03f, 0.03f, 0.03f);
+            light.DiffuseColour = new ColourValue(0.50f, 0.50f, 0.52f);
+            light.SpecularColour = new ColourValue(0.02f, 0.02f, 0.03f);
 
             Camera texCamera = new Camera("TexCamera", sceneMgr);
             LiSPSMShadowCameraSetup c = new LiSPSMShadowCameraSetup();

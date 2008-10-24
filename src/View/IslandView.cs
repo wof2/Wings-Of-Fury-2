@@ -58,6 +58,8 @@ namespace Wof.View
 {
     internal class IslandView : CompositeModelView
     {
+
+        private List<PlaneView> parkedPlanes; 
         private static int islandCounter = 0;
         protected SceneNode staticNode;
 
@@ -89,6 +91,7 @@ namespace Wof.View
         public IslandView(List<TileView> tileViews, FrameWork framework, SceneNode parentNode)
             : base(tileViews, framework, parentNode, "Island" + (++islandCounter))
         {
+            parkedPlanes =  new List<PlaneView>();
             initOnScene();
         }
 
@@ -102,6 +105,7 @@ namespace Wof.View
         public IslandView(int length, FrameWork framework, SceneNode parentNode)
             : base(null, framework, parentNode, "Island" + (++islandCounter))
         {
+            parkedPlanes = new List<PlaneView>();
             count = length;
             initOnScene();
         }
@@ -183,10 +187,14 @@ namespace Wof.View
                     EnemyPlaneView epv = new EnemyPlaneView(null, sceneMgr, staticNode);
                     epv.PlaneNode.SetPosition(-3, 0.8f, -18);
                     epv.PlaneNode.Yaw(new Radian(new Degree(60)));
+                    epv.MinimapItem.Hide();
+                    parkedPlanes.Add(epv);
                     
                     EnemyPlaneView epv2 = new EnemyPlaneView(null, sceneMgr, staticNode);
                     epv2.PlaneNode.SetPosition(-3, 0.8f, -25);
                     epv2.PlaneNode.Yaw(new Radian(new Degree(62)));
+                    epv2.MinimapItem.Hide();
+                    parkedPlanes.Add(epv2);
 
                     initLampPosts(staticNode, -7, maxX * 0.4f, -maxX * 0.6f, 12, new Radian(new Degree(0)));
                    // initLampPosts(staticNode, 7, maxX * 0.4f, -maxX * 0.6f, 12, new Radian(new Degree(180)));
@@ -314,14 +322,18 @@ namespace Wof.View
                 }
             }
         }
-
         protected void initPalm(SceneNode parent, Vector3 position)
+        {
+            initPalm(parent, position, false);   
+
+        }
+        protected void initPalm(SceneNode parent, Vector3 position, bool forceLowDetails)
         {
             Entity palm;
             SceneNode palmNode;
 
             int id = LevelView.PropCounter;
-            if (EngineConfig.LowDetails)
+            if (EngineConfig.LowDetails || forceLowDetails)
             {
                 palm = sceneMgr.CreateEntity("Palm" + id, "TwoSidedPlane.mesh");
 
@@ -336,17 +348,22 @@ namespace Wof.View
 
             palmNode = parent.CreateChildSceneNode("PalmNode" + LevelView.PropCounter, position);
 
-            if (EngineConfig.LowDetails)
+            if (EngineConfig.LowDetails || forceLowDetails)
             {
 
                 float angle = Math.RangeRandom(-Math.PI/5, Math.PI/5);
 
                 palmNode.Yaw(Math.HALF_PI + angle);
                 palmNode.Scale(0.5f, 1, 1);
-                palmNode.Translate(new Vector3(0, 3, 0));
+                palmNode.Translate(new Vector3(0, 2.5f, 0));
                 palmNode.Pitch(Math.HALF_PI);
-                EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "PalmTop" + id, EffectsManager.EffectType.PALMTOP1, position + new Vector3(0f, 4.5f, -0.0f), new Vector2(1.8f, 1.8f),
-                                         Quaternion.IDENTITY, true).Node.Yaw(angle);
+                Quaternion q = new Quaternion(new Radian(new Degree(20)), Vector3.UNIT_X);
+                Quaternion q2 = new Quaternion(new Radian(new Degree(-20)), Vector3.UNIT_X);
+
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "PalmTopFirst" + id, EffectsManager.EffectType.PALMTOP1, position + new Vector3(0f, 4.0f, -0.0f), new Vector2(1.4f, 1.4f),
+                                         q, true).Node.Yaw(angle);
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "PalmTopSecond" + id, EffectsManager.EffectType.PALMTOP1, position + new Vector3(0f, 4.0f, -0.0f), new Vector2(1.4f, 1.4f),
+                                         q2, true).Node.Yaw(angle);
             }
             else
             {
@@ -361,13 +378,18 @@ namespace Wof.View
 
         protected void initPalm2(SceneNode parent, Vector3 position)
         {
+            initPalm2(parent, position, false);
+        }
+
+        protected void initPalm2(SceneNode parent, Vector3 position, bool forceLowDetails)
+        {
             Entity palm;
             SceneNode palmNode;
 
 
             float id = LevelView.PropCounter;
 
-            if (EngineConfig.LowDetails)
+            if (EngineConfig.LowDetails || forceLowDetails)
             {
                 palm = sceneMgr.CreateEntity("Palm" + id, "TwoSidedPlane.mesh");
                 palm.SetMaterialName("FakePalmTree2");
@@ -381,16 +403,20 @@ namespace Wof.View
 
             palmNode = parent.CreateChildSceneNode("PalmNode" + LevelView.PropCounter, position);
 
-            if (EngineConfig.LowDetails)
+            if (EngineConfig.LowDetails || forceLowDetails)
             {
                 float angle = Math.RangeRandom(-Math.PI/5, Math.PI/5);
 
                 palmNode.Yaw(Math.HALF_PI + angle);
                 palmNode.Scale(0.5f, 1, 1);
-                palmNode.Translate(new Vector3(0, 3, 0));
+                palmNode.Translate(new Vector3(0, 2.5f, 0));
                 palmNode.Pitch(Math.HALF_PI);
-                EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "PalmTop" + id, EffectsManager.EffectType.PALMTOP2, position + new Vector3(0.0f, 4.5f, -0.2f), new Vector2(2.5f, 2.5f),
-                                    Quaternion.IDENTITY, true).Node.Yaw(angle);
+                Quaternion q = new Quaternion(new Radian(new Degree(30)), Vector3.UNIT_X);
+                Quaternion q2 = new Quaternion(new Radian(new Degree(-30)), Vector3.UNIT_X);
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "PalmTopFirst" + id, EffectsManager.EffectType.PALMTOP2, position + new Vector3(0.0f, 4.0f, -0.2f), new Vector2(2.5f, 2.5f),
+                                    q, true).Node.Yaw(angle);
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "PalmTopSecond" + id, EffectsManager.EffectType.PALMTOP2, position + new Vector3(0.0f, 4.0f, -0.2f), new Vector2(2.5f, 2.5f),
+                                  q2, true).Node.Yaw(angle);
             }
             else
             {
@@ -432,8 +458,12 @@ namespace Wof.View
                
             }
         }
-
         private void initNonColissionTrees(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity)
+        {
+            initNonColissionTrees(parent, zMin, zMax, xMin, xMax, intensity, false);
+        }
+
+        private void initNonColissionTrees(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity, bool forceLowDetails)
         {
             int c = (int)Math.Abs(count);
             int count_l = (int)(c * 2 * intensity);
@@ -445,20 +475,36 @@ namespace Wof.View
 
                 if (i % 10 == 1) //Co dziesiata palma jest z wieksza iloscia trojkatow
                 {
-                    initPalm(parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax) * (8 - adjust)));
+                    initPalm(parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax) * (8 - adjust)), forceLowDetails);
                 }
                 else
                 {
-                    initPalm2(parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax) * (8 - adjust)));
+                    initPalm2(parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax) * (8 - adjust)), forceLowDetails);
                 }
             }
         }
 
         private void initNonColissionTrees(SceneNode parent, float zMin, float zMax, float intensity)
         {
+            initNonColissionTrees(parent, zMin, zMax, intensity, false);
+        }
+
+        private void initNonColissionTrees(SceneNode parent, float zMin, float zMax, float intensity, bool forceLowDetails)
+        {
             int c = (int)Math.Abs(count);
             float max = (c - 1) * LevelView.TileWidth / 16;
-            initNonColissionTrees(parent, zMin, zMax, -max, max, intensity);
+            initNonColissionTrees(parent, zMin, zMax, -max, max, intensity, forceLowDetails);
+        }
+
+
+        ~IslandView()
+        {
+            parkedPlanes.Clear();
+            parkedPlanes = null;
+            /*for (int i=0; i < parkedPlanes.Count; i++)
+            {
+                parkedPlanes[i].
+            }*/
         }
     }
 }

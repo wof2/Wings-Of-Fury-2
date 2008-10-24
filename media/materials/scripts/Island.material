@@ -169,7 +169,7 @@ material FakePalmTree
 		pass
 		{
 			ambient 1 1 1
-			diffuse 1 1 1			
+			diffuse 0.5 0.5 0.5			
 			scene_blend alpha_blend			
 			depth_write off
 			lighting on	
@@ -186,7 +186,7 @@ material FakePalmTree
 		pass
 		{
 			ambient 1 1 1
-			diffuse 1 1 1			
+			diffuse 0.5 0.5 0.5			
 			scene_blend alpha_blend			
 			depth_write on
 			lighting off	
@@ -212,7 +212,7 @@ material FakePalmTree2
 		pass
 		{
 			ambient 1 1 1
-			diffuse 1 1 1			
+			diffuse 0.5 0.5 0.5			
 			scene_blend alpha_blend			
 			depth_write off
 			lighting on	
@@ -229,7 +229,7 @@ material FakePalmTree2
 		pass
 		{
 			ambient 1 1 1
-			diffuse 1 1 1			
+			diffuse 0.5 0.5 0.5			
 			scene_blend alpha_blend			
 			depth_write on
 			lighting off	
@@ -255,7 +255,7 @@ material Effects/PalmTop1
 			ambient 1 1 1
 			diffuse 1 1 1			
 			scene_blend alpha_blend			
-			depth_write off
+			depth_write on
 			lighting on	
 
 			texture_unit
@@ -277,7 +277,7 @@ material Effects/PalmTop2
 			ambient 1 1 1
 			diffuse 1 1 1			
 			scene_blend alpha_blend			
-			depth_write off
+			depth_write on
 			lighting on	
 
 			texture_unit
