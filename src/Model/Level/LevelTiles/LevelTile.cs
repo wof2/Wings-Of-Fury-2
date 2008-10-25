@@ -280,6 +280,16 @@ namespace Wof.Model.Level.LevelTiles
             return (quad != null && hitBound != null && hitBound.Intersects(quad));      
         }
 
+        /// <summary>
+        /// Funkcja sprawdza czy dany obiekt jest w kolizji z innym obiektem.
+        /// </summary>
+        /// <param name="center">Punkt srodkowy obiektu z ktorym sprawdzamy kolizje.</param>
+        /// <returns>Jesli punkt srodkowy obiektu jest ponizej linni powierzchni - kolizja nastapila.</returns>
+        public virtual bool InCollision(PointD center)
+        {
+            return ((this.YBegin + this.YEnd) / 2.0f) >= center.Y;
+        }
+
         #endregion
 
         #region IBoundingBoxes Members

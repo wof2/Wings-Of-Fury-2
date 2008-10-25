@@ -411,7 +411,7 @@ namespace Wof.Model.Level.Weapon
             if (index > -1 && index < refToLevel.LevelTiles.Count)
             {
                 //jesli nie ma kolizji z zadnym obiektem
-                if (!refToLevel.LevelTiles[index].InCollision(this.boundRectangle))
+                if (!refToLevel.LevelTiles[index].InCollision(this.boundRectangle.Center))
                     return;
                 //jesli nie da sie zniszczyc dany obiekt rakieta.
                 if (IsBombed(index))
