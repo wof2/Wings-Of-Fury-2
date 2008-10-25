@@ -146,7 +146,6 @@ namespace Wof.View
             get { return modelToViewAdjust; }
         }
 
-
         //Zbiera Tile dla danego CompositeModelView
         private List<TileView> tempTileViews;
 
@@ -166,7 +165,6 @@ namespace Wof.View
                 usedSplashNodesPool.Clear();
                 usedSplashNodesPool = null;
             }
-
 
             if (ammunitionViews != null)
             {
@@ -190,7 +188,6 @@ namespace Wof.View
                 compositeModelViews = null;
             }
           
-
             cameraHolders = null;
 
             if (planeViews != null)
@@ -199,7 +196,6 @@ namespace Wof.View
                 planeViews = null;
             }
             playerPlaneView = null;
-
 
             if (dyingSoldierViews != null)
             {
@@ -287,7 +283,6 @@ namespace Wof.View
 
         private readonly uint defaultVisibilityMask;
 
-
         public void SetVisible(bool visible)
         {
             if (visible)
@@ -307,7 +302,6 @@ namespace Wof.View
                 }
             }
         }
-
 
         public LevelView(FrameWork framework, IController controller)
         {
@@ -335,7 +329,6 @@ namespace Wof.View
             backgroundViews = new List<CompositeModelView>();
         }
 
-
         public PlaneView FindPlaneView(Plane p)
         {
             if (playerPlaneView != null && playerPlaneView.Plane == p) return playerPlaneView;
@@ -350,7 +343,6 @@ namespace Wof.View
 
             return planeViews.Find(delegate(PlaneView pv) { return pv.Plane == p; });
         }
-
 
         public TileView FindTileView(LevelTile l)
         {
@@ -436,7 +428,6 @@ namespace Wof.View
             currentTilePositionOnScene += TileWidth;
         }
 
-
         public void OnRegisterSoldier(Soldier soldier)
         {
             soldierViews.Add(SoldierView.GetInstance(soldier));
@@ -464,7 +455,6 @@ namespace Wof.View
                 SoldierView.FreeInstance(soldier, true);
             }
         }
-
 
         public void OnKillSoldier(Soldier soldier, Boolean dieFromExplosion)
         {
@@ -535,8 +525,6 @@ namespace Wof.View
             foreach(EnemyPlaneView pv in planeViews) pv.StopEngineSound();
         }
 
-
-
         public void OnRegisterPlane(Plane plane)
         {
             if (EngineConfig.DisplayBoundingQuadrangles)
@@ -605,7 +593,6 @@ namespace Wof.View
                 // error
             }
         }
-
 
         public void OnBunkerFire(BunkerTile bunker, Plane plane)
         {
@@ -800,7 +787,6 @@ namespace Wof.View
                 hash = 1;
             }
 
-
             NodeAnimation.NodeAnimation na;
 
             if (ocean)
@@ -928,9 +914,6 @@ namespace Wof.View
 
             EffectsManager.Singleton.RectangularEffect(sceneMgr, p.OuterNode, "RightGunHitTop", EffectsManager.EffectType.GUNHIT2, new Vector3(4.3f, -0.3f, -5.3f), new Vector2(4.5f, 3.5f),
                                          orient, false);
-            
-
-
         }
 
         public void OnGunHitPlane(Plane plane)
@@ -962,9 +945,7 @@ namespace Wof.View
             {
                 p.AnimationMgr.CurrentAnimation.Looped = false;
             }
-
         }
-
 
         public void OnPrepareChangeDirection(Direction newDirection, Plane plane, TurnType turnType)
         {
@@ -974,7 +955,6 @@ namespace Wof.View
                 // ERROR 
                 return;
             }
-
 
             if (turnType == TurnType.Airborne)
             {
@@ -991,7 +971,6 @@ namespace Wof.View
             }
         }
 
-
         private void UpdatePlaneView(PlaneView p, float timeSinceLastFrame)
         {
             p.AnimationMgr.updateTimeAll(timeSinceLastFrame);
@@ -999,7 +978,6 @@ namespace Wof.View
             p.refreshPosition();
 
             (p as VertexAnimable).updateTime(timeSinceLastFrame);
-
 
             if (p.Plane != null)
             {
@@ -1124,7 +1102,6 @@ namespace Wof.View
                 }
             }
 
-
             // rozpocznij zakrêcanie jeœli zakolejkowano i zakoñczy³a siê poprzednia animacja.
             if (p.AnimationMgr.PrepareToChangeDirection)
             {
@@ -1215,7 +1192,6 @@ namespace Wof.View
             }
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -1236,7 +1212,6 @@ namespace Wof.View
                 UpdatePlaneView(planeViews[i], evt.timeSinceLastFrame);
             }
             if (p != null) UpdatePlaneView(p, evt.timeSinceLastFrame);
-
 
             // tileviews
             VertexAnimable va;
@@ -1260,7 +1235,6 @@ namespace Wof.View
                 sv.refreshPosition();
             }
 
-
             count = dyingSoldierViews.Count;
             for (int i = 0; i < count; i++)
             {
@@ -1276,7 +1250,6 @@ namespace Wof.View
                     SoldierView.FreeInstance(sv.Soldier, !EngineConfig.BodiesStay);
                 }
             }
-
 
             // ammo
             AmmunitionView ammunitionView;
@@ -1313,9 +1286,7 @@ namespace Wof.View
             InitSkies();
             InitOceanSurface();
 
-
             List<LevelTile> lvlTiles = level.LevelTiles;
-
 
             modelToViewAdjust = -(lvlTiles.Count/2)*TileWidth;
             currentTilePositionOnScene = modelToViewAdjust - 25.25f;
@@ -1359,14 +1330,12 @@ namespace Wof.View
             sceneMgr.RootSceneNode.AttachObject(ocean);
            */
 
-
             Entity ocean2 = sceneMgr.CreateEntity("Ocean2", "OceanPlane.mesh");
             /* Entity xxx = sceneMgr.CreateEntity("OceanX", "OceanPlane.mesh");
             
            SceneNode xnode = sceneMgr.RootSceneNode.CreateChildSceneNode("aaa", new Vector3(0,0.1f,0));
            xnode.AttachObject(xxx);
            xnode.Scale(0.001f, 1.0f, 0.001f);*/
-
 
             ocean2.CastShadows = false;
             sceneMgr.RootSceneNode.AttachObject(ocean2);
@@ -1383,7 +1352,6 @@ namespace Wof.View
                 mOceanNode.SetScale(oceanSize, 0, 5);
                 mOceanNode.Pitch(new Degree(90));
             }
-
             // OCEAN
         }
 
@@ -1391,7 +1359,6 @@ namespace Wof.View
         {
             // Set the material
             ColourValue ambient = new ColourValue(0.5f, 0.5f, 0.5f);
-
 
             // zmienne odbicie w wodzie
             string texture = "morning.jpg";
@@ -1434,14 +1401,12 @@ namespace Wof.View
             }
             m = null;
 
-
             Mogre.Plane skyPlane;
             skyPlane.normal = Vector3.UNIT_Z;
             skyPlane.d = oceanSize/2.0f;
 
             sceneMgr.SetSkyPlane(true, skyPlane, material, oceanSize/110.0f, 1, true, 0.5f, 10, 10);
             sceneMgr.AmbientLight = ambient;
-
 
             // mewy
             if (!EngineConfig.LowDetails)
@@ -1564,8 +1529,6 @@ namespace Wof.View
         /// <param name="posY"></param>
         public void OnGunHit(LevelTile tile, float posX, float posY)
         {
-        
-            
             SceneNode splashNode = getSplashNode();
             if (splashNode == null) return; // koniec poola
             Boolean ocean = false;
