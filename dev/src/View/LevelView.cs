@@ -511,7 +511,11 @@ namespace Wof.View
 
         public void OnLoopEnemyPlaneEngineSounds()
         {
-            foreach (EnemyPlaneView pv in planeViews) pv.LoopEngineSound();
+            for (int i = 0; i < planeViews.Count; i++)
+            {
+                if (planeViews[i] is EnemyPlaneView) 
+                    ((EnemyPlaneView)planeViews[i]).LoopEngineSound();
+            }
         }
 
         public void OnStopPlayingEnemyPlaneEngineSound(EnemyPlane plane)
@@ -522,7 +526,11 @@ namespace Wof.View
 
         public void OnStopPlayingEnemyPlaneEngineSounds()
         {
-            foreach(EnemyPlaneView pv in planeViews) pv.StopEngineSound();
+            for (int i = 0; i < planeViews.Count; i++)
+            {
+                if (planeViews[i] is EnemyPlaneView)
+                    ((EnemyPlaneView)planeViews[i]).StopEngineSound();
+            }
         }
 
         public void OnRegisterPlane(Plane plane)
