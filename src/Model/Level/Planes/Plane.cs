@@ -2146,7 +2146,7 @@ namespace Wof.Model.Level.Planes
             isLoweringTail = true;
             isRaisingTail = false;
             bounds.Rotate((float) (direction)*(angleOnCarrier * 6) * scaleFactor);
-            if (Math.Abs(Math.Abs(bounds.Angle) - angleOnCarrier) < 0.01)
+            if (Math.Abs(Math.Abs(bounds.Angle) - angleOnCarrier) < 0.02)
             {
                 isLoweringTail = false;
             }
@@ -2162,10 +2162,10 @@ namespace Wof.Model.Level.Planes
             isRaisingTail = true;
             isLoweringTail = false;
             bounds.Rotate(-(float)(direction) * (angleOnCarrier * 4) * scaleFactor);
-            if (Math.Abs(bounds.Angle) < 0.01)
+            if (Math.Abs(bounds.Angle) < 0.02)
             {
                 isRaisingTail = false;
-                AirstripCotact();
+                AirstripContact();
             }
         }
 
@@ -2364,7 +2364,7 @@ namespace Wof.Model.Level.Planes
         private void InitLandingWheeling(float time, float timeUnit)
         {
             float scaleFactor = time/timeUnit;
-            AirstripCotact();
+            AirstripContact();
             BlockMovementInput();
             rotateValue = 0;
 
@@ -2383,7 +2383,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private void LandingWeeling()
         {
-            AirstripCotact();
+            AirstripContact();
             breakingEndCarrierTile = Carrier.IsOnEndCarrier(Bounds.Center);
             if (direction == Direction.Left && breakingEndCarrierTile != null)
             {
@@ -2456,7 +2456,7 @@ namespace Wof.Model.Level.Planes
         /// tzn nie pozwala mu unieœæ siê w góre, poprzez ustawienie 
         /// rectangla samolotu wzd³u¿ pasa startowego.
         /// </summary>
-        public void AirstripCotact()
+        public void AirstripContact()
         {
             float delta = level.Carrier.Height - Bounds.LowestY;
             Bounds.Move(0, delta);
@@ -2654,7 +2654,7 @@ namespace Wof.Model.Level.Planes
                         raiseTailStep(scaleFactor);
                         isFallingFromCarrier = true;
                         isSlippingFromCarrier = Speed <= maxSlippingFromCarrierSpeed;
-                        AirstripCotact();
+                        AirstripContact();
                         BlockMovementInput();
                     }
                 }
