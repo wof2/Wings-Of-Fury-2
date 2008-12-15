@@ -95,7 +95,7 @@ namespace Wof.Controller.Screens
                                     "Detlef Spengler",
                                     String.Empty,
                                     "The Winner of the first dogfight competition",
-                                    "Flushell",
+                                    "Jack Flushell",
                                     String.Empty,
                                     LanguageResources.GetString(LanguageKey.SpecialThanksToSteveWaldo),
                                     LanguageResources.GetString(LanguageKey.CreatorOfOriginalWingsOfFury),
