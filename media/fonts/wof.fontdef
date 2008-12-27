@@ -43,6 +43,15 @@ Wof_de-DE
 
 }
 
+Wof_nl-NL
+{	
+	type 		truetype
+	source 		solo5PL.ttf
+	size 		16
+	resolution 	96
+	code_points     33-380
+
+}
 
 Wof_gr-GR
 {	

@@ -1,0 +1,404 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="Antialiasing">
+    <value>Antialiasing</value>
+  </data>
+  <data name="Back">
+    <value>Terug</value>
+  </data>
+
+  <!-- "bloom" effect -->
+  <data name="Bloom">
+    <value>Bloom</value>
+  </data>
+  <data name="Bombs">
+    <value>Bommen</value>
+  </data>
+  <data name="ChangeOptionMessage1">
+    <value>Verandering van sommige opties gaan pas</value>
+  </data>
+  <data name="ChangeOptionMessage2">
+    <value>in werking na opnieuw starten van het spel.</value>
+  </data>
+  <data name="ChooseDifficulty">
+    <value>Kies moeilijkheidsgraad</value>
+  </data>
+  <data name="CompletedLevels">
+    <value>Gespeelde Levels</value>
+  </data>
+  <data name="Congratulations">
+    <value>Gefeliciteerd</value>
+  </data>
+  <data name="Controls">
+    <value>Besturing</value>
+  </data>
+  <data name="CreatingGameObjects">
+    <value>Bezig met maken van spelobjecten</value>
+  </data>
+  <data name="CreatingScene">
+    <value>Bezig met maken van omgeving</value>
+  </data>
+  <data name="CreatingTheRootObject">
+    <value>Bezig met maken van hoofdobjecten</value>
+  </data>
+  <data name="CreatorOfOriginalWingsOfFury">
+    <value>maker van originele Wings of Fury (1987)</value>
+  </data>
+  <data name="Credits">
+    <value>Auteurs</value>
+  </data>
+  <data name="Details">
+    <value>Details</value>
+  </data>
+  <data name="Difficulty">
+    <value>Moeilijkheidsgraad</value>
+  </data>
+  <data name="EnterYourName">
+    <value>Typ je naam</value>
+  </data>
+  <data name="ExitToMenu">
+    <value>Terug naar menu</value>
+  </data>
+  <data name="GameOver">
+    <value>Je hebt gefaald</value>
+  </data>
+  <data name="HallOfFame">
+    <value>Erelijst</value>
+  </data>
+  <data name="Highscores">
+    <value>Beste scores</value>
+  </data>
+  <data name="InitializingSound">
+    <value>Bezig met laden van geluid</value>
+  </data>
+  <!-- ID of the current language -->
+  <data name="LanguageID">
+    <value>Dutch</value>
+  </data>
+  <!-- level / stage of the game -->
+  <data name="Level">
+    <value>Level</value>
+  </data>
+  <data name="LoadingResources">
+    <value>Bezig met laden van data</value>
+  </data>
+  <data name="NewGame">
+    <value>Nieuw spel</value>
+  </data>
+  <!-- next menu option -->
+  <data name="Next">
+    <value>Volgende</value>
+  </data>
+  <data name="OK">
+    <value>OK</value>
+  </data>
+  <data name="Options">
+    <value>Opties</value>
+  </data>
+  <data name="Pause">
+    <value>Pauze</value>
+  </data>
+  <!-- previous menu option -->
+  <data name="Previous">
+    <value>Vorige</value>
+  </data>
+  <data name="Quit">
+    <value>Stoppen</value>
+  </data>
+  <data name="Resume">
+    <value>Doorgaan</value>
+  </data>
+  <data name="Rockets">
+    <value>Raketten</value>
+  </data>
+  <data name="SelectAmmunition">
+    <value>Selecteer munitie</value>
+  </data>
+  <data name="SetupingResources">
+    <value>Bewerk Data</value>
+  </data>
+  <data name="Sound">
+    <value>Geluid</value>
+  </data>
+  <data name="SpecialThanksToSteveWaldo">
+    <value>Speciale dank aan Steve Waldo</value>
+  </data>
+  <data name="Tutorial">
+    <value>Bediening</value>
+  </data>
+  <data name="VideoMode">
+    <value>Video modus</value>
+  </data>
+  <data name="VideoOptions">
+    <value>Video Opties</value>
+  </data>
+  <data name="VSync">
+    <value>VSync</value>
+  </data>
+  <data name="YouWonTheGame">
+    <value>je hebt het spel gewonnen</value>
+  </data>
+  <data name="AddingCompositors">
+    <value>Bezig met laden van shaders</value>
+  </data>
+  <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
+    <value>Alle vijandige soldaten zijn gedood, land op het vliegdekschip en druk op 'X'</value>
+  </data>
+  <data name="AverageFPS">
+    <value>Gemiddeld aantal FPS</value>
+  </data>
+  <data name="BestFPS">
+    <value>Hoogste aantal FPS</value>
+  </data>
+  <data name="ChooseAntialiasingMode">
+    <value>Kies antialiasing modus</value>
+  </data>
+  <data name="ChooseLevelOfDetail">
+    <value>Kies detailniveau</value>
+  </data>
+  <data name="ChooseVideoMode">
+    <value>Kies video modus</value>
+  </data>
+  <data name="CreatingInput">
+    <value>Bezig met laden input-paramaters</value>
+  </data>
+  <data name="CurrentFPS">
+    <value>Huidig aantal FPS</value>
+  </data>
+  <data name="EnableBloom">
+    <value>Activeer bloom</value>
+  </data>
+  <data name="EnableSound">
+    <value>Activeer geluid</value>
+  </data>
+  <data name="EnableVSync">
+    <value>Acitveer VSync</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheLeft">
+    <value>Vijandig vliegtuig nadert van links</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheRight">
+    <value>Vijandig vliegtuig nadert van rechts</value>
+  </data>
+  <!-- high difficulty / details -->
+  <data name="High">
+    <value>Hoog</value>
+  </data>
+  <data name="InverseKeys">
+    <value>Draai toetsen om</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRefuel">
+    <value>Land op het vliegdekschip en druk op 'X' om bij te tanken</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRepair">
+    <value>Land op het vliegdekschip en druk op 'X' voor reparaties</value>
+  </data>
+  <!-- low difficulty / details -->
+  <data name="Laag">
+    <value>Low</value>
+  </data>
+  <data name="LowFuelWarning">
+    <value>WAARSCHUWING, LAAG BRANDSTOFPEIL</value>
+  </data>
+  <data name="LowOilWarning">
+    <value>WAARSCHUWING, LAAG OLIEPEIL</value>
+  </data>
+  
+  <data name="Medium">
+    <value>Gemiddeld</value>
+  </data>
+  <data name="No">
+    <value>Nee</value>
+  </data>
+  <data name="PressEToTurnOnTheEngine">
+    <value>Druk op 'E' en blijf indrukken om de motor te starten</value>
+  </data>
+  <data name="PressXToChangeAmmo">
+    <value>Druk op 'X' om de munite te veranderen, voor reparaties en voor bijtanken</value>
+  </data>
+  <data name="ScreenshotWrittenTo">
+    <value>Screenshot geschreven naar</value>
+  </data>
+  <data name="StartFrom">
+    <value>Moeilijkheidsgraad</value>
+  </data>
+  <data name="TriangleCount">
+    <value>Aantal driehoeken</value>
+  </data>
+  <data name="WorstFPS">
+    <value>Slechtste aantal FPS</value>
+  </data>
+  <data name="Yes">
+    <value>Ja</value>
+  </data>
+  <data name="AreYouTryingToReachStarsCaptain">
+    <value>Probeer je nar de sterren te vliegen kapitein?</value>
+  </data>
+  <data name="EnemyInstallationDestroyed">
+    <value>Vijandige installtie vernietigt kapitein!</value>
+  </data>
+  <data name="EnemyInstallationsAreBothSideCaptain">
+    <value>Er zijn vijandige installaties aan beide kanten kapitein!</value>
+  </data>
+  <data name="EnemyInstallationsAreLeftCaptain">
+    <value>Er zijn vijandige installaties aan de linker zijde kapitein!</value>
+  </data>
+  <data name="EnemyInstallationsAreRightCaptain">
+    <value>Er zijn vijandige installaties aan de rechter zijde kapitein!</value>
+  </data>
+  <data name="EnemyPlaneDownIRepeat">
+    <value>Vijandig vliegtuig neergehaald! Ik herhaal! Vijandig vliegtuig neergehaald!</value>
+  </data>
+  <data name="KillAllEnemySoldiers">
+    <value>Dood alle vijandige soldaten. Er op af kapitein!</value>
+  </data>
+  <data name="OhNoEnemySoldiersAreRebuildingBunker">
+    <value>Oh, nee! Vijandige soldaten herbouwen een bunker!</value>
+  </data>
+  <data name="RetractYourLandingGearWithG">
+    <value>Haal je landingsgestel in met 'G'</value>
+  </data>
+  <data name="WARNINGProtectTheCarrierFromEnemyPlane">
+    <value>WAARSCHUWING! Bescherm het vliegdekschip tegen het vijandige vliegtuig!</value>
+  </data>
+  <data name="WeAreNotLeavingYetCaptain">
+    <value>We geven niet op kapitein!</value>
+  </data>
+  <data name="Languages">
+    <value>Talen</value>
+  </data>
+  <!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
+  <data name="CoreTeam">
+    <value>Hoofdteam</value>
+  </data>
+  <data name="SupportTeam">
+    <value>Ondersteunend team</value>
+  </data>
+  <data name="Graphics">
+    <value>Grafisch</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>Vertalingen</value>
+  </data>
+  <data name="Poland">
+    <value>Polen</value>
+  </data>
+  <data name="Donate">
+    <value>Doneer</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>Controleer op updates</value>
+  </data>
+   <!--
+        Next 5 messages will be concatenated into one.        
+    -->
+  <data name="DonateMessagePart1">   
+    <value>Als je het leuk vond,</value>
+  </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
+  <data name="DonateMessagePart2">
+    <value>overweeg a.u.b. te doneren.</value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>We hebben geld nodig</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>voor verdere spel-</value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>ontwikkeling (inclusief zee-eenheden).</value>
+  </data>
+  <!-- message displayed after pressing 'c' (change camera) key. -->
+  <data name="CameraChanged">
+    <value>Camerapositie veranderd</value>
+  </data>
+
+  <!-- added to rev. 265 -->
+  <data name="EnemySoldiersLeft">
+    <value>Vijandige soldaten over</value>
+  </data>
+
+  <!-- added to rev. 305 - Level stats -->
+  <data name="LevelStats">
+    <value>Level statistieken</value>
+  </data>
+
+  <data name="BombsDropped">
+    <value>Bommen laten vallen:</value>
+  </data>
+
+  <data name="BombsAccuracy">
+    <value>Bom precisie:</value>
+  </data>
+
+  <data name="RocketsFired">
+    <value>Raketten afgevuurd:</value>
+  </data>
+
+  <data name="RocketsAccuracy">
+    <value>Raket precisie:</value>
+  </data>
+
+  <data name="GunShellsFired">
+    <value>Kogels afgevuurd:</value>
+  </data>
+
+  <data name="GunAccuracy">
+    <value>Kanon precisie:</value>
+  </data>
+
+  <data name="PlanesDestroyed">
+    <value>Vliegtuigen neergehaald:</value>
+  </data>
+
+  <data name="LevelCompleted">
+    <value>Level uitgespeeld</value>
+  </data>
+
+  <data name="Engine"><!-- plane engine -->
+    <value>Motor</value>
+  </data>
+
+  <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
+    <value>Versnellen/Remmen/Draaien</value>
+  </data>
+
+  <data name="Pitch"><!-- changing of plane's altitude. -->
+    <value>Helling</value>
+  </data>
+
+  <data name="Spin"><!-- rolling the plane around its longwise -->
+    <value>Rollen</value>
+  </data>
+
+  <data name="Gear"><!-- landing gear -->
+    <value>Schakelen</value>
+  </data>
+
+  <data name="Gun">
+    <value>Kanon</value>
+  </data>
+
+  <data name="Camera">
+    <value>Camera</value>
+  </data>
+
+  <data name="Zoomin">
+    <value>Inzoomen</value>
+  </data>
+
+
+  <data name="Zoomout">
+    <value>Uitzoomen</value>
+  </data>
+
+  <data name="RearmEndMission">
+    <value>Opnieuw bewapenen/Missie beëindigen</value>
+  </data>
+  
+
+</root>
+
+
