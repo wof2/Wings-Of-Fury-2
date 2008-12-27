@@ -213,7 +213,7 @@ namespace Wof.Model.Configuration
             /// Określa maksymalną odległość wroga od gracza (na osi X), w której może atakować.
             /// Dodane, żeby samolot wroga strzelał z w miarę bliskiej odległości.
             /// </summary>
-            public static float ViewRange = 70;
+            public static float ViewRange = 80;
 
             /// <summary>
             /// Liczba dostepnych rakiet.

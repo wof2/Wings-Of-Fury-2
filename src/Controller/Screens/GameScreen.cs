@@ -206,8 +206,8 @@ namespace Wof.Controller.Screens
         }
 
 
-        
 
+        private int hiscoreCache = -1;
 
         private Boolean changingAmmo;
         private Boolean prevCouldChangeAmmo = false;
@@ -264,9 +264,9 @@ namespace Wof.Controller.Screens
             score = 0;
             this.lives = 2;
             this.fontSize = (uint)(EngineConfig.C_FONT_SIZE * viewport.ActualHeight);
-            
-            
 
+
+            hiscoreCache = -1;
             loading = true;
             wasLeftMousePressed = false;
 
@@ -479,11 +479,13 @@ namespace Wof.Controller.Screens
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUpEnd");
         }
 
-
+      
         public int GetHighscore()
         {
+            if (hiscoreCache != -1) return hiscoreCache;
             HighscoreUtil util = new HighscoreUtil();
-            return util.FindHighHighscore();
+            hiscoreCache = util.FindHighHighscore();
+            return hiscoreCache;
         }
 
         public void HandleInput(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
@@ -1667,6 +1669,10 @@ namespace Wof.Controller.Screens
             }
         }
 
+        public void OnWarCry(Plane plane)
+        {
+            levelView.OnWarCry(plane);
+        }
 
         public void OnPlaneDestroyed(Plane plane)
         {

@@ -115,8 +115,9 @@ namespace Wof.Controller
         private Audio stopEngineSound;
         private Audio failedEngineSound;
         private Audio bunkerFireSound;
-        private Audio soldierDeathSound, soldierDeathSound2;
         private Audio explosionSound;
+    
+        
         private Audio waterExplosionSound;
         private Audio missleSound;
         private Audio catchPlaneSound;
@@ -154,9 +155,9 @@ namespace Wof.Controller
                 stopEngineSound = new Audio("sounds/enginestop.wav");
                 failedEngineSound = new Audio("sounds/startengine.wav");
                 bunkerFireSound = new Audio("sounds/cannon.wav");
-                soldierDeathSound = new Audio("sounds/oh.wav");
-                soldierDeathSound2 = new Audio("sounds/oh2.wav");
+              
                 explosionSound = new Audio("sounds/explosion.wav");
+            
                 waterExplosionSound = new Audio("sounds/watersplash.wav");
                 missleSound = new Audio("sounds/missile.wav");
                 catchPlaneSound = new Audio("sounds/landing.wav");
@@ -253,6 +254,7 @@ namespace Wof.Controller
                 return;
             }
             startEngineSound.Ending += startHandler;
+            PlayDXSound(engineIdleSound,-1000);
             Play(startEngineSound);
         }
 
@@ -285,6 +287,9 @@ namespace Wof.Controller
         }
 
      
+     
+
+
         public void PlayExposionSound()
         {
             Play(explosionSound);
@@ -398,7 +403,7 @@ namespace Wof.Controller
 
         public void LoopOceanSound()
         {
-            PlayDXSound(oceanSound, -2000);
+            PlayDXSound(oceanSound, -1000);
         }
 
         public void HaltOceanSound()

@@ -907,6 +907,15 @@ namespace Wof.View
             }
         }
 
+        public void OnWarCry(Plane plane)
+        {
+            PlaneView p = FindPlaneView(plane);
+            if(p is EnemyPlaneView)
+            {
+                (p as EnemyPlaneView).PlayWarcry();
+            }
+        }
+
         public void OnFireGun(Plane plane)
         {
             PlaneView p = FindPlaneView(plane);

@@ -729,6 +729,7 @@ namespace Wof.Model.Level.Planes
         public Plane(Level level, PointD startPosition, Direction direction, bool isEnemy)
             : this(level, isEnemy)
         {
+         
             bounds = new Quadrangle(startPosition, width, height);
             this.direction = direction;
         }
@@ -2496,60 +2497,72 @@ namespace Wof.Model.Level.Planes
 
                 if (upSideDownFlightToUp)
                 {
-                    float delta = Math.Abs(Math.PI - Math.Abs(Bounds.Angle));
-                    if (delta <= rot)
-                    {
-                        Bounds.Rotate((int) direction*delta);
-                        movementVector.Y = 0;
-                        isBlockDown = false;
-                        isBlockUp = false;
+                  float delta = Math.Abs(Math.PI - Math.Abs(Bounds.Angle));
+                  if (delta <= rot)
+                  {
+                      Bounds.Rotate((int) direction*delta);
+                      movementVector.Y = 0;
+                      isBlockDown = false;
+                      isBlockUp = false;
 
-                        Speed = speedBeforeMaxHeightRotata;
-                        isMaxHeightRotate = false;
-                    }
-                    else
-                    {
-                        rotateValue = 0;
-                        Bounds.Rotate((int) direction*rot);
-                        Speed = minFlyingSpeed;
-                        isBlockDown = true;
-                        isBlockUp = true;
+                      Speed = speedBeforeMaxHeightRotata;
+                      isMaxHeightRotate = false;
+                  }
+                  else
+                  {
+                      rotateValue = 0;
+                      Bounds.Rotate((int) direction*rot);
+                      Speed = minFlyingSpeed;
+                      isBlockDown = true;
+                      isBlockUp = true;
 
-                        if ((int) direction*Angle <= 0)
-                        {
-                            isBlockDown = false;
-                            isBlockUp = false;
+                      if ((int) direction*Angle <= 0)
+                      {
+                          isBlockDown = false;
+                          isBlockUp = false;
 
-                            Speed = speedBeforeMaxHeightRotata;
-                            isMaxHeightRotate = false;
-                        }
-                    }
+                          Speed = speedBeforeMaxHeightRotata;
+                          isMaxHeightRotate = false;
+                      }
+                  }
                 }
                 if (normalFlightToUp)
                 {
-                    float delta = System.Math.Abs(Bounds.Angle);
+                  float delta = System.Math.Abs(Bounds.Angle);
 
-                    if (delta <= rot)
-                    {
-                        Bounds.Rotate((-1)*(int) direction*delta);
-                        movementVector.Y = 0;
-                        isBlockDown = false;
-                        isBlockUp = false;
+                  if (delta <= rot)
+                  {
+                      Bounds.Rotate((-1)*(int) direction*delta);
+                      movementVector.Y = 0;
+                      isBlockDown = false;
+                      isBlockUp = false;
 
-                        Speed = speedBeforeMaxHeightRotata;
-                        isMaxHeightRotate = false;
-                    }
-                    else
-                    {
-                        rotateValue = 0;
-                        Bounds.Rotate((-1)*(int) direction*rot);
-                        Speed = minFlyingSpeed;
-                        isBlockDown = true;
-                        isBlockUp = true;
-                    }
+                      Speed = speedBeforeMaxHeightRotata;
+                      isMaxHeightRotate = false;
+                  }
+                  else
+                  {
+                      rotateValue = 0;
+                      Bounds.Rotate((-1)*(int) direction*rot);
+                      Speed = minFlyingSpeed;
+                      isBlockDown = true;
+                      isBlockUp = true;
+                  }
                 }
             }
+
+
+            // awaryjne œci¹gniêcie na dó³ (próba ³atania buga)
+            if (Bounds.Center.Y > GameConsts.UserPlane.MaxHeight)
+            {
+
+                bounds.Move(new PointD(0,
+                                       -((Bounds.Center.Y - GameConsts.UserPlane.MaxHeight*0.99f)*time)/
+                                       timeUnit));
+
+            }
         }
+     
 
         /// <summary>
         /// Funkcja ograniczaj¹ca lot samolotu w prawo i w lewo

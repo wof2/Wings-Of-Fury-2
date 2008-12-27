@@ -20,6 +20,8 @@ namespace Wof.Controller
         public static readonly string C_MENU_CHEAT = "sounds/mario.ogg";
         public static readonly string C_STORAGE_PLANE_DESTROYED = "sounds/storage_plane.ogg";
 
+        public static readonly string C_ENEMY_WARCRY = "sounds/banzai.wav";
+        public static readonly string C_ENEMY_WARCRY2 = "sounds/banzai2.wav";
         private FreeSL.FSL_SOUND_SYSTEM soundSystem;
         private string currentMusic;
         public string CurrentMusic

@@ -65,6 +65,21 @@ namespace Wof.Model.Level.Planes
     {
         #region Constants
 
+
+        /// <summary>
+        /// pomocniczy licznik (czêstotliwoœæ okrzyków bojowych)
+        /// </summary>
+        private float warCryTimer;
+
+
+
+        /// <summary>
+        /// Okreœla czas po jakim mo¿e nast¹piæ ponowny okrzyk bojowy
+        /// </summary>
+        private const float warCryTimerMin = 20.0f;
+
+
+
         /// <summary>
         /// Maksymalna odlegloœæ od samolotu gracza, na któr¹ mo¿e siê oddaliæ.
         /// </summary>
@@ -219,6 +234,7 @@ namespace Wof.Model.Level.Planes
                 return;
             }
             float scaleFactor = time/timeUnit;
+            warCryTimer += scaleFactor;
 
             UpdateDamage(scaleFactor); //wyciek oleju
             HeightLimit(time, timeUnit);
@@ -478,10 +494,28 @@ namespace Wof.Model.Level.Planes
             //sprawdzam czy samolot nie jest za daleko, ¿eby atakowaæ
             if (Math.Abs(Center.X - level.UserPlane.Center.X) > GameConsts.EnemyPlane.ViewRange)
                 return;
+            
+           
             if (CanHitUserPlane(true)) //najpierw próbuje strzeliæ rakiet¹
+            {
+                if(warCryTimer > warCryTimerMin)
+                {
+                    level.Controller.OnWarCry(this);
+                    warCryTimer = 0;
+                }
                 FireRocket();
+            }
+                
             else if (CanHitUserPlane(false))
+            {
+                if (warCryTimer > warCryTimerMin)
+                {
+                    level.Controller.OnWarCry(this);
+                    warCryTimer = 0;
+                }
                 weaponManager.Fire(Angle, WeaponType.Gun);
+            }
+               
         }
 
         /// <summary>
@@ -490,6 +524,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private void AttackStoragePlanes()
         {
+            level.Controller.OnWarCry(this);
             // zmiana by Adam. Samolot moze zaatakowac nawet jesli samolot gracza jest na lotniskowcu, ale szansa jest niewielka
             // || Mogre.Math.RangeRandom(0.0f, 1.0f) > 0.99f
             // wycowalem

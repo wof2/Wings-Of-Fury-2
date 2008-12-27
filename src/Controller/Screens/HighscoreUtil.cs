@@ -55,10 +55,12 @@ namespace Wof.Controller.Screens
 {
     internal class HighscoreUtil
     {
+    
         public const String C_HIGHSCORES_FILE = "highscores.dat";
 
         public List<HighscoreEntry> LoadList()
         {
+         
             List<HighscoreEntry> highscores = new List<HighscoreEntry>();
 
             if (!File.Exists(C_HIGHSCORES_FILE))
@@ -144,9 +146,7 @@ namespace Wof.Controller.Screens
         public int FindLeastHighscore()
         {
             List<HighscoreEntry> highscores = LoadList();
-
             HighscoreEntry least = highscores[highscores.Count - 1];
-
             return least.Score;
         }
 
