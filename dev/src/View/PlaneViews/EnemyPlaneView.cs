@@ -63,13 +63,16 @@ namespace Wof.View
     {
         private static int enemyPlaneCounter = 1;
         protected FSLSoundObject engineSound = null;
+        protected FSLSoundObject warCrySound = null;
+        protected FSLSoundObject warCrySound2 = null;
+        protected Random random;
 
         public EnemyPlaneView(Plane plane, SceneManager sceneMgr, SceneNode parentNode)
             : base(plane, sceneMgr, parentNode, "EnemyPlane" + enemyPlaneCounter.ToString())
         {
             //nazwa musi byc unikalnym stringiem
             enemyPlaneCounter++;
-
+            random = new Random();
             if (LevelView.IsNightScene)
             {
                 InitLight(innerNode, new ColourValue(0.1f, 0.9f, 0.1f), new Vector3(9.1f, 0.05f, -1.9f),
@@ -95,6 +98,37 @@ namespace Wof.View
                 engineSound.Destroy();
                 engineSound = null; 
             }
+
+
+            if (warCrySound != null)
+            {
+                SoundManager3D.Instance.RemoveSound(warCrySound.Name);
+                warCrySound.Destroy();
+                warCrySound = null;
+            }
+
+
+            if (warCrySound2 != null)
+            {
+                SoundManager3D.Instance.RemoveSound(warCrySound2.Name);
+                warCrySound2.Destroy();
+                warCrySound2 = null;
+            }
+        }
+
+
+        public void PlayWarcry()
+        {
+           
+            if (random.Next(0, 101) > 50)
+            {
+                if (EngineConfig.SoundEnabled && !warCrySound.IsPlaying()) warCrySound.Play();
+            }
+            else
+            {
+                if (EngineConfig.SoundEnabled && !warCrySound2.IsPlaying()) warCrySound2.Play();
+            }
+
         }
 
         public void LoopEngineSound()
@@ -147,6 +181,9 @@ namespace Wof.View
             if (EngineConfig.SoundEnabled)
             {
                 engineSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_ENEMY_ENGINE_IDLE, this.planeNode, true, false);
+
+                warCrySound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_ENEMY_WARCRY, this.planeNode, false, false);
+                warCrySound2 = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_ENEMY_WARCRY2, this.planeNode, false, false);
             }
 
 

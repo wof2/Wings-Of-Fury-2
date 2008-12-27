@@ -264,6 +264,13 @@ namespace Wof.Controller
         /// <param name="plane"></param>
         void OnPlaneDestroyed(Plane plane);
 
+
+        /// <summary>
+        /// Krzyk pilota wroga
+        /// </summary>
+        /// <param name="plane"></param>
+        void OnWarCry(Plane plane);
+
         /// <summary>
         /// Funkcja Zostaje wywo³ana gdy lina hamuj¹ca z³apie samolot. 
         /// </summary>
