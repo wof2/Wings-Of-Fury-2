@@ -98,6 +98,7 @@ namespace Wof.Controller.Screens
                                     "Joao Andre Colaco Caine da Silva", 
                                     "Beauty",
                                     "RedFox2879",
+                                    "Jack Flushell",
                                     String.Empty,
                                     "Community Support",
                                     "Jonathan Rae",
