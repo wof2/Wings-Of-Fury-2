@@ -116,6 +116,7 @@ namespace Wof.View.Effects
             PLANECRASH,
             GUNHIT,
             GUNHIT2,
+            GUNTRAIL,
             SUBMERGE,
             SEAGULL,
             WATERTRAIL,
@@ -519,6 +520,11 @@ namespace Wof.View.Effects
                     info.material = "Effects/GunHit2";
                     break;
 
+                case EffectType.GUNTRAIL:
+                    info.duration = 0.2f;
+                    info.material = "Effects/GunTrail";
+                    break;
+                    
                 case EffectType.DEBRIS:
                     info.duration = 1.0f;
                     info.material = "Effects/Debris";
@@ -590,6 +596,26 @@ namespace Wof.View.Effects
             }
         }
 
+        public NodeAnimation.NodeAnimation GetEffect(string effectName)
+        {
+            if (EffectExists(effectName))
+            {
+                return effects[effectName] as NodeAnimation.NodeAnimation;
+            } else
+            {
+                return null;
+            }
+           
+        }
+
+        /// <summary>
+        /// Tworzy nazwê efektu u¿ywan¹ do indeksowania haszmapy effects[] przez animacje typu Sprite (nie dotyczy "rectangularEffect")
+        /// </summary>
+        /// <returns></returns>
+        public static string BuildSpriteEffectName(SceneNode parent, EffectType type, uint index)
+        {
+            return parent.Name + "_" + type.ToString() + "_index" + index;
+        }
 
         /// <summary>
         /// Startuje animacje efektow. Ustawia odpowiednie entities i buduje sceneNody.
@@ -611,7 +637,7 @@ namespace Wof.View.Effects
             SceneNode node;
             // EXPLOSIONS
 
-            string aName = parent.Name + "_" + type.ToString() + "_index" + index; // animation name
+            string aName = BuildSpriteEffectName(parent, type, index); // animation name
             string bsName = aName + "BS"; // billboardset name
             bool exists = false;
             MaterialPtr clonedMaterial = null;
@@ -705,6 +731,22 @@ namespace Wof.View.Effects
         }
 
 
+
+        /// <summary>
+        /// Tworzy nazwê efektu u¿ywan¹ do indeksowania haszmapy effects[] przez animacje typu RectangularEffect (nie dotyczy "sprite")
+        /// </summary>
+        /// <returns></returns>
+        public static string BuildRectangularEffectName(SceneNode parent, string localName)
+        {
+            return parent.Name + "_" + localName;
+        }
+
+        public bool EffectEnded(string effectName)
+        {
+            NodeAnimation.NodeAnimation anim = GetEffect(effectName);
+            return (anim != null && anim.Ended);
+        }
+
         /// <summary>
         /// Tworzy efekt oparty na animowanej teksturze na prostok¹cie. W odró¿nieniu od metody Sprite() efekt jest 3-wymiarowy, niekoniecznie zwrócony do kamery
         /// UWAGA: domyœlnie prostok¹t ma rozmiary 1 x 1 jednostek.
@@ -724,7 +766,7 @@ namespace Wof.View.Effects
             EffectInfo info = GetEffectInfo(type);
             string material = info.material;
 
-            string aName = parent.Name + "_" + localName; // animation name
+            string aName = BuildRectangularEffectName(parent, localName); // animation name
             MaterialPtr cloned;
             SceneNode node;
             Entity entity;

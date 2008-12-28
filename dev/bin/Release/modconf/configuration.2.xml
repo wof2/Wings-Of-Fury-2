@@ -63,7 +63,7 @@
     speed="34"
     oilLoss="1"
     minPitch = "10"
-    viewRange = "70"
+    viewRange = "85"
     rocketCount="4"
     nextRocketInterval = "1000"
     storagePlaneDistanceFault = "16"

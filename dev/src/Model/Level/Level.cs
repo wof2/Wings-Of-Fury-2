@@ -86,13 +86,13 @@ namespace Wof.Model.Level
         private const float timeUnit = 1000;
 
         /// <summary>
-        /// Czas do pojawienia siê pierwszego samolotu.
+        /// Czas do pojawienia siê nastêpnego samolotu.
         /// Wyra¿ony w ms.
         /// </summary>
         private const float timeToNextEnemy = 1*60*1000;
 
         /// <summary>
-        /// Czas do pojawienia siê nastêpnego samolotu.
+        /// Czas do pojawienia siê pierwszego samolotu.
         /// Wyra¿ony w ms.
         /// </summary>
         private const float timeToFirstEnemy = 1*60*1000;
