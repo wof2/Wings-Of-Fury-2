@@ -113,7 +113,8 @@ material Effects/GunHit2
 	}
 }
 
-material Effects/Debris
+
+material Effects/GunTrail
 {
 	technique
 	{
@@ -125,11 +126,37 @@ material Effects/Debris
 
 			texture_unit
 			{
-				anim_texture Debris.png 13 0			
+				anim_texture GunTrail.png 6 0			
 			}
 			
 		}
 	}
+}
+
+
+material Effects/Debris
+{
+
+
+	technique
+	{
+		pass
+		{
+			ambient 1 1 1
+			diffuse 1 1 1	
+			lighting off					
+			scene_blend alpha_blend	
+			depth_write off
+			texture_unit
+			{
+				anim_texture Debris.png 21 0		
+				alpha_op_ex modulate src_texture src_manual 0.7 0.7
+			}		
+
+		}
+
+	}
+	
 }
 
 

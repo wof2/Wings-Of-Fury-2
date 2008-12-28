@@ -90,7 +90,7 @@ namespace Wof.Model.Level.Weapon
         /// Minimalny dystans pomiedzy dwoma samolotami,
         /// aby jeden trafil w drugi.
         /// </summary>
-        private const int DistanceBetweenPlanes = 40;
+        private const int DistanceBetweenPlanes = 65;
 
         #endregion
 
