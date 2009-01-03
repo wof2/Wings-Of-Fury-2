@@ -96,7 +96,7 @@ namespace Wof.Model.Level
         /// Czas do pojawienia siê pierwszego samolotu.
         /// Wyra¿ony w ms.
         /// </summary>
-        private const float timeToFirstEnemy = 1*60*1000;
+        private const float timeToFirstEnemy = 0;//1*60*1000;
 
         #endregion
 
@@ -908,6 +908,12 @@ namespace Wof.Model.Level
                         (LevelTiles[i].HitBound.Intersects(plane.Bounds) ||
                          plane.Bounds.LowestY < OceanTile.waterDepth))
                     {
+                        if (plane is EnemyPlane)
+                        {
+                            int x = 0;
+                            x++;
+                        }
+
                         float terrainHeight;
                         if (LevelTiles[i].IsAircraftCarrier)
                         {

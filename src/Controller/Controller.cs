@@ -355,6 +355,11 @@ namespace Wof.Controller
         /// </summary>
         void OnPlaneWrecked(Plane Plane);
 
+        /// <summary>
+        /// Funkcja zostaje wywo³ana, gdy samolot wroga mija samolot gracza.
+        /// 
+        /// </summary>
+        void OnPlanePass(Plane plane);
 
         /// <summary>
         /// Ukrywa samolot (na razie)

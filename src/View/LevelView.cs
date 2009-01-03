@@ -1162,6 +1162,16 @@ namespace Wof.View
             }
         }
 
+        public void OnPlanePass(Plane plane)
+        {
+            PlaneView p = FindPlaneView(plane);
+
+            if (p is PlayerPlaneView)
+            {
+                (p as PlayerPlaneView).PlayPlanePass();
+            }
+        }
+
         public void OnFireGun(Plane plane)
         {
             PlaneView p = FindPlaneView(plane);
