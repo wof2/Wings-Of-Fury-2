@@ -22,6 +22,8 @@ namespace Wof.Controller
 
         public static readonly string C_ENEMY_WARCRY = "sounds/banzai.wav";
         public static readonly string C_ENEMY_WARCRY2 = "sounds/banzai2.wav";
+        public static readonly string C_PLANE_PASS = "sounds/plane_pass.wav";   
+
         private FreeSL.FSL_SOUND_SYSTEM soundSystem;
         private string currentMusic;
         public string CurrentMusic

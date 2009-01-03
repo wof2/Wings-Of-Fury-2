@@ -1854,6 +1854,11 @@ namespace Wof.Controller.Screens
             levelView.OnWarCry(plane);
         }
 
+        public void OnPlanePass(Plane plane)
+        {
+            levelView.OnPlanePass(plane);
+        }
+
         public void OnPlaneDestroyed(Plane plane)
         {
             if (plane.IsEnemy)

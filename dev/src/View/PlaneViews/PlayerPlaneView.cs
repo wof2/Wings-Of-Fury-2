@@ -48,14 +48,18 @@
 
 using Mogre;
 using Plane=Wof.Model.Level.Planes.Plane;
+using FSLOgreCS;
+using Wof.Controller;
 
 namespace Wof.View
 {
     public class PlayerPlaneView : P47PlaneView
     {
+        protected FSLSoundObject planePassSound = null;
+
         /// <summary>
         /// Samolot gracza w widoku
-        /// <author>Adam Witczak</author>
+        /// <author>Adam Witczak,Kamil S³awiñski</author>
         /// </summary> 
         public PlayerPlaneView(Plane plane, SceneManager sceneMgr, SceneNode parentNode)
             : base(plane, sceneMgr, parentNode, "PlayerPlane")
@@ -72,12 +76,32 @@ namespace Wof.View
             }
         }
 
-
-
-
         protected override void initOnScene()
         {
             base.initOnScene();
+            if (EngineConfig.SoundEnabled)
+            {
+                planePassSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_PLANE_PASS, this.planeNode, false, false);
+            }
+        }
+
+        ~PlayerPlaneView()
+        {
+            if (planePassSound != null)
+            {
+                SoundManager3D.Instance.RemoveSound(planePassSound.Name);
+                planePassSound.Destroy();
+                planePassSound = null;
+            }
+        }
+
+        public void PlayPlanePass()
+        {
+            if (EngineConfig.SoundEnabled && !planePassSound.IsPlaying())
+            {
+                planePassSound.SetGain(EngineConfig.SoundVolume / 100.0f);
+                planePassSound.Play();
+            }
         }
     }
 }

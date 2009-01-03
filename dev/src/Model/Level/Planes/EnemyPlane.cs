@@ -247,6 +247,10 @@ namespace Wof.Model.Level.Planes
                 //czy ma ju¿ zawróciæ
                 if (locationState == LocationState.Air)
                 {
+                    if (IsPassingUserPlane)
+                    {
+                        level.Controller.OnPlanePass(level.UserPlane);
+                    }
                     if (ShouldTurnRound)
                     {
                         if (RelativeAngle != 0) //jeœli musi podci¹gn¹æ lot, to najpierw wyrównuje do poziomu
@@ -595,6 +599,26 @@ namespace Wof.Model.Level.Planes
                         return false;
                     return DistanceToClosestPlane() > 20;
                 }
+            }
+        }
+
+        private float lastAbsDistance = -1.0f;
+
+        /// <summary>
+        /// Sprawdza, czy samolot min¹³ w³aœnie samolot gracza
+        /// </summary>
+        private bool IsPassingUserPlane
+        {
+            get
+            {
+                float currentDistanceToUserPlane = Center.X - level.UserPlane.Center.X;
+                float absDistance = Mogre.Math.Abs(currentDistanceToUserPlane);
+                float distanceFactor = 6.5f * Mogre.Math.Abs(level.UserPlane.MovementVector.X) / Plane.MinFlyingSpeed;
+
+                bool result = (absDistance < lastAbsDistance && absDistance < distanceFactor);
+
+                lastAbsDistance = absDistance;
+                return result;
             }
         }
 
