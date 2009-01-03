@@ -76,7 +76,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Okreœla czas po jakim mo¿e nast¹piæ ponowny okrzyk bojowy
         /// </summary>
-        private const float warCryTimerMin = 20.0f;
+        private const float warCryTimerMin = 40.0f;
 
 
 
@@ -524,7 +524,11 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private void AttackStoragePlanes()
         {
-            level.Controller.OnWarCry(this);
+            if (warCryTimer > warCryTimerMin)
+            {
+                level.Controller.OnWarCry(this);
+                warCryTimer = 0;
+            }
             // zmiana by Adam. Samolot moze zaatakowac nawet jesli samolot gracza jest na lotniskowcu, ale szansa jest niewielka
             // || Mogre.Math.RangeRandom(0.0f, 1.0f) > 0.99f
             // wycowalem

@@ -51,6 +51,7 @@ using Wof.Model.Level;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Troops;
 using Wof.Model.Level.Weapon;
@@ -96,9 +97,10 @@ namespace Wof.Controller
         /// <param name="gun">Typ broni przez ktora zginal zolnierz.
         /// Jesli gun jest ustawione na true, zolnierz zginal przez dzialko.
         /// Jesli gun jest ustawione na false, zolnierz zginal przez rakiete(bombe).
+        /// <param name="scream">czy ma byæ dŸwiêk</param>
         /// </param>
         /// <author>Michal Ziober</author>
-        void OnSoldierBeginDeath(Soldier soldier, bool gun);
+        void OnSoldierBeginDeath(Soldier soldier, bool gun, bool scream);
 
         /// <summary>
         /// Funkcja zglasza o zatrzymaniu pracy silnika.
@@ -136,6 +138,14 @@ namespace Wof.Controller
         /// <author>Michal Ziober</author>
         void OnTileBombed(LevelTile tile, Ammunition ammunition);
 
+
+        /// <summary>
+        /// Wywo³ane kiedy torpeda zosta³a uszkodzona i "zatonê³a"
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <param name="ammunition"></param>
+        void OnTorpedoSunk(LevelTile tile, Torpedo ammunition);
+
         /// <summary>
         /// Funkcja jest wywolywana jesli zostal trafiony wrogi obiekt,
         /// ktory mozna zniszczyc tego typu bronia.
@@ -146,6 +156,17 @@ namespace Wof.Controller
         /// <author>Michal Ziober</author>
         void OnTileDestroyed(LevelTile tile, Ammunition ammunition);
 
+
+        /// <summary>
+        /// Funkcja jest wywolywana jesli torpeda wpadnie do wody
+        /// </summary>
+        /// <param name="tile">Obiekt, ktory zostal trafiony.</param>
+        /// <param name="torpedo">Torpeda ktora trafila w obiekt.</param>
+        /// <param name="posX"></param>
+        /// <param name="posY"></param>
+        /// 
+        /// <author>Adam Witczak</author>
+        void OnTorpedoHitGroundOrWater(LevelTile tile, Torpedo torpedo, float posX, float posY);
 
         /// <summary>
         /// Wywo³ywane przez Model w momencie podjêcia decyzji o obrocie samolotu
@@ -208,6 +229,17 @@ namespace Wof.Controller
         /// <param name="rocket">Rakieta, ktora zostala wystrzelona.</param>
         /// <author>Michal Ziober</author>
         void OnRegisterRocket(Rocket rocket);
+
+
+        
+        /// <summary>
+        /// Funkcja informuje o wystrzeleniu torpedy przez samolot.
+        /// </summary>
+        /// <param name="torpedo">Torpeda, ktora zostala wystrzelona.</param>
+        /// <author>Adam Witczak</author>
+        void OnRegisterTorpedo(Torpedo torpedo);
+
+        
 
         /// <summary>
         /// Metoda jest wywolywana przez View, w momencie zakonczenia
@@ -290,8 +322,16 @@ namespace Wof.Controller
         /// lub gdy wyleci poza plansze.
         /// </summary>
         /// <param name="rocket">Rakieta do odrejestrowania.</param>
-        /// <author>Michal Ziober.</author>
+        /// <author>Michal Ziober</author>
         void OnUnregisterRocket(Rocket rocket);
+
+        /// <summary>
+        /// Funkcja zostanie wywolana gdy torpeda przekroczy dopuszczalny dystans,
+        /// lub gdy wyleci poza plansze.
+        /// </summary>
+        /// <param name="torpedo">Torpeda do odrejestrowania.</param>
+        /// <author>Adam Witczak</author>
+        void OnUnregisterTorpedo(Torpedo torpedo);
 
         /// <summary>
         /// Funkcja zostaje wywolana gdy zolnierz odbudowuje bunkier.
@@ -360,6 +400,38 @@ namespace Wof.Controller
         /// </summary>
         void OnPlaneWrongDirectionStart();
 
-       
+
+     
+        /// <summary>
+        /// Zaczyna pêtlê dŸwiêku z b¹belkami wodnymi
+        /// </summary>
+        void OnStartWaterBubblesSound();
+
+        /// <summary>
+        /// Zatrzymuje dŸwiêk z b¹belkami wodnymi
+        /// </summary>
+        void OnStopWaterBubblesSound();
+
+     
+        /// <summary>
+        /// Statek zaczyna ton¹æ
+        /// </summary>
+        /// <param name="tile"></param>
+        void OnShipBeginSinking(ShipTile tile);  
+        
+        /// <summary>
+        /// Statek tonie
+        /// </summary>
+        /// <param name="tile"></param>
+        void OnShipSinking(ShipTile tile);   
+        
+        
+        /// <summary>
+        /// Statek zaton¹³
+        /// </summary>
+        /// <param name="tile"></param>
+        void OnShipSunk(BeginShipTile tile);
+
+
     }
 }

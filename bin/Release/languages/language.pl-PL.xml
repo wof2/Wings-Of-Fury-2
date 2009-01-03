@@ -393,4 +393,15 @@
   </data>
 
 
+  <!-- added 2.01.2009 -->
+
+  <data name="Torpedo">
+    <value>Torpeda</value>
+  </data>
+  <data name="Torpedoes">
+    <value>Torpedy</value>
+  </data>
+
+
+
 </root>

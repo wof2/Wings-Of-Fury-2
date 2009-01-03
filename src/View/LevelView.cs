@@ -59,6 +59,7 @@ using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
+using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Troops;
 using Wof.Model.Level.Weapon;
@@ -172,6 +173,7 @@ namespace Wof.View
                 ammunitionViews = null;
             }
             RocketView.DestroyPool(); 
+            TorpedoView.DestroyPool();
             BombView.DestroyPool();
 
             if (backgroundViews != null)
@@ -233,7 +235,7 @@ namespace Wof.View
             }
         }
 
-        private SceneNode getSplashNode()
+        public SceneNode getSplashNode()
         {
             if (availableSplashNodesPool.Count == 0)
             {
@@ -244,7 +246,7 @@ namespace Wof.View
             return s;
         }
 
-        private void freeSplashNode()
+        public void freeSplashNode()
         {
             if (usedSplashNodesPool.Count == 0) return;
             SceneNode s = usedSplashNodesPool.Dequeue();
@@ -349,6 +351,23 @@ namespace Wof.View
             return tileViews.Find(delegate(TileView tv) { return tv.LevelTile == l; });
         }
 
+        public ShipView FindShipView(ShipTile t)
+        {
+            return compositeModelViews.Find(delegate(CompositeModelView c) { 
+                if(c is ShipView)
+                {
+                    foreach (TileView tv in (c as ShipView).TileViews)
+                    {
+                        if (tv.LevelTile == t) return true;
+                    }
+                }
+               
+                return false;
+            }) as ShipView;
+            
+        }
+
+
         public void OnRegisterTile(LevelTile levelTile)
         {
             if (EngineConfig.DisplayBoundingQuadrangles && !(levelTile is OceanTile))
@@ -380,6 +399,10 @@ namespace Wof.View
                         carrierView = new CarrierView(tempTileViews, framework, sceneMgr.RootSceneNode);
                         cmv = carrierView;
                     }
+                    else if (lastTileView is EndShipTile)
+                    {
+                        cmv = new ShipView(tempTileViews, framework, sceneMgr.RootSceneNode);
+                    }
 
                     if (cmv != null) compositeModelViews.Add(cmv);
 
@@ -391,25 +414,46 @@ namespace Wof.View
                     otv.initOnScene(this.sceneMgr.RootSceneNode, levelTile.TileIndex, 1);
                 }
             }
-            else if (levelTile is IslandTile || levelTile is AircraftCarrierTile)
+            else if (levelTile is IslandTile || levelTile is AircraftCarrierTile || levelTile is ShipTile)
             {
                 TileView tileView;
                 if (levelTile is BeginIslandTile)
                 {
                     tileView = new BeginIslandTileView(levelTile, framework);
                 }
+                else if (levelTile is BeginShipTile)
+                {
+                    tileView = new BeginShipTileView(levelTile, framework);
+                }
                 else if (levelTile is MiddleIslandTile)
                 {
                     tileView = new MiddleIslandTileView(levelTile, framework);
+                }
+                else if (levelTile is EndIslandTile)
+                {
+                    tileView = new EndIslandTileView(levelTile, framework);
+                }
+                else if (levelTile is MiddleShipTile)
+                {
+                     tileView = new MiddleShipTileView(levelTile, framework);
+                }
+                else if (levelTile is EndShipTile)
+                {
+                    tileView = new EndShipTileView(levelTile, framework);
                 }
                 else if (levelTile is BarrackTile)
                 {
                     tileView = new BarrackTileView(levelTile, framework);
                 }
+                else if (levelTile is ShipBunkerTile)
+                {
+                    tileView = new ShipBunkerTileView(levelTile, framework);
+                }
                 else if (levelTile is BunkerTile)
                 {
                     tileView = new BunkerTileView(levelTile, framework);
                 }
+                
                 else if (levelTile is BarrelTile)
                 {
                     tileView = new BarrelTileView(levelTile, framework);
@@ -456,13 +500,14 @@ namespace Wof.View
             }
         }
 
-        public void OnKillSoldier(Soldier soldier, Boolean dieFromExplosion)
+
+        public void OnKillSoldier(Soldier soldier, Boolean dieFromExplosion, bool scream)
         {
             int index = FindSoldierViewIndex(soldier);
             if (index == -1) return;
 
             SoldierView soldierView = soldierViews[index];
-            soldierView.PlaySoldierDeathSound();
+            if(scream) soldierView.PlaySoldierDeathSound();
 
             soldierViews.Remove(soldierView);
             dyingSoldierViews.Add(soldierView);
@@ -500,6 +545,11 @@ namespace Wof.View
             else if (ammunition is Rocket)
             {
                 ammunitionViews.Add(RocketView.GetInstance(ammunition));
+            }
+
+            else if (ammunition is Torpedo)
+            {
+                ammunitionViews.Add(TorpedoView.GetInstance(ammunition, this));
             }
         }
 
@@ -618,21 +668,13 @@ namespace Wof.View
 
 
             TileView t = FindTileView(bunker);
-            if (t is BunkerTileView)
+            if (t is EnemyInstallationTileView)
             {
-                BunkerTileView tv = (t as BunkerTileView);
+                EnemyInstallationTileView tv = (t as EnemyInstallationTileView);
                 tv.GunFire();
 
                 // TODO: obracac wybuch razem z dzialkiem
-                EffectsManager.Singleton.Sprite(
-                    sceneMgr,
-                    tv.GunNode,
-                    new Vector3(0, 0, -3),
-                    new Vector2(1, 1) + ViewHelper.UnsignedRandomVector2(0.2f, 0.2f),
-                    EffectsManager.EffectType.EXPLOSION1,
-                    false,
-                    0
-                    );
+             
             }
         }
 
@@ -706,6 +748,7 @@ namespace Wof.View
             p.Smash(); // vertex animation
         }
 
+       
         public void OnPlaneCrashed(Plane plane, TileKind tileKind)
         {
             PlaneView p = FindPlaneView(plane);
@@ -729,9 +772,10 @@ namespace Wof.View
                                                                    EffectsManager.EffectType.SUBMERGE, posView,
                                                                    new Vector2(25, 25), Quaternion.IDENTITY, false);
                     EffectsManager.Singleton.WaterImpact(sceneMgr, sceneMgr.RootSceneNode, posView,
-                                                         new Vector2(20, 32), false);
+                                                         new Vector2(20, 32), false, "");
                 }
                 break;
+                case TileKind.Ship:
                 case TileKind.Island:
                 case TileKind.AircraftCarrier:
                 {
@@ -769,10 +813,127 @@ namespace Wof.View
             OnAmmunitionExplode(null, rocket);
         }
 
+        public void OnUnregisterTorpedo(Torpedo torpedo)
+        {
+            OnAmmunitionExplode(null, torpedo);
+        }
+
+
+      
+
+
         public void OnEnemyPlaneBombed(Plane plane, Ammunition ammunition)
         {
             // PlaneView p = FindPlaneView(plane);
             OnAmmunitionExplode(null, ammunition);
+        }
+
+
+        /// <summary>
+        /// Torpeda trafia w wodê
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <param name="torpedo"></param>
+        /// <param name="posX"></param>
+        /// <param name="posY"></param>
+        public void OnTorpedoHitGroundOrWater(LevelTile tile, Torpedo torpedo, float posX, float posY)
+        {
+            
+            int index = FindAmmunitionViewIndex(torpedo);
+            if (index == -1) return;
+            AmmunitionView av = ammunitionViews[index];
+            uint hash = (uint) tile.GetHashCode();
+            
+            SceneNode splashNode = getSplashNode();
+            if (splashNode == null) return; // koniec poola
+
+            // plusk
+            NodeAnimation.NodeAnimation na;
+           
+            bool ocean = false;
+            if (tile is OceanTile)
+            {
+                ocean = true;
+            }
+            EffectsManager.EffectType type;
+            if (ocean)
+            {
+                type = EffectsManager.EffectType.WATERIMPACT2;
+            }
+            else
+            {
+                type = EffectsManager.EffectType.DIRTIMPACT1;
+            }
+           
+            
+            Vector3 position =
+                new Vector3(posX + ModelToViewAdjust, posY, 0);
+
+           
+            na =
+               EffectsManager.Singleton.RectangularEffect(sceneMgr, splashNode, type.ToString(), type, position,
+                                                          new Vector2(4, 4), Quaternion.IDENTITY, false);
+            na.Node.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
+            na.Node.Orientation *= new Quaternion(Math.RangeRandom(-0.1f, 0.1f) * Math.HALF_PI, Vector3.UNIT_Y);
+
+         
+            
+            na.onFinishInfo = na.Node;
+            na.onFinish = onFreeSplashNode;
+            
+        }
+
+      
+
+
+        public void OnAmmunitionExplode(LevelTile tile)
+        {
+            SceneNode splashNode = getSplashNode();
+            if (splashNode == null) return; // koniec poola
+            
+            Vector3 position =
+               new Vector3(Mathematics.IndexToPosition(tile.TileIndex) + ModelToViewAdjust, (tile.YBegin + tile.YEnd) / 2.0f, 0);
+
+            NodeAnimation.NodeAnimation na;
+            na = EffectsManager.Singleton.Sprite(
+                   sceneMgr,
+                   splashNode,
+                   position,
+                   new Vector2(3, 3) + ViewHelper.UnsignedRandomVector2(5),
+                   EffectsManager.EffectType.EXPLOSION2,
+                   false,
+                   (uint)splashNode.GetHashCode()
+                   );
+
+            na.onFinishInfo = na.Node;
+            na.onFinish = onFreeSplashNode;
+
+
+        }
+        public void OnAmmunitionVanish(LevelTile tile, Ammunition ammunition)
+        {
+
+            int index = FindAmmunitionViewIndex(ammunition);
+            if (index == -1) return;
+            AmmunitionView av = ammunitionViews[index];
+            ammunitionViews.RemoveAt(index);
+            av.Hide();
+
+
+            if (av is RocketView)
+            {
+                RocketView.FreeInstance(ammunition);
+            }
+            else if (av is TorpedoView)
+            {
+                TorpedoView.FreeInstance(ammunition);
+            }
+            else
+            {
+                BombView.FreeInstance(ammunition);
+            }
+            if (EngineConfig.ExplosionLights && IsNightScene) av.ExplosionFlash.Visible = false;
+
         }
 
         /// <summary>
@@ -782,6 +943,12 @@ namespace Wof.View
         /// <param name="ammunition"></param>
         public void OnAmmunitionExplode(LevelTile tile, Ammunition ammunition)
         {
+            if (ammunition == null)
+            {
+                OnAmmunitionExplode(tile);
+                return;
+            }
+
             int index = FindAmmunitionViewIndex(ammunition);
             if (index == -1) return;
             AmmunitionView av = ammunitionViews[index];
@@ -812,6 +979,7 @@ namespace Wof.View
                     false,
                     hash
                     );
+               
             }
             else
             {
@@ -826,8 +994,11 @@ namespace Wof.View
                     );
             }
 
+           
             ammunitionViews.RemoveAt(index);
             av.Hide();
+            
+          
             if (!ocean && EngineConfig.ExplosionLights && IsNightScene)
             {
                 // TODO: czas œwiecenia taki jak d³ugoœæ efektu EffectsManager.EffectType.EXPLOSION2
@@ -851,6 +1022,8 @@ namespace Wof.View
             na.onFinish = onAmmunitionExplodeFinish;
         }
 
+      
+
         private void onAmmunitionExplodeFinish(Object o)
         {
             Object[] args = (Object[]) o;
@@ -869,6 +1042,9 @@ namespace Wof.View
             if (av is RocketView)
             {
                 RocketView.FreeInstance(ammunition);
+            }else if (av is TorpedoView)
+            {
+                TorpedoView.FreeInstance(ammunition);
             }
             else
             {
@@ -884,12 +1060,70 @@ namespace Wof.View
             (v as BunkerTileView).Restore();
         }
 
+        protected void onUnregisterShip(BeginShipTile tile)
+        {
+            ShipView sv = FindShipView(tile);
+            if (sv == null) return;
+
+            sv.MainNode.SetVisible(false);
+            if (sv.MinimapItem != null) sv.MinimapItem.Hide();
+            
+       
+        }
+
+        public void OnShipSunk(BeginShipTile tile)
+        {
+            onUnregisterShip(tile);
+        }
+
+
+        public void OnShipSinking(ShipTile tile)
+        {
+            ShipView sv  = FindShipView(tile);
+            
+            if(sv == null) return;
+
+
+            Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(tile.TileIndex), 0.5f));
+            string name;
+            if (!EngineConfig.LowDetails)
+            {
+
+                for (int i = 0; i < 3; i++ )
+                {
+
+                    Vector2 rand = ViewHelper.RandomVector2(8, 8);
+                    Vector3 posView = new Vector3(v.x + rand.x, v.y, 0 + rand.y);
+                    name = EffectsManager.BuildRectangularEffectName(sceneMgr.RootSceneNode, "Submerge" + tile.GetHashCode() + "_" + i);
+                    if (!EffectsManager.Singleton.EffectExists(name) || EffectsManager.Singleton.EffectEnded(name))
+                    {
+                        EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
+                                                                   "Submerge" + tile.GetHashCode() + "_" + i,
+                                                                   EffectsManager.EffectType.SUBMERGE, posView,
+                                                                   new Vector2(25, 25), Quaternion.IDENTITY, false);
+                    }
+
+                    name = EffectsManager.BuildRectangularEffectName(sceneMgr.RootSceneNode, "WaterImpact1_" + tile.GetHashCode() + "_" + i);
+                    if (!EffectsManager.Singleton.EffectExists(name))
+                    {
+                        EffectsManager.Singleton.WaterImpact(sceneMgr, sceneMgr.RootSceneNode, posView, new Vector2(20, 32), false, tile.GetHashCode() + "_" + i);
+                    }
+
+                    
+                }
+                
+            }
+                
+            
+
+           
+        }
 
         public void OnTileDestroyed(LevelTile tile)
         {
-            if (tile is ConcreteBunkerTile || tile is WoodBunkerTile)
+            if (tile is ConcreteBunkerTile || tile is WoodBunkerTile || tile is ShipBunkerTile)
             {
-                BunkerTileView bunker = (BunkerTileView) FindTileView(tile);
+                EnemyInstallationTileView bunker = (EnemyInstallationTileView)FindTileView(tile);
                 if (bunker == null) return; // error
                 bunker.Destroy();
             }
@@ -904,7 +1138,19 @@ namespace Wof.View
                 BarrelTileView barrel = (BarrelTileView)FindTileView(tile);
                 if (barrel == null) return; // error
                 barrel.Destroy();
+            } else if(tile is ShipTile)
+            {
+                /*
+                ShipView sv = FindShipView(tile as ShipTile);
+                foreach(TileView tv in sv.TileViews)
+                {
+                    if(tv is ShipBunkerTileView)
+                    {
+                        (tv as ShipBunkerTileView).Destroy(true, true, true);
+                    }
+                }*/
             }
+
         }
 
         public void OnWarCry(Plane plane)
@@ -1087,11 +1333,23 @@ namespace Wof.View
 
             if (p.Plane != null)
             {
-              //  Console.WriteLine(p.Plane.Angle);
+           
+                // powieszona torpeda
+                if (p.Plane.Weapon.SelectWeapon == WeaponType.Torpedo && p.Plane.Weapon.IsTorpedoAvailable && p.Plane.IsNextTorpedoAvailable)
+                {
+                    p.ShowTorpedo();
+                }
+                else
+                {
+                    p.HideTorpedo();
+                }
                 
+
                 // slad na wodzie
                 if (p.IsReadyForLastWaterTrail)
                 {
+                   
+
                     SceneNode splashNode = getSplashNode();
                     if (splashNode != null) // koniec poola
                     {
@@ -1346,9 +1604,9 @@ namespace Wof.View
             {
                 sv = dyingSoldierViews[i];
                 sv.updateTime(evt.timeSinceLastFrame);
-                //sv.refreshPosition();
+                sv.refreshPosition();
 
-                if (sv.IsAnimationFinished())
+                if (sv.IsAnimationFinished() && !EngineConfig.BodiesStay)
                 {
                     dyingSoldierViews.Remove(sv);
                     i--;
@@ -1371,6 +1629,14 @@ namespace Wof.View
             if (carrierView != null)
             {
                 carrierView.updateTime(evt.timeSinceLastFrame);
+            }
+
+            foreach(CompositeModelView cv in this.compositeModelViews)
+            {
+                if(cv is ShipView)
+                {
+                    (cv as ShipView).refreshPosition();
+                }
             }
 
             count = backgroundViews.Count;
@@ -1405,6 +1671,7 @@ namespace Wof.View
             }
             BombView.InitPool(100, framework);
             RocketView.InitPool(80, framework);
+            TorpedoView.InitPool(10, framework);
             SoldierView.InitPool(70, framework);
 
             InitSplashPool(350);
@@ -1666,7 +1933,7 @@ namespace Wof.View
             na.onFinish = onFreeSplashNode;
         }
 
-        private void onFreeSplashNode(object o)
+        public void onFreeSplashNode(object o)
         {
             SceneNode animationNode = (SceneNode) o;
             animationNode.SetVisible(false);
@@ -1728,5 +1995,8 @@ namespace Wof.View
             currentCameraHolderIndex = -1;
             OnChangeCamera();
         }
+
+
+      
     }
 }

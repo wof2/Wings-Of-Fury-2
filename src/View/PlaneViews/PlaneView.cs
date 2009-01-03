@@ -60,12 +60,21 @@ using Plane=Wof.Model.Level.Planes.Plane;
 
 namespace Wof.View
 {
+
+   
+
     /// <summary>
     /// Reprezentaja samolotów w module widoku 
     /// <author>Adam Witczak , Kamil S³awiñski</author>
     /// </summary>
-    public abstract class PlaneView : VertexAnimable, CameraHolder
+    public abstract class PlaneView : VertexAnimable, CameraHolder, WaterTrailGenerator
     {
+
+        /// <summary>
+        /// Node trzymaj¹cy wizualizacjê torpedy
+        /// </summary>
+        protected SceneNode torpedoHolder;
+
         public bool IsReadyForLastWaterTrail
         {
             get
@@ -268,6 +277,16 @@ namespace Wof.View
 
 
         public abstract void SetBladeVisibility(bool visible);
+
+        /// <summary>
+        /// Wizualizacja podczepionej torpedy
+        /// </summary>
+        public abstract void ShowTorpedo();
+
+        /// <summary>
+        /// Wizualizacja podczepionej torpedy
+        /// </summary>
+        public abstract void HideTorpedo();
 
 
         public void ResetWheels()

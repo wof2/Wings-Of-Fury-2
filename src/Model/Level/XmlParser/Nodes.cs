@@ -58,15 +58,25 @@ namespace Wof.Model.Level.XmlParser
         public const string Ocean = @"ocean";
         public const string Barrels = @"barrels";
         public const string Terrain = @"terrain";
+       
         public const string Barrack = @"barrack";
         public const string IslandEnd = @"island-end";
         public const string IslandBegin = @"island-begin";
         public const string WoodenBunker = @"wooden-bunker";
         public const string ConcreteBunker = @"concrete-bunker";
+        public const string ShipWoodenBunker = @"ship-wooden-bunker";
+        public const string ShipConcreteBunker = @"ship-concrete-bunker";
+        
         public const string AircraftCarrier = @"aircraft-carrier";
         public const string AircraftCarrierEnd = @"aircraft-carrier-end";
         public const string AircraftCarrierBegin = @"aircraft-carrier-begin";
         public const string AircraftCarrierMiddle = @"aircraft-carrier-middle";
         public const string AircraftCarrierRestoreAmmunition = @"aircraft-carrier-restore-ammunition";
+        
+        public const string Ship = @"ship";
+        public const string ShipEnd = @"ship-end";
+        public const string ShipDeck = @"ship-deck";
+        public const string ShipBegin = @"ship-begin";
+        
     }
 }

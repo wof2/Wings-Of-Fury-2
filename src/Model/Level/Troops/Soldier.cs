@@ -53,6 +53,7 @@ using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+using Wof.Model.Level.LevelTiles.Watercraft;
 
 namespace Wof.Model.Level.Troops
 {
@@ -81,14 +82,25 @@ namespace Wof.Model.Level.Troops
         #region Fields
 
         /// <summary>
-        /// Pozycja na planszy.
+        /// Pozycja X na planszy.
         /// </summary>
         private float xPos;
 
         /// <summary>
+        /// Pozycja Y na planszy.
+        /// </summary>
+        private float yPos;
+
+        
+        /// <summary>
         /// Pozycja startowa zolnierza.
         /// </summary>
         private readonly float startPosition;
+
+        /// <summary>
+        /// Pocz¹tkowy indeks z leveltiles
+        /// </summary>
+        private int startLevelIndex;
 
         /// <summary>
         /// Kierunek poruszania.
@@ -132,6 +144,18 @@ namespace Wof.Model.Level.Troops
         /// </summary>
         private bool canDie;
 
+        private bool leftBornTile = false;
+
+        protected SoldierType type;
+
+        public enum SoldierType
+        {
+            SOLDIER,
+            GENERAL,
+            SEAMAN
+        } ;
+     
+
         #endregion
 
         #region Public Constructor
@@ -139,23 +163,26 @@ namespace Wof.Model.Level.Troops
         /// <summary>
         /// Publiczny konstruktor jednoparametrowy.
         /// </summary>
-        /// <param name="posX">Pozycja startowa zolnierza.</param>
+        /// <param name="posX">Pozycja startowa zolnierza (mierzona w tilesIndex.</param>
         /// <param name="direct">Kierunek w ktorym sie porusza.(Prawo,Lewo)</param>
         /// <param name="level">Referencja do obiektu planszy.</param>
         /// <author>Michal Ziober</author>
         /// <param name="offset"></param>
-        internal Soldier(float posX, Direction direct, Level level, float offset)
+        internal Soldier(float posX, Direction direct, Level level, float offset, SoldierType type)
         {
             //przy starcie jest zywy.
             isAlive = true;
             //pozycja startowa - pozycja zniszczonej instalacji
             xPos = posX*LevelTile.Width + offset;
             startPosition = posX;
+            startLevelIndex = (int)posX;
             direction = direct;
             refToLevel = level;
             canDie = false;
             canReEnter = false;
             protectedTime = 0;
+            this.type = type;
+         
         }
 
         #endregion
@@ -181,12 +208,44 @@ namespace Wof.Model.Level.Troops
             get { return isAlive; }
         }
 
+
+        public int StartLevelIndex
+        {
+            get { return startLevelIndex; }
+        }
+
+        /// <summary>
+        /// Rodzaj ¿o³nierza
+        /// </summary>
+        public SoldierType Type
+        {
+            get { return type; }
+        }
+
+        /// <summary>
+        /// Zwraca pozycje X zolnierza na planszy.
+        /// </summary>
+        public float XPosition
+        {
+            get { return xPos; }
+        }
+
+        /// <summary>
+        /// Zwraca pozycje Y zolnierza na planszy.
+        /// </summary>
+        public float YPosition
+        {
+            set { yPos = value; }
+            get { return yPos; }
+        }
+
+        
         /// <summary>
         /// Zwraca pozycje zolnierza na planszy.
         /// </summary>
-        public float Position
+        public PointD Position
         {
-            get { return xPos; }
+            get { return new PointD(xPos, yPos); }
         }
 
         /// <summary>
@@ -205,6 +264,15 @@ namespace Wof.Model.Level.Troops
             get { return canDie; }
         }
 
+         /// <summary>
+        /// 
+        /// </summary>
+        public float StartPosition
+        {
+            get { return startPosition; }
+        }
+        
+
         #endregion
 
         #region PrivateMethod
@@ -217,9 +285,21 @@ namespace Wof.Model.Level.Troops
         /// false w przeciwnym przypadku.</returns>
         private bool Check(int index)
         {
+            if (!leftBornTile) return true;
             IslandTile tiles = refToLevel.LevelTiles[index] as IslandTile;
-            if (tiles == null) return false;
-            return tiles.Traversable;
+            if (tiles == null)
+            {
+                ShipTile tiles2 = refToLevel.LevelTiles[index] as ShipTile;
+                if (tiles2 == null) return false; else
+                {
+                    return tiles2.Traversable;
+                }
+            } else
+            {
+                return tiles.Traversable;
+            }
+          
+           
         }
 
         /// <summary>
@@ -241,6 +321,7 @@ namespace Wof.Model.Level.Troops
         /// </summary>
         private void ChangeLocation(int time)
         {
+           
             //jesli idzie w prawo
             if (direction == Direction.Right)
             {
@@ -250,6 +331,8 @@ namespace Wof.Model.Level.Troops
                     xPos = tmpPosition;
                 else //zmienia kierunek
                     direction = Direction.Left;
+               // Check(Mathematics.PositionToIndex(tmpPosition));
+
             } //jesli idzie w lewo
             else
             {
@@ -259,7 +342,11 @@ namespace Wof.Model.Level.Troops
                     xPos = tmpPosition; //wchodzi na sasiednie pole.
                 else //zmienia kierunek.
                     direction = Direction.Right;
+              //  Check(Mathematics.PositionToIndex(tmpPosition));
             }
+            LevelTile tile = refToLevel.LevelTiles[Mathematics.PositionToIndex(xPos)];
+            yPos = (tile.YBegin + tile.YEnd) / 2.0f;
+
         }
 
         #endregion
@@ -301,7 +388,9 @@ namespace Wof.Model.Level.Troops
             //Jesli zolnierz zyje.
             if (isAlive)
             {
+               
                 int tileIndex = Mathematics.PositionToIndex(xPos);
+                if (tileIndex != startPosition) leftBornTile = true;
                 if (canReEnter //czy moze wejsc ponownie do bunkra.
                     && (tileIndex != startPosition) //jesli bunkier nie jest rodzicem.
                     && IsBunker(tileIndex) //jesli to jest bunkier.

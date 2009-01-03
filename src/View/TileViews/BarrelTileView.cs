@@ -77,6 +77,16 @@ namespace Wof.View
         }
 
 
+        public override void Restore()
+        {
+            
+        }
+
+        public override void GunFire()
+        {
+           
+        }
+
         public new void Destroy()
         {
             base.Destroy(true, false, false);

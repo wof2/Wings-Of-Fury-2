@@ -61,7 +61,7 @@ namespace Wof.Model.Level.LevelTiles
         /// Okreœla g³êbokoœæ Oceanu czyli o ile nale¿y obni¿yæ tile w stosunku do tego co jest
         /// zapisane w pliku. Potrzebne dla efektu falowania wody.
         /// </summary>
-        public static readonly float depth = -0.5f;
+        public static readonly float waterDepth = -0.5f;
 
         #endregion
 
@@ -94,7 +94,7 @@ namespace Wof.Model.Level.LevelTiles
                 base.TileIndex = value;
                 if (HitBound != null)
                 {
-                    HitBound.Move(0, depth);
+                    HitBound.Move(0, waterDepth);
                 }
             }
         }

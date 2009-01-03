@@ -68,10 +68,26 @@ namespace Wof.View.TileViews
         protected Entity installationEntity;
         protected AnimationState animationState;
 
+
+        protected SceneNode gunNode;
+
+        public SceneNode GunNode
+        {
+            get { return gunNode; }
+        }
+
         public EnemyInstallationTileView(LevelTile levelTile, FrameWork framework)
             : base(levelTile, framework)
         {
         }
+
+        public abstract void Restore();
+
+        /// <summary>
+        /// Wizualizacja ostrza³u prowadzonego przez instalacjê
+        /// </summary>
+        public abstract void GunFire();
+
 
         protected void SetLightFlareVisibility(bool visible)
         {
@@ -104,7 +120,7 @@ namespace Wof.View.TileViews
         public virtual void Destroy(bool smoke, bool firePossibility, bool switchToDieAnimationState)
         {
 
-            if (switchToDieAnimationState && installationEntity.HasVertexAnimation)
+            if (installationEntity!=null && switchToDieAnimationState && installationEntity.HasVertexAnimation)
             {
                 animationState = installationEntity.GetAnimationState("die");
                 if (animationState!=null)
@@ -121,7 +137,7 @@ namespace Wof.View.TileViews
             if (firePossibility && Math.RangeRandom(0.0f, 1.0f) > 0.8f)
             {
                 EffectsManager.Singleton.Sprite(sceneMgr, InstallationNode,
-                                                new Vector3(2, 2.2f, Math.RangeRandom(-4, 4)), new Vector2(5, 5),
+                                                new Vector3(2, 2.4f, Math.RangeRandom(-4, 4)), new Vector2(5, 5),
                                                 EffectsManager.EffectType.FIRE, true, 0);
             }
         }

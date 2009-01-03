@@ -229,6 +229,8 @@
     <Compile Include="src\Model\Level\Common\AircraftElement.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\Model\Level\Common\IRefsToLevel.cs" />
+    <Compile Include="src\Model\Level\Common\ShipElement.cs" />
     <Compile Include="src\Model\Level\Common\IRenderableQuadrangle.cs" />
     <Compile Include="src\Model\Level\Common\IMove.cs">
       <SubType>Code</SubType>
@@ -278,6 +280,7 @@
     <Compile Include="src\Model\Level\LevelTiles\AircraftCarrierTiles\RestoreAmmunitionCarrierTile.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\IDestroyable.cs" />
     <Compile Include="src\Model\Level\LevelTiles\IslandTiles\BeginIslandTile.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -315,6 +318,14 @@
     <Compile Include="src\Model\Level\LevelTiles\OceanTile.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\Model\Level\LevelTiles\Watercraft\BeginShipTile.cs" />
+    <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipConcreteBunkerTile.cs" />
+    <Compile Include="src\Model\Level\LevelTiles\Watercraft\MiddleShipTile.cs" />
+    <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipState.cs" />
+    <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipTile.cs" />
+    <Compile Include="src\Model\Level\LevelTiles\Watercraft\EndShipTile.cs" />
+    <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipBunkerTile.cs" />
+    <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipWoodBunkerTile.cs" />
     <Compile Include="src\Model\Level\Planes\EnemyPlane.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -420,6 +431,7 @@
     </Compile>
     <Compile Include="src\View\AmmunitionViews\AmmunitionView.cs" />
     <Compile Include="src\View\AmmunitionViews\BombView.cs" />
+    <Compile Include="src\View\AmmunitionViews\TorpedoView.cs" />
     <Compile Include="src\View\AmmunitionViews\RocketView.cs" />
     <Compile Include="src\View\CameraHolder.cs" />
     <Compile Include="src\View\CarrierView.cs" />
@@ -429,6 +441,7 @@
     <Compile Include="src\View\Effects\EffectsManager.cs" />
     <Compile Include="src\View\Effects\ParticleManager.cs" />
     <Compile Include="src\View\Effects\Quadrangle3D.cs" />
+    <Compile Include="src\View\Effects\WaterTrailGenerator.cs" />
     <Compile Include="src\View\IslandView.cs" />
     <Compile Include="src\View\LevelView.cs" />
     <Compile Include="src\View\NodeAnimation\ConstMoveNodeAnimation.cs" />
@@ -463,6 +476,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\View\TileViews\BarrelTileView.cs" />
+    <Compile Include="src\View\ShipView.cs" />
+    <Compile Include="src\View\TileViews\BeginShipTileView.cs" />
+    <Compile Include="src\View\TileViews\EndShipTileView.cs" />
+    <Compile Include="src\View\TileViews\EndIslandTileView.cs" />
+    <Compile Include="src\View\TileViews\MiddleShipTileView.cs" />
+    <Compile Include="src\View\TileViews\ShipBunkerTileView.cs" />
     <Compile Include="src\View\TileViews\EnemyInstallationTileView.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -53,6 +53,7 @@ using Mogre;
 using Wof.Controller;
 using Wof.Misc;
 using Wof.Model.Level;
+using Wof.Model.Level.Common;
 using Wof.Model.Level.Troops;
 using Wof.View.Effects;
 using Wof.View.VertexAnimation;
@@ -181,20 +182,13 @@ namespace Wof.View
             }
         }
 
-
+      
      
 
         protected void preInitOnScene()
         {
-
-
             soldierModel = sceneMgr.CreateEntity("Soldier" + soldierID.ToString(), "Soldier.mesh");
-
-            if (soldierID%3 == 0)
-            {
-                soldierModel.SetMaterialName("General");
-            }
-
+           
             soldierNode =
                 sceneMgr.RootSceneNode.CreateChildSceneNode("SoldierNode" + soldierID.ToString(),
                                                             new Vector3(-1000000, -1000000, 0));
@@ -246,6 +240,16 @@ namespace Wof.View
 
         protected void postInitOnScene()
         {
+            switch (soldier.Type)
+            {
+                case Soldier.SoldierType.GENERAL:
+                    soldierModel.SetMaterialName("General");
+                    break;
+
+                case Soldier.SoldierType.SEAMAN:
+                    soldierModel.SetMaterialName("Seaman");
+                    break;
+            }
             Run();
             refreshPosition();
             soldierNode.SetVisible(true);
@@ -268,10 +272,10 @@ namespace Wof.View
 
         public void refreshPosition()
         {
-            //Vector2 v = UnitConverter.LogicToWorldUnits(4);//soldier.XPos);
-            float x = (float) (soldier.Position) + LevelView.ModelToViewAdjust;
-            soldierNode.SetPosition(x, 1, 0);
-
+          
+            Vector2 v = UnitConverter.LogicToWorldUnits(soldier.Position);
+            soldierNode.SetPosition(v.x, v.y - 0.5f, 0);
+           
             if (soldier.Direction == Direction.Right)
             {
                 soldierNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);

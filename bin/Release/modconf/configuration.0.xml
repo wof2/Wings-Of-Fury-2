@@ -33,6 +33,7 @@
     petrolLoss="1"
     bombCount="30"
     rocketCount="30"
+    torpedoCount="3" 
     breakingPower = "4"
     hitCoefficient="0.3"
     rangeSlowWheelingSpeed = "0.004"
@@ -121,5 +122,13 @@
   <Rocket
     fireInterval = "350"
     baseSpeed = "30"/>
+
+  <!--Torpedy:
+  fireInterval - Przedzial czasu, jaki musi uplynac, aby gracz mogl zrzucic nastepna rakiete. Podany w milisekundach(ms). Typ: int
+  maxSpeed - Maksymalna pozioma predkosc torpedy. Typ: int
+  -->
+  <Torpedo
+   fireInterval = "1200"
+   baseSpeed = "10"/>
   
 </Config>

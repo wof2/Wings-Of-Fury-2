@@ -50,6 +50,7 @@ using System;
 using System.Collections.Generic;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Troops;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
@@ -70,7 +71,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
     /// Klasa abstarkcyjna dla wszystkich instalacji obronnych na 
     /// planszy.
     /// </summary>
-    public abstract class EnemyInstallationTile : IslandTile
+    public abstract class EnemyInstallationTile : IslandTile, IDestroyable, IRefsToLevel
     {
         #region Static Fields
 
@@ -98,11 +99,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// </summary>
         protected int soldiersCount;
 
-        /// <summary>
-        /// Referencja do obiektu level.
-        /// </summary>
-        protected Level refToLevel;
-
+        
         #endregion
 
         #region Public Constructor
@@ -123,7 +120,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             Initializing();
             soldiersCount = soldierNum;
             
-            IncrementCompleteInstallationCount();
+            IncrementIntactInstallationCount();
         }
 
         #endregion
@@ -192,7 +189,18 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 
             for (int i = 0; i < soldiersCount; i++)
             {
-                newSoldier = new Soldier(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9));
+                Soldier.SoldierType stype = Soldier.SoldierType.SOLDIER;
+                if(this is ShipBunkerTile)
+                {
+                    stype = Soldier.SoldierType.SEAMAN;
+                } else
+                {
+                    if (rand.NextDouble() > 0.67f)
+                    {
+                        stype = Soldier.SoldierType.GENERAL;
+                    }
+                }
+                newSoldier = new Soldier(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9), stype);
                 newSoldier.Speed = rand.Next(GameConsts.Soldier.MinSpeed, GameConsts.Soldier.MaxSpeed);
                 if (curentDirect == Direction.Left)
                     curentDirect = Direction.Right;
@@ -207,13 +215,13 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             //zeruje liczbe zolnierzy w bunkrze.
             soldiersCount = 0;
 
-            DecrementCompleteInstallationCount();
+            DecrementIntactInstallationCount();
         }
 
         /// <summary>
         /// Zwieksza o 1 liczbe niezniszczonych instalacji obronnych.
         /// </summary>
-        public static void IncrementCompleteInstallationCount()
+        public static void IncrementIntactInstallationCount()
         {
             lock (lockObject)
             {
@@ -224,7 +232,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// <summary>
         /// Zmniejsza o 1 liczbe niezniszczonych instalacji obronnych.
         /// </summary>
-        public static void DecrementCompleteInstallationCount()
+        public static void DecrementIntactInstallationCount()
         {
             lock (lockObject)
             {

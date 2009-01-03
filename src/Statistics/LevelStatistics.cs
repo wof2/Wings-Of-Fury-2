@@ -77,6 +77,13 @@ namespace Wof.Statistics
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int mRocketCount;
 
+
+        /// <summary>
+        /// Liczba wystrzelonych torped.
+        /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int mTorpedoCount;
+
         /// <summary>
         /// Liczba zrzuconych bomb.
         /// </summary>
@@ -95,6 +102,14 @@ namespace Wof.Statistics
         /// </summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int mHitByRocket;
+
+        /// <summary>
+        /// Liczba celnych trafien
+        /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int mHitByTorpedo;
+
+        
  
         /// <summary>
         /// Liczba trafien bombami: zniszczony bunkier lub 
@@ -129,7 +144,16 @@ namespace Wof.Statistics
             set { this.mRocketCount = value; }
         }
 
+        /// <summary>
+        /// Pobiera lub ustawia liczbe uzytych torped.
+        /// </summary>
+        public int TorpedoCount
+        {
+            get { return this.mTorpedoCount; }
+            set { this.mTorpedoCount = value; }
+        }
 
+        
          /// <summary>
         /// Pobiera lub ustawia liczbe zestrzelonych / rozbitych samolotów.
         /// </summary>
@@ -180,6 +204,16 @@ namespace Wof.Statistics
         }
 
         /// <summary>
+        /// Pobiera lub ustawia liczbe trafien przez torpedo.
+        /// </summary>
+        /// <remarks>Jest to liczba zniszczonych instalacji obronnych plus liczba zabitych zolnierzy.</remarks>
+        public int HitByTorpedo
+        {
+            get { return this.mHitByTorpedo; }
+            set { this.mHitByTorpedo = value; }
+        }
+
+        /// <summary>
         /// Pobiera lub ustawia liczbe trafien przez dzialko.
         /// </summary>
         /// <remarks>Jest to liczba zabitych zolnierzy.</remarks>
@@ -199,6 +233,19 @@ namespace Wof.Statistics
                 if (this.mRocketCount == 0)
                     return 0;
                 return Convert.ToInt32(Math.Ceiling(((double)this.mHitByRocket / (double)this.mRocketCount) * 100));
+            }
+        }
+
+        /// <summary>
+        /// Pobiera procentowa skutecznosc torped.
+        /// </summary>
+        public int TorpedoStats
+        {
+            get
+            {
+                if (this.mTorpedoCount == 0)
+                    return 0;
+                return Convert.ToInt32(Math.Ceiling(((double)this.mHitByTorpedo / (double)this.mTorpedoCount) * 100));
             }
         }
 
@@ -237,6 +284,7 @@ namespace Wof.Statistics
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("Skuteczność procentowa:");
             builder.AppendLine("Rakiety: " + RocketStats + "%");
+            builder.AppendLine("Torpedy: " + TorpedoStats + "%");
             builder.AppendLine("Bomby: " + BombStats + "%");
             builder.AppendLine("Działko: " + GunStats + "%");
             return builder.ToString();

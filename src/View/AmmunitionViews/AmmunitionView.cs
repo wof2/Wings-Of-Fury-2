@@ -111,7 +111,7 @@ namespace Wof.View
             ammunitionID = ammunitionCounter++;
         }
 
-        public void refreshPosition()
+        public virtual void refreshPosition()
         {
             if (ammunition != null)
             {
@@ -123,6 +123,9 @@ namespace Wof.View
                 {
                     minimapItem.Refresh();
                 }
+
+
+
             }
         }
 

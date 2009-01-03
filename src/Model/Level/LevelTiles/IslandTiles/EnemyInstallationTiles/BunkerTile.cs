@@ -46,10 +46,12 @@
  * 
  */
 
+using System;
 using System.Collections.Generic;
-using Mogre;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.Planes;
+using Wof.Model.Level.Troops;
+using Math=Mogre.Math;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 {
@@ -172,11 +174,11 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// <author>Michal Ziober</author>
         public virtual void Reconstruct()
         {
-            enemyState = EnemyInstallationState.Complete;
+            enemyState = EnemyInstallationState.Intact;
             angle = NinetyDegree;
             lightAngle = MinAngle;
             
-            EnemyInstallationTile.IncrementCompleteInstallationCount();
+            EnemyInstallationTile.IncrementIntactInstallationCount();
         }
 
         /// <summary>
@@ -200,13 +202,35 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             soldiersCount++;
         }
 
+
+        public override float Sink(float time, float timeUnit)
+        {
+            float amount = base.Sink(time, timeUnit);
+            if(amount > 0)
+            {
+                
+                List<Soldier> soldiers = refToLevel.SoldiersList.FindAll(Predicates.FindSoldierFromStartingIndex(TileIndex));
+
+                foreach(Soldier s in soldiers)
+                {
+                    s.YPosition -= amount;
+                 //   Console.WriteLine("model Y: " + s.Position.Y);
+                }
+                return amount;
+            }
+
+            return 0;
+            
+        }
+
+
         #endregion
 
         #region Protected & Private Methods
 
         /// <summary>
         /// Ustawia kat dzialka.
-        /// <param name="Width">Szerokosc pola widzenia.</param>
+        /// <param name="width">Szerokosc pola widzenia.</param>
         /// </summary>
         /// <author>Michal Ziober</author>
         protected void SetAngle(float width)
@@ -333,6 +357,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         {
             get { return System.Environment.TickCount - RecoveryTime > destroyTime; }
         }
+
 
         #endregion
     }

@@ -49,7 +49,7 @@
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 {
     /// <summary>
-    /// Enum muwiacy o tym czy dana instalacja obronna jest obecnie 
+    /// Enum mowiacy o tym czy dana instalacja obronna jest obecnie 
     /// zniszczona czy tez czynna.
     /// </summary>
     public enum EnemyInstallationState
@@ -62,7 +62,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// <summary>
         /// Instalacja nie jest zniszczona.
         /// </summary>
-        Complete,
+        Intact,
 
         /// <summary>
         /// Stan nie znany.

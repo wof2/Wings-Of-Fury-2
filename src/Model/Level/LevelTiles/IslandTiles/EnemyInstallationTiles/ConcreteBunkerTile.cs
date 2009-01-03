@@ -75,7 +75,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             : base(yBegin, yEnd, hitBound, soldierNum, type, collisionRectangle)
         {
             //instalacja przy starcie nie jest zniszczona.
-            enemyState = EnemyInstallationState.Complete;
+            enemyState = EnemyInstallationState.Intact;
             //pole razenia Ustawione podczas ustawiania indeksu.
             horizon = null;
             currentTime = 0;

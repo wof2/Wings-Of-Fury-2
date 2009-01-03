@@ -66,6 +66,7 @@ using Wof.Model.Level;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Troops;
 using Wof.Model.Level.Weapon;
@@ -88,6 +89,10 @@ namespace Wof.Controller.Screens
         private const int C_BARRACK_SCORE = 20;
         private const int C_WOODEN_BUNKER_SCORE = 30;
         private const int C_CONCRETE_BUNKER_SCORE = 50;
+        private const int C_SHIP_WOODEN_BUNKER_SCORE = 35;
+        private const int C_SHIP_CONCRETE_BUNKER_SCORE = 55;
+
+        
         private const int C_ENEMY_PLANE_SCORE = 35;
         private const int C_LIFE_LEFT = 50;
 
@@ -95,6 +100,16 @@ namespace Wof.Controller.Screens
         public const float C_RESPONSE_DELAY = 0.16f;
 
         private int lastFireTick = 0;
+
+        /// <summary>
+        /// Indeks aktualnie zaznaczonej broni (w menu wyboru broni)
+        /// </summary>
+        private int ammoSelectedIndex;
+        private int ammoSelectedIndexCount = 3;
+        
+        
+                            
+                            
 
         // obiekty kontroli sceny
         private readonly GameEventListener gameEventListener;
@@ -139,7 +154,7 @@ namespace Wof.Controller.Screens
         /// </summary>
         private Window hintWindow;
         private Button resumeButton = null, exitButton = null, gameOverButton = null, nextLevelButton = null;
-        private Button bombsButton, rocketsButton;
+        private Button bombsButton, rocketsButton, torpedoesButton;
         private uint mousePosX, mousePosY;
 
 
@@ -252,7 +267,7 @@ namespace Wof.Controller.Screens
             this.gameEventListener = gameEventListener;
             sceneMgr = FrameWork.SceneMgr;
             viewport = framework.Viewport;
-
+            ammoSelectedIndex = ammoSelectedIndexCount; // wiêkszy ni¿ najwiêkszy mo¿liwy
             camera = framework.Camera;
             mousePosX = (uint) viewport.ActualWidth/2;
             mousePosY = (uint) viewport.ActualHeight/2;
@@ -645,27 +660,99 @@ namespace Wof.Controller.Screens
                         }
 
                         // zmiana amunicji za pomoc¹ klawiatury
-                        if (changingAmmo && Button.CanChangeSelectedButton(3.0f))
+                        if (changingAmmo && Button.CanChangeSelectedButton(0.2f))
                         {
-                            // wybierz bomby
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_UP) || inputKeyboard.IsKeyDown(KeyCode.KC_B) || joyVector.y > 0)
+                            Button.ResetButtonTimer();
+                            if (inputKeyboard.IsKeyDown(KeyCode.KC_UP) || joyVector.y > 0)
                             {
-                                bombsButton.callback.LS.onButtonPress(bombsButton);
-                                Button.ResetButtonTimer();
+                                ammoSelectedIndex -= 1;
                             }
-                            else
-                                // wybierz rakiety
-                                if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN) || inputKeyboard.IsKeyDown(KeyCode.KC_R) || joyVector.y < 0)
-                                {
-                                    rocketsButton.callback.LS.onButtonPress(rocketsButton);
-                                    Button.ResetButtonTimer();
-                                }
 
+                            if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN) || joyVector.y < 0)
+                            {
+                                ammoSelectedIndex += 1;
+                            }
+
+                            if (inputKeyboard.IsKeyDown(KeyCode.KC_B))
+                            {
+                                ammoSelectedIndex = 0;
+                            }
+
+                            if (inputKeyboard.IsKeyDown(KeyCode.KC_R))
+                            {
+                                ammoSelectedIndex = 1;
+                            }
+
+                            if (inputKeyboard.IsKeyDown(KeyCode.KC_T))
+                            {
+                                ammoSelectedIndex = 2;
+                            }
+
+
+
+                            if (ammoSelectedIndex > ammoSelectedIndexCount)
+                            {
+                                ammoSelectedIndex = ammoSelectedIndexCount - 1;
+                            }
+
+                            if (ammoSelectedIndex < 0)
+                            {
+                                ammoSelectedIndex = 0;
+                            }
+
+                            switch (ammoSelectedIndex)
+                            {
+                                case 0:
+                                    bombsButton.activate(true);
+                                    rocketsButton.activate(false);
+                                    torpedoesButton.activate(false);
+                                    break;
+
+                                case 1:
+                                    bombsButton.activate(false);
+                                    rocketsButton.activate(true);
+                                    torpedoesButton.activate(false);
+                                    break;
+
+                                case 2:
+                                    bombsButton.activate(false);
+                                    rocketsButton.activate(false);
+                                    torpedoesButton.activate(true);
+                                    break;
+                            }
+
+                            if (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || inputKeyboard.IsKeyDown(KeyCode.KC_B) || inputKeyboard.IsKeyDown(KeyCode.KC_R) || inputKeyboard.IsKeyDown(KeyCode.KC_T))
+                            {
+                                switch (ammoSelectedIndex)
+                                {
+                                    case 0:
+                                        // bomby
+                                        bombsButton.callback.LS.onButtonPress(bombsButton);
+                                        ammoSelectedIndex = ammoSelectedIndexCount;
+                                    break;
+
+                                    case 1:
+                                        // rakiety
+                                        rocketsButton.callback.LS.onButtonPress(rocketsButton);
+                                        ammoSelectedIndex = ammoSelectedIndexCount;
+                                    break;
+
+                                    case 2:
+                                        // torpedy
+                                        torpedoesButton.callback.LS.onButtonPress(torpedoesButton);
+                                        ammoSelectedIndex = ammoSelectedIndexCount;
+                                    break;
+
+                                }
+                            }
+                          
+                            
 
                             if (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape))
                             {
                                 ClearRestoreAmmunitionScreen();
                                 Button.ResetButtonTimer();
+                                ammoSelectedIndex = ammoSelectedIndexCount;
                             }
                         }
 
@@ -766,7 +853,7 @@ namespace Wof.Controller.Screens
                             // strzal z rakiety
                             if (inputKeyboard.IsKeyDown(KeyCode.KC_X) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Rocket))
                             {
-                                currentLevel.OnFireRocket();
+                                currentLevel.OnFireSecondaryWeapon();
                             }
 
                             // strzal z dzialka
@@ -1257,11 +1344,21 @@ namespace Wof.Controller.Screens
                                                              viewport.ActualWidth / 2, GetTextVSpacing()),
                                                  "bgui.button",
                                                  LanguageResources.GetString(LanguageKey.Bombs), cc);
+            bombsButton.activate(true);
             rocketsButton = guiWindow.createButton(new Vector4(viewport.ActualWidth/4,
                                                                viewport.ActualHeight / 4 + 3 * GetTextVSpacing(),
                                                                viewport.ActualWidth / 2, GetTextVSpacing()),
                                                    "bgui.button",
                                                    LanguageResources.GetString(LanguageKey.Rockets), cc);
+
+
+            torpedoesButton = guiWindow.createButton(new Vector4(viewport.ActualWidth / 4,
+                                                               viewport.ActualHeight / 4 + 4 * GetTextVSpacing(),
+                                                               viewport.ActualWidth / 2, GetTextVSpacing()),
+                                                   "bgui.button",
+                                                   LanguageResources.GetString(LanguageKey.Torpedoes), cc);
+
+            
             guiWindow.show();
         }
 
@@ -1360,6 +1457,18 @@ namespace Wof.Controller.Screens
 
                 return;
             }
+
+            if (referer == torpedoesButton)
+            {
+                // zmieniam bron na torpedy
+                currentLevel.OnRestoreAmmunition(WeaponType.Torpedo);
+                ClearRestoreAmmunitionScreen();
+                SoundManager.Instance.PlayReloadSound();
+                indicatorControl.ChangeAmmoType(WeaponType.Torpedo);
+
+                return;
+            }
+            
             if (referer == bombsButton)
             {
                 // zmieniam bron na bomby
@@ -1430,9 +1539,10 @@ namespace Wof.Controller.Screens
         /// </summary>
         /// <param name="soldier">Zolnierz, ktory zostal trafiony.</param>
         /// <param name="gun"></param>
-        public void OnSoldierBeginDeath(Soldier soldier, bool gun)
+        /// <param name="scream"></param>
+        public void OnSoldierBeginDeath(Soldier soldier, bool gun, bool scream)
         {
-            levelView.OnKillSoldier(soldier, !gun);
+            levelView.OnKillSoldier(soldier, !gun, scream);
             increaseScore(C_SOLDIER_SCORE);
             currentLevel.OnSoldierEndDeath();
         }
@@ -1506,6 +1616,16 @@ namespace Wof.Controller.Screens
             //Console.WriteLine("OnEnemyPlaneBombed " + " Plane plane " + " Ammunition ammunition ");
         }
 
+        public void OnTorpedoSunk(LevelTile tile, Torpedo ammunition)
+        {
+            if (tile is OceanTile)
+            {
+                levelView.OnAmmunitionVanish(tile, ammunition);
+                SoundManager.Instance.PlayIncorrectStart();
+                OnWaterBubblesSound();
+            }
+        }
+
         public void OnTileBombed(LevelTile tile, Ammunition ammunition)
         {
             if (tile is OceanTile)
@@ -1520,12 +1640,57 @@ namespace Wof.Controller.Screens
             }
         }
 
+        public void OnTorpedoHitGroundOrWater(LevelTile tile, Torpedo torpedo, float posX, float posY)
+        {
+            levelView.OnTorpedoHitGroundOrWater(tile, torpedo, posX, posY);
+            
+            
+        }
+
+
+
+        public void OnWaterBubblesSound()
+        {
+            SoundManager.Instance.SingleWaterBubblesSound();
+        }
+
+        public void OnStartWaterBubblesSound()
+        {
+            SoundManager.Instance.LoopWaterBubblesSound();
+        }
+
+        public void OnStopWaterBubblesSound()
+        {
+            SoundManager.Instance.HaltWaterBubblesSound();
+        }
+
+
+        public void OnShipBeginSinking(ShipTile tile)
+        {
+             OnStartWaterBubblesSound();
+        }
+
+
+        public void OnShipSinking(ShipTile tile)
+        {
+            levelView.OnShipSinking(tile);
+        }
+
+        public void OnShipSunk(BeginShipTile tile)
+        {
+            levelView.OnShipSunk(tile);
+            OnStopWaterBubblesSound();
+        }
+
+
+
+
         public void OnTileDestroyed(LevelTile tile, Ammunition ammunition)
         {
             gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.EnemyInstallationDestroyed));
                 // GameMessages.C_TILE_DESTROYED);
-            if(ammunition != null)
-                levelView.OnAmmunitionExplode(tile, ammunition);
+        
+            levelView.OnAmmunitionExplode(tile, ammunition);
             
             levelView.OnTileDestroyed(tile);
 
@@ -1540,6 +1705,14 @@ namespace Wof.Controller.Screens
             else if (tile is ConcreteBunkerTile)
             {
                 increaseScore(C_CONCRETE_BUNKER_SCORE);
+            }
+            else if (tile is ShipWoodBunkerTile)
+            {
+                increaseScore(C_SHIP_WOODEN_BUNKER_SCORE);
+            }
+            else if (tile is ShipConcreteBunkerTile)
+            {
+                increaseScore(C_SHIP_CONCRETE_BUNKER_SCORE);
             }
 
             SoundManager.Instance.PlayExposionSound();
@@ -1598,6 +1771,13 @@ namespace Wof.Controller.Screens
             SoundManager.Instance.PlayMissleSound();
             levelView.OnRegisterAmmunition(rocket);
         }
+
+        public void OnRegisterTorpedo(Torpedo torpedo)
+        {
+            SoundManager.Instance.PlayTorpedoSound();
+            levelView.OnRegisterAmmunition(torpedo);
+        }
+        
 
         public void OnGearToggled(object plane)
         {
@@ -1755,6 +1935,11 @@ namespace Wof.Controller.Screens
             levelView.OnUnregisterRocket(rocket);
         }
 
+        public void OnUnregisterTorpedo(Torpedo torpedo)
+        {
+            levelView.OnUnregisterTorpedo(torpedo);
+        }
+
 
         public void OnTileRestored(BunkerTile restoredBunker)
         {
@@ -1837,6 +2022,8 @@ namespace Wof.Controller.Screens
         {
             SoundManager.Instance.PlayIncorrectStart();
         }
+
+       
 
         #endregion
     }

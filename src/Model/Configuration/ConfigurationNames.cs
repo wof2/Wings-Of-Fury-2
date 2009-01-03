@@ -52,6 +52,7 @@ namespace Wof.Model.Configuration
     {
         public const string Bomb = @"Bomb";
         public const string Rocket = @"Rocket";
+        public const string Torpedo = @"Torpedo";
         public const string Soldier = @"Soldier";
         public const string UserPlane = @"UserPlane";
         public const string EnemyPlane = @"EnemyPlane";

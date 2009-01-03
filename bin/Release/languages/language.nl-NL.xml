@@ -397,6 +397,15 @@
   <data name="RearmEndMission">
     <value>Opnieuw bewapenen/Missie beëindigen</value>
   </data>
+
+  <!-- added 2.01.2009 -->
+  
+  <data name="Torpedo">
+    <value>Torpedo</value>
+  </data>
+  <data name="Torpedoes">
+    <value>Torpedoes</value>
+  </data>
   
 
 </root>

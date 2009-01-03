@@ -857,20 +857,22 @@ namespace Wof.View.Effects
                                   looped);
         }
 
-
+        
         public void WaterImpact(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition, Vector2 size,
-                                bool looped)
+                                bool looped, string localNamePostfix)
         {
+            
             SceneNode waterImpact1Node, waterImpact2Node;
 
             VisibilityNodeAnimation vnAnimation, vnAnimation2;
 
             vnAnimation =
-                RectangularEffect(sceneMgr, parent, "WaterImpact1", EffectType.WATERIMPACT1, localPosition,
+                RectangularEffect(sceneMgr, parent, "WaterImpact1_" + localNamePostfix, EffectType.WATERIMPACT1, localPosition,
                                   Quaternion.IDENTITY, looped);
             vnAnimation2 =
-                RectangularEffect(sceneMgr, parent, "WaterImpact2", EffectType.WATERIMPACT1, localPosition,
+                RectangularEffect(sceneMgr, parent, "WaterImpact2_" + localNamePostfix, EffectType.WATERIMPACT1, localPosition,
                                   Quaternion.IDENTITY, looped);
+           
 
             waterImpact1Node = vnAnimation.Node;
             waterImpact2Node = vnAnimation2.Node;
