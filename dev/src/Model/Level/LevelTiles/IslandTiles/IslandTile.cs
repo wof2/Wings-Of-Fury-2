@@ -65,6 +65,12 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
         /// </summary>
         private bool traversable;
 
+
+        /// <summary>
+        /// Referencja do obiektu level.
+        /// </summary>
+        protected Level refToLevel;
+
         #endregion;
 
         #region Public Constructor
@@ -77,6 +83,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
         /// <param name="hitBound">Prostokat opisujacy obiekt.</param>
         /// <param name="type">Typ obiektu.</param>
         /// <param name="collisionRectangles">Lista prostokatow z ktorymi moga wystapic zderzenia.</param>
+        /// <param name="traversable"></param>
         public IslandTile(float yBegin, float yEnd, Quadrangle hitBound, int type, List<Quadrangle> collisionRectangles, bool traversable)
             : base(yBegin, yEnd, hitBound, collisionRectangles)
         {
@@ -88,11 +95,15 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
 
         #region Properties
 
+
+      
+
         /// <summary>
         /// Zwraca informacje o tym czy zolnierz moze wejsc na to pole.
         /// </summary>
         public bool Traversable
         {
+            set { this.traversable = value; }
             get { return this.traversable; }
         }
 

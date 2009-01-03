@@ -129,7 +129,7 @@ namespace Wof.Tests
 
                 //EnemyInstallationTile eit = (EnemyInstallationTile)lvl.LevelTiles[112];
 
-                Soldier soldier = new Soldier(0, Direction.Left, lvl, 0);
+                Soldier soldier = new Soldier(0, Direction.Left, lvl, 0, Soldier.SoldierType.SOLDIER);
                 lvlView.OnRegisterSoldier(soldier); // , lvl.LevelTiles[112]);*/
 
                 //eit.Destroy();

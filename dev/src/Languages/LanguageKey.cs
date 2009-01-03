@@ -253,7 +253,7 @@ namespace Wof.Languages
         #endregion
 
         #region ---T---
-
+        public const string Torpedoes = @"Torpedoes";
         public const string TriangleCount = @"TriangleCount";
         public const string Tutorial = @"Tutorial";
 

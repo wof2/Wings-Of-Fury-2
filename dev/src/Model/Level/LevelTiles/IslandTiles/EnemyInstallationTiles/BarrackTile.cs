@@ -72,7 +72,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             : base(yBegin, yEnd, hitBound, soldierNum, type, collisionRectangle)
         {
             //przy starcie instalacja nie jest zniszczona.
-            enemyState = EnemyInstallationState.Complete;
+            enemyState = EnemyInstallationState.Intact;
         }
 
         #endregion

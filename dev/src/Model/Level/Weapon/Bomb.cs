@@ -50,6 +50,7 @@ using System;
 using System.Diagnostics;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
@@ -214,7 +215,7 @@ namespace Wof.Model.Level.Weapon
                     return;
                 
                 //jesli nie da sie zniszczyc dany obiekt bomba.
-                if (!IsDestroyed(index))
+                if (!CanBeDestroyed(index))
                     refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
                 else if (refToLevel.LevelTiles[index] is BarrelTile)
                 {
@@ -229,6 +230,7 @@ namespace Wof.Model.Level.Weapon
                 else
                 {
                     WoodBunkerTile woodbunker = null;
+                    ShipBunkerTile shipbunker = null;
                     BarrackTile barrack = null;
                     LevelTile destroyTile = refToLevel.LevelTiles[index];
                     if (destroyTile is WoodBunkerTile)
@@ -238,6 +240,16 @@ namespace Wof.Model.Level.Weapon
                             refToLevel.Controller.OnTileDestroyed(destroyTile, this);
                             refToLevel.Statistics.HitByBomb++;
                             woodbunker.Destroy();
+                        }
+                        else
+                            refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
+                    } else if (destroyTile is ShipBunkerTile)
+                    {
+                        if ((shipbunker = destroyTile as ShipBunkerTile) != null && !shipbunker.IsDestroyed)
+                        {
+                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                            refToLevel.Statistics.HitByBomb++;
+                            shipbunker.Destroy();
                         }
                         else
                             refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
@@ -268,10 +280,10 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <param name="index">Indeks trafionego elementu.</param>
         /// <returns>Jesli obiekt da sie zniszczyc bomba zwraca true, w przeciwnym przypadku false.</returns>
-        private bool IsDestroyed(int index)
+        private bool CanBeDestroyed(int index)
         {
             LevelTile tile = refToLevel.LevelTiles[index];
-            return ((tile is WoodBunkerTile) || (tile is BarrackTile) || (tile is BarrelTile));
+            return ((tile is WoodBunkerTile) || (tile is BarrackTile) || (tile is BarrelTile) || (tile is ShipBunkerTile));
         }
 
         #endregion

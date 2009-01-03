@@ -150,14 +150,26 @@ namespace Wof.Controller.Screens
         {
             if(!EngineConfig.DisplayMinimap) return;
 
-            if (weaponType == WeaponType.Rocket)
+            switch (weaponType)
             {
-                ViewHelper.ReplaceMaterial(hud, "Panels/Panel1", "Panels/Panel1_rocket");
-            }
-            else
-            {
-                ViewHelper.ReplaceMaterial(hud, "Panels/Panel1_rocket", "Panels/Panel1");
-            }
+                case WeaponType.Rocket:
+                    ViewHelper.ReplaceMaterial(hud, "Panels/Panel1", "Panels/Panel1_rocket");
+                    ViewHelper.ReplaceMaterial(hud, "Panels/Panel1_torpedo", "Panels/Panel1_rocket");
+                    break;
+                case WeaponType.Bomb:
+                    ViewHelper.ReplaceMaterial(hud, "Panels/Panel1_rocket", "Panels/Panel1");
+                    ViewHelper.ReplaceMaterial(hud, "Panels/Panel1_torpedo", "Panels/Panel1");
+                    break;
+
+                case WeaponType.Torpedo:
+                    ViewHelper.ReplaceMaterial(hud, "Panels/Panel1", "Panels/Panel1_torpedo");
+                    ViewHelper.ReplaceMaterial(hud, "Panels/Panel1_rocket", "Panels/Panel1_torpedo");
+                    break;
+                    
+            } 
+           
+                
+            
         }
 
         public void DisplayIndicator()
@@ -224,11 +236,22 @@ namespace Wof.Controller.Screens
             if (!EngineConfig.DisplayMinimap) return;
             if (gameScreen != null && gameScreen.CurrentLevel != null && !closing)
             {
-                ammoElement.Caption = gameScreen.CurrentLevel.UserPlane.Weapon.SelectWeapon == WeaponType.Bomb
-                                          ?
-                                              gameScreen.CurrentLevel.UserPlane.Weapon.BombCount.ToString()
-                                          :
-                                              gameScreen.CurrentLevel.UserPlane.Weapon.RocketCount.ToString();
+                switch (gameScreen.CurrentLevel.UserPlane.Weapon.SelectWeapon)
+                {
+                    case WeaponType.Bomb:
+                        ammoElement.Caption = gameScreen.CurrentLevel.UserPlane.Weapon.BombCount.ToString();
+                        break;
+
+                    case WeaponType.Rocket:
+                        ammoElement.Caption = gameScreen.CurrentLevel.UserPlane.Weapon.RocketCount.ToString();
+                        break;
+
+                    case WeaponType.Torpedo:
+                        ammoElement.Caption = gameScreen.CurrentLevel.UserPlane.Weapon.TorpedoCount.ToString();
+                        break;
+                }
+              
+                                       
 
                 // ammoTypeElement.Caption = gameScreen.CurrentLevel.UserPlane.Weapon.SelectWeapon.ToString() + "s";
 

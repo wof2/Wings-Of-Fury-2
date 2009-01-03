@@ -61,6 +61,7 @@ namespace Wof.Model.Configuration
             public const string petrolLoss = @"petrolLoss";
             public const string bombCount = @"bombCount";
             public const string rocketCount = @"rocketCount";
+            public const string torpedoCount = @"torpedoCount";
             public const string breakingPower = @"breakingPower";
             public const string hitCoefficient = @"hitCoefficient";
             public const string rangeSlowWheelingSpeed = @"rangeSlowWheelingSpeed";
@@ -122,5 +123,14 @@ namespace Wof.Model.Configuration
             public const string fireInterval = @"fireInterval";
             public const string baseSpeed = @"baseSpeed";
         }
+
+        public static class Torpedo
+        {
+            public const string fireInterval = @"fireInterval";
+            public const string baseSpeed = @"baseSpeed";
+        }
+
+
+        
     }
 }

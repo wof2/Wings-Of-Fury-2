@@ -120,6 +120,8 @@ namespace Wof.Controller
         
         private Audio waterExplosionSound;
         private Audio missleSound;
+        private Audio torpedoSound;
+        
         private Audio catchPlaneSound;
         private Audio bunkerRebuild;
         private Audio reloadSound;
@@ -160,6 +162,9 @@ namespace Wof.Controller
             
                 waterExplosionSound = new Audio("sounds/watersplash.wav");
                 missleSound = new Audio("sounds/missile.wav");
+                torpedoSound = new Audio("sounds/torpedo.wav");
+
+                
                 catchPlaneSound = new Audio("sounds/landing.wav");
                 bunkerRebuild = new Audio("sounds/construction.wav");
                 reloadSound = new Audio("sounds/reload.wav");
@@ -254,7 +259,7 @@ namespace Wof.Controller
                 return;
             }
             startEngineSound.Ending += startHandler;
-            PlayDXSound(engineIdleSound,-1000);
+            LoopDXSound(engineIdleSound,-1000);
             Play(startEngineSound);
         }
 
@@ -304,6 +309,12 @@ namespace Wof.Controller
         {
             Play(missleSound);
         }
+
+        public void PlayTorpedoSound()
+        {
+            Play(torpedoSound);
+        }
+        
 
         public void PlayCatchPlaneSound()
         {
@@ -393,7 +404,7 @@ namespace Wof.Controller
         public void LoopEngineSound()
         {
            // SoundManager3D.Instance.CreateSound("sounds/fanfare.wav", this.planeNode, true, true);
-            PlayDXSound(engineIdleSound, -1000);
+            LoopDXSound(engineIdleSound, -1000);
         }
 
         public void HaltEngineSound()
@@ -403,7 +414,7 @@ namespace Wof.Controller
 
         public void LoopOceanSound()
         {
-            PlayDXSound(oceanSound, -1000);
+            LoopDXSound(oceanSound, -1000);
         }
 
         public void HaltOceanSound()
@@ -449,7 +460,7 @@ namespace Wof.Controller
 
         public void LoopGunFireSound()
         {
-            PlayDXSound(gunFireBuffer);
+            LoopDXSound(gunFireBuffer);
         }
 
         public void LoopGunFireSoundIfCan()
@@ -469,9 +480,14 @@ namespace Wof.Controller
             HaltDXSound(gunFireBuffer);
         }
 
+         public void SingleWaterBubblesSound()
+         {
+             PlayDXSound(waterBubblesBuffer, 0, BufferPlayFlags.Default);
+         }
+
         public void LoopWaterBubblesSound()
         {
-            PlayDXSound(waterBubblesBuffer);
+            LoopDXSound(waterBubblesBuffer);
         }
 
         public void HaltWaterBubblesSound()
@@ -479,12 +495,9 @@ namespace Wof.Controller
             HaltDXSound(waterBubblesBuffer);
         }
 
-        private void PlayDXSound(Buffer buffer)
-        {
-            PlayDXSound(buffer, 0);
-        }
-
-        private void PlayDXSound(Buffer buffer, int soundVolumeModifier)
+      
+        
+        private void PlayDXSound(Buffer buffer, int soundVolumeModifier, BufferPlayFlags flags)
         {
             if (ProblemWithSound)
             {
@@ -497,13 +510,23 @@ namespace Wof.Controller
                     return;
                 }
 
-                buffer.Play(0, BufferPlayFlags.Looping);
+                buffer.Play(0, flags);
                 buffer.Volume = getBaseVolume() + soundVolumeModifier;
             }
             catch (Exception)
             {
                 ProblemWithSound = true;
             }
+        }
+
+        private void LoopDXSound(Buffer buffer, int soundVolumeModifier)
+        {
+            PlayDXSound(buffer, soundVolumeModifier, BufferPlayFlags.Looping);
+        }
+
+        private void LoopDXSound(Buffer buffer)
+        {
+            LoopDXSound(buffer, 0);
         }
 
         private void HaltDXSound(Buffer buffer)

@@ -52,6 +52,7 @@ using System.Text;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
+using Wof.Model.Level.LevelTiles.Watercraft;
 
 namespace Wof.Model.Level.LevelTiles
 {
@@ -76,7 +77,11 @@ namespace Wof.Model.Level.LevelTiles
         /// <summary>
         /// Wyspa.
         /// </summary>
-        Island
+        Island,
+        /// <summary>
+        /// statek.
+        /// </summary>
+        Ship
     }
 
     #endregion
@@ -98,15 +103,64 @@ namespace Wof.Model.Level.LevelTiles
 
         #region Fields
 
+
+
+        /// <summary>
+        /// Okreœla czy statek ma ton¹æ.
+        /// </summary>
+        protected bool isSinking = false;
+
+        /// <summary>
+        /// Okreœla czy statek zaton¹³.
+        /// </summary>
+        protected bool isSunkDown = false;
+
+        
+
+
+
+        /// <summary>
+        /// Czas jaki min¹³ od momentu kiedy rozpoczê³o siê toniêcie.
+        /// </summary>
+        private float wreckTimeElapsed = 0;
+
+
+        /// <summary>
+        /// Moc hamowania wody w pionie (do toniêcia).
+        /// </summary>
+        private readonly float waterYBreakingPower = SinkingSpeed * 0.5f;
+
+
+
+        /// <summary>
+        /// Okreœla z jak¹ prêdkoœci¹ statek bêdzie ton¹æ. Wyra¿ona jako liczba dodatnia.
+        /// </summary>
+        public static float SinkingSpeed = 0.6f;
+
+        /// <summary>
+        /// Czas od momentu rozbicia statku do momentu zakoñczenia toniêcia.
+        /// Wyra¿ony w ms.
+        /// </summary>
+        private const float wreckTime = 12000;
+
+
+        /// <summary>
+        /// Wysokoœæ nad poziomem morza. Standardowo 0. Przy toniêciu < 0
+        /// </summary>
+        protected float depth = 0.0f;
+
+
+
+
         /// <summary>
         /// Wysokosc poczatku elementu.
         /// </summary>
-        private float yBegin;
+        protected float yBegin;
 
         /// <summary>
         /// Wysokosc konca elementu.
         /// </summary>
-        private float yEnd;
+        protected float yEnd;
 
         /// <summary>
         /// Prostokat opisujacy obiekt.
@@ -166,6 +220,16 @@ namespace Wof.Model.Level.LevelTiles
             get { return collisionRectangles; }
         }
 
+        public bool IsSinking
+        {
+            get { return isSinking; }
+        }
+
+        public bool IsSunkDown
+        {
+            get { return isSunkDown; }
+        }
+
         /// <summary>
         /// Pobiera lub ustawia index obiektu na plaszy.
         /// </summary>
@@ -204,6 +268,8 @@ namespace Wof.Model.Level.LevelTiles
             {
                 if (this is IslandTile)
                     return TileKind.Island;
+                if (this is ShipTile)
+                    return TileKind.Ship;
                 if (this is OceanTile)
                     return TileKind.Ocean;
                 if (this is AircraftCarrierTile)
@@ -267,6 +333,56 @@ namespace Wof.Model.Level.LevelTiles
 
             return builder.ToString();
         }
+
+
+        public virtual void StartSinking()
+        {
+            isSinking = true;
+        }
+
+        public virtual void StopSinking()
+        {
+            isSinking = false;
+        }
+
+        /// <summary>
+        /// Toniêcie tile'a. Zwraca o ile tile zaton¹³, lub 0 w przypadku zakoñczenia toniêcia
+        /// </summary>
+        /// <param name="time"></param>
+        /// <param name="timeUnit"></param>
+        public virtual float Sink(float time, float timeUnit)
+        {
+
+            if (wreckTimeElapsed > wreckTime) //koniec czasu
+            {
+                StopSinking();
+                isSunkDown = true;
+                return 0;
+            }
+
+            
+
+            float YVal = 0;
+            //aktualizacja movmentVector.Y
+            YVal = (YVal >= 0)
+                                   ? SinkingSpeed
+                                   : System.Math.Min(YVal + waterYBreakingPower, -SinkingSpeed);
+            YVal = YVal * (time / timeUnit);
+            depth += YVal;
+            yBegin -= YVal;
+            yEnd -= YVal;
+            foreach (Quadrangle q in this.ColisionRectangles)
+            {
+                q.Move(0, -YVal);
+            }
+            this.HitBound.Move(0, -YVal);
+
+            wreckTimeElapsed += time;
+
+            return YVal;
+
+        }
+
 
         /// <summary>
         /// Funkcja sprawdza czy dany obiekt jest w kolizji

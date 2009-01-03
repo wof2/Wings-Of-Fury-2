@@ -54,9 +54,14 @@ using Wof.View.TileViews;
 
 namespace Wof.View
 {
-    internal abstract class CompositeModelView
+    public abstract class CompositeModelView
     {
         protected List<TileView> tileViews;
+
+        public List<TileView> TileViews
+        {
+            get { return tileViews;  }
+        }
 
         protected String name;
 

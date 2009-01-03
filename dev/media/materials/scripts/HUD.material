@@ -40,6 +40,27 @@ material Panels/Panel1_rocket
 	}
 }
 
+material Panels/Panel1_torpedo
+{
+	technique
+	{
+		pass
+		{
+			//depth_write off
+			lighting Off
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture panel1_torpedo.png
+			}
+		}
+	}
+}
+
 material Panels/Panel2
 {
 	technique

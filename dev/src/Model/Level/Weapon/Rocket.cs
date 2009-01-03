@@ -506,7 +506,7 @@ namespace Wof.Model.Level.Weapon
         /// Funkcja sprawdza czy samolot bedzie mogl trafic rakieta w inny obiekt.
         /// </summary>
         /// <param name="plane">Samolot strzelajacy.</param>
-        /// <param name="enemyPlaneBound">Samolot, ktory chemy trafic.</param>
+        /// <param name="enemyPlane">Samolot, ktory chemy trafic.</param>
         /// <returns>Zwraca true jesli moze trafic wrogi samolot; false - w przeciwnym
         /// przypadku.</returns> 
         /// <author>Michal Ziober</author>

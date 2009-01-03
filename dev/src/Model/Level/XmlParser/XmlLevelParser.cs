@@ -59,6 +59,7 @@ using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
+using Wof.Model.Level.LevelTiles.Watercraft;
 
 namespace Wof.Model.Level.XmlParser
 {
@@ -215,21 +216,30 @@ namespace Wof.Model.Level.XmlParser
                             if (!ReadIslandBegin(reader))
                                 throw new XmlException("Island begin");
                         }
+                      
                             //WoodenBunker, Barracks,Concretebunker
                         else if (reader.Name.Equals(Nodes.WoodenBunker) ||
                                  reader.Name.Equals(Nodes.Barrack) ||
+                                 reader.Name.Equals(Nodes.ShipWoodenBunker) ||
+                                 reader.Name.Equals(Nodes.ShipConcreteBunker) ||
                                  reader.Name.Equals(Nodes.ConcreteBunker))
                         {
-                            if (!ReadWoodenBunkerOrBarracksOrConcreteBunker(reader,
-                                                                            reader.Name))
+                            if (!ReadBunkerOrBarrack(reader,reader.Name))
                                 throw new XmlException("Bunker");
                         }
                             //AircroftCarier
                         else if (reader.Name.Contains(Nodes.AircraftCarrier))
                         {
-                            if (!ReadAircraftElement(reader, reader.Name))
+                            if (!ReadAircraftCarrierElement(reader, reader.Name))
                                 throw new XmlException("AircraftCarier");
                         }
+                            // Ship
+                        else if (reader.Name.Contains(Nodes.Ship))
+                        {
+                            if (!ReadShipElement(reader, reader.Name))
+                                throw new XmlException("Ship");
+                        }
+
                             //terrain
                         else if (reader.Name.Equals(Nodes.Terrain))
                         {
@@ -268,7 +278,7 @@ namespace Wof.Model.Level.XmlParser
                 }
             }
         }
-
+   
         #region Read Terrain
 
         private bool ReadTerrain(XmlReader reader)
@@ -380,7 +390,7 @@ namespace Wof.Model.Level.XmlParser
 
         #region Read Aircraft
 
-        private bool ReadAircraftElement(XmlReader reader, String fullName)
+        private bool ReadAircraftCarrierElement(XmlReader reader, String fullName)
         {
             int variation = 0;
             int width = 0;
@@ -441,12 +451,87 @@ namespace Wof.Model.Level.XmlParser
 
         #endregion
 
-        #region Bunkers,Barrack read
+        #region Read Ship
 
-        private bool ReadWoodenBunkerOrBarracksOrConcreteBunker(XmlReader reader, String bunkerName)
+        private bool ReadShipElement(XmlReader reader, String fullName)
+        {
+            int width = -1;
+            int variation = 0;
+            bool traversable = true;
+            if (reader.HasAttributes) //Read attributes
+            {
+                for (int i = 0; i < reader.AttributeCount; i++)
+                {
+                    reader.MoveToAttribute(i);
+                    if (reader.Name.Equals(Attributes.Width))
+                    {
+                        try
+                        {
+                            width = int.Parse(reader.Value);
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
+                    else if (reader.Name.Equals(Attributes.Variation))
+                    {
+                        try
+                        {
+                            variation = int.Parse(reader.Value);
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
+                    else if (reader.Name.Equals(Attributes.Traversable))
+                    {
+                        try
+                        {
+                            traversable = Boolean.Parse(reader.Value);
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            else return false;
+            //Add to list
+            TilesNode node;
+            if (variation < 0) variation = 0;
+            //wczytanie sie powiodlo teraz nalezy stworzyc obiekt.
+            ShipTile pb = null;
+            node = GetTilesForID(TilesNode.GenerateID(fullName, variation));
+
+            if (node == null) return false;
+            for (int i = 0; i < width; i++)
+            {
+                if (fullName.EndsWith(ShipElement.End))
+                    pb = new EndShipTile(node.YStart, node.YEnd,
+                                                          node.HitRectangle, variation, node.CollisionRectangle, traversable);
+                else if (fullName.EndsWith(ShipElement.Begin))
+                    pb = new BeginShipTile(node.YStart, node.YEnd,
+                                                            node.HitRectangle, variation, node.CollisionRectangle, traversable);
+                else if (fullName.EndsWith(ShipElement.Middle))
+                    pb = new MiddleShipTile(node.YStart, node.YEnd, node.HitRectangle, variation, node.CollisionRectangle, traversable);
+               
+                levelTiles.Add(pb);
+            }
+            return true;
+        }
+
+        #endregion
+
+        #region Bunkers, Barrack, ShipB unkers read
+
+        private bool ReadBunkerOrBarrack(XmlReader reader, String bunkerName)
         {
             int numSoldiers = -1;
             int variation = 0;
+            bool traversable = true;
             if (reader.HasAttributes)
             {
                 for (int i = 0; i < reader.AttributeCount; i++)
@@ -474,6 +559,17 @@ namespace Wof.Model.Level.XmlParser
                             return false;
                         }
                     }
+                    else if (reader.Name.Equals(Attributes.Traversable))
+                    {
+                        try
+                        {
+                            traversable = Boolean.Parse(reader.Value);
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
             else return false;
@@ -482,6 +578,8 @@ namespace Wof.Model.Level.XmlParser
             if (node == null) return false;
             BunkerTile bunker = null;
             BarrackTile barrack = null;
+            ShipBunkerTile shipbunker = null;
+           
             if (bunkerName.Equals(Nodes.WoodenBunker))
                 bunker = new WoodBunkerTile(node.YStart,
                                             node.YEnd, node.HitRectangle, numSoldiers, variation,
@@ -489,12 +587,31 @@ namespace Wof.Model.Level.XmlParser
             else if (bunkerName.Equals(Nodes.Barrack))
                 barrack = new BarrackTile(node.YStart, node.YEnd,
                                           node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
+            else if (bunkerName.Equals(Nodes.ShipWoodenBunker))
+                shipbunker = new ShipWoodBunkerTile(node.YStart, node.YEnd,
+                                          node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
+            else if (bunkerName.Equals(Nodes.ShipConcreteBunker))
+                shipbunker = new ShipConcreteBunkerTile(node.YStart, node.YEnd,
+                                          node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
             else
                 bunker = new ConcreteBunkerTile(node.YStart, node.YEnd,
                                                 node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
             if (bunker != null)
+            {
+                bunker.Traversable = traversable;
                 levelTiles.Add(bunker);
-            else levelTiles.Add(barrack);
+            }
+              
+            else if (shipbunker != null)
+            {
+                shipbunker.Traversable = traversable;
+                levelTiles.Add(shipbunker);
+            }
+            else
+            {
+                barrack.Traversable = traversable;
+                levelTiles.Add(barrack);
+            }
 
             return true;
         }

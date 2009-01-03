@@ -27,7 +27,7 @@ namespace Wof.Controller
 
         public static bool ValidateLevel(int levelNumber, string levelContent)
         {
-            //return true;
+            return true;
             if (levelNumber > hashOfLevel.Length) return false;
 
             byte[] hash = DigestMessage(levelContent);

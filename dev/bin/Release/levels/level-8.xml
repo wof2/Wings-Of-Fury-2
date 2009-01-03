@@ -22,7 +22,7 @@
   <concrete-bunker num-soldiers="3"/>
   <island-end/> 
 
-<ocean width="10"/>
+  <ocean width="10"/>
   <ocean width="1" variation="3"/>
   <ocean width="10"/>
   <!-- high island: Island12u -->
@@ -38,14 +38,23 @@
   <ocean width="1" variation="3"/>
 
   <ocean width="25"/>
-  <ocean width="1" variation="2"/>
-  <ocean width="4"/>
+  <ocean width="1" variation="2" />
+
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <!-- <ship-concrete-bunker num-soldiers="3"/>-->
+  <!--  <ship-deck width="1"/> -->
+  <ship-end width="1" />
+
+
+  <ocean width="5" />
   <aircraft-carrier-begin width="1"/>
   <aircraft-carrier-middle width="3"/>
   <aircraft-carrier-restore-ammunition width="1"/>
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
   <ocean width="1" variation="2"/>
+    
   <ocean width="11"/>
   <ocean width="1" variation="4"/>
   <ocean width="24"/>

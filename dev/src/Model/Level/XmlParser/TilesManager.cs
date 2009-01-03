@@ -81,6 +81,11 @@ namespace Wof.Model.Level.XmlParser
 
         private int concretebunkerCount = 0; //
         private int woodenbunkerCount = 0;   //
+        private int shipwoodenbunkerCount = 0;   //
+        private int shipconcretebunkerCount = 0;   //
+
+        private int shipDeckCount = 0;
+        
         private int terrainCount = 0;        // Bardzo zle rozwiazanie !!! - Poprawic.
         private int barrackCount = 0;        //
         private int barrelCount = 0;         //
@@ -246,6 +251,8 @@ namespace Wof.Model.Level.XmlParser
                 return true;
             else if (name.Contains(Nodes.Barrels))
                 return true;
+            else if (name.Contains(Nodes.Ship))
+                return true;
 
             return false;
         }
@@ -259,18 +266,30 @@ namespace Wof.Model.Level.XmlParser
                 if (reader.Name.Equals(Attributes.Name))
                 {
                     node.BaseName = reader.Value;
-                  
+                 
                     if (reader.Value.Equals(Nodes.Terrain))
                     {
                         terrainCount++;
+                    }
+                    else if (reader.Value.Equals(Nodes.ShipDeck))
+                    {
+                        shipDeckCount++;
                     }
                     else if (reader.Value.Equals(Nodes.WoodenBunker))
                     {
                         woodenbunkerCount++;
                     }
+                    else if (reader.Value.Equals(Nodes.ShipWoodenBunker))
+                    {
+                        shipwoodenbunkerCount++;
+                    }
                     else if (reader.Value.Equals(Nodes.ConcreteBunker))
                     {
                         concretebunkerCount++;
+                    }
+                    else if (reader.Value.Equals(Nodes.ShipConcreteBunker))
+                    {
+                        shipconcretebunkerCount++;
                     }
                     else if (reader.Value.Equals(Nodes.Barrack))
                     {

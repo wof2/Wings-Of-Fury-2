@@ -16,6 +16,7 @@ namespace Wof.View.TileViews
         public BarrackTileView(LevelTile levelTile, FrameWork framework) : base(levelTile, framework)
         {
         }
+        
 
         protected void initBarrack(SceneNode islandNode, float positionOnIsland)
         {
@@ -81,6 +82,16 @@ namespace Wof.View.TileViews
                     SetLightFlareVisibility(true);
                 }
             }
+        }
+
+        public override void Restore()
+        {
+            
+        }
+
+        public override void GunFire()
+        {
+            
         }
 
         public override void Destroy()

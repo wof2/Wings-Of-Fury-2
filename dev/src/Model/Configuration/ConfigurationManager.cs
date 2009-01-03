@@ -108,10 +108,24 @@ namespace Wof.Model.Configuration
             //Wooden Bunker
             SetConsts(typeof (GameConsts.WoodenBunker),
                       configurations.GetConfiguration(ConfigurationNames.WoodenBunker), new GameConsts.WoodenBunker());
+
             //Concrete Bunker
-            SetConsts(typeof (GameConsts.ConcreteBunker),
+            SetConsts(typeof(GameConsts.ConcreteBunker),
                       configurations.GetConfiguration(ConfigurationNames.ConcreteBunker),
                       new GameConsts.ConcreteBunker());
+
+            SetConsts(typeof(GameConsts.Bomb),
+                      configurations.GetConfiguration(ConfigurationNames.Bomb), new GameConsts.Bomb());
+
+            SetConsts(typeof(GameConsts.Rocket),
+                      configurations.GetConfiguration(ConfigurationNames.Rocket), new GameConsts.Rocket());
+
+
+            SetConsts(typeof(GameConsts.Torpedo),
+                        configurations.GetConfiguration(ConfigurationNames.Torpedo), new GameConsts.Torpedo());
+
+   
+           
         }
 
         private static void SetConsts(Type type, Dictionary<String, float> config, Object obj)

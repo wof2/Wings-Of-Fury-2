@@ -67,6 +67,11 @@ namespace Wof.Model.Level.Weapon
         /// <summary>
         /// Bomba.
         /// </summary>
-        Bomb
+        Bomb,
+
+        /// <summary>
+        /// Torpeda.
+        /// </summary>
+        Torpedo
     }
 }

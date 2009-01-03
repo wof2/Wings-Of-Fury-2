@@ -173,7 +173,17 @@ namespace Wof.View
         {
             bladeNode.SetVisible(visible);
         }
-      
+
+        public override void ShowTorpedo()
+        {
+            
+        }
+
+        public override void HideTorpedo()
+        {
+            
+        }
+
 
         protected override void initOnScene()
         {

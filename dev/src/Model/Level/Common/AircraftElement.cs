@@ -64,14 +64,16 @@ namespace Wof.Model.Level.Common
         public static string Middle = @"middle";
 
         /// <summary>
+        /// Nazwa koncowej czesci.
+        /// </summary>
+        public static string End = @"end";
+        
+        /// <summary>
         /// Nazwa czesci, na ktorej mozna zmienic 
         /// uzbrojenie.
         /// </summary>
         public static string RestoreAmmunition = @"restore-ammunition";
 
-        /// <summary>
-        /// Nazwa koncowej czesci.
-        /// </summary>
-        public static string End = @"end";
+     
     }
 }

@@ -51,6 +51,7 @@ using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Troops;
 using Wof.Model.Level.Weapon;
 
@@ -82,7 +83,7 @@ namespace Wof.Model.Level.Common
         /// </summary>
         /// <param name="isXCoordinate">Jesli true to bedzie sprawdzac wspolrzedna x,
         /// w przeciwnym przypadku - y.</param>
-        /// <param name="point">Punkt z szukana wspolrzedna.</param>
+        /// <param name="coordinate">Punkt z szukana wspolrzedna.</param>
         /// <returns>Jesli porowananie sie powiedzie zwroci true, false w przeciwnym przypadku.</returns>
         public static Predicate<PointD> GetAllForXYCoordinate(bool isXCoordinate, float coordinate)
         {
@@ -105,13 +106,27 @@ namespace Wof.Model.Level.Common
             return delegate(LevelTile tiles) { return ((tiles as BunkerTile) != null); };
         }
 
+
+        /// <summary>
+        /// Predykat do wyszukiwania obiektow, 
+        /// ktore dziedzicza po abstarkcyjnej klasie ShipTile.
+        /// </summary>
+        /// <returns>Jesli zostanie spelniony warunek, zwroci dany element.</returns>
+        public static Predicate<LevelTile> GetAllShipTiles()
+        {
+            return delegate(LevelTile tiles) { return ((tiles as ShipTile) != null); };
+        }
+
+
+        
+
         /// <summary>
         /// Predykat do wyszukiwania obiektow, 
         /// ktore dziedzicza po abstarkcyjnej klasie AircraftCarrierTile.
         /// </summary>
         /// <returns>Jesli porowananie sie powiedzie zwroci true, 
         /// false w przeciwnym przypadku.</returns>
-        public static Predicate<LevelTile> GetAllAircraftTiles()
+        public static Predicate<LevelTile> GetAllAircraftCarrierTiles()
         {
             return delegate(LevelTile tile) { return ((tile as AircraftCarrierTile) != null); };
         }
@@ -122,7 +137,7 @@ namespace Wof.Model.Level.Common
         /// </summary>
         /// <returns>Jesli dany pocisk jest zniszczony zwroci true,
         /// w przeciwnym przypadku false.</returns>
-        public static Predicate<Ammunition> RemoveAllDestroyedMissile()
+        public static Predicate<Ammunition> RemoveAllDestroyedMissiles()
         {
             return delegate(Ammunition missile) { return (missile.State == MissileState.Destroyed); };
         }
@@ -132,7 +147,7 @@ namespace Wof.Model.Level.Common
         /// </summary>
         /// <returns>Jesli zwroci true, zolnierza nalezy usunac, w przeciwnym przypadku 
         /// zolnierz zostaje na planszy.</returns>
-        public static Predicate<Soldier> RemoveAllDeathSoldier()
+        public static Predicate<Soldier> RemoveAllDeadSoldiers()
         {
             return delegate(Soldier soldier) { return !soldier.IsAlive; };
         }
@@ -144,11 +159,11 @@ namespace Wof.Model.Level.Common
         /// <param name="position">Index elementu planszy.</param>
         /// <returns>True - jesli zolnierz znjaduje sie na tym kawalku planszy, w przeciwnym
         /// przypadku false.</returns>
-        public static Predicate<Soldier> FindSoldierFromPosition(int position)
+        public static Predicate<Soldier> FindSoldierByPosition(int position)
         {
             return delegate(Soldier s)
                        {
-                           int pos = Mathematics.PositionToIndex(s.Position);
+                           int pos = Mathematics.PositionToIndex(s.Position.X);
                            return pos == position;
                        };
         }
@@ -165,10 +180,27 @@ namespace Wof.Model.Level.Common
         {
             return delegate(Soldier s)
                        {
-                           int pos = Mathematics.PositionToIndex(s.Position);
+                           int pos = Mathematics.PositionToIndex(s.Position.X);
                            return start <= pos && pos <= end;
                        };
         }
+
+
+
+        /// <summary>
+        /// Predykat szuka zolnierzy ktorzy 'urodzi³' siê na tile'u o okreœlonym indeksie
+        /// </summary>
+        /// <returns>True - jesli zolnierz znjaduje sie na kawalku planszy o indeksie spelniajacym 
+        /// warunki przypadku false.</returns>
+        public static Predicate<Soldier> FindSoldierFromStartingIndex(int index)
+        {
+            return delegate(Soldier s)
+                       {
+                           return s.StartLevelIndex == index;
+                       };
+        }
+
+
 
         /// <summary>
         /// Predykat szuka zolnierzy ktorzy znajduja sie na tiles o indeksach pomiedzy
@@ -180,7 +212,7 @@ namespace Wof.Model.Level.Common
         public static Predicate<Soldier> FindSoldierFromInterval(float position)
         {
             return
-                delegate(Soldier s) { return position - JarringField <= s.Position && s.Position <= position + JarringField; };
+                delegate(Soldier s) { return position - JarringField <= s.Position.X && s.Position.X <= position + JarringField; };
         }
 
         /// <summary>

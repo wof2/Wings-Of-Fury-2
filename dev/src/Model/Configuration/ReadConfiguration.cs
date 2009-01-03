@@ -21,6 +21,10 @@ namespace Wof.Model.Configuration
         private Dictionary<String, float> mConcreteBunker = null;
         private Dictionary<String, float> mBomb = null;
         private Dictionary<String, float> mRocket = null;
+        private Dictionary<String, float> mTorpedo = null;
+
+
+        
 
         private NumberFormatInfo format = null;
 
@@ -70,6 +74,8 @@ namespace Wof.Model.Configuration
                 return mBomb;
             else if (type.Equals(ConfigurationNames.Rocket))
                 return mRocket;
+            else if (type.Equals(ConfigurationNames.Torpedo))
+                return mTorpedo;
 
             return null;
         }
@@ -85,6 +91,10 @@ namespace Wof.Model.Configuration
             mSoldierConfig = InitConfig(typeof (ConfigurationAttributes.Soldier));
             mWoodenBunker = InitConfig(typeof (ConfigurationAttributes.Bunker));
             mRocket = InitConfig(typeof (ConfigurationAttributes.Rocket));
+            mTorpedo = InitConfig(typeof(ConfigurationAttributes.Torpedo));
+
+
+            
             mBomb = InitConfig(typeof (ConfigurationAttributes.Bomb));
         }
 
@@ -136,6 +146,11 @@ namespace Wof.Model.Configuration
                     {
                         if (!ReadConfig(reader, mRocket))
                             throw new XmlException("Rocket jest niepoprawny !");
+                    }
+                    else if (reader.Name.Equals(ConfigurationNames.Torpedo))
+                    {
+                        if (!ReadConfig(reader, mTorpedo))
+                            throw new XmlException("Torpedo jest niepoprawny !");
                     }
                     else if (reader.Name.Equals(ConfigurationNames.Bomb))
                     {
@@ -193,6 +208,8 @@ namespace Wof.Model.Configuration
             builder.Append(ConfigToString(mConcreteBunker));
             builder.AppendLine("Rocket:");
             builder.Append(ConfigToString(mRocket));
+            builder.AppendLine("Torpedo:");
+            builder.Append(ConfigToString(mTorpedo));
             builder.AppendLine("Bomb:");
             builder.Append(ConfigToString(mBomb));
             return builder.ToString();
@@ -242,6 +259,12 @@ namespace Wof.Model.Configuration
             {
                 mRocket.Clear();
                 mRocket = null;
+            }
+
+            if (mTorpedo != null)
+            {
+                mTorpedo.Clear();
+                mTorpedo = null;
             }
 
             if (mBomb != null)

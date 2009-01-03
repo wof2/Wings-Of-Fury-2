@@ -70,6 +70,7 @@
 	<collision-rect rectangle="[5.5, 4.5 ][1.5][3  ]"/> <!-- flaga pomiedzy bunkrem i dzialkiem -->	
   </tile>
 
+  
 <!-- Concrete Bunker - dokladnie taki sam jak Wooden -->
 
   <tile name="concrete-bunker" y-start="1.5" y-end="1.5" variation="0">
@@ -140,6 +141,30 @@
 	
   </tile>
 
+  
+  <!-- wariacja dla patrol boat-->
+  <tile name="ship-wooden-bunker" y-start="1.9" y-end="1.9" variation="0">
+     <collision-rect rectangle="[1.5, 5.3 ][9  ][4.0]" /> <!-- wieza statku -->
+     <collision-rect rectangle="[6.5, 9.1 ][1  ][4.0]" /> <!-- antena -->
+     <collision-rect rectangle="[3.9, 7.0 ][1.1  ][1.5]" /> <!-- reflektor -->
+     <collision-rect rectangle="[-3.8, 2.8 ][1.1  ][1.5]" /> <!-- dzialko -->
+  </tile>
+
+  
+  
+  <tile name="ship-concrete-bunker" y-start="1.9" y-end="1.9" variation="0">
+    <!-- <collision-rect rectangle="[0, 3.1 ][5  ][1.6]"/>-->
+    <!-- bunkier -->
+    <!-- <collision-rect rectangle="[6, 2.5 ][1.5][1  ]"/>-->
+    <!-- dzialko -->
+  </tile>
+  
+  
+  <!-- Ship -->
+  <tile name="ship-begin" y-start="2.6" y-end="2.0" variation="0" ></tile>
+  <tile name="ship-end" y-start="2.0" y-end="2.0" variation="0" ></tile>
+  <tile name="ship-deck" y-start="2.0" y-end="2.0" variation="0" ></tile>
+  
 
   <!-- Aircraft carrier -->
   <tile name="aircraft-carrier-begin" y-start="5.3" y-end="5.3"/>
@@ -148,7 +173,7 @@
   <tile name="aircraft-carrier-end" y-start="5.3" y-end="5.3"/>
 
   <!-- Island -->
-  <tile name="island-begin" y-start="0.0" y-end="1.5" /> <!-- nic -->  <!-- Wszystko 2gi plan -->
+  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="0"/> <!-- nic -->  <!-- Wszystko 2gi plan -->
   <tile name="island-begin" y-start="0.0" y-end="1.5" variation="1" /> <!-- Lotniskowiec -->
   <tile name="island-begin" y-start="0.0" y-end="1.5" variation="2" /> <!-- 5 wysepek    -->
   <tile name="island-begin" y-start="0.0" y-end="1.5" variation="3" /> <!-- 3 wysepki    -->

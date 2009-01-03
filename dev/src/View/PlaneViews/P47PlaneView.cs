@@ -51,6 +51,7 @@ using Mogre;
 using Wof.Controller;
 using Wof.Misc;
 using Wof.Model.Configuration;
+using Wof.Model.Level;
 using Wof.Model.Level.Planes;
 using Wof.View.Effects;
 using Math=Mogre.Math;
@@ -71,6 +72,7 @@ namespace Wof.View
         protected bool hasSmokeTrail = false;
         protected string bodyMaterialName = "P47/Body";
         protected string destroyedBodyMaterialName = "P47/DestroyedBody";
+       
 
         public bool HasSmokeTrail
         {
@@ -159,6 +161,15 @@ namespace Wof.View
             airscrew.Visible = visible;
         }
 
+        public override void ShowTorpedo()
+        {
+            torpedoHolder.SetVisible(true);
+        }
+
+        public override void HideTorpedo()
+        {
+            torpedoHolder.SetVisible(false);
+        }
 
         protected override void initWheels()
         {
@@ -243,7 +254,8 @@ namespace Wof.View
                 ViewHelper.ReplaceMaterial(planeEntity, bodyMaterialName, "P47/BodyPL");
                 bodyMaterialName = "P47/BodyPL";
             }
-
+             
+            
 
             planeEntity.CastShadows = EngineConfig.Shadows;
             innerNode.AttachObject(planeEntity);
@@ -251,6 +263,36 @@ namespace Wof.View
 
             initBlade();
             initWheels();
+
+
+            torpedoHolder = innerNode.CreateChildSceneNode(planeNode.Name + "TorpedoHolder", new Vector3(0,-1.6f,1.6f));
+            if(plane != null)
+            {
+              /*  if (this.plane.Direction == Direction.Right)
+                {
+                    torpedoHolder.Orientation = new Quaternion(Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
+                }
+                else
+                {
+                    torpedoHolder.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
+
+                } */
+                torpedoHolder.Scale(2.5f, 2.5f, 2.5f); // caly node jest skalowany x 0.4
+                Entity torpedo = sceneMgr.CreateEntity(name + "_Torpedo", "Torpedo.mesh");
+                torpedoHolder.AttachObject(torpedo);
+            }
+           
+
+            
+
+
+           
+
+
+
+          
+           // torpedoHolder.SetVisible(false);
+
 
             ViewHelper.AttachAxes(sceneMgr, innerNode, 1.5f);
 

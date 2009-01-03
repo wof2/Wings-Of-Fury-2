@@ -66,12 +66,7 @@ namespace Wof.View.TileViews
             get { return gunPlaceNode; }
         }
 
-        protected SceneNode gunNode;
-
-        public SceneNode GunNode
-        {
-            get { return gunNode; }
-        }
+        
 
         protected bool isConcrete;
 
@@ -142,18 +137,28 @@ namespace Wof.View.TileViews
             animableElements.Add(barrelState);
         }
 
-        public void GunFire()
+        public override void GunFire()
         {
             int i = animableElements.IndexOf(barrelState);
             if (i != -1)
             {
-                animableElements[i] = flakBarrel.GetAnimationState("fire");
+                barrelState = animableElements[i] = flakBarrel.GetAnimationState("fire");
+                animableElements[i].TimePosition = 0.0f;
                 animableElements[i].Enabled = true;
                 animableElements[i].Loop = false;
-            }
+            } 
+            EffectsManager.Singleton.Sprite(
+              sceneMgr,
+              GunNode,
+              new Vector3(0, 0, -3),
+              new Vector2(1, 1) + ViewHelper.UnsignedRandomVector2(0.2f, 0.2f),
+              EffectsManager.EffectType.EXPLOSION1,
+              false,
+              0
+            ).TimeScale=2.0f;
         }
 
-        public void Restore()
+        public override void Restore()
         {
             animationState = installationEntity.GetAnimationState("manual");
             animationState.Enabled = true;

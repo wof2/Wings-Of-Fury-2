@@ -78,13 +78,22 @@ namespace Wof.Model.Level.Weapon
         /// Maksymalna liczba dostepnych rakiet.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public readonly int MaxRocket = 15;
+        public readonly int maxRockets = 15;
+
+        /// <summary>
+        /// Maksymalna liczba dostepnych torped.
+        /// </summary>
+        /// <author>Adam Witczak</author>
+        public readonly int MaxTorpedoes = 3;
+
+
+        
 
         /// <summary>
         /// Maksymalna liczba dostepnych bomb.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public readonly int MaxBomb = 30;
+        public readonly int maxBombs = 30;
 
         /// <summary>
         /// Minimalny dystans pomiedzy dwoma samolotami,
@@ -115,6 +124,13 @@ namespace Wof.Model.Level.Weapon
         /// Liczba aktualnie dostepnych bomb.
         /// </summary>
         private int bombCount;
+
+        /// <summary>
+        /// Liczba aktualnie dostepnych torped.
+        /// </summary>
+        private int torpedoCount;
+
+        
 
         /// <summary>
         /// Aktualnie wybrana bron.
@@ -157,14 +173,17 @@ namespace Wof.Model.Level.Weapon
         /// <param name="owner">Wlasciciel broni.</param>
         /// <param name="rocketCount">Maksymalna liczba rakiet.</param>
         /// <param name="bombCount">Maksymalna liczba bomb.</param>
-        public WeaponManager(LevelRef refLevel, Plane owner, int rocketCount, int bombCount)
+        /// <param name="torpedoCount">Maksymalna liczba torped.</param>
+        public WeaponManager(LevelRef refLevel, Plane owner, int rocketCount, int bombCount, int torpedoCount)
         {
             refToLevel = refLevel;
             lastFireTick = Environment.TickCount;
-            MaxBomb = bombCount;
-            MaxRocket = rocketCount;
-            this.bombCount = MaxBomb;
-            this.rocketCount = MaxRocket;
+            maxBombs = bombCount;
+            maxRockets = rocketCount;
+            MaxTorpedoes = torpedoCount;
+            this.bombCount = maxBombs;
+            this.rocketCount = maxRockets;
+            this.torpedoCount = MaxTorpedoes;
             actualWeapon = WeaponType.Gun;
             ammunitionOwner = owner;
             gun = new Gun(refLevel);
@@ -179,7 +198,7 @@ namespace Wof.Model.Level.Weapon
             : this(refLevel,
                    owner,
                    owner is EnemyPlane ? GameConsts.EnemyPlane.RocketCount : GameConsts.UserPlane.RocketCount,
-                   GameConsts.UserPlane.BombCount)
+                   GameConsts.UserPlane.BombCount, GameConsts.UserPlane.TorpedoCount)
         {
         }
 
@@ -210,7 +229,17 @@ namespace Wof.Model.Level.Weapon
         {
             get { return rocketCount; }
         }
+        
+        /// <summary>
+        /// Zwraca liczbe torped do wykorzystania.
+        /// </summary>
+        public int TorpedoCount
+        {
+            get { return torpedoCount; }
+        }
 
+
+        
         /// <summary>
         /// Zwraca wartosc okreslajaca, czy zostaly jeszcze jakies 
         /// rakiety - true.
@@ -228,6 +257,17 @@ namespace Wof.Model.Level.Weapon
         {
             get { return (bombCount > 0); }
         }
+
+
+        /// <summary>
+        /// Zwraca wartosc okreslajaca, czy zostaly jeszcze jakies
+        /// torpedy - true.
+        /// </summary>
+        public bool IsTorpedoAvailable
+        {
+            get { return (torpedoCount > 0); }
+        }
+
 
         /// <summary>
         /// Pobiera lub ustawia jaki rodzaj cierzkiej amunicji bedzie 
@@ -263,6 +303,8 @@ namespace Wof.Model.Level.Weapon
                     return IsBombAvailable;
                 if (actualWeapon == WeaponType.Rocket)
                     return IsRocketAvailable;
+                if (actualWeapon == WeaponType.Torpedo)
+                    return IsTorpedoAvailable;
 
                 return false;
             }
@@ -412,20 +454,7 @@ namespace Wof.Model.Level.Weapon
             rocket = new Rocket(position, (PointD) ammunitionOwner.MovementVector.Clone(),
                                 refToLevel, realAngle, ammunitionOwner);
 
-
-            /*else
-            {
-                //startowa pozycja rakiety gracza.
-                position = new PointD(this.refToLevel.UserPlane.Center.X, this.refToLevel.UserPlane.Center.Y);
-
-                //kat nachylenia w zaleznosci od ustawienia samolotu.
-                realAngle = this.refToLevel.UserPlane.Bounds.IsObverse ? -this.refToLevel.UserPlane.RelativeAngle : this.refToLevel.UserPlane.RelativeAngle;
-
-                //nowa rakieta gracza.
-                rocket = new Rocket(position, (PointD)this.refToLevel.UserPlane.MovementVector.Clone(),
-                            this.refToLevel, realAngle, this.ammunitionOwner);
-            }*/
-
+            
             //zwieksza liczbe uzytych rakiet
             if (!this.ammunitionOwner.IsEnemy)
                 this.refToLevel.Statistics.RocketCount++;
@@ -436,6 +465,37 @@ namespace Wof.Model.Level.Weapon
 
         }
 
+        /// <summary>
+        /// Wystrzeliwuje rakiete.
+        /// </summary>
+        private void TorpedoFire()
+        {
+            Torpedo torpedo = null;
+            PointD position = null;
+            float realAngle = 0;
+
+            //startowa pozycja rakiety
+            position = new PointD(ammunitionOwner.Center.X, ammunitionOwner.Center.Y);
+
+            //kat nachylenia w zaleznosci od ustawienia samolotu.
+            realAngle = ammunitionOwner.Bounds.IsObverse
+                            ? -ammunitionOwner.RelativeAngle
+                            : ammunitionOwner.RelativeAngle;
+
+            //nowa rakieta
+            torpedo = new Torpedo(position, (PointD)ammunitionOwner.MovementVector.Clone(),
+                                refToLevel, 0, ammunitionOwner);
+
+
+            //zwieksza liczbe uzytych rakiet
+            if (!this.ammunitionOwner.IsEnemy)
+                this.refToLevel.Statistics.TorpedoCount++;
+
+            torpedoCount--;
+            RegisterWeaponToModelEvent(torpedo);
+            refToLevel.Controller.OnRegisterTorpedo(torpedo);
+
+        }
         /// <summary>
         /// Zrzuca bombe.
         /// </summary>
@@ -474,6 +534,9 @@ namespace Wof.Model.Level.Weapon
                 case WeaponType.Rocket:
                     RocketFire();
                     break;
+                case WeaponType.Torpedo:
+                    TorpedoFire();
+                    break;
                 default:
                     break;
             }
@@ -482,20 +545,32 @@ namespace Wof.Model.Level.Weapon
         /// <summary>
         /// Uzupelnia bomby samolotu.
         /// </summary>
-        public void RestoreBomb()
+        public void RestoreBombs()
         {
-            bombCount = MaxBomb;
+            bombCount = maxBombs;
             selectWeapon = WeaponType.Bomb;
         }
 
         /// <summary>
         /// Uzupelnia rakiety samolotu.
         /// </summary>
-        public void RestoreRocket()
+        public void RestoreRockets()
         {
-            rocketCount = MaxRocket;
+            rocketCount = maxRockets;
             selectWeapon = WeaponType.Rocket;
         }
+
+
+        /// <summary>
+        /// Uzupelnia rakiety samolotu.
+        /// </summary>
+        public void RestoreTorpedoes()
+        {
+            torpedoCount = MaxTorpedoes;
+            selectWeapon = WeaponType.Torpedo;
+        }
+
+
 
         /// <summary>
         /// uzupe³nia aktualnie wybran¹ broñ ciê¿k¹.
@@ -503,9 +578,12 @@ namespace Wof.Model.Level.Weapon
         public void RestoreSelectedWeapon()
         {
             if (SelectWeapon == WeaponType.Bomb)
-                RestoreBomb();
+                RestoreBombs();
             if (SelectWeapon == WeaponType.Rocket)
-                RestoreRocket();
+                RestoreRockets();
+
+            if (SelectWeapon == WeaponType.Torpedo)
+                RestoreTorpedoes();
         }
 
         /// <summary>
@@ -518,16 +596,30 @@ namespace Wof.Model.Level.Weapon
         {
             if (allWeapons)
             {
-                if (actualWeapon == WeaponType.Bomb)
-                    actualWeapon = WeaponType.Gun;
-                else if (actualWeapon == WeaponType.Gun)
-                    actualWeapon = WeaponType.Rocket;
-                else
-                    actualWeapon = WeaponType.Bomb;
+                switch (actualWeapon)
+                {
+                    case WeaponType.Bomb:
+                        actualWeapon = WeaponType.Gun;
+                        break;
+
+                    case WeaponType.Rocket:
+                        actualWeapon = WeaponType.Bomb;
+                        break;
+
+                    case WeaponType.Torpedo:
+                        actualWeapon = WeaponType.Rocket;
+                        break;
+
+                    case WeaponType.Gun:
+                        actualWeapon = WeaponType.Torpedo;
+                        break;
+                }
+
+
             }
             else
             {
-                if (actualWeapon == WeaponType.Bomb || actualWeapon == WeaponType.Rocket)
+                if (actualWeapon == WeaponType.Bomb || actualWeapon == WeaponType.Rocket || actualWeapon == WeaponType.Torpedo)
                     actualWeapon = WeaponType.Gun;
                 else
                     actualWeapon = selectWeapon;
@@ -544,16 +636,30 @@ namespace Wof.Model.Level.Weapon
         {
             if (allWeapons)
             {
-                if (actualWeapon == WeaponType.Bomb)
-                    actualWeapon = WeaponType.Rocket;
-                else if (actualWeapon == WeaponType.Rocket)
-                    actualWeapon = WeaponType.Gun;
-                else
-                    actualWeapon = WeaponType.Bomb;
+                switch (actualWeapon)
+                {
+                    case WeaponType.Gun:
+                        actualWeapon = WeaponType.Bomb;
+                        break;
+
+                    case WeaponType.Bomb:
+                        actualWeapon = WeaponType.Rocket;
+                        break;
+
+                    case WeaponType.Rocket:
+                        actualWeapon = WeaponType.Torpedo;
+                        break;
+
+                    case WeaponType.Torpedo:
+                        actualWeapon = WeaponType.Gun;
+                        break;
+                }
+
+
             }
             else
             {
-                if (actualWeapon == WeaponType.Bomb || actualWeapon == WeaponType.Rocket)
+                if (actualWeapon == WeaponType.Bomb || actualWeapon == WeaponType.Rocket || actualWeapon == WeaponType.Torpedo)
                     actualWeapon = WeaponType.Gun;
                 else
                     actualWeapon = selectWeapon;
@@ -570,6 +676,7 @@ namespace Wof.Model.Level.Weapon
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("Bomb count: " + bombCount);
             builder.AppendLine("Rocket count: " + rocketCount);
+            builder.AppendLine("Torpedo count: " + torpedoCount);
             builder.AppendLine("Curent weapon: " + actualWeapon);
 
             return builder.ToString();

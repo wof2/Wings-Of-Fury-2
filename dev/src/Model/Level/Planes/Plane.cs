@@ -245,6 +245,15 @@ namespace Wof.Model.Level.Planes
         /// Maksymalny k¹t, pod którym mo¿na zrzuciæ bombê.
         /// </summary>
         private const float maxFireBombAngle = 8*Math.PI/18.0f;
+  
+        
+        /// <summary>
+        /// Maksymalny k¹t, pod którym mo¿na zrzuciæ torpedê.
+        /// </summary>
+        public const float MaxFireTorpedoAngle = Math.PI / 12.0f;
+
+
+        
 
         /// OKreœla ile meterów przed maxHeight samolot zaczyna sie prostowac.
         /// </summary>
@@ -277,7 +286,7 @@ namespace Wof.Model.Level.Planes
         private readonly float waterXBreakingPower = GameConsts.UserPlane.MaxSpeed*0.01f;
 
         /// <summary>
-        /// Moca hamowania wody w pionie.//musialem usunac const aby mozna bylo je ustwic. Michal
+        /// Moc hamowania wody w pionie.//musialem usunac const aby mozna bylo je ustwic. Michal
         /// </summary>
         private readonly float waterYBreakingPower = GameConsts.UserPlane.MaxSpeed*0.04f;
 
@@ -676,6 +685,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private bool isLoweringTail;
 
+
         /// <summary>
         /// Okreœla czy samolot obróci³ siê ruchem spinu
         /// </summary>
@@ -767,6 +777,12 @@ namespace Wof.Model.Level.Planes
         #region Properties
 
         /// <summary>
+        /// Licznik uplynietego czasu od ostatniego wystrzalu.
+        /// </summary>
+        public int LastFireTick = Environment.TickCount;
+
+
+        /// <summary>
         /// Zwraca lewy dolny wierzcho³ek, jeœli samolot jest skierowany w prawo lub prawy dolny
         /// w przeciwnym wypadku.
         /// </summary>
@@ -790,6 +806,7 @@ namespace Wof.Model.Level.Planes
         {
             get { return (motorState == EngineState.Working); }
         }
+
 
         /// <summary>
         /// Zwraca true, jesli samolot moze uruchomic silnik.
@@ -1097,6 +1114,32 @@ namespace Wof.Model.Level.Planes
             }
         }
 
+
+     
+
+        public bool IsNextTorpedoAvailable
+        {
+            get
+            {
+                return ((Environment.TickCount - LastFireTick) >= GameConsts.Torpedo.FireInterval);
+            }
+        }
+
+        /// <summary>
+        /// Zwraca czy samolot mo¿e wystrzeliæ rakietê.
+        /// </summary>
+        public bool CanFireTorpedo
+        {
+            get
+            {
+                return
+                    planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed &&
+                    RelativeAngle < MaxFireTorpedoAngle && RelativeAngle > -MaxFireTorpedoAngle &&
+                    locationState == LocationState.Air && !isMaxHeightRotate;
+            }
+        }
+
+        
         /// <summary>
         /// Zwraca czy samolot mo¿e zrzuciæ bombê.
         /// </summary>
@@ -2736,7 +2779,7 @@ namespace Wof.Model.Level.Planes
                 {
                     movementVector.Y -= gravitationalAcceleration*time/timeUnit;
                     bounds.Move((time/timeUnit)*movementVector);
-                    if (bounds.LowestY <= OceanTile.depth)
+                    if (bounds.LowestY <= OceanTile.waterDepth)
                     {
                         isFallingAfterCrash = false;
                         isSinking = true;
@@ -2760,6 +2803,8 @@ namespace Wof.Model.Level.Planes
             {
                 LevelTile tile = level.LevelTiles[index];
                 if (tile.TileKind == TileKind.Island)
+                    movementVector.X = 0;
+                if (tile.TileKind == TileKind.Ship)
                     movementVector.X = 0;
             }
 

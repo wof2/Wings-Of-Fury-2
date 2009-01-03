@@ -51,6 +51,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
 using Wof.Model.Configuration;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
@@ -71,21 +72,40 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <author>Michal Ziober</author>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] 
-        private const float TorpedoWidth = 0.3f;
+        private const float TorpedoWidth = 2.5f;
 
         /// <summary>
         /// Wysokosc prostokata opisujacego torpede.
         /// </summary>
         /// <author>Michal Ziober</author>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private const float TorpedoHeight = 1.2f;
+        private const float TorpedoHeight = 0.35f;
 
         /// <summary>
         /// Minimalna wspolrzedna y, po przekroczeniu ktorej sprawdzana jest kolizja
         /// z powierzchnia.
         /// </summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private const float MinYPosition = 0.5f;
+        private const float MinYPosition = 1.5f;
+
+
+        /// <summary>
+        /// Maksymalny dopuszczalny dystans pomiedzy samolotem rodzicem a torpeda.
+        /// Jesli dystans bedzie wiekszy rakieta bedzie odrejestrowana.
+        /// </summary>
+        /// <author>Adam Witczak</author>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private const int MaxDistanceToPlane = 600;
+
+        /// <summary>
+        /// Maksymalny dopuszczalny pionowy dystans 
+        /// pomiedzy torpeda a samolotem rodzicem.
+        /// </summary>
+        /// <author>Michal Ziober</author>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private const int MaxHeightDistanceToPlane = 200;
+
+
 
         #endregion
 
@@ -94,7 +114,33 @@ namespace Wof.Model.Level.Weapon
         /// <summary>
         /// Czy torpeda znajduje sie w wodzie.
         /// </summary>
-        private bool mInWater;
+        private bool mIsInWater;
+
+
+        public bool IsInWater
+        {
+            get
+            {
+               return mIsInWater;
+            }
+            
+        }
+
+        protected float dropAngle;
+
+        protected float dropHeight;
+
+        protected float maxDropHeight = 20.0f;
+
+        /// <summary>
+        /// Odległość jaką przepłynęła torpeda do tej port
+        /// </summary>
+        protected float waterTravelDistance = 0;
+
+        /// <summary>
+        /// Max. odległość jaką może przepłynąć torpeda
+        /// </summary>
+        protected float maxWaterTravelDistance = 100.0f;
 
         /// <summary>
         /// Wartosc zapamietuje czas od ostatniego przesuniecia.
@@ -113,13 +159,16 @@ namespace Wof.Model.Level.Weapon
         /// <param name="y">Wspolrzedna startowa y.</param>
         /// <param name="planeSpeed">Wektor ruchu.</param>
         /// <param name="level">Referencja do obiektu Level.</param>
+        /// <param name="angle"></param>
+        /// <param name="owner"></param>
         /// <author>Michal Ziober</author>
         public Torpedo(float x, float y, PointD planeSpeed, Level level, float angle, Plane owner)
             : base(planeSpeed, level, angle, owner)
         {
+            dropAngle = owner.RelativeAngle;
             //prostokat opisujacy obiekt.
             this.boundRectangle = new Quadrangle(new PointD(x, y - 1), TorpedoWidth, TorpedoHeight);
-
+            dropHeight = y - 1;
             //wektor ruchu.
             this.moveVector = new PointD(WidthCoefficient * planeSpeed.X, HeightCoefficient);
         }
@@ -146,26 +195,31 @@ namespace Wof.Model.Level.Weapon
         /// <author>Michal Ziober</author>
         public override void Move(int time)
         {
-            if (this.mInWater)
+           
+        //    if (!Unregister())
             {
-                //zmienia pozycje.
-                ChangeCollisionInWater(time);
+                if (this.mIsInWater)
+                {
+                    //zmienia pozycje.
+                    ChangePositionInWater(time);
+                    //sprawdza kolizje z ziemia.
+                    CheckCollisionWithGroundAndShips();
+                }
+                else
+                {
+                    //zmienia pozycje
+                    ChangePositionInAir(time);
 
-                //sprawdza kolizje z statkami
-                ChangeCollisionWithShips();
-            }
-            else
-            {
-                //zmienia pozycje
-                ChangePositionInAir(time);
+                    //sprawdza kolizje z wrogimi samolotami.
+                    CheckCollisionWithPlanes();
 
-                //sprawdza kolizje z wrogimi samolotami.
-                CheckCollisionWithPlanes();
-
-                //sprawdza kolizje z ziemia.
-                CheckCollisionWithGround();
+                    //sprawdza kolizje z ziemia.
+                    CheckCollisionWithGroundAndShips();
+                }
             }
         }
+
+
 
         /// <summary>
         /// Zmienia pozycje torpedy w powietrzu.
@@ -194,7 +248,33 @@ namespace Wof.Model.Level.Weapon
 
             //jesli ponizej linii wody to bedzie plynac.
             if (boundRectangle.Center.Y < 0)
-                this.mInWater = true;
+            {
+                this.mIsInWater = true;
+                int index = Mathematics.PositionToIndex(Center.X);
+                if (index > -1 && index < refToLevel.LevelTiles.Count)
+                {
+                   
+                    refToLevel.Controller.OnTorpedoHitGroundOrWater(refToLevel.LevelTiles[index], this, boundRectangle.Center.X, boundRectangle.Center.Y);
+                    if (dropHeight > maxDropHeight || refToLevel.LevelTiles[index] is ShipTile || refToLevel.LevelTiles[index] is ShipBunkerTile)
+                    {
+                        // torpedo damaged
+                        SinkTorpedo();
+                    }
+                }
+
+            }
+                
+        }
+
+        public void SinkTorpedo()
+        {
+            int index = Mathematics.PositionToIndex(Center.X);
+            if (index > -1 && index < refToLevel.LevelTiles.Count)
+            {
+                refToLevel.Controller.OnTorpedoSunk(refToLevel.LevelTiles[index], this);
+                state = MissileState.Destroyed;
+                return;
+            }
         }
 
         /// <summary>
@@ -202,25 +282,47 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <param name="time">Czas od ostatniego przesuniecia.</param>
         /// <author>Michal Ziober</author>
-        private void ChangeCollisionInWater(int time)
+        private void ChangePositionInWater(int time)
         {
+            bool damaged = false;
+            // torpeda upuszczona pod za dużym kątem
+            if (dropAngle > Plane.MaxFireTorpedoAngle / 2.0f || dropAngle < -Plane.MaxFireTorpedoAngle / 2.0f)
+            {
+                // i za daleko przepłynęła
+                if (waterTravelDistance > maxWaterTravelDistance / 2.0f)
+                {
+                    damaged = true;
+                }
+            }
+
+            if (waterTravelDistance > maxWaterTravelDistance)
+            {
+                damaged = true;
+            }
+
+
+            if(damaged)
+            {
+                SinkTorpedo();
+            }
+
             //zaleznosc od uplynietego czasu
             float coefficient = Mathematics.GetMoveFactor(time);
 
-            //wyliczam o ile przesunac bombe.
-            PointD vector = new PointD(moveVector.X * coefficient, moveVector.Y);
+            //wyliczam o ile przesunac torpede.
+            PointD vector = new PointD(moveVector.X * coefficient, 0);
 
+            if (Math.Abs(vector.X) < GameConsts.Torpedo.BaseSpeed * 1.5f)
+            {
+                vector.X += moveVector.X * 0.5f * time / 1000.0f;
+            }
+            waterTravelDistance += Math.Abs(vector.X);
+            
             //przesuwam prostokat.
             base.boundRectangle.Move(vector);
         }
 
-        /// <summary>
-        /// Sprawdza kolizje z statkami przeciwnika.
-        /// </summary>
-        private void ChangeCollisionWithShips()
-        {
- 
-        }
+     
 
         /// <summary>
         /// Sprawdza kolizje torpedy z samolotem wroga. 
@@ -252,63 +354,47 @@ namespace Wof.Model.Level.Weapon
         /// Sprawdza kolizje z terenem, bunkrami , barakami, beczkami, etc.
         /// </summary>
         /// <author>Michal Ziober</author>
-        private void CheckCollisionWithGround()
+        private void CheckCollisionWithGroundAndShips()
         {
-            if (Center.Y < MinYPosition)
+            if (Center.Y < MinYPosition && waterTravelDistance > 0)
             {
                 int index = Mathematics.PositionToIndex(Center.X);
                 if (index > -1 && index < refToLevel.LevelTiles.Count)
                 {
+                    //jesli nie ma kolizji z zadnym obiektem
+                    if (!refToLevel.LevelTiles[index].InCollision(this.boundRectangle.Center)) return;
+                    
                     //jesli nie da sie zniszczyc dany obiekt bomba.
-                    if (!IsDestroyed(index))
-                        refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
-                    else if (refToLevel.LevelTiles[index] is BarrelTile)
+                    if (this.IsInWater)
                     {
-                        BarrelTile destroyTile = refToLevel.LevelTiles[index] as BarrelTile;
-                        if (!destroyTile.IsDestroyed)
+                        if (!CanBeDestroyed(index) && !(refToLevel.LevelTiles[index] is OceanTile))
                         {
-                            destroyTile.Destroy();
-                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                            refToLevel.KillVulnerableSoldiers(index, 2);
-                        }
-                    }
-                    else
-                    {
-                        LevelTile destroyTile = refToLevel.LevelTiles[index];
-                        if (destroyTile is WoodBunkerTile)
+                            refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
+                        } 
+                        else 
                         {
-                            WoodBunkerTile woodbunker = null;
-                            if ((woodbunker = destroyTile as WoodBunkerTile) != null && !woodbunker.IsDestroyed)
+                           
+                            LevelTile destroyTile = refToLevel.LevelTiles[index];
+                            if (destroyTile is BeginShipTile || destroyTile is EndShipTile)
                             {
-                                refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                                woodbunker.Destroy();
+                                if (!(destroyTile as ShipTile).IsDestroyed && !(destroyTile as ShipTile).IsSunkDown)
+                                {
+                                    refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                                    refToLevel.Statistics.HitByTorpedo++;
+                                    (destroyTile as ShipTile).Destroy();
+                                    //refToLevel.KillVulnerableSoldiers(index, 6);
+                                }
+                                //niszcze bombe.
+                                state = MissileState.Destroyed;
+
                             }
-                        }
-                        else if (destroyTile is BarrackTile)
-                        {
-                            BarrackTile barrack = null;
-                            if ((barrack = destroyTile as BarrackTile) != null && !barrack.IsDestroyed)
-                            {
-                                refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                                barrack.Destroy();
-                            }
-                        }
-                        else if (destroyTile is ConcreteBunkerTile)
-                        {
-                            ConcreteBunkerTile concreteBunker = null;
-                            if ((concreteBunker = destroyTile as ConcreteBunkerTile) != null && !concreteBunker.IsDestroyed)
-                            {
-                                refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                                concreteBunker.Destroy();
-                            }
-                        }
+                                
+                         }
+                              
+                           
                     }
 
-                    //zabijam zolnierzy, ktorzy sa w polu razenia.
-                    refToLevel.KillVulnerableSoldiers(index, 0);
-
-                    //niszcze bombe.
-                    state = MissileState.Destroyed;
+                  
                 }
             }
         }
@@ -317,11 +403,48 @@ namespace Wof.Model.Level.Weapon
         /// Sprawdza pole o podanym indeksie.
         /// </summary>
         /// <param name="index">Indeks trafionego elementu.</param>
-        /// <returns>Jesli obiekt da sie zniszczyc bomba zwraca true, w przeciwnym przypadku false.</returns>
-        private bool IsDestroyed(int index)
+        /// <returns>Jesli obiekt da sie zniszczyc torpedą zwraca true, w przeciwnym przypadku false.</returns>
+        private bool CanBeDestroyed(int index)
         {
             LevelTile tile = refToLevel.LevelTiles[index];
-            return ((tile is WoodBunkerTile) || (tile is BarrackTile) || (tile is BarrelTile) || (tile is ConcreteBunkerTile));
+            return ((tile is BeginShipTile) || (tile is EndShipTile));
+        }
+
+
+
+        /// <summary>
+        /// Funkcja sprawdza czy mozna odrejestrowac torpede. Jesli mozna
+        /// odrejetrowuje ja.
+        /// </summary>
+        /// <returns>Jesli torpeda zostanie odrejestrowana, zwroci true,
+        /// false w przeciwnym przupadku.</returns>
+        /// <author>Adam Witczak</author>
+        private bool Unregister()
+        {
+            if (!(ammunitionOwner is EnemyPlane))
+            {
+                if ((System.Math.Abs(Center.X - refToLevel.UserPlane.Center.X) > MaxDistanceToPlane) ||
+                    ((System.Math.Abs(Center.Y - refToLevel.UserPlane.Center.Y) > MaxHeightDistanceToPlane) 
+                     ))
+                {
+                    refToLevel.Controller.OnUnregisterTorpedo(this);
+                    state = MissileState.Destroyed;
+                    return true;
+                }
+                else
+                    return false;
+            }
+            else
+            {
+                if (System.Math.Abs(refToLevel.UserPlane.Center.X - Center.X) > MaxDistanceToPlane)
+                {
+                    refToLevel.Controller.OnUnregisterTorpedo(this);
+                    state = MissileState.Destroyed;
+                    return true;
+                }
+                else
+                    return false;
+            }
         }
 
         #endregion

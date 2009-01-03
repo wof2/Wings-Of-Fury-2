@@ -89,6 +89,14 @@ namespace Wof.Model.Configuration
             /// </summary>
             public static int RocketCount = 15;
 
+            
+            /// <summary>
+            /// Liczba dostepnych torped po jednorazowym pobraniu amunicji.
+            /// </summary>
+            public static int TorpedoCount = 3;
+
+         
+
             /// <summary>
             /// Stała mówi ile razy moveStep jest większy w czasie hamowannia na lotniskowcu.
             /// (Gdy jest przysikana strzałka przeciwna do ruchu samolotu.)
@@ -300,6 +308,30 @@ namespace Wof.Model.Configuration
             #endregion
         }
 
+
+        public class ShipWoodenBunker
+        {
+            #region Consts
+
+            /// <summary>
+            /// Odstep pomiedzy strzalami.
+            /// </summary>
+            public static float FireDelay = 800;
+
+            /// <summary>
+            /// Szerokosc pola widzenia samolotu.
+            /// </summary>
+            public static float HorizonHeight = 60;
+
+            /// <summary>
+            /// Wysokosc pola widzenia.
+            /// </summary>
+            public static float HorizonWidth = 30;
+
+            #endregion
+        }
+
+
         public class ConcreteBunker
         {
             #region Consts
@@ -318,6 +350,28 @@ namespace Wof.Model.Configuration
             /// Wysokosc pola widzenia.
             /// </summary>
             public static float HorizonWidth = 35;
+
+            #endregion
+        }
+
+        public class ShipConcreteBunker
+        {
+            #region Consts
+
+            /// <summary>
+            /// Odstep pomiedzy strzalami.
+            /// </summary>
+            public static float FireDelay = 800;
+
+            /// <summary>
+            /// Szerokosc pola widzenia samolotu.
+            /// </summary>
+            public static float HorizonHeight = 60;
+
+            /// <summary>
+            /// Wysokosc pola widzenia.
+            /// </summary>
+            public static float HorizonWidth = 30;
 
             #endregion
         }
@@ -367,6 +421,27 @@ namespace Wof.Model.Configuration
 
             #endregion
         }
+
+        public class Torpedo
+        {
+            #region Consts
+
+            /// <summary>
+            /// Przedzial czasu, jaki musi uplynac, aby gracz mogl zrzucic nastepna torpedę.
+            /// Podany w milisekundach(ms).
+            /// </summary>
+            public static int FireInterval = 350;
+
+            /// <summary>
+            /// Maksymalna predkosc pozioma rakiety.
+            /// </summary>
+            public static int BaseSpeed = 30;
+
+            #endregion
+        }
+
+       
+
 
         public class Game
         {

@@ -56,6 +56,7 @@ using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Troops;
 using Wof.Model.Level.Weapon;
@@ -135,6 +136,14 @@ namespace Wof.Model.Level
         /// Lista bunkrow.
         /// </summary>
         private List<LevelTile> bunkersList;
+        
+        
+        /// <summary>
+        /// Lista statków.
+        /// </summary>
+        private List<LevelTile> shipsList;
+
+        
 
         /// <summary>
         /// Lista wrogich jednostek na planszy.
@@ -173,10 +182,7 @@ namespace Wof.Model.Level
         /// </summary>
         private readonly IController controller;
 
-        /// <summary>
-        /// Licznik uplynietego czasu od ostatniego wystrzalu.
-        /// </summary>
-        private int lastFireTick = Environment.TickCount;
+       
 
         private List<StoragePlane> storagePlanes;
 
@@ -215,14 +221,17 @@ namespace Wof.Model.Level
             if (String.IsNullOrEmpty(fileName))
                 throw new IOException("File name must be set !");
             ReadEncodedXmlFile(fileName);
-            SetAttributesForInstallations();
-            soldierList = new List<Soldier>();
-            bunkersList = new List<LevelTile>();
-            ammunitionList = new List<Ammunition>();
-            aircraftTiles = new List<AircraftCarrierTile>();
+            SetAttributesForInstallationsAndShips();
+            soldierList = new List<Soldier>(10);
+            bunkersList = new List<LevelTile>(5);
+            shipsList = new List<LevelTile>();
+
+            ammunitionList = new List<Ammunition>(10);
+            aircraftTiles = new List<AircraftCarrierTile>(5);
             enemyInstallationTiles = levelParser.Tiles.FindAll(Predicates.FindAllEnemyInstallationTiles());
             GetSoldiersCount(enemyInstallationTiles);
             bunkersList = levelParser.Tiles.FindAll(Predicates.GetAllBunkerTiles());
+            shipsList = levelParser.Tiles.FindAll(Predicates.GetAllShipTiles());
             mStatistics = new LevelStatistics();
 
             SetAircraftCarrierList();
@@ -404,7 +413,32 @@ namespace Wof.Model.Level
                 {
                     bunker = bunkersList[i] as BunkerTile;
                     if (bunker != null)
+                    {
                         bunker.Fire(time);
+                        
+                        // toniêcie (bunkry na statkach ton¹)
+                        if (bunker.IsSinking)
+                        {
+                            bunker.Sink(time, timeUnit);
+                        }
+                    }
+                        
+
+                }
+            }
+
+            // zatop statki
+            if (shipsList.Count > 0)
+            {
+                ShipTile shipTile;
+                for (int i = 0; i < shipsList.Count; i++)
+                {
+                    shipTile = shipsList[i] as ShipTile;
+                    if (shipTile.IsSinking)
+                    {
+                       shipTile.Sink(time, timeUnit);
+                    }
+                   
                 }
             }
         }
@@ -460,10 +494,10 @@ namespace Wof.Model.Level
 
         /// <summary>
         /// Funkcja zostanie wywolana po nacisnieciu przycisku odpowiadajacego
-        /// za otwarcie ognia cierzka amunicja.
+        /// za otwarcie ognia ciezka amunicja.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public void OnFireRocket()
+        public void OnFireSecondaryWeapon()
         {
             if (userPlane.LocationState == LocationState.AircraftCarrier)
             {
@@ -477,11 +511,11 @@ namespace Wof.Model.Level
                 case WeaponType.Bomb:
                     if (userPlane.CanFireBomb)
                     {
-                        if ((Environment.TickCount - lastFireTick) >= GameConsts.Bomb.FireInterval)
+                        if ((Environment.TickCount - userPlane.LastFireTick) >= GameConsts.Bomb.FireInterval)
                         {
                             if (userPlane.Weapon.IsBombAvailable)
                                 userPlane.Weapon.Fire(userPlane.RelativeAngle, WeaponType.Bomb);
-                            lastFireTick = Environment.TickCount;
+                            userPlane.LastFireTick = Environment.TickCount;
                         }
                     }
                     break;
@@ -489,11 +523,22 @@ namespace Wof.Model.Level
                 case WeaponType.Rocket:
                     if (userPlane.CanFireRocket)
                     {
-                        if ((Environment.TickCount - lastFireTick) >= GameConsts.Rocket.FireInterval)
+                        if ((Environment.TickCount - userPlane.LastFireTick) >= GameConsts.Rocket.FireInterval)
                         {
                             if (userPlane.Weapon.IsRocketAvailable)
                                 userPlane.Weapon.Fire(userPlane.RelativeAngle, WeaponType.Rocket);
-                            lastFireTick = Environment.TickCount;
+                            userPlane.LastFireTick = Environment.TickCount;
+                        }
+                    }
+                    break;
+                case WeaponType.Torpedo:
+                    if (userPlane.CanFireTorpedo)
+                    {
+                        if ((Environment.TickCount - userPlane.LastFireTick) >= GameConsts.Torpedo.FireInterval)
+                        {
+                            if (userPlane.Weapon.IsTorpedoAvailable)
+                                userPlane.Weapon.Fire(userPlane.RelativeAngle, WeaponType.Torpedo);
+                            userPlane.LastFireTick = Environment.TickCount;
                         }
                     }
                     break;
@@ -598,10 +643,14 @@ namespace Wof.Model.Level
             switch (weapon)
             {
                 case WeaponType.Bomb:
-                    UserPlane.Weapon.RestoreBomb();
+                    UserPlane.Weapon.RestoreBombs();
                     break;
                 case WeaponType.Rocket:
-                    UserPlane.Weapon.RestoreRocket();
+                    UserPlane.Weapon.RestoreRockets();
+                    break;
+
+                case WeaponType.Torpedo:
+                    UserPlane.Weapon.RestoreTorpedoes();
                     break;
                 default:
                     break;
@@ -651,7 +700,6 @@ namespace Wof.Model.Level
             enemiesLeft -= 1;
         }
 
-        /// <summary>
         /// Zabija zolnierzy, ktorzy sa w polu razenia.
         /// </summary>
         /// <param name="index">Index pola ktore zostalo trafione.</param>
@@ -660,19 +708,32 @@ namespace Wof.Model.Level
         /// <returns>Zwraca liczbe zabitych zolnierzy.</returns>
         public int KillVulnerableSoldiers(int index, int step)
         {
+            return KillSoldiers(index, step, false, true);
+        }
+        /// <summary>
+        /// Zabija zolnierzy, ktorzy sa w polu razenia.
+        /// </summary>
+        /// <param name="index">Index pola ktore zostalo trafione.</param>
+        /// <param name="step">Zasieg razenia.</param>
+        /// <param name="forceKill">Wymusic smierc zolnierza / sprawdzic czy moze byc zabity</param>
+        /// <param name="scream">czy ma byæ dŸwiêk</param>
+        /// <author>Michal Ziober</author>
+        /// <returns>Zwraca liczbe zabitych zolnierzy.</returns>
+        public int KillSoldiers(int index, int step, bool forceKill, bool scream)
+        {
             List<Soldier> soldiers =
                 SoldiersList.FindAll(Predicates.FindSoldierFromInterval(index - step, index + step));
             int numberOfDeaths = 0;
             if (soldiers != null && soldiers.Count > 0)
                 for ( int i = 0 ; i < soldiers.Count ; i++)
                 {
-                    if (soldiers[i].CanDie)
+                    if (forceKill || soldiers[i].CanDie)
                     {
                         //zmniejszam liczbe zolnierzy na planszy
                         this.SoldiersCount--;
                         soldiers[i].Kill();
                         numberOfDeaths++;
-                        Controller.OnSoldierBeginDeath(soldiers[i], false);
+                        Controller.OnSoldierBeginDeath(soldiers[i], false, scream);
                     }
                 }
             return numberOfDeaths;
@@ -718,7 +779,7 @@ namespace Wof.Model.Level
                 for (int i = 0; i < ammunitionList.Count; i++)
                     ammunitionList[i].Move(time);
                 //usuwam zniszczone pociski.
-                ammunitionList.RemoveAll(Predicates.RemoveAllDestroyedMissile());
+                ammunitionList.RemoveAll(Predicates.RemoveAllDestroyedMissiles());
             }
         }
 
@@ -732,7 +793,7 @@ namespace Wof.Model.Level
             if (soldierList.Count > 0)
             {
                 //usuwam martwych zolnierzy.
-                soldierList.RemoveAll(Predicates.RemoveAllDeathSoldier());
+                if(!EngineConfig.BodiesStay) soldierList.RemoveAll(Predicates.RemoveAllDeadSoldiers());
 
                 if (soldierList.Count > 0)
                 {
@@ -749,7 +810,7 @@ namespace Wof.Model.Level
         /// <author>Michal Ziober</author>
         private void SetAircraftCarrierList()
         {
-            List<LevelTile> tmpList = LevelTiles.FindAll(Predicates.GetAllAircraftTiles());
+            List<LevelTile> tmpList = LevelTiles.FindAll(Predicates.GetAllAircraftCarrierTiles());
             if (tmpList != null && tmpList.Count > 0)
             {
                 AircraftCarrierTile airTile = null;
@@ -777,7 +838,7 @@ namespace Wof.Model.Level
         /// Ustawia dodatkowe wlasciwosc dla instalacji obronnych.
         /// </summary>
         /// <author>Michal Ziober</author>
-        private void SetAttributesForInstallations()
+        private void SetAttributesForInstallationsAndShips()
         {
             EnemyInstallationTile enemyTile;
             if (LevelTiles != null)
@@ -789,7 +850,11 @@ namespace Wof.Model.Level
                     if (enemyTile != null)
                     {
                         enemyTile.RegistrySoldierEvent += RegistrySoldierEvent;
-                        enemyTile.LevelProperties = this;
+                    }
+
+                    if (LevelTiles[i] is IRefsToLevel)
+                    {
+                        (LevelTiles[i] as IRefsToLevel).LevelProperties = this;
                     }
                 }
             }
@@ -841,7 +906,7 @@ namespace Wof.Model.Level
 
                     if (LevelTiles[i].HitBound != null &&
                         (LevelTiles[i].HitBound.Intersects(plane.Bounds) ||
-                         plane.Bounds.LowestY < OceanTile.depth))
+                         plane.Bounds.LowestY < OceanTile.waterDepth))
                     {
                         float terrainHeight;
                         if (LevelTiles[i].IsAircraftCarrier)
@@ -868,7 +933,7 @@ namespace Wof.Model.Level
                 }
                 //Przypadek szczególny gdy rozbijamy sie poza obszarem gdzie s¹ LevelTiles[krañce mapy].
                 //Na przyk³ad w wyniku wy³¹czenia silnika i pe³nej prêdkoœci przy You are not leaving yet.
-                else if ((i < 0 || i >= LevelTiles.Count) && plane.Bounds.LowestY < OceanTile.depth)
+                else if ((i < 0 || i >= LevelTiles.Count) && plane.Bounds.LowestY < OceanTile.waterDepth)
                 {
                     //0.1f terrainHeight dla Ocean
                     plane.Crash(0.1f, TileKind.Ocean);
@@ -932,7 +997,7 @@ namespace Wof.Model.Level
         /// <summary>
         /// Pobiera liczbe zolnierzy z instalacji obronnych.
         /// </summary>
-        /// <param name="list">Lista elementow</param>
+        /// <param name="tileList">Lista elementow</param>
         private void GetSoldiersCount(List<LevelTile> tileList)
         {
             int soldierCount = 0;
@@ -1010,6 +1075,16 @@ namespace Wof.Model.Level
         public List<LevelTile> BunkersList
         {
             get { return bunkersList; }
+        }
+
+
+        /// <summary>
+        /// Zwraca liste statków.
+        /// </summary>
+        /// <author>Adam Witczak</author>
+        public List<LevelTile> ShipsList
+        {
+            get { return shipsList; }
         }
 
         /// <summary>
@@ -1116,6 +1191,11 @@ namespace Wof.Model.Level
             {
                 bunkersList.Clear();
                 bunkersList = null;
+            }
+            if (shipsList != null)
+            {
+                shipsList.Clear();
+                shipsList = null;
             }
             if (aircraftTiles != null)
             {
