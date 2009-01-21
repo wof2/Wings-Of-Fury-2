@@ -92,7 +92,7 @@ namespace Wof.View.TileViews
             String nameSuffix = tileID.ToString();
 
             installationNode = shipSceneNode.CreateChildSceneNode("GunEmplacement" + nameSuffix);
-            installationNode.Translate(new Vector3(0.0f, UnitConverter.LogicToWorldUnits(new PointD(0, (levelTile.YBegin + levelTile.YEnd) / 2.0f)).y, positionOnShip));
+            installationNode.Translate(new Vector3(0.0f, UnitConverter.LogicToWorldUnits(new PointD(0, (levelTile.YBegin + levelTile.YEnd) / 2.0f)).y - 0.4f, positionOnShip));
 
 
 

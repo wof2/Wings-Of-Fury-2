@@ -1662,6 +1662,24 @@ namespace Wof.Model.Level.Planes
             planeState = PlaneState.Intact;
         }
 
+        /// <summary>
+        /// Ile punktów prostok¹ta samolotu jest powy¿ej wartoœci argumentu.
+        /// </summary>
+        public int PointsAbove(float Y)
+        {
+            int pointsAbove = 0;
+            for (int j = 0; j < Bounds.Peaks.Count; j++)
+            {
+                PointD p = Bounds.Peaks[j];
+                if (p.Y >= Y)
+                {
+                    pointsAbove++;
+                }
+            }
+
+            return pointsAbove;
+        }
+
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
