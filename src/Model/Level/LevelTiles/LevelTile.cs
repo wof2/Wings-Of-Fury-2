@@ -286,6 +286,11 @@ namespace Wof.Model.Level.LevelTiles
             get { return (this is BeginAircraftCarrierTile || this is EndAircraftCarrierTile || this is AircraftCarrierTile); }
         }
 
+        public bool isShipBunker
+        {
+            get { return (this is ShipBunkerTile); }
+        }
+
         /// <summary>
         /// Pobiera typ(wariant) pola.
         /// </summary>

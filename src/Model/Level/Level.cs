@@ -917,18 +917,21 @@ namespace Wof.Model.Level
                         float terrainHeight;
                         if (LevelTiles[i].IsAircraftCarrier)
                         {
-                            int pointsAbove = 0;
-                            for (int j = 0; j < plane.Bounds.Peaks.Count; j++)
-                            {
-                                PointD p = plane.Bounds.Peaks[j];
-                                if (p.Y >= Math.Max(LevelTiles[i].YEnd, LevelTiles[i].YBegin))
-                                {
-                                    pointsAbove++;
-                                }
-                            }
-                            if (pointsAbove >= 3) terrainHeight = Math.Max(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
-                            else terrainHeight = 0;
+                            float Y = Math.Max(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
+                            if (plane.PointsAbove(Y) >= 3) terrainHeight = Y;
+                            else terrainHeight = 0.1f;//wysokoœæ oceanu
                         }
+                        /*else if (LevelTiles[i].isShipBunker)
+                        {
+                            float YTowerLeft = LevelTiles[i].ColisionRectangles[0].Peaks[2].Y;
+                            float YTowerRight = LevelTiles[i].ColisionRectangles[1].Peaks[2].Y;
+                            float YDeck = Math.Max(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
+
+                            if (plane.PointsAbove(YTowerRight) >= 2) terrainHeight = YTowerRight;
+                            //else if (plane.BoundingQuadrangles[0].LowestY >= YTowerLeft) terrainHeight = YTowerLeft;
+                            else terrainHeight = YDeck;
+                            //terrainHeight = plane.BoundingQuadrangles[0].LowestY;
+                        }*/
                         else
                         {
                             terrainHeight = Math.Min(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
