@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <!-- 
 
@@ -161,9 +161,9 @@
   
   
   <!-- Ship -->
-  <tile name="ship-begin" y-start="2.6" y-end="2.0" variation="0" ></tile>
-  <tile name="ship-end" y-start="2.0" y-end="2.0" variation="0" ></tile>
-  <tile name="ship-deck" y-start="2.0" y-end="2.0" variation="0" ></tile>
+  <tile name="ship-begin" y-start="2.4" y-end="2.4" variation="0" ></tile>
+  <tile name="ship-end" y-start="2.4" y-end=" 2.4" variation="0" ></tile>
+  <tile name="ship-deck" y-start="20.4" y-end="20.4" variation="0" ></tile>
   
 
   <!-- Aircraft carrier -->
