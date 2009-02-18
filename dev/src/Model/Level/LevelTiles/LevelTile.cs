@@ -135,13 +135,13 @@ namespace Wof.Model.Level.LevelTiles
         /// <summary>
         /// Okreœla z jak¹ prêdkoœci¹ statek bêdzie ton¹æ. Wyra¿ona jako liczba dodatnia.
         /// </summary>
-        public static float SinkingSpeed = 0.6f;
+        public static float SinkingSpeed = 0.8f;
 
         /// <summary>
         /// Czas od momentu rozbicia statku do momentu zakoñczenia toniêcia.
         /// Wyra¿ony w ms.
         /// </summary>
-        private const float wreckTime = 12000;
+        private const float wreckTime = 20000;
 
 
         /// <summary>
@@ -156,6 +156,13 @@ namespace Wof.Model.Level.LevelTiles
         /// Wysokosc poczatku elementu.
         /// </summary>
         protected float yBegin;
+
+        /// <summary>
+        /// Przesuniêcie w widoku.
+        /// </summary>
+        protected float viewXShift;
+
+        
 
         /// <summary>
         /// Wysokosc konca elementu.
@@ -194,6 +201,16 @@ namespace Wof.Model.Level.LevelTiles
         {
             get { return yBegin; }
         }
+
+        /// <summary>
+        /// Zwraca przesuniêcie o jakie ma byæ przesuniêty model w widoku (w stosunku do modelu)
+        /// </summary>
+        public float ViewXShift
+        {
+            get { return viewXShift; }
+        }
+
+        
 
         /// <summary>
         /// Zwraca wysokosc konca elementu.
@@ -310,8 +327,9 @@ namespace Wof.Model.Level.LevelTiles
         /// <param name="yEnd">Wysokosc konca elementu.</param>
         /// <param name="hitBound">Czworokat opisujacy.</param>
         /// <param name="colisionRectanglesList">Lista prostokatow z ktorymi moga wystapic zderzenia.</param>    
-        public LevelTile(float yBegin, float yEnd, Quadrangle hitBound, List<Quadrangle> colisionRectanglesList)
+        public LevelTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, List<Quadrangle> colisionRectanglesList)
         {
+            this.viewXShift = viewXShift; 
             this.yBegin = yBegin;
             this.yEnd = yEnd;
             if (hitBound != null)

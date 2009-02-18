@@ -49,6 +49,7 @@
 
 using Mogre;
 using Wof.Controller;
+using Wof.Misc;
 using Wof.Model.Level.LevelTiles;
 using Math=System.Math;
 
@@ -127,19 +128,19 @@ namespace Wof.View.TileViews
         /// 
         /// </summary>
         /// <param name="parentNode"></param>
-        /// <param name="tileIndex"></param>
+        /// <param name="tileCMVIndex"></param>
         /// <param name="compositeModelTilesNumber"></param>
-        public override void initOnScene(SceneNode parentNode, int tileIndex, int compositeModelTilesNumber)
+        public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
-            base.initOnScene(parentNode, tileIndex, compositeModelTilesNumber);
+            base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
 
             if (LevelTile is OceanTile)
             {
                 int variant = LevelTile.Variant;
                 if(variant >= 0)
                 {
-                    float positionOnIsland = LevelView.ModelToViewAdjust + tileIndex *LevelView.TileWidth;
-                    installationNode = parentNode.CreateChildSceneNode("OceanNode" + tileID, new Vector3(positionOnIsland, 0, 0));
+
+                    installationNode = parentNode.CreateChildSceneNode("OceanNode" + tileID, new Vector3(-getRelativePosition(parentNode, LevelTile), 0, 0));
                 }
 
                 switch (variant)

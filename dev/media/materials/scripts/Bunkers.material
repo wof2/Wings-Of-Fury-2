@@ -1,21 +1,20 @@
-material Concrete
-{
-	technique
-	{
-		pass Texture
-		{
-			ambient 0.179083 0.0653588 0.0653588 
-			diffuse 1 1 1 
-			specular 0 0 0 1
-			emissive 0 0 0 
 
-			texture_unit 
-			{
-				texture concrete.jpg
-			}
-		}
-	}
+material Concrete: NormalMappedSpecular
+{
+  set_texture_alias NormalMap concrete_normal.jpg
+  set_texture_alias DiffuseMap concrete.jpg
+
 }
+
+
+
+material Concrete2: NormalMappedSpecular
+{
+  set_texture_alias NormalMap concrete2_normal.jpg
+  set_texture_alias DiffuseMap concrete2.jpg
+
+}
+
 
 material Wood
 {
@@ -35,6 +34,29 @@ material Wood
 		}
 	}
 }
+
+
+
+material ConcreteX
+{
+	technique
+	{
+		pass Texture
+		{
+			ambient 0.179083 0.0653588 0.0653588 
+			diffuse 1 1 1 
+			specular 0 0 0 1
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture oldwood2.jpg
+			}
+		}
+	}
+}
+
+
 
 
 

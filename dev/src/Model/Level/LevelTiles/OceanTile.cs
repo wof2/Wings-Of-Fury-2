@@ -73,8 +73,8 @@ namespace Wof.Model.Level.LevelTiles
         /// <param name="yBegin">Wysokosc poczatku bunkra.</param>
         /// <param name="yEnd">Wysokosc konca bunkra.</param>
         /// <param name="hitBound">Prostokat podatny na zniszczenia.</param>
-        public OceanTile(float yBegin, float yEnd, Quadrangle hitBound, int variation)
-            : base(yBegin, yEnd, hitBound, null)
+        public OceanTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int variation)
+            : base(yBegin, yEnd, viewXShift, hitBound, null)
         {
             type = variation;
         }

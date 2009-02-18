@@ -50,6 +50,7 @@ using System;
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
+using Wof.Misc;
 using Wof.View.Effects;
 using Math=Mogre.Math;
 using Wof.View.TileViews;
@@ -98,12 +99,13 @@ namespace Wof.View
         /// <summary>
         /// Konstruktor dla wysp na drugim planie / nie biora udzialu w grze
         /// </summary>
+        /// <param name="indexTile"></param>
         /// <param name="length">D³ugoœæ wyspy</param>
         /// <param name="framework">Standardowy framework Ogre'a</param>
         /// <param name="parentNode">SceneNode który bêdzie zawiera³ w sobie Node'a wyspy</param>
         /// <author>Kamil S³awiñski</author>
-        public IslandView(int length, FrameWork framework, SceneNode parentNode)
-            : base(null, framework, parentNode, "Island" + (++islandCounter))
+        public IslandView(int indexTile, int length, FrameWork framework, SceneNode parentNode)
+            : base(indexTile, framework, parentNode, "Island" + (++islandCounter))
         {
             parkedPlanes = new List<PlaneView>();
             count = length;
@@ -114,7 +116,7 @@ namespace Wof.View
         {
             String islandMeshName; //Nazwa modelu  
 
-            float adjust, margin;
+            float margin;
             staticNode = sceneMgr.CreateSceneNode(mainNode.Name + "Static");
 
             if (!backgroundDummy)
@@ -126,80 +128,70 @@ namespace Wof.View
             {
                 margin = 0.3f;
             }
-            float maxX = (Math.Abs(count) - 1) * LevelView.TileWidth / 16;
+            float maxX = -((Math.Abs(count) - 1) * LevelView.TileWidth);
 
             switch (count)
             {
                 case 5: //5
                     //ISLAND1
                     islandMeshName = "Island1.mesh";
-                    adjust = 0;
-                    initNonColissionTrees(staticNode, margin, 5, 0.7f);
-                    initNonColissionTrees(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTrees(staticNode, margin, 5, 0.7f);
+                    initNonCollisionTrees(staticNode, -margin, -5, 0.7f);
                     break;
                 case -6: //4
                     //ISLAND ROUND
                     islandMeshName = "IslandRound.mesh";
-                    adjust = 0;
-                    initNonColissionTrees(staticNode, margin, 10, 0.7f);
-                    initNonColissionTrees(staticNode, -margin, -10, 0.7f);
+                    initNonCollisionTrees(staticNode, -15, 0, 0.7f);
+                    initNonCollisionTrees(staticNode, 0, 15, 0.7f);
                     break;
 
                 case 6: //6
                     //ISLAND2
                     islandMeshName = "Island2.mesh";
-                    adjust = LevelView.TileWidth*0.5f;
-                    initNonColissionTrees(staticNode, margin, 5, 0.7f);
-                    initNonColissionTrees(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTrees(staticNode, margin, 5, 0.7f);
+                    initNonCollisionTrees(staticNode, -margin, -5, 0.7f);
                     break;
                 case 9: //9
                     //ISLAND3
                     islandMeshName = "Island3.mesh";
-                    adjust = LevelView.TileWidth*2;
-                    initNonColissionTrees(staticNode, margin, 5, 0.7f);
-                    initNonColissionTrees(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTrees(staticNode, margin, 5, 0.7f);
+                    initNonCollisionTrees(staticNode, -margin, -5, 0.7f);
                     break;
                 case 12: //12
                     //ISLAND12u
                     islandMeshName = "Island12u.mesh";
-                    adjust = LevelView.TileWidth*3.5f;
-                   
-                    initNonColissionTrees(staticNode, margin, 5, -maxX / 4.0f, maxX / 2.0f, 0.5f);
-                    initNonColissionTrees(staticNode, -margin, -5, -maxX / 4.0f, maxX / 2.0f, 0.5f);
+                
+                    initNonCollisionTrees(staticNode, margin, 5, maxX / 4.0f, maxX / 2.0f, 0.5f);
+                    initNonCollisionTrees(staticNode, -margin, -5, maxX / 4.0f, maxX / 2.0f, 0.5f);
                     break;
 
                 case 13: //13
                     //ISLAND4
                     islandMeshName = "Island4.mesh";
-                    adjust = LevelView.TileWidth*4;
-                    initNonColissionTrees(staticNode, margin, 5, 0.7f);
-                    initNonColissionTrees(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTrees(staticNode, margin, 5, 0.7f);
+                    initNonCollisionTrees(staticNode, -margin, -5, 0.7f);
                     break;
 
                 case 18: //18
                     //ISLAND18u
                     islandMeshName = "Island18u.mesh";
-                    adjust = LevelView.TileWidth * 6.5f;
-                    initNonColissionTrees(staticNode, 10, 14, -maxX, maxX/10.0f, 0.5f);
-                    initNonColissionTrees(staticNode, -11, -13, -maxX, maxX / 10.0f, 0.5f);
+                    initNonCollisionTrees(staticNode, 10, 14, maxX / 2.5f, maxX, 0.5f);
+                    initNonCollisionTrees(staticNode, -11, -13, maxX / 2.5f, maxX, 0.5f);
 
                     // zwolnic pamiec
                     EnemyPlaneView epv = new EnemyPlaneView(null, sceneMgr, staticNode);
-                    epv.PlaneNode.SetPosition(-3, 0.8f, -18);
+                    epv.PlaneNode.SetPosition(-3, 0.8f, -18 - 90);
                     epv.PlaneNode.Yaw(new Radian(new Degree(60)));
                     epv.MinimapItem.Hide();
                     parkedPlanes.Add(epv);
                     
                     EnemyPlaneView epv2 = new EnemyPlaneView(null, sceneMgr, staticNode);
-                    epv2.PlaneNode.SetPosition(-3, 0.8f, -25);
+                    epv2.PlaneNode.SetPosition(-3, 0.8f, -25 - 90);
                     epv2.PlaneNode.Yaw(new Radian(new Degree(62)));
                     epv2.MinimapItem.Hide();
                     parkedPlanes.Add(epv2);
 
-                    initLampPosts(staticNode, -7, maxX * 0.4f, -maxX * 0.6f, 12, new Radian(new Degree(0)));
-                   // initLampPosts(staticNode, 7, maxX * 0.4f, -maxX * 0.6f, 12, new Radian(new Degree(180)));
-
-
+                    initLampPosts(staticNode, -7, maxX * 0.55f, maxX * 0.95f, 12, new Radian(new Degree(0)));
                     break;
 
 
@@ -214,17 +206,16 @@ namespace Wof.View
                         islandMeshName = "Island5.mesh";
                     }
 
-                    adjust = LevelView.TileWidth*9.5f;
 
                     if (backgroundDummy)
                     {
-                        initNonColissionTrees(staticNode, 1, 15, 0.7f);
-                        initNonColissionTrees(staticNode, -1, -15, 0.7f);
+                        initNonCollisionTrees(staticNode, 1, 15, 0.7f);
+                        initNonCollisionTrees(staticNode, -1, -15, 0.7f);
                     }
                     else
                     {
-                        initNonColissionTrees(staticNode, margin, 15, 0.7f);
-                        initNonColissionTrees(staticNode, -margin, -15, 0.7f);
+                        initNonCollisionTrees(staticNode, margin, 15, 0.7f);
+                        initNonCollisionTrees(staticNode, -margin, -15, 0.7f);
                     }
                     break;
                 case 42:
@@ -238,15 +229,14 @@ namespace Wof.View
                         islandMeshName = "Island6.mesh";
                     }
 
-                    adjust = LevelView.TileWidth*18.5f;
                     if (EngineConfig.LowDetails)
                     {
-                        initNonColissionTrees(staticNode, 4.5f, 33, 0.5f);
+                        initNonCollisionTrees(staticNode, 4.5f, 33, 0.5f);
                     }
-                    else initNonColissionTrees(staticNode, 4.5f, 33, 0.9f);
+                    else initNonCollisionTrees(staticNode, 4.5f, 33, 0.9f);
 
-                    initNonColissionTrees(staticNode, -4.5f, -60, 0.5f);
-                    initNonColissionTrees(staticNode, -4.5f, -30, 0.5f);
+                    initNonCollisionTrees(staticNode, -4.5f, -60, 0.5f);
+                    initNonCollisionTrees(staticNode, -4.5f, -30, 0.5f);
                     break;
                 default:
                     return;
@@ -257,7 +247,7 @@ namespace Wof.View
 
             if (!backgroundDummy)
             {
-                staticNode.Translate(new Vector3(LevelView.CurrentTilePositionOnScene - adjust, 1.00f, 0));
+                staticNode.Translate(new Vector3(UnitConverter.LogicToWorldUnits(firstTileIndex), 1.00f, 0));
                 staticNode.SetDirection(Vector3.UNIT_X);
             }
             else
@@ -268,13 +258,13 @@ namespace Wof.View
                 {
                     float X = (islandCounter%5*250) - 650;
                     float Z = Math.RangeRandom(-4, 0)*50;
-                    staticNode.Translate(new Vector3(-250 + Z, 1, LevelView.CurrentTilePositionOnScene - adjust + X));
+                    staticNode.Translate(new Vector3(-250 + Z, 0, UnitConverter.LogicToWorldUnits(firstTileIndex) + X));
                     staticNode.SetDirection(Vector3.UNIT_X);
                     angle = Math.RangeRandom(0, 2*Math.PI);
                 }
                 else
                 {
-                    staticNode.Translate(new Vector3(-350, 1, LevelView.CurrentTilePositionOnScene - adjust + 100));
+                    staticNode.Translate(new Vector3(-350, 0, UnitConverter.LogicToWorldUnits(firstTileIndex) + 100));
                     staticNode.SetDirection(Vector3.UNIT_X);
                     angle = Math.HALF_PI;
                 }
@@ -443,9 +433,9 @@ namespace Wof.View
 
         }
 
-        private void initNonColissionTrees(SceneNode parent, float zMin, float zMax)
+        private void initNonCollisionTrees(SceneNode parent, float zMin, float zMax)
         {
-            initNonColissionTrees(parent, zMin, zMax, 1);
+            initNonCollisionTrees(parent, zMin, zMax, 1);
         }
 
         private void initLampPosts(SceneNode parent, float z, float xMin, float xMax, float num, Radian direction)
@@ -454,16 +444,16 @@ namespace Wof.View
             for (int i = 0; i < num; i++)
             {
                 initLampPost(parent, new Vector3(z, -0.5f, dist), direction);
-                dist += (xMax - xMin) * 8 / num;
+                dist += (xMax - xMin) / num;
                
             }
         }
-        private void initNonColissionTrees(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity)
+        private void initNonCollisionTrees(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity)
         {
-            initNonColissionTrees(parent, zMin, zMax, xMin, xMax, intensity, false);
+            initNonCollisionTrees(parent, zMin, zMax, xMin, xMax, intensity, false);
         }
 
-        private void initNonColissionTrees(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity, bool forceLowDetails)
+        private void initNonCollisionTrees(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity, bool forceLowDetails)
         {
             int c = (int)Math.Abs(count);
             int count_l = (int)(c * 2 * intensity);
@@ -471,29 +461,28 @@ namespace Wof.View
             for (int i = 0; i < count_l; i++)
             {
                 float z = Math.RangeRandom(zMin, zMax);
-                float adjust = Math.Abs((z - zMin) / (4 * zMin));
 
                 if (i % 10 == 1) //Co dziesiata palma jest z wieksza iloscia trojkatow
                 {
-                    initPalm(parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax) * (8 - adjust)), forceLowDetails);
+                    initPalm(parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax)), forceLowDetails);
                 }
                 else
                 {
-                    initPalm2(parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax) * (8 - adjust)), forceLowDetails);
+                    initPalm2(parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax)), forceLowDetails);
                 }
             }
         }
 
-        private void initNonColissionTrees(SceneNode parent, float zMin, float zMax, float intensity)
+        private void initNonCollisionTrees(SceneNode parent, float zMin, float zMax, float intensity)
         {
-            initNonColissionTrees(parent, zMin, zMax, intensity, false);
+            initNonCollisionTrees(parent, zMin, zMax, intensity, false);
         }
 
-        private void initNonColissionTrees(SceneNode parent, float zMin, float zMax, float intensity, bool forceLowDetails)
+        private void initNonCollisionTrees(SceneNode parent, float zMin, float zMax, float intensity, bool forceLowDetails)
         {
             int c = (int)Math.Abs(count);
-            float max = (c - 1) * LevelView.TileWidth / 16;
-            initNonColissionTrees(parent, zMin, zMax, -max, max, intensity, forceLowDetails);
+            float max = - c * LevelView.TileWidth;
+            initNonCollisionTrees(parent, zMin, zMax, 0.1f * max, 0.9f * max, intensity, forceLowDetails);
         }
 
 

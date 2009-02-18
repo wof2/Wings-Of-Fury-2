@@ -166,19 +166,17 @@ namespace Wof.View
         }
 
 
-        public override void initOnScene(SceneNode parentNode, int tileIndex, int compositeModelTilesNumber)
+        public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
-            base.initOnScene(parentNode, tileIndex, compositeModelTilesNumber);
+            base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
             String nameSuffix = tileID.ToString();
 
             if (levelTile is BarrelTile)
             {
-                float positionOnIsland = (compositeModelTilesNumber/2 - tileIndex +
-                                          ((compositeModelTilesNumber%2 == 0) ? -0.15f : 0.3f))*LevelView.TileWidth;
-
+             
                 installationNode =
                     parentNode.CreateChildSceneNode("Barrels" + nameSuffix, new Vector3(0.0f, 0.1f, 5.0f));
-                installationNode.Translate(new Vector3(0.0f, 0.0f, positionOnIsland));
+                installationNode.Translate(new Vector3(0.0f, 0.0f, UnitConverter.LogicToWorldUnits(tileCMVIndex) -  parentNode.Position.x));
 
                 switch (LevelTile.Variant)
                 {

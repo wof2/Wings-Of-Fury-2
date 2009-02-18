@@ -79,9 +79,9 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects
         /// <param name="hitBound">Czworokat</param>
         /// <param name="type">Typ pola.</param>
         /// <param name="collisionRectangles">Lista prostokatow z ktorymi moga wystapic kolizje.</param>
-        public BarrelTile(float yBegin, float yEnd, Quadrangle hitBound, int type,
+        public BarrelTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int type,
                                 List<Quadrangle> collisionRectangles)
-            : base(yBegin, yEnd, hitBound, type, collisionRectangles, true)
+            : base(yBegin, yEnd, viewXShift, hitBound, type, collisionRectangles, true)
         {
         }
 

@@ -67,6 +67,11 @@ namespace Wof.Misc
             return new Vector2((float) (logicPoint.X*1.0f + LevelView.ModelToViewAdjust), (float) (logicPoint.Y*1.0f));
         }
 
+        public static float LogicToWorldUnits(int tileIndex)
+        {
+            return Mathematics.IndexToPosition(tileIndex) + LevelView.ModelToViewAdjust;
+        }
+
 
         /// <summary>       
         /// Konwertuje procentow¹ odleg³oœæ od lewego brzegu ekranu na piksele w zale¿noœci od bie¿¹cej rozdzielczoœci i proporcji ekranu.

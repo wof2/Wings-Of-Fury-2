@@ -108,6 +108,8 @@ namespace Wof.View.Effects
         {
             EXPLOSION1,
             EXPLOSION2,
+            EXPLOSION1_SLOW,
+            EXPLOSION2_SLOW,
             WATERIMPACT1,
             WATERIMPACT2,
             DIRTIMPACT1,
@@ -200,7 +202,12 @@ namespace Wof.View.Effects
             m = null;
 
             m = ViewHelper.CloneMaterial("Concrete", "DestroyedConcrete");
+           
             pass = m.GetBestTechnique().GetPass("Texture");
+            if(pass == null)
+            {
+                pass = m.GetBestTechnique().GetPass((ushort)(m.GetBestTechnique().NumPasses - 1));
+            }
             pass.GetTextureUnitState(0).SetTextureName("concrete_destroyed.jpg");
             m = null;
 
@@ -467,6 +474,16 @@ namespace Wof.View.Effects
 
                 case EffectType.EXPLOSION2:
                     info.duration = 1.0f;
+                    info.material = "Effects/Explosion2";
+                    break;
+
+                case EffectType.EXPLOSION1_SLOW:
+                    info.duration = 2.0f;
+                    info.material = "Effects/Explosion1";
+                    break;
+
+                case EffectType.EXPLOSION2_SLOW:
+                    info.duration = 2.0f;
                     info.material = "Effects/Explosion2";
                     break;
 

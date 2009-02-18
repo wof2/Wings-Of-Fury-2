@@ -95,7 +95,7 @@ namespace Wof.View.TileViews
         {
             String nameSuffix = tileID.ToString();
 
-            gunPlaceNode = islandNode.CreateChildSceneNode("GunEmplacement" + nameSuffix, new Vector3(0.0f, 0.1f, 5.0f));
+            gunPlaceNode = islandNode.CreateChildSceneNode("GunEmplacement" + nameSuffix, new Vector3(0.0f, 0.1f, -7.0f));
             //gunPlaceNode.Translate(new Vector3(0.0f, 0.0f, positionOnIsland));
             gunPlaceNode.Translate(new Vector3(0.0f, levelTile.HitBound.LowestY, positionOnIsland));
 
@@ -103,7 +103,7 @@ namespace Wof.View.TileViews
             gunPlaceNode.AttachObject(sandbags);
 
             installationNode =
-                gunPlaceNode.CreateChildSceneNode("BunkerNode" + nameSuffix, new Vector3(0.0f, 0.0f, 4.0f));
+                gunPlaceNode.CreateChildSceneNode("BunkerNode" + nameSuffix, new Vector3(0.0f, 0.0f, 4.5f));
 
             installationEntity = sceneMgr.CreateEntity("Bunker" + nameSuffix, "Bunker.mesh");
 
@@ -202,15 +202,14 @@ namespace Wof.View.TileViews
             }
         }
 
-        public override void initOnScene(SceneNode parentNode, int tileIndex, int compositeModelTilesNumber)
+        public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
-            base.initOnScene(parentNode, tileIndex, compositeModelTilesNumber);
+            base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
 
             if (levelTile is BunkerTile)
             {
-                float positionOnIsland = (compositeModelTilesNumber/2 - tileIndex +
-                                          ((compositeModelTilesNumber%2 == 0) ? -0.15f : 0.3f))*LevelView.TileWidth;
-                initBunker(parentNode, positionOnIsland);
+
+                initBunker(parentNode, -getRelativePosition(parentNode, LevelTile));
 
                 int variant = ((IslandTile) LevelTile).Variant;
 

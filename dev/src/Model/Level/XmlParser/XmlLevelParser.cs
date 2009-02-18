@@ -338,7 +338,7 @@ namespace Wof.Model.Level.XmlParser
             for (int i = 0; i < width; i++)
             {
                 MiddleIslandTile terrain =
-                    new MiddleIslandTile(node.YStart, node.YEnd, node.HitRectangle, variation, node.CollisionRectangle, traversable);
+                    new MiddleIslandTile(node.YStart, node.YEnd, node.ViewXShift, node.HitRectangle, variation, node.CollisionRectangle, traversable);
                 levelTiles.Add(terrain);
             }
             return true;
@@ -380,7 +380,7 @@ namespace Wof.Model.Level.XmlParser
 
             for (int i = 0; i < width; i++)
             {
-                BarrelTile barrel = new BarrelTile(node.YStart, node.YEnd, node.CollisionRectangle[0], variation, node.CollisionRectangle);
+                BarrelTile barrel = new BarrelTile(node.YStart, node.YEnd, node.ViewXShift, node.CollisionRectangle[0], variation, node.CollisionRectangle);
                 levelTiles.Add(barrel);
             }
             return true;
@@ -433,16 +433,16 @@ namespace Wof.Model.Level.XmlParser
             for (int i = 0; i < width; i++)
             {
                 if (fullName.EndsWith(AircraftElement.End))
-                    aircraft = new EndAircraftCarrierTile(node.YStart, node.YEnd,
+                    aircraft = new EndAircraftCarrierTile(node.YStart, node.YEnd, node.ViewXShift,
                                                           node.HitRectangle);
                 else if (fullName.EndsWith(AircraftElement.Begin))
-                    aircraft = new BeginAircraftCarrierTile(node.YStart, node.YEnd,
+                    aircraft = new BeginAircraftCarrierTile(node.YStart, node.YEnd, node.ViewXShift,
                                                             node.HitRectangle);
                 else if (fullName.EndsWith(AircraftElement.Middle))
-                    aircraft = new MiddleAircraftCarrierTile(node.YStart, node.YEnd,
+                    aircraft = new MiddleAircraftCarrierTile(node.YStart, node.YEnd, node.ViewXShift,
                                                              node.HitRectangle);
                 else
-                    aircraft = new RestoreAmmunitionCarrierTile(node.YStart, node.YEnd,
+                    aircraft = new RestoreAmmunitionCarrierTile(node.YStart, node.YEnd, node.ViewXShift,
                                                                 node.HitRectangle);
                 levelTiles.Add(aircraft);
             }
@@ -510,13 +510,13 @@ namespace Wof.Model.Level.XmlParser
             for (int i = 0; i < width; i++)
             {
                 if (fullName.EndsWith(ShipElement.End))
-                    pb = new EndShipTile(node.YStart, node.YEnd,
+                    pb = new EndShipTile(node.YStart, node.YEnd, node.ViewXShift,
                                                           node.HitRectangle, variation, node.CollisionRectangle, traversable);
                 else if (fullName.EndsWith(ShipElement.Begin))
-                    pb = new BeginShipTile(node.YStart, node.YEnd,
+                    pb = new BeginShipTile(node.YStart, node.YEnd, node.ViewXShift,
                                                             node.HitRectangle, variation, node.CollisionRectangle, traversable);
                 else if (fullName.EndsWith(ShipElement.Middle))
-                    pb = new MiddleShipTile(node.YStart, node.YEnd, node.HitRectangle, variation, node.CollisionRectangle, traversable);
+                    pb = new MiddleShipTile(node.YStart, node.YEnd, node.ViewXShift, node.HitRectangle, variation, node.CollisionRectangle, traversable);
                
                 levelTiles.Add(pb);
             }
@@ -582,19 +582,19 @@ namespace Wof.Model.Level.XmlParser
            
             if (bunkerName.Equals(Nodes.WoodenBunker))
                 bunker = new WoodBunkerTile(node.YStart,
-                                            node.YEnd, node.HitRectangle, numSoldiers, variation,
+                                            node.YEnd, node.ViewXShift, node.HitRectangle, numSoldiers, variation,
                                             node.CollisionRectangle);
             else if (bunkerName.Equals(Nodes.Barrack))
-                barrack = new BarrackTile(node.YStart, node.YEnd,
+                barrack = new BarrackTile(node.YStart, node.YEnd, node.ViewXShift,
                                           node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
             else if (bunkerName.Equals(Nodes.ShipWoodenBunker))
-                shipbunker = new ShipWoodBunkerTile(node.YStart, node.YEnd,
+                shipbunker = new ShipWoodBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
                                           node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
             else if (bunkerName.Equals(Nodes.ShipConcreteBunker))
-                shipbunker = new ShipConcreteBunkerTile(node.YStart, node.YEnd,
+                shipbunker = new ShipConcreteBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
                                           node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
             else
-                bunker = new ConcreteBunkerTile(node.YStart, node.YEnd,
+                bunker = new ConcreteBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
                                                 node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
             if (bunker != null)
             {
@@ -646,7 +646,7 @@ namespace Wof.Model.Level.XmlParser
             if (node != null)
             {
                 if (node.IsValidYEnd && node.IsValidYStart)
-                    levelTiles.Add(new BeginIslandTile(node.YStart, node.YEnd, node.HitRectangle, variation));
+                    levelTiles.Add(new BeginIslandTile(node.YStart, node.YEnd, node.ViewXShift, node.HitRectangle, variation));
                 else return false;
                 return true;
             }
@@ -679,7 +679,7 @@ namespace Wof.Model.Level.XmlParser
             if (node != null)
             {
                 if (node.IsValidYEnd && node.IsValidYStart)
-                    levelTiles.Add(new EndIslandTile(node.YStart, node.YEnd, node.HitRectangle, variation));
+                    levelTiles.Add(new EndIslandTile(node.YStart, node.YEnd, node.ViewXShift, node.HitRectangle, variation));
                 else return false;
                 return true;
             }
@@ -778,7 +778,7 @@ namespace Wof.Model.Level.XmlParser
                     OceanTile ocean = null;
                     for (int i = 0; i < width; i++)
                     {
-                        ocean = new OceanTile(tilesNode.YStart, tilesNode.YEnd, tilesNode.HitRectangle, variation);
+                        ocean = new OceanTile(tilesNode.YStart, tilesNode.YEnd, tilesNode.ViewXShift, tilesNode.HitRectangle, variation);
                         levelTiles.Add(ocean);
                     }
                 }

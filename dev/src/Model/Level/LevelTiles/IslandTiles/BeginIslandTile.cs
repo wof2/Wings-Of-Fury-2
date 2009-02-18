@@ -65,8 +65,8 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
         /// <param name="hitBound">Prostakat opisujacy czesc pola, ktora
         /// jest podatna na trafienia.</param>
         /// <param name="variation">Wariant pola.</param>
-        public BeginIslandTile(float yBegin, float yEnd, Quadrangle hitBound, int variation)
-            : base(yBegin, yEnd, hitBound, variation, null, false)
+        public BeginIslandTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int variation)
+            : base(yBegin, yEnd, viewXShift, hitBound, variation, null, false)
         {
         }
 

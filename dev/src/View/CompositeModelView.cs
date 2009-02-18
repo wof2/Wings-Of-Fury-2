@@ -56,6 +56,9 @@ namespace Wof.View
 {
     public abstract class CompositeModelView
     {
+
+        protected int firstTileIndex;
+
         protected List<TileView> tileViews;
 
         public List<TileView> TileViews
@@ -92,7 +95,27 @@ namespace Wof.View
 
         public CompositeModelView(List<TileView> tileViews, FrameWork framework, SceneNode parentNode, String name)
         {
+            firstTileIndex = tileViews[0].LevelTile.TileIndex;
             this.tileViews = tileViews;
+            this.framework = framework;
+            this.parentNode = parentNode;
+            sceneMgr = FrameWork.SceneMgr;
+            this.name = name;
+
+            mainNode = parentNode.CreateChildSceneNode(name);
+          
+        }
+
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="tileIndex">Indeks pierwszego tile'a ktory nalezy do compositeModelView</param>
+        /// <param name="framework"></param>
+        /// <param name="parentNode"></param>
+        /// <param name="name"></param>
+        public CompositeModelView(int tileIndex, FrameWork framework, SceneNode parentNode, String name)
+        {
+            firstTileIndex = tileIndex;
             this.framework = framework;
             this.parentNode = parentNode;
             sceneMgr = FrameWork.SceneMgr;
@@ -102,6 +125,9 @@ namespace Wof.View
 
             if (tileViews == null) backgroundDummy = true;
         }
+
+
+         
 
         protected abstract void initOnScene();
     }

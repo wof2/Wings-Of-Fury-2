@@ -64,8 +64,8 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
         /// <param name="yEnd">Koniec poczatku elementu.</param>
         /// <param name="hitBound">Prostokat opisujacy podatny na zniszczenie kawalek elementu.</param>
         /// <param name="variation">Wariant pola.</param>
-        public EndIslandTile(float yBegin, float yEnd, Quadrangle hitBound, int variation)
-            : base(yBegin, yEnd, hitBound, variation, null, false)
+        public EndIslandTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int variation)
+            : base(yBegin, yEnd, viewXShift, hitBound, variation, null, false)
         {
         }
 

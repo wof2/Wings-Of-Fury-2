@@ -49,6 +49,7 @@
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
+using Wof.Misc;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
@@ -91,16 +92,15 @@ namespace Wof.View.TileViews
        
 
 
-        public override void initOnScene(SceneNode parentNode, int tileIndex, int compositeModelTilesNumber)
+        public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
-            base.initOnScene(parentNode, tileIndex, compositeModelTilesNumber);
+            base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
 
             if (LevelTile is MiddleShipTile)
             {
-                float positionOnIsland = (compositeModelTilesNumber/2 - tileIndex +
-                                          ((compositeModelTilesNumber%2 == 0) ? -0.15f : 0.3f))*LevelView.TileWidth;
+               
                 installationNode =
-                    parentNode.CreateChildSceneNode("MiddleShip" + tileID.ToString(), new Vector3(0, 0, positionOnIsland));
+                    parentNode.CreateChildSceneNode("MiddleShip" + tileID.ToString(), new Vector3(0, 0, -getRelativePosition(parentNode, LevelTile)));
 
                 int variant = ((ShipTile) LevelTile).Variant;
 

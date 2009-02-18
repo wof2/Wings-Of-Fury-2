@@ -67,9 +67,9 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// <param name="soldierNum">Liczba zolnierzy w baraku.</param>
         /// <param name="type">Typ baraku.</param>
         /// <param name="collisionRectangle">Lista prostokatow z ktorymi moga wystapic zderzenia.</param>
-        public BarrackTile(float yBegin, float yEnd, Quadrangle hitBound, int soldierNum, int type,
+        public BarrackTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int soldierNum, int type,
                            List<Quadrangle> collisionRectangle)
-            : base(yBegin, yEnd, hitBound, soldierNum, type, collisionRectangle)
+            : base(yBegin, yEnd, viewXShift, hitBound, soldierNum, type, collisionRectangle)
         {
             //przy starcie instalacja nie jest zniszczona.
             enemyState = EnemyInstallationState.Intact;

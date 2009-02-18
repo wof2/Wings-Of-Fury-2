@@ -64,9 +64,9 @@ namespace Wof.View.TileViews
         {
         }
 
-        public override void initOnScene(SceneNode parentNode, int tileIndex, int compositeModelTilesNumber)
+        public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
-            base.initOnScene(parentNode, tileIndex, compositeModelTilesNumber);
+            base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
             int variant = ((ShipTile) LevelTile).Variant;
 
             switch (variant)

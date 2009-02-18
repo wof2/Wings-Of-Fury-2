@@ -116,13 +116,18 @@ namespace Wof.View
 
             switch (count)
             {
-                case 3: //5
-                    //ISLAND1
+                case 3: //3
                     meshName = "PatrolBoat.mesh";
-                    adjust = 5;
-                    // add ShipBunkerTiles
+                   
                     break;
-              
+
+                case 9: //9
+                    //ISLAND1
+                    meshName = "Warship.mesh";
+                 
+                    break;
+
+
                 default:
                     return;
             }
@@ -131,7 +136,7 @@ namespace Wof.View
             compositeModel.CastShadows = EngineConfig.Shadows;
 
 
-            staticNode.Translate(new Vector3(LevelView.CurrentTilePositionOnScene, -(tileViews[0].LevelTile as ShipTile).Depth, 0));
+            staticNode.Translate(new Vector3(UnitConverter.LogicToWorldUnits(tileViews[0].LevelTile.TileIndex), -(tileViews[0].LevelTile as ShipTile).Depth, 0));
             staticNode.SetDirection(Vector3.UNIT_X);
        
            
