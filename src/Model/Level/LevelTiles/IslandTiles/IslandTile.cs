@@ -84,8 +84,8 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
         /// <param name="type">Typ obiektu.</param>
         /// <param name="collisionRectangles">Lista prostokatow z ktorymi moga wystapic zderzenia.</param>
         /// <param name="traversable"></param>
-        public IslandTile(float yBegin, float yEnd, Quadrangle hitBound, int type, List<Quadrangle> collisionRectangles, bool traversable)
-            : base(yBegin, yEnd, hitBound, collisionRectangles)
+        public IslandTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int type, List<Quadrangle> collisionRectangles, bool traversable)
+            : base(yBegin, yEnd, viewXShift, hitBound, collisionRectangles)
         {
             this.type = type;
             this.traversable = traversable;

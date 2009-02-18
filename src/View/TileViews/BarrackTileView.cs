@@ -24,7 +24,7 @@ namespace Wof.View.TileViews
 
             installationEntity = sceneMgr.CreateEntity("Barracks" + nameSuffix, "Barracks.mesh");
             installationNode =
-                islandNode.CreateChildSceneNode("Barracks" + nameSuffix, new Vector3(0, 0, positionOnIsland + 2.5f));
+                islandNode.CreateChildSceneNode("Barracks" + nameSuffix, new Vector3(0, 0, positionOnIsland - 5.0f));
             installationNode.AttachObject(installationEntity);
             installationNode.Scale(new Vector3(1.0f, 1.2f, 1.0f));
 
@@ -45,13 +45,10 @@ namespace Wof.View.TileViews
             }
         }
 
-        public override void initOnScene(SceneNode parentNode, int tileIndex, int compositeModelTilesNumber) 
+        public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber) 
         {
-            base.initOnScene(parentNode, tileIndex, compositeModelTilesNumber);
-
-            float positionOnIsland = (compositeModelTilesNumber/2 - tileIndex + 0.4f +
-                                      ((compositeModelTilesNumber%2 == 0) ? -0.15f : 0.3f))*LevelView.TileWidth;
-            initBarrack(parentNode, positionOnIsland);
+            base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
+            initBarrack(parentNode, -getRelativePosition(parentNode, LevelTile));
 
             int variant = ((IslandTile) LevelTile).Variant;
 

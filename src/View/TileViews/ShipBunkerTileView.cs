@@ -194,16 +194,16 @@ namespace Wof.View.TileViews
             }
         }
 
-        public override void initOnScene(SceneNode parentNode, int tileIndex, int compositeModelTilesNumber)
+        public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
-            base.initOnScene(parentNode, tileIndex, compositeModelTilesNumber);
+            base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
 
             if (levelTile is BunkerTile)
             {
-                float positionOnShip = (compositeModelTilesNumber/2 - tileIndex +
-                                          ((compositeModelTilesNumber%2 == 0) ? -0.15f : 0.3f))*LevelView.TileWidth;
-                initBunker(parentNode, positionOnShip);
+           
+                float positionOnShip = -getRelativePosition(parentNode, levelTile);
 
+                initBunker(parentNode, positionOnShip);
                 int variant = ((IslandTile) LevelTile).Variant;
 
                 switch (variant)

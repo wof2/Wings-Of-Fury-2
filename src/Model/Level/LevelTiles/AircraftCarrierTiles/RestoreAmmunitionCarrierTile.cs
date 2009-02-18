@@ -63,8 +63,8 @@ namespace Wof.Model.Level.LevelTiles.AircraftCarrierTiles
         /// <param name="yBegin">Wysokosc poczatku czesci.</param>
         /// <param name="yEnd">Wysokosc konca czesci.</param>
         /// <param name="hitBound">Prostokat opisujacy.</param>
-        public RestoreAmmunitionCarrierTile(float yBegin, float yEnd, Quadrangle hitBound)
-            : base(yBegin, yEnd, hitBound)
+        public RestoreAmmunitionCarrierTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound)
+            : base(yBegin, yEnd, viewXShift, hitBound)
         {
         }
 

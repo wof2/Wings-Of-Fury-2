@@ -243,7 +243,7 @@ namespace Wof.Model.Level.Weapon
                         }
                         else
                             refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
-                    } else if (destroyTile is ShipBunkerTile)
+                    } else if (destroyTile is ShipWoodBunkerTile)
                     {
                         if ((shipbunker = destroyTile as ShipBunkerTile) != null && !shipbunker.IsDestroyed)
                         {

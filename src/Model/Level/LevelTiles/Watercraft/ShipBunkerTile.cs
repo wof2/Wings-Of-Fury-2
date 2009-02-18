@@ -57,7 +57,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 {
     public abstract class ShipBunkerTile : BunkerTile
     {
-        protected ShipBunkerTile(float yBegin, float yEnd, Quadrangle hitBound, int soldierNum, int type, List<Quadrangle> collisionRectangle) : base(yBegin, yEnd, hitBound, soldierNum, type, collisionRectangle)
+        protected ShipBunkerTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int soldierNum, int type, List<Quadrangle> collisionRectangle) : base(yBegin, yEnd, viewXShift, hitBound, soldierNum, type, collisionRectangle)
         {
         }
     }

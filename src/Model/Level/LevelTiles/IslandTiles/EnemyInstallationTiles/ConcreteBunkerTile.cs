@@ -70,9 +70,9 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// <param name="soldierNum">Liczba zolnierzy.</param>
         /// <param name="type">Typ bunkru.</param>
         /// <param name="collisionRectangle">Lista prostokatow z ktorymi moga wystapic zderzenia.</param>
-        public ConcreteBunkerTile(float yBegin, float yEnd, Quadrangle hitBound, int soldierNum, int type,
+        public ConcreteBunkerTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int soldierNum, int type,
                                   List<Quadrangle> collisionRectangle)
-            : base(yBegin, yEnd, hitBound, soldierNum, type, collisionRectangle)
+            : base(yBegin, yEnd, viewXShift, hitBound, soldierNum, type, collisionRectangle)
         {
             //instalacja przy starcie nie jest zniszczona.
             enemyState = EnemyInstallationState.Intact;

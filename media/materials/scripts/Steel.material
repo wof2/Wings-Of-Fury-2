@@ -5,6 +5,21 @@ material Steel : NormalMappedSpecular
 
 }
 
+material Steel2 : NormalMappedSpecular
+{
+  set_texture_alias NormalMap steel2_normal.jpg
+  set_texture_alias DiffuseMap steel2.jpg
+
+}
+
+
+
+material GreenSteel : NormalMappedSpecular
+{
+  set_texture_alias NormalMap green_steel_normal.jpg
+  set_texture_alias DiffuseMap green_steel.jpg
+
+}
 
 
 

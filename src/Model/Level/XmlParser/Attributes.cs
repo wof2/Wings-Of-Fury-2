@@ -58,6 +58,7 @@ namespace Wof.Model.Level.XmlParser
         public const string YEnd = @"y-end";
         public const string Width = @"width";
         public const string YStart = @"y-start";
+        public const string ViewXShift = @"view-x-shift";
         public const string Barrels = @"barrels";
         public const string DayTime = @"dayTime";
         public const string Variation = @"variation";

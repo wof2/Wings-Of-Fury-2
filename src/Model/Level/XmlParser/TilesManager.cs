@@ -309,6 +309,8 @@ namespace Wof.Model.Level.XmlParser
                 }
                 else if (reader.Name.Equals(Attributes.YStart))
                     node.YStart = float.Parse(reader.Value, format);
+                else if (reader.Name.Equals(Attributes.ViewXShift))
+                    node.ViewXShift = float.Parse(reader.Value, format);
                 else if (reader.Name.Equals(Attributes.YEnd))
                     node.YEnd = float.Parse(reader.Value, format);
                 else if (reader.Name.Equals(Attributes.Variation))

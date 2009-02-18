@@ -50,6 +50,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Wof.Model.Level.Common;
+using Wof.View;
 
 namespace Wof.Model.Level.XmlParser
 {
@@ -59,6 +60,8 @@ namespace Wof.Model.Level.XmlParser
         private string id;
         private float yEnd;
         private float yStart;
+        private float viewXShift;
+        
         private int variation;
         private Quadrangle rectangle;
         private Quadrangle hitRectangle;
@@ -87,6 +90,13 @@ namespace Wof.Model.Level.XmlParser
             get { return yStart; }
             set { yStart = value; }
         }
+
+        public float ViewXShift
+        {
+            get { return viewXShift; }
+            set { viewXShift = value; }
+        }
+        
 
         public int Variation
         {
@@ -143,6 +153,14 @@ namespace Wof.Model.Level.XmlParser
             get { return (yStart != -1.0); }
         }
 
+        /// <summary>
+        /// Must be smaller than one tile span
+        /// </summary>
+        public bool IsValidViewXShift
+        {
+            get { return (viewXShift < LevelView.TileWidth ); }
+        }
+
         public bool IsValidRectangle
         {
             get { return (rectangle != null); }
@@ -167,6 +185,8 @@ namespace Wof.Model.Level.XmlParser
                 builder.AppendLine("Y-End: " + yEnd);
             if (IsValidYStart)
                 builder.AppendLine("Y-Start: " + yStart);
+            if (IsValidViewXShift)
+                builder.AppendLine("View-X-Shift: " + viewXShift);
             if (IsValidVariation)
                 builder.AppendLine("Variation: " + variation);
             if (IsValidRectangle)

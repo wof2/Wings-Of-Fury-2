@@ -61,8 +61,8 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 
         #endregion
 
-        public BeginShipTile(float yBegin, float yEnd, Quadrangle hitBound, int type, List<Quadrangle> collisionRectangles, bool traversable)
-            : base(yBegin, yEnd, hitBound, type, collisionRectangles, traversable)
+        public BeginShipTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int type, List<Quadrangle> collisionRectangles, bool traversable)
+            : base(yBegin, yEnd, viewXShift, hitBound, type, collisionRectangles, traversable)
         {
         }
 

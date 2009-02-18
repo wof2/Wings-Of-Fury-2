@@ -143,21 +143,42 @@
 
   
   <!-- wariacja dla patrol boat-->
-  <tile name="ship-wooden-bunker" y-start="2.3" y-end="2.3" variation="0">
-     <collision-rect rectangle="[1.5, 3.6 ][5.3][1.2]" /> <!-- lewa czesc wiezy -->
-     <collision-rect rectangle="[6.8, 5.0 ][4.0][2.6]" /> <!-- prawa czesc wiezy -->	
+  <tile name="ship-wooden-bunker" y-start="2.3" y-end="2.3" variation="0" view-x-shift="-3.3">
+    <collision-rect rectangle="[1.5, 3.6 ][5.3][1.2]" />
+    <!-- lewa czesc wiezy -->
+    <collision-rect rectangle="[6.8, 5.0 ][4.0][2.6]" />
+    <!-- prawa czesc wiezy -->
 
-     <collision-rect rectangle="[6.6, 9.1 ][1  ][4.0]" /> <!-- antena -->
-     <collision-rect rectangle="[3.9, 7.0 ][1.5  ][3.4]" /> <!-- reflektor -->
-     <collision-rect rectangle="[-3.7, 3.2 ][1.4  ][1.3]" /> <!-- dzialko -->
+    <collision-rect rectangle="[6.6, 9.1 ][1  ][4.0]" />
+    <!-- antena -->
+    <collision-rect rectangle="[3.9, 7.0 ][1.5  ][3.4]" />
+    <!-- reflektor -->
+    <collision-rect rectangle="[-3.7, 3.2 ][1.4  ][1.3]" />
+    <!-- dzialko -->
   </tile>
 
-  
-  
-  <tile name="ship-concrete-bunker" y-start="1.9" y-end="1.9" variation="0">
+
+
+  <tile name="ship-concrete-bunker" y-start="1.9" y-end="1.9" variation="0" view-x-shift="-3.3">
     <!-- <collision-rect rectangle="[0, 3.1 ][5  ][1.6]"/>-->
     <!-- bunkier -->
     <!-- <collision-rect rectangle="[6, 2.5 ][1.5][1  ]"/>-->
+    <!-- dzialko -->
+  </tile>
+  
+  
+
+  <!-- wariacja dla warship-->
+  
+  <!-- działka tylnie-->
+  <tile name="ship-concrete-bunker" y-start="5.0" y-end="5.0" variation="1" view-x-shift="-5.2">   
+    <collision-rect rectangle="[-5.7, 7.0 ][1.8  ][2.3]" />
+    <!-- dzialko -->
+  </tile>
+
+  <!-- przednie -->
+  <tile name="ship-concrete-bunker" y-start="5.0" y-end="5.0" variation="2" view-x-shift="5.2">
+    <collision-rect rectangle="[4.7, 7.0 ][1.8  ][2.3]" />
     <!-- dzialko -->
   </tile>
   
@@ -166,6 +187,22 @@
   <tile name="ship-begin" y-start="2.3" y-end="2.3" variation="0" ></tile>
   <tile name="ship-end" y-start="2.4" y-end=" 2.4" variation="0" ></tile>
   <tile name="ship-deck" y-start="2.3" y-end="2.3" variation="0" ></tile>
+
+
+  <!-- high deck-->
+  <tile name="ship-begin" y-start="5.5" y-end="5.5" variation="1" ></tile>
+  <tile name="ship-end" y-start="6.4" y-end=" 6.4" variation="1" ></tile>
+  <tile name="ship-deck" y-start="6.3" y-end="6.3" variation="1" ></tile>
+  
+  <!-- high ship installation -->
+  <tile name="ship-deck" y-start="10.3" y-end="10.3" variation="2" >    
+  </tile>
+ 
+  <!-- high ship installation with tower -->
+  <tile name="ship-deck" y-start="10.3" y-end="10.3" variation="3" >
+    <collision-rect rectangle="[5.2, 16.0 ][5.5  ][6]" />
+    <collision-rect rectangle="[5.50, 20.1 ][1.0  ][4.1]" />
+  </tile>
   
 
   <!-- Aircraft carrier -->

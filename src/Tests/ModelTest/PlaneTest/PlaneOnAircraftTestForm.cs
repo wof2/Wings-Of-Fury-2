@@ -73,11 +73,11 @@ namespace Tests.ModelTest.PlaneTest
 
             List<AircraftCarrierTile> list = new List<AircraftCarrierTile>();
             BeginAircraftCarrierTile begin =
-                new BeginAircraftCarrierTile(0.4f, 0.5f, new Quadrangle(new PointD(10, 10), 100, 50));
+                new BeginAircraftCarrierTile(0.4f, 0.5f, 0,new Quadrangle(new PointD(10, 10), 100, 50));
             MiddleAircraftCarrierTile middle =
-                new MiddleAircraftCarrierTile(0.4f, 0.5f, new Quadrangle(new PointD(10, 10), 190, 50));
+                new MiddleAircraftCarrierTile(0.4f, 0.5f, 0,new Quadrangle(new PointD(10, 10), 190, 50));
             EndAircraftCarrierTile end =
-                new EndAircraftCarrierTile(0.4f, 0.5f, new Quadrangle(new PointD(190, 10), 100, 50));
+                new EndAircraftCarrierTile(0.4f, 0.5f, 0,new Quadrangle(new PointD(190, 10), 100, 50));
             list.Add(begin);
             list.Add(middle);
             list.Add(end);

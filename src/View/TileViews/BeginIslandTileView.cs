@@ -68,9 +68,9 @@ namespace Wof.View.TileViews
         {
         }
 
-        public override void initOnScene(SceneNode parentNode, int tileIndex, int compositeModelTilesNumber)
+        public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
-            base.initOnScene(parentNode, tileIndex, compositeModelTilesNumber);
+            base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
 
             CompositeModelView cmv;
 
@@ -83,65 +83,65 @@ namespace Wof.View.TileViews
                     break;
                 case 1:
                     //Lotniskowiec
-                    cmv = new CarrierView(null, framework, parentNode);
+                    cmv = new CarrierView(tileCMVIndex, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
                 case 2:
                     //5 wysepek
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
                 case 3:
                     //3 wysepki
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
                 case 4:
                     //Duza wyspa
-                    cmv = new IslandView(42, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, 42, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
                 case 5:
                     //3 wysepki + lotniskowiec
-                    cmv = new CarrierView(null, framework, parentNode);
+                    cmv = new CarrierView(this.LevelTile.TileIndex, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(-6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
             }

@@ -115,12 +115,7 @@ namespace Wof.View
         }
 
         //Fields
-        private static float currentTilePositionOnScene;
-
-        public static float CurrentTilePositionOnScene
-        {
-            get { return currentTilePositionOnScene; }
-        }
+        
 
         /// <summary>
         /// Licznik obiektow dodatkowych - drzew, flag
@@ -469,7 +464,6 @@ namespace Wof.View
                 //Na uzytek CompositeModelView
                 tempTileViews.Add(tileView);
             }
-            currentTilePositionOnScene += TileWidth;
         }
 
         public void OnRegisterSoldier(Soldier soldier)
@@ -1089,7 +1083,7 @@ namespace Wof.View
             if (!EngineConfig.LowDetails)
             {
 
-                for (int i = 0; i < 3; i++ )
+                for (uint i = 0; i < 3; i++ )
                 {
 
                     Vector2 rand = ViewHelper.RandomVector2(8, 8);
@@ -1109,7 +1103,30 @@ namespace Wof.View
                         EffectsManager.Singleton.WaterImpact(sceneMgr, sceneMgr.RootSceneNode, posView, new Vector2(20, 32), false, tile.GetHashCode() + "_" + i);
                     }
 
-                    
+
+                    EffectsManager.EffectType type;
+                    if (((uint)tile.GetHashCode() + i) % 2 == 0)
+                    {
+                        type = EffectsManager.EffectType.EXPLOSION2_SLOW;
+                    } else
+                    {
+                        type = EffectsManager.EffectType.EXPLOSION1_SLOW;
+                    }
+
+                    name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type, (uint)tile.GetHashCode() + i);
+                    if (!EffectsManager.Singleton.EffectExists(name))
+                    {
+                        if(Math.RangeRandom(0,1) > 0.8f)
+                        {
+                             EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, posView + ViewHelper.UnsignedRandomVector3(0,10,0), new Vector2(15, 15) + ViewHelper.RandomVector2(5,5),
+                                                        type, false,
+                                                        (uint)tile.GetHashCode() + i);
+
+                        }
+                       
+                    }
+
+
                 }
                 
             }
@@ -1671,8 +1688,6 @@ namespace Wof.View
             List<LevelTile> lvlTiles = level.LevelTiles;
 
             modelToViewAdjust = -(lvlTiles.Count/2)*TileWidth;
-            currentTilePositionOnScene = modelToViewAdjust - 25.25f;
-
             int totalTilesNumber = lvlTiles.Count;
 
             for (int i = 0; i < totalTilesNumber; i++)

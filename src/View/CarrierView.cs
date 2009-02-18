@@ -104,6 +104,8 @@ namespace Wof.View
 
         protected SceneNode flagNode;
 
+       
+
         #region Minimap representation
 
         protected MinimapItem minimapItem;
@@ -142,10 +144,19 @@ namespace Wof.View
 
         // protected float lastH;
 
+        public CarrierView(int tileIndex, FrameWork framework, SceneNode parentNode)
+            : base(tileIndex, framework, parentNode, "Carrier" + (++carrierCounter))
+        {
+            initOnScene();
+        }
+
+
         public CarrierView(List<TileView> tileViews, FrameWork framework, SceneNode parentNode)
             : base(tileViews, framework, parentNode, "Carrier" + (++carrierCounter))
         {
+            
             initOnScene();
+
         }
 
 
@@ -246,7 +257,7 @@ namespace Wof.View
 
             if (!EngineConfig.LowDetails)
             {
-                lightbillboard = lightbillboardset.CreateBillboard(-9.2f, 12.5f, -5.1f, c1);
+                lightbillboard = lightbillboardset.CreateBillboard(-9.2f, 12.5f, -5.1f - 47.5f, c1);
                 lightbillboard.SetDimensions(2, 2);
 
                 Light light = sceneMgr.CreateLight(name + "_light1");
@@ -255,11 +266,11 @@ namespace Wof.View
                 light.DiffuseColour = c1;
                 light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);
                 light.CastShadows = false;
-                SceneNode lightNode = mainNode.CreateChildSceneNode(new Vector3(-9.2f, 12.5f, -5.1f));
+                SceneNode lightNode = mainNode.CreateChildSceneNode(new Vector3(-9.2f, 12.5f, -5.1f - 47.5f));
                 lightNode.AttachObject(light);
             }
 
-            lightbillboard = lightbillboardset.CreateBillboard(-10.7f, 12.3f, 12.6f, c2);
+            lightbillboard = lightbillboardset.CreateBillboard(-10.7f, 12.3f, 12.6f - 47.5f, c2);
             lightbillboard.SetDimensions(2, 2);
 
             mainNode.AttachObject(lightbillboardset);
@@ -299,10 +310,10 @@ namespace Wof.View
 
             mainNode.AttachObject(compositeModel);
 
-            carrierAerial1Node = mainNode.CreateChildSceneNode(name + "Aerial1Node", new Vector3(-8.6f, 9.1f, 5.7f));
+            carrierAerial1Node = mainNode.CreateChildSceneNode(name + "Aerial1Node", new Vector3(-8.6f, 9.1f, 5.7f - 47.8f));
             carrierAerial1Node.AttachObject(carrierAerial1);
 
-            carrierAerial2Node = mainNode.CreateChildSceneNode(name + "Aerial2Node", new Vector3(-10.7f, 4.0f, 12.6f));
+            carrierAerial2Node = mainNode.CreateChildSceneNode(name + "Aerial2Node", new Vector3(-10.7f, 4.0f, 12.6f - 47.8f));
             carrierAerial2Node.AttachObject(carrierAerial2);
 
             Vector3 oVector = new Vector3(0, 1, 0);
@@ -316,13 +327,13 @@ namespace Wof.View
             aerialAnimation2.Looped = true;
 
             lCarrierWaterTrailNode =
-                mainNode.CreateChildSceneNode(name + "lWaterTrailNode", new Vector3(-4.6f, -4.6f, -41.0f));
+                mainNode.CreateChildSceneNode(name + "lWaterTrailNode", new Vector3(-4.6f, -4.6f, -41.0f - 47.5f));
             lCarrierWaterTrailNode.AttachObject(lWaterTrail);
             lCarrierWaterTrailNode.Rotate(Vector3.NEGATIVE_UNIT_Y, Math.HALF_PI);
             lCarrierWaterTrailNode.Scale(2.0f, 1f, 1.5f);
 
             rCarrierWaterTrailNode =
-                mainNode.CreateChildSceneNode(name + "rWaterTrailNode", new Vector3(4.6f, -4.6f, -41.0f));
+                mainNode.CreateChildSceneNode(name + "rWaterTrailNode", new Vector3(4.6f, -4.6f, -41.0f - 47.5f));
             rCarrierWaterTrailNode.AttachObject(rWaterTrail);
             rCarrierWaterTrailNode.Rotate(Vector3.NEGATIVE_UNIT_Y, Math.HALF_PI);
             rCarrierWaterTrailNode.Scale(2.0f, 1f, 1.5f);
@@ -341,7 +352,7 @@ namespace Wof.View
 
                 CrewStatePlaneOnCarrier();
 
-                mainNode.Translate(new Vector3(LevelView.CurrentTilePositionOnScene - adjust, 5, -1.0f));
+                mainNode.Translate(new Vector3(UnitConverter.LogicToWorldUnits(firstTileIndex), 5, -1.0f));
                 mainNode.SetDirection(Vector3.UNIT_X);
 
                 if (FrameWork.DisplayMinimap)
@@ -356,7 +367,7 @@ namespace Wof.View
             else
             {
                 initFlag(new Vector3(0, 0, 0));
-                mainNode.Translate(new Vector3(-800.0f, 5, LevelView.CurrentTilePositionOnScene - adjust + 1000));
+                mainNode.Translate(new Vector3(-800.0f, 5, UnitConverter.LogicToWorldUnits(firstTileIndex) + 1000));
                 InitLights(new ColourValue(0.9f, 0.2f, 0.0f), new ColourValue(0.0f, 0.9f, 0.1f));
             }
         }

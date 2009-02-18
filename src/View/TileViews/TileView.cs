@@ -48,6 +48,7 @@
 
 using Mogre;
 using Wof.Controller;
+using Wof.Misc;
 using Wof.Model.Level.LevelTiles;
 
 namespace Wof.View.TileViews
@@ -111,11 +112,24 @@ namespace Wof.View.TileViews
         /// initOnScene dla skladowych TileViews. 
         /// </summary>
         /// <param name="parentNode"></param>
-        /// <param name="tileIndex"></param>
+        /// <param name="tileCMVIndex"></param>
         /// <param name="compositeModelTilesNumber"></param>
-        public virtual void initOnScene(SceneNode parentNode, int tileIndex, int compositeModelTilesNumber)
+        public virtual void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
             this.parentNode = parentNode;
+        }
+
+        /// <summary>
+        /// Zwraca relatywne polozenie obiektu (okreslonego przez LevelTile) na powierzchni ktora zaczyna sie w sceneNode.Position.x.
+        /// Zalozenia: sceneNode to np. wyspa, lotniskowiec, statek z anchorem z LEWEJ strony
+        /// Zwracane jest relatywne polozenie obiektu, z POCZATKU przedzialu [tileIndex, tileIndex + 1]
+        /// </summary>
+        /// <param name="sceneNode"></param>
+        /// <param name="objectToPlace"></param>
+        /// <returns></returns>
+        protected float getRelativePosition(SceneNode sceneNode, LevelTile objectToPlace)
+        {
+            return UnitConverter.LogicToWorldUnits(objectToPlace.TileIndex) + objectToPlace.ViewXShift - sceneNode.Position.x;
         }
     }
 }

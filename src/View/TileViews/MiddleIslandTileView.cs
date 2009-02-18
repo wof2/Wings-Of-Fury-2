@@ -49,6 +49,7 @@
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
+using Wof.Misc;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.View.Effects;
@@ -166,16 +167,15 @@ namespace Wof.View.TileViews
        
 
 
-        public override void initOnScene(SceneNode parentNode, int tileIndex, int compositeModelTilesNumber)
+        public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
-            base.initOnScene(parentNode, tileIndex, compositeModelTilesNumber);
+            base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
 
             if (LevelTile is MiddleIslandTile)
             {
-                float positionOnIsland = (compositeModelTilesNumber/2 - tileIndex +
-                                          ((compositeModelTilesNumber%2 == 0) ? -0.15f : 0.3f))*LevelView.TileWidth;
+               
                 installationNode =
-                    parentNode.CreateChildSceneNode("Middle" + tileID.ToString(), new Vector3(0, 0, positionOnIsland));
+                    parentNode.CreateChildSceneNode("Middle" + tileID.ToString(), new Vector3(0, 0, -getRelativePosition(parentNode, LevelTile)));
 
                 int variant = ((IslandTile) LevelTile).Variant;
 
@@ -186,42 +186,42 @@ namespace Wof.View.TileViews
 
                     // 3 palmy
                     case 1:
-                        initPalm2(new Vector3(-1, 0, 8.5f));
-                        initPalm(new Vector3(0.5f, 0, 6.6f));
-                        initPalm(new Vector3(-1, 0, 5.4f));
+                        initPalm2(new Vector3(-1, 0, -6.5f));
+                        initPalm(new Vector3(0.5f, 0, -5.6f));
+                        initPalm(new Vector3(-1, 0, -4.4f));
                         break;
 
                     // 4 palmy
                     case 2:
-                        initPalm(new Vector3(-1, 0, 7));
-                        initPalm2(new Vector3(1, 0, 6));
-                        initPalm(new Vector3(1, 0, 8));
-                        initPalm2(new Vector3(-1, 0, 5));
+                        initPalm(new Vector3(-1, 0, -6 ));
+                        initPalm2(new Vector3(1, 0, -5 ));
+                        initPalm(new Vector3(1, 0, -7 ));
+                        initPalm2(new Vector3(-1, 0, -4));
                         break;
 
                     // flaga
                     case 3:
-                        initFlag(new Vector3(0, 0, 7));
+                        initFlag(new Vector3(0, 0, -4.5f));
                         break;
 
                     // uniesione 3 palmy
                     case 12:
-                        initPalm2(new Vector3(-1, 7.5f, 8.5f));
-                        initPalm(new Vector3(0.5f, 7.5f, 6.6f));
-                        initPalm(new Vector3(-1, 7.5f, 5.4f));
+                        initPalm2(new Vector3(-1, 7.5f, -7.0f));
+                        initPalm(new Vector3(0.5f, 7.5f, -5f));
+                        initPalm(new Vector3(-1, 7.5f, -4.0f));
                         break;
 
                     // uniesione 4 palmy
                     case 13:
-                        initPalm(new Vector3(-1, 7.5f, 7));
-                        initPalm2(new Vector3(1, 7.5f, 6));
-                        initPalm(new Vector3(1, 7.5f, 8));
-                        initPalm2(new Vector3(-1, 7.5f, 5));
+                        initPalm(new Vector3(-1, 7.5f, -6));
+                        initPalm2(new Vector3(1, 7.5f, -5));
+                        initPalm(new Vector3(1, 7.5f, -6.5f));
+                        initPalm2(new Vector3(-1, 7.5f, -4));
                         break;
 
                     // uniesiona flaga
                     case 14:
-                        initFlag(new Vector3(0, 6.5f, 7));
+                        initFlag(new Vector3(0, 6.5f, -4.5f));
                         break;
 
 

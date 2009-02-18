@@ -174,7 +174,6 @@ namespace Wof.Misc
         /// </summary>
         /// <param name="rangeX"></param>
         /// <param name="rangeY"></param>
-        /// <param name="rangeZ"></param>
         /// <returns></returns>
         public static Vector2 RandomVector2(float rangeX, float rangeY)
         {
