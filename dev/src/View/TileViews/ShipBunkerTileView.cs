@@ -115,8 +115,10 @@ namespace Wof.View.TileViews
             {
                 minimapItem =
                     new MinimapItem(installationNode, FrameWork.MinimapMgr, "Cube.mesh", ColourValue.Red, installationEntity);
-                minimapItem.ScaleOverride = new Vector2(0, 15); // stala wysokosc dziala, niezale¿na od bounding box
+                minimapItem.MinimapObjectsDepth = 5.0f;
+                minimapItem.ScaleOverride = new Vector2(3, 10); // stala wysokosc dziala, niezale¿na od bounding box
                 minimapItem.Refresh();
+               
             }
 
             barrelState = flakBarrel.GetAnimationState("manual");
