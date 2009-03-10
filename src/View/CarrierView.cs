@@ -195,7 +195,7 @@ namespace Wof.View
                 crewNode.Scale(0.8f, 0.8f, 0.8f);
                 if (i == 0)
                 {
-                    crewNode.Position = new Vector3(-7.6f, 0.4f, 0.0f);
+                    crewNode.Position = new Vector3(-7.6f, 0.4f, 0.0f - 47.5f);
                     crewNode.Yaw(-Math.HALF_PI);
                     crewAnimationStates[i] = crew.GetAnimationState("start");
 
@@ -233,14 +233,14 @@ namespace Wof.View
                 }
                 else if (i == 1)
                 {
-                    crewNode.Position = new Vector3(-7.6f, 0.3f, -30.0f);
+                    crewNode.Position = new Vector3(-7.6f, 0.3f, -30.0f - 47.5f);
                     crewNode.Yaw(new Radian(-1.2f));
                     crewAnimationStates[i] = crew.GetAnimationState("idle");
                     crewAnimationStates[i].TimePosition = crewAnimationStates[i].Length/2.0f;
                 }
                 else if (i == 2)
                 {
-                    crewNode.Position = new Vector3(-7.6f, 0.3f, -32.0f);
+                    crewNode.Position = new Vector3(-7.6f, 0.3f, -32.0f - 47.5f);
                     crewNode.Yaw(new Radian(-2.2f));
                     crewAnimationStates[i] = crew.GetAnimationState("idle");
                 }
