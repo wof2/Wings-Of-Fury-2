@@ -59,18 +59,21 @@
   <ocean width="20"/>
   
   <!-- warship -->
-  <ship-begin width="1" variation="1" traversable="false"/>
-  <ship-concrete-bunker num-soldiers="1" traversable="false" variation="1" />
+  <ship-begin width="1" variation="1" traversable="true"/>
+  <ship-concrete-bunker num-soldiers="1" traversable="true" variation="1" />
   <ship-concrete-bunker num-soldiers="1" traversable="false" variation="1" />
   <ship-deck width="1" variation="2" traversable="false"/>
   <ship-deck width="1" variation="3" traversable="false"/>
   <ship-deck width="1" variation="2" traversable="false"/>
-  <ship-deck width="1" variation="1"/>  
-  <ship-concrete-bunker num-soldiers="1" traversable="false"  variation="2" />
-  <ship-end width="1" variation="1" />
-
+  <ship-deck width="1" variation="1" traversable="false"/>  
+  <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" />
+  <ship-end width="1" variation="1" traversable="false"/>
 
   <ocean width="5" />
+
+
+
+  
   <aircraft-carrier-begin width="1"/>
   <aircraft-carrier-middle width="3"/>
   <aircraft-carrier-restore-ammunition width="1"/>
