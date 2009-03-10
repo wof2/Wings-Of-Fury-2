@@ -127,9 +127,9 @@ namespace Wof.View
             get { return scaleOverride; }
         }
 
-        private static float minimapObjectsDepth = 0.05f;
+        private float minimapObjectsDepth = 0.05f;
 
-        public static float MinimapObjectsDepth
+        public float MinimapObjectsDepth
         {
             set { minimapObjectsDepth = value; }
             get { return minimapObjectsDepth; }
@@ -286,7 +286,7 @@ namespace Wof.View
 
             // POSITION
             Vector3 wpos = realObjectNode.WorldPosition;
-            minimapNode.SetPosition(wpos.x, wpos.y, minimapNode.Position.z);
+          
 
             // SCALE
             Vector3 scale = new Vector3(0, 1, 1);
@@ -302,6 +302,8 @@ namespace Wof.View
             
             scale.x = minimapObjectsDepth;
             minimapNode.SetScale(scale);
+
+            minimapNode.SetPosition(wpos.x + scale.z / 2.0f, wpos.y, minimapNode.Position.z);
         }
 
         public void Dispose()

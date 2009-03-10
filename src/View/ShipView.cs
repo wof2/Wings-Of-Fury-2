@@ -155,9 +155,10 @@ namespace Wof.View
             if (FrameWork.DisplayMinimap)
             {
                 minimapItem =
-                    new MinimapItem(staticNode, FrameWork.MinimapMgr, "Cube.mesh",
-                                    new ColourValue(1, 0.6137f, 0.29f), compositeModel);
-                minimapItem.ScaleOverride = new Vector2(0, 3); // stala wysokosc wyspy, niezale¿na od bounding box
+                    new MinimapItem(staticNode, FrameWork.MinimapMgr, "ShipMinimap.mesh",
+                                     new ColourValue(0.092f, 0.262f, 0.49f), compositeModel);
+
+                minimapItem.ScaleOverride = new Vector2(0, 15); // stala wysokosc, niezale¿na od bounding box
                 minimapItem.Refresh();
             }
            
