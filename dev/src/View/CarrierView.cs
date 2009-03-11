@@ -366,7 +366,7 @@ namespace Wof.View
             }
             else
             {
-                initFlag(new Vector3(0, 0, 0));
+                initFlag(new Vector3(0, 0, -45));
                 mainNode.Translate(new Vector3(-800.0f, 5, UnitConverter.LogicToWorldUnits(firstTileIndex) + 1000));
                 InitLights(new ColourValue(0.9f, 0.2f, 0.0f), new ColourValue(0.0f, 0.9f, 0.1f));
             }
@@ -484,7 +484,7 @@ namespace Wof.View
                     float xPos = Mathematics.IndexToPosition(lCarrier.CarrierTiles[i].TileIndex);
                     //LevelTile.Width 
                     //+ 1.0f / 2.0f
-                    float viewZ = -((float) (xPos - carrierCenter) - 6.0f); // korekta
+                    float viewZ = -((float) (xPos - carrierCenter) + 40.0f );//- 6.0f); // korekta
 
                     InitArrestingWire(viewZ);
                 }
@@ -501,7 +501,7 @@ namespace Wof.View
         private void InitArrestingWire(float zCoordinate)
         {
             float z = zCoordinate;
-            Vector3 position = new Vector3(1.0f, 0.4f, zCoordinate);
+            Vector3 position = new Vector3(1.0f, 0.55f, zCoordinate);
             SceneNode wireNode = mainNode.CreateChildSceneNode(name + "_ArrestingWire" + z + "Node", position);
 
             SceneNode lWireNode =
