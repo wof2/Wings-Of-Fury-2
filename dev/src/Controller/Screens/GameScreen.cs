@@ -659,67 +659,85 @@ namespace Wof.Controller.Screens
 
                         }
 
-                        // zmiana amunicji za pomoc¹ klawiatury
-                        if (changingAmmo && Button.CanChangeSelectedButton(0.2f))
+                        // zmiana amunicji za pomoc¹ klawiatury                       
+                        if (changingAmmo && (Button.CanChangeSelectedButton(1.5f))) // mozna nacisnac guzik 
                         {
-                            Button.ResetButtonTimer();
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_UP) || joyVector.y > 0)
-                            {
-                                ammoSelectedIndex -= 1;
-                            }
+                        	bool pressed = false;
+                        	if(ammoSelectedIndex != ammoSelectedIndexCount)
+                        	{                        		
+                        		if (inputKeyboard.IsKeyDown(KeyCode.KC_UP) || joyVector.y > 0)
+	                            {
+	                                ammoSelectedIndex -= 1;
+	                                pressed = true;
+	                            }
 
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN) || joyVector.y < 0)
-                            {
-                                ammoSelectedIndex += 1;
-                            }
-
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_B))
-                            {
-                                ammoSelectedIndex = 0;
-                            }
-
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_R))
-                            {
-                                ammoSelectedIndex = 1;
-                            }
-
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_T))
-                            {
-                                ammoSelectedIndex = 2;
-                            }
-
-
-
-                            if (ammoSelectedIndex > ammoSelectedIndexCount)
-                            {
-                                ammoSelectedIndex = ammoSelectedIndexCount - 1;
-                            }
-
-                            if (ammoSelectedIndex < 0)
-                            {
-                                ammoSelectedIndex = 0;
-                            }
-
-                            switch (ammoSelectedIndex)
-                            {
-                                case 0:
-                                    bombsButton.activate(true);
-                                    rocketsButton.activate(false);
-                                    torpedoesButton.activate(false);
-                                    break;
-
-                                case 1:
-                                    bombsButton.activate(false);
-                                    rocketsButton.activate(true);
-                                    torpedoesButton.activate(false);
-                                    break;
-
-                                case 2:
-                                    bombsButton.activate(false);
-                                    rocketsButton.activate(false);
-                                    torpedoesButton.activate(true);
-                                    break;
-                            }
+	                            if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN) || joyVector.y < 0)
+	                            {
+	                                ammoSelectedIndex += 1;
+	                                pressed = true;
+	                            }
+	
+	                            if (inputKeyboard.IsKeyDown(KeyCode.KC_B))
+	                            {
+	                                ammoSelectedIndex = 0;
+	                                pressed = true;
+	                            }
+	
+	                            if (inputKeyboard.IsKeyDown(KeyCode.KC_R))
+	                            {
+	                                ammoSelectedIndex = 1;
+	                                pressed = true;
+	                            }
+	
+	                            if (inputKeyboard.IsKeyDown(KeyCode.KC_T))
+	                            {
+	                                ammoSelectedIndex = 2;
+	                                pressed = true;
+	                            }
+	                            
+	                            if(pressed) Button.ResetButtonTimer(); 
+	
+	
+	                            if (ammoSelectedIndex >= ammoSelectedIndexCount)
+	                            {
+	                                ammoSelectedIndex = ammoSelectedIndexCount - 1;	                                
+	                            }
+	
+	                            if (ammoSelectedIndex < 0)
+	                            {
+	                                ammoSelectedIndex = 0;
+	                            }
+                        	} else 
+                        	{
+                        		ammoSelectedIndex = 0; // domyslnie bomby
+                        		pressed = true;
+                        	}
+                        	
+                           
+						    if(pressed) 
+						    {
+							   switch (ammoSelectedIndex)
+	                            {
+	                                case 0:
+	                                    bombsButton.activate(true);
+	                                    rocketsButton.activate(false);
+	                                    torpedoesButton.activate(false);
+	                                    break;
+	
+	                                case 1:
+	                                    bombsButton.activate(false);
+	                                    rocketsButton.activate(true);
+	                                    torpedoesButton.activate(false);
+	                                    break;
+	
+	                                case 2:
+	                                    bombsButton.activate(false);
+	                                    rocketsButton.activate(false);
+	                                    torpedoesButton.activate(true);
+	                                    break;
+	                            }	
+						    }
+                          
 
                             if (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || inputKeyboard.IsKeyDown(KeyCode.KC_B) || inputKeyboard.IsKeyDown(KeyCode.KC_R) || inputKeyboard.IsKeyDown(KeyCode.KC_T))
                             {
