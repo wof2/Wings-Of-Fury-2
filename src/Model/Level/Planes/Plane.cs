@@ -676,12 +676,12 @@ namespace Wof.Model.Level.Planes
         private float breakingEndPositionX;
 
         /// <summary>
-        /// Okreœla czy samolot podnosi ty³ przy poruszaniu siê na lotniskowca
+        /// Okreœla czy samolot podnosi ty³ przy poruszaniu siê na lotniskowcu
         /// </summary>
         private bool isRaisingTail;
 
         /// <summary>
-        /// Okreœla czy samolot obni¿a ty³ przy poruszaniu siê na lotniskowca
+        /// Okreœla czy samolot obni¿a ty³ przy poruszaniu siê na lotniskowcu
         /// </summary>
         private bool isLoweringTail;
 
@@ -2207,10 +2207,20 @@ namespace Wof.Model.Level.Planes
         {
             isLoweringTail = true;
             isRaisingTail = false;
-            bounds.Rotate((float) (direction)*(angleOnCarrier * 6) * scaleFactor);
-            if (Math.Abs(Math.Abs(bounds.Angle) - angleOnCarrier) < 0.02)
+
+            int deltaCount = (int)(scaleFactor * 100);
+            float scaleFactorDelta = scaleFactor / deltaCount;
+
+            float rotateDelta = (float)(direction) * (angleOnCarrier * 6) * scaleFactor;
+
+            for (int i = 0; i < deltaCount; i++)
             {
-                isLoweringTail = false;
+                bounds.Rotate(rotateDelta);
+                if (Math.Abs(Math.Abs(bounds.Angle) - angleOnCarrier) < 0.02)
+                {
+                    isLoweringTail = false;
+                    break;
+                }
             }
         }
 
@@ -2221,13 +2231,24 @@ namespace Wof.Model.Level.Planes
         /// <author>Tomek , Kamil S³awiñski</author>
         private void raiseTailStep(float scaleFactor)
         {
+            //Console.WriteLine(scaleFactor);
             isRaisingTail = true;
             isLoweringTail = false;
-            bounds.Rotate(-(float)(direction) * (angleOnCarrier * 4) * scaleFactor);
-            if (Math.Abs(bounds.Angle) < 0.02)
+
+            int deltaCount = (int)(scaleFactor * 100);
+            float scaleFactorDelta = scaleFactor / deltaCount;
+
+            float rotateDelta = -(float)(direction) * 4 * angleOnCarrier * scaleFactorDelta;
+
+            for (int i = 0; i < deltaCount; i++)
             {
-                isRaisingTail = false;
-                AirstripContact();
+                bounds.Rotate(rotateDelta);
+                if (Math.Abs(bounds.Angle) < 0.02)
+                {
+                    isRaisingTail = false;
+                    AirstripContact();
+                    break;
+                }
             }
         }
 
