@@ -51,7 +51,7 @@ using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.Weapon;
-
+using Wof.Model.Level.LevelTiles.Watercraft;
 namespace Wof.Model.Level.Planes
 {
     public enum AttackObject
@@ -187,6 +187,8 @@ namespace Wof.Model.Level.Planes
         public EnemyPlane(Level level)
             : base(level, true)
         {
+        	StartPositionInfo info = new StartPositionInfo();
+        	
             //wylosowanie pozycji
             Random r = new Random();
             int atEnd = r.Next(0, 2); //losuje 0 albo 1
@@ -194,16 +196,18 @@ namespace Wof.Model.Level.Planes
             float x = atEnd*endPos + (1 - atEnd)*100;
             x += r.Next(-6, 6);
             float y = r.Next(30, 40);
-            direction = atEnd == 0 ? Direction.Right : Direction.Left;
+            info.Direction = atEnd == 0 ? Direction.Right : Direction.Left;
+            info.EngineState = EngineState.Working;
+            info.WheelsState  = WheelsState.In;
+            info.PositionType = StartPositionType.Airborne;
+            info.Position = new PointD(x,y);
+            info.Speed = GameConsts.EnemyPlane.Speed*0.01f*r.Next(90, 111);
             bounds = new Quadrangle(new PointD(x, y), width, height);
-
-            movementVector = new PointD((float) direction*GameConsts.EnemyPlane.Speed*0.01f*r.Next(90, 111), 0);
-            locationState = LocationState.Air;
-            wheelsState = WheelsState.In;
-            motorState = EngineState.Working;
+            this.startPositionInfo = info;
+            Init();
 
             attackObject = AttackObject.None;
-
+ 		//	StartEngine();
             level.OnEnemyPlaneFromTheSide(!(atEnd == 1));
             temp = new PointD(0, 0);
 
@@ -655,6 +659,15 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
+            	ShipTile st = this.GetNearestShipCrashThreat();
+            	if(st != null)
+            	{
+            		if(YDistanceToTile(st) < 15*height)
+	            	{
+	            		return true;
+	            	}
+            	}
+            	
                 if (bounds.LowestY <= GameConsts.EnemyPlane.MinPitch) //czy ju¿ nie jest za nisko
                     return true;
                 if (RelativeAngle >= 0)
@@ -717,6 +730,7 @@ namespace Wof.Model.Level.Planes
                 for (int i = 0; i < level.StoragePlanes.Count; i++)
                     if (Math.Abs(level.StoragePlanes[i].Center.X - Center.X) <
                         GameConsts.EnemyPlane.AttackStoragePlaneDistance &&
+                        level.StoragePlanes[i].PlaneState == PlaneState.Intact &&
                         Rocket.CanHitEnemyPlane(this, level.StoragePlanes[i]))
                         return true;
                 return false;
@@ -740,6 +754,40 @@ namespace Wof.Model.Level.Planes
                     return false;
                 return true;
             }
+        }
+        
+        /// <summary>
+        /// Zwraca ship tile ktory jest najblizej i jednoczesnie jest zagrodzeniem z uwagi na odleglosc
+        /// </summary>
+        /// <returns></returns>
+        private ShipTile GetNearestShipCrashThreat()
+        {
+            float dist = float.MaxValue;
+            float temp;
+            int index = -1;
+            ShipTile st;
+            for (int i = 0; i < level.ShipsList.Count; i++)
+            {
+            	st = (ShipTile)(level.ShipsList[i]);
+            	float x = XDistanceToTile(st);
+            	float y = YDistanceToTile(st);
+                if ( x != -1 && 
+            	     y != -1 &&
+                     x < width * 10 &&
+                     y < height * 10
+                    )
+                {
+                    temp = x+y;
+                    if (dist > temp)
+                    {
+                        dist = temp;
+                        index = i;
+                    }
+                }
+            }
+            if (index != -1) return level.ShipsList[index] as ShipTile;
+            return null;
+        	
         }
 
         /// <summary>

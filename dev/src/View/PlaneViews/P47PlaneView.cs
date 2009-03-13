@@ -201,7 +201,7 @@ namespace Wof.View
             rearWheelInnerNode.AttachObject(rearWheel);
             
             // retract landing gear
-            if(this.Plane.WheelsState == WheelsState.In) 
+            if(this.plane != null && this.plane.WheelsState == WheelsState.In) 
             {
             	LWheelInnerNode.Roll(new Radian(new Degree(90)));
             	RWheelInnerNode.Roll(new Radian(new Degree(90)));
@@ -302,7 +302,7 @@ namespace Wof.View
 
             refreshPosition();
             initAnimationManager();
-            if(this.Plane.WheelsState == WheelsState.In) 
+            if(this.plane != null && this.plane.WheelsState == WheelsState.In) 
             {
             	this.animationMgr.switchToGearUpDown(false);
 	            this.animationMgr.CurrentAnimation.Enabled = false;
