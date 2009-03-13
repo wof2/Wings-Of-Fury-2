@@ -61,6 +61,7 @@ namespace Wof.Model.Level.XmlParser
         public const string ViewXShift = @"view-x-shift";
         public const string Barrels = @"barrels";
         public const string DayTime = @"dayTime";
+        public const string MissionType = @"missionType";        
         public const string Variation = @"variation";
         public const string EnemyPlane = @"enemyPlane";
         public const string Traversable = @"traversable";

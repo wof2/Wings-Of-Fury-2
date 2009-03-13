@@ -71,6 +71,12 @@ namespace Wof.Model.Level.XmlParser
         /// Pora dnia.
         /// </summary>
         private DayTime dayTime;
+        
+        
+        /// <summary>
+        /// Rodzaj misji
+        /// </summary>
+        private MissionType missionType = MissionType.BombingRun;
 
         /// <summary>
         /// Liczba samolotow wroga.
@@ -705,6 +711,9 @@ namespace Wof.Model.Level.XmlParser
                     reader.MoveToAttribute(i);
                     if (reader.Name.Equals(Attributes.DayTime))
                         dayTime = GetDayTimeForName(reader.Value);
+                    
+                    if (reader.Name.Equals(Attributes.MissionType))
+                        missionType = GetMissionTypeForName(reader.Value);
 
                     if (reader.Name.Equals(Attributes.EnemyPlane))
                     {
@@ -825,15 +834,35 @@ namespace Wof.Model.Level.XmlParser
         /// <returns>Pora dnia.</returns>
         private DayTime GetDayTimeForName(String name)
         {
-            if (name.Equals("dawn"))
+            if (name.Equals("dawn", StringComparison.InvariantCultureIgnoreCase))
                 return DayTime.Dawn;
-            else if (name.Equals("morning"))
+            else if (name.Equals("morning", StringComparison.InvariantCultureIgnoreCase))
                 return DayTime.Dawn;
-            else if (name.Equals("noon"))
+            else if (name.Equals("noon", StringComparison.InvariantCultureIgnoreCase))
                 return DayTime.Noon;
             else
                 return DayTime.Night;
         }
+        
+        
+        /// <summary>
+        /// Funkcja konwertuje stringa na odpowiadajacy mission type
+        /// </summary>
+        /// <param name="name">Nazwa typu misji</param>
+        /// <returns>Pora dnia.</returns>
+        private MissionType GetMissionTypeForName(String name)
+        {
+            if (name.Equals("BombingRun", StringComparison.InvariantCultureIgnoreCase))
+                return MissionType.BombingRun;
+            else if (name.Equals("Assasination", StringComparison.InvariantCultureIgnoreCase))
+                return MissionType.Assasination;
+            else if (name.Equals("Dogfight", StringComparison.InvariantCultureIgnoreCase))
+                return MissionType.Dogfight;
+            else
+                return MissionType.BombingRun;
+        }
+        
+        
 
         #endregion
 
@@ -845,6 +874,13 @@ namespace Wof.Model.Level.XmlParser
         {
             get { return dayTime; }
         }
+        
+        public MissionType MissionType
+        {
+            get { return missionType; }
+        }
+        
+        
 
         public int EnemyPlanes
         {

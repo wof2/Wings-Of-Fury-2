@@ -199,6 +199,16 @@ namespace Wof.View
 
             Entity rearWheel = sceneMgr.CreateEntity(name + "_rearWheele", "Wheel.mesh");
             rearWheelInnerNode.AttachObject(rearWheel);
+            
+            // retract landing gear
+            if(this.Plane.WheelsState == WheelsState.In) 
+            {
+            	LWheelInnerNode.Roll(new Radian(new Degree(90)));
+            	RWheelInnerNode.Roll(new Radian(new Degree(90)));
+            	RearWheelInnerNode.Pitch(new Radian(new Degree(45)));
+            	// IMPORTANT: this should be also set in animation manager later on (MaxAngle *= -1 to change direction of wheel movement)
+            }
+                               
         }
 
         public override void ResetCameraHolders()
@@ -283,12 +293,6 @@ namespace Wof.View
             }
            
 
-            
-
-
-           
-
-
 
           
            // torpedoHolder.SetVisible(false);
@@ -298,6 +302,15 @@ namespace Wof.View
 
             refreshPosition();
             initAnimationManager();
+            if(this.Plane.WheelsState == WheelsState.In) 
+            {
+            	this.animationMgr.switchToGearUpDown(false);
+	            this.animationMgr.CurrentAnimation.Enabled = false;
+	            animationMgr.disableAll();
+            }
+           
+            
+            
             if (plane != null && plane.LocationState == LocationState.Air)
             {
                 animationMgr.switchToIdle();

@@ -71,6 +71,19 @@ namespace Wof.Model.Level
         Noon,
         Night
     } ;
+    
+    /// <summary>
+    /// Rodzaj misji
+    /// </summary>
+    /// <author>Adam Witczak</author>
+    public enum MissionType
+    {
+    	BombingRun, // Zabiæ wszystkich ¿o³nierzy
+    	Assasination, // Zabiæ genera³a
+    	Dogfight 	// zniszczyæ wszystkie samoloty
+    	
+    }
+        
 
     /// <summary>
     /// Klasa reprezentujaca poziom gry.
@@ -237,7 +250,32 @@ namespace Wof.Model.Level
             SetAircraftCarrierList();
             carrier = new Carrier(aircraftTiles);
             lives = 3;
-            userPlane = new Plane(this, false);
+            StartPositionInfo info = new StartPositionInfo();
+            
+            switch(MissionType)
+            {	
+            	case MissionType.Assasination:
+            	case MissionType.BombingRun:
+            	    info.Direction = Direction.Left;
+		            info.EngineState = EngineState.SwitchedOff;
+		            info.PositionType = StartPositionType.Carrier;
+		            info.WheelsState = WheelsState.Out;      
+            	break;
+            	
+            	
+            	case MissionType.Dogfight:
+            	// plane is in the air...
+            	    info.Direction = Direction.Left;
+		            info.EngineState = EngineState.Working;
+		            info.Position = null;
+		            info.PositionType = StartPositionType.Airborne;
+		            info.WheelsState = WheelsState.In;      
+            	break;
+            	
+            }
+                 
+         
+            userPlane = new Plane(this, false, info);
             userPlane.RegisterWeaponEvent += userPlane_RegisterWeaponEvent;
             SetFlyDirectionHint();
             //dodane przez Emila
@@ -675,7 +713,7 @@ namespace Wof.Model.Level
         {
             if (lives - 1 > 0)
             {
-                UserPlane.Init();
+                UserPlane.InitNextLife();
                 UserPlane.Weapon.RestoreSelectedWeapon();
                 storagePlanes.Remove(StoragePlanes[storagePlanes.Count - 1]);
                 lives--;
@@ -1140,6 +1178,17 @@ namespace Wof.Model.Level
         public DayTime DayTime
         {
             get { return levelParser.DayTime; }
+        }
+        
+        
+        
+        /// <summary>
+        /// Rodzaj misji
+        /// </summary>
+        /// <author>Adam Witczak</author>
+        public MissionType MissionType
+        {
+            get { return levelParser.MissionType; }
         }
 
         /// <summary>

@@ -63,6 +63,26 @@ namespace Wof.Model.Level.Planes
 
     #region Enums
 
+    
+    public class StartPositionInfo
+    {
+    	public StartPositionType PositionType = StartPositionType.Carrier;    	
+    	public PointD Position;    	
+    	public Direction Direction = Direction.Left;
+    	public float Speed = 0;	
+    	public WheelsState WheelsState = WheelsState.Out;  
+    	public EngineState EngineState = EngineState.SwitchedOff;
+    }
+    
+    /// <summary>
+    /// Miejsce w którym znajduje siê samolot na pocz¹tku rozgrywki
+    /// </summary>
+    public enum StartPositionType
+    {
+    	Carrier,
+    	Airborne    	
+    }
+    
     /// <summary>
     /// Enumerator mówi co aktualnie przysz³o z kontrolera.
     /// </summary>
@@ -324,6 +344,15 @@ namespace Wof.Model.Level.Planes
 
         #region Fields
 
+        
+        public StartPositionInfo StartPositionInfo
+        {
+        	get { return startPositionInfo; }
+        }
+        
+        protected StartPositionInfo startPositionInfo;
+        
+        
         /// <summary>
         /// Prêdkoœæ obracania œmig³a
         /// </summary>
@@ -700,61 +729,35 @@ namespace Wof.Model.Level.Planes
 
         #region Public Constructor
 
-        public Plane()
-        {
-        }
-
+      
         /// <summary>
-        /// Konstruktor bezparametrowy.
+        /// Brak inicjalizacji
+        /// </summary>
+        /// <param name="level"></param>
+        /// <param name="isEnemy"></param>
+        public Plane(Level level, bool isEnemy) : this(level, isEnemy, null)
+        {
+        	
+        }
+            
+        /// <summary>
+        /// Konstruktor podstawowy.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public Plane(Level level, bool isEnemy)
+        public Plane(Level level, bool isEnemy, StartPositionInfo info)
         {
             this.level = level;
-
-            Init();
+            startPositionInfo = info;
+            if(info != null) Init();
 
             weaponManager = new WeaponManager(level, this);
-            weaponManager.SelectWeapon = WeaponType.Bomb; //Domyslna cierzka amunicja.
+            weaponManager.SelectWeapon = WeaponType.Bomb; //Domyslna ciezka amunicja.
             weaponManager.RegisterWeaponToModelEvent += weaponManager_RegisterWeaponToModelEvent;
 
             this.isEnemy = isEnemy;
         }
 
-        public Plane(Level level, Quadrangle bounds, bool isEnemy)
-            : this(level, isEnemy)
-        {
-            this.bounds = bounds;
-        }
 
-        /// <summary>
-        /// Tworzy samolot w miejscu podanym w parametrze i wyskoœci i szerokoœæi zgodnej ze sta³ymi
-        /// w klasie Plane.
-        /// </summary>
-        /// <param name="level"></param>
-        /// <param name="startPosition">Pocz¹tkowa pozycja samolotu</param>
-        /// <param name="direction">Kierunek samolotu</param>
-        /// <author>Emil</author>
-        /// <param name="isEnemy"></param>
-        public Plane(Level level, PointD startPosition, Direction direction, bool isEnemy)
-            : this(level, isEnemy)
-        {
-         
-            bounds = new Quadrangle(startPosition, width, height);
-            this.direction = direction;
-        }
-
-        /// <summary>
-        /// Tworzy samolot w miejscu podanym w parametrze.
-        /// </summary>
-        /// <param name="level"></param>
-        /// <param name="startPosition">Pocz¹tkowa pozycja samolotu</param>
-        /// <author>Tomek</author>
-        public Plane(Level level, PointD startPosition)
-            : this(level, false)
-        {
-            bounds = new Quadrangle(startPosition, width, height);
-        }
 
         /// <summary>
         /// Tworzy samolot zgodnie z parametrami
@@ -765,11 +768,10 @@ namespace Wof.Model.Level.Planes
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="isEnemy"></param>
-        public Plane(Level level, PointD startPosition, Direction direction, float width, float height, bool isEnemy)
-            : this(level, isEnemy)
+        public Plane(Level level, float width, float height, bool isEnemy, StartPositionInfo info)
+            : this(level, isEnemy, info)
         {
-            bounds = new Quadrangle(startPosition, width, height);
-            this.direction = direction;
+            bounds = new Quadrangle(info.Position, width, height);
         }
 
         #endregion
@@ -1276,17 +1278,40 @@ namespace Wof.Model.Level.Planes
 
         #region Public Method
 
+       
+        public void InitNextLife()
+        {
+        	StartPositionInfo info = new StartPositionInfo();
+        	info.Direction = Direction.Left;
+        	info.EngineState = EngineState.SwitchedOff;
+        	info.PositionType = StartPositionType.Carrier;
+        	info.Speed = 0;
+        	info.WheelsState = WheelsState.Out;
+        	this.startPositionInfo = info;
+        	Init();
+        }
+        
+        
         /// <summary>
         /// Inicjuje pola samolotu odpowiednimi wartoœciami.
-        /// Wywo³ywana w konstruktorze oraz przy nowym rzyciu.
+        /// Wywo³ywana w konstruktorze oraz przy nowym zyciu.
         /// </summary>
         public void Init()
         {
-            motorState = EngineState.SwitchedOff;
+        	StartPositionInfo info = startPositionInfo;
+        	
+            motorState = info.EngineState;
             planeState = PlaneState.Intact;
-            wheelsState = WheelsState.Out;
+            wheelsState = info.WheelsState;
             landingState = LandingState.None;
-            locationState = LocationState.AircraftCarrier;
+            if(info.PositionType == StartPositionType.Carrier)
+            {
+            	locationState = LocationState.AircraftCarrier;
+            }
+            if(info.PositionType == StartPositionType.Airborne)
+            {
+            	locationState = LocationState.Air;
+            }
 
             oil = maxOil;
             petrol = maxPetrol;
@@ -1296,10 +1321,39 @@ namespace Wof.Model.Level.Planes
 
             breakingEndCarrierTile = null;
 
-            direction = Direction.Left;
-            bounds = new Quadrangle(GetStartingPosition(), width, height);
+            direction = info.Direction;
             movementVector = new PointD(0, 0);
-            Rotate(angleOnCarrier*(float) direction);
+            if(info.PositionType == StartPositionType.Carrier)
+            { 
+            	bounds = new Quadrangle(GetStartingPosition(), width, height);     
+            	Rotate(angleOnCarrier*(float) direction);
+            	airscrewSpeed = 0;
+            	breakingEndPositionX = Carrier.GetRestoreAmunitionPosition().X + LevelTile.Width;
+            	
+            }
+            if(info.PositionType == StartPositionType.Airborne)
+            { 
+            	if(info.Position == null) 
+            	{
+            		info.Position = GetStartingPosition();
+            		info.Position.Y = GameConsts.UserPlane.MaxHeight * 0.5f;
+            	}
+            	bounds = new Quadrangle(info.Position, width, height);      
+            	
+            	if(info.EngineState == EngineState.Working)
+            	{
+            		StartEngine();
+            	}
+            	if(info.Speed == 0) 
+            	{
+            		Speed = minFlyingSpeed;
+            	} else 
+            	{
+            		Speed = info.Speed;
+            	}
+                movementVector = new PointD((float) direction*Speed, 0);
+            }
+           
             isChangingDirection = false;
 
             UnblockAllInput();
@@ -1314,7 +1368,7 @@ namespace Wof.Model.Level.Planes
             rotateValue = 0;
 
             isSinking = false;
-            airscrewSpeed = 0;
+           
             turningTime = 0;
             turningTimeLeft = 0;
             turningVector = new PointD(0, 0);
@@ -1330,7 +1384,7 @@ namespace Wof.Model.Level.Planes
             isRaisingTail = false;
             isLoweringTail = false;
 
-            breakingEndPositionX = Carrier.GetRestoreAmunitionPosition().X + LevelTile.Width;
+            
 
             spinned = false;
         }

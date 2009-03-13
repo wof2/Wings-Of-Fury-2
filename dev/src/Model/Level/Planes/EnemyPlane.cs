@@ -162,8 +162,8 @@ namespace Wof.Model.Level.Planes
 
         #region Constructors
 
-        public EnemyPlane(Level level, PointD startPosition, Direction direction)
-            : base(level, startPosition, direction, width, height, true)
+        public EnemyPlane(Level level, float width, float height)
+            : base(level, width, height, true, null)
         {
             isEnemy = true;
             movementVector = new PointD((float) direction*GameConsts.EnemyPlane.Speed, 0);
