@@ -117,6 +117,7 @@ namespace Wof.Model.Level.LevelTiles
 
         
 
+        
 
 
         /// <summary>
@@ -189,6 +190,11 @@ namespace Wof.Model.Level.LevelTiles
         /// Typ pola.
         /// </summary>
         protected int type;
+        
+        /// <summary>
+        /// Maksymalne Y jakie wchodzi w sklad obiektu
+        /// </summary>
+        protected float maxY;
 
         #endregion
 
@@ -208,6 +214,13 @@ namespace Wof.Model.Level.LevelTiles
         public float ViewXShift
         {
             get { return viewXShift; }
+        }
+        
+        
+        
+        public float MaxY
+        {
+        	get { return maxY; }
         }
 
         
@@ -336,6 +349,28 @@ namespace Wof.Model.Level.LevelTiles
                 this.hitBound = hitBound;
 
             collisionRectangles = colisionRectanglesList;
+            
+            float maxY = float.MinValue;
+            maxY = yBegin;
+            if(yEnd > maxY)
+            {
+            	maxY = yEnd;
+            }
+            float temp = hitBound.HighestY;
+            if(temp > maxY)
+            {
+            	maxY = temp;
+            }
+            
+            foreach(Quadrangle q in collisionRectangles)
+            {
+            	temp = q.HighestY;
+            	if(temp > maxY)
+	            {
+	            	maxY = temp;
+	            }
+            }
+            
         }
 
         #endregion

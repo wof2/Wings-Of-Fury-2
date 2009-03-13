@@ -226,6 +226,15 @@ namespace Wof.Model.Level.Common
         {
             get { return Mathematics.MinCordinate(false, peaks[0], peaks[1], peaks[2], peaks[3]).Y; }
         }
+        
+         /// <summary>
+        /// Zwraca najwiêksz¹ wartoœæ Y, któr¹ posiada jeden z punktów.
+        /// </summary>
+        /// <author>Emil</author>
+        public float HighestY
+        {
+            get { return Mathematics.MaxCoordinate(false, peaks[0], peaks[1], peaks[2], peaks[3]).Y; }
+        }
 
         /// <summary>
         /// Zwraca najmniejsz¹ wartoœæ X, któr¹ posiada jeden z punktów.
