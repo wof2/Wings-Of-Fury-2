@@ -484,7 +484,7 @@ namespace Wof.View
                     float xPos = Mathematics.IndexToPosition(lCarrier.CarrierTiles[i].TileIndex);
                     //LevelTile.Width 
                     //+ 1.0f / 2.0f
-                    float viewZ = -((float) (xPos - carrierCenter) + 45.0f );//- 6.0f); // korekta
+                    float viewZ = -((float) (xPos - carrierCenter) + 47.2f );//- 6.0f); // korekta
 
                     InitArrestingWire(viewZ);
                 }
@@ -501,7 +501,7 @@ namespace Wof.View
         private void InitArrestingWire(float zCoordinate)
         {
             float z = zCoordinate;
-            Vector3 position = new Vector3(1.0f, 0.55f, zCoordinate);
+            Vector3 position = new Vector3(1.4f, 0.55f, zCoordinate);
             SceneNode wireNode = mainNode.CreateChildSceneNode(name + "_ArrestingWire" + z + "Node", position);
 
             SceneNode lWireNode =

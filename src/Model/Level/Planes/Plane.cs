@@ -51,6 +51,7 @@ using System.Collections.Generic;
 using System.Text;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Carriers;
+using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
@@ -1242,7 +1243,11 @@ namespace Wof.Model.Level.Planes
             return minDist;
         }
 
-
+		/// <summary>
+		/// Zwraca sume roznic odleglosci w osi X oraz Y (diffX + diffY)
+		/// </summary>
+		/// <param name="p"></param>
+		/// <returns></returns>
         public float DistanceToPlane(Plane p)
         {
             float d = XDistanceToPlane(p);
@@ -1272,6 +1277,45 @@ namespace Wof.Model.Level.Planes
                                :
                                    System.Math.Abs(Center.Y - p.Center.Y)
                        : -1;
+        }
+        
+        
+        
+        /// <summary>
+        /// Zwraca odleg³oœæ miedzy X srodka samolotu a X srodka IndexToPosition(t.TileIndex)
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public float XDistanceToTile(LevelTile t)
+        {
+            return t != null
+            	? System.Math.Abs(Center.X - Mathematics.IndexToPosition(t.TileIndex))
+                       : -1;
+        }
+
+        /// <summary>
+        /// Zwraca odleg³oœæ miedzy Y srodka samolotu a Y srodka HitBound tilea
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public float YDistanceToTile(LevelTile t)
+        {
+        	
+            return t != null
+            	? System.Math.Abs(Center.Y - t.HitBound.Center.Y)
+                       : -1;
+        }
+        
+        /// <summary>
+        /// Zwraca sume roznic odleglosci w osi X oraz Y (diffX + diffY)
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public float DistanceToTile(LevelTile t)
+        {
+            float d = XDistanceToTile(t);
+            if (d == -1) return d;
+            return YDistanceToTile(t) + d;
         }
 
         #endregion
@@ -1320,7 +1364,7 @@ namespace Wof.Model.Level.Planes
             counterStartedEngine = 0;
 
             breakingEndCarrierTile = null;
-
+			breakingEndPositionX = Carrier.GetRestoreAmunitionPosition().X + LevelTile.Width;
             direction = info.Direction;
             movementVector = new PointD(0, 0);
             if(info.PositionType == StartPositionType.Carrier)
@@ -1328,7 +1372,7 @@ namespace Wof.Model.Level.Planes
             	bounds = new Quadrangle(GetStartingPosition(), width, height);     
             	Rotate(angleOnCarrier*(float) direction);
             	airscrewSpeed = 0;
-            	breakingEndPositionX = Carrier.GetRestoreAmunitionPosition().X + LevelTile.Width;
+            	
             	
             }
             if(info.PositionType == StartPositionType.Airborne)
@@ -1337,6 +1381,7 @@ namespace Wof.Model.Level.Planes
             	{
             		info.Position = GetStartingPosition();
             		info.Position.Y = GameConsts.UserPlane.MaxHeight * 0.5f;
+            		info.Position.X += 100;
             	}
             	bounds = new Quadrangle(info.Position, width, height);      
             	
