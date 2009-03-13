@@ -1300,9 +1300,9 @@ namespace Wof.Model.Level.Planes
         /// <returns></returns>
         public float YDistanceToTile(LevelTile t)
         {
-        	
+        	//TODO: find tile's top Y
             return t != null
-            	? System.Math.Abs(Center.Y - t.HitBound.Center.Y)
+            	? System.Math.Abs(Center.Y - t.MaxY)
                        : -1;
         }
         
