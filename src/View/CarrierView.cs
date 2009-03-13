@@ -484,7 +484,7 @@ namespace Wof.View
                     float xPos = Mathematics.IndexToPosition(lCarrier.CarrierTiles[i].TileIndex);
                     //LevelTile.Width 
                     //+ 1.0f / 2.0f
-                    float viewZ = -((float) (xPos - carrierCenter) + 40.0f );//- 6.0f); // korekta
+                    float viewZ = -((float) (xPos - carrierCenter) + 45.0f );//- 6.0f); // korekta
 
                     InitArrestingWire(viewZ);
                 }

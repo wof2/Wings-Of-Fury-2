@@ -334,9 +334,9 @@ namespace Wof.View
 
         protected virtual void initOnScene()
         {
+            initAnimationManager();
             initWheels();
             initBlade();
-            initAnimationManager();
             animationState = PlaneEntity.GetAnimationState("manual");
         }
 

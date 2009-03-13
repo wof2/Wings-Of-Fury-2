@@ -1501,7 +1501,7 @@ namespace Wof.View
                 {
                     p.AnimationMgr.PrepareToChangeDirection = false;
                 }
-                else if (p.AnimationMgr.CurrentAnimation.Ended) // zacznij zawracac jak zakonczysz stara animacje
+                else if (p.AnimationMgr.CurrentAnimation == null || p.AnimationMgr.CurrentAnimation.Ended) // zacznij zawracac jak zakonczysz stara animacje
                 {
                     p.AnimationMgr.switchToTurn(true, controller.OnPrepareChangeDirectionEnd,
                                                 controller.OnChangeDirectionEnd);
