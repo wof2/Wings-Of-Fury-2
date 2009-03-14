@@ -356,19 +356,27 @@ namespace Wof.Model.Level.LevelTiles
             {
             	maxY = yEnd;
             }
-            float temp = hitBound.HighestY;
-            if(temp > maxY)
+
+            float temp;
+            if (hitBound != null)
             {
-            	maxY = temp;
+                temp = hitBound.HighestY;
+                if(temp > maxY)
+                {
+            	    maxY = temp;
+                }
             }
-            
-            foreach(Quadrangle q in collisionRectangles)
+
+            if (collisionRectangles != null)
             {
-            	temp = q.HighestY;
-            	if(temp > maxY)
-	            {
-	            	maxY = temp;
-	            }
+                foreach (Quadrangle q in collisionRectangles)
+                {
+                    temp = q.HighestY;
+                    if (temp > maxY)
+                    {
+                        maxY = temp;
+                    }
+                }
             }
             
         }
