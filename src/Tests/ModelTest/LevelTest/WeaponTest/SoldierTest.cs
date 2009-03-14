@@ -64,7 +64,7 @@ namespace View.src.Tests.ModelTest.LevelTest.WeaponTest
             string[] levelsName = LevelsManager.GetAvailableLevels();
             if (levelsName != null && levelsName.Length > 0)
             {
-                Level level = new Level(levelsName[0]);
+                Level level = new Level(levelsName[0], null);
                 Random rand = new Random();
                 int time;
                 while (true)

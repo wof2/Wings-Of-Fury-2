@@ -269,7 +269,7 @@ namespace Wof.View
             Billboard lightbillboard;
             BillboardSet lightbillboardset =
                 sceneMgr.CreateBillboardSet(parent.Name + "_lights" + c1.ToString() + "_" + localPosition.ToString(), 1);
-            lightbillboardset.MaterialName = "Examples/Flare";
+            lightbillboardset.MaterialName = "Effects/Flare";
             lightbillboard = lightbillboardset.CreateBillboard(localPosition, c1);
             lightbillboard.SetDimensions(size.x, size.y);
             parent.AttachObject(lightbillboardset);

@@ -1769,6 +1769,12 @@ namespace Wof.View
                     InitLight();
                     break;
 
+                case DayTime.Foggy:
+                    material = "Skyplane/Foggy";
+                    texture = "foggy.jpg";
+                    InitLight();
+                    break;
+
                 case DayTime.Dawn:
                     material = "Skyplane/Morning";
                     texture = "morning.jpg";
@@ -1787,6 +1793,7 @@ namespace Wof.View
             m.Load(false);
             Pass p = m.GetBestTechnique().GetPass(0);
             TextureUnitState tu = p.GetTextureUnitState("Reflection");
+            
             if (tu != null)
             {
                 tu.SetCubicTextureName(texture, true);
@@ -1796,8 +1803,24 @@ namespace Wof.View
                 GpuProgramParametersSharedPtr param = p.GetVertexProgramParameters();
                 param.SetNamedConstant("bumpSpeed", new Vector3(0.02f, -0.03f, 0));
                 p.SetVertexProgramParameters(param);
+                
+               
+                 
             }
             m = null;
+
+            // fog
+            if (level.DayTime == DayTime.Foggy)
+            {
+                sceneMgr.SetFog(FogMode.FOG_EXP, new ColourValue(0.8f, 0.8f, 0.8f), 0.002f, 0, 0);
+            }
+            else
+            {
+              //  sceneMgr.SetFog(FogMode.FOG_LINEAR, new ColourValue(0.9f, 0.9f, 0.9f), 0.0f, 100, 20000);
+                sceneMgr.SetFog(FogMode.FOG_EXP, new ColourValue(0.9f, 0.9f, 0.9f), 0.00012f, 0, 0);
+            }
+
+         
 
             Mogre.Plane skyPlane;
             skyPlane.normal = Vector3.UNIT_Z;
@@ -1812,7 +1835,7 @@ namespace Wof.View
                 EffectsManager.Singleton.AddSeagulls(sceneMgr, new Vector3(0, 150, -1500), new Vector2(20, 25),
                                                      new Degree(10), 20, 10);
             }
-
+          
             // chmury
             int cloudsets = 10;
             int currentX = (int) (-oceanSize/2.0f);
@@ -1823,10 +1846,27 @@ namespace Wof.View
                 if (!EngineConfig.LowDetails)
                     EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 100, -500), new Vector2(150, 50),
                                                        new Degree(2), 10);
-                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, -4200),
-                                                   new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
-                                                   new Degree(1), 5);
 
+                float cloudZ;
+
+                cloudZ = -4200;
+                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudZ),
+                                           new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
+                                           new Degree(1), 5);
+
+                /*if (level.DayTime == DayTime.Foggy)
+                {
+                    
+                  
+                    cloudZ = -500; // heavy clouds
+                    EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudZ),
+                                               new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
+                                               new Degree(1), 5);
+
+                }*/
+                
+
+              
                 // nad samolotem (niebo)
                 EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 170, 0), new Vector2(500, 200), 0, 1);
             }

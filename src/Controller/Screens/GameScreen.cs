@@ -302,7 +302,7 @@ namespace Wof.Controller.Screens
                     LogManager.Singleton.LogMessage("About to load model...", LogMessageLevel.LML_CRITICAL);
                     currentLevel = new Level(GetLevelName(levelNo), this);
                     LogManager.Singleton.LogMessage("About to register level " + levelNo + " to view...", LogMessageLevel.LML_CRITICAL);
-
+                    SoundManager.Instance.PreloadRandomIngameMusic();
                     levelView.OnRegisterLevel(currentLevel);
 
                     LogManager.Singleton.LogMessage("About to register player plane", LogMessageLevel.LML_CRITICAL);
@@ -319,7 +319,7 @@ namespace Wof.Controller.Screens
                         OnRegisterPlane(sp);
                     }
                     LogManager.Singleton.LogMessage("Finished loading level.", LogMessageLevel.LML_CRITICAL);
-                    SoundManager.Instance.PreloadRandomIngameMusic();
+                   
 
                     
                     mGuiHint = new GUI(FontManager.CurrentFont, fontSize);
@@ -1588,17 +1588,26 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Funkcja zglasza o rozpoczeciu pracy silnika.
         /// </summary>
-        public void OnTurnOnEngine()
+        public void OnTurnOnEngine(bool engineStartSound)
         {
             mayPlaySound = true;
-            SoundManager.Instance.PlayStartEngineSound(startEngineSound_Ending);
-
+            if (engineStartSound)
+            {
+                SoundManager.Instance.PlayStartEngineSound(startEngineSound_Ending);
+            } else
+            {
+                startEngineSound_Ending(this, null); // this will loop regular engine sound
+            }
+            
             SoundManager.Instance.PlayRandomIngameMusic(EngineConfig.MusicVolume);
 
             // wy³¹cz komunikat 
             gameMessages.ClearMessages(LanguageResources.GetString(LanguageKey.PressEToTurnOnTheEngine));
          
         }
+
+
+
 
         private void startEngineSound_Ending(object sender, EventArgs e)
         {

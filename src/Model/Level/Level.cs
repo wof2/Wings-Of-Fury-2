@@ -69,6 +69,7 @@ namespace Wof.Model.Level
     {
         Dawn,
         Noon,
+        Foggy,
         Night
     } ;
     
@@ -228,9 +229,12 @@ namespace Wof.Model.Level
         /// Publiczny konstruktor jednoparametrowy.
         /// </summary>
         /// <param name="fileName">Nazwa pliku.</param>
+        /// <param name="controller"></param>
         /// <author>Michal Ziober</author>
-        public Level(string fileName)
+        public Level(string fileName, IController controller)
         {
+            this.controller = controller;
+
             if (String.IsNullOrEmpty(fileName))
                 throw new IOException("File name must be set !");
             ReadEncodedXmlFile(fileName);
@@ -291,17 +295,7 @@ namespace Wof.Model.Level
         }
 
 
-        /// <summary>
-        /// Publiczny konstrutor dwuparametrowy.
-        /// </summary>
-        /// <param name="fileName">Nazwa pliku z 
-        /// ktorego zostanie wczytana plansza.</param>
-        /// <param name="controller">Obiekt przetwarzajacy zdarzenia.</param>
-        public Level(String fileName, IController controller)
-            : this(fileName)
-        {
-            this.controller = controller;
-        }
+       
 
         #endregion
 

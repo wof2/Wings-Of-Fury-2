@@ -112,7 +112,7 @@ namespace Wof.Controller
         /// Funkcja zglasza o rozpoczeciu pracy silnika.
         /// </summary>
         /// <author>Michal Ziober</author>
-        void OnTurnOnEngine();
+        void OnTurnOnEngine(bool engineStartSound);
 
         /// <summary>
         /// Funkcja zglasz, ze proba uruchomienia silnika.

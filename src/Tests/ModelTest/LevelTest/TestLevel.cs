@@ -85,7 +85,7 @@ namespace Wof.Tests
             String[] levels = LevelsManager.GetAvailableLevels();
             if (levels != null && levels.Length > 0)
             {
-                Level level = new Level(levels[0]);
+                Level level = new Level(levels[0], null);
                 for (int i = 0; i < 103; i++)
                 {
                     level.OnToggleEngineOn();
