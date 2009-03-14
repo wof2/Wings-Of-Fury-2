@@ -63,7 +63,7 @@ namespace Tests.ModelTest.PlaneTest
             InitializeComponent();
 
             //plane = new Plane(new Quadrangle(new PointD(10, 10), 100, 50));
-            level = new Level("level-1.xml");
+            level = new Level("level-1.xml", null);
             timer1.Start();
         }
 

@@ -194,7 +194,9 @@
 
   <!-- high deck-->
   <tile name="ship-begin" y-start="5.5" y-end="5.5" variation="1" ></tile>
-  <tile name="ship-end" y-start="6.4" y-end=" 6.4" variation="1" ></tile>
+  <tile name="ship-end" y-start="6.4" y-end=" 6.4" variation="1" >
+    <collision-rect rectangle="[3.0, 10.6 ][1.0  ][5.0]" />
+  </tile>
   <tile name="ship-deck" y-start="6.3" y-end="6.3" variation="1" ></tile>
 
   

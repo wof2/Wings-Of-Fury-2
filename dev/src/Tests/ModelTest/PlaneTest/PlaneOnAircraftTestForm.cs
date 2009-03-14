@@ -67,7 +67,7 @@ namespace Tests.ModelTest.PlaneTest
         {
             InitializeComponent();
             //przerobione przez Emila:
-            level = new Level("level-1.xml");
+            level = new Level("level-1.xml", null);
             //level.UserPlane.StartEngine();
 
 

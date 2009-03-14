@@ -658,7 +658,7 @@ namespace Wof.Model.Level.Planes
         /// Oznacza prêdkoœæ przed rozpoczêciem rotacji,
         /// gdy samolot znajdzie sie na maksymalnej wysokosci.
         /// </summary>
-        private float speedBeforeMaxHeightRotata;
+        private float speedBeforeMaxHeightRotation;
 
         /// <summary>
         /// Wartoœæ o jak¹ nale¿y obróciæ samolot w danej chwili.
@@ -764,8 +764,6 @@ namespace Wof.Model.Level.Planes
         /// Tworzy samolot zgodnie z parametrami
         /// </summary>
         /// <param name="level"></param>
-        /// <param name="startPosition"></param>
-        /// <param name="direction"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="isEnemy"></param>
@@ -1383,19 +1381,24 @@ namespace Wof.Model.Level.Planes
             		info.Position.Y = GameConsts.UserPlane.MaxHeight * 0.5f;
             		info.Position.X += 100;
             	}
-            	bounds = new Quadrangle(info.Position, width, height);      
-            	
+            	bounds = new Quadrangle(info.Position, width, height);
+                if (info.Speed == 0)
+                {
+                    Speed = minFlyingSpeed;
+                }
+                else
+                {
+                    Speed = info.Speed;
+                }
+
             	if(info.EngineState == EngineState.Working)
             	{
             		StartEngine();
+                    // TODO: dzwiek silnika
+                    // cos tu nie dzia³a jak nalezy ...
+                    //if(!isEnemy && level != null && level.Controller != null) level.Controller.OnTurnOnEngine(false); // already flying - no sound
             	}
-            	if(info.Speed == 0) 
-            	{
-            		Speed = minFlyingSpeed;
-            	} else 
-            	{
-            		Speed = info.Speed;
-            	}
+            
                 movementVector = new PointD((float) direction*Speed, 0);
             }
            
@@ -1407,7 +1410,7 @@ namespace Wof.Model.Level.Planes
             isLanding = false;
             isAfterFlyingDown = false;
             isMaxHeightRotate = false;
-            speedBeforeMaxHeightRotata = 0;
+            speedBeforeMaxHeightRotation = 0;
 
             //dodane przez Emila
             rotateValue = 0;
@@ -2432,7 +2435,7 @@ namespace Wof.Model.Level.Planes
                     StartEngineCounter = 0; //zeruje licznik.
                     StartEngine(); //uruchamiam silnik.
                     isEngineJustStarted = true;
-                    level.Controller.OnTurnOnEngine();
+                    level.Controller.OnTurnOnEngine(true);
                 }
                 else
                 {
@@ -2673,7 +2676,7 @@ namespace Wof.Model.Level.Planes
                 if ((normalFlightToUp || upSideDownFlightToUp) && !isMaxHeightRotate)
                 {
                     isMaxHeightRotate = true;
-                    speedBeforeMaxHeightRotata = Speed;
+                    speedBeforeMaxHeightRotation = Speed;
                 }
 
                 if (upSideDownFlightToUp)
@@ -2686,7 +2689,7 @@ namespace Wof.Model.Level.Planes
                       isBlockDown = false;
                       isBlockUp = false;
 
-                      Speed = speedBeforeMaxHeightRotata;
+                      Speed = speedBeforeMaxHeightRotation;
                       isMaxHeightRotate = false;
                   }
                   else
@@ -2702,7 +2705,7 @@ namespace Wof.Model.Level.Planes
                           isBlockDown = false;
                           isBlockUp = false;
 
-                          Speed = speedBeforeMaxHeightRotata;
+                          Speed = speedBeforeMaxHeightRotation;
                           isMaxHeightRotate = false;
                       }
                   }
@@ -2718,7 +2721,7 @@ namespace Wof.Model.Level.Planes
                       isBlockDown = false;
                       isBlockUp = false;
 
-                      Speed = speedBeforeMaxHeightRotata;
+                      Speed = speedBeforeMaxHeightRotation;
                       isMaxHeightRotate = false;
                   }
                   else

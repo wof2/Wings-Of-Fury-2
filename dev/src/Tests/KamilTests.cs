@@ -99,7 +99,7 @@ namespace Wof.Tests
 
             public override void CreateScene()
             {
-                lvl = new Level("levels/test-level.xml");
+                lvl = new Level("levels/test-level.xml", null);
 
                 lvlView = new LevelView(this, null);
 

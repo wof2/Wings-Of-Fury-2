@@ -68,6 +68,43 @@ material Skyplane/Noon
 	}
 }
 
+material Skybox/Foggy
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture foggy.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Skyplane/Foggy
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				texture foggy_FR.jpg
+			}
+		}
+	}
+}
+
+
+
 
 
 material Skybox/Night
