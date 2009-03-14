@@ -2310,8 +2310,10 @@ namespace Wof.Model.Level.Planes
             isLoweringTail = true;
             isRaisingTail = false;
 
-            int deltaCount = (int)(scaleFactor * 100);
+            int deltaCount = (int)(scaleFactor * 200)+1;
             float scaleFactorDelta = scaleFactor / deltaCount;
+
+            Console.WriteLine("deltaCount:" + deltaCount + " scaleFactorDelta:" + scaleFactorDelta);
 
             float rotateDelta = (float)(direction) * (angleOnCarrier * 6) * scaleFactor;
 
@@ -2333,14 +2335,15 @@ namespace Wof.Model.Level.Planes
         /// <author>Tomek , Kamil S³awiñski</author>
         private void raiseTailStep(float scaleFactor)
         {
-            //Console.WriteLine(scaleFactor);
             isRaisingTail = true;
             isLoweringTail = false;
 
-            int deltaCount = (int)(scaleFactor * 100);
+            int deltaCount = (int)(scaleFactor * 200)+1;
             float scaleFactorDelta = scaleFactor / deltaCount;
 
-            float rotateDelta = -(float)(direction) * 4 * angleOnCarrier * scaleFactorDelta;
+            Console.WriteLine("deltaCount:" + deltaCount + " scaleFactorDelta:" + scaleFactorDelta);
+
+            float rotateDelta = -(float)(direction) * (4 * angleOnCarrier) * scaleFactorDelta;
 
             for (int i = 0; i < deltaCount; i++)
             {
