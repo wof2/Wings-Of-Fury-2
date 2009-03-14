@@ -2313,8 +2313,6 @@ namespace Wof.Model.Level.Planes
             int deltaCount = (int)(scaleFactor * 200)+1;
             float scaleFactorDelta = scaleFactor / deltaCount;
 
-            Console.WriteLine("deltaCount:" + deltaCount + " scaleFactorDelta:" + scaleFactorDelta);
-
             float rotateDelta = (float)(direction) * (angleOnCarrier * 6) * scaleFactor;
 
             for (int i = 0; i < deltaCount; i++)
@@ -2340,8 +2338,6 @@ namespace Wof.Model.Level.Planes
 
             int deltaCount = (int)(scaleFactor * 200)+1;
             float scaleFactorDelta = scaleFactor / deltaCount;
-
-            Console.WriteLine("deltaCount:" + deltaCount + " scaleFactorDelta:" + scaleFactorDelta);
 
             float rotateDelta = -(float)(direction) * (4 * angleOnCarrier) * scaleFactorDelta;
 
