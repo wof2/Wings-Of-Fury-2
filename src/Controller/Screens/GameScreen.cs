@@ -1708,6 +1708,12 @@ namespace Wof.Controller.Screens
         {
             levelView.OnShipSunk(tile);
             OnStopWaterBubblesSound();
+            //TODO: remove the ship from the level.
+            
+         //  currentLevel.
+          //  this.lev
+         //   this.ShipsList.Remove
+          //  tile = null;
         }
 
 

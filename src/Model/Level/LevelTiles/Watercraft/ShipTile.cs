@@ -170,8 +170,9 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             }
             if(this is BeginShipTile)
             {
+            	this.attractorForce = new PointD(0,0);
                 refToLevel.Controller.OnShipSunk(this as BeginShipTile);
-                this.attractorForce = new PointD(0,0);
+               
             }
           
             return 0;
