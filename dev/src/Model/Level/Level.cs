@@ -458,7 +458,7 @@ namespace Wof.Model.Level
 
                 }
             }
-
+		
             // zatop statki
             if (shipsList.Count > 0)
             {
@@ -470,10 +470,16 @@ namespace Wof.Model.Level
                     {
                        shipTile.Sink(time, timeUnit);
                     }
+                    
                    
                 }
             }
         }
+        
+      /*  public void UnregisterShip()
+        {
+        	
+        }*/
 
         /// <summary>
         /// Metoda wywo³ywana po naciœniêciu strza³ki w lewo.
