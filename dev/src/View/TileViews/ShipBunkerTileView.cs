@@ -193,6 +193,7 @@ namespace Wof.View.TileViews
             {
                 //Kolor szary
                 minimapItem.Colour = new ColourValue(0.752f, 0.752f, 0.752f);
+               // minimapItem.Hide();
             }
         }
 

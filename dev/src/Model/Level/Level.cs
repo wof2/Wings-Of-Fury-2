@@ -969,7 +969,7 @@ namespace Wof.Model.Level
                             terrainHeight = Math.Min(LevelTiles[i].YEnd, LevelTiles[i].YBegin);
                         }
 
-                        plane.Crash(terrainHeight, LevelTiles[i].TileKind);
+                        plane.Crash(terrainHeight, LevelTiles[i].TileKind, LevelTiles[i]);
                     }
                 }
                 //Przypadek szczególny gdy rozbijamy sie poza obszarem gdzie s¹ LevelTiles[krañce mapy].

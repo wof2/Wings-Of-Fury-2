@@ -90,7 +90,7 @@ namespace Wof.Model.Level.LevelTiles
     /// Klasa bazowa dla wszystkich obiektow wczytywanych z 
     /// pliku xml.
     /// </summary>
-    public abstract class LevelTile : IRenderableQuadrangles
+    public abstract class LevelTile : IRenderableQuadrangles, IAttractorSource
     {
         #region Const
 
@@ -103,6 +103,9 @@ namespace Wof.Model.Level.LevelTiles
 
         #region Fields
 
+        
+        
+         protected PointD attractorForce = new PointD(0,0);
 
 
         /// <summary>
@@ -471,6 +474,12 @@ namespace Wof.Model.Level.LevelTiles
         {
             return ((this.YBegin + this.YEnd) / 2.0f) >= center.Y;
         }
+        
+        
+        public PointD GetAttractorForce()
+		{
+			return attractorForce;
+		}
 
         #endregion
 
@@ -496,5 +505,9 @@ namespace Wof.Model.Level.LevelTiles
         }
 
         #endregion
+    	
+        
+       
+		
     }
 }

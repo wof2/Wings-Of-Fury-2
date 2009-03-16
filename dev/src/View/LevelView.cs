@@ -1070,7 +1070,22 @@ namespace Wof.View
             onUnregisterShip(tile);
         }
 
-
+		public void OnShipBeginSinking(ShipTile tile)
+		{ 
+			ShipView sv  = FindShipView(tile);
+            
+            if(sv == null) return;
+            foreach(TileView tv in sv.TileViews)
+            {
+            	if(tv is ShipBunkerTileView)
+            	{
+            		tv.MinimapItem.Hide();
+            	}
+            }
+            
+			
+		}
+        
         public void OnShipSinking(ShipTile tile)
         {
             ShipView sv  = FindShipView(tile);
@@ -1138,11 +1153,20 @@ namespace Wof.View
 
         public void OnTileDestroyed(LevelTile tile)
         {
+        	
             if (tile is ConcreteBunkerTile || tile is WoodBunkerTile || tile is ShipBunkerTile)
             {
                 EnemyInstallationTileView bunker = (EnemyInstallationTileView)FindTileView(tile);
                 if (bunker == null) return; // error
                 bunker.Destroy();
+                
+                // hiding of minimap items in case of ship sinking moved to shipview
+                /*if(tile is ShipWoodBunkerTile || tile is ShipConcreteBunkerTile)
+                {
+                	ShipView sv = FindShipView(tile as ShipTile);
+                	
+                	if(sv != null && sv.TileViews[0] != null &&sv.TileViews[0].LevelTile.IsSinking) bunker.MinimapItem.Hide();
+                }*/
             }
             else if (tile is BarrackTile)
             {
@@ -1155,18 +1179,7 @@ namespace Wof.View
                 BarrelTileView barrel = (BarrelTileView)FindTileView(tile);
                 if (barrel == null) return; // error
                 barrel.Destroy();
-            } else if(tile is ShipTile)
-            {
-                /*
-                ShipView sv = FindShipView(tile as ShipTile);
-                foreach(TileView tv in sv.TileViews)
-                {
-                    if(tv is ShipBunkerTileView)
-                    {
-                        (tv as ShipBunkerTileView).Destroy(true, true, true);
-                    }
-                }*/
-            }
+            } 
 
         }
 
