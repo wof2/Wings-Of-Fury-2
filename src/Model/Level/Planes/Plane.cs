@@ -50,6 +50,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Wof.Model.Configuration;
+using Wof.Model.Level;
 using Wof.Model.Level.Carriers;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Common;
@@ -416,6 +417,15 @@ namespace Wof.Model.Level.Planes
         {
             get { return oil; }
         }
+        
+        
+        protected AttractorTarget attractorTarget;
+        
+        public AttractorTarget AttractorTarget
+        {
+        	get { return attractorTarget; }
+        }
+        
 
         /// <summary>
         /// Licznik ile razy zostal uruchomiony silnik.
@@ -1340,6 +1350,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         public void Init()
         {
+        	this.attractorTarget = new AttractorTarget();
         	StartPositionInfo info = startPositionInfo;
         	
             motorState = info.EngineState;
@@ -1514,11 +1525,19 @@ namespace Wof.Model.Level.Planes
         {
             //Console.WriteLine(Speed);
             float scaleFactor = time/timeUnit;
+            
+            // atraktory
+            // TODO: czy to nie koliduje z innymi rzeczami
+            bounds.Move(this.AttractorTarget.GetAttractorsMeanForce());
+            
             if (planeState == PlaneState.Crashed)
             {
                 MoveAfterCrash(time, timeUnit);
                 return;
             }
+            
+          
+            
 
             ProcessInput(time, timeUnit);
     
@@ -1950,13 +1969,19 @@ namespace Wof.Model.Level.Planes
                 wheelsState = WheelsState.Out;
             }
         }
-
+        
+        
+        public void Crash(float terrainHeight, TileKind tileKind)
+        {
+         	Crash(terrainHeight, tileKind, null);
+        }
+ 		
         /// <summary>
         /// Powoduje rozbicie samolotu o teren.
         /// </summary>
         /// <param name="terrainHeight">Wysokoœæ terenu o który siê rozbi³.</param>
         /// <param name="tileKind">Rodzaj terenu o który siê rozbi³.</param>
-        public void Crash(float terrainHeight, TileKind tileKind)
+        public void Crash(float terrainHeight, TileKind tileKind, IAttractorSource attractorSource)
         {
             float viewDifferance = 1; //wartoœæ o jak¹ trzeba przesun¹æ samolot po rozbiciu, ¿eby nie by³ nda ziemi¹
             if (planeState != PlaneState.Crashed)
@@ -1984,7 +2009,7 @@ namespace Wof.Model.Level.Planes
                 //wyzerowanie czasu do koñca ¿ycia
                 wreckTimeElapsed = 0;
 
-                isSinking = (tileKind == TileKind.Ocean);
+                isSinking = (tileKind == TileKind.Ocean); //|| (tileKind == TileKind.Ship); - moved to attractors to sync the sinking speed
                 if (!isSinking)
                 {
                     movementVector = new PointD(0, 0);
@@ -2000,6 +2025,10 @@ namespace Wof.Model.Level.Planes
                     bounds.Move(0, terrainHeight - bounds.LowestY - viewDifferance);
                 //zni¿enie samolotu na poziom tile'a
                 level.Controller.OnPlaneCrashed(this, tileKind);
+                if(attractorSource != null) this.attractorTarget.AddAttractor(attractorSource, attractorSource.GetHashCode().ToString());
+                
+                
+                
             }
         }
 
@@ -2904,6 +2933,9 @@ namespace Wof.Model.Level.Planes
         {
             if (wreckTimeElapsed > wreckTime) //koniec czasu
             {
+            	// czyscimy atraktory
+            	this.attractorTarget.ClearAttractors();
+            	
                 level.Controller.OnPlaneWrecked(this);
                 if (IsEnemy) //odrejestrownaie samolotu wroga
                 {

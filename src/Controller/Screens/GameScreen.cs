@@ -1695,6 +1695,7 @@ namespace Wof.Controller.Screens
         public void OnShipBeginSinking(ShipTile tile)
         {
              OnStartWaterBubblesSound();
+             levelView.OnShipBeginSinking(tile);
         }
 
 

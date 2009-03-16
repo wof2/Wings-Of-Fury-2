@@ -45,160 +45,16 @@
  * 
  * 
  */
-
-using System.Collections.Generic;
+using System;
 using Wof.Model.Level.Common;
-using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 
-namespace Wof.Model.Level.LevelTiles.Watercraft
+namespace Wof.Model.Level
 {
-    /// <summary>
-    /// Klasa abstarkcyjna implementujaca czesci lotniskowca.
-    /// </summary>
-    public abstract class ShipTile : LevelTile, IDestroyable, IRefsToLevel
-    {
-    
-        #region Private Fields
-
-
-      
-
-        /// <summary>
-        /// Zmienna informujaca czy na dane pole moze wejsc zolnierz.
-        /// Jesli zmienna jest ustawiona na true, to zolnierz moze wejsc;
-        /// w przeciwnym przypadku zolnierz nie moze wejsc na dane pole.
-        /// </summary>
-        private bool traversable;
-
-        /// <summary>
-        /// Referencja do obiektu level.
-        /// </summary>
-        protected Level refToLevel;
-
-        private ShipState state;
-
-        #endregion;
-
-        #region Public Constructor
-
-        /// <summary>
-        /// Konstruktor piecioparametrowy.
-        /// </summary>
-        /// <param name="yBegin">Wysokosc poczatku obiektu.</param>
-        /// <param name="yEnd">Wysokosc konca obiektu.</param>
-        /// <param name="hitBound">Prostokat opisujacy obiekt.</param>
-        /// <param name="type">Typ obiektu.</param>
-        /// <param name="collisionRectangles">Lista prostokatow z ktorymi moga wystapic zderzenia.</param>
-        public ShipTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int type, List<Quadrangle> collisionRectangles, bool traversable)
-            : base(yBegin, yEnd, viewXShift, hitBound, collisionRectangles)
-        {
-            this.type = type;
-            this.traversable = traversable;
-            state = ShipState.Intact;
-        }
-
-        #endregion
-
-        #region Properties
-
-      
-
-        /// <summary>
-        /// Zwraca informacje o tym czy zolnierz moze wejsc na to pole.
-        /// </summary>
-        public bool Traversable
-        {
-            get { return this.traversable; }
-        }
-
-        /// <summary>
-        /// Zwraca informacje o zanurzeniu statku.
-        /// </summary>
-        public float Depth
-        {
-            get { return this.depth; }
-        }
-
-
-        /// <summary>
-        /// Ustawia prywatna referencje do planszy.
-        /// </summary>
-        public Level LevelProperties
-        {
-            set { refToLevel = value; }
-        }
-
-
-        #endregion
-
-
-        public bool IsDestroyed
-        {
-            get { return (state == ShipState.Destroyed); }
-        }
-
-        public virtual void Destroy()
-        {
-            state = ShipState.Destroyed;
-           
-            StartSinking();
-
-            // kontroler jest powiadamiany tylko poprzez pierwszy element statku
-            if(this is BeginShipTile)
-            {
-                refToLevel.Controller.OnShipBeginSinking(this);
-              
-            }
-
-        }
-
-        
-
-        public override float Sink(float time, float timeUnit)
-        {
-            float amount = base.Sink(time, timeUnit);
-           
-            
-            attractorForce.X = 0;
-            attractorForce.Y = -amount;
-            
-            if(amount > 0)
-            {
-                // toniêcie siê nie zakoñczy³o
-                refToLevel.Controller.OnShipSinking(this);
-                return amount;
-            }
-            if(this is BeginShipTile)
-            {
-                refToLevel.Controller.OnShipSunk(this as BeginShipTile);
-                this.attractorForce = new PointD(0,0);
-            }
-          
-            return 0;
-        }
-        
-        protected bool DestroyAndSinkShipElement(LevelTile t)
-        {
-            if (t is ShipTile && !(t as ShipTile).IsSinking)
-            {
-                (t as ShipTile).Destroy();
-            }
-            else
-                if (t is ShipBunkerTile && !(t as ShipBunkerTile).IsSinking)
-                {
-                    (t as ShipBunkerTile).Destroy();
-                    (t as ShipBunkerTile).StartSinking();
-                    refToLevel.Controller.OnTileDestroyed(this, null);
-                    // kill soldiers
-                    refToLevel.KillSoldiers(t.TileIndex, 2, true, false);
-                }
-                else
-                {
-                    return false;
-                }
-            return true;
-        }
-
-
-    }
+	/// <summary>
+	/// Description of IAttractorSource.
+	/// </summary>
+	public interface IAttractorSource
+	{
+		PointD GetAttractorForce();
+	}
 }
