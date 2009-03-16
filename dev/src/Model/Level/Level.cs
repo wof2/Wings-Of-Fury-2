@@ -432,7 +432,14 @@ namespace Wof.Model.Level
                         controller.OnPlaneDestroyed(ep);
                         isEventAboutDestroySend = false;
                     }
-                    
+
+                }
+            }
+            else
+            {
+                if (this.MissionType == MissionType.Dogfight)
+                {
+                    controller.OnReadyLevelEnd();
                 }
             }
 
@@ -640,7 +647,11 @@ namespace Wof.Model.Level
                 }
             }
             //zolnierze nie zyja. konczymy poziom
-            controller.OnReadyLevelEnd();
+            //if (MissionType.
+            if (this.MissionType == MissionType.BombingRun)
+            {
+                controller.OnReadyLevelEnd();
+            }
         }
 
         /// <summary>
@@ -956,12 +967,6 @@ namespace Wof.Model.Level
                         (LevelTiles[i].HitBound.Intersects(plane.Bounds) ||
                          plane.Bounds.LowestY < OceanTile.waterDepth))
                     {
-                        if (plane is EnemyPlane)
-                        {
-                            int x = 0;
-                            x++;
-                        }
-
                         float terrainHeight;
                         if (LevelTiles[i].IsAircraftCarrier)
                         {
