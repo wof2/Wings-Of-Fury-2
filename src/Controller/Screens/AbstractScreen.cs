@@ -152,6 +152,7 @@ namespace Wof.Controller.Screens
         protected KeyCode[] cheatGodMode = { KeyCode.KC_GRAVE, KeyCode.KC_I, KeyCode.KC_D, KeyCode.KC_D, KeyCode.KC_Q, KeyCode.KC_D};
         protected KeyCode[] cheatPlane = { KeyCode.KC_GRAVE, KeyCode.KC_P, KeyCode.KC_L };
         protected KeyCode[] cheatAllLevels = { KeyCode.KC_GRAVE, KeyCode.KC_I, KeyCode.KC_D, KeyCode.KC_K, KeyCode.KC_F, KeyCode.KC_A };
+  		protected KeyCode[] cheatLives = { KeyCode.KC_GRAVE, KeyCode.KC_I, KeyCode.KC_M, KeyCode.KC_L, KeyCode.KC_A, KeyCode.KC_M, KeyCode.KC_E};
 
 
 
@@ -235,6 +236,9 @@ namespace Wof.Controller.Screens
             cheats[cheatGodMode] = new KeyValuePair<VoidDelegateVoid, uint>(doCheatGodMode, 0);
             cheats[cheatPlane] = new KeyValuePair<VoidDelegateVoid, uint>(doCheatPlane, 0); ;
             cheats[cheatAllLevels] = new KeyValuePair<VoidDelegateVoid, uint>(doCheatAllLevels, 0); ;
+            cheats[cheatLives] = new KeyValuePair<VoidDelegateVoid, uint>(doCheatLives, 0); ;
+            
+            
 
             TextureManager.Singleton.UnloadUnreferencedResources();
             MaterialManager.Singleton.UnloadUnreferencedResources();
@@ -1082,7 +1086,13 @@ namespace Wof.Controller.Screens
         {
             GameConsts.Game.AllLevelsCheat = !GameConsts.Game.AllLevelsCheat;
         }
-
+        
+ 		public void doCheatLives()
+        {
+            GameConsts.Game.LivesCheat = !GameConsts.Game.LivesCheat;
+        }
+        
+        
 
         
      

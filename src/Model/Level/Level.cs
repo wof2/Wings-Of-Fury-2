@@ -224,14 +224,19 @@ namespace Wof.Model.Level
         #endregion
 
         #region Public Constructors
+        
+        public Level(string fileName, IController controller) : this(fileName, controller, 3)
+        {
+        	
+        }
 
         /// <summary>
-        /// Publiczny konstruktor jednoparametrowy.
+        /// Publiczny konstruktor.
         /// </summary>
         /// <param name="fileName">Nazwa pliku.</param>
         /// <param name="controller"></param>
         /// <author>Michal Ziober</author>
-        public Level(string fileName, IController controller)
+        public Level(string fileName, IController controller, int lives)
         {
             this.controller = controller;
 
@@ -253,7 +258,8 @@ namespace Wof.Model.Level
 
             SetAircraftCarrierList();
             carrier = new Carrier(aircraftTiles);
-            lives = 3;
+            
+            this.lives = lives + 1; // inaczej jest liczone...
             StartPositionInfo info = new StartPositionInfo();
             
             switch(MissionType)
@@ -715,7 +721,11 @@ namespace Wof.Model.Level
             {
                 UserPlane.InitNextLife();
                 UserPlane.Weapon.RestoreSelectedWeapon();
-                storagePlanes.Remove(StoragePlanes[storagePlanes.Count - 1]);
+                if(storagePlanes.Count > 0)
+                {
+                	storagePlanes.Remove(StoragePlanes[storagePlanes.Count - 1]);
+                }
+                
                 lives--;
             }
         }
@@ -996,7 +1006,7 @@ namespace Wof.Model.Level
         private List<StoragePlane> makeStoragePlanes()
         {
             List<StoragePlane> temp = new List<StoragePlane>();
-            for (int i = 0; i < lives - 1; i++)
+            for (int i = 0; i < lives - 1 && i < 3; i++)
                 temp.Add(new StoragePlane(this, Carrier.CarrierTiles[i]));
             return temp;
         }
@@ -1007,38 +1017,56 @@ namespace Wof.Model.Level
         /// </summary>
         private void SetFlyDirectionHint()
         {
-            if (enemyInstallationTiles != null && enemyInstallationTiles.Count > 0 &&
-                aircraftTiles != null && aircraftTiles.Count > 0)
-            {
-                int aircraftIndex = aircraftTiles[0].TileIndex;
-                bool left = false, right = false;
-                for (int i = 0; i < enemyInstallationTiles.Count ; i++)
-                {
-                    if (enemyInstallationTiles[i].TileIndex < aircraftIndex)
-                    {
-                        left = true;
-                        break;
-                    }
-                }
-                for (int i = 0; i < enemyInstallationTiles.Count; i++)
-                {
-                    if (enemyInstallationTiles[i].TileIndex > aircraftIndex)
-                    {
-                        right = true;
-                        break;
-                    }
-                }
-
-                if (left && right)
-                    flyDirectionHint = FlyDirectionHint.Both;
-                else if (left)
-                    flyDirectionHint = FlyDirectionHint.Left;
-                else if (right)
-                    flyDirectionHint = FlyDirectionHint.Right;
-                else
-                    flyDirectionHint = FlyDirectionHint.None;
-            }
-            else flyDirectionHint = FlyDirectionHint.None;
+        	
+        	switch(this.MissionType)
+        	{
+        		case MissionType.BombingRun:
+        			if (enemyInstallationTiles != null && enemyInstallationTiles.Count > 0 &&
+		                aircraftTiles != null && aircraftTiles.Count > 0)
+		            {
+		                int aircraftIndex = aircraftTiles[0].TileIndex;
+		                bool left = false, right = false;
+		                for (int i = 0; i < enemyInstallationTiles.Count ; i++)
+		                {
+		                    if (enemyInstallationTiles[i].TileIndex < aircraftIndex)
+		                    {
+		                        left = true;
+		                        break;
+		                    }
+		                }
+		                for (int i = 0; i < enemyInstallationTiles.Count; i++)
+		                {
+		                    if (enemyInstallationTiles[i].TileIndex > aircraftIndex)
+		                    {
+		                        right = true;
+		                        break;
+		                    }
+		                }
+		
+		                if (left && right)
+		                    flyDirectionHint = FlyDirectionHint.Both;
+		                else if (left)
+		                    flyDirectionHint = FlyDirectionHint.Left;
+		                else if (right)
+		                    flyDirectionHint = FlyDirectionHint.Right;
+		                else
+		                    flyDirectionHint = FlyDirectionHint.None;
+		            }
+        			else 
+        			{
+        				flyDirectionHint = FlyDirectionHint.None;
+        			}
+		        	
+        			break;
+        		case MissionType.Assasination:
+        				flyDirectionHint = FlyDirectionHint.None;
+        			break;
+        			
+        		case MissionType.Dogfight:
+        				flyDirectionHint = FlyDirectionHint.None;
+        			break;
+        	}
+          
         }
 
         /// <summary>

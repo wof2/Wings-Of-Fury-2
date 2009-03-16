@@ -277,7 +277,15 @@ namespace Wof.Controller.Screens
             changingAmmo = false;
             loadingLock = new object();
             score = 0;
-            this.lives = 2;
+            if(GameConsts.Game.LivesCheat) 
+            {
+            	this.lives = 98;	
+            }
+            else
+            {
+            	this.lives = 2;
+            }
+            
             this.fontSize = (uint)(EngineConfig.C_FONT_SIZE * viewport.ActualHeight);
 
 
@@ -300,7 +308,7 @@ namespace Wof.Controller.Screens
                     LogManager.Singleton.LogMessage("About to load level view...", LogMessageLevel.LML_CRITICAL);
                     levelView = new LevelView(framework, this);
                     LogManager.Singleton.LogMessage("About to load model...", LogMessageLevel.LML_CRITICAL);
-                    currentLevel = new Level(GetLevelName(levelNo), this);
+                    currentLevel = new Level(GetLevelName(levelNo), this, lives);
                     LogManager.Singleton.LogMessage("About to register level " + levelNo + " to view...", LogMessageLevel.LML_CRITICAL);
                     SoundManager.Instance.PreloadRandomIngameMusic();
                     levelView.OnRegisterLevel(currentLevel);
@@ -1535,7 +1543,7 @@ namespace Wof.Controller.Screens
 
         private void increaseScore(int baseScore)
         {
-            if (GameConsts.UserPlane.GodMode || GameConsts.Game.AllLevelsCheat || GameConsts.UserPlane.PlaneCheat) return;
+            if (GameConsts.UserPlane.GodMode || GameConsts.Game.AllLevelsCheat || GameConsts.UserPlane.PlaneCheat || GameConsts.Game.LivesCheat) return;
 
             switch (EngineConfig.Difficulty)
             {

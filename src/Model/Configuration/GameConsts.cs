@@ -452,7 +452,12 @@ namespace Wof.Model.Configuration
             /// </summary>
             public static bool AllLevelsCheat = false;
 
-          
+            /// <summary>
+            /// Czy ma być aktywny cheat 'Lives'
+            /// </summary>
+            public static bool LivesCheat = false;
+
+            
 
             #endregion
         }
