@@ -74,6 +74,7 @@ namespace Wof.Model.Level.Planes
     	public float Speed = 0;	
     	public WheelsState WheelsState = WheelsState.Out;  
     	public EngineState EngineState = EngineState.SwitchedOff;
+       
     }
     
     /// <summary>
@@ -762,7 +763,15 @@ namespace Wof.Model.Level.Planes
             if(info != null) Init();
 
             weaponManager = new WeaponManager(level, this);
-            weaponManager.SelectWeapon = WeaponType.Bomb; //Domyslna ciezka amunicja.
+
+            if (info != null && info.PositionType == StartPositionType.Airborne)
+            {
+                weaponManager.SelectWeapon = WeaponType.Rocket;
+            }
+            else
+            {
+                weaponManager.SelectWeapon = WeaponType.Bomb; //Domyslna ciezka amunicja.
+            }
             weaponManager.RegisterWeaponToModelEvent += weaponManager_RegisterWeaponToModelEvent;
 
             this.isEnemy = isEnemy;
