@@ -135,48 +135,47 @@ namespace Wof.View
                 case 5: //5
                     //ISLAND1
                     islandMeshName = "Island1.mesh";
-                    initNonCollisionTrees(staticNode, margin, 5, 0.7f);
-                    initNonCollisionTrees(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
+                    initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
                     break;
                 case -6: //4
                     //ISLAND ROUND
                     islandMeshName = "IslandRound.mesh";
-                    initNonCollisionTrees(staticNode, -15, 0, 0.7f);
-                    initNonCollisionTrees(staticNode, 0, 15, 0.7f);
+                    initNonCollisionTreesCircle(staticNode, 15.0f, 1.4f);
                     break;
 
                 case 6: //6
                     //ISLAND2
                     islandMeshName = "Island2.mesh";
-                    initNonCollisionTrees(staticNode, margin, 5, 0.7f);
-                    initNonCollisionTrees(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
+                    initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
                     break;
                 case 9: //9
                     //ISLAND3
                     islandMeshName = "Island3.mesh";
-                    initNonCollisionTrees(staticNode, margin, 5, 0.7f);
-                    initNonCollisionTrees(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
+                    initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
                     break;
                 case 12: //12
                     //ISLAND12u
                     islandMeshName = "Island12u.mesh";
                 
-                    initNonCollisionTrees(staticNode, margin, 5, maxX / 4.0f, maxX / 2.0f, 0.5f);
-                    initNonCollisionTrees(staticNode, -margin, -5, maxX / 4.0f, maxX / 2.0f, 0.5f);
+                    initNonCollisionTreesDiamond(staticNode, margin, 5, maxX / 4.0f, maxX / 2.0f, 0.5f);
+                    initNonCollisionTreesDiamond(staticNode, -margin, -5, maxX / 4.0f, maxX / 2.0f, 0.5f);
                     break;
 
                 case 13: //13
                     //ISLAND4
                     islandMeshName = "Island4.mesh";
-                    initNonCollisionTrees(staticNode, margin, 5, 0.7f);
-                    initNonCollisionTrees(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
+                    initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
                     break;
 
                 case 18: //18
                     //ISLAND18u
                     islandMeshName = "Island18u.mesh";
-                    initNonCollisionTrees(staticNode, 10, 14, maxX / 2.5f, maxX, 0.5f);
-                    initNonCollisionTrees(staticNode, -11, -13, maxX / 2.5f, maxX, 0.5f);
+                    initNonCollisionTreesDiamond(staticNode, 10, 14, maxX / 2.5f, maxX, 0.5f);
+                    initNonCollisionTreesDiamond(staticNode, -11, -13, maxX / 2.5f, maxX, 0.5f);
 
                     // zwolnic pamiec
                     EnemyPlaneView epv = new EnemyPlaneView(null, sceneMgr, staticNode);
@@ -209,13 +208,13 @@ namespace Wof.View
 
                     if (backgroundDummy)
                     {
-                        initNonCollisionTrees(staticNode, 1, 15, 0.7f);
-                        initNonCollisionTrees(staticNode, -1, -15, 0.7f);
+                        initNonCollisionTreesDiamond(staticNode, 1, 15, 0.7f);
+                        initNonCollisionTreesDiamond(staticNode, -1, -15, 0.7f);
                     }
                     else
                     {
-                        initNonCollisionTrees(staticNode, margin, 15, 0.7f);
-                        initNonCollisionTrees(staticNode, -margin, -15, 0.7f);
+                        initNonCollisionTreesDiamond(staticNode, margin, 15, 0.7f);
+                        initNonCollisionTreesDiamond(staticNode, -margin, -15, 0.7f);
                     }
                     break;
                 case 42:
@@ -231,12 +230,12 @@ namespace Wof.View
 
                     if (EngineConfig.LowDetails)
                     {
-                        initNonCollisionTrees(staticNode, 4.5f, 33, 0.5f);
+                        initNonCollisionTreesDiamond(staticNode, 4.5f, 33, 0.5f);
                     }
-                    else initNonCollisionTrees(staticNode, 4.5f, 33, 0.9f);
+                    else initNonCollisionTreesDiamond(staticNode, 4.5f, 33, 0.9f);
 
-                    initNonCollisionTrees(staticNode, -4.5f, -60, 0.5f);
-                    initNonCollisionTrees(staticNode, -4.5f, -30, 0.5f);
+                    initNonCollisionTreesDiamond(staticNode, -4.5f, -60, 0.5f);
+                    initNonCollisionTreesDiamond(staticNode, -4.5f, -30, 0.5f);
                     break;
                 default:
                     return;
@@ -433,9 +432,9 @@ namespace Wof.View
 
         }
 
-        private void initNonCollisionTrees(SceneNode parent, float zMin, float zMax)
+        private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax)
         {
-            initNonCollisionTrees(parent, zMin, zMax, 1);
+            initNonCollisionTreesDiamond(parent, zMin, zMax, 1);
         }
 
         private void initLampPosts(SceneNode parent, float z, float xMin, float xMax, float num, Radian direction)
@@ -448,12 +447,12 @@ namespace Wof.View
                
             }
         }
-        private void initNonCollisionTrees(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity)
+        private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity)
         {
-            initNonCollisionTrees(parent, zMin, zMax, xMin, xMax, intensity, false);
+            initNonCollisionTreesDiamond(parent, zMin, zMax, xMin, xMax, intensity, false);
         }
 
-        private void initNonCollisionTrees(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity, bool forceLowDetails)
+        private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity, bool forceLowDetails)
         {
             int c = (int)Math.Abs(count);
             int count_l = (int)(c * 2 * intensity);
@@ -473,16 +472,32 @@ namespace Wof.View
             }
         }
 
-        private void initNonCollisionTrees(SceneNode parent, float zMin, float zMax, float intensity)
+        private void initNonCollisionTreesCircle(SceneNode parent, float radius, float intensity)
         {
-            initNonCollisionTrees(parent, zMin, zMax, intensity, false);
+            initNonCollisionTreesCircle(parent, radius, intensity, false);
         }
 
-        private void initNonCollisionTrees(SceneNode parent, float zMin, float zMax, float intensity, bool forceLowDetails)
+        private void initNonCollisionTreesCircle(SceneNode parent, float radius, float intensity, bool forceLowDetails)
+        {
+            int c = (int)Math.Abs(count);
+            int count_l = (int)(c * 2 * intensity);
+
+            for (int i = 0; i < count_l; i++)
+            {
+                initPalm2(parent, new Vector3(Math.RangeRandom(-radius, radius), -0.5f, Math.RangeRandom(-radius, radius) - 25), forceLowDetails);
+            }
+        }
+
+        private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax, float intensity)
+        {
+            initNonCollisionTreesDiamond(parent, zMin, zMax, intensity, false);
+        }
+
+        private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax, float intensity, bool forceLowDetails)
         {
             int c = (int)Math.Abs(count);
             float max = - c * LevelView.TileWidth;
-            initNonCollisionTrees(parent, zMin, zMax, 0.1f * max, 0.9f * max, intensity, forceLowDetails);
+            initNonCollisionTreesDiamond(parent, zMin, zMax, 0.1f * max, 0.9f * max, intensity, forceLowDetails);
         }
 
 
