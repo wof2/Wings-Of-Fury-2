@@ -79,10 +79,20 @@ namespace Wof.Model.Level
     /// <author>Adam Witczak</author>
     public enum MissionType
     {
-    	BombingRun, // Zabiæ wszystkich ¿o³nierzy
-    	Assasination, // Zabiæ genera³a
-    	Dogfight 	// zniszczyæ wszystkie samoloty
+        /// <summary>
+        /// Zabiæ wszystkich ¿o³nierzy
+        /// </summary>
+    	BombingRun,
+
+        /// <summary>
+        /// Zabiæ genera³a
+        /// </summary>
+    	Assasination,
     	
+        /// <summary>
+        /// zniszczyæ wszystkie samoloty
+        /// </summary>
+        Dogfight
     }
         
 
@@ -255,7 +265,7 @@ namespace Wof.Model.Level
             ammunitionList = new List<Ammunition>(10);
             aircraftTiles = new List<AircraftCarrierTile>(5);
             enemyInstallationTiles = levelParser.Tiles.FindAll(Predicates.FindAllEnemyInstallationTiles());
-            GetSoldiersCount(enemyInstallationTiles);
+            UpdateSoldiersCount(enemyInstallationTiles);
             bunkersList = levelParser.Tiles.FindAll(Predicates.GetAllBunkerTiles());
             shipsList = levelParser.Tiles.FindAll(Predicates.GetAllShipTiles());
             mStatistics = new LevelStatistics();
@@ -792,7 +802,7 @@ namespace Wof.Model.Level
                 SoldiersList.FindAll(Predicates.FindSoldierFromInterval(index - step, index + step));
             int numberOfDeaths = 0;
             if (soldiers != null && soldiers.Count > 0)
-                for ( int i = 0 ; i < soldiers.Count ; i++)
+                for (int i = 0; i < soldiers.Count; i++)
                 {
                     if (forceKill || soldiers[i].CanDie)
                     {
@@ -1086,7 +1096,7 @@ namespace Wof.Model.Level
         /// Pobiera liczbe zolnierzy z instalacji obronnych.
         /// </summary>
         /// <param name="tileList">Lista elementow</param>
-        private void GetSoldiersCount(List<LevelTile> tileList)
+        private void UpdateSoldiersCount(List<LevelTile> tileList)
         {
             int soldierCount = 0;
             EnemyInstallationTile enemy = null;
@@ -1096,7 +1106,7 @@ namespace Wof.Model.Level
                     enemy = tileList[i] as EnemyInstallationTile;
                     soldierCount += enemy.SoldierCount;
                 }
-            this.mSoldierCount = soldierCount;
+            SoldiersCount = soldierCount;
         }
 
         #endregion
@@ -1206,7 +1216,7 @@ namespace Wof.Model.Level
         /// </summary>
         public int SoldiersCount
         {
-            set { this.mSoldierCount = Math.Max(value, 0); }
+            protected set { this.mSoldierCount = Math.Max(value, 0); }
             get { return this.mSoldierCount; }
         }
 
