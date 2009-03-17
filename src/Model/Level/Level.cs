@@ -196,7 +196,11 @@ namespace Wof.Model.Level
         /// </summary>
         private readonly IController controller;
 
-       
+
+        /// <summary>
+        /// Zwraca czy wystartowa³ event onReadyLevelEnd
+        /// </summary>
+        private bool onReadyLevelEndLaunched;
 
         private List<StoragePlane> storagePlanes;
 
@@ -214,7 +218,7 @@ namespace Wof.Model.Level
         /// <summary>
         /// Okreœla ile samolotów pozosta³o w danym levelu.
         /// </summary>
-        private int enemiesLeft;
+        private int enemyPlanesLeft;
 
         /// <summary>
         /// Statystyki poziomu
@@ -227,7 +231,7 @@ namespace Wof.Model.Level
         
         public Level(string fileName, IController controller) : this(fileName, controller, 3)
         {
-        	
+
         }
 
         /// <summary>
@@ -293,11 +297,14 @@ namespace Wof.Model.Level
             //this.enemyPlane = new EnemyPlane(this);
             //this.enemyPlane.RegisterWeaponEvent += new RegisterWeapon(enemyPlane_RegisterWeaponEvent);
             enemyPlanes = new List<Plane>();
-            enemiesLeft = levelParser.EnemyPlanes;
+            enemyPlanesLeft = levelParser.EnemyPlanes;
             currentTimeToNextEnemy = timeToFirstEnemy;
 
             //dodane przez Tomka
             storagePlanes = makeStoragePlanes();
+
+            //dodane przez Kamila
+            onReadyLevelEndLaunched = false;
         }
 
 
@@ -356,7 +363,7 @@ namespace Wof.Model.Level
             currentTimeToNextEnemy = Math.Max(0, currentTimeToNextEnemy);
             if (currentTimeToNextEnemy == 0)
             {
-                if (enemiesLeft > 0 && enemyPlanes.Count < GameConsts.EnemyPlane.MaxSimultaneousEnemyPlanes)
+                if (enemyPlanesLeft > 0 && enemyPlanes.Count < GameConsts.EnemyPlane.MaxSimultaneousEnemyPlanes)
                     //dodanie nowego samolotu
                 {
                     EnemyPlane enemyPlane = new EnemyPlane(this);
@@ -437,8 +444,9 @@ namespace Wof.Model.Level
             }
             else
             {
-                if (this.MissionType == MissionType.Dogfight)
+                if (!onReadyLevelEndLaunched && this.MissionType == MissionType.Dogfight)
                 {
+                    onReadyLevelEndLaunched = true;
                     controller.OnReadyLevelEnd();
                 }
             }
@@ -756,7 +764,7 @@ namespace Wof.Model.Level
         public void ClearEnemyPlane(Plane ep)
         {
             enemyPlanes.Remove(ep);
-            enemiesLeft -= 1;
+            enemyPlanesLeft -= 1;
         }
 
         /// Zabija zolnierzy, ktorzy sa w polu razenia.
