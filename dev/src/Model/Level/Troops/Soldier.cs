@@ -46,7 +46,6 @@
  * 
  */
 
-using System;
 using System.Text;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
@@ -79,6 +78,31 @@ namespace Wof.Model.Level.Troops
 
         #endregion
 
+        #region Enums
+
+        /// <summary>
+        /// Stan zolnierza.
+        /// </summary>
+        public enum SoldierStatus : byte
+        {
+            /// <summary>
+            /// Zolnierz jest zywy
+            /// </summary>
+            IsAlive = 0,
+
+            /// <summary>
+            /// Zolnierz jest martwy
+            /// </summary>
+            IsDead = 1,
+
+            /// <summary>
+            /// Schowal sie do bunkra
+            /// </summary>
+            InBunker = 2
+        }
+
+        #endregion
+
         #region Fields
 
         /// <summary>
@@ -91,7 +115,6 @@ namespace Wof.Model.Level.Troops
         /// </summary>
         private float yPos;
 
-        
         /// <summary>
         /// Pozycja startowa zolnierza.
         /// </summary>
@@ -110,7 +133,7 @@ namespace Wof.Model.Level.Troops
         /// <summary>
         /// Czy zolnierz jest zywy.
         /// </summary>
-        private bool isAlive;
+        private SoldierStatus _soldierStatus;
 
         /// <summary>
         /// Szybkosc z jaka porusza sie zolnierz.
@@ -153,8 +176,7 @@ namespace Wof.Model.Level.Troops
             SOLDIER,
             GENERAL,
             SEAMAN
-        } ;
-     
+        }
 
         #endregion
 
@@ -171,9 +193,9 @@ namespace Wof.Model.Level.Troops
         internal Soldier(float posX, Direction direct, Level level, float offset, SoldierType type)
         {
             //przy starcie jest zywy.
-            isAlive = true;
+            _soldierStatus = SoldierStatus.IsAlive;
             //pozycja startowa - pozycja zniszczonej instalacji
-            xPos = posX*LevelTile.Width + offset;
+            xPos = posX * LevelTile.Width + offset;
             startPosition = posX;
             startLevelIndex = (int)posX;
             direction = direct;
@@ -182,7 +204,6 @@ namespace Wof.Model.Level.Troops
             canReEnter = false;
             protectedTime = 0;
             this.type = type;
-         
         }
 
         #endregion
@@ -205,9 +226,17 @@ namespace Wof.Model.Level.Troops
         /// </summary>
         public bool IsAlive
         {
-            get { return isAlive; }
+            get { return _soldierStatus == SoldierStatus.IsAlive; }
         }
 
+        /// <summary>
+        /// Zwraca stan w ktorym obecnie znajduje sie zolnierz.
+        /// <see cref="SoldierStatus"/>
+        /// </summary>
+        public SoldierStatus Status
+        {
+            get { return _soldierStatus; }
+        }
 
         public int StartLevelIndex
         {
@@ -239,7 +268,7 @@ namespace Wof.Model.Level.Troops
             get { return yPos; }
         }
 
-        
+
         /// <summary>
         /// Zwraca pozycje zolnierza na planszy.
         /// </summary>
@@ -264,14 +293,14 @@ namespace Wof.Model.Level.Troops
             get { return canDie; }
         }
 
-         /// <summary>
+        /// <summary>
         /// 
         /// </summary>
         public float StartPosition
         {
             get { return startPosition; }
         }
-        
+
 
         #endregion
 
@@ -290,16 +319,18 @@ namespace Wof.Model.Level.Troops
             if (tiles == null)
             {
                 ShipTile tiles2 = refToLevel.LevelTiles[index] as ShipTile;
-                if (tiles2 == null) return false; else
+                if (tiles2 == null) return false;
+                else
                 {
                     return tiles2.Traversable;
                 }
-            } else
+            }
+            else
             {
                 return tiles.Traversable;
             }
-          
-           
+
+
         }
 
         /// <summary>
@@ -321,7 +352,7 @@ namespace Wof.Model.Level.Troops
         /// </summary>
         private void ChangeLocation(int time)
         {
-           
+
             //jesli idzie w prawo
             if (direction == Direction.Right)
             {
@@ -331,7 +362,7 @@ namespace Wof.Model.Level.Troops
                     xPos = tmpPosition;
                 else //zmienia kierunek
                     direction = Direction.Left;
-               // Check(Mathematics.PositionToIndex(tmpPosition));
+                // Check(Mathematics.PositionToIndex(tmpPosition));
 
             } //jesli idzie w lewo
             else
@@ -342,7 +373,7 @@ namespace Wof.Model.Level.Troops
                     xPos = tmpPosition; //wchodzi na sasiednie pole.
                 else //zmienia kierunek.
                     direction = Direction.Right;
-              //  Check(Mathematics.PositionToIndex(tmpPosition));
+                //  Check(Mathematics.PositionToIndex(tmpPosition));
             }
             LevelTile tile = refToLevel.LevelTiles[Mathematics.PositionToIndex(xPos)];
             yPos = (tile.YBegin + tile.YEnd) / 2.0f;
@@ -372,7 +403,7 @@ namespace Wof.Model.Level.Troops
         public void Kill()
         {
             //zabijam zolnierza.
-            isAlive = false;
+            _soldierStatus = SoldierStatus.IsDead;
         }
 
         #endregion
@@ -386,9 +417,9 @@ namespace Wof.Model.Level.Troops
         public void Move(int time)
         {
             //Jesli zolnierz zyje.
-            if (isAlive)
+            if (IsAlive)
             {
-               
+
                 int tileIndex = Mathematics.PositionToIndex(xPos);
                 if (tileIndex != startPosition) leftBornTile = true;
                 if (canReEnter //czy moze wejsc ponownie do bunkra.
@@ -409,12 +440,12 @@ namespace Wof.Model.Level.Troops
                         //wyslam sygnal do controllera aby usunal zolnierza z widoku.
                         refToLevel.Controller.UnregisterSoldier(this);
                         //usuwam zolnierza z planszy.
-                        isAlive = false;
+                        _soldierStatus = SoldierStatus.InBunker;
                     }
                     else ChangeLocation(time);
                 }
                 else ChangeLocation(time);
-                    
+
 
                 //sprawdza czy ulynal czas bezsmiertelnosci
                 if (!canDie)
@@ -434,7 +465,7 @@ namespace Wof.Model.Level.Troops
             }
         }
 
-      
+
 
         #endregion
     }

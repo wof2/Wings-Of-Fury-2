@@ -118,7 +118,7 @@ namespace Wof.Model.Level.Common
         }
 
 
-        
+
 
         /// <summary>
         /// Predykat do wyszukiwania obiektow, 
@@ -179,13 +179,15 @@ namespace Wof.Model.Level.Common
         public static Predicate<Soldier> FindSoldierFromInterval(int start, int end)
         {
             return delegate(Soldier s)
-                       {
-                           int pos = Mathematics.PositionToIndex(s.Position.X);
-                           return start <= pos && pos <= end;
-                       };
+            {
+                if (s.IsAlive)
+                {
+                    int pos = Mathematics.PositionToIndex(s.Position.X);
+                    return start <= pos && pos <= end;
+                }
+                return false;
+            };
         }
-
-
 
         /// <summary>
         /// Predykat szuka zolnierzy ktorzy 'urodzi³' siê na tile'u o okreœlonym indeksie
