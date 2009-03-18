@@ -471,8 +471,8 @@ namespace Wof.Controller.Screens
             TextureManager.Singleton.UnloadAll();
             MaterialManager.Singleton.UnloadAll();
             MeshManager.Singleton.UnloadAll();
-            CompositorManager.Singleton.RemoveAll();
-            CompositorManager.Singleton.UnloadAll();
+           // CompositorManager.Singleton.RemoveAll();
+           // CompositorManager.Singleton.UnloadAll();
             try
             {
                 if (mGui != null)

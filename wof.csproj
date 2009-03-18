@@ -238,6 +238,7 @@
     <Compile Include="src\Model\Exceptions\LevelCorruptedException.cs" />
     <Compile Include="src\Model\Exceptions\LevelFileNotFoundException.cs" />
     <Compile Include="src\Model\Exceptions\TilesFileNotFoundException.cs" />
+    <Compile Include="src\Model\Level\AttractorTarget.cs" />
     <Compile Include="src\Model\Level\Carriers\Carrier.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -274,6 +275,8 @@
     <Compile Include="src\Model\Level\Direction.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\Model\Level\IAttractorSource.cs" />
+    <Compile Include="src\Model\Level\IAttractorTarget.cs" />
     <Compile Include="src\Model\Level\Level.cs">
       <SubType>Code</SubType>
     </Compile>
