@@ -82,6 +82,18 @@ namespace Wof.Model.Level.XmlParser
         /// Liczba samolotow wroga.
         /// </summary>
         private int enemyPlanes;
+        
+        /// <summary>
+        /// Czas do pojawienia sie pierwszego samolotu wroga
+        /// </summary>
+        private int timeToFirstEnemyPlane;
+        
+         /// <summary>
+        /// Czas do pojawienia sie nastêpnego samolotu wroga
+        /// </summary>
+        private int timeToNextEnemyPlane;
+        
+       
 
         /// <summary>
         /// Obiekt wczytujacy plik tiles.xml
@@ -715,7 +727,7 @@ namespace Wof.Model.Level.XmlParser
                     if (reader.Name.Equals(Attributes.MissionType))
                         missionType = GetMissionTypeForName(reader.Value);
 
-                    if (reader.Name.Equals(Attributes.EnemyPlane))
+                    if (reader.Name.Equals(Attributes.EnemyPlanes))
                     {
                         try
                         {
@@ -723,10 +735,40 @@ namespace Wof.Model.Level.XmlParser
                         }
                         catch
                         {
-                            enemyPlanes = -1;
+                            enemyPlanes = 0;
                             return false;
                         }
                     }
+                    
+                    if (reader.Name.Equals(Attributes.TimeToFirstEnemyPlane))
+                    {
+                        try
+                        {
+                            timeToFirstEnemyPlane = int.Parse(reader.Value.Trim());
+                        }
+                        catch
+                        {
+                            timeToFirstEnemyPlane = 60 * 1000;
+                            return false;
+                        }
+                    }
+                    if (reader.Name.Equals(Attributes.TimeToNextEnemyPlane))
+                    {
+                        try
+                        {
+                            timeToNextEnemyPlane = int.Parse(reader.Value.Trim());
+                        }
+                        catch
+                        {
+                            timeToNextEnemyPlane = 60 * 1000;
+                            return false;
+                        }
+                    }
+                    
+                    
+                    
+                    
+                    
                 }
             }
             else return false;
@@ -865,6 +907,10 @@ namespace Wof.Model.Level.XmlParser
         }
         
         
+        
+     
+        
+        
 
         #endregion
 
@@ -888,6 +934,19 @@ namespace Wof.Model.Level.XmlParser
         {
             get { return enemyPlanes; }
             set { enemyPlanes = value; }
+        }
+        
+        
+        public int TimeToFirstEnemyPlane
+        {
+            get { return timeToFirstEnemyPlane; }
+            set { timeToFirstEnemyPlane = value; }
+        }
+        
+        public int TimeToNextEnemyPlane
+        {
+            get { return timeToNextEnemyPlane; }
+            set { timeToNextEnemyPlane = value; }
         }
 
         /// <summary>

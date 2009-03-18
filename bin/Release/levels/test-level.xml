@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<level dayTime="noon" enemyPlane="7">
+<level dayTime="noon" enemyPlanes="7" timeToFirstEnemyPlane="60000" timeToNextEnemyPlane="60000">
   <ocean width="100"/>
 
 

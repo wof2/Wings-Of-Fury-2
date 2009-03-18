@@ -114,13 +114,13 @@ namespace Wof.Model.Level
         /// Czas do pojawienia siê nastêpnego samolotu.
         /// Wyra¿ony w ms.
         /// </summary>
-        private const float timeToNextEnemy = 1*60*1000;
+        private readonly float timeToNextEnemyPlane; //= 1*60*1000;
 
         /// <summary>
         /// Czas do pojawienia siê pierwszego samolotu.
         /// Wyra¿ony w ms.
         /// </summary>
-        private const float timeToFirstEnemy = 0;//1*60*1000;
+        private readonly float timeToFirstEnemyPlane; //0;//1*60*1000;
 
         #endregion
 
@@ -223,7 +223,7 @@ namespace Wof.Model.Level
         /// <summary>
         /// Okreœla ile czasu pozosta³o do pojawienia siê nastêpnego samolotu
         /// </summary>
-        private float currentTimeToNextEnemy = timeToFirstEnemy;
+        private float currentTimeToNextEnemy;
 
         /// <summary>
         /// Okreœla ile samolotów pozosta³o w danym levelu.
@@ -273,7 +273,7 @@ namespace Wof.Model.Level
             SetAircraftCarrierList();
             carrier = new Carrier(aircraftTiles);
             
-            this.lives = lives + 1; // inaczej jest liczone...
+            this.lives = lives + 1; // inaczej jest liczone... :/
             StartPositionInfo info = new StartPositionInfo();
             
             switch(MissionType)
@@ -307,8 +307,11 @@ namespace Wof.Model.Level
             //this.enemyPlane = new EnemyPlane(this);
             //this.enemyPlane.RegisterWeaponEvent += new RegisterWeapon(enemyPlane_RegisterWeaponEvent);
             enemyPlanes = new List<Plane>();
+            timeToFirstEnemyPlane = levelParser.TimeToFirstEnemyPlane;
+            timeToNextEnemyPlane = levelParser.TimeToNextEnemyPlane;
+            
             enemyPlanesLeft = levelParser.EnemyPlanes;
-            currentTimeToNextEnemy = timeToFirstEnemy;
+            currentTimeToNextEnemy = timeToFirstEnemyPlane;
 
             //dodane przez Tomka
             storagePlanes = makeStoragePlanes();
@@ -380,11 +383,12 @@ namespace Wof.Model.Level
                     enemyPlane.RegisterWeaponEvent += enemyPlane_RegisterWeaponEvent;
                     enemyPlanes.Add(enemyPlane);
                     Controller.OnRegisterPlane(enemyPlane);
-                    currentTimeToNextEnemy = timeToNextEnemy; //odliczanie od pocz¹tku
+                    currentTimeToNextEnemy = timeToNextEnemyPlane; //odliczanie od pocz¹tku
+                    enemyPlanesLeft -= 1;
                 }
                 else
                 {
-                    currentTimeToNextEnemy = timeToNextEnemy;
+                    currentTimeToNextEnemy = timeToNextEnemyPlane;
                 }
             }
             float scaleFactor = time / timeUnit;
@@ -774,7 +778,7 @@ namespace Wof.Model.Level
         public void ClearEnemyPlane(Plane ep)
         {
             enemyPlanes.Remove(ep);
-            enemyPlanesLeft -= 1;
+           
         }
 
         /// Zabija zolnierzy, ktorzy sa w polu razenia.
