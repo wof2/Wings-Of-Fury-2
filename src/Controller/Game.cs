@@ -127,6 +127,8 @@ namespace Wof.Controller
         public override bool FrameStarted(FrameEvent evt)
         {
             time += evt.timeSinceLastFrame;
+          //  evt.timeSinceLastFrame *=2;
+           // Thread.Sleep(100); - do testow
             if (window.IsClosed)
                 return false;
        
