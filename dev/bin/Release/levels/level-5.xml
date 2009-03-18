@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="dawn" enemyPlane="1">
+<level dayTime="dawn" enemyPlanes="1">
   <ocean width="125"/>
 
   <island-begin variation="1"/>

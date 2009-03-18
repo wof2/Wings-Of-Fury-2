@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<level dayTime="noon" enemyPlane="0">
+<level dayTime="noon" enemyPlanes="0">
   <ocean width="125"/>
 
   <island-begin variation="3"/>
