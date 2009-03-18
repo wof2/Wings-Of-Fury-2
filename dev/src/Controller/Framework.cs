@@ -224,6 +224,7 @@ namespace Wof.Controller
             MaterialManager.Singleton.UnloadAll();
             CompositorManager.Singleton.RemoveAll();
             CompositorManager.Singleton.UnloadAll();
+
             MeshManager.Singleton.UnloadAll();
             FontManager.Singleton.UnloadAll();
             GpuProgramManager.Singleton.UnloadAll();
@@ -333,7 +334,7 @@ namespace Wof.Controller
                 CreateScene();
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.AddingCompositors)));
-                AddCompositors();
+               // AddCompositors();
                 // SetCompositorEnabled(CompositorTypes.OLDMOVIE, true);
 
                 CreateFrameListener();
@@ -1079,6 +1080,9 @@ namespace Wof.Controller
 
         public virtual void CreateViewports()
         {
+            // zwolnij zasoby
+            if (viewport != null && CompositorManager.Singleton.HasCompositorChain(viewport)) CompositorManager.Singleton.RemoveCompositorChain(viewport);
+            
             window.RemoveAllViewports();
 
             if (displayMinimap)
@@ -1187,11 +1191,6 @@ namespace Wof.Controller
         {
             CompositorInstance instance;
            
-            //CompositorPtr ptr = CompositorManager.Singleton.GetByName("Old Movie");
-         
-            //CompositorManager.Singleton.ReloadAll();
-         
-            //CompositorManager.Singleton.RemoveCompositor(viewport, "Old Movie");
             instance = CompositorManager.Singleton.AddCompositor(viewport, "Old Movie");
             if (instance != null)
             {
@@ -1205,9 +1204,9 @@ namespace Wof.Controller
             {
                 CompositorManager.Singleton.SetCompositorEnabled(viewport, "Bloom", false);
             }
-           
-            
+          
            // CompositorManager.Singleton.RemoveCompositor(viewport, "B&W");
+           
             instance = CompositorManager.Singleton.AddCompositor(viewport, "B&W");
             if (instance != null)
             {
@@ -1221,7 +1220,7 @@ namespace Wof.Controller
                 CompositorManager.Singleton.SetCompositorEnabled(viewport, "Gaussian Blur", false);
             }
             
-             instance = CompositorManager.Singleton.AddCompositor(viewport, "Motion Blur");
+            instance = CompositorManager.Singleton.AddCompositor(viewport, "Motion Blur");
             if (instance != null)
             {
                 CompositorManager.Singleton.SetCompositorEnabled(viewport, "Motion Blur", false);
