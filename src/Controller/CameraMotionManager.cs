@@ -144,7 +144,16 @@ namespace Wof.Controller
             if (playerPlane.Position.Y < 30) altFactor /= (30 - (float) playerPlane.Position.Y)*0.1f;
             if (altFactor > 250) altFactor = 250;
             zoomFactor = speedFactor*0.1f + altFactor*0.53f + (-manualZoom+ minCamDistance - c.Position.z);
+            
+            // Bullet-time
+            if(EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierSlow)
+            {
+            	zoomFactor +=  -manualZoom + minCamDistance - c.Position.z - 50.0f;
+            }
+            
             translateVector.z += zoomFactor;
+            
+            
 
 
             // ruch kamery w zaleznosci od wysokosci

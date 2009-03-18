@@ -93,6 +93,15 @@ namespace Wof.Controller
         public static bool ManualCamera = false;
 
         public static bool BloomEnabled = false;
+        
+        
+        /// <summary>
+        /// Do efektu bullet-time
+        /// </summary>
+        public static float CurrentGameSpeedMultiplier = GameSpeedMultiplierNormal;
+
+        public static readonly float GameSpeedMultiplierSlow = 0.5f;
+ 		public static readonly float GameSpeedMultiplierNormal = 1.0f;
 
 
         // TO DO

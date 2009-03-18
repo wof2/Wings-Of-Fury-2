@@ -894,7 +894,28 @@ namespace Wof.Controller.Screens
                             {
                                 currentLevel.OnSpinPressed();
                             }
-                          
+                            
+                            // bullet time
+                            if (inputKeyboard.IsKeyDown(KeyCode.KC_BACK))
+                            {
+                            	if(EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierNormal)
+                            	{
+                            		
+                            		 this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.BLOOM, true);
+                            	}
+                            	if (gameMessages.IsMessageQueueEmpty()) gameMessages.AppendMessage("Bullet-time mode!"); //TODO: translation
+                            	EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierSlow;
+                            	
+                            	
+                            	
+                            } else
+                            {
+                            	if(EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierSlow)
+                            	{
+                            		 this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.BLOOM, false);
+                            	}
+                            	EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierNormal;
+                            }
 
 
                             // zmiana kamery

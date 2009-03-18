@@ -126,8 +126,9 @@ namespace Wof.Controller
         /// <returns></returns>
         public override bool FrameStarted(FrameEvent evt)
         {
+        	evt.timeSinceLastFrame *= EngineConfig.CurrentGameSpeedMultiplier;
             time += evt.timeSinceLastFrame;
-          //  evt.timeSinceLastFrame *=2;
+
            // Thread.Sleep(100); - do testow
             if (window.IsClosed)
                 return false;

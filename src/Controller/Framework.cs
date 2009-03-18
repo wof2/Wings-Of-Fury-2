@@ -222,7 +222,9 @@ namespace Wof.Controller
                         
             TextureManager.Singleton.UnloadAll();
             MaterialManager.Singleton.UnloadAll();
-            
+            CompositorManager.Singleton.RemoveAll();
+           // CompositorManager.Singleton.
+            CompositorManager.Singleton.UnloadAll();
             MeshManager.Singleton.UnloadAll();
             FontManager.Singleton.UnloadAll();
             GpuProgramManager.Singleton.UnloadAll();
@@ -1143,7 +1145,10 @@ namespace Wof.Controller
         public enum CompositorTypes
         {
             OLDMOVIE,
-            BLOOM
+            BLOOM,
+            MOTION_BLUR,
+            GAUSSIAN_BLUR,
+            BW
         } ;
 
         public void SetCompositorEnabled(CompositorTypes type, bool enabled)
@@ -1158,6 +1163,20 @@ namespace Wof.Controller
                 case CompositorTypes.OLDMOVIE:
                     name = "Old Movie";
                     break;
+                    
+                case CompositorTypes.MOTION_BLUR:
+                    name = "Motion Blur";
+                    break;
+                    
+                case CompositorTypes.GAUSSIAN_BLUR:
+                    name = "Gaussian Blur";
+                    break; 
+                    
+                case CompositorTypes.BW:
+                    name = "B&W";
+                    break;   
+                    
+                   
             }
             if (CompositorManager.Singleton.ResourceExists(name))
             {
@@ -1168,17 +1187,45 @@ namespace Wof.Controller
         public void AddCompositors()
         {
             CompositorInstance instance;
-            CompositorManager.Singleton.RemoveAll(); // (viewport);
+           
+            //CompositorPtr ptr = CompositorManager.Singleton.GetByName("Old Movie");
+         
+            //CompositorManager.Singleton.ReloadAll();
+         
+            //CompositorManager.Singleton.RemoveCompositor(viewport, "Old Movie");
             instance = CompositorManager.Singleton.AddCompositor(viewport, "Old Movie");
             if (instance != null)
             {
                 CompositorManager.Singleton.SetCompositorEnabled(viewport, "Old Movie", false);
             }
 
+            
+           // CompositorManager.Singleton.RemoveCompositor(viewport, "Bloom");
             instance = CompositorManager.Singleton.AddCompositor(viewport, "Bloom");
             if (instance != null)
             {
                 CompositorManager.Singleton.SetCompositorEnabled(viewport, "Bloom", false);
+            }
+           
+            
+           // CompositorManager.Singleton.RemoveCompositor(viewport, "B&W");
+            instance = CompositorManager.Singleton.AddCompositor(viewport, "B&W");
+            if (instance != null)
+            {
+                CompositorManager.Singleton.SetCompositorEnabled(viewport, "B&W", false);
+            }
+            
+            
+            instance = CompositorManager.Singleton.AddCompositor(viewport, "Gaussian Blur");
+            if (instance != null)
+            {
+                CompositorManager.Singleton.SetCompositorEnabled(viewport, "Gaussian Blur", false);
+            }
+            
+             instance = CompositorManager.Singleton.AddCompositor(viewport, "Motion Blur");
+            if (instance != null)
+            {
+                CompositorManager.Singleton.SetCompositorEnabled(viewport, "Motion Blur", false);
             }
         }
     }
