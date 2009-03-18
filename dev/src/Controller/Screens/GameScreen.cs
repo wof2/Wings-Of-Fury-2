@@ -901,7 +901,7 @@ namespace Wof.Controller.Screens
                             	if(EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierNormal)
                             	{
                             		
-                            		 this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.BW, true);
+                            		 this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.MOTION_BLUR, true);
                             	}
                             	if (gameMessages.IsMessageQueueEmpty()) gameMessages.AppendMessage("Bullet-time mode!"); //TODO: translation
                             	EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierSlow;
@@ -912,7 +912,7 @@ namespace Wof.Controller.Screens
                             {
                             	if(EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierSlow)
                             	{
-                                    this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.BW, false);
+                                    this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.MOTION_BLUR, false);
                             	}
                             	EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierNormal;
                             }

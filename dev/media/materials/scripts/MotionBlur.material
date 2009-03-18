@@ -6,7 +6,7 @@ fragment_program Ogre/Compositor/Combine_fp cg
 
 	default_params
 	{
-		param_named blur float 0.8
+		param_named blur float 0.85
 	}
 }
 

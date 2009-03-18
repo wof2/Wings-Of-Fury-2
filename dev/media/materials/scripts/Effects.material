@@ -246,7 +246,7 @@ material Effects/Blood : NoFog
 
 
 
-/* no need for inheritance - alpha_blend can be used with fog */
+/ no need for inheritance - alpha_blend can be used with fog
 material Effects/Debris
 {
 
@@ -450,7 +450,7 @@ material Effects/Cloud2
 	
 }
 
-material Effects/Fire : Effect
+material Effects/Fire
 {
 
 	technique
@@ -493,7 +493,7 @@ material Effects/Fire : Effect
 
 
 
-material Effects/Seagull : Effect
+material Effects/Seagull
 {
 
 	technique

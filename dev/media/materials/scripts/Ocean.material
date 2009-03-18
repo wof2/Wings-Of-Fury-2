@@ -304,7 +304,7 @@ material Ocean2_HLSL_GLSL
 	{
 		pass
 		{
-			/*fog_override true exp 0.8 0.8 0.8 0.002 500 10000*/
+			//fog_override true exp 0.8 0.8 0.8 0.002 500 10000
 			vertex_program_ref HLSL/Ocean2VS
 			{
 				param_named BumpScale float 0.02
