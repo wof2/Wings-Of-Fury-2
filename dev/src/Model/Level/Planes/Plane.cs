@@ -2225,9 +2225,15 @@ namespace Wof.Model.Level.Planes
             if (isEngineKeyPressed)
             {
                 if (!IsEngineWorking)
-                    TryToStartEngine(time);
+                {
+                	 TryToStartEngine(time);
+                }
                 else
-                    TryToStopEngine(scaleFactor);
+                if(locationState != LocationState.AirTurningRound) // sa problemy przy rownoczesnym zawracaniu i wylaczaniu silnika
+                {
+                	TryToStopEngine(scaleFactor);
+                }
+                    
             }
             else
                 ResetEngineParameters();
