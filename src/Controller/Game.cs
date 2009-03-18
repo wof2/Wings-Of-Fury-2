@@ -126,6 +126,7 @@ namespace Wof.Controller
         /// <returns></returns>
         public override bool FrameStarted(FrameEvent evt)
         {
+
         	evt.timeSinceLastFrame *= EngineConfig.CurrentGameSpeedMultiplier;
             time += evt.timeSinceLastFrame;
 

@@ -1187,6 +1187,85 @@ namespace Wof.Controller
             }
         }
 
+        private void CreateMotionBlurCompositor(Viewport viewport)
+        {
+            CompositorPtr comp3 = CompositorManager.Singleton.Create("Motion Blur", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+            {
+                CompositionTechnique t = comp3.CreateTechnique();
+                {
+                    CompositionTechnique.TextureDefinition_NativePtr def = t.CreateTextureDefinition("scene");
+                    def.width = 0;
+                    def.height = 0;
+                    def.format = PixelFormat.PF_R8G8B8;
+                }
+                {
+                    CompositionTechnique.TextureDefinition_NativePtr def = t.CreateTextureDefinition("sum");
+                    def.width = 0;
+                    def.height = 0;
+                    def.format = PixelFormat.PF_R8G8B8;
+                }
+                {
+                    CompositionTechnique.TextureDefinition_NativePtr def = t.CreateTextureDefinition("temp");
+                    def.width = 0;
+                    def.height = 0;
+                    def.format = PixelFormat.PF_R8G8B8;
+                }
+                /// Render scene
+                {
+                    CompositionTargetPass tp = t.CreateTargetPass();
+                    tp.SetInputMode(CompositionTargetPass.InputMode.IM_PREVIOUS);
+                    tp.OutputName = "scene";
+                }
+                /// Initialisation pass for sum texture
+                {
+                    CompositionTargetPass tp = t.CreateTargetPass();
+                    tp.SetInputMode(CompositionTargetPass.InputMode.IM_PREVIOUS);
+                    tp.OutputName = "sum";
+                    tp.OnlyInitial = true;
+                }
+                /// Do the motion blur
+                {
+                    CompositionTargetPass tp = t.CreateTargetPass();
+                    tp.SetInputMode(CompositionTargetPass.InputMode.IM_NONE);
+                    tp.OutputName = "temp";
+                    {
+                        CompositionPass pass = tp.CreatePass();
+                        pass.Type = CompositionPass.PassType.PT_RENDERQUAD;
+                        pass.SetMaterialName("Ogre/Compositor/Combine");
+                        pass.SetInput(0, "scene");
+                        pass.SetInput(1, "sum");
+
+                    }
+                }
+                /// Copy back sum texture
+                {
+                    CompositionTargetPass tp = t.CreateTargetPass();
+                    tp.SetInputMode(CompositionTargetPass.InputMode.IM_NONE);
+                    tp.OutputName = "sum";
+                    {
+                        CompositionPass pass = tp.CreatePass();
+                        pass.Type = CompositionPass.PassType.PT_RENDERQUAD;
+                        pass.SetMaterialName("Ogre/Compositor/Copyback");
+                        pass.SetInput(0, "temp");
+
+                    }
+                }
+                /// Display result
+                {
+
+                    CompositionTargetPass tp = t.OutputTargetPass;
+                    tp.SetInputMode(CompositionTargetPass.InputMode.IM_NONE);
+                    {
+                        CompositionPass pass = tp.CreatePass();
+                        pass.Type = CompositionPass.PassType.PT_RENDERQUAD;
+                        pass.SetMaterialName("Ogre/Compositor/MotionBlur");
+                        pass.SetInput(0, "sum");
+
+                    }
+                }
+
+            }
+        }
         public void AddCompositors()
         {
             CompositorInstance instance;
@@ -1220,6 +1299,22 @@ namespace Wof.Controller
                 CompositorManager.Singleton.SetCompositorEnabled(viewport, "Gaussian Blur", false);
             }
             
+           /* instance = CompositorManager.Singleton.AddCompositor(viewport, "Motion Blur");
+            if (instance != null)
+            {
+                CompositorManager.Singleton.SetCompositorEnabled(viewport, "Motion Blur", false);
+            }*/
+
+          
+            // COMPOSITOR
+            /// Motion blur effect
+            if(!CompositorManager.Singleton.ResourceExists("Motion Blur"))
+            {
+                CreateMotionBlurCompositor(viewport);
+            }
+            
+       
+
             instance = CompositorManager.Singleton.AddCompositor(viewport, "Motion Blur");
             if (instance != null)
             {

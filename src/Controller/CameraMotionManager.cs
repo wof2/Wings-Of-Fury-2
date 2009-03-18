@@ -119,7 +119,7 @@ namespace Wof.Controller
             else if (camAlt > 10)
             {
                 // powrot w ozi Y
-                if (c.Position.y > 0.01f)
+                if (c.Position.y > 0.01f && EngineConfig.CurrentGameSpeedMultiplier != EngineConfig.GameSpeedMultiplierSlow)
                 {
                     translateVector.y = -(c.Position.y)/10.0f;
                 }
@@ -157,7 +157,7 @@ namespace Wof.Controller
 
 
             // ruch kamery w zaleznosci od wysokosci
-            if (c.WorldPosition.y >= realHalfMaxHeight)
+            if (c.WorldPosition.y >= realHalfMaxHeight && EngineConfig.CurrentGameSpeedMultiplier != EngineConfig.GameSpeedMultiplierSlow)
             {
                 translateVector.y -= (camAlt - realHalfMaxHeight);
             }
@@ -168,6 +168,8 @@ namespace Wof.Controller
                     translateVector.y -= c.Position.y;
                 }
             }
+
+            
 
             // ograniczenia awaryjne  
            // translateVector.z += manualZoom;
