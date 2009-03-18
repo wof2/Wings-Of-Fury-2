@@ -223,7 +223,6 @@ namespace Wof.Controller
             TextureManager.Singleton.UnloadAll();
             MaterialManager.Singleton.UnloadAll();
             CompositorManager.Singleton.RemoveAll();
-           // CompositorManager.Singleton.
             CompositorManager.Singleton.UnloadAll();
             MeshManager.Singleton.UnloadAll();
             FontManager.Singleton.UnloadAll();

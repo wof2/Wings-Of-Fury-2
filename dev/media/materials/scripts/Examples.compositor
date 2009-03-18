@@ -549,7 +549,7 @@ compositor HDR
 
 
 // Gaussian blur effect
-compositor Gaussian Blur
+compositor "Gaussian Blur"
 {
     technique
     {

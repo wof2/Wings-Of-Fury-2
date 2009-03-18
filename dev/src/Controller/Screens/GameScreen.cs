@@ -471,8 +471,8 @@ namespace Wof.Controller.Screens
             TextureManager.Singleton.UnloadAll();
             MaterialManager.Singleton.UnloadAll();
             MeshManager.Singleton.UnloadAll();
-
-
+            CompositorManager.Singleton.RemoveAll();
+            CompositorManager.Singleton.UnloadAll();
             try
             {
                 if (mGui != null)
@@ -901,7 +901,7 @@ namespace Wof.Controller.Screens
                             	if(EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierNormal)
                             	{
                             		
-                            		 this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.BLOOM, true);
+                            		 this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.BW, true);
                             	}
                             	if (gameMessages.IsMessageQueueEmpty()) gameMessages.AppendMessage("Bullet-time mode!"); //TODO: translation
                             	EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierSlow;
@@ -912,7 +912,7 @@ namespace Wof.Controller.Screens
                             {
                             	if(EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierSlow)
                             	{
-                            		 this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.BLOOM, false);
+                                    this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.BW, false);
                             	}
                             	EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierNormal;
                             }
