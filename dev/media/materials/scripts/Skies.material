@@ -1,4 +1,4 @@
-material Skybox/Morning
+material Skybox/Morning : NoFog
 {
 	technique
 	{
@@ -16,7 +16,7 @@ material Skybox/Morning
 	}
 }
 
-material Skyplane/Morning
+material Skyplane/Morning : NoFog
 {
 	technique
 	{
@@ -33,7 +33,7 @@ material Skyplane/Morning
 	}
 }
 
-material Skybox/Noon
+material Skybox/Noon : NoFog
 {
 	technique
 	{
@@ -51,7 +51,7 @@ material Skybox/Noon
 	}
 }
 
-material Skyplane/Noon
+material Skyplane/Noon : NoFog
 {
 	technique
 	{
@@ -107,7 +107,7 @@ material Skyplane/Foggy
 
 
 
-material Skybox/Night
+material Skybox/Night : NoFog
 {
 	technique
 	{
@@ -127,7 +127,7 @@ material Skybox/Night
 }
 
 
-material Skyplane/Night
+material Skyplane/Night : NoFog
 {
 	technique
 	{

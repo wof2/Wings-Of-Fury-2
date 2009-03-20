@@ -1830,7 +1830,7 @@ namespace Wof.View
             else
             {
               //  sceneMgr.SetFog(FogMode.FOG_LINEAR, new ColourValue(0.9f, 0.9f, 0.9f), 0.0f, 100, 20000);
-                sceneMgr.SetFog(FogMode.FOG_EXP, new ColourValue(0.9f, 0.9f, 0.9f), 0.00012f, 0, 0);
+                sceneMgr.SetFog(FogMode.FOG_EXP, new ColourValue(0.9f, 0.9f, 0.9f), 0.001f, 0, 0);
             }
 
          
