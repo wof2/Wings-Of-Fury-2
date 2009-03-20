@@ -456,9 +456,11 @@ namespace Wof.Model.Level
 
                 }
             }
-            else
+           
+            // koniec misji typu dogifght
+            if(enemyPlanesLeft == 0 && this.MissionType == MissionType.Dogfight)
             {
-                if (!onReadyLevelEndLaunched && this.MissionType == MissionType.Dogfight)
+                if (!onReadyLevelEndLaunched )
                 {
                     onReadyLevelEndLaunched = true;
                     controller.OnReadyLevelEnd();
