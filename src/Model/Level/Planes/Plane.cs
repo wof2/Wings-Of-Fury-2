@@ -1414,9 +1414,8 @@ namespace Wof.Model.Level.Planes
             	if(info.EngineState == EngineState.Working)
             	{
             		StartEngine();
-                    // TODO: dzwiek silnika
-                    // cos tu nie dzia³a jak nalezy ...
-                    //if(!isEnemy && level != null && level.Controller != null) level.Controller.OnTurnOnEngine(false); // already flying - no sound
+                    // dzwiek silnika nie moze byc odpalony z tego miejsca. Jestesmy w innym watku...
+                   
             	}
             
                 movementVector = new PointD((float) direction*Speed, 0);

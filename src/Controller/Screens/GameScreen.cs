@@ -1032,6 +1032,12 @@ namespace Wof.Controller.Screens
 
                             FreeSplashScreens();
                             SoundManager.Instance.LoopOceanSound();
+                            if(currentLevel.UserPlane.IsEngineWorking) 
+                            { 
+                            	 OnTurnOnEngine(false);
+                            	
+                            }
+                           
                         }
                     }
                 }
@@ -1625,6 +1631,7 @@ namespace Wof.Controller.Screens
                 SoundManager.Instance.PlayStartEngineSound(startEngineSound_Ending);
             } else
             {
+            	
                 startEngineSound_Ending(this, null); // this will loop regular engine sound
             }
             
@@ -1642,8 +1649,11 @@ namespace Wof.Controller.Screens
         {
             if (mayPlaySound)
             {
-                SoundManager.Instance.SetEngineFrequency(10000);
-
+            	if(currentLevel.UserPlane != null)
+            	{
+            		SoundManager.Instance.SetEngineFrequency((int) currentLevel.UserPlane.AirscrewSpeed*7);
+            	}
+               
                 if (!isGamePaused && !changingAmmo)
                 {
                     SoundManager.Instance.LoopEngineSound();
