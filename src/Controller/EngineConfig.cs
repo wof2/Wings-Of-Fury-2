@@ -80,7 +80,7 @@ namespace Wof.Controller
         
         public static readonly bool DisplayAxes = false;
 
-        public static readonly bool DisplayBoundingQuadrangles = false;
+        public static readonly bool DisplayBoundingQuadrangles = true;
 
         public static readonly bool AutoEncodeXMLs = true;
 
@@ -93,15 +93,16 @@ namespace Wof.Controller
         public static bool ManualCamera = false;
 
         public static bool BloomEnabled = false;
-        
-        
+       
+        public const float GameSpeedMultiplierSlow = 0.5f;
+ 		public const float GameSpeedMultiplierNormal = 1.0f;
+ 		
         /// <summary>
         /// Do efektu bullet-time
         /// </summary>
         public static float CurrentGameSpeedMultiplier = GameSpeedMultiplierNormal;
 
-        public static readonly float GameSpeedMultiplierSlow = 0.5f;
- 		public static readonly float GameSpeedMultiplierNormal = 1.0f;
+   
 
 
         // TO DO
