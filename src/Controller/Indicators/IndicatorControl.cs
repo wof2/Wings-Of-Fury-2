@@ -346,12 +346,22 @@ namespace Wof.Controller.Screens
             ammoContainer = (OverlayContainer) OverlayManager.Singleton.CreateOverlayElement(
                                                    "Panel", "ammoContainer " + DateTime.Now.Ticks);
 
-            ConfigureElement(ammoElement, minimapViewport.ActualWidth, minimapViewport.ActualHeight,
-                             gameScreen.CurrentLevel.UserPlane.Weapon.SelectWeapon == WeaponType.Bomb
-                                 ?
-                                     gameScreen.CurrentLevel.UserPlane.Weapon.BombCount.ToString()
-                                 :
-                                     gameScreen.CurrentLevel.UserPlane.Weapon.RocketCount.ToString());
+        	
+        	int count = 0;
+        	switch(gameScreen.CurrentLevel.UserPlane.Weapon.SelectWeapon)
+        	{
+        		case WeaponType.Bomb:
+        			count = gameScreen.CurrentLevel.UserPlane.Weapon.BombCount;
+        			break;
+        		case WeaponType.Rocket:
+        			count = gameScreen.CurrentLevel.UserPlane.Weapon.RocketCount;
+        			break;
+        		case WeaponType.Torpedo:
+        			count = gameScreen.CurrentLevel.UserPlane.Weapon.TorpedoCount;
+        			break;
+        			
+        	}
+        	ConfigureElement(ammoElement, minimapViewport.ActualWidth, minimapViewport.ActualHeight,count.ToString());
 
             ConfigureContainer(ammoContainer, ammoElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
@@ -380,6 +390,11 @@ namespace Wof.Controller.Screens
                                viewport.ActualHeight - minimapViewport.ActualHeight +
                                CountProportion(minimapViewport.ActualHeight,
                                                84, 43));
+            if(gameScreen.CurrentLevel != null && gameScreen.CurrentLevel.UserPlane != null && gameScreen.CurrentLevel.UserPlane.Weapon != null)
+            {
+            	 ChangeAmmoType(gameScreen.CurrentLevel.UserPlane.Weapon.SelectWeapon);
+            }
+           
         }
 
 
