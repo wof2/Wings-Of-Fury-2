@@ -52,7 +52,7 @@ using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
-using Wof.Model.Level.Troops;
+using Wof.Model.Level.Infantry;
 using Wof.Model.Level.Weapon;
 
 namespace Wof.Model.Level.Common

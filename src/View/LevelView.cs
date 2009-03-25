@@ -61,7 +61,7 @@ using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
-using Wof.Model.Level.Troops;
+using Wof.Model.Level.Infantry;
 using Wof.Model.Level.Weapon;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;

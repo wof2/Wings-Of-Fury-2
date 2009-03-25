@@ -49,7 +49,7 @@
 using System;
 using System.Collections.Generic;
 using Wof.Model.Level;
-using Wof.Model.Level.Troops;
+using Wof.Model.Level.Infantry;
 
 namespace Wof.Tests
 {
