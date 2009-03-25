@@ -1894,8 +1894,17 @@ namespace Wof.Controller.Screens
         public void OnReadyLevelEnd()
         {
             readyForLevelEnd = true;
-            string message =
-                LanguageResources.GetString(LanguageKey.AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX);
+
+            string message = "";
+
+            if (currentLevel.MissionType == MissionType.BombingRun)
+            {
+                message = LanguageResources.GetString(LanguageKey.AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX);
+            }
+            else if (currentLevel.MissionType == MissionType.Dogfight)
+            {
+                message = LanguageResources.GetString(LanguageKey.AllEnemyPlanesDestroyedLandOnCarrierAndPressX);
+            }
             gameMessages.AppendMessage(message);
 
             SoundManager.Instance.PlayFanfare();

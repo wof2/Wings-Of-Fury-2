@@ -402,7 +402,10 @@
   <data name="Torpedoes">
     <value>Torpedoes</value>
   </data>
-
-
+  
+  <!-- added 25.03.2009 -->
+  <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
+    <value>All enemy planes destroyed, land on carrier and press X</value>
+  </data>
 
 </root>

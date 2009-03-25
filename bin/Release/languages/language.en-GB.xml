@@ -142,7 +142,8 @@
     <value>Adding compositors</value>
   </data>
   <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
-    <value>All enemy soldiers eliminated, land on the carrier and press X</value>
+    <!--<value>All enemy soldiers eliminated, land on the carrier and press X</value>-->
+    <value>All enemy soldiers eliminated, land on carrier and press X</value>
   </data>
   <data name="AverageFPS">
     <value>Average FPS</value>
@@ -188,10 +189,12 @@
     <value>Inverse keys</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
-    <value>Land on the carrier and press 'X' to refuel</value>
+    <!--<value>Land on the carrier and press 'X' to refuel</value>-->
+    <value>Land on carrier and press 'X' to refuel</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRepair">
-    <value>Land on the carrier and press 'X' to repair</value>
+    <!--<value>Land on the carrier and press 'X' to repair</value>-->
+    <value>Land on carrier and press 'X' to repair</value>
   </data>
   <!-- low difficulty / details -->
   <data name="Low">
@@ -407,7 +410,10 @@
     <value>Torpedoes</value>
   </data>
 
-
+ <!-- added 25.03.2009 -->
+  <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
+    <value>All enemy planes destroyed, land on carrier and press X</value>
+  </data>
 
 </root>
 
