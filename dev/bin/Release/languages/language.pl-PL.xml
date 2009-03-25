@@ -401,6 +401,11 @@
   <data name="Torpedoes">
     <value>Torpedy</value>
   </data>
+  
+  <!-- added 25.03.2009 -->
+  <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
+    <value>Wszystkie samoloty wroga zniszczone, wyląduj na lotniskowcu i wciśnij X</value>
+  </data>
 
 
 
