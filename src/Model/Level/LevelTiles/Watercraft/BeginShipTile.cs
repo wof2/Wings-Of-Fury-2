@@ -48,6 +48,9 @@
 
 using System.Collections.Generic;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.LevelTiles.Watercraft;
+using Wof.Model.Level.LevelTiles.Watercraft.ShipManagers;
+using System;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft
 {
@@ -58,29 +61,37 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
     {
         #region Public Constructor
 
+        public BeginShipTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int type, List<Quadrangle> collisionRectangles, bool traversable, TypeOfEnemyShip typeOfEnemyShip)
+            : base(yBegin, yEnd, viewXShift, hitBound, type, collisionRectangles, traversable)
+        {
+            if (typeOfEnemyShip == TypeOfEnemyShip.PatrolBoat)
+                ShipOwner = new PatrolBoatManager(typeOfEnemyShip);
+            else if (typeOfEnemyShip == TypeOfEnemyShip.WarShip)
+                ShipOwner = new WarShipManager(typeOfEnemyShip);
+            else
+                throw new ArgumentException("Nie dozwolona wartosc dla parametru", "typeOfEnemyShip");
+            ShipOwner.AddShipTile(this);
+        }
 
         #endregion
 
-        public BeginShipTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int type, List<Quadrangle> collisionRectangles, bool traversable)
-            : base(yBegin, yEnd, viewXShift, hitBound, type, collisionRectangles, traversable)
-        {
-        }
+        #region Properties
 
         public override int TileIndex
         {
             set
             {
                 base.TileIndex = value;
-             //   HitBound.Peaks[1].X += 0;
-             //   HitBound.Peaks[0].X += 1;
+                //   HitBound.Peaks[1].X += 0;
+                //   HitBound.Peaks[0].X += 1;
             }
         }
 
+        #endregion
+
         public override void Destroy()
         {
-            
             base.Destroy();
-
             // destroy other ship tiles
             int i = this.TileIndex;
             while (true)
@@ -94,12 +105,6 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
                 if (!DestroyAndSinkShipElement(refToLevel.LevelTiles[i])) break;
 
             }
-
-           
-
-
         }
-
-
     }
 }

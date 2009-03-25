@@ -1755,8 +1755,10 @@ namespace Wof.Controller.Screens
           //  tile = null;
         }
 
-
-
+        public void OnNextLevelOfShipDemage(ShipTile tile, ShipState state)
+        {
+            //TODO: Zaimplementujcie metode !
+        }
 
         public void OnTileDestroyed(LevelTile tile, Ammunition ammunition)
         {
@@ -2100,8 +2102,6 @@ namespace Wof.Controller.Screens
         {
             SoundManager.Instance.PlayIncorrectStart();
         }
-
-       
 
         #endregion
     }

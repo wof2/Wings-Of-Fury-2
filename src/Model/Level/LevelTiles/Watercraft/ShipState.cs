@@ -47,30 +47,36 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft
 {
     /// <summary>
-    /// Enum mowiacy o tym czy dana instalacja obronna jest obecnie 
-    /// zniszczona czy tez czynna.
+    /// Definiuje typy zniszczenia elementow statku.
     /// </summary>
-    public enum ShipState
+    /// <remarks>Niech nikt nie zmienia kolejnosci w tym enumie !
+    /// Aktualna kolejnosc jest bardzo wazna.
+    /// </remarks>
+    /// <author>Michal Ziober</author>
+    public enum ShipState : byte
     {
         /// <summary>
-        /// Instalacja jest zniszczona.
+        /// Element statku nie jest zniszczony.
         /// </summary>
-        Destroyed,
+        Intact = 0,
 
         /// <summary>
-        /// Instalacja nie jest zniszczona.
+        /// Lekkie uszkodzenie elementu statku.
         /// </summary>
-        Intact,
+        LightDamaged = 1,
 
         /// <summary>
-        /// Stan nie znany.
+        /// Ciezkie uszkodzenie elementu statku.
         /// </summary>
-        None
+        HeavyDamage = 2,
+
+        /// <summary>
+        /// Element statku jest zniszczony.
+        /// </summary>
+        Destroyed = 3
     }
 }

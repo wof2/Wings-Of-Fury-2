@@ -476,6 +476,8 @@ namespace Wof.Model.Level.XmlParser
             int width = -1;
             int variation = 0;
             bool traversable = true;
+            //domyslny typ statku
+            TypeOfEnemyShip typeOfEnemyShip = TypeOfEnemyShip.PatrolBoat;
             if (reader.HasAttributes) //Read attributes
             {
                 for (int i = 0; i < reader.AttributeCount; i++)
@@ -514,6 +516,17 @@ namespace Wof.Model.Level.XmlParser
                             return false;
                         }
                     }
+                    else if (reader.Name.Equals(Attributes.Type))
+                    {
+                        try
+                        {
+                            typeOfEnemyShip = (TypeOfEnemyShip)Enum.Parse(typeof(TypeOfEnemyShip), reader.Value, true);
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
                 }
             }
             else return false;
@@ -532,7 +545,7 @@ namespace Wof.Model.Level.XmlParser
                                                           node.HitRectangle, variation, node.CollisionRectangle, traversable);
                 else if (fullName.EndsWith(ShipElement.Begin))
                     pb = new BeginShipTile(node.YStart, node.YEnd, node.ViewXShift,
-                                                            node.HitRectangle, variation, node.CollisionRectangle, traversable);
+                                                            node.HitRectangle, variation, node.CollisionRectangle, traversable, typeOfEnemyShip);
                 else if (fullName.EndsWith(ShipElement.Middle))
                     pb = new MiddleShipTile(node.YStart, node.YEnd, node.ViewXShift, node.HitRectangle, variation, node.CollisionRectangle, traversable);
                
@@ -927,16 +940,13 @@ namespace Wof.Model.Level.XmlParser
         {
             get { return missionType; }
         }
-        
-        
 
         public int EnemyPlanes
         {
             get { return enemyPlanes; }
             set { enemyPlanes = value; }
         }
-        
-        
+
         public int TimeToFirstEnemyPlane
         {
             get { return timeToFirstEnemyPlane; }

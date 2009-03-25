@@ -827,6 +827,34 @@ namespace Wof.Model.Level
         #region Private Methods
 
         /// <summary>
+        /// Aktualizuje dane dla wszystkich wrogich statkow na planszy.
+        /// </summary>
+        private void UpdateEnemyShipInformation()
+        {
+            for (int i = 0; i < LevelTiles.Count; i++)
+            {   //jesli jest to poczatek wrogiego statku.
+                if (LevelTiles[i] is BeginShipTile)
+                {   //zapamietujemy poczatek statku
+                    BeginShipTile bst = LevelTiles[i] as BeginShipTile;
+                    bst.ShipOwner.LevelProperties = this;
+                    do
+                    {
+                        i++;
+                        //TODO: dlaczego nie wszystkie elementy statku dziedzicza po klasie ShipTile !!!
+                        //Nalezy to zmienic, bo nic z tego nie bedzie !!!
+                        if (LevelTiles[i] is ShipTile)
+                        {
+                            ShipTile st = LevelTiles[i] as ShipTile;
+                            st.ShipOwner = bst.ShipOwner;//przepisuje referencje na managera statku.
+                            bst.ShipOwner.AddShipTile(st);//dodaje ten element na liste managera statku.
+                        }
+                    } while (!(LevelTiles[i] is EndShipTile));
+                    //dopoki nie doszlismy do konca statku.
+                }
+            }
+        }
+
+        /// <summary>
         /// Rejestruje nowy pocisk na planszy.
         /// </summary>
         /// <param name="ammunition">Pocisk do zarejestrowania.</param>
@@ -941,6 +969,7 @@ namespace Wof.Model.Level
                     }
                 }
             }
+            UpdateEnemyShipInformation();
         }
 
         /// <summary>
