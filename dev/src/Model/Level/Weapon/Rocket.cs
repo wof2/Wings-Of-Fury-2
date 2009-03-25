@@ -49,14 +49,16 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
-using Wof.Model.Level.Planes;
-using Plane=Wof.Model.Level.Planes.Plane;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
-using Math=Mogre.Math;
+using Wof.Model.Level.LevelTiles.Watercraft;
+using Wof.Model.Level.Planes;
+using Math = Mogre.Math;
+using Plane = Wof.Model.Level.Planes.Plane;
 
 namespace Wof.Model.Level.Weapon
 {
@@ -408,40 +410,59 @@ namespace Wof.Model.Level.Weapon
         private void CheckCollisionWithGround()
         {
             int index = Mathematics.PositionToIndex(Position.X);
+            LevelTile tile;
             if (index > -1 && index < refToLevel.LevelTiles.Count)
             {
-                //jesli nie ma kolizji z zadnym obiektem
-                if (!refToLevel.LevelTiles[index].InCollision(this.boundRectangle.Center))
-                    return;
+            	tile = refToLevel.LevelTiles[index];
+            	if (tile is ShipTile)
+            	{
+            		//boundRectangle.Intersects(
+            	}
+            	//CollisionType c = CollisionType.None;
+            	CollisionType c = tile.InCollision(this.boundRectangle);
+            	if (c == CollisionType.None) return;
+            	    
+            	    
+             
                 //jesli nie da sie zniszczyc dany obiekt rakieta.
-                if (IsBombed(index))
-                    refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
-                else if (refToLevel.LevelTiles[index] is BarrelTile)
+                if(c == CollisionType.Hitbound || c == CollisionType.CollisionRectagle)
                 {
-                    BarrelTile destroyTile = refToLevel.LevelTiles[index] as BarrelTile;
-                    if (!destroyTile.IsDestroyed)
-                    {
-                        destroyTile.Destroy();
-                        refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                        refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 2);
-                    }
-                }
-                else
+                	if (CanBeDestroyed(index)) 
+                	{
+                		 refToLevel.Controller.OnTileBombed(tile, this);
+                	}
+	                else if (tile is BarrelTile)
+	                {
+	                    BarrelTile destroyTile = tile as BarrelTile;
+	                    if (!destroyTile.IsDestroyed)
+	                    {
+	                        destroyTile.Destroy();
+	                        refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+	                        refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 2);
+	                    }
+	                }
+	                else
+	                {
+	                    EnemyInstallationTile enemyTale = null;
+	                    LevelTile destroyTile = tile;
+	                    if (destroyTile is EnemyInstallationTile)
+	                    {
+	                        if ((enemyTale = destroyTile as EnemyInstallationTile) != null && !enemyTale.IsDestroyed)
+	                        {
+	                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+	                            refToLevel.Statistics.HitByRocket++;
+	                            enemyTale.Destroy();
+	                        }
+	                        else
+	                            refToLevel.Controller.OnTileBombed(tile, this);
+	                    }
+	                }
+                	
+                } else if(c == CollisionType.Altitude) 
                 {
-                    EnemyInstallationTile enemyTale = null;
-                    LevelTile destroyTile = refToLevel.LevelTiles[index];
-                    if (destroyTile is EnemyInstallationTile)
-                    {
-                        if ((enemyTale = destroyTile as EnemyInstallationTile) != null && !enemyTale.IsDestroyed)
-                        {
-                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                            refToLevel.Statistics.HitByRocket++;
-                            enemyTale.Destroy();
-                        }
-                        else
-                            refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
-                    }
+                	refToLevel.Controller.OnTileBombed(tile, this);
                 }
+              
 
                 //zabija zolnierzy, ktorzy sa w zasiegu.
                 refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 1);
@@ -458,7 +479,7 @@ namespace Wof.Model.Level.Weapon
         /// <returns>Jesli dany obiekt da sie zniszczyc za pomoca rakiety zwroci true,
         /// false w przeciwnym przypadku.</returns>
         /// <author>Michal Ziober</author>
-        private bool IsBombed(int index)
+        private bool CanBeDestroyed(int index)
         {
             return !(refToLevel.LevelTiles[index] is EnemyInstallationTile) && !(refToLevel.LevelTiles[index] is BarrelTile);
         }

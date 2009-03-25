@@ -211,12 +211,15 @@ namespace Wof.Model.Level.Weapon
             if (index > -1 && index < refToLevel.LevelTiles.Count)
             {
                 //jeœli nie ma kolizji wyjdz.
-                if (!refToLevel.LevelTiles[index].InCollision(this.boundRectangle.Center))
+                CollisionType c = refToLevel.LevelTiles[index].InCollision(this.boundRectangle);
+                if (c == CollisionType.None)
                     return;
                 
                 //jesli nie da sie zniszczyc dany obiekt bomba.
                 if (!CanBeDestroyed(index))
-                    refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
+                {
+                	refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
+                }                    
                 else if (refToLevel.LevelTiles[index] is BarrelTile)
                 {
                     BarrelTile destroyTile = refToLevel.LevelTiles[index] as BarrelTile;
