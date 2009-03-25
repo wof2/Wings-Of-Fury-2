@@ -64,38 +64,7 @@ using Wof.Model.Level.XmlParser;
 using Wof.Statistics;
 
 namespace Wof.Model.Level
-{
-    public enum DayTime
-    {
-        Dawn,
-        Noon,
-        Foggy,
-        Night
-    } ;
-    
-    /// <summary>
-    /// Rodzaj misji
-    /// </summary>
-    /// <author>Adam Witczak</author>
-    public enum MissionType
-    {
-        /// <summary>
-        /// Zabiæ wszystkich ¿o³nierzy
-        /// </summary>
-    	BombingRun,
-
-        /// <summary>
-        /// Zabiæ genera³a
-        /// </summary>
-    	Assasination,
-    	
-        /// <summary>
-        /// zniszczyæ wszystkie samoloty
-        /// </summary>
-        Dogfight
-    }
-        
-
+{   
     /// <summary>
     /// Klasa reprezentujaca poziom gry.
     /// </summary>
@@ -167,8 +136,6 @@ namespace Wof.Model.Level
         /// </summary>
         private List<LevelTile> shipsList;
 
-        
-
         /// <summary>
         /// Lista wrogich jednostek na planszy.
         /// </summary>
@@ -225,10 +192,27 @@ namespace Wof.Model.Level
         /// </summary>
         private float currentTimeToNextEnemy;
 
+
         /// <summary>
-        /// Okreœla ile samolotów pozosta³o w danym levelu.
+        /// Okreœla ile samolotów pozosta³o w levelu.
         /// </summary>
-        private int enemyPlanesLeft;
+        /// 
+        public int EnemyPlanesLeft
+        {
+            get 
+            {
+                if (enemyPlanes != null)
+                    return (enemyPlanesPoolCount + enemyPlanes.Count);
+                else
+                    return enemyPlanesPoolCount;
+            }      
+        }
+
+        /// <summary>
+        /// Okreœla ile samolotów pozosta³o w puli danego levelu.
+        /// </summary>
+        /// 
+        private int enemyPlanesPoolCount;
 
         /// <summary>
         /// Statystyki poziomu
@@ -309,8 +293,8 @@ namespace Wof.Model.Level
             enemyPlanes = new List<Plane>();
             timeToFirstEnemyPlane = levelParser.TimeToFirstEnemyPlane;
             timeToNextEnemyPlane = levelParser.TimeToNextEnemyPlane;
-            
-            enemyPlanesLeft = levelParser.EnemyPlanes;
+
+            enemyPlanesPoolCount = levelParser.EnemyPlanes;
             currentTimeToNextEnemy = timeToFirstEnemyPlane;
 
             //dodane przez Tomka
@@ -376,7 +360,7 @@ namespace Wof.Model.Level
             currentTimeToNextEnemy = Math.Max(0, currentTimeToNextEnemy);
             if (currentTimeToNextEnemy == 0)
             {
-                if (enemyPlanesLeft > 0 && enemyPlanes.Count < GameConsts.EnemyPlane.MaxSimultaneousEnemyPlanes)
+                if (enemyPlanesPoolCount > 0 && enemyPlanes.Count < GameConsts.EnemyPlane.MaxSimultaneousEnemyPlanes)
                     //dodanie nowego samolotu
                 {
                     EnemyPlane enemyPlane = new EnemyPlane(this);
@@ -384,7 +368,7 @@ namespace Wof.Model.Level
                     enemyPlanes.Add(enemyPlane);
                     Controller.OnRegisterPlane(enemyPlane);
                     currentTimeToNextEnemy = timeToNextEnemyPlane; //odliczanie od pocz¹tku
-                    enemyPlanesLeft -= 1;
+                    enemyPlanesPoolCount -= 1;
                 }
                 else
                 {
@@ -458,7 +442,7 @@ namespace Wof.Model.Level
             }
            
             // koniec misji typu dogifght
-            if(enemyPlanesLeft == 0 && enemyPlanes.Count == 0 && this.MissionType == MissionType.Dogfight)
+            if (EnemyPlanesLeft == 0 && this.MissionType == MissionType.Dogfight)
             {
                 if (!onReadyLevelEndLaunched )
                 {
@@ -1265,8 +1249,6 @@ namespace Wof.Model.Level
         {
             get { return levelParser.DayTime; }
         }
-        
-        
         
         /// <summary>
         /// Rodzaj misji
