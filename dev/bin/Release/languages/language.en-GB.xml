@@ -414,7 +414,10 @@
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
     <value>All enemy planes destroyed, land on carrier and press X</value>
   </data>
-
+  
+  <data name="EnemyPlanesLeft">
+    <value>Enemy planes left</value>
+  </data>
 </root>
 
 

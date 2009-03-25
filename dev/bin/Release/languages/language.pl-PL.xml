@@ -407,6 +407,8 @@
     <value>Wszystkie samoloty wroga zniszczone, wyląduj na lotniskowcu i wciśnij X</value>
   </data>
 
-
+  <data name="EnemyPlanesLeft">
+    <value>Pozostało samolotów</value>
+  </data>
 
 </root>

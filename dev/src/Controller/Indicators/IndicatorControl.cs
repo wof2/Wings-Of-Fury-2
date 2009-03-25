@@ -54,6 +54,7 @@ using Wof.Misc;
 using Wof.Model.Level.Weapon;
 using FontManager=Wof.Languages.FontManager;
 using Plane=Wof.Model.Level.Planes.Plane;
+using Wof.Model.Level;
 
 namespace Wof.Controller.Screens
 {
@@ -277,14 +278,48 @@ namespace Wof.Controller.Screens
 
                 if (EngineConfig.DebugInfo)
                 {
-                    infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4} | {5}", LanguageResources.GetString(LanguageKey.Level),
-                        gameScreen.LevelNo, difficulty, LanguageResources.GetString(LanguageKey.EnemySoldiersLeft), gameScreen.CurrentLevel.SoldiersCount, gameScreen.Framework.UpdateStats());
+                    if (gameScreen.CurrentLevel.MissionType == MissionType.BombingRun)
+                    {
+                        infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4} | {5}",
+                        LanguageResources.GetString(LanguageKey.Level), 
+                        gameScreen.LevelNo,
+                        difficulty,
+                        LanguageResources.GetString(LanguageKey.EnemySoldiersLeft),
+                        gameScreen.CurrentLevel.SoldiersCount,
+                        gameScreen.Framework.UpdateStats());
+                    }
+                    else if (gameScreen.CurrentLevel.MissionType == MissionType.Dogfight)
+                    {
+                        infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4} | {5}",
+                        LanguageResources.GetString(LanguageKey.Level), 
+                        gameScreen.LevelNo,
+                        difficulty,
+                        LanguageResources.GetString(LanguageKey.EnemyPlanesLeft),
+                        gameScreen.CurrentLevel.EnemyPlanesLeft,
+                        gameScreen.Framework.UpdateStats());
+                    }
                 }
                 else
                 {
-                    infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4}", LanguageResources.GetString(LanguageKey.Level), gameScreen.LevelNo, difficulty, LanguageResources.GetString(LanguageKey.EnemySoldiersLeft), gameScreen.CurrentLevel.SoldiersCount);
+                    if (gameScreen.CurrentLevel.MissionType == MissionType.BombingRun)
+                    {
+                        infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4}",
+                        LanguageResources.GetString(LanguageKey.Level),
+                        gameScreen.LevelNo, 
+                        difficulty,
+                        LanguageResources.GetString(LanguageKey.EnemySoldiersLeft),
+                        gameScreen.CurrentLevel.SoldiersCount);
+                    }
+                    else if (gameScreen.CurrentLevel.MissionType == MissionType.Dogfight)
+                    {
+                        infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4}",
+                        LanguageResources.GetString(LanguageKey.Level),
+                        gameScreen.LevelNo, 
+                        difficulty,
+                        LanguageResources.GetString(LanguageKey.EnemyPlanesLeft),
+                        gameScreen.CurrentLevel.EnemyPlanesLeft);
+                    }
                 }
-
 
                 Plane p = gameScreen.CurrentLevel.UserPlane;
 
