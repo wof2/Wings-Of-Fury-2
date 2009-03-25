@@ -58,6 +58,14 @@ namespace Wof.Model.Level.LevelTiles
 {
 
     #region TileKind
+    
+    public enum CollisionType 
+    {
+    		CollisionRectagle,
+    		Altitude,
+    		Hitbound,
+    		None
+    }
 
     /// <summary>
     /// Rodzaj czesci planszy.
@@ -176,7 +184,7 @@ namespace Wof.Model.Level.LevelTiles
         /// <summary>
         /// Prostokat opisujacy obiekt.
         /// </summary>
-        private Quadrangle hitBound;
+        protected Quadrangle hitBound;
 
         /// <summary>
         /// Dodatkowa lista obiektow z ktorymi moga
@@ -452,25 +460,43 @@ namespace Wof.Model.Level.LevelTiles
 
         }
 
+        
 
-        /// <summary>
+         /// <summary>
         /// Funkcja sprawdza czy dany obiekt jest w kolizji
         /// z innym prostokatem:bomba, rakieta, etc
         /// </summary>
         /// <param name="quad">Prostokat z ktorym sprawdzamy kolizje.</param>
         /// <returns>Jesli kolizja wystapila choc z jednym elementem zwraca true;
         /// w przeciwnym przypadku zwraca false.</returns>
-        public virtual bool InCollision(Quadrangle quad)
+        public virtual CollisionType InCollision(Quadrangle quad)
         {
-            return (quad != null && hitBound != null && hitBound.Intersects(quad));      
+        
+        	if (quad == null) return CollisionType.None;
+        	if(this.InSimpleCollision(quad.Center)) {
+        		return CollisionType.Altitude;
+        	}
+        	
+        	if(hitBound != null && hitBound.Intersects(quad)) {
+        		return CollisionType.Hitbound;
+        	}
+           
+            List<Quadrangle> list = ColisionRectangles;
+            if(list != null) {
+            	for (int i = 0; i < list.Count; i++)
+	                if (list[i].Intersects(quad))
+	                    return CollisionType.CollisionRectagle;	
+            }
+           
+            return CollisionType.None;
         }
 
         /// <summary>
-        /// Funkcja sprawdza czy dany obiekt jest w kolizji z innym obiektem.
+        /// Funkcja sprawdza czy dany obiekt jest w kolizji z innym obiektem. Porównywana jest wy³¹cznie wysokoœæ (YBegin, YEnd)
         /// </summary>
         /// <param name="center">Punkt srodkowy obiektu z ktorym sprawdzamy kolizje.</param>
         /// <returns>Jesli punkt srodkowy obiektu jest ponizej linni powierzchni - kolizja nastapila.</returns>
-        public virtual bool InCollision(PointD center)
+        public virtual bool InSimpleCollision(PointD center)
         {
             return ((this.YBegin + this.YEnd) / 2.0f) >= center.Y;
         }
@@ -485,6 +511,9 @@ namespace Wof.Model.Level.LevelTiles
 
         #region IBoundingBoxes Members
 
+        /// <summary>
+        /// Lista collisionRectangles + hitBound
+        /// </summary>
         public List<Quadrangle> BoundingQuadrangles
         {
             get

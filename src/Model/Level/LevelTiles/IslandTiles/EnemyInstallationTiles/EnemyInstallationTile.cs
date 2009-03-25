@@ -159,22 +159,16 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 
         #region Public Method
 
-        /// <summary>
-        /// Funkcja sprawdza czy dany obiekt jest w kolizji
-        /// z innym prostokatem:bomba, rakieta, etc
-        /// </summary>
-        /// <param name="quad">Prostokat z ktorym sprawdzamy kolizje.</param>
-        /// <returns>Jesli kolizja wystapila choc z jednym elementem zwraca true;
-        /// w przeciwnym przypadku zwraca false.</returns>
-        public override bool InCollision(Quadrangle quad)
+       
+       /* public CollisionType InCollision(Quadrangle quad)
         {
             if (quad == null) return false;
             List<Quadrangle> list = BoundingQuadrangles;
             for (int i = 0; i < list.Count; i++)
                 if (list[i].Intersects(quad))
-                    return true;
+                    return CollisionType.;
             return false;
-        }
+        }*/
 
         /// <summary>
         /// Funkcja niszczy instalacje obronna.

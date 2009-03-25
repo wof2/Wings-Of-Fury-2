@@ -47,12 +47,16 @@
  */
 
 using System;
+using System.Text;
 using System.Diagnostics;
-using Wof.Model.Configuration;
+using System.Collections.Generic;
 using Wof.Model.Level.Common;
-using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
+using Wof.Model.Configuration;
+using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
+using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+using Wof.Model.Level.LevelTiles;
 
 namespace Wof.Model.Level.Weapon
 {
@@ -67,7 +71,7 @@ namespace Wof.Model.Level.Weapon
         /// Szerokosc prostokąta opisującego torpede.
         /// </summary>
         /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] 
         private const float TorpedoWidth = 2.5f;
 
         /// <summary>
@@ -112,12 +116,14 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         private bool mIsInWater;
 
+
         public bool IsInWater
         {
             get
             {
-                return mIsInWater;
+               return mIsInWater;
             }
+            
         }
 
         protected float dropAngle;
@@ -189,8 +195,8 @@ namespace Wof.Model.Level.Weapon
         /// <author>Michal Ziober</author>
         public override void Move(int time)
         {
-
-            //    if (!Unregister())
+           
+        //    if (!Unregister())
             {
                 if (this.mIsInWater)
                 {
@@ -236,7 +242,7 @@ namespace Wof.Model.Level.Weapon
 
             //wyliczam o ile przesunac bombe.
             PointD vector = new PointD(moveVector.X * coefficient, moveVector.Y * coefficient);
-
+            
             //przesuwam prostokat.
             base.boundRectangle.Move(vector);
 
@@ -247,7 +253,7 @@ namespace Wof.Model.Level.Weapon
                 int index = Mathematics.PositionToIndex(Center.X);
                 if (index > -1 && index < refToLevel.LevelTiles.Count)
                 {
-
+                   
                     refToLevel.Controller.OnTorpedoHitGroundOrWater(refToLevel.LevelTiles[index], this, boundRectangle.Center.X, boundRectangle.Center.Y);
                     if (dropHeight > maxDropHeight || refToLevel.LevelTiles[index] is ShipTile || refToLevel.LevelTiles[index] is ShipBunkerTile)
                     {
@@ -257,7 +263,7 @@ namespace Wof.Model.Level.Weapon
                 }
 
             }
-
+                
         }
 
         public void SinkTorpedo()
@@ -295,7 +301,7 @@ namespace Wof.Model.Level.Weapon
             }
 
 
-            if (damaged)
+            if(damaged)
             {
                 SinkTorpedo();
             }
@@ -311,12 +317,12 @@ namespace Wof.Model.Level.Weapon
                 vector.X += moveVector.X * 0.5f * time / 1000.0f;
             }
             waterTravelDistance += Math.Abs(vector.X);
-
+            
             //przesuwam prostokat.
             base.boundRectangle.Move(vector);
         }
 
-
+     
 
         /// <summary>
         /// Sprawdza kolizje torpedy z samolotem wroga. 
@@ -356,41 +362,39 @@ namespace Wof.Model.Level.Weapon
                 if (index > -1 && index < refToLevel.LevelTiles.Count)
                 {
                     //jesli nie ma kolizji z zadnym obiektem
-                    if (!refToLevel.LevelTiles[index].InCollision(this.boundRectangle.Center)) return;
-
+                    if (refToLevel.LevelTiles[index].InCollision(this.boundRectangle) == CollisionType.None) return;
+                    
                     //jesli nie da sie zniszczyc dany obiekt bomba.
                     if (this.IsInWater)
                     {
                         if (!CanBeDestroyed(index) && !(refToLevel.LevelTiles[index] is OceanTile))
                         {
                             refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
-                        }
-                        else
+                        } 
+                        else 
                         {
-
+                           
                             LevelTile destroyTile = refToLevel.LevelTiles[index];
                             if (destroyTile is BeginShipTile || destroyTile is EndShipTile)
                             {
-                                ShipTile st = destroyTile as ShipTile;
-                                if (!st.IsDestroyed && !st.IsSunkDown)
+                                if (!(destroyTile as ShipTile).IsDestroyed && !(destroyTile as ShipTile).IsSunkDown)
                                 {
-                                    if (st.ShipOwner.IsLastHit)//jesli mozemy zatopic okret
-                                        refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                                    st.ShipOwner.TorpedoHit();//trafiamy w okret torpeda
+                                    refToLevel.Controller.OnTileDestroyed(destroyTile, this);
                                     refToLevel.Statistics.HitByTorpedo++;
+                                    (destroyTile as ShipTile).Destroy();
                                     //refToLevel.KillVulnerableSoldiers(index, 6);
                                 }
                                 //niszcze bombe.
                                 state = MissileState.Destroyed;
 
                             }
-
-                        }
-
-
+                                
+                         }
+                              
+                           
                     }
 
-
+                  
                 }
             }
         }
@@ -420,7 +424,7 @@ namespace Wof.Model.Level.Weapon
             if (!(ammunitionOwner is EnemyPlane))
             {
                 if ((System.Math.Abs(Center.X - refToLevel.UserPlane.Center.X) > MaxDistanceToPlane) ||
-                    ((System.Math.Abs(Center.Y - refToLevel.UserPlane.Center.Y) > MaxHeightDistanceToPlane)
+                    ((System.Math.Abs(Center.Y - refToLevel.UserPlane.Center.Y) > MaxHeightDistanceToPlane) 
                      ))
                 {
                     refToLevel.Controller.OnUnregisterTorpedo(this);

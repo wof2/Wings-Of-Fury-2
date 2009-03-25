@@ -109,13 +109,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects
             this.mIsDestroyed = true;
         }
 
-        /// <summary>
-        /// Funkcja sprawdza czy dany obiekt jest w kolizji
-        /// z innym prostokatem:bomba, rakieta, etc
-        /// </summary>
-        /// <param name="quad">Prostokat z ktorym sprawdzamy kolizje.</param>
-        /// <returns>Jesli kolizja wystapila choc z jednym elementem zwraca true;
-        /// w przeciwnym przypadku zwraca false.</returns>
+      /*
         public override bool InCollision(Quadrangle quad)
         {
             if (quad == null) return false;
@@ -125,7 +119,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects
                     return true;
             return false;
         }
-
+*/
         #endregion
     }
 }
