@@ -54,7 +54,7 @@ using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 
-namespace Wof.Model.Level.Troops
+namespace Wof.Model.Level.Infantry
 {
     /// <summary>
     /// Klasa implementuje logike zachowania
@@ -190,7 +190,7 @@ namespace Wof.Model.Level.Troops
         /// <param name="level">Referencja do obiektu planszy.</param>
         /// <author>Michal Ziober</author>
         /// <param name="offset"></param>
-        internal Soldier(float posX, Direction direct, Level level, float offset, SoldierType type)
+        internal Soldier(float posX, Direction direct, Level level, float offset)//, SoldierType type)
         {
             //przy starcie jest zywy.
             _soldierStatus = SoldierStatus.IsAlive;
@@ -203,7 +203,7 @@ namespace Wof.Model.Level.Troops
             canDie = false;
             canReEnter = false;
             protectedTime = 0;
-            this.type = type;
+            //this.type = type;
         }
 
         #endregion
