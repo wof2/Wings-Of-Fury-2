@@ -59,7 +59,7 @@
   <ocean width="20"/>
   
   <!-- warship -->
-  <ship-begin width="1" variation="1" traversable="true"/>
+  <ship-begin width="1" variation="1" traversable="true" type="warship"/>
   <ship-concrete-bunker num-soldiers="1" traversable="true" variation="1" />
   <ship-concrete-bunker num-soldiers="1" traversable="false" variation="1" />
   <ship-deck width="1" variation="2" traversable="false"/>
@@ -69,7 +69,7 @@
   <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" />
   <ship-end width="1" variation="1" traversable="false"/>
 
-  <ocean width="5" />
+  <ocean width="6" />
 
 
 

@@ -417,7 +417,13 @@ namespace Wof.Controller
         /// </summary>
         void OnStopWaterBubblesSound();
 
-     
+        /// <summary>
+        /// Metoda zglasza kolejny poziom zniszczen statku.
+        /// </summary>
+        /// <param name="tile">Element statku. Reprezentuje zniszczenia dla calego statku.</param>
+        /// <param name="state">Reprezentuja aktualny poziom zniszczen dla danego statku.</param>
+        void OnNextLevelOfShipDemage(ShipTile tile, ShipState state);
+
         /// <summary>
         /// Statek zaczyna ton¹æ
         /// </summary>
