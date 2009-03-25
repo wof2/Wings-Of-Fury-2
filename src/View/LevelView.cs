@@ -1154,7 +1154,7 @@ namespace Wof.View
         public void OnTileDestroyed(LevelTile tile)
         {
         	
-            if (tile is ConcreteBunkerTile || tile is WoodBunkerTile || tile is ShipBunkerTile)
+            if (tile is ConcreteBunkerTile || tile is WoodBunkerTile || tile is ShipBunkerTile || tile is FortressBunkerTile)
             {
                 EnemyInstallationTileView bunker = (EnemyInstallationTileView)FindTileView(tile);
                 if (bunker == null) return; // error

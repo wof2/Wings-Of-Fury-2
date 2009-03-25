@@ -108,7 +108,7 @@ namespace Wof.View.TileViews
             installationEntity = sceneMgr.CreateEntity("Bunker" + nameSuffix, "Bunker.mesh");
 
             isConcrete = false;
-            if (LevelTile is ConcreteBunkerTile)
+            if (LevelTile is ConcreteBunkerTile || LevelTile is FortressBunkerTile)
             {
                 isConcrete = true;
                 installationEntity.SetMaterialName("Concrete"); // aby by³ betonowy

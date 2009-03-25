@@ -610,7 +610,7 @@ namespace Wof.Model.Level.XmlParser
             BunkerTile bunker = null;
             BarrackTile barrack = null;
             ShipBunkerTile shipbunker = null;
-           
+
             if (bunkerName.Equals(Nodes.WoodenBunker))
                 bunker = new WoodBunkerTile(node.YStart,
                                             node.YEnd, node.ViewXShift, node.HitRectangle, numSoldiers, variation,
@@ -624,6 +624,10 @@ namespace Wof.Model.Level.XmlParser
             else if (bunkerName.Equals(Nodes.ShipConcreteBunker))
                 shipbunker = new ShipConcreteBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
                                           node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
+            else if (bunkerName.Equals(Nodes.FortressBunker))
+                bunker = new FortressBunkerTile(node.YStart, node.YEnd, node.ViewXShift, 
+                                          node.HitRectangle, numSoldiers, variation,node.CollisionRectangle);
+
             else
                 bunker = new ConcreteBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
                                                 node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);

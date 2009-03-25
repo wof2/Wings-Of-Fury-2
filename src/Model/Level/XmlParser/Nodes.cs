@@ -64,6 +64,7 @@ namespace Wof.Model.Level.XmlParser
         public const string IslandBegin = @"island-begin";
         public const string WoodenBunker = @"wooden-bunker";
         public const string ConcreteBunker = @"concrete-bunker";
+        public const string FortressBunker = @"fortress-bunker";
         public const string ShipWoodenBunker = @"ship-wooden-bunker";
         public const string ShipConcreteBunker = @"ship-concrete-bunker";
         

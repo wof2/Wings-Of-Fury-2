@@ -354,6 +354,28 @@ namespace Wof.Model.Configuration
             #endregion
         }
 
+        public class FortressBunker
+        {
+            #region Consts
+
+            /// <summary>
+            /// Odstep pomiedzy strzalami.
+            /// </summary>
+            public static float FireDelay = 800;
+
+            /// <summary>
+            /// Szerokosc pola widzenia.
+            /// </summary>
+            public static float HorizonHeight = 65;
+
+            /// <summary>
+            /// Wysokosc pola widzenia.
+            /// </summary>
+            public static float HorizonWidth = 35;
+
+            #endregion
+        }
+
         public class ShipConcreteBunker
         {
             #region Consts
