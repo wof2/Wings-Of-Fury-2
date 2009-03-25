@@ -85,13 +85,14 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 
         #region Public Method
 
+        /*
         /// <summary>
         /// Odbudowuje betonowy bunkier.
         /// </summary>
         public override void Reconstruct()
         {
             base.Reconstruct();
-        }
+        }*/
 
         /// <summary>
         /// Prowadzi ostrzal samolotu.
@@ -125,6 +126,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             }
         }
 
+        /*
         /// <summary>
         /// Funkcja niszczy instalacje obronna.
         /// </summary>
@@ -132,6 +134,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         {
             base.Destroy();
         }
+        */
 
         /// <summary>
         /// Zwraca opis obiektu.
