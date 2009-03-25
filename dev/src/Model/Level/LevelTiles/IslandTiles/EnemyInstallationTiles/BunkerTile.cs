@@ -50,7 +50,7 @@ using System;
 using System.Collections.Generic;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.Planes;
-using Wof.Model.Level.Troops;
+using Wof.Model.Level.Infantry;
 using Math=Mogre.Math;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles

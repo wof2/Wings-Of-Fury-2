@@ -51,7 +51,7 @@ using Mogre;
 using Wof.Controller;
 using Wof.Model.Level;
 using Wof.Model.Level.Common;
-using Wof.Model.Level.Troops;
+using Wof.Model.Level.Infantry;
 using Wof.Model.Level.Weapon;
 using Wof.View;
 
@@ -129,8 +129,8 @@ namespace Wof.Tests
 
                 //EnemyInstallationTile eit = (EnemyInstallationTile)lvl.LevelTiles[112];
 
-                Soldier soldier = new Soldier(0, Direction.Left, lvl, 0, Soldier.SoldierType.SOLDIER);
-                lvlView.OnRegisterSoldier(soldier); // , lvl.LevelTiles[112]);*/
+                //Soldier soldier = new Soldier(0, Direction.Left, lvl, 0, Soldier.SoldierType.SOLDIER);
+                //lvlView.OnRegisterSoldier(soldier); // , lvl.LevelTiles[112]);*/
 
                 //eit.Destroy();
 

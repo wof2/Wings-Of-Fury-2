@@ -51,7 +51,7 @@ using System.Collections.Generic;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles.Watercraft;
-using Wof.Model.Level.Troops;
+using Wof.Model.Level.Infantry;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 {
@@ -183,18 +183,21 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 
             for (int i = 0; i < soldiersCount; i++)
             {
-                Soldier.SoldierType stype = Soldier.SoldierType.SOLDIER;
+                //Soldier.SoldierType stype = Soldier.SoldierType.SOLDIER;
                 if(this is ShipBunkerTile)
                 {
-                    stype = Soldier.SoldierType.SEAMAN;
+                    newSoldier = new Seaman(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9));
+                   // stype = Soldier.SoldierType.SEAMAN;
                 } else
                 {
+                    /*
                     if (rand.NextDouble() > 0.67f)
                     {
                         stype = Soldier.SoldierType.GENERAL;
-                    }
+                    }*/
+                    newSoldier = new Soldier(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9));
                 }
-                newSoldier = new Soldier(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9), stype);
+                //newSoldier = new Soldier(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9), stype);
                 newSoldier.Speed = rand.Next(GameConsts.Soldier.MinSpeed, GameConsts.Soldier.MaxSpeed);
                 if (curentDirect == Direction.Left)
                     curentDirect = Direction.Right;

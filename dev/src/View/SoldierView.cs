@@ -54,7 +54,7 @@ using Wof.Controller;
 using Wof.Misc;
 using Wof.Model.Level;
 using Wof.Model.Level.Common;
-using Wof.Model.Level.Troops;
+using Wof.Model.Level.Infantry;
 using Wof.View.Effects;
 using Wof.View.VertexAnimation;
 using Math=Mogre.Math;
@@ -238,18 +238,19 @@ namespace Wof.View
             }
         }
 
-        protected void postInitOnScene()
+        protected virtual void postInitOnScene()
         {
-            switch (soldier.Type)
+            if (Soldier is General)
             {
-                case Soldier.SoldierType.GENERAL:
-                    soldierModel.SetMaterialName("General");
-                    break;
-
-                case Soldier.SoldierType.SEAMAN:
-                    soldierModel.SetMaterialName("Seaman");
-                    break;
+                //case Soldier.SoldierType.GENERAL:
+                soldierModel.SetMaterialName("General");
             }
+            else if (Soldier is Seaman)
+            {
+                //case Soldier.SoldierType.SEAMAN:
+                soldierModel.SetMaterialName("Seaman");
+            }
+            
             Run();
             refreshPosition();
             soldierNode.SetVisible(true);

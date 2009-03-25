@@ -53,7 +53,6 @@ using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.Planes;
-using Wof.Model.Level.Troops;
 using LevelRef = Wof.Model.Level.Level;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
 
