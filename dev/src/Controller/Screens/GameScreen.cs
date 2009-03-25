@@ -1903,8 +1903,7 @@ namespace Wof.Controller.Screens
 
         public void OnChangeAmmunition()
         {
-            currentLevel.OnSoldierEndDeath();
-
+            //currentLevel.OnSoldierEndDeath();
             levelView.OnStopPlayingEnemyPlaneEngineSounds();
 
             if (!readyForLevelEnd)
@@ -1919,6 +1918,7 @@ namespace Wof.Controller.Screens
             }
             else
             {
+                OnReadyLevelEnd();
                 isGamePaused = true;
                 DisplayNextLevelScreen();
             }
