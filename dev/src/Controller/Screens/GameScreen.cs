@@ -1761,6 +1761,17 @@ namespace Wof.Controller.Screens
             //TODO: Zaimplementujcie metode !
         }
 
+        /// <summary>
+        /// Wybuch pocisku.
+        /// </summary>
+        /// <param name="tile">Tile na ktorych nastepuje wybuch. Wartosc moze byc null'em</param>
+        /// <param name="ammunition"></param>
+        /// <author>Kamil S³awiñski</author>
+        public void OnAmmunitionExplode(LevelTile tile, Ammunition ammunition)
+        {
+            levelView.OnAmmunitionExplode(tile, ammunition);
+        }
+
         public void OnTileDestroyed(LevelTile tile, Ammunition ammunition)
         {
             gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.EnemyInstallationDestroyed));
