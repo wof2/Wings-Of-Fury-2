@@ -110,6 +110,45 @@
 	<collision-rect rectangle="[5.5, 4.5 ][1.5][3  ]"/> <!-- flaga pomiedzy bunkrem i dzialkiem -->	
   </tile>
 
+   <!-- fortress Bunker - dokladnie taki sam jak concrete -->
+
+  <tile name="fortress-bunker" y-start="1.5" y-end="1.5" variation="0">
+	<collision-rect rectangle="[0, 3.1 ][5  ][1.6]"/> <!-- bunkier -->
+	<collision-rect rectangle="[6, 2.5 ][1.5][1  ]"/> <!-- dzialko -->	
+  </tile>
+
+  <!-- wersja uniesiona -->
+  <tile name="fortress-bunker" y-start="8.0" y-end="8.0" variation="10">
+    <collision-rect rectangle="[0, 11.1 ][5  ][1.6]"/>
+    <!-- bunkier -->
+    <collision-rect rectangle="[6, 10.5 ][1.5][1  ]"/>
+    <!-- dzialko -->
+  </tile>
+
+  <tile name="fortress-bunker" y-start="1.5" y-end="1.5" variation="1">
+	<collision-rect rectangle="[0, 3.1  ][5  ][1.6]"/> <!-- bunkier -->
+	<collision-rect rectangle="[6, 2.5  ][1.5][1  ]"/> <!-- dzialko -->
+	<collision-rect rectangle="[5, 5.5  ][1.5][4  ]"/> <!-- drzewka -->	
+  </tile>
+
+  <tile name="fortress-bunker" y-start="1.5" y-end="1.5" variation="2">
+	<collision-rect rectangle="[0, 3.1  ][5  ][1.6]"/> <!-- bunkier -->
+	<collision-rect rectangle="[6, 2.5  ][1.5][1  ]"/> <!-- dzialko -->
+	<collision-rect rectangle="[5, 5.5  ][1.5][4  ]"/> <!-- drzewka -->	
+  </tile>
+
+  <tile name="fortress-bunker" y-start="1.5" y-end="1.5" variation="3">
+	<collision-rect rectangle="[0  , 3.1 ][5  ][1.6]"/> <!-- bunkier -->
+	<collision-rect rectangle="[6  , 2.5 ][1.5][1  ]"/> <!-- dzialko -->
+	<collision-rect rectangle="[2.5, 6.1 ][1.5][3  ]"/> <!-- flaga na bunkrze -->	
+  </tile>
+
+  <tile name="fortress-bunker" y-start="1.5" y-end="1.5" variation="4">
+	<collision-rect rectangle="[0  , 3.1 ][5  ][1.6]"/> <!-- bunkier -->
+	<collision-rect rectangle="[6  , 2.5 ][1.5][1  ]"/> <!-- dzialko -->
+	<collision-rect rectangle="[5.5, 4.5 ][1.5][3  ]"/> <!-- flaga pomiedzy bunkrem i dzialkiem -->	
+  </tile>
+
 
   <!-- Barrack -->
 

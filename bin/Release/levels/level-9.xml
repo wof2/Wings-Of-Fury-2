@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<level dayTime="foggy" enemyPlanes="0">
+
+  <ocean width="100"/>
+
+  <aircraft-carrier-begin width="1"/>
+  <aircraft-carrier-middle width="3"/>
+  <aircraft-carrier-restore-ammunition width="1"/>
+  <aircraft-carrier-middle width="1"/>
+  <aircraft-carrier-end width="3"/>
+  <ocean width="22"/>
+  
+  <ocean width="1" variation="1"/>
+  <ocean width="22"/>
+
+  <island-begin variation="3"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <fortress-bunker variation="0" num-soldiers="3"/>
+  <terrain variation="0"/>
+  <barrels variation="0"/>
+  <terrain variation="2"/>
+  <barrels variation="0"/>
+  <terrain variation="0"/>
+
+  <terrain variation="0"/>
+  <barrels variation="0"/>
+  <terrain variation="2"/>
+  <island-end/> 
+
+  <ocean width="100"/>
+</level>
