@@ -99,6 +99,11 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// </summary>
         protected int soldiersCount;
 
+        /// <summary>
+        /// Liczba generalow w danej instalacji.
+        /// </summary>
+        protected int generalsCount;
+
         
         #endregion
 
@@ -113,13 +118,14 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// <param name="soldierNum">Liczba zolnierzy.</param>
         /// <param name="type">Typ bunkra.</param>
         /// <param name="collisionRectangle">Lista prostokatow z ktorymi moga wystapic zderzenia.</param>
-        public EnemyInstallationTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int soldierNum, int type,
+        public EnemyInstallationTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int soldierNum, int generalNum, int type,
                                      List<Quadrangle> collisionRectangle)
             : base(yBegin, yEnd, viewXShift, hitBound, type, collisionRectangle, true)
         {
             Initializing();
             soldiersCount = soldierNum;
-            
+            generalsCount = generalNum;
+
             IncrementIntactInstallationCount();
         }
 
@@ -180,6 +186,22 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             Soldier newSoldier = null;
             Direction curentDirect = Direction.Left;
             Random rand = new Random(Environment.TickCount);
+            for (int i = 0; i < generalsCount; i++)
+            {
+                newSoldier = new General(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9));
+
+                newSoldier.Speed = rand.Next(GameConsts.Soldier.MinSpeed, GameConsts.Soldier.MaxSpeed);
+                if (curentDirect == Direction.Left)
+                    curentDirect = Direction.Right;
+                else
+                    curentDirect = Direction.Left;
+                //Wysylam event aby dodac nowego zolnierza do listy.
+                RegistrySoldierEvent(this, newSoldier);
+                //rejestruje zolnierza w controlerze.
+                refToLevel.Controller.OnRegisterSoldier(newSoldier);
+            }
+
+            newSoldier = null;
 
             for (int i = 0; i < soldiersCount; i++)
             {
@@ -188,11 +210,6 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                 {
                     newSoldier = new Seaman(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9));
                     // stype = Soldier.SoldierType.SEAMAN;
-                }
-                //Pierwszy ¿o³nierz z fortress bunker jest genera³em
-                else if (this is FortressBunkerTile && i == 0)
-                {
-                    newSoldier = new General(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9));
                 }
                 else
                 {
@@ -217,6 +234,9 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             rand = null;
             //zeruje liczbe zolnierzy w bunkrze.
             soldiersCount = 0;
+
+            //zeruje liczbe genera³ów w bunkrze.
+            generalsCount = 0;
 
             DecrementIntactInstallationCount();
         }

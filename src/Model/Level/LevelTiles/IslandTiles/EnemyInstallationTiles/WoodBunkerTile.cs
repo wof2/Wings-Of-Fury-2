@@ -69,9 +69,9 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// <param name="soldierNum">Liczba zolnierzy.</param>
         /// <param name="type">Typ bunkru.</param>
         /// <param name="collisionRectangle">Lista prostokatow z ktorymi moga wystapic zderzenia.</param>
-        public WoodBunkerTile(float yBegin, float yEnd,float viewXShift, Quadrangle hitBound, int soldierNum, int type,
+        public WoodBunkerTile(float yBegin, float yEnd,float viewXShift, Quadrangle hitBound, int soldierNum, int generalNum, int type,
                               List<Quadrangle> collisionRectangle)
-            : base(yBegin, yEnd, viewXShift, hitBound, soldierNum, type, collisionRectangle)
+            : base(yBegin, yEnd, viewXShift, hitBound, soldierNum, generalNum, type, collisionRectangle)
         {
             //instalacja przy starcie nie jest zniszczona.
             enemyState = EnemyInstallationState.Intact;

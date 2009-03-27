@@ -18,9 +18,9 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             }
         }
 
-        public FortressBunkerTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int soldierNum, int type,
+        public FortressBunkerTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int soldierNum, int generalNum ,int type,
                                   List<Quadrangle> collisionRectangle)
-            : base(yBegin, yEnd, viewXShift, hitBound, soldierNum, type, collisionRectangle)
+            : base(yBegin, yEnd, viewXShift, hitBound, soldierNum, generalNum, type, collisionRectangle)
         {
             rocketHitsLeft = 3;
         }
