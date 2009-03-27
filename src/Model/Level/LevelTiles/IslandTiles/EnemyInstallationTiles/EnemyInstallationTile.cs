@@ -184,11 +184,17 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             for (int i = 0; i < soldiersCount; i++)
             {
                 //Soldier.SoldierType stype = Soldier.SoldierType.SOLDIER;
-                if(this is ShipBunkerTile)
+                if (this is ShipBunkerTile)
                 {
                     newSoldier = new Seaman(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9));
-                   // stype = Soldier.SoldierType.SEAMAN;
-                } else
+                    // stype = Soldier.SoldierType.SEAMAN;
+                }
+                //Pierwszy ¿o³nierz z fortress bunker jest genera³em
+                else if (this is FortressBunkerTile && i == 0)
+                {
+                    newSoldier = new General(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9));
+                }
+                else
                 {
                     /*
                     if (rand.NextDouble() > 0.67f)
