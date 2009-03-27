@@ -235,12 +235,13 @@ namespace Wof.Model.Level.XmlParser
                                 throw new XmlException("Island begin");
                         }
                       
-                            //WoodenBunker, Barracks,Concretebunker
+                            //WoodenBunker, Barracks,Concretebunker,Fortress bunker
                         else if (reader.Name.Equals(Nodes.WoodenBunker) ||
                                  reader.Name.Equals(Nodes.Barrack) ||
                                  reader.Name.Equals(Nodes.ShipWoodenBunker) ||
                                  reader.Name.Equals(Nodes.ShipConcreteBunker) ||
-                                 reader.Name.Equals(Nodes.ConcreteBunker))
+                                 reader.Name.Equals(Nodes.ConcreteBunker) ||
+                                 reader.Name.Equals(Nodes.FortressBunker))
                         {
                             if (!ReadBunkerOrBarrack(reader,reader.Name))
                                 throw new XmlException("Bunker");
