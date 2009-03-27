@@ -562,6 +562,7 @@ namespace Wof.Model.Level.XmlParser
         private bool ReadBunkerOrBarrack(XmlReader reader, String bunkerName)
         {
             int numSoldiers = -1;
+            int numGenerals = 0;
             int variation = 0;
             bool traversable = true;
             if (reader.HasAttributes)
@@ -574,6 +575,17 @@ namespace Wof.Model.Level.XmlParser
                         try
                         {
                             numSoldiers = int.Parse(reader.Value);
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
+                    else if (reader.Name.Equals(Attributes.NumGenerals))
+                    {
+                        try
+                        {
+                            numGenerals = int.Parse(reader.Value);
                         }
                         catch
                         {
@@ -614,24 +626,24 @@ namespace Wof.Model.Level.XmlParser
 
             if (bunkerName.Equals(Nodes.WoodenBunker))
                 bunker = new WoodBunkerTile(node.YStart,
-                                            node.YEnd, node.ViewXShift, node.HitRectangle, numSoldiers, variation,
+                                            node.YEnd, node.ViewXShift, node.HitRectangle, numSoldiers, numGenerals, variation,
                                             node.CollisionRectangle);
             else if (bunkerName.Equals(Nodes.Barrack))
                 barrack = new BarrackTile(node.YStart, node.YEnd, node.ViewXShift,
-                                          node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
+                                          node.HitRectangle, numSoldiers, numGenerals, variation, node.CollisionRectangle);
             else if (bunkerName.Equals(Nodes.ShipWoodenBunker))
                 shipbunker = new ShipWoodBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
-                                          node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
+                                          node.HitRectangle, numSoldiers, numGenerals, variation, node.CollisionRectangle);
             else if (bunkerName.Equals(Nodes.ShipConcreteBunker))
                 shipbunker = new ShipConcreteBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
-                                          node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
+                                          node.HitRectangle, numSoldiers, numGenerals, variation, node.CollisionRectangle);
             else if (bunkerName.Equals(Nodes.FortressBunker))
-                bunker = new FortressBunkerTile(node.YStart, node.YEnd, node.ViewXShift, 
-                                          node.HitRectangle, numSoldiers, variation,node.CollisionRectangle);
+                bunker = new FortressBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
+                                          node.HitRectangle, numSoldiers, numGenerals, variation, node.CollisionRectangle);
 
             else
                 bunker = new ConcreteBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
-                                                node.HitRectangle, numSoldiers, variation, node.CollisionRectangle);
+                                                node.HitRectangle, numSoldiers, numGenerals, variation, node.CollisionRectangle);
             if (bunker != null)
             {
                 bunker.Traversable = traversable;
