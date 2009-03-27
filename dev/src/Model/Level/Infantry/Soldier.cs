@@ -190,7 +190,7 @@ namespace Wof.Model.Level.Infantry
         /// <param name="level">Referencja do obiektu planszy.</param>
         /// <author>Michal Ziober</author>
         /// <param name="offset"></param>
-        internal Soldier(float posX, Direction direct, Level level, float offset)//, SoldierType type)
+        public Soldier(float posX, Direction direct, Level level, float offset)//, SoldierType type)
         {
             //przy starcie jest zywy.
             _soldierStatus = SoldierStatus.IsAlive;
