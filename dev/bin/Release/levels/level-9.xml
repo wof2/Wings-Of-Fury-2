@@ -17,7 +17,7 @@
   <island-begin variation="3"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
-  <fortress-bunker variation="0" num-soldiers="3"/>
+  <fortress-bunker variation="0" num-generals="3" num-soldiers="1"/>
   <terrain variation="0"/>
   <barrels variation="0"/>
   <terrain variation="2"/>
