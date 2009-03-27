@@ -443,18 +443,37 @@ namespace Wof.Model.Level.Weapon
 	                }
 	                else
 	                {
-	                    EnemyInstallationTile enemyTale = null;
+                        FortressBunkerTile fortressTile = null;
+	                    EnemyInstallationTile enemyTile = null;
 	                    LevelTile destroyTile = tile;
 	                    if (destroyTile is EnemyInstallationTile)
 	                    {
-	                        if ((enemyTale = destroyTile as EnemyInstallationTile) != null && !enemyTale.IsDestroyed)
-	                        {
-	                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-	                            refToLevel.Statistics.HitByRocket++;
-	                            enemyTale.Destroy();
-	                        }
-	                        else
-	                            refToLevel.Controller.OnTileBombed(tile, this);
+                            //Obsluga fortress bunker
+                            if ((fortressTile = destroyTile as FortressBunkerTile) != null && !fortressTile.IsDestroyed)
+                            {
+                                fortressTile.Hit();
+                                //Ostatnie trafienie!
+                                if (fortressTile.ShouldBeDestroyed)
+                                {
+                                    refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                                    refToLevel.Statistics.HitByRocket++;
+                                    fortressTile.Destroy();
+                                }
+                                else
+                                {
+                                    //Wybuch rakiety bez zniszczeniu bunkra
+                                    refToLevel.Controller.OnAmmunitionExplode(destroyTile, this);
+                                    refToLevel.Statistics.HitByRocket++;
+                                }
+                            }
+                            else if ((enemyTile = destroyTile as EnemyInstallationTile) != null && !enemyTile.IsDestroyed)
+                            {
+                                refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                                refToLevel.Statistics.HitByRocket++;
+                                enemyTile.Destroy();
+                            }
+                            else
+                                refToLevel.Controller.OnTileBombed(tile, this);
 	                    }
 	                }
                 	
