@@ -203,6 +203,15 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         }
 
 
+        /// <summary>
+        /// Dodaje jednego zolnierza do bunkra.
+        /// </summary>
+        /// <author>Michal Ziober</author>
+        public void AddGeneral()
+        {
+            generalsCount++;
+        }
+
         public override float Sink(float time, float timeUnit)
         {
             float amount = base.Sink(time, timeUnit);

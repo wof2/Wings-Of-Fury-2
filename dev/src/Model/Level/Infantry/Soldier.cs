@@ -68,13 +68,13 @@ namespace Wof.Model.Level.Infantry
         /// <summary>
         /// Przedzial czasu od ostatniego przesuniecia.
         /// </summary>
-        private const int TimeUnit = 1000;
+        protected const int TimeUnit = 1000;
 
         /// <summary>
         /// Wspolczynnik prawdopodobienstwa tego, ze zolnierz 
         /// wejdzie do bunkra.
         /// </summary>
-        private const int ProbabilityCoefficient = 5;
+        protected const int ProbabilityCoefficient = 5;
 
         #endregion
 
@@ -108,66 +108,66 @@ namespace Wof.Model.Level.Infantry
         /// <summary>
         /// Pozycja X na planszy.
         /// </summary>
-        private float xPos;
+        protected float xPos;
 
         /// <summary>
         /// Pozycja Y na planszy.
         /// </summary>
-        private float yPos;
+        protected float yPos;
 
         /// <summary>
         /// Pozycja startowa zolnierza.
         /// </summary>
-        private readonly float startPosition;
+        protected readonly float startPosition;
 
         /// <summary>
         /// Pocz¹tkowy indeks z leveltiles
         /// </summary>
-        private int startLevelIndex;
+        protected int startLevelIndex;
 
         /// <summary>
         /// Kierunek poruszania.
         /// </summary>
-        private Direction direction;
+        protected Direction direction;
 
         /// <summary>
         /// Czy zolnierz jest zywy.
         /// </summary>
-        private SoldierStatus _soldierStatus;
+        protected SoldierStatus _soldierStatus;
 
         /// <summary>
         /// Szybkosc z jaka porusza sie zolnierz.
         /// </summary>
-        private int speed;
+        protected int speed;
 
         /// <summary>
         /// Referencja do planszy.
         /// </summary>
-        private readonly Level refToLevel;
+        protected readonly Level refToLevel;
 
         /// <summary>
         /// Licznik czasu, pod czas ktorego zolnierz nie moze
         /// zostac zabity.
         /// </summary>
-        private int protectedTime;
+        protected int protectedTime;
 
         /// <summary>
         /// Licznik czasu, pod czas ktorego zolnierz nie 
         /// moze wejsc do bunkra.
         /// </summary>
-        private int homelessCounterTime = 0;
+        protected int homelessCounterTime = 0;
 
         /// <summary>
         /// Czy zolnierz moze wejsc znowu do bunkru.
         /// </summary>
-        private bool canReEnter;
+        protected bool canReEnter;
 
         /// <summary>
         /// Czy zolnierz moze zostac zabity.
         /// </summary>
-        private bool canDie;
+        protected bool canDie;
 
-        private bool leftBornTile = false;
+        protected bool leftBornTile = false;
 
         protected SoldierType type;
 
@@ -339,7 +339,7 @@ namespace Wof.Model.Level.Infantry
         /// <param name="index">Indeks pola na liscie.</param>
         /// <returns>Jesli dane pole jest bunkrem - zwraca true,
         /// w przeciwnym przypadku false.</returns>
-        private bool IsBunker(int index)
+        protected bool IsBunker(int index)
         {
             if (index >= 0 && index < refToLevel.LevelTiles.Count)
                 return (refToLevel.LevelTiles[index] is BunkerTile);
@@ -350,7 +350,7 @@ namespace Wof.Model.Level.Infantry
         /// <summary>
         /// Zmienia pozycje zolnierza.
         /// </summary>
-        private void ChangeLocation(int time)
+        protected void ChangeLocation(int time)
         {
 
             //jesli idzie w prawo
@@ -414,7 +414,7 @@ namespace Wof.Model.Level.Infantry
         /// Zmienia pozycje zolnierza.
         /// </summary>
         /// <param name="time">Czas od ostatniego ruchu w milisekundach.</param>
-        public void Move(int time)
+        public virtual void Move(int time)
         {
             //Jesli zolnierz zyje.
             if (IsAlive)
