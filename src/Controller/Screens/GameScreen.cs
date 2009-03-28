@@ -1756,8 +1756,9 @@ namespace Wof.Controller.Screens
           //  tile = null;
         }
 
-        public void OnNextLevelOfShipDemage(ShipTile tile, ShipState state)
+        public void OnShipDamaged(ShipTile tile, ShipState state)
         {
+
             //TODO: Zaimplementujcie metode !
         }
 

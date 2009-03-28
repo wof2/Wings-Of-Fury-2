@@ -59,11 +59,17 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
     /// </summary>
     public class BeginShipTile : ShipTile
     {
+
+     
+        protected TypeOfEnemyShip typeOfEnemyShip;
+
+
         #region Public Constructor
 
         public BeginShipTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int type, List<Quadrangle> collisionRectangles, bool traversable, TypeOfEnemyShip typeOfEnemyShip)
             : base(yBegin, yEnd, viewXShift, hitBound, type, collisionRectangles, traversable)
         {
+            this.typeOfEnemyShip = typeOfEnemyShip;
             if (typeOfEnemyShip == TypeOfEnemyShip.PatrolBoat)
                 ShipOwner = new PatrolBoatManager(typeOfEnemyShip);
             else if (typeOfEnemyShip == TypeOfEnemyShip.WarShip)
@@ -85,6 +91,11 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
                 //   HitBound.Peaks[1].X += 0;
                 //   HitBound.Peaks[0].X += 1;
             }
+        }
+
+        public TypeOfEnemyShip TypeOfEnemyShip
+        {
+            get { return typeOfEnemyShip; }
         }
 
         #endregion

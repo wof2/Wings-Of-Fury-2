@@ -429,7 +429,7 @@ namespace Wof.Controller
         /// </summary>
         /// <param name="tile">Element statku. Reprezentuje zniszczenia dla calego statku.</param>
         /// <param name="state">Reprezentuja aktualny poziom zniszczen dla danego statku.</param>
-        void OnNextLevelOfShipDemage(ShipTile tile, ShipState state);
+        void OnShipDamaged(ShipTile tile, ShipState state);
 
         /// <summary>
         /// Statek zaczyna ton¹æ

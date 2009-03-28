@@ -1065,8 +1065,19 @@ namespace Wof.View
        
         }
 
+        public void OnShipDamaged(ShipTile tile, ShipState state)
+        {
+            ShipView sv = FindShipView(tile);
+            if(sv == null) return;
+            sv.OnShipDamaged(state);
+        }
+
+
         public void OnShipSunk(BeginShipTile tile)
         {
+            ShipView sv = FindShipView(tile);
+            if (sv == null) return;
+            sv.OnShipSunk();
             onUnregisterShip(tile);
         }
 
