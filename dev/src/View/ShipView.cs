@@ -56,6 +56,7 @@ using Wof.Misc;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
+using Wof.View.Effects;
 using Wof.View.TileViews;
 using Math=Mogre.Math;
 
@@ -101,7 +102,30 @@ namespace Wof.View
             initOnScene();
         }
 
-        
+
+        public void OnShipDamaged(ShipState state)
+        {
+            switch (state)
+            {
+                case ShipState.LightDamaged:
+                    EffectsManager.Singleton.Smoke(sceneMgr, staticNode, new Vector3(0, 5, 0), Vector3.UNIT_Y);
+                    break;
+
+                case ShipState.HeavyDamage:
+                    EffectsManager.Singleton.Sprite(sceneMgr, staticNode,
+                                               new Vector3(0, 2.4f, Math.RangeRandom(-4, 4)), new Vector2(10, 10),
+                                               EffectsManager.EffectType.FIRE, true, 0);
+                    break;
+
+            }
+        }
+
+        public void OnShipSunk()
+        {
+            EffectsManager.Singleton.NoSprite(sceneMgr, staticNode, EffectsManager.EffectType.FIRE, 0);
+            EffectsManager.Singleton.NoSmoke(sceneMgr, staticNode);
+        }
+
         protected override void initOnScene()
         {
             String meshName; //Nazwa modelu  
@@ -113,16 +137,16 @@ namespace Wof.View
           
            
             float maxX = (Math.Abs(count) - 1) * LevelView.TileWidth / 16;
+            BeginShipTile begin = tileViews[0].LevelTile as BeginShipTile;
 
-            switch (count)
+            switch (begin.TypeOfEnemyShip)
             {
-                case 3: //3
+                case TypeOfEnemyShip.PatrolBoat: 
                     meshName = "PatrolBoat.mesh";
                    
                     break;
 
-                case 9: //9
-                    //ISLAND1
+                case TypeOfEnemyShip.WarShip:
                     meshName = "Warship.mesh";
                  
                     break;

@@ -1,5 +1,5 @@
-ï»¿/*
- * Copyright 2008 Adam Witczak, Jakub TÄ™Å¼ycki, Kamil SÅ‚awiÅ„ski, Tomasz Bilski, Emil Hornung, MichaÅ‚ Ziober
+/*
+ * Copyright 2008 Adam Witczak, Jakub Tê¿ycki, Kamil S³awiñski, Tomasz Bilski, Emil Hornung, Micha³ Ziober
  *
  * This file is part of Wings Of Fury 2.
  * 
@@ -82,7 +82,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
             }
             else
             {
-                _refToLevel.Controller.OnNextLevelOfShipDemage(_shipTiles[0], _shipState);
+                _refToLevel.Controller.OnShipDamaged(_shipTiles[0], _shipState);
             }
         }
 
