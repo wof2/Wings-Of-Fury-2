@@ -50,6 +50,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.Weapon;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 {
@@ -174,7 +175,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
         /// <summary>
         /// Obsluga trafienia przez torpede.
         /// </summary>
-        public abstract void TorpedoHit();
+        public abstract void TorpedoHit(Ammunition ammo);
 
         #endregion
 

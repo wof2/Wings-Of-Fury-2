@@ -47,7 +47,8 @@
  */
 
 using System;
-
+using Wof.Model.Level.Weapon;
+using Wof.Controller;
 namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 {
     /// <summary>
@@ -70,7 +71,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 
         #region Override Methods
 
-        public override void TorpedoHit()
+        public override void TorpedoHit(Ammunition ammo)
         {
             _shipState++;
             if (_shipState == ShipState.Destroyed)
@@ -78,10 +79,13 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
                 //niszczymy obiekt
                 _shipTiles[0].Destroy();
                 //wysylamy informacje do Controllera.
+                SoundManager.Instance.PlayExposionSound();
                 _refToLevel.Controller.OnShipBeginSinking(_shipTiles[0]);
             }
             else
             {
+            	SoundManager.Instance.PlayExposionSound();
+            	_refToLevel.Controller.OnAmmunitionExplode(_shipTiles[0], ammo);
                 _refToLevel.Controller.OnShipDamaged(_shipTiles[0], _shipState);
             }
         }
