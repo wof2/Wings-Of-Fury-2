@@ -103,28 +103,106 @@ namespace Wof.View
         }
 
 
-        public void OnShipDamaged(ShipState state)
-        {
-            switch (state)
-            {
-                case ShipState.LightDamaged:
-                    EffectsManager.Singleton.Smoke(sceneMgr, staticNode, new Vector3(0, 5, 0), Vector3.UNIT_Y);
-                    break;
-
-                case ShipState.HeavyDamage:
-                    EffectsManager.Singleton.Sprite(sceneMgr, staticNode,
-                                               new Vector3(0, 2.4f, Math.RangeRandom(-4, 4)), new Vector2(10, 10),
-                                               EffectsManager.EffectType.FIRE, true, 0);
-                    break;
-
-            }
-        }
-
+      
+        
         public void OnShipSunk()
         {
             EffectsManager.Singleton.NoSprite(sceneMgr, staticNode, EffectsManager.EffectType.FIRE, 0);
             EffectsManager.Singleton.NoSmoke(sceneMgr, staticNode);
         }
+        
+        
+        public void OnShipDamaged(ShipState state)
+        {
+        	
+         	float length = this.tileViews.Count * LevelTile.Width;
+         	
+         	
+            switch (state)
+            {
+                case ShipState.LightDamaged:
+        		{
+		               EffectsManager.Singleton.Smoke(sceneMgr, staticNode,Effects.EffectsManager.SmokeType.NORMAL, new Vector3(0, 6, -Mogre.Math.RangeRandom(0, length)), Vector3.UNIT_Y, new Vector2(15,15));
+	        		   EffectsManager.Singleton.Smoke(sceneMgr, staticNode,Effects.EffectsManager.SmokeType.LIGHTSMOKE, new Vector3(0, 6, -Mogre.Math.RangeRandom(0, length)), Vector3.UNIT_Y, new Vector2(3,3));
+	        		
+		               
+            	}
+                break;
+
+                case ShipState.HeavyDamage:
+                {
+                	for (uint i = 0; i < 6; i++ )
+	                {
+                		EffectsManager.Singleton.Sprite(sceneMgr, staticNode,
+                		                                new Vector3(Math.RangeRandom(-3, 3), 9.0f, -Mogre.Math.RangeRandom(0, length)),  new Vector2(Math.RangeRandom(5, 10), Math.RangeRandom(5, 10)),
+                                               EffectsManager.EffectType.FIRE, true, i);
+                	}
+                }
+                break;
+
+            }
+        }
+
+          
+        
+        public void OnShipSinking(LevelTile shipTile) 
+        {
+        	LevelTile tile = shipTile;
+        	Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(tile.TileIndex), 0.5f));
+            string name;
+            if (!EngineConfig.LowDetails)
+            {
+
+                for (uint i = 0; i < 3; i++ )
+                {
+
+                    Vector2 rand = ViewHelper.RandomVector2(8, 8);
+                    Vector3 posView = new Vector3(v.x + rand.x, v.y, 0 + rand.y);
+                    name = EffectsManager.BuildRectangularEffectName(sceneMgr.RootSceneNode, "Submerge" + tile.GetHashCode() + "_" + i);
+                    if (!EffectsManager.Singleton.EffectExists(name) || EffectsManager.Singleton.EffectEnded(name))
+                    {
+                        EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
+                                                                   "Submerge" + tile.GetHashCode() + "_" + i,
+                                                                   EffectsManager.EffectType.SUBMERGE, posView,
+                                                                   new Vector2(25, 25), Quaternion.IDENTITY, false);
+                    }
+
+                    name = EffectsManager.BuildRectangularEffectName(sceneMgr.RootSceneNode, "WaterImpact1_" + tile.GetHashCode() + "_" + i);
+                    if (!EffectsManager.Singleton.EffectExists(name))
+                    {
+                        EffectsManager.Singleton.WaterImpact(sceneMgr, sceneMgr.RootSceneNode, posView, new Vector2(20, 32), false, tile.GetHashCode() + "_" + i);
+                    }
+
+
+                    EffectsManager.EffectType type;
+                    if (((uint)tile.GetHashCode() + i) % 2 == 0)
+                    {
+                        type = EffectsManager.EffectType.EXPLOSION2_SLOW;
+                    } else
+                    {
+                        type = EffectsManager.EffectType.EXPLOSION1_SLOW;
+                    }
+
+                    name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type, (uint)tile.GetHashCode() + i);
+                    if (!EffectsManager.Singleton.EffectExists(name))
+                    {
+                        if(Math.RangeRandom(0,1) > 0.8f)
+                        {
+                             EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, posView + ViewHelper.UnsignedRandomVector3(0,10,0), new Vector2(15, 15) + ViewHelper.RandomVector2(5,5),
+                                                        type, false,
+                                                        (uint)tile.GetHashCode() + i);
+
+                        }
+                       
+                    }
+
+
+                }
+                
+            }
+        }
+        
+        
 
         protected override void initOnScene()
         {

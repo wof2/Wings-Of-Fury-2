@@ -47,6 +47,7 @@
  */
 
 using System;
+using Wof.Model.Level.Weapon;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 {
@@ -70,7 +71,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 
         #region Override Methods
 
-        public override void TorpedoHit()
+        public override void TorpedoHit(Ammunition ammo)
         {
             _shipState = ShipState.Destroyed;
             //niszczymy obiekt

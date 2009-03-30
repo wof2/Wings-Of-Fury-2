@@ -1758,8 +1758,7 @@ namespace Wof.Controller.Screens
 
         public void OnShipDamaged(ShipTile tile, ShipState state)
         {
-
-            //TODO: Zaimplementujcie metode !
+        	levelView.OnShipDamaged(tile, state);        
         }
 
         /// <summary>
