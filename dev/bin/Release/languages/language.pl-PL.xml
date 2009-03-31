@@ -410,5 +410,19 @@
   <data name="EnemyPlanesLeft">
     <value>Pozostało samolotów</value>
   </data>
-
+  
+  <data name="Target">
+    <value>Cel</value>
+  </data>
+  
+  <data name="Neutralized">
+    <value>Wyeliminowany</value>
+  </data>
+  
+  <data name="Alive">
+    <value>Nietknięty</value>
+  </data> 
+  <data name="TargetNeutralizedLandOnCarrierAndPressX">
+      <value>Cel wyeliminowany, wyląduj na lotniskowcu i wciśnij X</value>
+  </data> 
 </root>

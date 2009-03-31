@@ -116,6 +116,12 @@ namespace Wof.Model.Level
         private List<Soldier> soldierList;
 
         /// <summary>
+        /// Lista z genera³ami na planszy.
+        /// </summary>
+        private List<General> generalList;
+
+
+        /// <summary>
         /// Lista samolotow przeciwnika.
         /// </summary>
         private readonly List<Plane> enemyPlanes;
@@ -167,6 +173,11 @@ namespace Wof.Model.Level
         /// Liczba zolnierzy na planszy.
         /// </summary>
         private volatile int mSoldierCount;
+
+        /// <summary>
+        /// Liczba genera³ów na planszy.
+        /// </summary>
+        private volatile int mGeneralCount;
 
         /// <summary>
         /// Obiekt przetwarzajacy informcacje.
@@ -243,6 +254,7 @@ namespace Wof.Model.Level
             ReadEncodedXmlFile(fileName);
             SetAttributesForInstallationsAndShips();
             soldierList = new List<Soldier>(10);
+            generalList = new List<General>(1);
             bunkersList = new List<LevelTile>(5);
             shipsList = new List<LevelTile>();
 
@@ -635,29 +647,55 @@ namespace Wof.Model.Level
                     enemyTile = enemyInstallationTiles[i] as EnemyInstallationTile;
                     if (enemyTile != null)
                     {
-                        if (!enemyTile.IsDestroyed && enemyTile.SoldierCount > 0)
+                        if (this.MissionType == MissionType.BombingRun)
                         {
-                            return;
+                            if (!enemyTile.IsDestroyed && enemyTile.SoldierCount > 0)
+                            {
+                                return;
+                            }
+                        }
+                        if (this.MissionType == MissionType.Assasination)
+                        {
+                            if (!enemyTile.IsDestroyed && enemyTile.GeneralCount > 0)
+                            {
+                                return;
+                            }
                         }
                     }
                 }
             }
 
             //sprawdzam zolnierzy.
-            if (soldierList != null)
-            {
-                for (int i = 0; i < soldierList.Count; i++)
-                {
-                    if (soldierList[i].IsAlive)
-                    {
-                        return;
-                    }
-                }
-            }
-            //zolnierze nie zyja. konczymy poziom
-            //if (MissionType.
             if (this.MissionType == MissionType.BombingRun)
             {
+                if (soldierList != null)
+                {
+                    for (int i = 0; i < soldierList.Count; i++)
+                    {
+                        if (soldierList[i].IsAlive )
+                        {
+                            return;
+                        }
+                    }
+                }
+                //zolnierze nie zyja. konczymy poziom
+                controller.OnReadyLevelEnd();
+            }
+            //sprawdzam genera³ów.
+            else if(this.MissionType == MissionType.Assasination)
+            {
+                if (generalList != null)
+                {
+                    for (int i = 0; i < generalList.Count; i++)
+                    {
+                        if (generalList[i].IsAlive )
+                        {
+                            return;
+                        }
+                    }
+                }
+
+                //genera³owie nie zyja. konczymy poziom
                 controller.OnReadyLevelEnd();
             }
         }
@@ -789,7 +827,10 @@ namespace Wof.Model.Level
         public int KillSoldiers(int index, int step, bool forceKill, bool scream)
         {
             List<Soldier> soldiers =
-                SoldiersList.FindAll(Predicates.FindSoldierFromInterval(index - step, index + step));
+                soldierList.FindAll(Predicates.FindSoldierFromInterval(index - step, index + step));
+            List<General> generals =
+                generalList.FindAll(Predicates.FindGeneralFromInterval(index - step, index + step));
+
             int numberOfDeaths = 0;
             if (soldiers != null && soldiers.Count > 0)
                 for (int i = 0; i < soldiers.Count; i++)
@@ -803,6 +844,20 @@ namespace Wof.Model.Level
                         Controller.OnSoldierBeginDeath(soldiers[i], false, scream);
                     }
                 }
+
+            if (generals != null && generals.Count > 0)
+                for (int i = 0; i < generals.Count; i++)
+                {
+                    if (forceKill || generals[i].CanDie)
+                    {
+                        //zmniejszam liczbe genera³ów na planszy
+                        this.GeneralsCount--;
+                        generals[i].Kill();
+                        numberOfDeaths++;
+                        Controller.OnSoldierBeginDeath(generals[i], false, scream);
+                    }
+                }
+
             return numberOfDeaths;
         }
 
@@ -882,19 +937,30 @@ namespace Wof.Model.Level
         /// Porusza zolnierzami na planszy.
         /// </summary>
         /// <param name="time">Czas od ostatniego poruszenia.</param>
-        /// <author>Michal Ziober</author>
+        /// <author>Michal Ziober , Kamil S³awiñski</author>
         private void SoldiersMove(int time)
         {
-            if (soldierList.Count > 0)
+            if (soldierList.Count > 0 || generalList.Count > 0)
             {
-                //usuwam martwych zolnierzy.
-                if(!EngineConfig.BodiesStay) soldierList.RemoveAll(Predicates.RemoveAllDeadSoldiers());
+                //usuwam martwych zolnierzy i genera³ów.
+                if (!EngineConfig.BodiesStay)
+                {
+                    soldierList.RemoveAll(Predicates.RemoveAllDeadSoldiers());
+                    generalList.RemoveAll(Predicates.RemoveAllDeadGenerals());
+                }
 
                 if (soldierList.Count > 0)
                 {
                     //przesuwam zolnierzy znajdujacych sie na planszy
                     for ( int i = 0 ; i < soldierList.Count ; i++)
                         soldierList[i].Move(time);
+                }
+
+                if (generalList.Count > 0)
+                {
+                    //przesuwam genera³ów znajdujacych sie na planszy
+                    for (int i = 0; i < generalList.Count; i++)
+                        generalList[i].Move(time);
                 }
             }
         }
@@ -966,7 +1032,8 @@ namespace Wof.Model.Level
         {
             if (soldier != null)
             {
-                soldierList.Add(soldier);
+                if (soldier is General) generalList.Add(soldier as General);
+                else soldierList.Add(soldier);
             }
         }
 
@@ -1118,14 +1185,17 @@ namespace Wof.Model.Level
         private void UpdateSoldiersCount(List<LevelTile> tileList)
         {
             int soldierCount = 0;
+            int generalCount = 0;
             EnemyInstallationTile enemy = null;
             for (int i = 0; i < tileList.Count; i++)
                 if (tileList[i] is EnemyInstallationTile)
                 {
                     enemy = tileList[i] as EnemyInstallationTile;
                     soldierCount += enemy.SoldierCount;
+                    generalCount += enemy.GeneralCount;
                 }
             SoldiersCount = soldierCount;
+            GeneralsCount = generalCount;
         }
 
         #endregion
@@ -1165,6 +1235,15 @@ namespace Wof.Model.Level
         public List<Soldier> SoldiersList
         {
             get { return soldierList; }
+        }
+
+        /// <summary>
+        /// Zwraca liste genera³ów na planszy.
+        /// </summary>
+        /// <author>Kamil S³awiñski</author>
+        public List<General> GeneralsList
+        {
+            get { return generalList; }
         }
 
         /// <summary>
@@ -1237,6 +1316,15 @@ namespace Wof.Model.Level
         {
             protected set { this.mSoldierCount = Math.Max(value, 0); }
             get { return this.mSoldierCount; }
+        }
+
+        /// <summary>
+        /// Zwraca liczbe zolnierzy, ktorzy znajduja sie obecnie na planszy.
+        /// </summary>
+        public int GeneralsCount
+        {
+            protected set { this.mGeneralCount = Math.Max(value, 0); }
+            get { return this.mGeneralCount; }
         }
 
         #region Levels settings
@@ -1312,6 +1400,11 @@ namespace Wof.Model.Level
             {
                 soldierList.Clear();
                 soldierList = null;
+            }
+            if (generalList != null)
+            {
+                generalList.Clear();
+                generalList = null;
             }
             if (bunkersList != null)
             {

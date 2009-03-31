@@ -410,4 +410,19 @@
   <data name="EnemyPlanesLeft">
     <value>Enemy planes left</value>
   </data>
+  
+    <data name="Target">
+    <value>Target</value>
+  </data>
+  
+  <data name="Neutralized">
+    <value>Neutralized</value>
+  </data>
+  
+  <data name="Alive">
+    <value>Alive</value>
+  </data> 
+    <data name="TargetNeutralizedLandOnCarrierAndPressX">
+      <value>Target neutralized. Land on carrier and press X</value>
+  </data> 
 </root>

@@ -298,6 +298,18 @@ namespace Wof.Controller.Screens
                         gameScreen.CurrentLevel.EnemyPlanesLeft,
                         gameScreen.Framework.UpdateStats());
                     }
+                    else if (gameScreen.CurrentLevel.MissionType == MissionType.Assasination)
+                    {
+                        infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4} | {5}",
+                        LanguageResources.GetString(LanguageKey.Level),
+                        gameScreen.LevelNo,
+                        difficulty,
+                        LanguageResources.GetString(LanguageKey.Target),
+                        (gameScreen.CurrentLevel.GeneralsCount == 0) ? 
+                            LanguageResources.GetString(LanguageKey.Neutralized) : 
+                            LanguageResources.GetString(LanguageKey.Alive),
+                        gameScreen.Framework.UpdateStats());
+                    }
                 }
                 else
                 {
@@ -319,6 +331,19 @@ namespace Wof.Controller.Screens
                         LanguageResources.GetString(LanguageKey.EnemyPlanesLeft),
                         gameScreen.CurrentLevel.EnemyPlanesLeft);
                     }
+
+                    else if (gameScreen.CurrentLevel.MissionType == MissionType.Assasination)
+                    {
+                        infoElement.Caption = String.Format(@"{0}: {1} | {2} | {3}: {4}",
+                        LanguageResources.GetString(LanguageKey.Level),
+                        gameScreen.LevelNo,
+                        difficulty,
+                        LanguageResources.GetString(LanguageKey.Target),
+                        (gameScreen.CurrentLevel.GeneralsCount == 0) ?
+                            LanguageResources.GetString(LanguageKey.Neutralized) :
+                            LanguageResources.GetString(LanguageKey.Alive));
+                    }
+
                 }
 
                 Plane p = gameScreen.CurrentLevel.UserPlane;

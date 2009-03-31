@@ -61,6 +61,7 @@ namespace Wof.Languages
       
         public const string AddingCompositors = @"AddingCompositors";
         public const string AccelerateBreakTurn = @"AccelerateBreakTurn";
+        public const string Alive = @"Alive";
         public const string AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX =
             @"AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX";
         public const string AllEnemyPlanesDestroyedLandOnCarrierAndPressX =
@@ -200,6 +201,7 @@ namespace Wof.Languages
 
         #region ---N---
 
+        public const string Neutralized = @"Neutralized";
         public const string Next = @"Next";
         public const string NewGame = @"NewGame";
         public const string No = @"No";
@@ -256,6 +258,8 @@ namespace Wof.Languages
         #endregion
 
         #region ---T---
+        public const string Target = @"Target";
+        public const string TargetNeutralizedLandOnCarrierAndPressX = @"TargetNeutralizedLandOnCarrierAndPressX";
         public const string Torpedoes = @"Torpedoes";
         public const string TriangleCount = @"TriangleCount";
         public const string Tutorial = @"Tutorial";

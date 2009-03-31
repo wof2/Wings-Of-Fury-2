@@ -153,6 +153,16 @@ namespace Wof.Model.Level.Common
         }
 
         /// <summary>
+        /// Predykat usuwa wszystkich martwych zolnierzy z planszy.
+        /// </summary>
+        /// <returns>Jesli zwroci true, genera³a nalezy usunac, w przeciwnym przypadku 
+        /// genera³ zostaje na planszy.</returns>
+        public static Predicate<General> RemoveAllDeadGenerals()
+        {
+            return delegate(General general) { return !general.IsAlive; };
+        }
+
+        /// <summary>
         /// Predykat szuka zolnierzy, ktorzy znajduja sie na tile o indexie 
         /// zadanym w parametrze. 
         /// </summary>
@@ -170,7 +180,7 @@ namespace Wof.Model.Level.Common
 
         /// <summary>
         /// Predykat szuka zolnierzy ktorzy znajduja sie na tiles o indeksach pomiedzy
-        /// pierwszym a drugim paraetrem.
+        /// pierwszym a drugim parametrem.
         /// </summary>
         /// <param name="start">Startowy tile.</param>
         /// <param name="end">Koncowy tile</param>
@@ -179,6 +189,27 @@ namespace Wof.Model.Level.Common
         public static Predicate<Soldier> FindSoldierFromInterval(int start, int end)
         {
             return delegate(Soldier s)
+            {
+                if (s.IsAlive)
+                {
+                    int pos = Mathematics.PositionToIndex(s.Position.X);
+                    return start <= pos && pos <= end;
+                }
+                return false;
+            };
+        }
+
+        /// <summary>
+        /// Predykat szuka genera³ów ktorzy znajduja sie na tiles o indeksach pomiedzy
+        /// pierwszym a drugim parametrem.
+        /// </summary>
+        /// <param name="start">Startowy tile.</param>
+        /// <param name="end">Koncowy tile</param>
+        /// <returns>True - jesli genera³ znjaduje sie na kawalku planszy o indeksie spelniajacym 
+        /// warunki przypadku false.</returns>
+        public static Predicate<General> FindGeneralFromInterval(int start, int end)
+        {
+            return delegate(General s)
             {
                 if (s.IsAlive)
                 {

@@ -1921,6 +1921,11 @@ namespace Wof.Controller.Screens
             {
                 message = LanguageResources.GetString(LanguageKey.AllEnemyPlanesDestroyedLandOnCarrierAndPressX);
             }
+            else if (currentLevel.MissionType == MissionType.Assasination)
+            {
+                message = LanguageResources.GetString(LanguageKey.TargetNeutralizedLandOnCarrierAndPressX);
+            }
+
             gameMessages.AppendMessage(message);
 
             SoundManager.Instance.PlayFanfare();

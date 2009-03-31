@@ -161,6 +161,16 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             get { return soldiersCount; }
         }
 
+        /// <summary>
+        /// Zwraca ilosc genera³ów znajdujacych sie w bunkrze.
+        /// </summary>
+        public int GeneralCount
+        {
+            get { return generalsCount; }
+        }
+
+
+
         #endregion
 
         #region Public Method
