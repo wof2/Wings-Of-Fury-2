@@ -157,14 +157,6 @@ namespace Wof.Controller
         void OnTileDestroyed(LevelTile tile, Ammunition ammunition);
 
         /// <summary>
-        /// Wybuch pocisku.
-        /// </summary>
-        /// <param name="tile">Tile na ktorych nastepuje wybuch. Wartosc moze byc null'em</param>
-        /// <param name="ammunition"></param>
-        /// <author>Kamil S³awiñski</author>
-        void OnAmmunitionExplode(LevelTile tile, Ammunition ammunition);
-
-        /// <summary>
         /// Funkcja jest wywolywana jesli torpeda wpadnie do wody
         /// </summary>
         /// <param name="tile">Obiekt, ktory zostal trafiony.</param>

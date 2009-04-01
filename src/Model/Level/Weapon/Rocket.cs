@@ -422,16 +422,10 @@ namespace Wof.Model.Level.Weapon
             	CollisionType c = tile.InCollision(this.boundRectangle);
             	if (c == CollisionType.None) return;
             	    
-            	    
-             
                 //jesli nie da sie zniszczyc dany obiekt rakieta.
                 if(c == CollisionType.Hitbound || c == CollisionType.CollisionRectagle)
                 {
-                	if (CanBeDestroyed(index)) 
-                	{
-                		 refToLevel.Controller.OnTileBombed(tile, this);
-                	}
-	                else if (tile is BarrelTile)
+                    if (tile is BarrelTile)
 	                {
 	                    BarrelTile destroyTile = tile as BarrelTile;
 	                    if (!destroyTile.IsDestroyed)
@@ -440,30 +434,40 @@ namespace Wof.Model.Level.Weapon
 	                        refToLevel.Controller.OnTileDestroyed(destroyTile, this);
 	                        refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 2);
 	                    }
+                        else
+                            refToLevel.Controller.OnTileBombed(tile, this);
 	                }
 	                else
+                        if (tile is EnemyInstallationTile)
 	                {
                         FortressBunkerTile fortressTile = null;
 	                    EnemyInstallationTile enemyTile = null;
 	                    LevelTile destroyTile = tile;
-	                    if (destroyTile is EnemyInstallationTile)
 	                    {
                             //Obsluga fortress bunker
                             if ((fortressTile = destroyTile as FortressBunkerTile) != null && !fortressTile.IsDestroyed)
                             {
-                                fortressTile.Hit();
-                                //Ostatnie trafienie!
-                                if (fortressTile.ShouldBeDestroyed)
+                                //Trafienie zniszczonego fortress bunker
+                                if (fortressTile.IsDestroyed)
                                 {
-                                    refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                                    refToLevel.Statistics.HitByRocket++;
-                                    fortressTile.Destroy();
+                                    refToLevel.Controller.OnTileBombed(destroyTile, this);
                                 }
                                 else
                                 {
-                                    //Wybuch rakiety bez zniszczeniu bunkra
-                                    refToLevel.Controller.OnAmmunitionExplode(destroyTile, this);
-                                    refToLevel.Statistics.HitByRocket++;
+                                    fortressTile.Hit();
+                                    //Ostatnie trafienie!
+                                    if (fortressTile.ShouldBeDestroyed)
+                                    {
+                                        refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                                        refToLevel.Statistics.HitByRocket++;
+                                        fortressTile.Destroy();
+                                    }
+                                    //Trafienie rakiety uszkadzaj¹ce fortress bunker
+                                    else
+                                    {
+                                        refToLevel.Controller.OnTileBombed(destroyTile, this);
+                                        refToLevel.Statistics.HitByRocket++;
+                                    }
                                 }
                             }
                             else if ((enemyTile = destroyTile as EnemyInstallationTile) != null && !enemyTile.IsDestroyed)
@@ -476,6 +480,10 @@ namespace Wof.Model.Level.Weapon
                                 refToLevel.Controller.OnTileBombed(tile, this);
 	                    }
 	                }
+                    else
+                    {
+                        refToLevel.Controller.OnTileBombed(tile, this);
+                    }
                 	
                 } else if(c == CollisionType.Altitude) 
                 {
@@ -498,10 +506,10 @@ namespace Wof.Model.Level.Weapon
         /// <returns>Jesli dany obiekt da sie zniszczyc za pomoca rakiety zwroci true,
         /// false w przeciwnym przypadku.</returns>
         /// <author>Michal Ziober</author>
-        private bool CanBeDestroyed(int index)
+        /*private bool CanBeDestroyed(int index)
         {
             return !(refToLevel.LevelTiles[index] is EnemyInstallationTile) && !(refToLevel.LevelTiles[index] is BarrelTile);
-        }
+        }*/
 
         /// <summary>
         /// Funkcja sprawdza czy mozna odrejestrowac rakiete. Jesli mozna

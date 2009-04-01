@@ -208,66 +208,69 @@ namespace Wof.Model.Level.Weapon
         private void CheckCollisionWithGround()
         {
             int index = Mathematics.PositionToIndex(Center.X);
+            LevelTile tile;
             if (index > -1 && index < refToLevel.LevelTiles.Count)
             {
+                tile = refToLevel.LevelTiles[index];
                 //jeœli nie ma kolizji wyjdz.
                 CollisionType c = refToLevel.LevelTiles[index].InCollision(this.boundRectangle);
                 if (c == CollisionType.None)
                     return;
                 
-                //jesli nie da sie zniszczyc dany obiekt bomba.
-                if (!CanBeDestroyed(index))
+                if (tile is BarrelTile)
                 {
-                	refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
-                }                    
-                else if (refToLevel.LevelTiles[index] is BarrelTile)
-                {
-                    BarrelTile destroyTile = refToLevel.LevelTiles[index] as BarrelTile;
+                    BarrelTile destroyTile = tile as BarrelTile;
                     if (!destroyTile.IsDestroyed)
                     {
                         destroyTile.Destroy();
                         refToLevel.Controller.OnTileDestroyed(destroyTile, this);
                         refToLevel.Statistics.HitByBomb += refToLevel.KillVulnerableSoldiers(index, 2);
                     }
+                    else
+                        refToLevel.Controller.OnTileBombed(tile, this);
                 }
-                else
+                else if (tile is EnemyInstallationTile)
                 {
                     WoodBunkerTile woodbunker = null;
                     ShipBunkerTile shipbunker = null;
                     BarrackTile barrack = null;
-                    LevelTile destroyTile = refToLevel.LevelTiles[index];
-                    if (destroyTile is WoodBunkerTile)
+                    if (tile is WoodBunkerTile)
                     {
-                        if ((woodbunker = destroyTile as WoodBunkerTile) != null && !woodbunker.IsDestroyed)
+                        if ((woodbunker = tile as WoodBunkerTile) != null && !woodbunker.IsDestroyed)
                         {
-                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                            refToLevel.Controller.OnTileDestroyed(tile, this);
                             refToLevel.Statistics.HitByBomb++;
                             woodbunker.Destroy();
                         }
                         else
-                            refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
-                    } else if (destroyTile is ShipWoodBunkerTile)
+                            refToLevel.Controller.OnTileBombed(tile, this);
+                    }
+                    else if (tile is ShipWoodBunkerTile)
                     {
-                        if ((shipbunker = destroyTile as ShipBunkerTile) != null && !shipbunker.IsDestroyed)
+                        if ((shipbunker = tile as ShipBunkerTile) != null && !shipbunker.IsDestroyed)
                         {
-                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                            refToLevel.Controller.OnTileDestroyed(tile, this);
                             refToLevel.Statistics.HitByBomb++;
                             shipbunker.Destroy();
                         }
                         else
-                            refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
+                            refToLevel.Controller.OnTileBombed(tile, this);
                     }
-                    else if (destroyTile is BarrackTile)
+                    else if (tile is BarrackTile)
                     {
-                        if ((barrack = destroyTile as BarrackTile) != null && !barrack.IsDestroyed)
+                        if ((barrack = tile as BarrackTile) != null && !barrack.IsDestroyed)
                         {
-                            refToLevel.Controller.OnTileDestroyed(destroyTile, this);
+                            refToLevel.Controller.OnTileDestroyed(tile, this);
                             refToLevel.Statistics.HitByBomb++;
                             barrack.Destroy();
                         }
                         else
-                            refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
+                            refToLevel.Controller.OnTileBombed(tile, this);
                     }
+                }
+                else
+                {
+                    refToLevel.Controller.OnTileBombed(tile, this);
                 }
 
                 //zabijam zolnierzy, ktorzy sa w polu razenia.
@@ -283,11 +286,11 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <param name="index">Indeks trafionego elementu.</param>
         /// <returns>Jesli obiekt da sie zniszczyc bomba zwraca true, w przeciwnym przypadku false.</returns>
-        private bool CanBeDestroyed(int index)
+        /*private bool CanBeDestroyed(int index)
         {
             LevelTile tile = refToLevel.LevelTiles[index];
             return ((tile is WoodBunkerTile) || (tile is BarrackTile) || (tile is BarrelTile) || (tile is ShipBunkerTile));
-        }
+        }*/
 
         #endregion
     }
