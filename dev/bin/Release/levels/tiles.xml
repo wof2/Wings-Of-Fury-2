@@ -171,12 +171,12 @@
 
   <!-- Barrels -->
   <tile name="barrels" y-start="1.5" y-end="1.5" variation="0">
-	<collision-rect rectangle="[2.8, 2.1 ][3.5  ][1.0]"/> <!-- beczki -->
+	<collision-rect rectangle="[3.2, 2.1 ][3.5  ][1.0]"/> <!-- 4 beczki -->
   </tile>
   <tile name="barrels" y-start="1.5" y-end="1.5" variation="1">
-	<collision-rect rectangle="[3.0, 2.1 ][3.5  ][1.5]"/> <!-- beczki -->
-        <collision-rect rectangle="[1.3, 5.8 ][1.5    ][4.8]"/>   <!-- drzewka -->
-	<collision-rect rectangle="[5.1, 5.8 ][1.5    ][4.8]"/>   <!-- drzewka -->
+	<collision-rect rectangle="[3.9, 2.1 ][2.7  ][1.5]"/> <!-- 3 beczki -->
+        <collision-rect rectangle="[2.3, 5.8 ][1.5    ][4.8]"/>   <!-- drzewka -->
+	<collision-rect rectangle="[6.3, 5.8 ][1.5    ][4.8]"/>   <!-- drzewka -->
 	
   </tile>
 
