@@ -199,8 +199,9 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             for (int i = 0; i < generalsCount; i++)
             {
                 newSoldier = new General(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9));
-
-                newSoldier.Speed = rand.Next(GameConsts.Soldier.MinSpeed, GameConsts.Soldier.MaxSpeed);
+				
+                // generals run faster
+                newSoldier.Speed = rand.Next((int)(GameConsts.Soldier.MinSpeed * 1.1f), (int)(GameConsts.Soldier.MaxSpeed * 1.1f));
                 if (curentDirect == Direction.Left)
                     curentDirect = Direction.Right;
                 else
@@ -208,7 +209,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                 //Wysylam event aby dodac nowego zolnierza do listy.
                 RegistrySoldierEvent(this, newSoldier);
                 //rejestruje zolnierza w controlerze.
-                refToLevel.Controller.OnRegisterSoldier(newSoldier);
+                refToLevel.Controller.OnRegisterSoldier(newSoldier, this.refToLevel.MissionType);
             }
 
             newSoldier = null;
@@ -239,7 +240,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                 //Wysylam event aby dodac nowego zolnierza do listy.
                 RegistrySoldierEvent(this, newSoldier);
                 //rejestruje zolnierza w controlerze.
-                refToLevel.Controller.OnRegisterSoldier(newSoldier);
+                refToLevel.Controller.OnRegisterSoldier(newSoldier, this.refToLevel.MissionType);
             }
             rand = null;
             //zeruje liczbe zolnierzy w bunkrze.

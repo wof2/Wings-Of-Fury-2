@@ -86,6 +86,8 @@ namespace Wof.View
         protected AnimationState runAnimationState;
         protected AnimationState die1AnimationState;
         protected AnimationState die2AnimationState;
+        
+        protected SceneNode arrowNode;
 
         protected static Stack<SoldierView> soldierAvailablePool;
         protected static Dictionary<Soldier, SoldierView> soldierUsedPool;
@@ -223,7 +225,7 @@ namespace Wof.View
             die2AnimationState = soldierModel.GetAnimationState("die2");
 
             soldierNode.SetVisible(false);
-
+            attachArrow();
             if (FrameWork.DisplayMinimap)
             {
                 if (minimapItem == null)
@@ -236,13 +238,42 @@ namespace Wof.View
                 minimapItem.Refresh();
                 minimapItem.Hide();
             }
+            
+            
+        }
+        
+        public void attachArrow()
+        {
+        	Entity arrowModel = sceneMgr.CreateEntity(soldierModel.Name + "Arrow", "TwoSidedPlane.mesh");
+            arrowModel.SetMaterialName("FakePalmTree");
+            
+            arrowNode =  soldierNode.CreateChildSceneNode(soldierNode.Name + "Arrow", new Vector3(0,soldierModel.BoundingBox.Size.y,0));
+            arrowNode.SetDirection(Vector3.UNIT_X);
+            arrowNode.AttachObject(arrowModel);
+            arrowNode.SetVisible(false);
+        }
+        
+        public void showArrow()
+        {
+        	if(arrowNode != null) {
+        		arrowNode.SetVisible(true);
+        	}
+            
+        }
+        
+        public void hideArrow()
+        {
+        	if(arrowNode != null) {
+        		arrowNode.SetVisible(false);
+        	}
         }
 
         protected virtual void postInitOnScene()
-        {
-            if (Soldier is General)
+        { 
+        	// dopiero teraz wiemy jaki to ¿o³nierz
+        	if (Soldier is General)
             {
-                //case Soldier.SoldierType.GENERAL:
+            	 
                 soldierModel.SetMaterialName("General");
             }
             else if (Soldier is Seaman)
@@ -320,6 +351,7 @@ namespace Wof.View
                 minimapItem.Hide();
             }
 
+            hideArrow();
 
             //  BLOOD
             if (EngineConfig.Gore)
@@ -352,6 +384,7 @@ namespace Wof.View
             animationState = die2AnimationState;
             animationState.TimePosition = 0;
 
+            hideArrow();
             if (FrameWork.DisplayMinimap)
             {
                 minimapItem.Hide();
@@ -368,7 +401,7 @@ namespace Wof.View
         {
             if (animationState.AnimationName.Equals("run"))
             {
-                timeSinceLastFrame *= (soldier.Speed/5.0f); // dopasuj szybkosc animacji do szybkosci zolnieza
+                timeSinceLastFrame *= (soldier.Speed/5.0f); // dopasuj szybkosc animacji do szybkosci zolnierza
             }
             else if (animationState.AnimationName.StartsWith("die"))
             {
@@ -376,6 +409,10 @@ namespace Wof.View
                 ; // na razie w osobnym ifie
             }
             animationState.AddTime(timeSinceLastFrame);
+            
+            // TODO: animacja strza³ki
+            
+            
         }
 
         public void rewind()

@@ -80,7 +80,7 @@ namespace Wof.Controller
         /// </summary>
         /// <param name="soldier">Zolnierz do zarejestrowania.</param>
         /// <author>Michal Ziober</author>
-        void OnRegisterSoldier(Soldier soldier);
+        void OnRegisterSoldier(Soldier soldier, MissionType missionType);
 
         /// <summary>
         /// Funkcja usuwa zolnierza z widoku.

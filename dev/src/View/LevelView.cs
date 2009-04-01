@@ -466,9 +466,16 @@ namespace Wof.View
             }
         }
 
-        public void OnRegisterSoldier(Soldier soldier)
+        public void OnRegisterSoldier(Soldier soldier, MissionType missionType)
         {
-            soldierViews.Add(SoldierView.GetInstance(soldier));
+            SoldierView	sv = SoldierView.GetInstance(soldier);
+            
+            // strzalka nad glowna genera³a
+            if(missionType == MissionType.Assasination)
+            {
+            	sv.showArrow();
+            }
+            soldierViews.Add(sv);
         }
 
         private int FindSoldierViewIndex(Soldier soldier)

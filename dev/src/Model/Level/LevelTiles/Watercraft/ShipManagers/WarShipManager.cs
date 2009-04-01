@@ -47,8 +47,10 @@
  */
 
 using System;
-using Wof.Model.Level.Weapon;
 using Wof.Controller;
+using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+using Wof.Model.Level.Weapon;
+
 namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 {
     /// <summary>
@@ -71,7 +73,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 
         #region Override Methods
 
-        public override void TorpedoHit(Ammunition ammo)
+        public override void TorpedoHit(Ammunition ammo, ShipTile tile)
         {
             _shipState++;
             if (_shipState == ShipState.Destroyed)
@@ -85,6 +87,29 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
             else
             {
             	SoundManager.Instance.PlayExposionSound();
+            	
+            	// TODO: zniszczyæ dzia³ko na statku (problem z tym ze ShipTiles nie zawiera bunkrow)
+            	
+            	/*Random r =new Random();
+            	int destroyTile = r.Next(0,this.ShipTiles.Count - 1);
+            	
+            	// trafienie z lewej
+            	if(tile == ShipTiles[0])
+            	{
+            		
+            		for(int i=0; i<ShipTiles.Count; i++)
+	            	{
+	            		if(ShipTiles[i] is ShipBunkerTile)
+	            		{
+	            			if(ShipTiles[i] as ShipBunkerTile)
+	            			{
+	            				
+	            			}
+	            		}
+	            	}
+            	}
+            	*/
+            	
             	_refToLevel.Controller.OnAmmunitionExplode(_shipTiles[0], ammo);
                 _refToLevel.Controller.OnShipDamaged(_shipTiles[0], _shipState);
             }

@@ -71,7 +71,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 
         #region Override Methods
 
-        public override void TorpedoHit(Ammunition ammo)
+        public override void TorpedoHit(Ammunition ammo, ShipTile tile)
         {
             _shipState = ShipState.Destroyed;
             //niszczymy obiekt

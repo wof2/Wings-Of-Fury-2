@@ -375,7 +375,7 @@ namespace Wof.Model.Level.Weapon
                                 {
                                     if (st.ShipOwner.IsLastHit)//jesli mozemy zatopic okret
                                         refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-                                    st.ShipOwner.TorpedoHit(this);//trafiamy w okret torpeda
+                                    st.ShipOwner.TorpedoHit(this, destroyTile as ShipTile);//trafiamy w okret torpeda
                                     refToLevel.Statistics.HitByTorpedo++;
                                     //refToLevel.KillVulnerableSoldiers(index, 6);
                                 }

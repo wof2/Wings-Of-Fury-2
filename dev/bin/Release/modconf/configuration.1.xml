@@ -102,6 +102,16 @@
     fireDelay = "800"
     horizonHeight = "45"
     horizonWidth ="35"/>
+	
+ <ShipConcreteBunker
+    fireDelay = "800"
+    horizonHeight = "45"
+    horizonWidth ="100"/>
+	
+ <ShipWoodenBunker
+    fireDelay = "800"
+    horizonHeight = "45"
+    horizonWidth ="80"/>
 
   <!--Bomby:
   fireInterval - Przedzial czasu, jaki musi uplynac, aby gracz mogl zrzucic nastepna bombe. Podany w milisekundach(ms). Typ: int
