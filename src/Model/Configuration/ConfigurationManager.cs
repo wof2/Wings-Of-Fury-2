@@ -113,6 +113,14 @@ namespace Wof.Model.Configuration
             SetConsts(typeof(GameConsts.ConcreteBunker),
                       configurations.GetConfiguration(ConfigurationNames.ConcreteBunker),
                       new GameConsts.ConcreteBunker());
+            
+            SetConsts(typeof (GameConsts.ShipWoodenBunker),
+                      configurations.GetConfiguration(ConfigurationNames.ShipWoodenBunker), new GameConsts.ShipWoodenBunker());
+
+            //Concrete Bunker
+            SetConsts(typeof(GameConsts.ShipConcreteBunker),
+                      configurations.GetConfiguration(ConfigurationNames.ShipConcreteBunker),
+                      new GameConsts.ShipConcreteBunker());
 
             SetConsts(typeof(GameConsts.Bomb),
                       configurations.GetConfiguration(ConfigurationNames.Bomb), new GameConsts.Bomb());

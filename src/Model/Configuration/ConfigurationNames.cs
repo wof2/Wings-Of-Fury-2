@@ -58,5 +58,10 @@ namespace Wof.Model.Configuration
         public const string EnemyPlane = @"EnemyPlane";
         public const string WoodenBunker = @"WoodenBunker";
         public const string ConcreteBunker = @"ConcreteBunker";
+        public const string ShipConcreteBunker = @"ShipConcreteBunker";
+        public const string ShipWoodenBunker = @"ShipWoodenBunker";
+       
+        
+        
     }
 }

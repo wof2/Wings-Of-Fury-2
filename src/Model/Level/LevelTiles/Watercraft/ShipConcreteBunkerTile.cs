@@ -159,7 +159,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             {
                 //indeks obiektu na liscie
                 base.TileIndex = value;
-                horizon = new Quadrangle(new PointD(value*Width - GameConsts.ConcreteBunker.HorizonWidth/2, 5),
+                horizon = new Quadrangle(new PointD(value*Width - GameConsts.ShipConcreteBunker.HorizonWidth/2, 5),
                                          GameConsts.ShipConcreteBunker.HorizonWidth,
                                          GameConsts.ShipConcreteBunker.HorizonHeight);
             }

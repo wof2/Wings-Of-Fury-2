@@ -96,7 +96,7 @@ namespace Wof.Controller.Screens
 
         
         private const int C_ENEMY_PLANE_SCORE = 35;
-        private const int C_LIFE_LEFT = 50;
+        private const int C_LIFE_LEFT_SCORE = 50;
 
         public const float C_RESPONSE_DELAY = 0.16f;
 
@@ -523,7 +523,7 @@ namespace Wof.Controller.Screens
                 SoundManager.Instance.HaltWaterBubblesSound();
                 levelView.OnStopPlayingEnemyPlaneEngineSounds();
                 SoundManager.Instance.HaltOceanSound();
-                increaseScore(this.lives * C_LIFE_LEFT);
+                increaseScore(this.lives * C_LIFE_LEFT_SCORE);
                 levelView.Destroy();
                 if(mGui!=null)
                 {
@@ -1554,9 +1554,9 @@ namespace Wof.Controller.Screens
         /// Funkcja rejestruje na planszy nowego zolnierza.
         /// </summary>
         /// <param name="soldier">Zolnierz do zarejestrowania.</param>
-        public void OnRegisterSoldier(Soldier soldier)
+        public void OnRegisterSoldier(Soldier soldier, MissionType missionType)
         {
-            levelView.OnRegisterSoldier(soldier);
+            levelView.OnRegisterSoldier(soldier, missionType);
         }
 
 

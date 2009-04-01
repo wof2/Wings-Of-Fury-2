@@ -19,6 +19,8 @@ namespace Wof.Model.Configuration
         private Dictionary<String, float> mSoldierConfig = null;
         private Dictionary<String, float> mWoodenBunker = null;
         private Dictionary<String, float> mConcreteBunker = null;
+        private Dictionary<String, float> mShipWoodenBunker = null;
+        private Dictionary<String, float> mShipConcreteBunker = null;
         private Dictionary<String, float> mBomb = null;
         private Dictionary<String, float> mRocket = null;
         private Dictionary<String, float> mTorpedo = null;
@@ -70,6 +72,10 @@ namespace Wof.Model.Configuration
                 return mWoodenBunker;
             else if (type.Equals(ConfigurationNames.ConcreteBunker))
                 return mConcreteBunker;
+            else if (type.Equals(ConfigurationNames.ShipConcreteBunker))
+                return mShipConcreteBunker;
+            else if (type.Equals(ConfigurationNames.ShipWoodenBunker))
+                return mShipWoodenBunker;
             else if (type.Equals(ConfigurationNames.Bomb))
                 return mBomb;
             else if (type.Equals(ConfigurationNames.Rocket))
@@ -90,6 +96,9 @@ namespace Wof.Model.Configuration
             mConcreteBunker = InitConfig(typeof (ConfigurationAttributes.Bunker));
             mSoldierConfig = InitConfig(typeof (ConfigurationAttributes.Soldier));
             mWoodenBunker = InitConfig(typeof (ConfigurationAttributes.Bunker));
+            mShipConcreteBunker = InitConfig(typeof (ConfigurationAttributes.Bunker));
+            mShipWoodenBunker = InitConfig(typeof (ConfigurationAttributes.Bunker));
+            
             mRocket = InitConfig(typeof (ConfigurationAttributes.Rocket));
             mTorpedo = InitConfig(typeof(ConfigurationAttributes.Torpedo));
 
@@ -141,6 +150,16 @@ namespace Wof.Model.Configuration
                     {
                         if (!ReadConfig(reader, mWoodenBunker))
                             throw new XmlException("Wooden bunker jest niepoprawny !");
+                    }
+                    else if (reader.Name.Equals(ConfigurationNames.ShipConcreteBunker))
+                    {
+                        if (!ReadConfig(reader, mShipConcreteBunker))
+                            throw new XmlException("ship Concrete bunker jest niepoprawny !");
+                    }
+                    else if (reader.Name.Equals(ConfigurationNames.ShipWoodenBunker))
+                    {
+                        if (!ReadConfig(reader, mShipWoodenBunker))
+                            throw new XmlException("ship Wooden bunker jest niepoprawny !");
                     }
                     else if (reader.Name.Equals(ConfigurationNames.Rocket))
                     {
@@ -206,6 +225,10 @@ namespace Wof.Model.Configuration
             builder.Append(ConfigToString(mWoodenBunker));
             builder.AppendLine("Concrete bunker:");
             builder.Append(ConfigToString(mConcreteBunker));
+            builder.AppendLine("Ship Wooden bunker:");
+            builder.Append(ConfigToString(mShipWoodenBunker));
+            builder.AppendLine("Ship Concrete bunker:");
+            builder.Append(ConfigToString(mShipConcreteBunker));
             builder.AppendLine("Rocket:");
             builder.Append(ConfigToString(mRocket));
             builder.AppendLine("Torpedo:");
@@ -234,6 +257,23 @@ namespace Wof.Model.Configuration
                 mConcreteBunker.Clear();
                 mConcreteBunker = null;
             }
+            if (mWoodenBunker != null)
+            {
+                mWoodenBunker.Clear();
+                mWoodenBunker = null;
+            }
+ 			if (mShipConcreteBunker != null)
+            {
+                mShipConcreteBunker.Clear();
+                mShipConcreteBunker = null;
+            }
+            if (mShipWoodenBunker != null)
+            {
+                mShipWoodenBunker.Clear();
+                mShipWoodenBunker = null;
+            }
+
+            
             if (mEnemyPlaneConfig != null)
             {
                 mEnemyPlaneConfig.Clear();
@@ -249,12 +289,7 @@ namespace Wof.Model.Configuration
                 mUserPlaneConfig.Clear();
                 mUserPlaneConfig = null;
             }
-            if (mWoodenBunker != null)
-            {
-                mWoodenBunker.Clear();
-                mWoodenBunker = null;
-            }
-
+            
             if (mRocket != null)
             {
                 mRocket.Clear();

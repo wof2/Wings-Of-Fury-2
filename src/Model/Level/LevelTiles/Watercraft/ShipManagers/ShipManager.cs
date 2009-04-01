@@ -175,7 +175,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
         /// <summary>
         /// Obsluga trafienia przez torpede.
         /// </summary>
-        public abstract void TorpedoHit(Ammunition ammo);
+        public abstract void TorpedoHit(Ammunition ammo, ShipTile tile);
 
         #endregion
 
