@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F101F624-0894-4B82-BE03-002A6D0E94F5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
@@ -323,6 +323,11 @@
     <Compile Include="src\Model\Level\Direction.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\Model\Level\Effects\BulletTimeEffect.cs" />
+    <Compile Include="src\Model\Level\Effects\EffectsManager.cs" />
+    <Compile Include="src\Model\Level\Effects\EffectState.cs" />
+    <Compile Include="src\Model\Level\Effects\TimeEffect.cs" />
+    <Compile Include="src\Model\Level\Effects\EffectType.cs" />
     <Compile Include="src\Model\Level\IAttractorSource.cs" />
     <Compile Include="src\Model\Level\IAttractorTarget.cs" />
     <Compile Include="src\Model\Level\Infantry\General.cs" />
