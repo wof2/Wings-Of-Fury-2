@@ -125,21 +125,18 @@ namespace Wof.View
                  );
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="position"></param>
+        /// <param name="islandNode"></param>
         /// <param name="barrelCount">Iloœæ beczek. Max = 4</param>
-        protected void initBarrel(Vector3 position, int barrelCount)
+        /// <author>Kamil S³awiñski</author>
+        protected void initBarrel(SceneNode islandNode, int barrelCount)
         {
             SceneNode barrelNode;
             Entity barrel;
-            //    AnimationState state;
             barrelCount = Math.Min(barrelCount, 4);
             for (int i = 0; i < barrelCount; i++)
             {
                 barrelNode =
-                    installationNode.CreateChildSceneNode("BarrelNode" + LevelView.PropCounter.ToString(), position);
+                    islandNode.CreateChildSceneNode("BarrelNode" + LevelView.PropCounter.ToString());
                 barrel = sceneMgr.CreateEntity("Barrel" + LevelView.PropCounter.ToString(), "Barrel.mesh");
                 barrelNode.AttachObject(barrel);
 
@@ -165,29 +162,28 @@ namespace Wof.View
             }
         }
 
-
         public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
             base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
             String nameSuffix = tileID.ToString();
 
+            float positionOnIsland = -getRelativePosition(parentNode, LevelTile);
+
             if (levelTile is BarrelTile)
             {
-             
                 installationNode =
-                    parentNode.CreateChildSceneNode("Barrels" + nameSuffix, new Vector3(0.0f, 0.1f, 5.0f));
-                installationNode.Translate(new Vector3(0.0f, 0.0f, UnitConverter.LogicToWorldUnits(tileCMVIndex) -  parentNode.Position.x));
+                    parentNode.CreateChildSceneNode("Barrels" + nameSuffix, new Vector3(0, 0.1f, positionOnIsland - 5.0f));
 
                 switch (LevelTile.Variant)
                 {
                         //Bez drzew
                     case 0:
-                        initBarrel(new Vector3(0, 0, 2), 4);
+                        initBarrel(installationNode, 4);
                         break;
                     case 1:
-                        initPalm(new Vector3(-0.8f, 0, 0));
-                        initPalm(new Vector3(-0.6f, 0, 4));
-                        initBarrel(new Vector3(0, 0, 2), 3);
+                        initPalm(new Vector3(-0.8f, 0, -2));
+                        initPalm(new Vector3(-0.6f, 0, 2));
+                        initBarrel(installationNode, 3);
                         break;
                 }
             }
