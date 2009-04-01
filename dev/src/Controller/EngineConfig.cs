@@ -93,6 +93,10 @@ namespace Wof.Controller
         public static bool ManualCamera = false;
 
         public static bool BloomEnabled = false;
+
+        public static bool UseHydrax = true;
+
+        
        
         public const float GameSpeedMultiplierSlow = 0.5f;
  		public const float GameSpeedMultiplierNormal = 1.0f;

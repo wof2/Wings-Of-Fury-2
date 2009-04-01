@@ -313,7 +313,7 @@ namespace Wof.Controller.Screens
                     LogManager.Singleton.LogMessage("About to register level " + levelNo + " to view...", LogMessageLevel.LML_CRITICAL);
                     SoundManager.Instance.PreloadRandomIngameMusic();
                     levelView.OnRegisterLevel(currentLevel);
-
+                   
                     LogManager.Singleton.LogMessage("About to register player plane", LogMessageLevel.LML_CRITICAL);
                     OnRegisterPlane(currentLevel.UserPlane);
 
@@ -1025,6 +1025,7 @@ namespace Wof.Controller.Screens
                                     framework.MinimapNoseCamera);
                             }
 
+                            levelView.InitOceanSurface();
 
                             levelView.SetVisible(true);
                             loadingOverlay.Hide();
