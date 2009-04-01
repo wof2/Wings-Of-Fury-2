@@ -87,6 +87,9 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
             else
             {
             	SoundManager.Instance.PlayExposionSound();
+
+            	
+
             	
             	// TODO: zniszczyæ dzia³ko na statku (problem z tym ze ShipTiles nie zawiera bunkrow)
             	
@@ -109,8 +112,8 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 	            	}
             	}
             	*/
-            	
-            	_refToLevel.Controller.OnAmmunitionExplode(_shipTiles[0], ammo);
+
+                _refToLevel.Controller.OnTileBombed(_shipTiles[0], ammo);
                 _refToLevel.Controller.OnShipDamaged(_shipTiles[0], _shipState);
             }
         }
