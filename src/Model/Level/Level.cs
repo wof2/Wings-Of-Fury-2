@@ -57,6 +57,7 @@ using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
+using Wof.Model.Level.LevelTiles.Watercraft.ShipManagers;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Infantry;
 using Wof.Model.Level.Weapon;
@@ -230,6 +231,26 @@ namespace Wof.Model.Level
         /// </summary>
         private LevelStatistics mStatistics;
 
+        /// <summary>
+        /// Statki poziomu
+        /// </summary>
+        private List<ShipManager> shipManagers;
+
+
+        public int ShipsLeft
+        {
+            get
+            {
+                int shipsLeft = shipManagers.Count;
+                for (int i = 0; i < shipManagers.Count; i++)
+                {
+                    ShipManager ship = shipManagers[i];
+                    if (ship.State == ShipState.Destroyed) shipsLeft--;
+                }
+                return shipsLeft;
+            }
+        }
+
         #endregion
 
         #region Public Constructors
@@ -264,6 +285,8 @@ namespace Wof.Model.Level
             UpdateSoldiersCount(enemyInstallationTiles);
             bunkersList = levelParser.Tiles.FindAll(Predicates.GetAllBunkerTiles());
             shipsList = levelParser.Tiles.FindAll(Predicates.GetAllShipTiles());
+            shipManagers = levelParser.ShipManagers;
+
             mStatistics = new LevelStatistics();
 
             SetAircraftCarrierList();
@@ -276,6 +299,7 @@ namespace Wof.Model.Level
             {	
             	case MissionType.Assasination:
             	case MissionType.BombingRun:
+                case MissionType.Naval:
             	    info.Direction = Direction.Left;
 		            info.EngineState = EngineState.SwitchedOff;
 		            info.PositionType = StartPositionType.Carrier;
@@ -453,10 +477,20 @@ namespace Wof.Model.Level
                 }
             }
            
-            // koniec misji typu dogifght
-            if (EnemyPlanesLeft == 0 && this.MissionType == MissionType.Dogfight)
+            // koniec misji typu dogfight
+            if (this.MissionType == MissionType.Dogfight && EnemyPlanesLeft == 0)
             {
                 if (!onReadyLevelEndLaunched )
+                {
+                    onReadyLevelEndLaunched = true;
+                    controller.OnReadyLevelEnd();
+                }
+            }
+
+            // Koniec misji typu naval
+            if (this.MissionType == MissionType.Naval && ShipsLeft == 0)
+            {
+                if (!onReadyLevelEndLaunched)
                 {
                     onReadyLevelEndLaunched = true;
                     controller.OnReadyLevelEnd();
@@ -1167,6 +1201,46 @@ namespace Wof.Model.Level
         			}
 		        	
         			break;
+                case MissionType.Naval:
+                    if (enemyInstallationTiles != null && enemyInstallationTiles.Count > 0 &&
+                        aircraftTiles != null && aircraftTiles.Count > 0)
+                    {
+                        int aircraftIndex = aircraftTiles[0].TileIndex;
+                        bool left = false, right = false;
+                        LevelTile tile;
+                        for (int i = 0; i < enemyInstallationTiles.Count; i++)
+                        {
+                            tile = enemyInstallationTiles[i];
+                            if (tile is ShipTile && tile.TileIndex < aircraftIndex)
+                            {
+                                left = true;
+                                break;
+                            }
+                        }
+                        for (int i = 0; i < enemyInstallationTiles.Count; i++)
+                        {
+                            tile = enemyInstallationTiles[i];
+                            if (tile is ShipTile && tile.TileIndex > aircraftIndex)
+                            {
+                                right = true;
+                                break;
+                            }
+                        }
+
+                        if (left && right)
+                            flyDirectionHint = FlyDirectionHint.Both;
+                        else if (left)
+                            flyDirectionHint = FlyDirectionHint.Left;
+                        else if (right)
+                            flyDirectionHint = FlyDirectionHint.Right;
+                        else
+                            flyDirectionHint = FlyDirectionHint.None;
+                    }
+                    else
+                    {
+                        flyDirectionHint = FlyDirectionHint.None;
+                    }
+                    break;
         		case MissionType.Assasination:
         				flyDirectionHint = FlyDirectionHint.None;
         			break;

@@ -424,5 +424,13 @@
   <data name="TargetNeutralizedLandOnCarrierAndPressX">
       <value>Target neutralized. Land on carrier and press X</value>
   </data> 
+  
+  <data name="EnemyShipsLeft">
+    <value>Enemy ships left</value>
+  </data>
+  
+  <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
+    <value>All enemy ships destroyed, land on carrier and press X</value>
+  </data>
 
 </root>

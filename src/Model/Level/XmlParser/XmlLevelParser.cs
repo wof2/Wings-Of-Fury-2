@@ -60,6 +60,7 @@ using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
 using Wof.Model.Level.LevelTiles.Watercraft;
+using Wof.Model.Level.LevelTiles.Watercraft.ShipManagers;
 
 namespace Wof.Model.Level.XmlParser
 {
@@ -92,8 +93,6 @@ namespace Wof.Model.Level.XmlParser
         /// Czas do pojawienia sie nastêpnego samolotu wroga
         /// </summary>
         private int timeToNextEnemyPlane;
-        
-       
 
         /// <summary>
         /// Obiekt wczytujacy plik tiles.xml
@@ -110,6 +109,11 @@ namespace Wof.Model.Level.XmlParser
         /// </summary>
         private List<LevelTile> levelTiles;
 
+        /// <summary>
+        /// Lista statków znajdujacych sie na planszy.
+        /// </summary>
+        private List<ShipManager> shipManagers;
+
         #endregion
 
         #region Public Constructor 
@@ -119,7 +123,7 @@ namespace Wof.Model.Level.XmlParser
             if (!File.Exists(path))
                 throw new LevelFileNotFoundException(Path.GetFileName(path));
 
-            Initializing();
+            Initialize();
             if (!tilesManager.IsReadOK)
                 throw new IOException("Error while reading tiles file ..." + path);
 
@@ -137,9 +141,10 @@ namespace Wof.Model.Level.XmlParser
         /// <summary>
         /// Funkcja inicjalizuje prywatne zmienne.
         /// </summary>
-        private void Initializing()
+        private void Initialize()
         {
             levelTiles = new List<LevelTile>();
+            shipManagers = new List<ShipManager>();
             tilesManager = new TilesManager();
         }
 
@@ -545,8 +550,12 @@ namespace Wof.Model.Level.XmlParser
                     pb = new EndShipTile(node.YStart, node.YEnd, node.ViewXShift,
                                                           node.HitRectangle, variation, node.CollisionRectangle, traversable);
                 else if (fullName.EndsWith(ShipElement.Begin))
-                    pb = new BeginShipTile(node.YStart, node.YEnd, node.ViewXShift,
+                {
+                    ShipTile shipTile = new BeginShipTile(node.YStart, node.YEnd, node.ViewXShift,
                                                             node.HitRectangle, variation, node.CollisionRectangle, traversable, typeOfEnemyShip);
+                    shipManagers.Add(shipTile.ShipOwner);
+                    pb = shipTile;
+                }
                 else if (fullName.EndsWith(ShipElement.Middle))
                     pb = new MiddleShipTile(node.YStart, node.YEnd, node.ViewXShift, node.HitRectangle, variation, node.CollisionRectangle, traversable);
                
@@ -932,6 +941,8 @@ namespace Wof.Model.Level.XmlParser
                 return MissionType.Assasination;
             else if (name.Equals("Dogfight", StringComparison.InvariantCultureIgnoreCase))
                 return MissionType.Dogfight;
+            else if (name.Equals("Naval", StringComparison.InvariantCultureIgnoreCase))
+                return MissionType.Naval;
             else
                 return MissionType.BombingRun;
         }
@@ -982,6 +993,14 @@ namespace Wof.Model.Level.XmlParser
         public List<LevelTile> Tiles
         {
             get { return levelTiles; }
+        }
+
+        /// <summary>
+        /// Zwraca listê statków[managerów] znajdujacych sie na planszy.
+        /// </summary>
+        public List<ShipManager> ShipManagers
+        {
+            get { return shipManagers; }
         }
 
         #endregion

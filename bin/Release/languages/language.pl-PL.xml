@@ -425,4 +425,12 @@
   <data name="TargetNeutralizedLandOnCarrierAndPressX">
       <value>Cel wyeliminowany, wyląduj na lotniskowcu i wciśnij X</value>
   </data> 
+  
+  <data name="EnemyShipsLeft">
+    <value>Pozostało statków</value>
+  </data>
+  
+  <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
+    <value>Wszystkie statki wroga zniszczone, wyląduj na lotniskowcu i wciśnij X</value>
+  </data>
 </root>

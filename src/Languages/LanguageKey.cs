@@ -62,10 +62,13 @@ namespace Wof.Languages
         public const string AddingCompositors = @"AddingCompositors";
         public const string AccelerateBreakTurn = @"AccelerateBreakTurn";
         public const string Alive = @"Alive";
-        public const string AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX =
-            @"AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX";
         public const string AllEnemyPlanesDestroyedLandOnCarrierAndPressX =
             @"AllEnemyPlanesDestroyedLandOnCarrierAndPressX";
+        public const string AllEnemyShipsDestroyedLandOnCarrierAndPressX =
+            @"AllEnemyShipsDestroyedLandOnCarrierAndPressX";
+        public const string AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX =
+            @"AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX";
+
  
         public const string Antyaliasing = @"Antialiasing";
         public const string AreYouTryingToReachStarsCaptain = @"AreYouTryingToReachStarsCaptain";
@@ -137,6 +140,7 @@ namespace Wof.Languages
         public const string EnemyPlaneApproachingFromTheLeft = @"EnemyPlaneApproachingFromTheLeft";
         public const string EnemyPlaneApproachingFromTheRight = @"EnemyPlaneApproachingFromTheRight";
         public const string EnemyPlanesLeft = @"EnemyPlanesLeft";
+        public const string EnemyShipsLeft = @"EnemyShipsLeft";
         public const string EnemySoldiersLeft = @"EnemySoldiersLeft";
         public const string Engine = @"Engine";
         public const string EnterYourName = @"EnterYourName";
