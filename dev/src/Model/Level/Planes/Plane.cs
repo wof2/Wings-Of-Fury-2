@@ -2704,12 +2704,14 @@ namespace Wof.Model.Level.Planes
             if (locationState == LocationState.CarrierTurningRound)
                 return;
 
+            //Console.WriteLine("angle:" + Angle);
+
             if (Bounds.Center.Y > GameConsts.UserPlane.MaxHeight*maxHeightTurningRange)
             {
                 level.OnPlaneForceGoDown(this);
 
                 bool normalFlightToUp = direction == Direction.Left &&  -Math.HALF_PI <= Angle && Angle < 0 ||
-                                        direction == Direction.Right && 0 <= Angle && Angle < Math.HALF_PI;
+                                        direction == Direction.Right && 0 < Angle && Angle < Math.HALF_PI;
 
                 bool upSideDownFlightToUp = direction == Direction.Left && -Math.PI < Angle && Angle < -Math.HALF_PI ||
                                             direction == Direction.Right && Math.HALF_PI <= Angle && Angle <= Math.PI;
