@@ -2707,13 +2707,12 @@ namespace Wof.Model.Level.Planes
             if (Bounds.Center.Y > GameConsts.UserPlane.MaxHeight*maxHeightTurningRange)
             {
                 level.OnPlaneForceGoDown(this);
-                bool normalFlightToUp = direction == Direction.Left && -1*System.Math.PI/2 < Angle && Angle <= 0 ||
-                                        direction == Direction.Right && 0 <= Angle && Angle < System.Math.PI/2;
 
-                bool upSideDownFlightToUp = direction == Direction.Left && /*(-1) * Math.PI <= this.Angle &&*/
-                                            Angle <= (-1)*System.Math.PI/2 ||
-                                            direction == Direction.Right && System.Math.PI/2 <= Angle &&
-                                            Angle <= System.Math.PI;
+                bool normalFlightToUp = direction == Direction.Left &&  -Math.HALF_PI <= Angle && Angle < 0 ||
+                                        direction == Direction.Right && 0 <= Angle && Angle < Math.HALF_PI;
+
+                bool upSideDownFlightToUp = direction == Direction.Left && -Math.PI < Angle && Angle < -Math.HALF_PI ||
+                                            direction == Direction.Right && Math.HALF_PI <= Angle && Angle <= Math.PI;
 
                 if ((normalFlightToUp || upSideDownFlightToUp) && !isMaxHeightRotate)
                 {
@@ -2724,6 +2723,7 @@ namespace Wof.Model.Level.Planes
                 if (upSideDownFlightToUp)
                 {
                   float delta = Math.Abs(Math.PI - Math.Abs(Bounds.Angle));
+
                   if (delta <= rot)
                   {
                       Bounds.Rotate((int) direction*delta);
@@ -2731,7 +2731,15 @@ namespace Wof.Model.Level.Planes
                       isBlockDown = false;
                       isBlockUp = false;
 
-                      Speed = speedBeforeMaxHeightRotation;
+                      //Bugfix - Kamil S³awiñski
+                      if (direction == Direction.Left)
+                          movementVector.X = speedBeforeMaxHeightRotation;
+                      else
+                          movementVector.X = -speedBeforeMaxHeightRotation;
+
+                      //Nie³adnie !!! - ta linijka kosztowa³a mnie 2 dni debug'owania - KS
+                      //Speed = speedBeforeMaxHeightRotation;
+
                       isMaxHeightRotate = false;
                   }
                   else
@@ -2763,7 +2771,15 @@ namespace Wof.Model.Level.Planes
                       isBlockDown = false;
                       isBlockUp = false;
 
-                      Speed = speedBeforeMaxHeightRotation;
+                      //Bugfix - Kamil S³awiñski
+                      if (direction == Direction.Left)
+                          movementVector.X = -speedBeforeMaxHeightRotation;
+                      else
+                          movementVector.X = speedBeforeMaxHeightRotation;
+
+                      //Nie³adnie !!! - ta linijka kosztowa³a mnie 2 dni debug'owania - KS
+                      //Speed = speedBeforeMaxHeightRotation;
+
                       isMaxHeightRotate = false;
                   }
                   else
@@ -2777,16 +2793,15 @@ namespace Wof.Model.Level.Planes
                 }
             }
 
-
             // awaryjne œci¹gniêcie na dó³ (próba ³atania buga)
-            if (Bounds.Center.Y > GameConsts.UserPlane.MaxHeight)
+            /*if (Bounds.Center.Y > GameConsts.UserPlane.MaxHeight)
             {
 
                 bounds.Move(new PointD(0,
                                        -((Bounds.Center.Y - GameConsts.UserPlane.MaxHeight*0.99f)*time)/
                                        timeUnit));
 
-            }
+            }*/
         }
      
 
