@@ -215,6 +215,13 @@ namespace Wof.Controller
 
             // clean up
 
+            if (Game.getGame().CurrentScreen != null)
+            {
+                Game.getGame().CurrentScreen.CleanUp(false);
+            }
+             
+            
+            
 
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
             EffectsManager.Singleton.Clear();
@@ -474,7 +481,7 @@ namespace Wof.Controller
             // Get the SceneManager, in this case a generic one
             sceneMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "SceneMgr");
 
-            if (EngineConfig.Shadows) sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
+            if (EngineConfig.Shadows) sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_MODULATIVE;
 
 
             minimapMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "MinimapMgr");

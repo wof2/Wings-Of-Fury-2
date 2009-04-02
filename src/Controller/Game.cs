@@ -80,6 +80,12 @@ namespace Wof.Controller
         private static Game game;
 
         private MenuScreen currentScreen;
+
+        public MenuScreen CurrentScreen
+        {
+            get { return currentScreen;  }
+        }
+
         protected static Boolean shouldReload = false;
         private DelegateVoidVoid afterExit = null;
 
@@ -135,6 +141,7 @@ namespace Wof.Controller
                 return false;
        
             HandleInput(evt);
+          
             return !shutDown;
         }
 
@@ -211,6 +218,8 @@ namespace Wof.Controller
             }
             catch (Exception exc)
             {
+             
+
                 getGame().window.Destroy();
                 ShowWofException(exc);
                 LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, exc.Message + " " + exc.StackTrace);

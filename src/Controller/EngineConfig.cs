@@ -242,7 +242,7 @@ namespace Wof.Controller
                     ExplosionLights = !LowDetails;
                     BodiesStay = !LowDetails;
                     Shadows = !LowDetails;
-
+                    
                     try
                     {
                         LanguageManager.SetLanguage(configOptions[7]);

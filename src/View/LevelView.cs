@@ -222,8 +222,15 @@ namespace Wof.View
 
             if (hydrax != null && EngineConfig.UseHydrax)
             {
+               // hydrax.Remove();
+              /*  hydrax.CfgFileManager.Dispose();
+                hydrax.Module.Dispose();
+                hydrax.Mesh.Dispose();
+                hydrax.MaterialManager.Dispose();
+                hydrax.DecalsManager.Dispose();*/
                 hydrax.Dispose();
                 hydrax = null;
+              
             }
         }
 
@@ -1707,16 +1714,13 @@ namespace Wof.View
 
             if(EngineConfig.UseHydrax)
             {
+             
                 hydrax = new MHydrax.MHydrax(sceneMgr, framework.Camera, framework.Viewport);
 
-                hydrax.Components = MHydrax.MHydraxComponent.HYDRAX_COMPONENT_CAUSTICS |
-                                  MHydrax.MHydraxComponent.HYDRAX_COMPONENT_DEPTH |
-                                  MHydrax.MHydraxComponent.HYDRAX_COMPONENT_FOAM |
-                                  MHydrax.MHydraxComponent.HYDRAX_COMPONENT_SMOOTH |
-                                  MHydrax.MHydraxComponent.HYDRAX_COMPONENT_SUN |
-                                  MHydrax.MHydraxComponent.HYDRAX_COMPONENT_UNDERWATER |
-                                  MHydrax.MHydraxComponent.HYDRAX_COMPONENT_UNDERWATER_GODRAYS | 
-                                  MHydrax.MHydraxComponent.HYDRAX_COMPONENT_UNDERWATER_REFLECTIONS;
+              /*  MSimpleGrid  grid= new MSimpleGrid(hydrax, new MHydrax.MPerlin(), MMaterialManager.MNormalMode.NM_VERTEX);
+                hydrax.SetModule(grid);
+                hydrax.LoadCfg("SimpleGridDemo.hdx");
+                */
             
 
                 // Create our projected grid module  
@@ -1736,49 +1740,20 @@ namespace Wof.View
                 // Set our module
                 hydrax.SetModule(module);
 
-                 hydrax.Position = new Vector3(0, 0, 0);
-                 hydrax.PlanesError = 10.5f;
-                 hydrax.ShaderMode = MHydrax.MMaterialManager.MShaderMode.SM_HLSL;
-                 hydrax.FullReflectionDistance = 100000000000;
-                 hydrax.GlobalTransparency = 0;
-                 hydrax.NormalDistortion = 0.075f;
-                 hydrax.WaterColor = new Vector3(0.139765f, 0.359464f, 0.425373f);
-
-
-                 // #Sun parameters
-                 hydrax.SunPosition = new Vector3(0, 100, 0);
-                 hydrax.SunStrength = 1.75f;
-                 hydrax.SunArea = 150;
-                 hydrax.SunColor = new Vector3(1, 0.9f, 0.6f);
-                 // #Foam parameters
-                 hydrax.FoamMaxDistance = 75000000;
-                 hydrax.FoamScale = 0.0075f;
-                 hydrax.FoamStart = 0;
-                 hydrax.FoamTransparency = 1;
-                 // #Depth parameters
-                 hydrax.DepthLimit = 90;
-                 // #Smooth transitions parameters
-                 hydrax.SmoothPower = 5;
-                 // #Caustics parameters
-                 hydrax.CausticsScale = 135f;
-                 hydrax.CausticsPower = 10.5f;
-                 hydrax.CausticsEnd = 0.8f;
-                 // #God rays parameters
-                 hydrax.GodRaysExposure = new Vector3(0.76f, 2.46f, 2.29f);
-                 hydrax.GodRaysIntensity = 0.015f;
-                 hydrax.GodRaysManager.SimulationSpeed = 5;
-                 hydrax.GodRaysManager.NumberOfRays = 100;
-                 hydrax.GodRaysManager.RaysSize = 0.03f;
-                 hydrax.GodRaysManager.ObjectsIntersectionsEnabled = false;
-
+             
                 // Load all parameters from config file
                 // Remarks: The config file must be in Hydrax resource group.
                 // All parameters can be set/updated directly by code(Like previous versions),
                 // but due to the high number of customizable parameters, Hydrax 0.4 allows save/load config files.
                 hydrax.LoadCfg("HydraxDemo.hdx");
-
+                hydrax.Position = new Vector3(0,0,0);
                 // Create water
                 hydrax.Create();
+
+                hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr) MaterialManager.Singleton.GetByName("Island")).CreateTechnique());
+                hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Concrete")).CreateTechnique());
+                hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Steel")).CreateTechnique());
+
                 
             } else
             {
@@ -1881,8 +1856,8 @@ namespace Wof.View
             skyPlane.normal = Vector3.UNIT_Z;
             skyPlane.d = oceanSize/2.0f;
 
-         //  sceneMgr.SetSkyPlane(true, skyPlane, material, oceanSize/110.0f, 1, true, 0.5f, 10, 10);
-            sceneMgr.SetSkyBox(true, "Skybox/Noon", 99999*3, true);
+           sceneMgr.SetSkyPlane(true, skyPlane, material, oceanSize/110.0f, 1, true, 0.5f, 10, 10);
+         //   sceneMgr.SetSkyBox(true, "Skybox/Noon", 99999*3, true);
           
            sceneMgr.SetFog(FogMode.FOG_NONE);
 
