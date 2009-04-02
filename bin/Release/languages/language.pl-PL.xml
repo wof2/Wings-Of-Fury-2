@@ -437,4 +437,12 @@
   <data name="EnemyInstallationDamaged">
     <value>Bunkier przeciwnika został uszkodzony</value>
   </data>
+  
+  <data name="TorpedoTooHigh">
+    <value>Zbyt duża wysokość! Torpeda uszkodzona</value>
+  </data>
+  
+  <data name="TorpedoLongTravelDistance">
+    <value>Zbyt daleki dystans dla torpedy! Spróbuj bliżej</value>
+  </data>
 </root>

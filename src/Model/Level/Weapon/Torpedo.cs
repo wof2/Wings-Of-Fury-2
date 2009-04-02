@@ -252,7 +252,7 @@ namespace Wof.Model.Level.Weapon
                     if (dropHeight > maxDropHeight || refToLevel.LevelTiles[index] is ShipTile || refToLevel.LevelTiles[index] is ShipBunkerTile)
                     {
                         // torpedo damaged
-                        SinkTorpedo();
+                        SinkTorpedo(TorpedoFailure.TooHigh);
                     }
                 }
 
@@ -260,12 +260,12 @@ namespace Wof.Model.Level.Weapon
 
         }
 
-        public void SinkTorpedo()
+        public void SinkTorpedo(TorpedoFailure torpedoFailure)
         {
             int index = Mathematics.PositionToIndex(Center.X);
             if (index > -1 && index < refToLevel.LevelTiles.Count)
             {
-                refToLevel.Controller.OnTorpedoSunk(refToLevel.LevelTiles[index], this);
+                refToLevel.Controller.OnTorpedoSunk(refToLevel.LevelTiles[index], this , torpedoFailure);
                 state = MissileState.Destroyed;
                 return;
             }
@@ -297,7 +297,7 @@ namespace Wof.Model.Level.Weapon
 
             if (damaged)
             {
-                SinkTorpedo();
+                SinkTorpedo(TorpedoFailure.LongTravelDistance);
             }
 
             //zaleznosc od uplynietego czasu
