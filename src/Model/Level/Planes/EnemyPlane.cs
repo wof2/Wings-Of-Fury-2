@@ -662,7 +662,7 @@ namespace Wof.Model.Level.Planes
             	ShipTile st = this.GetNearestShipCrashThreat();
             	if(st != null)
             	{	
-            		Console.WriteLine("ydiff" + YDistanceToTile(st) + " ->" + (15*height));
+            		//Console.WriteLine("ydiff" + YDistanceToTile(st) + " ->" + (15*height));
              
             		if(YDistanceToTile(st) < 15*height)
 	            	{
@@ -776,8 +776,8 @@ namespace Wof.Model.Level.Planes
             	float y = YDistanceToTile(st);
                 if ( x != -1 && 
             	     y != -1 &&
-                     x < width * 10 &&
-                     y < height * 10
+                     x < width * 30 &&
+                     y < height * 20
                     )
                 {
                     temp = x+y;
