@@ -414,6 +414,14 @@
   </data>
   
   <data name="EnemyInstallationDamaged">
-    <value>Enemy installation damaged</value>
+    <value>Enemy installation damaged, Sir!</value>
+  </data>
+  
+  <data name="TorpedoTooHigh">
+    <value>Too high altitude! Torpedo failed</value>
+  </data>
+  
+  <data name="TorpedoLongTravelDistance">
+    <value>Too long torpedo travel distance! Move closer</value>
   </data>
 </root>

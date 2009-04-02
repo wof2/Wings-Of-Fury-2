@@ -266,6 +266,8 @@ namespace Wof.Languages
         public const string Target = @"Target";
         public const string TargetNeutralizedLandOnCarrierAndPressX = @"TargetNeutralizedLandOnCarrierAndPressX";
         public const string Torpedoes = @"Torpedoes";
+        public const string TorpedoTooHigh = @"TorpedoTooHigh";
+        public const string TorpedoTooLongTravelDistance = @"TorpedoLongTravelDistance";
         public const string TriangleCount = @"TriangleCount";
         public const string Tutorial = @"Tutorial";
 
