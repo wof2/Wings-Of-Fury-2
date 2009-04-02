@@ -135,6 +135,7 @@ namespace Wof.Languages
         public const string EnemyInstallationsAreBothSideCaptain = @"EnemyInstallationsAreBothSideCaptain";
         public const string EnemyInstallationsAreLeftCaptain = @"EnemyInstallationsAreLeftCaptain";
         public const string EnemyInstallationsAreRightCaptain = @"EnemyInstallationsAreRightCaptain";
+        public const string EnemyInstallationDamaged = @"EnemyInstallationDamaged";
         public const string EnemyInstallationDestroyed = @"EnemyInstallationDestroyed";
         public const string EnemyPlaneDownIRepeat = @"EnemyPlaneDownIRepeat";
         public const string EnemyPlaneApproachingFromTheLeft = @"EnemyPlaneApproachingFromTheLeft";

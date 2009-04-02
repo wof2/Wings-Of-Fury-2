@@ -1694,6 +1694,12 @@ namespace Wof.Controller.Screens
             }
         }
 
+        public void OnTileDamaged(LevelTile tile, Ammunition ammunition)
+        {
+            gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.EnemyInstallationDamaged));
+            OnTileBombed(tile, ammunition);
+        }
+
         public void OnTileBombed(LevelTile tile, Ammunition ammunition)
         {
             if (tile is OceanTile)
@@ -1711,11 +1717,7 @@ namespace Wof.Controller.Screens
         public void OnTorpedoHitGroundOrWater(LevelTile tile, Torpedo torpedo, float posX, float posY)
         {
             levelView.OnTorpedoHitGroundOrWater(tile, torpedo, posX, posY);
-            
-            
         }
-
-
 
         public void OnWaterBubblesSound()
         {
@@ -1732,13 +1734,11 @@ namespace Wof.Controller.Screens
             SoundManager.Instance.HaltWaterBubblesSound();
         }
 
-
         public void OnShipBeginSinking(ShipTile tile)
         {
              OnStartWaterBubblesSound();
              levelView.OnShipBeginSinking(tile);
         }
-
 
         public void OnShipSinking(ShipTile tile)
         {

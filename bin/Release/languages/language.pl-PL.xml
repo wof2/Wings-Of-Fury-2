@@ -433,4 +433,8 @@
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
     <value>Wszystkie statki wroga zniszczone, wyląduj na lotniskowcu i wciśnij X</value>
   </data>
+  
+  <data name="EnemyInstallationDamaged">
+    <value>Bunkier przeciwnika został uszkodzony</value>
+  </data>
 </root>

@@ -443,6 +443,10 @@
     <value>All enemy ships destroyed, land on carrier and press X</value>
   </data>
   
+  <data name="EnemyInstallationDamaged">
+    <value>Enemy installation damaged</value>
+  </data>
+  
 </root>
 
 

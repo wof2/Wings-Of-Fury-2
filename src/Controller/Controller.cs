@@ -138,6 +138,14 @@ namespace Wof.Controller
         /// <author>Michal Ziober</author>
         void OnTileBombed(LevelTile tile, Ammunition ammunition);
 
+        /// <summary>
+        /// Funkcja jest wywolywana jesli uderzony zostal teren i uszkodzeniu uleg³ budynek
+        /// Wywo³anie bêdzie zawiera³o stosowny komunikat
+        /// </summary>
+        /// <param name="tile">Obiekt, ktory zostal uszkodzony.</param>
+        /// <param name="ammunition">Bomba(Rakieta), ktora trafila w teren.</param>
+        /// <author>Kamil S³awiñski</author>
+        void OnTileDamaged(LevelTile tile, Ammunition ammunition);
 
         /// <summary>
         /// Wywo³ane kiedy torpeda zosta³a uszkodzona i "zatonê³a"

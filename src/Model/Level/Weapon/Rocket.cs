@@ -465,7 +465,7 @@ namespace Wof.Model.Level.Weapon
                                     //Trafienie rakiety uszkadzaj¹ce fortress bunker
                                     else
                                     {
-                                        refToLevel.Controller.OnTileBombed(destroyTile, this);
+                                        refToLevel.Controller.OnTileDamaged(destroyTile, this);
                                         refToLevel.Statistics.HitByRocket++;
                                     }
                                 }
