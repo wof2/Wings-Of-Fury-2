@@ -462,6 +462,11 @@ namespace Wof.Controller.Screens
     
         public void CleanUp(Boolean justMenu)
         {
+            if(this.levelView != null)
+            {
+                levelView.Destroy();
+                levelView = null;
+            }
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
             EffectsManager.Singleton.Clear();
             FrameWork.DestroyScenes();
@@ -525,6 +530,7 @@ namespace Wof.Controller.Screens
                 SoundManager.Instance.HaltOceanSound();
                 increaseScore(this.lives * C_LIFE_LEFT_SCORE);
                 levelView.Destroy();
+                levelView = null;
                 if(mGui!=null)
                 {
                     mGui.killGUI();
@@ -1458,6 +1464,7 @@ namespace Wof.Controller.Screens
                 if (levelView != null)
                 {
                     levelView.Destroy();
+                    levelView = null;
                 }
                 gameEventListener.GotoStartScreen();
             }
@@ -1477,6 +1484,7 @@ namespace Wof.Controller.Screens
                 if (levelView != null)
                 {
                     levelView.Destroy();
+                    levelView = null;
                 }
 
                 HighscoreUtil util = new HighscoreUtil();
