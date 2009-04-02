@@ -1915,6 +1915,10 @@ namespace Wof.Controller.Screens
             {
                 message = LanguageResources.GetString(LanguageKey.TargetNeutralizedLandOnCarrierAndPressX);
             }
+            else if (currentLevel.MissionType == MissionType.Naval)
+            {
+                message = LanguageResources.GetString(LanguageKey.AllEnemyShipsDestroyedLandOnCarrierAndPressX);
+            }
 
             gameMessages.AppendMessage(message);
 

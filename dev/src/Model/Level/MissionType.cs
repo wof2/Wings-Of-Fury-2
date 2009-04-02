@@ -19,6 +19,11 @@ namespace Wof.Model.Level
         /// <summary>
         /// zniszczyæ wszystkie samoloty
         /// </summary>
-        Dogfight
+        Dogfight,
+
+        /// <summary>
+        /// zniszczyæ wszystkie statki
+        /// </summary>
+        Naval
     }
 }
