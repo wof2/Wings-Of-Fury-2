@@ -148,6 +148,8 @@ namespace Wof.Controller.Screens
         
         private Window guiWindow;
 
+        private GUI missionTypeGui;
+        private Window missionTypeWindow;
 
         private GUI mGuiHint;
         /// <summary>
@@ -345,7 +347,21 @@ namespace Wof.Controller.Screens
                         hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.84f, 0, 0.9f * 0.15f * viewport.ActualWidth, 0.9f * 0.045f * viewport.ActualWidth), "hint_right.png");
                     }
                     hintWindow.show();
-                  
+
+                    int h = (int)GetTextVSpacing();
+                    missionTypeGui = new GUI(FontManager.CurrentFont, fontSize, "MissionTypeGUI");
+                    missionTypeWindow = missionTypeGui.createWindow(new Vector4(viewport.ActualWidth - 4 * h, viewport.ActualHeight - 4 * h, 4.27f * h, 4.27f * h), "", (int)wt.NONE, "");
+
+                    if (CurrentLevel.MissionType == MissionType.Assasination)
+                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 4 * h, 4 * h), "assasination.JPG");
+                    else if(CurrentLevel.MissionType == MissionType.Dogfight)
+                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 4 * h, 4 * h), "dogfight.png");
+                    else if(CurrentLevel.MissionType == MissionType.Naval)
+                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 4 * h, 4 * h), "naval.png");
+                    else
+                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 4 * h, 4 * h), "bombing.png");
+
+                    missionTypeWindow.show();
 
                     if (LevelNo == 1 && firstTakeOff)
                     {
@@ -492,6 +508,11 @@ namespace Wof.Controller.Screens
                     mGuiHint.killGUI();
                     mGuiHint = null;
                 }
+                if (missionTypeGui != null)
+                {
+                    missionTypeGui.killGUI();
+                    missionTypeGui = null;
+                }
             }
             catch 
             {
@@ -540,6 +561,11 @@ namespace Wof.Controller.Screens
                 {
                     mGuiHint.killGUI();
                     mGuiHint = null;
+                }
+                if (missionTypeGui != null)
+                {
+                    missionTypeGui.killGUI();
+                    missionTypeGui = null;
                 }
                 gameEventListener.GotoNextLevel();
             }
@@ -1460,7 +1486,11 @@ namespace Wof.Controller.Screens
                     mGuiHint.killGUI();
                     mGuiHint = null;
                 }
-
+                if (missionTypeGui != null)
+                {
+                    missionTypeGui.killGUI();
+                    missionTypeGui = null;
+                }
                 if (levelView != null)
                 {
                     levelView.Destroy();
@@ -1480,7 +1510,11 @@ namespace Wof.Controller.Screens
                     mGuiHint.killGUI();
                     mGuiHint = null;
                 }
-
+                if (missionTypeGui != null)
+                {
+                    missionTypeGui.killGUI();
+                    missionTypeGui = null;
+                }
                 if (levelView != null)
                 {
                     levelView.Destroy();
