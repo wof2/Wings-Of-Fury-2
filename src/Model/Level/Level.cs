@@ -205,6 +205,7 @@ namespace Wof.Model.Level
         private float currentTimeToNextEnemy;
 
 
+        private int enemyPlanesLeft;
         /// <summary>
         /// Okreœla ile samolotów pozosta³o w levelu.
         /// </summary>
@@ -213,11 +214,16 @@ namespace Wof.Model.Level
         {
             get 
             {
-                if (enemyPlanes != null)
+                return enemyPlanesLeft;
+                /*if (enemyPlanes != null)
                     return (enemyPlanesPoolCount + enemyPlanes.Count);
                 else
-                    return enemyPlanesPoolCount;
-            }      
+                    return enemyPlanesPoolCount;*/
+            }
+            set
+            {
+                enemyPlanesLeft = value;
+            }
         }
 
         /// <summary>
@@ -330,7 +336,8 @@ namespace Wof.Model.Level
             timeToFirstEnemyPlane = levelParser.TimeToFirstEnemyPlane;
             timeToNextEnemyPlane = levelParser.TimeToNextEnemyPlane;
 
-            enemyPlanesPoolCount = levelParser.EnemyPlanes;
+            enemyPlanesLeft = enemyPlanesPoolCount = levelParser.EnemyPlanes;
+
             currentTimeToNextEnemy = timeToFirstEnemyPlane;
 
             //dodane przez Tomka
@@ -404,7 +411,7 @@ namespace Wof.Model.Level
                     enemyPlanes.Add(enemyPlane);
                     Controller.OnRegisterPlane(enemyPlane);
                     currentTimeToNextEnemy = timeToNextEnemyPlane; //odliczanie od pocz¹tku
-                    enemyPlanesPoolCount -= 1;
+                    enemyPlanesPoolCount--;
                 }
                 else
                 {

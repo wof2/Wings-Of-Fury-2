@@ -234,7 +234,6 @@ namespace Wof.Model.Level.Planes
                 return;
             if (planeState == PlaneState.Crashed)
             {
-                level.ClearEnemyPlane(this);
                 MoveAfterCrash(time, timeUnit);
                 return;
             }
