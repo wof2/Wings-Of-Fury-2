@@ -55,7 +55,7 @@
     <value>Впишіть ваше ім'я</value>
   </data>
   <data name="ExitToMenu">
-    <value>Вернути до головного меню</value>
+    <value>До головного меню</value>
   </data>
   <data name="GameOver">
     <value>Гра закінчена</value>
@@ -106,7 +106,7 @@
     <value>Ракети</value>
   </data>
   <data name="SelectAmmunition">
-    <value>Вииберіть тип патронів</value>
+    <value>Вииберіть тип боєприпасів</value>
   </data>
   <data name="SetupingResources">
     <value>Завантаження ресурсів i файлів</value>
@@ -130,7 +130,7 @@
     <value>ВСинк</value>
   </data>
   <data name="YouWonTheGame">
-    <value>Ви виграли гру</value>
+    <value>Ви виграли гру!</value>
   </data>
   <data name="AddingCompositors">
     <value>Зававантаження шейдерів</value>
@@ -154,19 +154,19 @@
     <value>Вииберіть розподільність екрану</value>
   </data>
   <data name="CreatingInput">
-    <value>Створення  входу</value>
+    <value>Завантаження параметрів гри</value>
   </data>
   <data name="CurrentFPS">
     <value>Актуальний ФПС</value>
   </data>
   <data name="EnableBloom">
-    <value>Чи вибрати цвітність</value>
+    <value>Включити цвітність</value>
   </data>
   <data name="EnableSound">
-    <value>Чи вибрати звук</value>
+    <value>Включити звук</value>
   </data>
   <data name="EnableVSync">
-    <value>Чи вибрати ВСинк</value>
+    <value>Включити ВСинк</value>
   </data>
   <data name="EnemyPlaneApproachingFromTheLeft">
     <value>Літак ворога наближатися з лівої сторони</value>
@@ -226,7 +226,7 @@
     <value>Капітане, вище ми не піднімемось</value>
   </data>
   <data name="EnemyInstallationDestroyed">
-    <value>Капітане, Інсталяції ворога знищено</value>
+    <value>Капітане, бункри ворога знищено</value>
   </data>
   <data name="EnemyInstallationsAreBothSideCaptain">
     <value>Солдати ворога знаходятся з обох сторін</value>
@@ -241,7 +241,7 @@
     <value>Літак ворога знищений! Повторяю! Літак ворога знищений!</value>
   </data>
   <data name="KillAllEnemySoldiers">
-    <value>ТРЕВБА ЗНИЩИТИ УСІХ ВОРОГІВ !</value>
+    <value>Треба знищити усіх солдатів !</value>
   </data>
   <data name="OhNoEnemySoldiersAreRebuildingBunker">
     <value>О, Ні! Солдати ворога відбудували бункер!</value>
@@ -250,7 +250,7 @@
     <value>Щоб сховати шасі втисніть 'Г'</value>
   </data>
   <data name="WARNINGProtectTheCarrierFromEnemyPlane">
-    <value>ПОПЕРЕДЖЕНЯ! Захистіть корабель від літаківворога!</value>
+    <value>ПОПЕРЕДЖЕНЯ! Захистіть корабель від літаків ворога!</value>
   </data>
   <data name="WeAreNotLeavingYetCaptain">
     <value>Дальше тільки море, Капітане!</value>
@@ -278,7 +278,7 @@
     <value>Підтримка проекту</value>
   </data>
   <data name="CheckForUpdates">
-    <value>Перевірка наявності оновлень</value>
+    <value>Перевірка наявності актуалізації</value>
   </data>
   <!--
    Next 5 translations must create one message.
@@ -392,52 +392,52 @@
   <!-- added 2.01.2009 -->
 
   <data name="Torpedo">
-    <value>Torpedo</value>
+    <value>Торпеда</value>
   </data>
   <data name="Torpedoes">
-    <value>Torpedoes</value>
+    <value>Торпеди</value>
   </data>
   
   <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>All enemy planes destroyed, land on carrier and press X</value>
+    <value>Всі ворожі літаки знищені, посади літак на авіаносець і натисни Х</value>
   </data>
   <data name="EnemyPlanesLeft">
-    <value>Enemy planes left</value>
+    <value>Ворожих літаків залишилось</value>
   </data>
   
     <data name="Target">
-    <value>Target</value>
+    <value>Мішень</value>
   </data>
   
   <data name="Neutralized">
-    <value>Neutralized</value>
+    <value>Знищений</value>
   </data>
   
   <data name="Alive">
-    <value>Alive</value>
+    <value>Цілий</value>
   </data> 
     <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Target neutralized. Land on carrier and press X</value>
+      <value>Мішень знищена, посади літак на авіаносець і натисни Х</value>
   </data> 
   
     <data name="EnemyShipsLeft">
-    <value>Enemy ships left</value>
+    <value>Ворожих кораблів залишилось</value>
   </data>
   
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>All enemy ships destroyed, land on carrier and press X</value>
+    <value>Всі ворожі кораблі знищені, посади літак на авіаносець і натисни Х</value>
   </data>
   
   <data name="EnemyInstallationDamaged">
-    <value>Enemy installation damaged, Sir!</value>
+    <value>Капітан, бункер ворога пошкоджено!</value>
   </data>
   
   <data name="TorpedoTooHigh">
-    <value>Too high altitude! Torpedo failed</value>
+    <value>Надто високо! Торпеду знищено</value>
   </data>
   
   <data name="TorpedoLongTravelDistance">
-    <value>Too long torpedo travel distance! Move closer</value>
+    <value>Занадто далеко від корабля! Спробуйте ближче</value>
   </data>
 </root>
