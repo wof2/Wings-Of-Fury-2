@@ -1682,7 +1682,7 @@ namespace Wof.View
             this.level = level;
 
             InitSkies();
-           // InitOceanSurface();
+            InitOceanSurface();
 
             List<LevelTile> lvlTiles = level.LevelTiles;
 
@@ -1750,9 +1750,9 @@ namespace Wof.View
                 // Create water
                 hydrax.Create();
 
-                hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr) MaterialManager.Singleton.GetByName("Island")).CreateTechnique());
-                hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Concrete")).CreateTechnique());
-                hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Steel")).CreateTechnique());
+             //   hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr) MaterialManager.Singleton.GetByName("Island")).CreateTechnique());
+             //   hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Concrete")).CreateTechnique());
+             //   hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Steel")).CreateTechnique());
 
                 
             } else
@@ -1856,10 +1856,11 @@ namespace Wof.View
             skyPlane.normal = Vector3.UNIT_Z;
             skyPlane.d = oceanSize/2.0f;
 
+
            sceneMgr.SetSkyPlane(true, skyPlane, material, oceanSize/110.0f, 1, true, 0.5f, 10, 10);
-         //   sceneMgr.SetSkyBox(true, "Skybox/Noon", 99999*3, true);
-          
-           sceneMgr.SetFog(FogMode.FOG_NONE);
+          //  sceneMgr.SetSkyBox(true, "Skybox/Noon", 99999*3, true);
+     
+            sceneMgr.SetFog(FogMode.FOG_NONE);
 
             sceneMgr.AmbientLight = ambient;
 
@@ -1884,10 +1885,10 @@ namespace Wof.View
                 float cloudZ;
 
                 cloudZ = -4200;
-                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudZ),
+               /* EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudZ),
                                            new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
                                            new Degree(1), 5);
-
+*/
                 /*if (level.DayTime == DayTime.Foggy)
                 {
                     
@@ -1948,13 +1949,13 @@ namespace Wof.View
             light.DiffuseColour = new ColourValue(0.50f, 0.50f, 0.52f);
             light.SpecularColour = new ColourValue(0.02f, 0.02f, 0.03f);
 
-            Camera texCamera = new Camera("TexCamera", sceneMgr);
+           /* Camera texCamera = new Camera("TexCamera", sceneMgr);
             LiSPSMShadowCameraSetup c = new LiSPSMShadowCameraSetup();
             c.GetShadowCamera(sceneMgr, framework.Camera, framework.Viewport, light, texCamera);
             ShadowCameraSetupPtr p = new ShadowCameraSetupPtr(c);
             sceneMgr.SetShadowCameraSetup(p);
 
-            sceneMgr.ShadowFarDistance = 200;
+            sceneMgr.ShadowFarDistance = 20000;*/
             sceneMgr.ShadowColour = new ColourValue(0.8f, 0.8f, 0.8f);
         }
 

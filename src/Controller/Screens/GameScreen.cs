@@ -1031,7 +1031,7 @@ namespace Wof.Controller.Screens
                                     framework.MinimapNoseCamera);
                             }
 
-                            levelView.InitOceanSurface();
+                 //         levelView.InitOceanSurface();
 
                             levelView.SetVisible(true);
                             loadingOverlay.Hide();

@@ -481,7 +481,9 @@ namespace Wof.Controller
             // Get the SceneManager, in this case a generic one
             sceneMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "SceneMgr");
 
-            if (EngineConfig.Shadows) sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_MODULATIVE;
+
+         //  if (EngineConfig.Shadows) sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
+
 
 
             minimapMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "MinimapMgr");
