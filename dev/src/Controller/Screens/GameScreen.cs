@@ -348,16 +348,16 @@ namespace Wof.Controller.Screens
 
                     int h = (int)GetTextVSpacing();
                     missionTypeGui = new GUI(FontManager.CurrentFont, fontSize, "MissionTypeGUI");
-                    missionTypeWindow = missionTypeGui.createWindow(new Vector4(viewport.ActualWidth - 4 * h, viewport.ActualHeight - 4 * h, 4.27f * h, 4.27f * h), "", (int)wt.NONE, "");
+                    missionTypeWindow = missionTypeGui.createWindow(new Vector4(viewport.ActualWidth - 40, viewport.ActualHeight - 40, 40, 40), "", (int)wt.NONE, "");
 
                     if (CurrentLevel.MissionType == MissionType.Assasination)
-                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 4 * h, 4 * h), "assasination.JPG");
+                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 40, 40), "assasination.JPG");
                     else if(CurrentLevel.MissionType == MissionType.Dogfight)
-                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 4 * h, 4 * h), "dogfight.png");
+                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 40, 40), "dogfight.png");
                     else if(CurrentLevel.MissionType == MissionType.Naval)
-                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 4 * h, 4 * h), "naval.png");
+                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 40, 40), "naval.png");
                     else
-                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 4 * h, 4 * h), "bombing.png");
+                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 40, 40), "bombing.png");
 
                     missionTypeWindow.show();
 
@@ -822,8 +822,6 @@ namespace Wof.Controller.Screens
                     if (!isGamePaused && !changingAmmo)
                     {
                         
-
-                
                         //  if (timeCounter > 0.5f)
                         {
                             if (EngineConfig.DebugInfo)
