@@ -234,6 +234,7 @@ namespace Wof.Model.Level.Planes
                 return;
             if (planeState == PlaneState.Crashed)
             {
+                level.ClearEnemyPlane(this);
                 MoveAfterCrash(time, timeUnit);
                 return;
             }
@@ -245,7 +246,9 @@ namespace Wof.Model.Level.Planes
             VerticalBoundsLimit(time, timeUnit);
 
             if (planeState == PlaneState.Destroyed) //jeœli zniszczony to tylko spada
+            {
                 FallDown(time, timeUnit);
+            }
             else
             {
                 //czy ma ju¿ zawróciæ
@@ -260,10 +263,10 @@ namespace Wof.Model.Level.Planes
                         if (RelativeAngle != 0) //jeœli musi podci¹gn¹æ lot, to najpierw wyrównuje do poziomu
                             SteerToHorizon(scaleFactor);
                         else
-                            TurnRound((Direction) (-1*(int) direction), TurnType.Airborne);
+                            TurnRound((Direction)(-1 * (int)direction), TurnType.Airborne);
                         randomDistance = new Random().Next(-GameConsts.EnemyPlane.StoragePlaneDistanceFault,
                                                            GameConsts.EnemyPlane.StoragePlaneDistanceFault) +
-                                         (0.1f)*new Random().Next(-10, 10);
+                                         (0.1f) * new Random().Next(-10, 10);
                     }
                     else //nie musi zawracaæ - kontynuuj lot
                         ChangePitch(scaleFactor);
@@ -272,7 +275,7 @@ namespace Wof.Model.Level.Planes
                 if (locationState == LocationState.AirTurningRound && isChangingDirection)
                 {
                     turningTimeLeft -= time;
-                    movementVector = -Mogre.Math.Cos((turningTimeLeft/turningTime)*Mogre.Math.PI)*turningVector;
+                    movementVector = -Mogre.Math.Cos((turningTimeLeft / turningTime) * Mogre.Math.PI) * turningVector;
                     // Speed = MinFlyingSpeed; - wylaczone by Adam (samolot dziwnie zawraca³ ;)
                     // Console.WriteLine(this.Name + " " + movementVector.ToString());
 
