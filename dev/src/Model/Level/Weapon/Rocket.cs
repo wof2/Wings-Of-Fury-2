@@ -437,13 +437,11 @@ namespace Wof.Model.Level.Weapon
                         else
                             refToLevel.Controller.OnTileBombed(tile, this);
 	                }
-	                else
-                        if (tile is EnemyInstallationTile)
+	                else if (tile is EnemyInstallationTile)
 	                {
                         FortressBunkerTile fortressTile = null;
 	                    EnemyInstallationTile enemyTile = null;
 	                    LevelTile destroyTile = tile;
-	                    {
                             //Obsluga fortress bunker
                             if ((fortressTile = destroyTile as FortressBunkerTile) != null && !fortressTile.IsDestroyed)
                             {
@@ -478,14 +476,11 @@ namespace Wof.Model.Level.Weapon
                             }
                             else
                                 refToLevel.Controller.OnTileBombed(tile, this);
-	                    }
 	                }
                     else
-                    {
-                        refToLevel.Controller.OnTileBombed(tile, this);
-                    }
-                	
-                } else if(c == CollisionType.Altitude) 
+                        refToLevel.Controller.OnTileBombed(tile, this);                	
+                } 
+                else if(c == CollisionType.Altitude) 
                 {
                 	refToLevel.Controller.OnTileBombed(tile, this);
                 }

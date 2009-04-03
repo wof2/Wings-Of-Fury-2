@@ -267,7 +267,9 @@ namespace Wof.Model.Level.Weapon
                         else
                             refToLevel.Controller.OnTileBombed(tile, this);
                     }
-                }
+                    else
+                        refToLevel.Controller.OnTileBombed(tile, this);
+                }       
                 else
                 {
                     refToLevel.Controller.OnTileBombed(tile, this);
