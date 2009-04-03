@@ -1999,6 +1999,7 @@ namespace Wof.Model.Level.Planes
                 if (planeState != PlaneState.Destroyed)
                     //jeœli nie by³ wczeœniej Destroyed, to wysy³am komunikat, ¿eby by³a dobra animacja w View
                     level.Controller.OnPlaneDestroyed(this);
+                if(IsEnemy) level.EnemyPlanesLeft--;
                 planeState = PlaneState.Crashed;
                 //odwrócenie samolotu do poziomu
                 if (tileKind != TileKind.Ocean)
@@ -2970,6 +2971,7 @@ namespace Wof.Model.Level.Planes
                 level.Controller.OnPlaneWrecked(this);
                 if (IsEnemy) //odrejestrownaie samolotu wroga
                 {
+                    level.ClearEnemyPlane(this);
                     level.Controller.OnUnregisterPlane(this);
                 }
             }
