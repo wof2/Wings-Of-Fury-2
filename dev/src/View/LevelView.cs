@@ -762,7 +762,8 @@ namespace Wof.View
                 p.AnimationMgr.switchToDeathSpin(true, null, null);
             }
 
-            if (p is PlayerPlaneView) EngineConfig.SpinKeys = false;
+            if (p is PlayerPlaneView) 
+                EngineConfig.SpinKeys = false;
 
 
             p.Smash(); // vertex animation
@@ -820,7 +821,8 @@ namespace Wof.View
                 p.AnimationMgr.disableAll();
             }
 
-            if (p is PlayerPlaneView) EngineConfig.SpinKeys = false;
+            if (p is PlayerPlaneView) 
+                EngineConfig.SpinKeys = false;
 
 
             EffectsManager.Singleton.Smoke(sceneMgr, p.OuterNode, Vector3.ZERO, SmokeUpVector(p));
@@ -1482,7 +1484,7 @@ namespace Wof.View
                 if (p.AnimationMgr.CurrentAnimation == null || p.AnimationMgr.CurrentAnimation.Ended ||
                     !p.AnimationMgr.CurrentAnimation.Enabled)
                 {
-                    EngineConfig.SpinKeys = false;
+                    EngineConfig.SpinKeys = true;//false
                     p.AnimationMgr.switchToIdle(true);
                 }
             }
