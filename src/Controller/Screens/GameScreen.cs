@@ -223,8 +223,6 @@ namespace Wof.Controller.Screens
             set { isInPauseMenu = value; }
         }
 
-
-
         private int hiscoreCache = -1;
 
         private Boolean changingAmmo;
@@ -849,10 +847,6 @@ namespace Wof.Controller.Screens
                                 currentLevel.OnSteerRight();
                             }
                            
-
-
-                          
-
                             // góra / dó³
                             if ((!EngineConfig.InverseKeys && !EngineConfig.SpinKeys) ||
                                  (EngineConfig.InverseKeys &&  EngineConfig.SpinKeys))
@@ -868,6 +862,7 @@ namespace Wof.Controller.Screens
                                 {
                                     currentLevel.OnSteerDown();
                                 }
+                                else if (EngineConfig.SpinKeys) EngineConfig.SpinKeys = false;
                             }
                             else
                             {
@@ -881,7 +876,7 @@ namespace Wof.Controller.Screens
                                 {
                                     currentLevel.OnSteerDown();
                                 }
-
+                                else if (EngineConfig.SpinKeys) EngineConfig.SpinKeys = false;
                             }
 
 
