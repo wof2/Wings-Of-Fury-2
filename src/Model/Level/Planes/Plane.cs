@@ -2971,8 +2971,8 @@ namespace Wof.Model.Level.Planes
                 level.Controller.OnPlaneWrecked(this);
                 if (IsEnemy) //odrejestrownaie samolotu wroga
                 {
-                    level.ClearEnemyPlane(this);
                     level.Controller.OnUnregisterPlane(this);
+                    level.ClearEnemyPlane(this);
                 }
             }
             else
