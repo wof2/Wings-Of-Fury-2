@@ -1,202 +1,244 @@
+
 material NoFog
 {
-
-	technique
+  technique Diffuse
 	{
-		pass
-		{
-			// disable fog
-			fog_override true none 0.0 0.0 0.0 0.0 0 0
-			texture_unit
-			{
-			}
-		}
+      pass 0
+      {
+          // disable fog
+          fog_override true none 0.0 0.0 0.0 0.0 0 0
+          texture_unit 0
+          { 
+            
+          }
+      }
+       
+  }
+
+}
+
+
+
+// Alphablended
+material ABEffect:NoFog
+{
+
+	technique Diffuse
+	{
+      pass 0
+      {
+      
+        lighting off					
+        scene_blend alpha_blend		
+        depth_write off
+        cull_hardware none
+        cull_software none
+        
+        texture_unit 0
+        { 
+            
+        }
+     
+      }
+		
+	}
 	
-	}
+ // technique Hydrax
+ // {
+ //     lighting off
+  //    scene_blend alpha_blend
+  //    scheme_name HydraxDepth
+
+  //    texture_unit
+  //    {
+  //        texture FullTransparentTexture.png
+  //    }
+  
+ // }
 
 }
 
 
-
-material Effects/Flare : NoFog
+// Additive
+material AEffect:NoFog
 {
-	technique
-	{
-		pass
-		{
-			lighting off
-			scene_blend add
-			depth_write off
 
-			texture_unit
-			{
-				texture flare.png
-			}
-		}
+	technique Diffuse
+	{
+      pass 0
+      {
+      
+        lighting off				
+        scene_blend add
+        depth_write off
+        cull_hardware none
+        cull_software none
+        
+        texture_unit 0
+        { 
+            
+        }
+     
+      }
+		
 	}
+	
+  //technique Hydrax
+  //{
+  //    lighting off
+  //    scene_blend alpha_blend
+   //   scheme_name HydraxDepth
+
+   //   texture_unit
+   //   {
+  //        texture FullTransparentTexture.png
+  //    }
+  
+ // }
+
+}
+
+
+material Effects/WaterTrail : AEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture WaterTrail.png 12 1
+          }
+       }
+   }
+	
 }
 
 
 
-material Effects/Explosion1 : NoFog
+material Effects/Flare : AEffect
 {
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			scene_blend add			
-			depth_write off
-
-			texture_unit
-			{
-				anim_texture explosion1.png 16 0				
-			}
-			
-		}
-	}
-}
-
-material Effects/Explosion2 : NoFog
-{
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			scene_blend add			
-			depth_write off
-
-			texture_unit
-			{
-				anim_texture explosion2.png 19 0			
-			}
-			
-		}
-	}
-}
-
-material Effects/WaterTrail : NoFog
-{
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			scene_blend add		
-			depth_write off
-
-			texture_unit
-			{
-				anim_texture WaterTrail.png 12 1			
-			}
-			
-		}
-	}
-}
-
-material Effects/PlaneWaterTrail : NoFog
-{
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			scene_blend add			
-			depth_write off
-
-			texture_unit
-			{
-				anim_texture PlaneWaterTrail.png 14 0			
-			}
-			
-		}
-	}
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              texture flare.png
+          }
+       }
+   }
+	
 }
 
 
-material Effects/GunHit : NoFog
+material Effects/Explosion1 : AEffect
 {
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			scene_blend add			
-			depth_write off
-
-			texture_unit
-			{
-				anim_texture GunHit.png 5 0			
-			}
-			
-		}
-	}
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture explosion1.png 16 0				
+          }
+       }
+   }
+	
 }
 
-material Effects/GunHit2 : NoFog
+material Effects/Explosion2 : AEffect
 {
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			scene_blend add			
-			depth_write off
-
-			texture_unit
-			{
-				anim_texture GunHit2.png 4 0			
-			}
-			
-		}
-	}
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture explosion2.png 19 0						
+          }
+       }
+   }
+	
 }
 
 
-material Effects/GunTrail : NoFog
+material Effects/PlaneWaterTrail : AEffect
 {
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			scene_blend add			
-			depth_write off
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture PlaneWaterTrail.png 14 0			
+          }
+       }
+   }
+}
 
-			texture_unit
-			{
-				anim_texture GunTrail.png 6 0			
-			}
-			
-		}
-	}
+material Effects/GunHit : AEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture GunHit.png 5 0			
+          }
+       }
+   }
+}
+
+
+material Effects/GunHit2 : AEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture GunHit2.png 4 0			
+          }
+       }
+   }
+}
+
+
+material Effects/GunTrail : AEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture GunTrail.png 6 0			
+          }
+       }
+   }
 }
 
 
 
-material Effects/Submerge : NoFog
+
+material Effects/Submerge : AEffect
 {
 
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			diffuse 1 1 1	
-			lighting off					
-			scene_blend add
-			depth_write off
-			texture_unit
-			{
-				anim_texture Submerge.png 17 0
-				
-			}		
+  technique Diffuse
+  {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture Submerge.png 17 0
+          }
+       }
+  }
 
-		}
-
-	}
-	technique
+	technique Fallback
 	{
 		pass
 		{
@@ -207,7 +249,7 @@ material Effects/Submerge : NoFog
 			depth_write off
 			texture_unit
 			{
-				anim_texture SubmergeAB.png 14 0
+              anim_texture SubmergeAB.png 14 0
 			        alpha_op_ex modulate src_texture src_manual 0.5 0.5			
 			}		
 
@@ -218,304 +260,188 @@ material Effects/Submerge : NoFog
 }
 
 
-
-
-material Effects/Blood : NoFog
+// no need for inheritance - alpha_blend can be used with fog
+material Effects/Blood : ABEffect
 {
-	technique
-	{
-		pass
-		{
-			
-			ambient 1 1 1
-			diffuse 1 1 1	
-			lighting off					
-			scene_blend add		
-			depth_write off
-			texture_unit
-			{
-				anim_texture Blood.png 10 0
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+             	anim_texture Blood.png 10 0
 			        alpha_op_ex modulate src_texture src_manual 1 1			
-			}	
-			
-		}
-	}
+          }
+       }
+   }
 }
 
 
-
-
-
-/ no need for inheritance - alpha_blend can be used with fog
-material Effects/Debris
+material Effects/Debris : ABEffect
 {
-
-
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			diffuse 1 1 1	
-			lighting off					
-			scene_blend alpha_blend	
-			depth_write off
-			texture_unit
-			{
-				anim_texture Debris.png 21 0		
-				alpha_op_ex modulate src_texture src_manual 0.7 0.7
-			}		
-
-		}
-
-	}
-	
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+             	anim_texture Debris.png 21 0		
+              alpha_op_ex modulate src_texture src_manual 0.7 0.7
+          }
+       }
+   }
 }
 
 
-material Effects/WaterImpact1
+material Effects/WaterImpact1 : ABEffect
 {
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture WaterImpact.png 9 0
+          }
+       }
+   }
+}
 
-
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			diffuse 1 1 1			
-			scene_blend alpha_blend			
-			depth_write off
-			lighting off	
-			texture_unit
-			{
-				anim_texture WaterImpact.png 9 0
-			}		
-
-		}
-
-	}
-
-	
+material Effects/WaterImpact2 : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture WaterImpact2.png 10 0
+          }
+       }
+   }
 }
 
 
-material Effects/WaterImpact2
+material Effects/DirtImpact1 : ABEffect
 {
-
-
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			diffuse 1 1 1	
-			lighting off		
-			scene_blend alpha_blend			
-			depth_write off
-			texture_unit
-			{
-				anim_texture WaterImpact2.png 10 0
-			}		
-
-		}
-
-	}
-
-	
-}
-
-material Effects/DirtImpact1
-{
-
-
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			diffuse 1 1 1			
-			scene_blend alpha_blend			
-			depth_write off
-			lighting off	
-			texture_unit
-			{
-				anim_texture DirtImpact.png 21 0
-			}		
-
-		}
-
-	}
-
-	
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture DirtImpact.png 21 0
+          }
+       }
+   }
 }
 
 
-material Effects/DirtImpact2
+material Effects/DirtImpact2 : ABEffect
 {
-
-
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			diffuse 1 1 1	
-			lighting off		
-			scene_blend alpha_blend			
-			depth_write off
-			texture_unit
-			{
-				anim_texture DirtImpact2.png 10 0
-			}		
-
-		}
-
-	}
-
-	
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture DirtImpact2.png 10 0
+          }
+       }
+   }
 }
 
-material Effects/PlaneCrash
+material Effects/PlaneCrash : ABEffect
 {
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture PlaneCrash.png 17 0
+          }
+       }
+   }
+}
 
 
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			diffuse 1 1 1	
-			lighting off						
-			scene_blend alpha_blend			
-			depth_write off
-			texture_unit
-			{
-				anim_texture PlaneCrash.png 17 0
-			}		
+material Effects/Cloud1 : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              texture cloud1.png
+          }
+       }
+   }
+}
 
-		}
+material Effects/Cloud2 : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              texture cloud2.png
+          }
+       }
+   }
+}
 
-	}
+material Effects/Fire : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture Fire.png 11 0
+              alpha_op_ex modulate src_texture src_manual 0.7 0.7
+          }
+       }
+   }
+   
+   technique
+	 {
+      pass
+      {
+          ambient 1 1 1
+          diffuse 1 1 1	
+          lighting off					
+          scene_blend alpha_blend	
+          depth_write off
+          texture_unit
+          {
+              anim_texture Fire.png 11 0
+          }		
+
+      }
+
+	 }
+}
+
 
 	
-}
-
-
-material Effects/Cloud1
+material Effects/Seagull : ABEffect
 {
-
-
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			diffuse 1 1 1	
-			lighting off				
-			scene_blend alpha_blend				
-			depth_write off
-			texture_unit
-			{
-				texture cloud1.png
-			}		
-
-		}
-
-	}
-
-	
-}
-
-
-material Effects/Cloud2
-{
-
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			diffuse 1 1 1	
-			lighting off					
-			scene_blend alpha_blend			
-			depth_write off
-			texture_unit
-			{
-				texture cloud2.png
-			}		
-
-		}
-
-	}
-	
-}
-
-material Effects/Fire
-{
-
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			diffuse 1 1 1	
-			lighting off					
-			scene_blend alpha_blend	
-			depth_write off
-			texture_unit
-			{
-				anim_texture Fire.png 11 0
-				alpha_op_ex modulate src_texture src_manual 0.7 0.7
-			}		
-
-		}
-
-	}
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			diffuse 1 1 1	
-			lighting off					
-			scene_blend alpha_blend	
-			depth_write off
-			texture_unit
-			{
-				anim_texture Fire.png 11 0
-			}		
-
-		}
-
-	}
-	
-}
-
-
-
-material Effects/Seagull
-{
-
-	technique
-	{
-		pass
-		{
-			ambient 1 1 1
-			diffuse 1 1 1	
-			lighting off					
-			scene_blend alpha_blend	
-			depth_write off
-			depth_write off
-			texture_unit
-			{
-				anim_texture Seagull.png 5 0
-			        alpha_op_ex modulate src_texture src_manual 0.5 0.5			
-			}			
-
-		}
-
-	}
-
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+               anim_texture Seagull.png 5 0
+			         alpha_op_ex modulate src_texture src_manual 0.5 0.5			
+          }
+       }
+   }
 }
 
 
