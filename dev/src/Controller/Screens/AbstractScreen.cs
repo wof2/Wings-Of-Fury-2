@@ -472,8 +472,11 @@ namespace Wof.Controller.Screens
             { 
             	if (hydrax != null && EngineConfig.UseHydrax)
 	            {
+            	
+	                
 	                hydrax.MaterialManager.RemoveMaterials();
 	                hydrax.Dispose();
+	                
 	                hydrax = null;
 	            }
                 FrameWork.DestroyScenes();

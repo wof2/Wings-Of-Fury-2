@@ -222,12 +222,8 @@ namespace Wof.View
 
             if (hydrax != null && EngineConfig.UseHydrax)
             {
-               // hydrax.Remove();
-              /*  hydrax.CfgFileManager.Dispose();
-                hydrax.Module.Dispose();
-                hydrax.Mesh.Dispose();
-                hydrax.MaterialManager.Dispose();
-                hydrax.DecalsManager.Dispose();*/
+          
+	                
                 hydrax.MaterialManager.RemoveMaterials();
                 hydrax.Dispose();
                 hydrax = null;
@@ -1739,16 +1735,37 @@ namespace Wof.View
                 hydrax.SetModule(module);
                 hydrax.LoadCfg("Tropical.hdx");
                 hydrax.Create();
-     		/*
-                hydrax.MaterialManager.DepthTechniques.Clear();
+     		
+               MaterialPtr m =      ((MaterialPtr)MaterialManager.Singleton.GetByName("Island"));
+	        Material.TechniqueIterator i =  m.GetTechniqueIterator();
+ 				int k =0 ;
+ 				 while(i.MoveNext())
+ 				 {
+ 				 	k++;	
+ 				 }
+                
                 hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr) MaterialManager.Singleton.GetByName("Island")).CreateTechnique());
-                hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Concrete")).CreateTechnique());
-                hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Steel")).CreateTechnique());
-           */
-             //   EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode, "jjj", EffectsManager.EffectType.WATERTRAIL, new Vector3(0,50,0), new Vector2(50,50), new Quaternion(new Radian(new Degree(90)), new Vector3(0,0,1)), true);
-                
-             //   EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, new Vector3(-50,20,0), new Vector2(50,50), EffectsManager.EffectType.WATERTRAIL,true);
-                
+ 				
+                ((MaterialPtr)MaterialManager.Singleton.GetByName("Island")).RemoveTechnique(2);
+              
+ 				
+ 				 
+ 				 m =      ((MaterialPtr)MaterialManager.Singleton.GetByName("Island"));
+                i =  m.GetTechniqueIterator();
+ 				 k =0 ;
+ 				 while(i.MoveNext())
+ 				 {
+ 				 	k++;	
+ 				 }
+ 				 
+               // hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Concrete")).CreateTechnique());
+               // hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Steel")).CreateTechnique());
+
+               // foreach(Technique t in hydrax.MaterialManager.DepthTechniques)
+               // {
+              //  	t.SetFog(true, FogMode.FOG_NONE);
+             //   }
+           
             } else
             {
                 Entity ocean2 = sceneMgr.CreateEntity("Ocean2", "OceanPlane.mesh");
