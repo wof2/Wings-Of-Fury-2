@@ -683,7 +683,7 @@ namespace Wof.View
                 new Vector2(2, 2) + ViewHelper.UnsignedRandomVector2(5),
                 EffectsManager.EffectType.EXPLOSION1,
                 false,
-                (uint) bunker.GetHashCode()
+                bunker.GetHashCode().ToString()
                 );
 
 
@@ -924,7 +924,7 @@ namespace Wof.View
                    new Vector2(3, 3) + ViewHelper.UnsignedRandomVector2(5),
                    EffectsManager.EffectType.EXPLOSION2,
                    false,
-                   (uint)splashNode.GetHashCode()
+                   splashNode.GetHashCode().ToString()
                    );
 
             na.onFinishInfo = na.Node;
@@ -999,7 +999,7 @@ namespace Wof.View
                     new Vector2(3, 3) + ViewHelper.UnsignedRandomVector2(5),
                     EffectsManager.EffectType.WATERIMPACT2,
                     false,
-                    hash
+                    hash.ToString()
                     );
                
             }
@@ -1012,7 +1012,7 @@ namespace Wof.View
                     new Vector2(3, 3) + ViewHelper.UnsignedRandomVector2(5),
                     EffectsManager.EffectType.EXPLOSION2,
                     false,
-                    hash
+                    hash.ToString()
                     );
             }
 
@@ -1190,12 +1190,13 @@ namespace Wof.View
             PlaneView p = FindPlaneView(plane);
             Quaternion orient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y); 
             orient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
+          //  orient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
 
             Quaternion trailOrient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y);
             trailOrient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
             trailOrient *= new Quaternion(Math.HALF_PI * -0.05f, Vector3.UNIT_Y);
 
-            
+          
             
             EffectsManager.Singleton.RectangularEffect(sceneMgr, p.OuterNode, "LeftGunHit",
                                                        EffectsManager.EffectType.GUNHIT2,
@@ -1208,10 +1209,10 @@ namespace Wof.View
                                                        new Vector3(4.3f, -0.3f, -5.3f), new Vector2(4.5f, 3.5f),
                                                        orient, false);
 
-
+			
             float trailWidth = 64.0f*Math.RangeRandom(1.0f, 1.1f);
-            string leftTrailName = EffectsManager.BuildRectangularEffectName(p.OuterNode, "LeftGunTrail");
-            string rightTrailName = EffectsManager.BuildRectangularEffectName(p.OuterNode, "RightGunTrail");
+            string leftTrailName = EffectsManager.BuildSpriteEffectName(p.OuterNode, EffectsManager.EffectType.GUNTRAIL, "LeftGunTrail");
+            string rightTrailName = EffectsManager.BuildSpriteEffectName(p.OuterNode, EffectsManager.EffectType.GUNTRAIL, "RightGunTrail");
             bool showLeftTrail = EffectsManager.Singleton.EffectEnded(leftTrailName) || !EffectsManager.Singleton.EffectExists(leftTrailName);
             bool showRightTrail = EffectsManager.Singleton.EffectEnded(rightTrailName) || !EffectsManager.Singleton.EffectExists(rightTrailName);
 
@@ -1288,7 +1289,7 @@ namespace Wof.View
             if (p == null) return; //errro
             for (uint i = 1; i <= 3; i++)
             {
-                String name = EffectsManager.BuildSpriteEffectName(p.OuterNode, EffectsManager.EffectType.DEBRIS, 100 + i);
+            	String name = EffectsManager.BuildSpriteEffectName(p.OuterNode, EffectsManager.EffectType.DEBRIS, (100 + i).ToString());
                 if(name != null)
                 {
                     NodeAnimation.NodeAnimation anim = EffectsManager.Singleton.GetEffect(name);
@@ -1301,7 +1302,7 @@ namespace Wof.View
                 EffectsManager.Singleton.Sprite(sceneMgr, p.OuterNode,
                                                 new Vector3(-5f, -1.5f, -2) +
                                                 ViewHelper.UnsignedRandomVector3(5, 1.5f, 4), new Vector2(12, 12),
-                                                EffectsManager.EffectType.DEBRIS, false, 100 + i);
+                                                EffectsManager.EffectType.DEBRIS, false, (100 + i).ToString());
             }
         }
 
@@ -1701,7 +1702,9 @@ namespace Wof.View
             SoldierView.InitPool(70, framework);
 
             InitSplashPool(350);
-
+            // Quaternion q = new Quaternion();
+            // q.FromAngleAxis(new Degree(90), Vector3.UNIT_Y);
+            // EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode, "asd", EffectsManager.EffectType.WATERTRAIL, new Vector3(-100,0,0), new Vector2(20,20), q, true);
             //Console.WriteLine("Level loaded");
         }
 
@@ -1731,7 +1734,7 @@ namespace Wof.View
                     // Noise module
                                                         new MHydrax.MPerlin(),//new MPerlin.MOptions(8, 0.085f, 0.49f, 1.4f, 1.27f, 2, new Vector3(0.5f, 50, 150000))),
                     // Base plane
-                                                        new Mogre.Plane(new Vector3(0, 1, 0), new Vector3(0, 0, 0)),
+                                                        new Mogre.Plane(new Vector3(0, 1, 0), new Vector3(0,0, 0)),
                     // Normal mode
                                                         MMaterialManager.MNormalMode.NM_VERTEX,
                     // Projected grid options
@@ -1747,15 +1750,18 @@ namespace Wof.View
                 // Remarks: The config file must be in Hydrax resource group.
                 // All parameters can be set/updated directly by code(Like previous versions),
                 // but due to the high number of customizable parameters, Hydrax 0.4 allows save/load config files.
-                hydrax.LoadCfg("HydraxDemo.hdx");
-                hydrax.Position = new Vector3(0,0,0);
+                hydrax.LoadCfg("Tropical.hdx");
+             
                 // Create water
                 hydrax.Create();
 
-             //   hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr) MaterialManager.Singleton.GetByName("Island")).CreateTechnique());
-             //   hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Concrete")).CreateTechnique());
-             //   hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Steel")).CreateTechnique());
-
+                hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr) MaterialManager.Singleton.GetByName("Island")).CreateTechnique());
+                hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Concrete")).CreateTechnique());
+                hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Steel")).CreateTechnique());
+                
+             //   EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode, "jjj", EffectsManager.EffectType.WATERTRAIL, new Vector3(0,50,0), new Vector2(50,50), new Quaternion(new Radian(new Degree(90)), new Vector3(0,0,1)), true);
+                
+             //   EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, new Vector3(-50,20,0), new Vector2(50,50), EffectsManager.EffectType.WATERTRAIL,true);
                 
             } else
             {

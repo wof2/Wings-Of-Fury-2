@@ -235,7 +235,7 @@ namespace Wof.View.Effects
                 matName = GetEffectInfo(et).material;
                 MaterialManager.Singleton.GetByName(matName).Load();
                 Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, new Vector3(0, 0, 0), new Vector2(0.5f, 0.5f), et,
-                                 false, 0);
+                                 false, "0");
             }
         }
 
@@ -441,23 +441,23 @@ namespace Wof.View.Effects
         public VisibilityNodeAnimation Sprite(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition,
                                               Vector2 size, EffectType type, bool looped)
         {
-            return Sprite(sceneMgr, parent, localPosition, size, type, looped, 0);
+            return Sprite(sceneMgr, parent, localPosition, size, type, looped, "0");
         }
 
         public VisibilityNodeAnimation Sprite(SceneManager sceneMgr, SceneNode parent, EffectType type)
         {
-            return Sprite(sceneMgr, parent, Vector3.ZERO, new Vector2(25, 25), type, false, 0);
+            return Sprite(sceneMgr, parent, Vector3.ZERO, new Vector2(25, 25), type, false, "0");
         }
 
-        public VisibilityNodeAnimation Sprite(SceneManager sceneMgr, SceneNode parent, EffectType type, uint index)
+        public VisibilityNodeAnimation Sprite(SceneManager sceneMgr, SceneNode parent, EffectType type, string localName)
         {
-            return Sprite(sceneMgr, parent, Vector3.ZERO, new Vector2(25, 25), type, false, index);
+            return Sprite(sceneMgr, parent, Vector3.ZERO, new Vector2(25, 25), type, false, localName);
         }
 
-        public VisibilityNodeAnimation Sprite(SceneManager sceneMgr, SceneNode parent, EffectType type, uint index,
+        public VisibilityNodeAnimation Sprite(SceneManager sceneMgr, SceneNode parent, EffectType type, string localName,
                                               bool looped)
         {
-            return Sprite(sceneMgr, parent, Vector3.ZERO, new Vector2(25, 25), type, looped, index);
+            return Sprite(sceneMgr, parent, Vector3.ZERO, new Vector2(25, 25), type, looped, localName);
         }
 
         private static EffectInfo GetEffectInfo(EffectType type)
@@ -629,11 +629,21 @@ namespace Wof.View.Effects
         /// Tworzy nazwê efektu u¿ywan¹ do indeksowania haszmapy effects[] przez animacje typu Sprite (nie dotyczy "rectangularEffect")
         /// </summary>
         /// <returns></returns>
-        public static string BuildSpriteEffectName(SceneNode parent, EffectType type, uint index)
+        public static string BuildSpriteEffectName(SceneNode parent, EffectType type, string localName)
         {
-            return parent.Name + "_" + type.ToString() + "_index" + index;
+            return parent.Name + "_" + type.ToString() + "_index" + localName;
         }
-
+        
+        public VisibilityNodeAnimation Sprite(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition,
+                                              Vector2 size, EffectType type, bool looped, uint index)
+        {
+        	return Sprite(sceneMgr, parent, localPosition, size, type, looped, index.ToString(), Quaternion.ZERO);
+        }
+  		public VisibilityNodeAnimation Sprite(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition,
+                                              Vector2 size, EffectType type, bool looped, string localName)
+        {
+        	return Sprite(sceneMgr, parent, localPosition, size, type, looped, localName, Quaternion.ZERO);
+        }
         /// <summary>
         /// Startuje animacje efektow. Ustawia odpowiednie entities i buduje sceneNody.
         /// </summary>
@@ -642,19 +652,19 @@ namespace Wof.View.Effects
         /// <param name="localPosition"></param>
         /// <param name="size"></param>
         /// <param name="type">Typ efektu</param>
-        /// <param name="index">Aby mog³ byæ wiêciej ni¿ jeden efekt danego typu dla parenta</param>
+        /// <param name="localName">Aby mog³ byæ wiêciej ni¿ jeden efekt danego typu dla parenta</param>
         /// <param name="looped">Zapetlenie</param>
+        /// <param name="localOrientation">jesli != null, sprite bedzie mial okreœlon¹ orientacjê</param>
         /// <returns>Kontroler animacji steruj¹cej widocznoœci¹ efektu</returns>
         public VisibilityNodeAnimation Sprite(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition,
-                                              Vector2 size, EffectType type, bool looped, uint index)
-        {
+                                              Vector2 size, EffectType type, bool looped, string localName, Quaternion localOrientation)
+        {        	
             EffectInfo info = GetEffectInfo(type);
             string material = info.material;
             Billboard billboard;
             SceneNode node;
-            // EXPLOSIONS
-
-            string aName = BuildSpriteEffectName(parent, type, index); // animation name
+        
+            string aName = BuildSpriteEffectName(parent, type, localName); // animation name
             string bsName = aName + "BS"; // billboardset name
             bool exists = false;
             MaterialPtr clonedMaterial = null;
@@ -676,9 +686,10 @@ namespace Wof.View.Effects
                 billboardSet = sceneMgr.GetBillboardSet(bsName);
                 billboard = billboardSet.GetBillboard(0);
                 billboard.SetDimensions(size.x, size.y);
-                billboard.Position = localPosition;
+                billboard.Position = Vector3.ZERO;
                 node = parent.GetChild(aName + "Node") as SceneNode;
                 clonedMaterial = MaterialManager.Singleton.GetByName(material + "_" + aName);
+                node.SetPosition(localPosition.x,localPosition.y,localPosition.z);
                 node.SetVisible(true);
             }
             else
@@ -696,11 +707,12 @@ namespace Wof.View.Effects
                 billboardSet.SetBounds(box, Math.Max(size.x, size.y));
                 billboardSet.SetDefaultDimensions(size.x, size.y);
 
-
-                billboard = billboardSet.CreateBillboard(localPosition);
+			
+                billboard = billboardSet.CreateBillboard(0,0,0);
                 billboard.SetDimensions(size.x, size.y);
 
-                node = parent.CreateChildSceneNode(aName + "Node");
+                // przesuwany jest node a nie billboards
+                node = parent.CreateChildSceneNode(aName + "Node", localPosition);
                 node.AttachObject(billboardSet);
 
                 if (MaterialManager.Singleton.ResourceExists(material + "_" + aName))
@@ -712,10 +724,23 @@ namespace Wof.View.Effects
                     clonedMaterial = ViewHelper.CloneMaterial(material, material + "_" + aName);
                 }
             }
-
+          
+            
             TextureUnitState unit = clonedMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
             billboardSet.MaterialName = clonedMaterial.Name;
-
+            if(localOrientation != Quaternion.ZERO)
+            {
+            	billboardSet.BillboardRotationType = BillboardRotationType.BBR_TEXCOORD;
+         
+            	billboardSet.BillboardType = BillboardType.BBT_PERPENDICULAR_SELF;
+          	    billboard.mDirection = new Vector3(0,1,0.0001f); // z nieznanych przyczyn VECTOR3.UNIT_Y sprawia ze billboard jest niewidoczny :/
+                billboard.Rotation = 0;
+                
+                // obracany jest node a nie billboard
+                node.SetOrientation(localOrientation.w,localOrientation.x,localOrientation.y,localOrientation.z);
+              
+            }
+    		
 
             if (exists)
             {
@@ -749,14 +774,7 @@ namespace Wof.View.Effects
 
 
 
-        /// <summary>
-        /// Tworzy nazwê efektu u¿ywan¹ do indeksowania haszmapy effects[] przez animacje typu RectangularEffect (nie dotyczy "sprite")
-        /// </summary>
-        /// <returns></returns>
-        public static string BuildRectangularEffectName(SceneNode parent, string localName)
-        {
-            return parent.Name + "_" + localName;
-        }
+       
 
         public bool EffectEnded(string effectName)
         {
@@ -776,93 +794,13 @@ namespace Wof.View.Effects
         /// <param name="localOrientation"></param>
         /// <param name="looped"></param>
         /// <returns>Kontroler animacji steruj¹cej widocznoœci¹ efektu</returns>
-        public VisibilityNodeAnimation RectangularEffect(SceneManager sceneMgr, SceneNode parent, String localName,
+        public VisibilityNodeAnimation RectangularEffect(SceneManager sceneMgr, SceneNode parent, string localName,
                                                          EffectType type, Vector3 localPosition, Vector2 size,
                                                          Quaternion localOrientation, bool looped)
         {
-            EffectInfo info = GetEffectInfo(type);
-            string material = info.material;
-
-            string aName = BuildRectangularEffectName(parent, localName); // animation name
-            MaterialPtr cloned;
-            SceneNode node;
-            Entity entity;
-            TextureUnitState unit;
-            bool exists = false;
-
-            VisibilityNodeAnimation ret;
-
-            if (EffectExists(aName))
-            {
-                exists = true;
-                ret = effects[aName] as VisibilityNodeAnimation;
-                // efekt nie moze byc za czêsto uruchamiany 
-                if (Environment.TickCount - ret.LastInitTime < minRepeatDelay)
-                {
-                    return ret;
-                }
-                entity = sceneMgr.GetEntity(aName);
-                cloned = MaterialManager.Singleton.GetByName(material + "_" + aName);
-            }
-            else
-            {
-                entity = sceneMgr.CreateEntity(aName, "TwoSidedPlane.mesh");
-                cloned = ViewHelper.CloneMaterial(material, material + "_" + aName);
-            }
-            entity.CastShadows = false;
-
-            unit = cloned.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
-            unit.CurrentFrame = 0;
-            entity.SetMaterialName(cloned.Name);
-            if (!exists)
-            {
-                node = parent.CreateChildSceneNode(aName, localPosition, localOrientation);
-                node.AttachObject(entity);
-                node.Scale(size.x/5.0f, 0, size.y/5.0f); // twosidedrectangle ma 5x5 metrow
-                node.Orientation = localOrientation;
-            }
-            else
-            {
-                node = sceneMgr.GetSceneNode(aName);
-                node.ResetToInitialState();
-                node.Position = localPosition;
-                node.Scale(size.x/5.0f, 0, size.y/5.0f);
-                node.Orientation = localOrientation;
-            }
-            //node.ShowBoundingBox = true;
-
-            if (exists)
-            {
-                ret = effects[aName] as VisibilityNodeAnimation;
-                ret.rewind(true);
-            }
-            else
-            {
-                float duration = info.duration;
-                if (looped)
-                {
-                    ret =
-                        new EffectTextureAnimation(node, unit, duration, aName,
-                                                   VisibilityNodeAnimation.VisibilityType.VISIBLE,
-                                                   VisibilityNodeAnimation.VisibilityType.VISIBLE);
-                }
-                else
-                {
-                    ret =
-                        new EffectTextureAnimation(node, unit, duration, aName,
-                                                   VisibilityNodeAnimation.VisibilityType.VISIBLE,
-                                                   VisibilityNodeAnimation.VisibilityType.HIDDEN);
-                }
-                ret.Enabled = true;
-                effects[aName] = ret;
-            }
-            ret.Looped = looped;
-
-            // czy to jest ok?
-            entity.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_OVERLAY;
-
-            cloned = null;
-            return ret;
+        	// todo: usun¹æ metodê RectangularEffect(), skorzystac ze sprite
+        	return Sprite(sceneMgr, parent, localPosition, size, type, looped, localName, localOrientation);
+        
         }
 
         public VisibilityNodeAnimation RectangularEffect(SceneManager sceneMgr, SceneNode parent, String localName,
@@ -896,11 +834,11 @@ namespace Wof.View.Effects
 
             waterImpact1Node.Rotate(Vector3.UNIT_X, Mogre.Math.HALF_PI);
             waterImpact1Node.Rotate(Vector3.UNIT_Z, Mogre.Math.HALF_PI/2);
-            waterImpact1Node.Scale(20.0f, 20f, 20.5f);
+            waterImpact1Node.SetScale(20.0f, 20f, 20.5f);
 
             waterImpact2Node.Rotate(Vector3.UNIT_X, Mogre.Math.HALF_PI);
             waterImpact2Node.Rotate(Vector3.NEGATIVE_UNIT_Z, Mogre.Math.HALF_PI/2);
-            waterImpact2Node.Scale(26.5f, 26.5f, 20.5f);
+            waterImpact2Node.SetScale(26.5f, 26.5f, 20.5f);
         }
 
 
@@ -910,8 +848,8 @@ namespace Wof.View.Effects
             VisibilityNodeAnimation vnAnimation;
             ConstMoveNodeAnimation motion;
 
-            int sizeDevX = (int) (defaultSize.x/10.0f);
-            int sizeDevY = (int) (defaultSize.y/10.0f);
+            int sizeDevX = (int) (defaultSize.x/8.0f);
+            int sizeDevY = (int) (defaultSize.y/8.0f);
 
             Degree rotationDev = maxRotation/2.0f;
             float tempSpeed = speed;

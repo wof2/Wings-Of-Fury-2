@@ -135,7 +135,7 @@ namespace Wof.View
 	                {
                 		EffectsManager.Singleton.Sprite(sceneMgr, staticNode,
                 		                                new Vector3(Math.RangeRandom(-3, 3), 9.0f, -Mogre.Math.RangeRandom(0, length)),  new Vector2(Math.RangeRandom(5, 10), Math.RangeRandom(5, 10)),
-                                               EffectsManager.EffectType.FIRE, true, i);
+                                               EffectsManager.EffectType.FIRE, true, i.ToString());
                 	}
                 }
                 break;
@@ -158,7 +158,7 @@ namespace Wof.View
 
                     Vector2 rand = ViewHelper.RandomVector2(8, 8);
                     Vector3 posView = new Vector3(v.x + rand.x, v.y, 0 + rand.y);
-                    name = EffectsManager.BuildRectangularEffectName(sceneMgr.RootSceneNode, "Submerge" + tile.GetHashCode() + "_" + i);
+                    name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.SUBMERGE, "Submerge" + tile.GetHashCode() + "_" + i);
                     if (!EffectsManager.Singleton.EffectExists(name) || EffectsManager.Singleton.EffectEnded(name))
                     {
                         EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
@@ -167,7 +167,7 @@ namespace Wof.View
                                                                    new Vector2(25, 25), Quaternion.IDENTITY, false);
                     }
 
-                    name = EffectsManager.BuildRectangularEffectName(sceneMgr.RootSceneNode, "WaterImpact1_" + tile.GetHashCode() + "_" + i);
+                    name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.WATERIMPACT1, "WaterImpact1_" +  + tile.GetHashCode() + "_" + i);
                     if (!EffectsManager.Singleton.EffectExists(name))
                     {
                         EffectsManager.Singleton.WaterImpact(sceneMgr, sceneMgr.RootSceneNode, posView, new Vector2(20, 32), false, tile.GetHashCode() + "_" + i);
@@ -183,14 +183,14 @@ namespace Wof.View
                         type = EffectsManager.EffectType.EXPLOSION1_SLOW;
                     }
 
-                    name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type, (uint)tile.GetHashCode() + i);
+                    name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type, (tile.GetHashCode() + i).ToString());
                     if (!EffectsManager.Singleton.EffectExists(name))
                     {
                         if(Math.RangeRandom(0,1) > 0.8f)
                         {
                              EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, posView + ViewHelper.UnsignedRandomVector3(0,10,0), new Vector2(15, 15) + ViewHelper.RandomVector2(5,5),
                                                         type, false,
-                                                        (uint)tile.GetHashCode() + i);
+                                                        (tile.GetHashCode() + i).ToString());
 
                         }
                        
