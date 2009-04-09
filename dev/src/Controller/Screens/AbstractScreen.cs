@@ -156,7 +156,7 @@ namespace Wof.Controller.Screens
   		protected KeyCode[] cheatLives = { KeyCode.KC_GRAVE, KeyCode.KC_I, KeyCode.KC_M, KeyCode.KC_L, KeyCode.KC_A, KeyCode.KC_M, KeyCode.KC_E};
 
 
-  		protected MHydrax.MHydrax hydrax = null;
+  	
 
         protected List<PlaneView> planeViews;
 
@@ -307,25 +307,7 @@ namespace Wof.Controller.Screens
             // OCEAN          
             if(EngineConfig.UseHydrax)
             {
-                hydrax = new MHydrax.MHydrax(sceneMgr, camera, viewport);
-              
-            	MProjectedGrid module = new MProjectedGrid(// Hydrax parent pointer
-                                                    hydrax,
-                // Noise module
-                                                    new MHydrax.MPerlin(),
-                // Base plane
-                                                    new Mogre.Plane(new Vector3(0, 1, 0), new Vector3(0,0, 0)),
-                // Normal mode
-                                                    MMaterialManager.MNormalMode.NM_VERTEX,
-                // Projected grid options
-                                                    new MProjectedGrid.MOptions(256, 35, 50, false, false, true, 3.75f));
-
-
-                hydrax.SetModule(module);
-                hydrax.LoadCfg("Tropical.hdx");
-                hydrax.Create();
-
-                
+                HydraxManager.Singleton.CreateHydrax("Tropical.hdx", sceneMgr, camera, viewport);
             }else
             {
             	
@@ -470,15 +452,11 @@ namespace Wof.Controller.Screens
 
             if (!justMenu)
             { 
-            	if (hydrax != null && EngineConfig.UseHydrax)
+            	if (EngineConfig.UseHydrax)
 	            {
-            	
-	                
-	                hydrax.MaterialManager.RemoveMaterials();
-	                hydrax.Dispose();
-	                
-	                hydrax = null;
+                    HydraxManager.Singleton.DisposeHydrax();
 	            }
+
                 FrameWork.DestroyScenes();
 
                 //MaterialManager.Singleton.UnloadUnreferencedResources();
@@ -503,9 +481,9 @@ namespace Wof.Controller.Screens
 
         public virtual void FrameStarted(FrameEvent evt)
         {
-            if (hydrax != null && EngineConfig.UseHydrax)
+            if (EngineConfig.UseHydrax)
             {
-                hydrax.Update(evt.timeSinceLastFrame);
+                HydraxManager.Singleton.Update(evt);
             }
             EffectsManager.Singleton.UpdateTimeAndAnimateAll(evt.timeSinceLastFrame);
         }
