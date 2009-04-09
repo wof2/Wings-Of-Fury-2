@@ -300,14 +300,6 @@ namespace Wof.View
             carrierAerial1 = sceneMgr.CreateEntity(name + "Aerial1", "Aerial1.mesh");
             carrierAerial2 = sceneMgr.CreateEntity(name + "Aerial2", "Aerial2.mesh");
 
-            lWaterTrail = sceneMgr.CreateEntity(name + "LWaterTrail", "TwoSidedPlane.mesh");
-            lWaterTrail.CastShadows = false;
-            lWaterTrail.SetMaterialName("Effects/WaterTrail");
-
-            rWaterTrail = sceneMgr.CreateEntity(name + "RWaterTrail", "TwoSidedPlane.mesh");
-            rWaterTrail.CastShadows = false;
-            rWaterTrail.SetMaterialName("Effects/WaterTrail");
-
             mainNode.AttachObject(compositeModel);
 
             carrierAerial1Node = mainNode.CreateChildSceneNode(name + "Aerial1Node", new Vector3(-8.6f, 9.1f, 5.7f - 47.8f));
@@ -326,17 +318,12 @@ namespace Wof.View
             aerialAnimation2.Enabled = true;
             aerialAnimation2.Looped = true;
 
-            lCarrierWaterTrailNode =
-                mainNode.CreateChildSceneNode(name + "lWaterTrailNode", new Vector3(-4.6f, -4.6f, -41.0f - 47.5f));
-            lCarrierWaterTrailNode.AttachObject(lWaterTrail);
-            lCarrierWaterTrailNode.Rotate(Vector3.NEGATIVE_UNIT_Y, Math.HALF_PI);
-            lCarrierWaterTrailNode.Scale(2.0f, 1f, 1.5f);
-
-            rCarrierWaterTrailNode =
-                mainNode.CreateChildSceneNode(name + "rWaterTrailNode", new Vector3(4.6f, -4.6f, -41.0f - 47.5f));
-            rCarrierWaterTrailNode.AttachObject(rWaterTrail);
-            rCarrierWaterTrailNode.Rotate(Vector3.NEGATIVE_UNIT_Y, Math.HALF_PI);
-            rCarrierWaterTrailNode.Scale(2.0f, 1f, 1.5f);
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, mainNode, name + "lWaterTrailNode", EffectsManager.EffectType.WATERTRAIL, new Vector3(-4.6f, -5.6f, -41.0f - 47.5f), new Vector2(17,12), new Quaternion(new Radian(new Degree(90)), Vector3.NEGATIVE_UNIT_Y), true);
+          
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, mainNode,  name + "rWaterTrailNode", EffectsManager.EffectType.WATERTRAIL, new Vector3(4.6f, -5.6f, -41.0f - 47.5f), new Vector2(17,12), new Quaternion(new Radian(new Degree(90)), Vector3.NEGATIVE_UNIT_Y), true);
+                
+          
+           
 
             float adjust = LevelView.TileWidth*1.7f;
 

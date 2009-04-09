@@ -109,7 +109,7 @@ namespace Wof.View
                 EffectsManager.Singleton.Sprite(sceneMgr, barrelNodes[i],
                                                 new Vector3(Mogre.Math.RangeRandom(0.1f, 0.6f), 1.7f,
                                                             Mogre.Math.RangeRandom(-1, 1)), new Vector2(5, 5),
-                                                EffectsManager.EffectType.FIRE, true, (uint) i);
+                                                EffectsManager.EffectType.FIRE, true, i.ToString());
 
                
             }
