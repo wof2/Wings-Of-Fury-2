@@ -47,6 +47,7 @@
  */
 
 
+using MHydrax;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -58,9 +59,9 @@ using Wof.Languages;
 using Wof.Model.Configuration;
 using Wof.View;
 using Wof.View.Effects;
-using FontManager=Wof.Languages.FontManager;
-using Math=Mogre.Math;
-using Vector3=Mogre.Vector3;
+using FontManager = Wof.Languages.FontManager;
+using Math = Mogre.Math;
+using Vector3 = Mogre.Vector3;
 
 namespace Wof.Controller.Screens
 {
@@ -155,6 +156,7 @@ namespace Wof.Controller.Screens
   		protected KeyCode[] cheatLives = { KeyCode.KC_GRAVE, KeyCode.KC_I, KeyCode.KC_M, KeyCode.KC_L, KeyCode.KC_A, KeyCode.KC_M, KeyCode.KC_E};
 
 
+  		protected MHydrax.MHydrax hydrax = null;
 
         protected List<PlaneView> planeViews;
 
@@ -301,38 +303,64 @@ namespace Wof.Controller.Screens
 
         public virtual void CreateOcean()
         {
+     
             // OCEAN          
+            if(EngineConfig.UseHydrax)
+            {    
+            	
+                hydrax = new MHydrax.MHydrax(sceneMgr, camera, viewport);
+            	MProjectedGrid module = new MProjectedGrid(// Hydrax parent pointer
+                                                    hydrax,
+                // Noise module
+                                                    new MHydrax.MPerlin(),
+                // Base plane
+                                                    new Mogre.Plane(new Vector3(0, 1, 0), new Vector3(0,0, 0)),
+                // Normal mode
+                                                    MMaterialManager.MNormalMode.NM_VERTEX,
+                // Projected grid options
+                                                    new MProjectedGrid.MOptions(256, 35, 50, false, false, true, 3.75f));
 
-            if (!MeshManager.Singleton.ResourceExists("OceanPlane"))
-            {
-                Plane plane; // = new Plane();
-                plane.normal = Vector3.UNIT_Y;
-                plane.d = 0;
-                MeshManager.Singleton.CreatePlane("OceanPlane",
-                                                  ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, plane,
-                                                  5000, 5000, 10, 10, true, 1, 10, 10, Vector3.UNIT_Z);
-            }
 
-            Entity ocean = sceneMgr.CreateEntity("Ocean", "OceanPlane");
-            MaterialPtr m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_GLSL");
-            m.Load();
-            Pass p = m.GetBestTechnique().GetPass(0);
-            TextureUnitState tu = p.GetTextureUnitState("Reflection");
-            if (tu != null)
-            {
-                tu.SetCubicTextureName("morning.jpg", true);
-            }
-            if (p.HasFragmentProgram)
-            {
-                GpuProgramParametersSharedPtr param = p.GetVertexProgramParameters();
-                param.SetNamedConstant("bumpSpeed", new Vector3(0.015f, - 1f, 0));
-                p.SetVertexProgramParameters(param);
-            }
-            ocean.SetMaterialName("Ocean2_HLSL_GLSL");
-            ocean.CastShadows = false;
+                hydrax.SetModule(module);
+                hydrax.LoadCfg("Tropical.hdx");
+                hydrax.Create();
 
-            sceneMgr.RootSceneNode.AttachObject(ocean);
-            // OCEAN
+                
+            }else
+            {
+            	
+            	if (!MeshManager.Singleton.ResourceExists("OceanPlane"))
+	            {
+	                Plane plane; // = new Plane();
+	                plane.normal = Vector3.UNIT_Y;
+	                plane.d = 0;
+	                MeshManager.Singleton.CreatePlane("OceanPlane",
+	                                                  ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, plane,
+	                                                  5000, 5000, 10, 10, true, 1, 10, 10, Vector3.UNIT_Z);
+	            }
+	
+	            Entity ocean = sceneMgr.CreateEntity("Ocean", "OceanPlane");
+	            MaterialPtr m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_GLSL");
+	            m.Load();
+	            Pass p = m.GetBestTechnique().GetPass(0);
+	            TextureUnitState tu = p.GetTextureUnitState("Reflection");
+	            if (tu != null)
+	            {
+	                tu.SetCubicTextureName("morning.jpg", true);
+	            }
+	            if (p.HasFragmentProgram)
+	            {
+	                GpuProgramParametersSharedPtr param = p.GetVertexProgramParameters();
+	                param.SetNamedConstant("bumpSpeed", new Vector3(0.015f, - 1f, 0));
+	                p.SetVertexProgramParameters(param);
+	            }
+	            ocean.SetMaterialName("Ocean2_HLSL_GLSL");
+	            ocean.CastShadows = false;
+	
+	            sceneMgr.RootSceneNode.AttachObject(ocean);
+	            // OCEAN
+            }
+           
         }
 
         public virtual void CreateScene()
@@ -441,12 +469,19 @@ namespace Wof.Controller.Screens
             }
 
             if (!justMenu)
-            {
+            { 
+            	if (hydrax != null && EngineConfig.UseHydrax)
+	            {
+	                hydrax.MaterialManager.RemoveMaterials();
+	                hydrax.Dispose();
+	                hydrax = null;
+	            }
                 FrameWork.DestroyScenes();
 
                 //MaterialManager.Singleton.UnloadUnreferencedResources();
                 EffectsManager.Singleton.Clear();
-
+				
+               
 
                 viewport.Dispose();
                 viewport = null;
@@ -465,6 +500,10 @@ namespace Wof.Controller.Screens
 
         public virtual void FrameStarted(FrameEvent evt)
         {
+            if (hydrax != null && EngineConfig.UseHydrax)
+            {
+                hydrax.Update(evt.timeSinceLastFrame);
+            }
             EffectsManager.Singleton.UpdateTimeAndAnimateAll(evt.timeSinceLastFrame);
         }
         
@@ -820,10 +859,53 @@ namespace Wof.Controller.Screens
                 }
                    
             }
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_W))
+            {
+            	this.camera.SetPosition(camera.Position.x,camera.Position.y, camera.Position.z - 0.5f);
+            }
+            
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_S))
+            {
+            	this.camera.SetPosition(camera.Position.x,camera.Position.y, camera.Position.z + 0.5f);
+            }
+            
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_Q))
+            {
+            	this.camera.Yaw(-0.01f);
+            }
+              
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_E))
+            {
+            	this.camera.Yaw(0.01f);
+            }
+            
+              
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_Z))
+            {
+            	this.camera.Pitch(-0.01f);
+            }
+            
+              
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_C))
+            {
+            	this.camera.Pitch(0.01f);
+            }
+            
+             if (inputKeyboard.IsKeyDown(KeyCode.KC_R))
+            {
+            	this.camera.SetPosition(camera.Position.x,camera.Position.y + 0.5f, camera.Position.z);
+            }
+            
+              
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_F))
+            {
+            	this.camera.SetPosition(camera.Position.x,camera.Position.y - 0.5f, camera.Position.z );
+            }
            
 
             if (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(joystick, EngineConfig.JoystickButtons.Enter)) 
             {
+            	
                 wasEnterKeyPressed = true;
                 KeyReceived("ENTER");
             }

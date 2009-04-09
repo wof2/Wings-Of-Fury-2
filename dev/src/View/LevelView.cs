@@ -228,8 +228,11 @@ namespace Wof.View
                 hydrax.Mesh.Dispose();
                 hydrax.MaterialManager.Dispose();
                 hydrax.DecalsManager.Dispose();*/
+                hydrax.MaterialManager.RemoveMaterials();
                 hydrax.Dispose();
                 hydrax = null;
+           
+               
               
             }
         }
@@ -1721,18 +1724,10 @@ namespace Wof.View
             {
              
                 hydrax = new MHydrax.MHydrax(sceneMgr, framework.Camera, framework.Viewport);
-
-              /*  MSimpleGrid  grid= new MSimpleGrid(hydrax, new MHydrax.MPerlin(), MMaterialManager.MNormalMode.NM_VERTEX);
-                hydrax.SetModule(grid);
-                hydrax.LoadCfg("SimpleGridDemo.hdx");
-                */
-            
-
-                // Create our projected grid module  
                 MProjectedGrid module = new MProjectedGrid(// Hydrax parent pointer
                                                         hydrax,
                     // Noise module
-                                                        new MHydrax.MPerlin(),//new MPerlin.MOptions(8, 0.085f, 0.49f, 1.4f, 1.27f, 2, new Vector3(0.5f, 50, 150000))),
+                                                        new MHydrax.MPerlin(),
                     // Base plane
                                                         new Mogre.Plane(new Vector3(0, 1, 0), new Vector3(0,0, 0)),
                     // Normal mode
@@ -1741,24 +1736,15 @@ namespace Wof.View
                                                         new MProjectedGrid.MOptions(256, 35, 50, false, false, true, 3.75f));
 
 
-
-                // Set our module
                 hydrax.SetModule(module);
-
-             
-                // Load all parameters from config file
-                // Remarks: The config file must be in Hydrax resource group.
-                // All parameters can be set/updated directly by code(Like previous versions),
-                // but due to the high number of customizable parameters, Hydrax 0.4 allows save/load config files.
                 hydrax.LoadCfg("Tropical.hdx");
-             
-                // Create water
                 hydrax.Create();
-
+     		/*
+                hydrax.MaterialManager.DepthTechniques.Clear();
                 hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr) MaterialManager.Singleton.GetByName("Island")).CreateTechnique());
                 hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Concrete")).CreateTechnique());
                 hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Steel")).CreateTechnique());
-                
+           */
              //   EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode, "jjj", EffectsManager.EffectType.WATERTRAIL, new Vector3(0,50,0), new Vector2(50,50), new Quaternion(new Radian(new Degree(90)), new Vector3(0,0,1)), true);
                 
              //   EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, new Vector3(-50,20,0), new Vector2(50,50), EffectsManager.EffectType.WATERTRAIL,true);
@@ -1868,7 +1854,7 @@ namespace Wof.View
            sceneMgr.SetSkyPlane(true, skyPlane, material, oceanSize/110.0f, 1, true, 0.5f, 10, 10);
           //  sceneMgr.SetSkyBox(true, "Skybox/Noon", 99999*3, true);
      
-            sceneMgr.SetFog(FogMode.FOG_NONE);
+         //   sceneMgr.SetFog(FogMode.FOG_NONE);
 
             sceneMgr.AmbientLight = ambient;
 
@@ -1914,17 +1900,6 @@ namespace Wof.View
                 EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 170, 0), new Vector2(500, 200), 0, 1);
             }
 
-            /*if (Controller.FrameWork.DisplayMinimap)
-            {
-
-                Mogre.Plane skyPlane;// = new Mogre.Plane();
-                skyPlane.normal = Vector3.UNIT_Z;// Vector3.UNIT_Z;
-                skyPlane.d = oceanSize / 2.0f;
-                minimapMgr.SetSkyPlane(true, skyPlane, "Skyplane/Morning", 200, 1);
-                minimapMgr.AmbientLight = new ColourValue(0.5f, 0.5f, 0.5f);
-                
-            }
-             */
         }
 
         private void InitDawnLight()

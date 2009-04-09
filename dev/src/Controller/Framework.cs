@@ -1165,6 +1165,7 @@ namespace Wof.Controller
 
         public void SetCompositorEnabled(CompositorTypes type, bool enabled)
         {
+        
             String name = null;
             switch (type)
             {

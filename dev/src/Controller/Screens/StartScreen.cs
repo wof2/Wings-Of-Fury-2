@@ -69,7 +69,6 @@ namespace Wof.Controller.Screens
         protected override void CreateGUI()
         {
             base.CreateGUI();
-
             int h = (int)GetTextVSpacing();
             string gameName = "Wings of Fury 2";
             
