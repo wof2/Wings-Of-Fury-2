@@ -517,6 +517,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\View\Effects\EffectsManager.cs" />
+    <Compile Include="src\View\Effects\HydraxManager.cs" />
     <Compile Include="src\View\Effects\ParticleManager.cs" />
     <Compile Include="src\View\Effects\Quadrangle3D.cs" />
     <Compile Include="src\View\Effects\WaterTrailGenerator.cs" />

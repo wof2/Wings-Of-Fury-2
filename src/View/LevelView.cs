@@ -82,17 +82,7 @@ namespace Wof.View
     /// </summary>
     internal class LevelView
     {
-        /// <summary>
-        /// Które materia³y maja byc dolaczone do hydrax depth techniques
-        /// </summary>
-        private string[] hydraxDepthMaterials = new string[] { "Island", "Concrete", "Steel", "Effects/Cloud1", "Effects/Cloud2" };
-
-        /// <summary>
-        /// Zawiera mapê: nazwa materialu vs. iloœæ technik (przed dodaniem depth technique). Umozliwia to pozniejsze usuniecie depthtechnique
-        /// </summary>
-        private Dictionary<string, ushort> hydraxDepthMaterialsMap;
        
-
 
         public int CurrentCameraHolderIndex
         {
@@ -236,12 +226,11 @@ namespace Wof.View
                 tileViews = null;
             }
 
-            if (hydrax != null && EngineConfig.UseHydrax)
+            if (EngineConfig.UseHydrax)
             {
-              
-                hydrax.Dispose();
-                hydrax = null;
-                RemoveHydraxDepthTechniques();
+
+                HydraxManager.Singleton.DisposeHydrax();
+                HydraxManager.Singleton.RemoveHydraxDepthTechniques();
             }
         }
 
@@ -308,7 +297,7 @@ namespace Wof.View
         private readonly uint defaultVisibilityMask;
 
 
-        private MHydrax.MHydrax hydrax;
+    
 
         public void SetVisible(bool visible)
         {
@@ -334,8 +323,7 @@ namespace Wof.View
 
         public LevelView(FrameWork framework, IController controller)
         {
-            this.hydraxDepthMaterialsMap = new Dictionary<string, ushort>();
-            BuildHydraxDepthMaterialsInfo();
+       
           
           
 
@@ -1604,9 +1592,9 @@ namespace Wof.View
         /// <param name="evt"></param>
         public void OnFrameStarted(FrameEvent evt)
         {
-            if (hydrax != null && EngineConfig.UseHydrax)
+            if (EngineConfig.UseHydrax)
             {
-                hydrax.Update(evt.timeSinceLastFrame);
+                HydraxManager.Singleton.Update(evt);
             }
 
             if (EngineConfig.DisplayBoundingQuadrangles)
@@ -1731,53 +1719,7 @@ namespace Wof.View
         }
 
 
-        private void BuildHydraxDepthMaterialsInfo()
-        {
-            foreach (string material in hydraxDepthMaterials)
-            {
-                if (MaterialManager.Singleton.GetByName(material) != null)
-                {
-                    hydraxDepthMaterialsMap[material] = ((MaterialPtr)MaterialManager.Singleton.GetByName(material)).NumTechniques;
-                }
-            }
-        }
-        private void RemoveHydraxDepthTechniques()
-        {
-            
-            foreach (string material in hydraxDepthMaterials)
-            {
-                MaterialPtr m = MaterialManager.Singleton.GetByName(material);
-                if (m != null && m.GetTechnique("_Hydrax_Depth_Technique") != null)
-                {
-                    m.RemoveTechnique(hydraxDepthMaterialsMap[material]);
-                    m = null;
-                }
-               // MaterialManager.Singleton.Unload(material);
-                //MaterialManager.Singleton.Remove(material);
-               // MaterialManager.Singleton.Load(material, "general");
-            }
-        }
-
-        private void AddHydraxDepthTechniques()
-        {
-           
-
-            foreach (string material in hydraxDepthMaterials)
-            {
-                MaterialPtr m = MaterialManager.Singleton.GetByName(material);
-                if(m!= null && m.GetTechnique("_Hydrax_Depth_Technique") == null)
-                {
-                    hydrax.MaterialManager.AddDepthTechnique(m.CreateTechnique());
-                    m = null;
-                }
-            }
-            // podwodne elementy nie powinny byc zamglone
-            foreach (Technique t in hydrax.MaterialManager.DepthTechniques)
-            {
-                t.SetFog(true, FogMode.FOG_NONE);
-            }
-            
-        }
+        
 
 
         public void InitOceanSurface()
@@ -1787,20 +1729,7 @@ namespace Wof.View
             if(EngineConfig.UseHydrax)
             {
              
-                hydrax = new MHydrax.MHydrax(sceneMgr, framework.Camera, framework.Viewport);
-                MProjectedGrid module = new MProjectedGrid(// Hydrax parent pointer
-                                                        hydrax,
-                    // Noise module
-                                                        new MHydrax.MPerlin(),
-                    // Base plane
-                                                        new Mogre.Plane(new Vector3(0, 1, 0), new Vector3(0,0, 0)),
-                    // Normal mode
-                                                        MMaterialManager.MNormalMode.NM_VERTEX,
-                    // Projected grid options
-                                                        new MProjectedGrid.MOptions(256, 35, 50, false, false, true, 3.75f));
-
-
-                hydrax.SetModule(module);
+                
                 string config = "";
                 switch (level.DayTime)
                 {
@@ -1814,11 +1743,9 @@ namespace Wof.View
                         
                 }
 
-                hydrax.LoadCfg(config);
-             
-                hydrax.Create();
-                AddHydraxDepthTechniques();
-               
+                HydraxManager.Singleton.CreateHydrax(config, sceneMgr, framework.Camera, framework.Viewport);
+                HydraxManager.Singleton.AddHydraxDepthTechniques();
+              
               
            
             } else
