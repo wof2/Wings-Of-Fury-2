@@ -4,22 +4,22 @@
 HydraxVersion=0.5.0
 
 #Main options field
-<vector3>Position=0x-1x0
-<float>PlanesError=-2.0
+<vector3>Position=0x-0.6x0
+<float>PlanesError=2.2
 #Shader mode: 0=HLSL, 1=CG, 2=GLSL
 <int>ShaderMode=0
 <float>FullReflectionDistance=1e+011
 <float>GlobalTransparency=0
 <float>NormalDistortion=0.075
-<vector3>WaterColor=0.139765x0.359464x0.425373
+<vector3>WaterColor=0.058209x0.535822x0.679105
 
 #Components field
-Components=Sun|Foam|Depth|Smooth|Caustics
+Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|UnderwaterGodRays
 
 #Sun parameters
-<vector3>SunPosition=0x10000x-100
+<vector3>SunPosition=0x10000x0
 <float>SunStrength=1.75
-<float>SunArea=100
+<float>SunArea=150
 <vector3>SunColor=1x0.9x0.6
 
 #Foam parameters
@@ -57,10 +57,10 @@ Components=Sun|Foam|Depth|Smooth|Caustics
 #Module options
 Module=ProjectedGridVertex
 
-<float>PG_ChoopyStrength=0.5
+<float>PG_ChoopyStrength=2.9
 <bool>PG_ChoppyWaves=true
-<int>PG_Complexity=256
-<float>PG_Elevation=0.2
+<int>PG_Complexity=264
+<float>PG_Elevation=20.2
 <bool>PG_ForceRecalculateGeometry=false
 <bool>PG_Smooth=true
 <float>PG_Strength=10
@@ -69,10 +69,10 @@ Module=ProjectedGridVertex
 Noise=Perlin
 
 <int>Perlin_Octaves=8
-<float>Perlin_Scale=0.0855
-<float>Perlin_Falloff=0.49
-<float>Perlin_Animspeed=0.4
+<float>Perlin_Scale=0.15
+<float>Perlin_Falloff=0.6
+<float>Perlin_Animspeed=0.8
 <float>Perlin_Timemulti=1.0
-<float>Perlin_GPU_Strength=2
+<float>Perlin_GPU_Strength=10
 <vector3>Perlin_GPU_LODParameters=0.5x50x150000
 
