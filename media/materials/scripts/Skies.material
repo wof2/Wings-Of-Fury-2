@@ -68,7 +68,7 @@ material Skyplane/Noon : NoFog
 	}
 }
 
-material Skybox/Foggy
+material Skybox/Foggy : NoFog
 {
 	technique
 	{
@@ -86,7 +86,7 @@ material Skybox/Foggy
 	}
 }
 
-material Skyplane/Foggy
+material Skyplane/Foggy : NoFog
 {
 	technique
 	{

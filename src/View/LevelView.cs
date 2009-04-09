@@ -47,6 +47,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Mogre;
@@ -81,6 +82,18 @@ namespace Wof.View
     /// </summary>
     internal class LevelView
     {
+        /// <summary>
+        /// Które materia³y maja byc dolaczone do hydrax depth techniques
+        /// </summary>
+        private string[] hydraxDepthMaterials = new string[] { "Island", "Concrete", "Steel", "Effects/Cloud1", "Effects/Cloud2" };
+
+        /// <summary>
+        /// Zawiera mapê: nazwa materialu vs. iloœæ technik (przed dodaniem depth technique). Umozliwia to pozniejsze usuniecie depthtechnique
+        /// </summary>
+        private Dictionary<string, ushort> hydraxDepthMaterialsMap;
+       
+
+
         public int CurrentCameraHolderIndex
         {
             get { return currentCameraHolderIndex; }
@@ -118,7 +131,7 @@ namespace Wof.View
         }
 
         //Fields
-        
+
 
         /// <summary>
         /// Licznik obiektow dodatkowych - drzew, flag
@@ -150,6 +163,9 @@ namespace Wof.View
 
         private static Stack<SceneNode> availableSplashNodesPool;
         private static Queue<SceneNode> usedSplashNodesPool;
+
+      
+
 
         public void Destroy()
         {
@@ -222,14 +238,10 @@ namespace Wof.View
 
             if (hydrax != null && EngineConfig.UseHydrax)
             {
-          
-	                
-                hydrax.MaterialManager.RemoveMaterials();
+              
                 hydrax.Dispose();
                 hydrax = null;
-           
-               
-              
+                RemoveHydraxDepthTechniques();
             }
         }
 
@@ -318,8 +330,15 @@ namespace Wof.View
             }
         }
 
+       
+
         public LevelView(FrameWork framework, IController controller)
         {
+            this.hydraxDepthMaterialsMap = new Dictionary<string, ushort>();
+            BuildHydraxDepthMaterialsInfo();
+          
+          
+
             isNightScene = false;
 
             this.framework = framework;
@@ -1712,6 +1731,55 @@ namespace Wof.View
         }
 
 
+        private void BuildHydraxDepthMaterialsInfo()
+        {
+            foreach (string material in hydraxDepthMaterials)
+            {
+                if (MaterialManager.Singleton.GetByName(material) != null)
+                {
+                    hydraxDepthMaterialsMap[material] = ((MaterialPtr)MaterialManager.Singleton.GetByName(material)).NumTechniques;
+                }
+            }
+        }
+        private void RemoveHydraxDepthTechniques()
+        {
+            
+            foreach (string material in hydraxDepthMaterials)
+            {
+                MaterialPtr m = MaterialManager.Singleton.GetByName(material);
+                if (m != null && m.GetTechnique("_Hydrax_Depth_Technique") != null)
+                {
+                    m.RemoveTechnique(hydraxDepthMaterialsMap[material]);
+                    m = null;
+                }
+               // MaterialManager.Singleton.Unload(material);
+                //MaterialManager.Singleton.Remove(material);
+               // MaterialManager.Singleton.Load(material, "general");
+            }
+        }
+
+        private void AddHydraxDepthTechniques()
+        {
+           
+
+            foreach (string material in hydraxDepthMaterials)
+            {
+                MaterialPtr m = MaterialManager.Singleton.GetByName(material);
+                if(m!= null && m.GetTechnique("_Hydrax_Depth_Technique") == null)
+                {
+                    hydrax.MaterialManager.AddDepthTechnique(m.CreateTechnique());
+                    m = null;
+                }
+            }
+            // podwodne elementy nie powinny byc zamglone
+            foreach (Technique t in hydrax.MaterialManager.DepthTechniques)
+            {
+                t.SetFog(true, FogMode.FOG_NONE);
+            }
+            
+        }
+
+
         public void InitOceanSurface()
         {
             // OCEAN 
@@ -1733,38 +1801,25 @@ namespace Wof.View
 
 
                 hydrax.SetModule(module);
-                hydrax.LoadCfg("Tropical.hdx");
-                hydrax.Create();
-     		
-               MaterialPtr m =      ((MaterialPtr)MaterialManager.Singleton.GetByName("Island"));
-	        Material.TechniqueIterator i =  m.GetTechniqueIterator();
- 				int k =0 ;
- 				 while(i.MoveNext())
- 				 {
- 				 	k++;	
- 				 }
-                
-                hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr) MaterialManager.Singleton.GetByName("Island")).CreateTechnique());
- 				
-                ((MaterialPtr)MaterialManager.Singleton.GetByName("Island")).RemoveTechnique(2);
-              
- 				
- 				 
- 				 m =      ((MaterialPtr)MaterialManager.Singleton.GetByName("Island"));
-                i =  m.GetTechniqueIterator();
- 				 k =0 ;
- 				 while(i.MoveNext())
- 				 {
- 				 	k++;	
- 				 }
- 				 
-               // hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Concrete")).CreateTechnique());
-               // hydrax.MaterialManager.AddDepthTechnique(((MaterialPtr)MaterialManager.Singleton.GetByName("Steel")).CreateTechnique());
+                string config = "";
+                switch (level.DayTime)
+                {
+                    case DayTime.Foggy:
+                        config = "Foggy.hdx";
+                    break;
 
-               // foreach(Technique t in hydrax.MaterialManager.DepthTechniques)
-               // {
-              //  	t.SetFog(true, FogMode.FOG_NONE);
-             //   }
+                    default:
+                        config = "Tropical.hdx";
+                    break;
+                        
+                }
+
+                hydrax.LoadCfg(config);
+             
+                hydrax.Create();
+                AddHydraxDepthTechniques();
+               
+              
            
             } else
             {
@@ -1844,9 +1899,7 @@ namespace Wof.View
                 GpuProgramParametersSharedPtr param = p.GetVertexProgramParameters();
                 param.SetNamedConstant("bumpSpeed", new Vector3(0.02f, -0.03f, 0));
                 p.SetVertexProgramParameters(param);
-                
-               
-                 
+              
             }
             m = null;
 
@@ -1896,11 +1949,11 @@ namespace Wof.View
                 float cloudZ;
 
                 cloudZ = -4200;
-               /* EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudZ),
+                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudZ),
                                            new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
                                            new Degree(1), 5);
-*/
-                /*if (level.DayTime == DayTime.Foggy)
+
+                if (level.DayTime == DayTime.Foggy)
                 {
                     
                   
@@ -1909,7 +1962,7 @@ namespace Wof.View
                                                new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
                                                new Degree(1), 5);
 
-                }*/
+                }
                 
 
               
