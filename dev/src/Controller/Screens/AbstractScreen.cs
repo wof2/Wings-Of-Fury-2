@@ -306,9 +306,9 @@ namespace Wof.Controller.Screens
      
             // OCEAN          
             if(EngineConfig.UseHydrax)
-            {    
-            	
+            {
                 hydrax = new MHydrax.MHydrax(sceneMgr, camera, viewport);
+              
             	MProjectedGrid module = new MProjectedGrid(// Hydrax parent pointer
                                                     hydrax,
                 // Noise module

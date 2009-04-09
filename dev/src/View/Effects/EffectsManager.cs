@@ -915,17 +915,19 @@ namespace Wof.View.Effects
         public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
                               uint cloudCount)
         {
-        	return;
+        	
             if (!sceneMgr.HasBillboardSet("Clouds1"))
             {
                 cloudsBS1 = sceneMgr.CreateBillboardSet("Clouds1");
                 cloudsBS1.MaterialName = "Effects/Cloud1";
+                cloudsBS1.SetBounds(new AxisAlignedBox(new Vector3(-10000,0,-10000),new Vector3(10000,10000,10000)), 20000 );
             }
 
             if (!sceneMgr.HasBillboardSet("Clouds2"))
             {
                 cloudsBS2 = sceneMgr.CreateBillboardSet("Clouds2");
                 cloudsBS2.MaterialName = "Effects/Cloud2";
+                cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-10000, 0, -10000), new Vector3(10000, 10000, 10000)), 20000);
             }
           	cloudsBS1.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
             cloudsBS2.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
