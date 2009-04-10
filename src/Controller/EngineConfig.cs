@@ -94,8 +94,7 @@ namespace Wof.Controller
 
         public static bool BloomEnabled = false;
 
-        public static bool UseHydrax = true;
-
+       
         
        
         public const float GameSpeedMultiplierSlow = 0.5f;
@@ -119,6 +118,7 @@ namespace Wof.Controller
         public static bool SpinKeys = false; // Nie zapisywane do Wofconf.dat , czy trzeba chwilowo odwrócic przyciski podczas spinu
         public static bool ShowIntro = true; // czy ma byæ odgrywane intro? (nadpisywane przez wofconf.dat)
         public static bool DisplayMinimap = true; // czy pokazywaæ minimape? (nadpisywane przez wofconf.dat)
+ 		public static bool UseHydrax = true; // czy korzystaæ z zaawansowanej symulacji wody? (nadpisywane przez wofconf.dat)
 
         public static string Language = "en-GB";
 
@@ -251,22 +251,52 @@ namespace Wof.Controller
                     {
                         LanguageManager.SetLanguage("en-GB");
                     }
-
-                    //Difficulty
-                    switch (configOptions[8])
-                    {
-                        case "Easy":
-                            Difficulty = DifficultyLevel.Easy;
-                            break;
-                        case "Medium":
-                            Difficulty = DifficultyLevel.Medium;
-                            break;
-                        case "Hard":
-                            Difficulty = DifficultyLevel.Hard;
-                            break;
+					try
+					{
+						 //Difficulty
+	                    switch (configOptions[8])
+	                    {
+	                        case "Easy":
+	                            Difficulty = DifficultyLevel.Easy;
+	                            break;
+	                        case "Medium":
+	                            Difficulty = DifficultyLevel.Medium;
+	                            break;
+	                        case "Hard":
+	                            Difficulty = DifficultyLevel.Hard;
+	                            break;
+	                    }
+					}
+					catch(Exception)
+					{
+						Difficulty = DifficultyLevel.Easy;
+					}
+					
+                    try
+					{
+                    	ShowIntro = "true".Equals(configOptions[9]);
                     }
-                    ShowIntro = "true".Equals(configOptions[9]);
-                    DisplayMinimap = "true".Equals(configOptions[10]);
+                    catch(Exception)
+                    {
+                    	ShowIntro = true;
+                    }
+                     try
+					{
+                    	 DisplayMinimap = "true".Equals(configOptions[10]);
+                    }
+                    catch(Exception)
+                    {
+                    	DisplayMinimap = true;
+                    }
+                     try
+					{
+                    	UseHydrax = "true".Equals(configOptions[11]);
+                    }
+                    catch(Exception)
+                    {
+                    	UseHydrax = false;
+                    }
+                   
                     
                 }
                 else
@@ -282,7 +312,7 @@ namespace Wof.Controller
 
         public static void SaveEngineConfig()
         {
-            String[] configuration = new String[11];
+            String[] configuration = new String[12];
             configuration[0] = BloomEnabled ? "true" : "false";
             configuration[1] = SoundEnabled ? "true" : "false";
             configuration[2] = SoundSystem.ToString();
@@ -294,6 +324,7 @@ namespace Wof.Controller
             configuration[8] = Difficulty.ToString();
             configuration[9] = ShowIntro ? "true" : "false";
             configuration[10] = DisplayMinimap ? "true" : "false";
+            configuration[11] = UseHydrax ? "true" : "false";
             ExplosionLights = !LowDetails;
             BodiesStay = !LowDetails;
             Shadows = !LowDetails;

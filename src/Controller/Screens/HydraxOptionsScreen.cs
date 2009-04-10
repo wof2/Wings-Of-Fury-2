@@ -46,37 +46,46 @@
  * 
  */
 
-namespace Wof.Controller
-{
-    interface GameEventListener
-    {
-        void StartGame();
-        void StartGame(int levelNo);
-        void ExitGame();
-        void GotoStartScreen();
-        void GotoNextLevel();
-        void GotoHighscoresScreen();
-        void GotoEnterScoreScreen(int score);
-        void GotoCreditsScreen();
-        void GotoEndingScreen(int highscore);
-        void GotoVideoModeScreen();
-        void GotoOptionsScreen();
-        void GotoAntialiasingOptionsScreen();
-        void GotoVSyncOptionsScreen();
-        void GotoBloomOptionsScreen();
-        void GotoHydraxOptionsScreen();
-        void GotoLODOptionsScreen();
-        void GotoControlsOptionsScreen();
-        void GotoSoundOptionsScreen();
-        void GotoLanguagesOptionsScreen();
-        void GotoTutorialScreen();
-        void GotoLoadGameScreen();
-        void GotoDifficultyOptionsScreen();
-        void GotoDonateScreen();
+using System;
+using System.Collections.Generic;
+using BetaGUI;
+using Mogre;
+using Wof.Languages;
 
-        void MinimizeWindow();
-        void MaximizeWindow();
-        void GotoDonateWebPage();
-        void GotoUpdateWebPage();
+namespace Wof.Controller.Screens
+{
+    internal class HydraxOptionsScreen : AbstractOptionsScreen, BetaGUIListener
+    {
+        public HydraxOptionsScreen(GameEventListener gameEventListener,
+                                  SceneManager sceneMgr, Viewport viewport, Camera camera, Root root) :
+                                      base(gameEventListener, sceneMgr, viewport, camera, root)
+        {
+        }
+
+        protected override string getTitle()
+        {
+            return String.Format("{0}?", LanguageResources.GetString(LanguageKey.HydraxWater));
+        }
+
+        protected override List<string> GetAvailableOptions(Root root)
+        {
+            List<String> availableModes = new List<String>();
+
+            availableModes.Add(LanguageResources.GetString(LanguageKey.No));
+            availableModes.Add(LanguageResources.GetString(LanguageKey.Yes));
+
+            return availableModes;
+        }
+
+        protected override void ProcessOptionSelection(string selected)
+        {
+            EngineConfig.UseHydrax = LanguageResources.GetString(LanguageKey.Yes).Equals(selected);
+            EngineConfig.SaveEngineConfig();
+        }
+
+        protected override bool IsOptionSelected(string option)
+        {
+            return EngineConfig.UseHydrax == LanguageResources.GetString(LanguageKey.Yes).Equals(option);
+        }
     }
 }

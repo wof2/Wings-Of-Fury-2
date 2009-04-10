@@ -1725,42 +1725,8 @@ namespace Wof.View
         public void InitOceanSurface()
         {
             // OCEAN 
-
-            if(EngineConfig.UseHydrax)
-            {
-             
-                
-                string config = "";
-                switch (level.DayTime)
-                {
-                    case DayTime.Foggy:
-                        config = "Foggy.hdx";
-                    break;
-
-                    default:
-                        config = "Tropical.hdx";
-                    break;
-                        
-                }
-
-                HydraxManager.Singleton.CreateHydrax(config, sceneMgr, framework.Camera, framework.Viewport);
-                HydraxManager.Singleton.AddHydraxDepthTechniques();
-              
-              
-           
-            } else
-            {
-                Entity ocean2 = sceneMgr.CreateEntity("Ocean2", "OceanPlane.mesh");
-                ocean2.CastShadows = false;
-                sceneMgr.RootSceneNode.AttachObject(ocean2);
-            }
-
-
-          //  MHydrax.MDecal d = hydrax.DecalsManager.Add("Rosette.png");
-          //  d.Position = new Vector2(120, 120);
-
-          
-
+            
+            // minimap
             if (FrameWork.DisplayMinimap)
             {
                 SceneNode mOceanNode = minimapMgr.RootSceneNode.CreateChildSceneNode("MinimapOceanNode");
@@ -1773,6 +1739,45 @@ namespace Wof.View
                 mOceanNode.SetScale(oceanSize, 0, 5);
                 mOceanNode.Pitch(new Degree(90));
             }
+
+            if(EngineConfig.UseHydrax)
+            {
+             
+                string config = "";
+                switch (level.DayTime)
+                {
+                    case DayTime.Foggy:
+                        config = "Foggy.hdx";
+                    break;
+
+                    default:
+                        config = "Tropical.hdx";
+                    break;
+                        
+                }
+				try
+				{
+					HydraxManager.Singleton.CreateHydrax(config, sceneMgr, framework.Camera, framework.Viewport);
+                	HydraxManager.Singleton.AddHydraxDepthTechniques();
+                	//  MHydrax.MDecal d = hydrax.DecalsManager.Add("Rosette.png");
+          			//  d.Position = new Vector2(120, 120);
+          			
+                	return;
+				}
+				catch(Exception)
+            	{
+            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while creating hydrax, using old style water");
+            	}
+  
+            }
+          
+
+            Entity ocean2 = sceneMgr.CreateEntity("Ocean2", "OceanPlane.mesh");
+            ocean2.CastShadows = false;
+            sceneMgr.RootSceneNode.AttachObject(ocean2);
+
+
+           
             // OCEAN
         }
 

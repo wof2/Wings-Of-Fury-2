@@ -307,41 +307,50 @@ namespace Wof.Controller.Screens
             // OCEAN          
             if(EngineConfig.UseHydrax)
             {
-                HydraxManager.Singleton.CreateHydrax("Tropical.hdx", sceneMgr, camera, viewport);
-            }else
-            {
+            	try
+            	{
+                	HydraxManager.Singleton.CreateHydrax("Tropical.hdx", sceneMgr, camera, viewport);
+                	return;
+            	}
+            	catch(Exception)
+            	{
+            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while creating hydrax, using old style water");
+            	}
             	
-            	if (!MeshManager.Singleton.ResourceExists("OceanPlane"))
-	            {
-	                Plane plane; // = new Plane();
-	                plane.normal = Vector3.UNIT_Y;
-	                plane.d = 0;
-	                MeshManager.Singleton.CreatePlane("OceanPlane",
-	                                                  ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, plane,
-	                                                  5000, 5000, 10, 10, true, 1, 10, 10, Vector3.UNIT_Z);
-	            }
-	
-	            Entity ocean = sceneMgr.CreateEntity("Ocean", "OceanPlane");
-	            MaterialPtr m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_GLSL");
-	            m.Load();
-	            Pass p = m.GetBestTechnique().GetPass(0);
-	            TextureUnitState tu = p.GetTextureUnitState("Reflection");
-	            if (tu != null)
-	            {
-	                tu.SetCubicTextureName("morning.jpg", true);
-	            }
-	            if (p.HasFragmentProgram)
-	            {
-	                GpuProgramParametersSharedPtr param = p.GetVertexProgramParameters();
-	                param.SetNamedConstant("bumpSpeed", new Vector3(0.015f, - 1f, 0));
-	                p.SetVertexProgramParameters(param);
-	            }
-	            ocean.SetMaterialName("Ocean2_HLSL_GLSL");
-	            ocean.CastShadows = false;
-	
-	            sceneMgr.RootSceneNode.AttachObject(ocean);
-	            // OCEAN
             }
+           
+            	
+        	if (!MeshManager.Singleton.ResourceExists("OceanPlane"))
+            {
+                Plane plane; // = new Plane();
+                plane.normal = Vector3.UNIT_Y;
+                plane.d = 0;
+                MeshManager.Singleton.CreatePlane("OceanPlane",
+                                                  ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, plane,
+                                                  5000, 5000, 10, 10, true, 1, 10, 10, Vector3.UNIT_Z);
+            }
+
+            Entity ocean = sceneMgr.CreateEntity("Ocean", "OceanPlane");
+            MaterialPtr m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_GLSL");
+            m.Load();
+            Pass p = m.GetBestTechnique().GetPass(0);
+            TextureUnitState tu = p.GetTextureUnitState("Reflection");
+            if (tu != null)
+            {
+                tu.SetCubicTextureName("morning.jpg", true);
+            }
+            if (p.HasFragmentProgram)
+            {
+                GpuProgramParametersSharedPtr param = p.GetVertexProgramParameters();
+                param.SetNamedConstant("bumpSpeed", new Vector3(0.015f, - 1f, 0));
+                p.SetVertexProgramParameters(param);
+            }
+            ocean.SetMaterialName("Ocean2_HLSL_GLSL");
+            ocean.CastShadows = false;
+
+            sceneMgr.RootSceneNode.AttachObject(ocean);
+            // OCEAN
+      
            
         }
 
