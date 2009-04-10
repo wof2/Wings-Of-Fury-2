@@ -1120,16 +1120,13 @@ namespace Wof.View
 			ShipView sv  = FindShipView(tile);
             
             if(sv == null) return;
-            foreach(TileView tv in sv.TileViews)
-            {
-            	if(tv is ShipBunkerTileView)
-            	{
-            		tv.MinimapItem.Hide();
-            	}
-            }
+            sv.OnShipBeginSinking(tile);
+            
             
 			
 		}
+		
+       
         
         public void OnShipSinking(ShipTile tile)
         {
@@ -1885,7 +1882,7 @@ namespace Wof.View
                                            new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
                                            new Degree(1), 5);
 
-                if (level.DayTime == DayTime.Foggy)
+                /*if (level.DayTime == DayTime.Foggy)
                 {
                     
                   
@@ -1895,7 +1892,7 @@ namespace Wof.View
                                                new Degree(1), 5);
 
                 }
-                
+                */
 
               
                 // nad samolotem (niebo)

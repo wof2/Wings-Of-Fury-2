@@ -915,22 +915,27 @@ namespace Wof.View.Effects
         public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
                               uint cloudCount)
         {
-        	
+        	float os = LevelView.oceanSize /2.0f;
             if (!sceneMgr.HasBillboardSet("Clouds1"))
             {
                 cloudsBS1 = sceneMgr.CreateBillboardSet("Clouds1");
                 cloudsBS1.MaterialName = "Effects/Cloud1";
-                cloudsBS1.SetBounds(new AxisAlignedBox(new Vector3(-10000,0,-10000),new Vector3(10000,10000,10000)), 20000 );
+                
+                
+                cloudsBS1.SetBounds(new AxisAlignedBox(new Vector3(-os,-os,-os),new Vector3(os,os,os)), LevelView.oceanSize );
+                cloudsBS1.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
+                
             }
 
             if (!sceneMgr.HasBillboardSet("Clouds2"))
             {
                 cloudsBS2 = sceneMgr.CreateBillboardSet("Clouds2");
                 cloudsBS2.MaterialName = "Effects/Cloud2";
-                cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-10000, 0, -10000), new Vector3(10000, 10000, 10000)), 20000);
+                cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,-os,-1),new Vector3(os,os,1)), LevelView.oceanSize );
+            	cloudsBS2.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
             }
-          	cloudsBS1.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
-            cloudsBS2.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
+          	//cloudsBS1.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
+           // cloudsBS2.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
 
             int sizeDevX = (int) (defaultSize.x/10.0f);
             int sizeDevY = (int) (defaultSize.y/10.0f);
