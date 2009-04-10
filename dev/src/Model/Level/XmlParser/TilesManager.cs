@@ -256,8 +256,8 @@ namespace Wof.Model.Level.XmlParser
                 return true;
             else if (name.Contains(Nodes.FortressBunker))
                 return true;
-            //else if (name.Contains(Nodes.Ocean) && variant == 1)
-            //    return true;
+            else if (name.Contains(Nodes.Ocean) && (variant == 1 || variant == 3))
+                return true;
 
             return false;
         }
