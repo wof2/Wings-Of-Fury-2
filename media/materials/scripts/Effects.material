@@ -28,7 +28,7 @@ material ABEffect:NoFog
       pass 0
       {
       
-        lighting off					
+        lighting on				
         scene_blend alpha_blend		
         depth_write off
         cull_hardware none
@@ -68,7 +68,7 @@ material AEffect:NoFog
       pass 0
       {
       
-        lighting off				
+        lighting on				
         scene_blend add
         depth_write off
         cull_hardware none
@@ -97,6 +97,9 @@ material AEffect:NoFog
  // }
 
 }
+
+
+
 
 
 material Effects/WaterTrail : AEffect
@@ -271,6 +274,34 @@ material Effects/Blood : ABEffect
           { 
              	anim_texture Blood.png 10 0
 			        alpha_op_ex modulate src_texture src_manual 1 1			
+          }
+       }
+   }
+}
+
+material Effects/PalmTop1 : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+             	texture PalmTop1.png
+          }
+       }
+   }
+}
+
+material Effects/PalmTop2 : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+             	texture PalmTop2.png		
           }
        }
    }
