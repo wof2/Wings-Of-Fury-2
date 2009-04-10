@@ -285,7 +285,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Okreœla ile tail przed koñcem mapy samolot zaczyna zawracac.
         /// </summary>
-        protected int turningTails = 11;
+        protected int turningTails = 0;//11;
 
         /// <summary>
         /// Czas od momentu rozbicia samolotu do momentu przejœcia do nastêpnego ¿ycia.
