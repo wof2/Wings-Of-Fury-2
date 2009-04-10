@@ -20,12 +20,19 @@
   <!-- Ocean -->
 
   <tile name="ocean" y-start="0.1" y-end="0.1"/>
-  <tile name="ocean" y-start="0.1" y-end="0.15" variation="1"/> <!-- male skaly na oceanie -->
-  <tile name="ocean" y-start="0.0" y-end="0.0" variation="2"/>  <!-- male skaly na oceanie oddalone -->
+    
+  <tile name="ocean" y-start="0.1" y-end="0.1" variation="1"> <!-- male skaly na oceanie -->
+  <collision-rect rectangle="[3, 3.1 ][5][3.1   ]"/> 
+  </tile>
+    
+  <tile name="ocean" y-start="0.1" y-end="0.1" variation="2"/>  <!-- male skaly na oceanie oddalone -->
 
-  <tile name="ocean" y-start="1.0" y-end="1.0" variation="3"/>  <!-- duze skaly na oceanie -->
-  <tile name="ocean" y-start="0.0" y-end="0.0" variation="4"/>  <!-- duze skaly na oceanie oddalone -->
+  <tile name="ocean" y-start="0.1" y-end="0.1" variation="3">  <!-- duze skaly na oceanie -->
+  <collision-rect rectangle="[3, 3.1 ][5][3.1   ]"/> 
+  </tile>
   
+  <tile name="ocean" y-start="0.1" y-end="0.1" variation="4"/>  <!-- duze skaly na oceanie oddalone -->
+ 
   
   <!-- Enemy Installations  -->
 

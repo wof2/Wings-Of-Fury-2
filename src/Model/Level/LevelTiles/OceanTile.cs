@@ -47,6 +47,7 @@
  */
 
 using Wof.Model.Level.Common;
+using System.Collections.Generic;
 
 namespace Wof.Model.Level.LevelTiles
 {
@@ -75,6 +76,18 @@ namespace Wof.Model.Level.LevelTiles
         /// <param name="hitBound">Prostokat podatny na zniszczenia.</param>
         public OceanTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int variation)
             : base(yBegin, yEnd, viewXShift, hitBound, null)
+        {
+            type = variation;
+        }
+
+        /// <summary>
+        /// Konstruktor trzyparametrowy.
+        /// </summary>
+        /// <param name="yBegin">Wysokosc poczatku bunkra.</param>
+        /// <param name="yEnd">Wysokosc konca bunkra.</param>
+        /// <param name="hitBound">Prostokat podatny na zniszczenia.</param>
+        public OceanTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int variation, List<Quadrangle> collisionRectangle)
+            : base(yBegin, yEnd, viewXShift, hitBound, collisionRectangle)
         {
             type = variation;
         }
