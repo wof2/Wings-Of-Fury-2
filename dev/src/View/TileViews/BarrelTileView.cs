@@ -58,7 +58,7 @@ using Wof.View.Effects;
 using Wof.View.TileViews;
 using Math=System.Math;
 
-namespace Wof.View
+namespace Wof.View.TileViews
 {
     public class BarrelTileView : EnemyInstallationTileView
     {

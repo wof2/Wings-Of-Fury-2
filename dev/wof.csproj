@@ -550,6 +550,7 @@
     <Compile Include="src\View\SoldierView.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\View\TileViews\AircraftCarrierTileView.cs" />
     <Compile Include="src\View\TileViews\BarrackTileView.cs" />
     <Compile Include="src\View\TileViews\BeginIslandTileView.cs" />
     <Compile Include="src\View\TileViews\BunkerTileView.cs">
