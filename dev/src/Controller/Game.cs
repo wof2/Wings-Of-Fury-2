@@ -752,7 +752,28 @@ namespace Wof.Controller
 
             currentScreen.DisplayGUI(justMenu);
         }
+        
+  		public void GotoHydraxOptionsScreen()
+        {
+            Boolean justMenu = IsMenuScreen(currentScreen);
 
+            ScreenState ss = null;
+            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
+            {
+                ss = (currentScreen as AbstractScreen).GetScreenState();
+            }
+            initScreenAfter(currentScreen);
+            currentScreen = new HydraxOptionsScreen(this, sceneMgr, viewport, camera, root);
+
+            if (ss != null)
+            {
+                ((AbstractScreen)currentScreen).SetScreenState(ss);
+            }
+
+            currentScreen.DisplayGUI(justMenu);
+        }
+  		
+  		
         public void GotoLODOptionsScreen()
         {
             Boolean justMenu = IsMenuScreen(currentScreen);

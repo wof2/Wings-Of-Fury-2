@@ -424,4 +424,8 @@
   <data name="TorpedoLongTravelDistance">
     <value>Too long torpedo travel distance! Move closer</value>
   </data>
+
+  <data name="HydraxWater">
+    <value>Hydrax Water</value>
+  </data>
 </root>

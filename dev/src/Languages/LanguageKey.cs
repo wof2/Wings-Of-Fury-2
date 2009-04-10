@@ -166,6 +166,8 @@ namespace Wof.Languages
         public const string HallOfFame = @"HallOfFame";
         public const string High = @"High";
         public const string Highscores = @"Highscores";
+        public const string HydraxWater = @"HydraxWater";
+        
 
         #endregion
 

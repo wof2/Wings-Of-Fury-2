@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <data name="Antialiasing">
     <value>Antialiasing</value>
@@ -443,6 +443,10 @@
   
   <data name="TorpedoLongTravelDistance">
     <value>Too long torpedo travel distance! Move closer</value>
+  </data>
+
+  <data name="HydraxWater">
+    <value>Hydrax Water</value>
   </data>
   
 </root>
