@@ -868,7 +868,7 @@ namespace Wof.Model.Level.XmlParser
                     OceanTile ocean = null;
                     for (int i = 0; i < width; i++)
                     {
-                        ocean = new OceanTile(tilesNode.YStart, tilesNode.YEnd, tilesNode.ViewXShift, tilesNode.HitRectangle, variation);
+                        ocean = new OceanTile(tilesNode.YStart, tilesNode.YEnd, tilesNode.ViewXShift, tilesNode.HitRectangle, variation , tilesNode.CollisionRectangle);
                         levelTiles.Add(ocean);
                     }
                 }
