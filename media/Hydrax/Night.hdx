@@ -8,22 +8,20 @@ HydraxVersion=0.5.0
 <float>PlanesError=2.2
 #Shader mode: 0=HLSL, 1=CG, 2=GLSL
 <int>ShaderMode=0
-<float>FullReflectionDistance=1e+07
+<float>FullReflectionDistance=1e+05
 <float>GlobalTransparency=0
 <float>NormalDistortion=0.075
-<vector3>WaterColor=0.158209x0.535822x0.679105
-
+<vector3>WaterColor=0.10x0.223x0.38
 #Components field
 Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|UnderwaterGodRays
 
 #Sun parameters
-<vector3>SunPosition=0x10000x0
-<float>SunStrength=1.75
-<float>SunArea=150
-<vector3>SunColor=1x0.9x0.6
-
+<vector3>SunPosition=-1700x200x-5000
+<float>SunStrength=0.4
+<float>SunArea=900
+<vector3>SunColor=0.66x0.70x0.8
 #Foam parameters
-<float>FoamMaxDistance=7.5e+005
+<float>FoamMaxDistance=7.5e+007
 <float>FoamScale=0.0075
 <float>FoamStart=0
 <float>FoamTransparency=1
@@ -36,14 +34,14 @@ Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|Under
 
 #Caustics parameters
 <float>CausticsScale=40
-<float>CausticsPower=8.5
+<float>CausticsPower=5.5
 <float>CausticsEnd=0.8
 
 #God rays parameters
 <vector3>GodRaysExposure=0.76x2.46x2.29
-<float>GodRaysIntensity=0.015
+<float>GodRaysIntensity=0.000001
 <float>GodRaysSpeed=5
-<int>GodRaysNumberOfRays=100
+<int>GodRaysNumberOfRays=40
 <float>GodRaysRaysSize=0.03
 <bool>GodRaysIntersections=false
 
@@ -57,21 +55,21 @@ Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|Under
 #Module options
 Module=ProjectedGridVertex
 
-<float>PG_ChoopyStrength=2.0
+<float>PG_ChoopyStrength=2.9
 <bool>PG_ChoppyWaves=false
 <int>PG_Complexity=164
 <float>PG_Elevation=20.2
 <bool>PG_ForceRecalculateGeometry=false
 <bool>PG_Smooth=true
-<float>PG_Strength=10
+<float>PG_Strength=8
 
 #Noise options
 Noise=Perlin
 
 <int>Perlin_Octaves=8
 <float>Perlin_Scale=0.15
-<float>Perlin_Falloff=0.6
-<float>Perlin_Animspeed=0.8
+<float>Perlin_Falloff=0.63
+<float>Perlin_Animspeed=0.85
 <float>Perlin_Timemulti=1.0
 <float>Perlin_GPU_Strength=10
 <vector3>Perlin_GPU_LODParameters=0.5x50x150000

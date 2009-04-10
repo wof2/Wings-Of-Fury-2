@@ -8,7 +8,7 @@ HydraxVersion=0.5.0
 <float>PlanesError=2.2
 #Shader mode: 0=HLSL, 1=CG, 2=GLSL
 <int>ShaderMode=0
-<float>FullReflectionDistance=1e+011
+<float>FullReflectionDistance=1e+07
 <float>GlobalTransparency=0
 <float>NormalDistortion=0.075
 <vector3>WaterColor=0.32x0.427x0.46
@@ -22,7 +22,7 @@ Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|Under
 <vector3>SunColor=0.8x0.85x0.95
 
 #Foam parameters
-<float>FoamMaxDistance=7.5e+007
+<float>FoamMaxDistance=7.5e+005
 <float>FoamScale=0.0075
 <float>FoamStart=0
 <float>FoamTransparency=1
