@@ -40,7 +40,7 @@ Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|Under
 
 #God rays parameters
 <vector3>GodRaysExposure=0.76x2.46x2.29
-<float>GodRaysIntensity=0.002
+<float>GodRaysIntensity=0.008
 <float>GodRaysSpeed=5
 <int>GodRaysNumberOfRays=80
 <float>GodRaysRaysSize=0.03

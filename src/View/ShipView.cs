@@ -109,7 +109,7 @@ namespace Wof.View
         {
             EffectsManager.Singleton.NoSprite(sceneMgr, staticNode, EffectsManager.EffectType.FIRE, 0);
             EffectsManager.Singleton.NoSmoke(sceneMgr, staticNode);
-            string name;
+         
             for (uint i = 0; i < 6; i++ )
             {
   				EffectsManager.Singleton.NoSprite(sceneMgr, staticNode, EffectsManager.EffectType.FIRE, i);

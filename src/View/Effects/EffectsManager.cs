@@ -574,7 +574,7 @@ namespace Wof.View.Effects
                     break;
                     
   				case EffectType.HINT_ARROW:
-                    info.duration = 0.0f;
+                    info.duration = 1.0f;
                     info.material = "Effects/HintArrow";
                     break;
                     
@@ -600,10 +600,14 @@ namespace Wof.View.Effects
                 ret.Node.SetVisible(false);
             }
         }
-
         public void NoSprite(SceneManager sceneMgr, SceneNode parent, EffectType type, uint index)
         {
-            string aName = parent.Name + "_" + type.ToString() + "_index" + index; // animation name
+            NoSprite(sceneMgr, parent, type, index.ToString());
+        }
+
+        public void NoSprite(SceneManager sceneMgr, SceneNode parent, EffectType type, string localName)
+        {
+            string aName = parent.Name + "_" + type.ToString() + "_index" + localName; // animation name
             string bsName = aName + "BS"; // billboardset name
 
             if (EffectExists(aName))
