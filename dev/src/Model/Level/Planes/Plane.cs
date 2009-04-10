@@ -285,7 +285,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Okreœla ile tail przed koñcem mapy samolot zaczyna zawracac.
         /// </summary>
-        protected int turningTails = 0;//11;
+        protected int turningTileMargin = 0;//11;
 
         /// <summary>
         /// Czas od momentu rozbicia samolotu do momentu przejœcia do nastêpnego ¿ycia.
@@ -2822,7 +2822,7 @@ namespace Wof.Model.Level.Planes
             bool upSideDownFlight = (System.Math.PI/2 < System.Math.Abs(Bounds.Angle) &&
                                      System.Math.Abs(Bounds.Angle) <= 3.1416f); //3.1416f to zaokr¹glenie numeryczne System.Math.PI
 
-            if (Mathematics.PositionToIndex(Bounds.Center.X) <= turningTails)
+            if (Mathematics.PositionToIndex(Bounds.Center.X) <= turningTileMargin)
             {
                 if ((direction == Direction.Left && normalFlight) ||
                     (direction == Direction.Right && upSideDownFlight))
@@ -2836,7 +2836,7 @@ namespace Wof.Model.Level.Planes
                     }
                 }
             }
-            if (Mathematics.PositionToIndex(Bounds.Center.X) >= level.LevelTiles.Count - turningTails)
+            if (Mathematics.PositionToIndex(Bounds.Center.X) >= level.LevelTiles.Count - turningTileMargin)
             {
                 if ((direction == Direction.Right && normalFlight) ||
                     (direction == Direction.Left && upSideDownFlight))
