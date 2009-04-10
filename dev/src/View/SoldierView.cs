@@ -86,9 +86,7 @@ namespace Wof.View
         protected AnimationState runAnimationState;
         protected AnimationState die1AnimationState;
         protected AnimationState die2AnimationState;
-        
-        protected SceneNode arrowNode;
-
+    
         protected static Stack<SoldierView> soldierAvailablePool;
         protected static Dictionary<Soldier, SoldierView> soldierUsedPool;
 
@@ -225,7 +223,7 @@ namespace Wof.View
             die2AnimationState = soldierModel.GetAnimationState("die2");
 
             soldierNode.SetVisible(false);
-            attachArrow();
+           
             if (FrameWork.DisplayMinimap)
             {
                 if (minimapItem == null)
@@ -242,33 +240,23 @@ namespace Wof.View
             
         }
         
-        public void attachArrow()
-        {
-        	//EffectsManager.Singleton.RectangularEffect(sceneMgr, soldierNode, soldierNode.Name + "Arrow", EffectsManager.EffectType.HINT_ARROW, new Vector3(0,soldierModel.BoundingBox.Size.y,0), new Vector2(20,20), Quaternion.IDENTITY, true);
-        	
-        	
-        	Entity arrowModel = sceneMgr.CreateEntity(soldierModel.Name + "Arrow", "TwoSidedPlane.mesh");
-            arrowModel.SetMaterialName("FakePalmTree");
-            
-            arrowNode =  soldierNode.CreateChildSceneNode(, );
-            arrowNode.SetDirection(Vector3.UNIT_X);
-            arrowNode.AttachObject(arrowModel);
-            arrowNode.SetVisible(false);
-        }
+      
         
         public void showArrow()
         {
-        	if(arrowNode != null) {
-        		arrowNode.SetVisible(true);
-        	}
-            
+            float arrowSize = 2.5f;
+            Quaternion q = new Quaternion();
+            q.FromAngleAxis(new Radian(new Degree(90)), Vector3.UNIT_X );
+            q *= new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Z);
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, soldierNode, soldierNode.Name + "Arrow", EffectsManager.EffectType.HINT_ARROW, new Vector3(0, soldierModel.BoundingBox.Size.y + arrowSize, 0), new Vector2(arrowSize, arrowSize), q, true);
+        	
         }
         
         public void hideArrow()
         {
-        	if(arrowNode != null) {
-        		arrowNode.SetVisible(false);
-        	}
+
+            EffectsManager.Singleton.NoSprite(sceneMgr, soldierNode, EffectsManager.EffectType.HINT_ARROW, soldierNode.Name + "Arrow");
+        	
         }
 
         protected virtual void postInitOnScene()
