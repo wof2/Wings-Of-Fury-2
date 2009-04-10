@@ -79,8 +79,16 @@ namespace Wof.Controller.Screens
 
         protected override void ProcessOptionSelection(string selected)
         {
+        	
+        	bool old = EngineConfig.UseHydrax;
             EngineConfig.UseHydrax = LanguageResources.GetString(LanguageKey.Yes).Equals(selected);
             EngineConfig.SaveEngineConfig();
+            if(old != EngineConfig.UseHydrax)
+            {
+            	this.forceRebuild = true;
+            }
+            
+           
         }
 
         protected override bool IsOptionSelected(string option)

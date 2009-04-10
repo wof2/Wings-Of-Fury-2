@@ -106,6 +106,11 @@ namespace Wof.View.Effects
         /// <param name="viewport"></param>
         public void CreateHydrax(string cfgFileName, SceneManager sceneMgr, Camera camera, Viewport viewport)
         {
+        	if(hydrax != null)
+        	{
+        		hydrax.Dispose();
+        		hydrax = null;
+        	}
             hydrax = new MHydrax.MHydrax(sceneMgr, camera, viewport);
 
             MProjectedGrid module = new MProjectedGrid(// Hydrax parent pointer
@@ -132,6 +137,11 @@ namespace Wof.View.Effects
         {
             if(hydrax != null)
             {
+            	if(hydrax.IsCreated)
+            	{
+            		//hydrax.Visible = false;
+            		//hydrax.Update(0);
+            	}
                 hydrax.Dispose();
                 hydrax = null;
             }

@@ -70,7 +70,7 @@ namespace Wof.Controller.Screens
         {
             get { return value; }
         }
-
+	
         public ButtonHolder(Button button, String description)
         {
             option = button;
@@ -90,6 +90,14 @@ namespace Wof.Controller.Screens
         private Button exitButton;
         private Button nextButton;
         private Button prevButton;
+        
+       
+        protected bool forceRebuild = false;
+
+        public bool ForceRebuild
+        {
+            get { return forceRebuild; }
+        }	
 
         protected Root root;
 

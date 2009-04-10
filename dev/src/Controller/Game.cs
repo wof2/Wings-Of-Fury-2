@@ -943,6 +943,7 @@ namespace Wof.Controller
             if ((screen is EndingScreen)) return true;
             if ((screen is GameScreen)) return true;
             if ((screen is IntroScreen)) return true;
+            if ((screen is AbstractOptionsScreen) && (screen as AbstractOptionsScreen).ForceRebuild) return true;
             return false;
         }
 
