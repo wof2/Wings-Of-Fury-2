@@ -134,6 +134,16 @@ namespace Wof.View.TileViews
         {
             base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
 
+            /*base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
+            String nameSuffix = tileID.ToString();
+
+            float positionOnIsland = -getRelativePosition(parentNode, LevelTile);*/
+
+            /*if (levelTile is BarrelTile)
+            {
+                installationNode =
+                    parentNode.CreateChildSceneNode("Barrels" + nameSuffix, new Vector3(0, 0.1f, positionOnIsland - 5.0f));
+            */
             if (LevelTile is OceanTile)
             {
                 int variant = LevelTile.Variant;
@@ -141,6 +151,7 @@ namespace Wof.View.TileViews
                 {
 
                     installationNode = parentNode.CreateChildSceneNode("OceanNode" + tileID, new Vector3(-getRelativePosition(parentNode, LevelTile), 0, 0));
+                    //installationNode = parentNode.CreateChildSceneNode("OceanNode" + tileID, new Vector3(0, 0, -getRelativePosition(parentNode, LevelTile)));
                 }
 
                 switch (variant)
