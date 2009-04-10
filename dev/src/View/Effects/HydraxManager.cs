@@ -122,7 +122,7 @@ namespace Wof.View.Effects
                 // Normal mode
                                                 MMaterialManager.MNormalMode.NM_VERTEX,
                 // Projected grid options
-                                                new MProjectedGrid.MOptions(256, 35, 50, false, false, true, 3.75f));
+                                                new MProjectedGrid.MOptions(164, 35, 50, false, false, true, 3.75f));
 
 
             hydrax.SetModule(module);

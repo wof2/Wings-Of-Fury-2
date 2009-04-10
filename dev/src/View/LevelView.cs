@@ -1678,6 +1678,10 @@ namespace Wof.View
                         config = "Foggy.hdx";
                     break;
 
+                    case DayTime.Night:
+                    config = "Night.hdx";
+                    break;
+
                     default:
                         config = "Tropical.hdx";
                     break;
