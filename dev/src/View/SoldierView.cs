@@ -244,10 +244,13 @@ namespace Wof.View
         
         public void attachArrow()
         {
+        	//EffectsManager.Singleton.RectangularEffect(sceneMgr, soldierNode, soldierNode.Name + "Arrow", EffectsManager.EffectType.HINT_ARROW, new Vector3(0,soldierModel.BoundingBox.Size.y,0), new Vector2(20,20), Quaternion.IDENTITY, true);
+        	
+        	
         	Entity arrowModel = sceneMgr.CreateEntity(soldierModel.Name + "Arrow", "TwoSidedPlane.mesh");
             arrowModel.SetMaterialName("FakePalmTree");
             
-            arrowNode =  soldierNode.CreateChildSceneNode(soldierNode.Name + "Arrow", new Vector3(0,soldierModel.BoundingBox.Size.y,0));
+            arrowNode =  soldierNode.CreateChildSceneNode(, );
             arrowNode.SetDirection(Vector3.UNIT_X);
             arrowNode.AttachObject(arrowModel);
             arrowNode.SetVisible(false);

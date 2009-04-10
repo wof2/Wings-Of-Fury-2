@@ -126,7 +126,8 @@ namespace Wof.View.Effects
             BLOOD,
             DEBRIS,
             PALMTOP1,
-            PALMTOP2
+            PALMTOP2,
+            HINT_ARROW
         }
 
         private enum MaterialToPreload
@@ -571,7 +572,13 @@ namespace Wof.View.Effects
                     info.duration = 0.0f;
                     info.material = "Effects/PalmTop2";
                     break;
-
+                    
+  				case EffectType.HINT_ARROW:
+                    info.duration = 0.0f;
+                    info.material = "Effects/HintArrow";
+                    break;
+                    
+                    
                 default:
                     info.duration = 0.0f;
                     info.material = "";
