@@ -317,6 +317,10 @@ namespace Wof.Controller.Screens
             		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while creating hydrax, using old style water");
             	}
             	
+            } else
+            {
+            	// na wypadek jeœli ktoœ wy³¹czy³ hydraxa w opcjach dopiero teraz faktycznie zwalniana jest pamiêæ
+            	HydraxManager.Singleton.DisposeHydrax();
             }
            
             	
@@ -356,7 +360,7 @@ namespace Wof.Controller.Screens
 
         public virtual void CreateScene()
         {
-            if (planeViews == null)
+            if (planeViews == null || planeViews.Count == 0)
             {
                 // add planes
                 planeViews = new List<PlaneView>();
@@ -461,11 +465,12 @@ namespace Wof.Controller.Screens
 
             if (!justMenu)
             { 
-            	if (EngineConfig.UseHydrax)
-	            {
-                    HydraxManager.Singleton.DisposeHydrax();
-	            }
-
+            	HydraxManager.Singleton.DisposeHydrax();
+            	if(planeViews != null)
+            	{
+            		planeViews.Clear();
+            		planeViews = null;
+            	}
                 FrameWork.DestroyScenes();
 
                 //MaterialManager.Singleton.UnloadUnreferencedResources();

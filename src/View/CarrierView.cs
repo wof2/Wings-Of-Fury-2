@@ -71,14 +71,10 @@ namespace Wof.View
 
         protected Entity carrierAerial1;
         protected Entity carrierAerial2;
-        protected Entity lWaterTrail;
-        protected Entity rWaterTrail;
 
         protected SceneNode carrierAerial1Node;
         protected SceneNode carrierAerial2Node;
-        protected SceneNode lCarrierWaterTrailNode;
-        protected SceneNode rCarrierWaterTrailNode;
-
+      
         private ConstRotateNodeAnimation aerialAnimation1;
         private ConstRotateNodeAnimation aerialAnimation2;
 
