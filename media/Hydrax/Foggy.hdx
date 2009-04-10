@@ -57,8 +57,8 @@ Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|Under
 Module=ProjectedGridVertex
 
 <float>PG_ChoopyStrength=2.9
-<bool>PG_ChoppyWaves=true
-<int>PG_Complexity=264
+<bool>PG_ChoppyWaves=false
+<int>PG_Complexity=164
 <float>PG_Elevation=20.2
 <bool>PG_ForceRecalculateGeometry=false
 <bool>PG_Smooth=true
