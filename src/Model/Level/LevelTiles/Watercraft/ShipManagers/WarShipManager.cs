@@ -76,6 +76,8 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
         public override void TorpedoHit(Ammunition ammo, ShipTile tile)
         {
             _shipState++;
+          //  _shipState++;
+           // _shipState++;
             if (_shipState == ShipState.Destroyed)
             {
                 //niszczymy obiekt

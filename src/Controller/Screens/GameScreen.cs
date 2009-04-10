@@ -1783,6 +1783,12 @@ namespace Wof.Controller.Screens
         {
             levelView.OnShipSinking(tile);
         }
+        
+       /* public void OnShipUnderWater(ShipTile tile)
+        {
+            levelView.OnShipUnderWater(tile);
+        }*/
+        
 
         public void OnShipSunk(BeginShipTile tile)
         {

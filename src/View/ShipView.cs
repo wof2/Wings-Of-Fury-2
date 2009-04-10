@@ -109,6 +109,11 @@ namespace Wof.View
         {
             EffectsManager.Singleton.NoSprite(sceneMgr, staticNode, EffectsManager.EffectType.FIRE, 0);
             EffectsManager.Singleton.NoSmoke(sceneMgr, staticNode);
+            string name;
+            for (uint i = 0; i < 6; i++ )
+            {
+  				EffectsManager.Singleton.NoSprite(sceneMgr, staticNode, EffectsManager.EffectType.FIRE, i);
+            }
         }
         
         
@@ -143,63 +148,106 @@ namespace Wof.View
             }
         }
 
-          
+        public void OnShipBeginSinking(LevelTile shipTile)
+        {
+        	foreach(TileView tv in TileViews)
+            {
+            	if(tv is ShipBunkerTileView)
+            	{
+            		tv.MinimapItem.Hide();
+            	}
+            }
+        	LevelTile tile = shipTile;
+        	Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(tile.TileIndex), 1.5f));
+            string name;
+            
+			if (!EngineConfig.LowDetails)
+            {
+	            for (uint i = 0; i < 3; i++ )
+	            {
+	
+	                Vector2 rand = ViewHelper.RandomVector2(8, 8);
+	                Vector3 posView = new Vector3(v.x + rand.x, v.y, 0 + rand.y);
+	                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.SUBMERGE, tile.GetHashCode() + "_" + i);
+	                if (!EffectsManager.Singleton.EffectExists(name) || EffectsManager.Singleton.EffectEnded(name))
+	                {
+	                    EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
+	                                                               tile.GetHashCode() + "_" + i,
+	                                                               EffectsManager.EffectType.SUBMERGE, posView,
+	                                                               new Vector2(25, 25), Quaternion.IDENTITY, false);
+	                }
+	
+	                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.WATERIMPACT1,"WaterImpact1_" + tile.GetHashCode() + "_" + i);
+	                if (!EffectsManager.Singleton.EffectExists(name))
+	                {
+	                    EffectsManager.Singleton.WaterImpact(sceneMgr, sceneMgr.RootSceneNode, posView, new Vector2(20, 32), false, tile.GetHashCode() + "_" + i);
+	                }
+	
+	
+	                EffectsManager.EffectType type;
+	                if (((uint)tile.GetHashCode() + i) % 2 == 0)
+	                {
+	                    type = EffectsManager.EffectType.EXPLOSION2_SLOW;
+	                } else
+	                {
+	                    type = EffectsManager.EffectType.EXPLOSION1_SLOW;
+	                }
+	
+	                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type, (tile.GetHashCode() + i).ToString());
+	                if (!EffectsManager.Singleton.EffectExists(name))
+	                {
+	                    if(Math.RangeRandom(0,1) > 0.8f)
+	                    {
+	                         EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, posView + ViewHelper.UnsignedRandomVector3(0,10,0), new Vector2(15, 15) + ViewHelper.RandomVector2(5,5),
+	                                                    type, false,
+	                                                    (tile.GetHashCode() + i).ToString());
+	
+	                    }
+	                   
+	                }
+	            }
+
+            }
         
+        	
+        }
+        
+       
         public void OnShipSinking(LevelTile shipTile) 
         {
         	LevelTile tile = shipTile;
-        	Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(tile.TileIndex), 0.5f));
+        	Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(tile.TileIndex), 1.5f));
             string name;
-            if (!EngineConfig.LowDetails)
+           
+
+            for (uint i = 0; i < 3; i++ )
             {
-
-                for (uint i = 0; i < 3; i++ )
+                Vector2 rand = ViewHelper.RandomVector2(6, 6);
+                Vector3 posView = new Vector3(v.x + rand.x, v.y, 0 + rand.y);
+                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.SUBMERGE, tile.GetHashCode() + "_" + i);
+                NodeAnimation.NodeAnimation node = EffectsManager.Singleton.GetEffect(name);
+                if (!EffectsManager.Singleton.EffectExists(name) || (node!=null && node.getPercent() > 0.6f))
                 {
+                    EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
+                                                               tile.GetHashCode() + "_" + i,
+                                                               EffectsManager.EffectType.SUBMERGE, posView,
+                                                               new Vector2(25, 25), Quaternion.IDENTITY, false);
+                }                    
 
-                    Vector2 rand = ViewHelper.RandomVector2(8, 8);
-                    Vector3 posView = new Vector3(v.x + rand.x, v.y, 0 + rand.y);
-                    name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.SUBMERGE, "Submerge" + tile.GetHashCode() + "_" + i);
-                    if (!EffectsManager.Singleton.EffectExists(name) || EffectsManager.Singleton.EffectEnded(name))
-                    {
-                        EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
-                                                                   "Submerge" + tile.GetHashCode() + "_" + i,
-                                                                   EffectsManager.EffectType.SUBMERGE, posView,
-                                                                   new Vector2(25, 25), Quaternion.IDENTITY, false);
-                    }
-
-                    name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.WATERIMPACT1, "WaterImpact1_" +  + tile.GetHashCode() + "_" + i);
-                    if (!EffectsManager.Singleton.EffectExists(name))
-                    {
-                        EffectsManager.Singleton.WaterImpact(sceneMgr, sceneMgr.RootSceneNode, posView, new Vector2(20, 32), false, tile.GetHashCode() + "_" + i);
-                    }
-
-
-                    EffectsManager.EffectType type;
-                    if (((uint)tile.GetHashCode() + i) % 2 == 0)
-                    {
-                        type = EffectsManager.EffectType.EXPLOSION2_SLOW;
-                    } else
-                    {
-                        type = EffectsManager.EffectType.EXPLOSION1_SLOW;
-                    }
-
-                    name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type, (tile.GetHashCode() + i).ToString());
-                    if (!EffectsManager.Singleton.EffectExists(name))
-                    {
-                        if(Math.RangeRandom(0,1) > 0.8f)
-                        {
-                             EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, posView + ViewHelper.UnsignedRandomVector3(0,10,0), new Vector2(15, 15) + ViewHelper.RandomVector2(5,5),
-                                                        type, false,
-                                                        (tile.GetHashCode() + i).ToString());
-
-                        }
-                       
-                    }
-
-
-                }
-                
             }
+            
+           
+            // zgaœ ogieñ - pierwotnie mia³o byæ realizowane przez LevelView.OnShipUnderWater. Z przyczyn technicznych realizowane jest tutaj
+            for (uint i = 0; i < 6; i++ )
+            {
+            	name = EffectsManager.BuildSpriteEffectName(staticNode, EffectsManager.EffectType.FIRE, i.ToString());
+            	NodeAnimation.NodeAnimation node = EffectsManager.Singleton.GetEffect(name);
+            	if(node != null && node.Node.WorldPosition.y < 0.0f)
+            	{
+            	   	EffectsManager.Singleton.NoSprite(sceneMgr, staticNode, EffectsManager.EffectType.FIRE, i);
+            	}
+        		
+        	}
         }
         
         

@@ -94,6 +94,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         {
             this.type = type;
             this.traversable = traversable;
+      
         }
 
         #endregion
@@ -161,6 +162,14 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             
             if(amount > 0)
             {
+            	// TODO: nie dzia³a jak nale¿y. znalezc bardziej eleganckie rozwi¹zanie
+            	/*if(this.depth > this.MaxY)
+	            {
+	            	// under water
+	            	  refToLevel.Controller.OnShipUnderWater(this);
+	            }
+            	*/
+            	
                 // toniêcie siê nie zakoñczy³o
                 refToLevel.Controller.OnShipSinking(this);
                 return amount;

@@ -442,7 +442,13 @@ namespace Wof.Controller
         /// Statek tonie
         /// </summary>
         /// <param name="tile"></param>
-        void OnShipSinking(ShipTile tile);   
+        void OnShipSinking(ShipTile tile); 
+        
+         /// <summary>
+        /// Statek jest pod powierzchni¹ wody
+        /// </summary>
+        /// <param name="tile"></param>
+        //void OnShipUnderWater(ShipTile tile); 
         
         
         /// <summary>

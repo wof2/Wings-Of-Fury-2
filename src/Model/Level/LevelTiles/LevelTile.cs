@@ -147,13 +147,13 @@ namespace Wof.Model.Level.LevelTiles
         /// <summary>
         /// Okreœla z jak¹ prêdkoœci¹ statek bêdzie ton¹æ. Wyra¿ona jako liczba dodatnia.
         /// </summary>
-        public static float SinkingSpeed = 0.8f;
+        public static float SinkingSpeed = 1.15f;
 
         /// <summary>
         /// Czas od momentu rozbicia statku do momentu zakoñczenia toniêcia.
         /// Wyra¿ony w ms.
         /// </summary>
-        private const float wreckTime = 20000;
+        private const float wreckTime = 30000;
 
 
         /// <summary>
@@ -453,6 +453,8 @@ namespace Wof.Model.Level.LevelTiles
                 q.Move(0, -YVal);
             }
             this.HitBound.Move(0, -YVal);
+            
+           
 
             wreckTimeElapsed += time;
 
