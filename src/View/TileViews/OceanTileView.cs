@@ -46,7 +46,7 @@
  * 
  */
 
-
+using System;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
@@ -90,7 +90,8 @@ namespace Wof.View.TileViews
             rockNode = installationNode.CreateChildSceneNode("BigRockNode" + LevelView.PropCounter, position);
             rock = sceneMgr.CreateEntity("BigRock" + LevelView.PropCounter, "BigRock.mesh");
             rockNode.AttachObject(rock);
-            rockNode.Yaw(Mogre.Math.RangeRandom(0, Mogre.Math.TWO_PI));
+            //rockNode.Yaw(Mogre.Math.RangeRandom(0, Mogre.Math.TWO_PI));
+            rockNode.Yaw(Mogre.Math.RangeRandom(-1.5f , 1.5f) + Mogre.Math.PI);
         }
         /// <summary>
         /// 
@@ -144,14 +145,17 @@ namespace Wof.View.TileViews
                 installationNode =
                     parentNode.CreateChildSceneNode("Barrels" + nameSuffix, new Vector3(0, 0.1f, positionOnIsland - 5.0f));
             */
+
+            float test = getRelativePosition(parentNode, LevelTile);
+
             if (LevelTile is OceanTile)
             {
                 int variant = LevelTile.Variant;
                 if(variant >= 0)
                 {
 
-                    installationNode = parentNode.CreateChildSceneNode("OceanNode" + tileID, new Vector3(-getRelativePosition(parentNode, LevelTile), 0, 0));
-                    //installationNode = parentNode.CreateChildSceneNode("OceanNode" + tileID, new Vector3(0, 0, -getRelativePosition(parentNode, LevelTile)));
+                    //installationNode = parentNode.CreateChildSceneNode("OceanNode" + tileID, new Vector3(-getRelativePosition(parentNode, LevelTile), 0, 0));
+                    installationNode = parentNode.CreateChildSceneNode("OceanNode" + tileID, new Vector3(getRelativePosition(parentNode, LevelTile)+5.0f, 0, 0));
                 }
 
                 switch (variant)
