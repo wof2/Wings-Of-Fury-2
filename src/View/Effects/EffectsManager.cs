@@ -559,7 +559,7 @@ namespace Wof.View.Effects
                     break;
 
                 case EffectType.BLOOD:
-                    info.duration = 0.8f;
+                    info.duration = 0.5f;
                     info.material = "Effects/Blood";
                     break;
 

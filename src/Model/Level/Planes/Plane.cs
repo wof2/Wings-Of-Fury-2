@@ -2141,7 +2141,7 @@ namespace Wof.Model.Level.Planes
                     level.Controller.OnUnregisterRocket(rocket);
                 }
                 if (!(crashTile is OceanTile) && !(crashTile is AircraftCarrierTile))
-                    level.KillVulnerableSoldiers(Convert.ToInt32(System.Math.Floor(Position.X/LevelTile.Width)), 2);
+                    level.KillVulnerableSoldiers(Convert.ToInt32(System.Math.Floor(Position.X/LevelTile.Width)), 2, true);
             }
         }
 
