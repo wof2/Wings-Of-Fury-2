@@ -603,7 +603,7 @@ namespace Wof.View.NodeAnimation
 
         private void OnFinishHalfSpin(object args)
         {
-            //EngineConfig.SpinKeys = true;
+            EngineConfig.SpinKeys = true;
             switchToSpin(true, null, queuedOnFinish, queuedOnFinishInfo , false);
         }
 
