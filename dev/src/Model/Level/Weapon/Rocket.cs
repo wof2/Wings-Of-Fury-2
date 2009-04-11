@@ -432,7 +432,7 @@ namespace Wof.Model.Level.Weapon
 	                    {
 	                        destroyTile.Destroy();
 	                        refToLevel.Controller.OnTileDestroyed(destroyTile, this);
-	                        refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 2);
+                            refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 2, true);
 	                    }
                         else
                             refToLevel.Controller.OnTileBombed(tile, this);
@@ -487,7 +487,7 @@ namespace Wof.Model.Level.Weapon
               
 
                 //zabija zolnierzy, ktorzy sa w zasiegu.
-                refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 1);
+                refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 1, true);
 
                 //niszcze bombe
                 state = MissileState.Destroyed;

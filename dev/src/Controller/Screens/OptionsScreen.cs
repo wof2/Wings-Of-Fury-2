@@ -78,7 +78,7 @@ namespace Wof.Controller.Screens
                                           LanguageResources.GetString(LanguageKey.Options));
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
-            initButtons(11, 10);
+            initButtons(12, 11);
             uint i = 0;
             buttons[0] = guiWindow.createButton(new Vector4(0, 2 *  GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.VideoMode), cc, i++);
@@ -91,18 +91,20 @@ namespace Wof.Controller.Screens
             buttons[4] = guiWindow.createButton(new Vector4(0, 6 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.HydraxWater), cc, i++);
             buttons[5] = guiWindow.createButton(new Vector4(0, 7 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
-                                                LanguageResources.GetString(LanguageKey.Difficulty), cc, i++);
+                                    LanguageResources.GetString(LanguageKey.Blood), cc, i++);
             buttons[6] = guiWindow.createButton(new Vector4(0, 8 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
-                                                LanguageResources.GetString(LanguageKey.Details), cc, i++);
+                                                LanguageResources.GetString(LanguageKey.Difficulty), cc, i++);
             buttons[7] = guiWindow.createButton(new Vector4(0, 9 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
-                                                LanguageResources.GetString(LanguageKey.Controls), cc, i++);
+                                                LanguageResources.GetString(LanguageKey.Details), cc, i++);
             buttons[8] = guiWindow.createButton(new Vector4(0, 10 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
-                                                LanguageResources.GetString(LanguageKey.Languages), cc, i++);
+                                                LanguageResources.GetString(LanguageKey.Controls), cc, i++);
             buttons[9] = guiWindow.createButton(new Vector4(0, 11 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+                                                LanguageResources.GetString(LanguageKey.Languages), cc, i++);
+            buttons[10] = guiWindow.createButton(new Vector4(0, 12 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Sound), cc, i++);
-            buttons[10] = guiWindow.createButton(new Vector4(0, 13 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[11] = guiWindow.createButton(new Vector4(0, 14 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Back), cc, i);
-            selectButton(10);
+            selectButton(11);
             guiWindow.show();
         }
 
@@ -133,28 +135,31 @@ namespace Wof.Controller.Screens
                 {
                     gameEventListener.GotoHydraxOptionsScreen();
                 }
-               
                 else if (referer == buttons[5])
                 {
-                    gameEventListener.GotoDifficultyOptionsScreen();
+                    gameEventListener.GotoBloodOptionsScreen();
                 }
                 else if (referer == buttons[6])
                 {
-                    gameEventListener.GotoLODOptionsScreen();
+                    gameEventListener.GotoDifficultyOptionsScreen();
                 }
                 else if (referer == buttons[7])
                 {
-                    gameEventListener.GotoControlsOptionsScreen();
+                    gameEventListener.GotoLODOptionsScreen();
                 }
                 else if (referer == buttons[8])
                 {
-                    gameEventListener.GotoLanguagesOptionsScreen();
+                    gameEventListener.GotoControlsOptionsScreen();
                 }
                 else if (referer == buttons[9])
                 {
-                    gameEventListener.GotoSoundOptionsScreen();
+                    gameEventListener.GotoLanguagesOptionsScreen();
                 }
                 else if (referer == buttons[10])
+                {
+                    gameEventListener.GotoSoundOptionsScreen();
+                }
+                else if (referer == buttons[11])
                 {
                     gameEventListener.GotoStartScreen();
                 }

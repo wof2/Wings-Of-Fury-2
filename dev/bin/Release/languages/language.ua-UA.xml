@@ -444,4 +444,8 @@
   <data name="HydraxWater">
     <value>Hydrax Water</value>
   </data>
+
+  <data name="Blood">
+    <value>Blood</value>
+  </data>
 </root>

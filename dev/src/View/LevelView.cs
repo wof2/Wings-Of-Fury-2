@@ -523,22 +523,22 @@ namespace Wof.View
             {
                 if (Math.RangeRandom(0.0f, 1.0f) < 0.7f)
                 {
-                    soldierView.DieFromExplosion();
+                    soldierView.DieFromExplosion(false);
                 }
                 else
                 {
-                    soldierView.DieFromGun();
+                    soldierView.DieFromGun(false);
                 }
             }
             else
             {
                 if (Math.RangeRandom(0.0f, 1.0f) < 0.7f)
                 {
-                    soldierView.DieFromGun();
+                    soldierView.DieFromGun(Mogre.Math.RangeRandom(0.0f,1.0f) > 0.5f);
                 }
                 else
                 {
-                    soldierView.DieFromExplosion();
+                    soldierView.DieFromExplosion(Mogre.Math.RangeRandom(0.0f, 1.0f) > 0.5f);
                 }
             }
         }

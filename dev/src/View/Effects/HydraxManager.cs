@@ -97,6 +97,19 @@ namespace Wof.View.Effects
              if(hydrax != null && hydrax.IsCreated)  hydrax.Update(evt.timeSinceLastFrame);
         }
 
+        public MHydrax.MHydrax GetHydrax()
+        {
+            return this.hydrax;
+        }
+
+        public void TranslateSurface(Vector3 vector)
+        {
+            if(hydrax == null || !hydrax.IsCreated) return;
+          //  hydrax.Mesh.SceneNode.Translate(vector);
+           
+           // hydrax.Position = new Vector3(hydrax.Position.x + vector.x, hydrax.Position.y + vector.y, hydrax.Position.z + vector.z);
+        }
+
         /// <summary>
         /// Tworzy gotow¹ powierzchniê wody. 
         /// </summary>
@@ -124,10 +137,16 @@ namespace Wof.View.Effects
                 // Projected grid options
                                                 new MProjectedGrid.MOptions(164, 35, 50, false, false, true, 3.75f));
 
-
+          
             hydrax.SetModule(module);
             hydrax.LoadCfg(cfgFileName);
             hydrax.Create();
+       //    MaterialPtr m = hydrax.MaterialManager.GetMaterial(MMaterialManager.MMaterialType.MAT_UNDERWATER_COMPOSITOR);
+       //    m.GetBestTechnique().GetPass(0).GetTextureUnitState(1).SetTextureName("UnderwaterDistortion_none.png");
+       //     m = null;
+          //   hydrax.MaterialManager.RemoveCompositor();
+        //   CompositorPtr com =  hydrax.MaterialManager.GetCompositor(MHydrax.MMaterialManager.MCompositorType.COMP_UNDERWATER); 
+        //    com.RemoveAllTechniques();
         }
 
         /// <summary>

@@ -850,11 +850,12 @@ namespace Wof.Model.Level
         /// </summary>
         /// <param name="index">Index pola ktore zostalo trafione.</param>
         /// <param name="step">Zasieg razenia.</param>
+        /// <param name="dieFromExplosion">Czy powodem byla ekspolozja (czy tez dzia³ko)</param>
         /// <author>Michal Ziober</author>
         /// <returns>Zwraca liczbe zabitych zolnierzy.</returns>
-        public int KillVulnerableSoldiers(int index, int step)
+        public int KillVulnerableSoldiers(int index, int step, bool dieFromExplosion)
         {
-            return KillSoldiers(index, step, false, true);
+            return KillSoldiers(index, step, false, true, dieFromExplosion);
         }
         /// <summary>
         /// Zabija zolnierzy, ktorzy sa w polu razenia.
@@ -863,9 +864,10 @@ namespace Wof.Model.Level
         /// <param name="step">Zasieg razenia.</param>
         /// <param name="forceKill">Wymusic smierc zolnierza / sprawdzic czy moze byc zabity</param>
         /// <param name="scream">czy ma byæ dŸwiêk</param>
+        /// <param name="dieFromExplosion">Czy powodem byla ekspolozja (czy tez dzia³ko)</param>
         /// <author>Michal Ziober</author>
         /// <returns>Zwraca liczbe zabitych zolnierzy.</returns>
-        public int KillSoldiers(int index, int step, bool forceKill, bool scream)
+        public int KillSoldiers(int index, int step, bool forceKill, bool scream, bool dieFromExplosion)
         {
             List<Soldier> soldiers =
                 soldierList.FindAll(Predicates.FindSoldierFromInterval(index - step, index + step));
@@ -882,7 +884,7 @@ namespace Wof.Model.Level
                         this.SoldiersCount--;
                         soldiers[i].Kill();
                         numberOfDeaths++;
-                        Controller.OnSoldierBeginDeath(soldiers[i], false, scream);
+                        Controller.OnSoldierBeginDeath(soldiers[i], !dieFromExplosion, scream);
                     }
                 }
 
@@ -895,7 +897,7 @@ namespace Wof.Model.Level
                         this.GeneralsCount--;
                         generals[i].Kill();
                         numberOfDeaths++;
-                        Controller.OnSoldierBeginDeath(generals[i], false, scream);
+                        Controller.OnSoldierBeginDeath(generals[i], !dieFromExplosion, scream);
                     }
                 }
 

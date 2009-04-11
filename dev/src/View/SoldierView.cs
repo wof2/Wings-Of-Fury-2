@@ -158,6 +158,8 @@ namespace Wof.View
             SoldierView sv = soldierUsedPool[soldier];
             sv.soldierNode.SetVisible(!hide);
 
+            sv.StopBlood();
+
             if (hide && FrameWork.DisplayMinimap)
             {
                 if (sv.minimapItem != null)
@@ -247,9 +249,12 @@ namespace Wof.View
             float arrowSize = 2.5f;
             Quaternion q = new Quaternion();
             q.FromAngleAxis(new Radian(new Degree(90)), Vector3.UNIT_X );
-            q *= new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Z);
-            EffectsManager.Singleton.RectangularEffect(sceneMgr, soldierNode, soldierNode.Name + "Arrow", EffectsManager.EffectType.HINT_ARROW, new Vector3(0, soldierModel.BoundingBox.Size.y + arrowSize, 0), new Vector2(arrowSize, arrowSize), q, true);
-        	
+           q *= new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Z);
+          // EffectsManager.Singleton.RectangularEffect(sceneMgr, soldierNode, soldierNode.Name + "Arrow", EffectsManager.EffectType.HINT_ARROW, new Vector3(0, soldierModel.BoundingBox.Size.y + arrowSize, 0), new Vector2(arrowSize, arrowSize), q, true);
+
+
+           
+           
         }
         
         public void hideArrow()
@@ -326,7 +331,33 @@ namespace Wof.View
             animationState.TimePosition = 0;
         }
 
-        public void DieFromGun()
+        private void Bleed()
+        {
+            float bloodSize = 2.5f;
+            Quaternion r = new Quaternion();
+
+            for (int i = 0; i < 3; i++)
+            {
+                r.FromAngleAxis(new Radian(new Degree(90)), Vector3.UNIT_X);
+                r *= new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Z);
+                bloodSize += Mogre.Math.RangeRandom(-bloodSize * 0.2f, bloodSize * 0.2f);
+                r *= new Quaternion(new Radian(new Degree(Mogre.Math.RangeRandom(-30, 30))), Vector3.UNIT_X);
+                r *= new Quaternion(new Radian(new Degree(90 + Mogre.Math.RangeRandom(-30, 30))), Vector3.UNIT_Y);
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, soldierNode, soldierNode.Name + "Blood" + i, EffectsManager.EffectType.BLOOD, new Vector3(0, soldierModel.BoundingBox.Size.y - 0.20f * bloodSize, 0), new Vector2(0.4f * bloodSize, bloodSize), r, false);
+            }
+        }
+
+        private void StopBlood()
+        {
+          
+            for (int i = 0; i < 3; i++)
+            {
+               // EffectsManager.Singleton.NoSprite(sceneMgr, soldierNode, EffectsManager.EffectType.BLOOD, soldierNode.Name + "Blood" + i);
+            }
+        }
+
+
+        public void DieFromGun(bool blood)
         {
             runAnimationState.Enabled = false;
 
@@ -345,26 +376,13 @@ namespace Wof.View
             hideArrow();
 
             //  BLOOD
-            if (EngineConfig.Gore)
+            if (blood && EngineConfig.Gore)
             {
-                Quaternion rot = new Quaternion(new Radian(Math.HALF_PI), Vector3.UNIT_X);
-               // rot += new Quaternion(new Radian(Math.HALF_PI), Vector3.UNIT_Y);
-                rot += new Quaternion(new Radian(Math.HALF_PI), Vector3.UNIT_Z);
-
-
-                SceneNode n = sceneMgr.RootSceneNode.CreateChildSceneNode("Blood" + GetHashCode());
-                n.Position = soldierNode.WorldPosition;
-                EffectsManager.Singleton.RectangularEffect(sceneMgr, n, "Blood", EffectsManager.EffectType.BLOOD,
-                                                           new Vector3(0, 1.0f, 0) +
-                                                           ViewHelper.RandomVector3(0.2f, 0.2f, 0.2f),
-                                                           new Vector2(Math.RangeRandom(4f, 4f),
-                                                                       Math.RangeRandom(4f, 4f)), 
-                                                                       rot,
-                                                                       true);
+                Bleed();
             }
         }
 
-        public void DieFromExplosion()
+        public void DieFromExplosion(bool blood)
         {
             runAnimationState.Enabled = false;
 
@@ -376,6 +394,12 @@ namespace Wof.View
             animationState.TimePosition = 0;
 
             hideArrow();
+            //  BLOOD
+            if (blood && EngineConfig.Gore)
+            {
+                Bleed();
+            }
+
             if (FrameWork.DisplayMinimap)
             {
                 minimapItem.Hide();

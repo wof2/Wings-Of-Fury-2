@@ -80,6 +80,7 @@ namespace Wof.Languages
        
         public const string Back = @"Back";
         public const string BestFPS = @"BestFPS";
+        public const string Blood = @"Blood";
         public const string Bombs = @"Bombs";
         public const string BombsAccuracy = @"BombsAccuracy";
         public const string BombsDropped = @"BombsDropped";

@@ -11,15 +11,16 @@ HydraxVersion=0.5.0
 <float>FullReflectionDistance=1e+07
 <float>GlobalTransparency=0
 <float>NormalDistortion=0.075
-<vector3>WaterColor=0.32x0.427x0.46
+<vector3>WaterColor=0.158209x0.535822x0.679105
+
 #Components field
-Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|UnderwaterGodRays
+Components=Sun|Underwater|UnderwaterReflections|UnderwaterGodRays
 
 #Sun parameters
 <vector3>SunPosition=0x10000x0
-<float>SunStrength=0.8
+<float>SunStrength=1.75
 <float>SunArea=50
-<vector3>SunColor=0.8x0.85x0.95
+<vector3>SunColor=1x0.9x0.6
 
 #Foam parameters
 <float>FoamMaxDistance=7.5e+005
@@ -31,18 +32,18 @@ Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|Under
 <float>DepthLimit=7
 
 #Smooth transitions parameters
-<float>SmoothPower=5
+<float>SmoothPower=0
 
 #Caustics parameters
-<float>CausticsScale=40
-<float>CausticsPower=5.5
+<float>CausticsScale=0
+<float>CausticsPower=8.5
 <float>CausticsEnd=0.8
 
 #God rays parameters
 <vector3>GodRaysExposure=0.76x2.46x2.29
-<float>GodRaysIntensity=0.008
+<float>GodRaysIntensity=0.015
 <float>GodRaysSpeed=5
-<int>GodRaysNumberOfRays=80
+<int>GodRaysNumberOfRays=100
 <float>GodRaysRaysSize=0.03
 <bool>GodRaysIntersections=false
 
@@ -56,21 +57,21 @@ Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|Under
 #Module options
 Module=ProjectedGridVertex
 
-<float>PG_ChoopyStrength=1.0
+<float>PG_ChoopyStrength=0.0
 <bool>PG_ChoppyWaves=false
 <int>PG_Complexity=164
-<float>PG_Elevation=10.2
+<float>PG_Elevation=0.2
 <bool>PG_ForceRecalculateGeometry=false
 <bool>PG_Smooth=true
-<float>PG_Strength=5
+<float>PG_Strength=0
 
 #Noise options
 Noise=Perlin
 
 <int>Perlin_Octaves=8
-<float>Perlin_Scale=0.15
-<float>Perlin_Falloff=0.43
-<float>Perlin_Animspeed=0.85
+<float>Perlin_Scale=0.0
+<float>Perlin_Falloff=0.0
+<float>Perlin_Animspeed=0.8
 <float>Perlin_Timemulti=1.0
 <float>Perlin_GPU_Strength=10
 <vector3>Perlin_GPU_LODParameters=0.5x50x150000

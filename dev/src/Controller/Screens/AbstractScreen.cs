@@ -309,7 +309,7 @@ namespace Wof.Controller.Screens
             {
             	try
             	{
-                	HydraxManager.Singleton.CreateHydrax("Tropical.hdx", sceneMgr, camera, viewport);
+                	HydraxManager.Singleton.CreateHydrax("Intro.hdx", sceneMgr, camera, viewport);
                 	return;
             	}
             	catch(Exception)
@@ -498,6 +498,8 @@ namespace Wof.Controller.Screens
             if (EngineConfig.UseHydrax)
             {
                 HydraxManager.Singleton.Update(evt);
+       //       HydraxManager.Singleton.TranslateSurface(new Vector3(0, 0, -20.0f * evt.timeSinceLastFrame));
+                
             }
             EffectsManager.Singleton.UpdateTimeAndAnimateAll(evt.timeSinceLastFrame);
         }

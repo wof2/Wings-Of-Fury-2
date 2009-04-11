@@ -422,11 +422,11 @@ namespace Wof.Model.Level.Weapon
                             {
                                 barrel.Destroy();
                                 refToLevel.Controller.OnTileDestroyed(barrel, null);
-                                this.refToLevel.Statistics.HitByGun += refToLevel.KillVulnerableSoldiers(index, 2);
+                                this.refToLevel.Statistics.HitByGun += refToLevel.KillVulnerableSoldiers(index, 2, false);
                             }
                         }
                         else
-                            this.refToLevel.Statistics.HitByGun += refToLevel.KillVulnerableSoldiers(index, 0);
+                            this.refToLevel.Statistics.HitByGun += refToLevel.KillVulnerableSoldiers(index, 0, false);
                     }
                 }
             }

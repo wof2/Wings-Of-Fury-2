@@ -447,6 +447,10 @@
   </data>
 
   <data name="HydraxWater">
-    <value>Hydrax Water</value>
+    <value>Woda "Hydrax"</value>
+  </data>
+
+  <data name="Blood">
+    <value>Krew</value>
   </data>
 </root>

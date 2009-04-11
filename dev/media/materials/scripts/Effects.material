@@ -273,7 +273,7 @@ material Effects/Blood : ABEffect
           texture_unit 0
           { 
              	anim_texture Blood.png 10 0
-		alpha_op_ex modulate src_texture src_manual 1 1			
+		//alpha_op_ex modulate src_texture src_manual 1 1			
           }
        }
    }
