@@ -764,13 +764,13 @@ namespace Wof.Model.Level.XmlParser
                 for (int i = 0; i < reader.AttributeCount; i++)
                 {
                     reader.MoveToAttribute(i);
-                    if (reader.Name.Equals(Attributes.DayTime))
+                    if (reader.Name.Equals(Attributes.DayTime, StringComparison.InvariantCultureIgnoreCase))
                         dayTime = GetDayTimeForName(reader.Value);
-                    
-                    if (reader.Name.Equals(Attributes.MissionType))
+
+                    if (reader.Name.Equals(Attributes.MissionType, StringComparison.InvariantCultureIgnoreCase))
                         missionType = GetMissionTypeForName(reader.Value);
 
-                    if (reader.Name.Equals(Attributes.EnemyPlanes))
+                    if (reader.Name.Equals(Attributes.EnemyPlanes, StringComparison.InvariantCultureIgnoreCase))
                     {
                         try
                         {
@@ -782,8 +782,8 @@ namespace Wof.Model.Level.XmlParser
                             return false;
                         }
                     }
-                    
-                    if (reader.Name.Equals(Attributes.TimeToFirstEnemyPlane))
+
+                    if (reader.Name.Equals(Attributes.TimeToFirstEnemyPlane, StringComparison.InvariantCultureIgnoreCase))
                     {
                         try
                         {
@@ -795,7 +795,7 @@ namespace Wof.Model.Level.XmlParser
                             return false;
                         }
                     }
-                    if (reader.Name.Equals(Attributes.TimeToNextEnemyPlane))
+                    if (reader.Name.Equals(Attributes.TimeToNextEnemyPlane, StringComparison.InvariantCultureIgnoreCase))
                     {
                         try
                         {
@@ -806,12 +806,7 @@ namespace Wof.Model.Level.XmlParser
                             timeToNextEnemyPlane = GameConsts.EnemyPlane.DefaultTimeToNextEnemyPlane;
                             return false;
                         }
-                    }
-                    
-                    
-                    
-                    
-                    
+                    }    
                 }
             }
             else return false;
