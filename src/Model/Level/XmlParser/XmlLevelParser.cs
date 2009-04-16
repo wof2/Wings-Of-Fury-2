@@ -61,6 +61,7 @@ using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.LevelTiles.Watercraft.ShipManagers;
+using Wof.Model.Configuration;
 
 namespace Wof.Model.Level.XmlParser
 {
@@ -146,6 +147,9 @@ namespace Wof.Model.Level.XmlParser
             levelTiles = new List<LevelTile>();
             shipManagers = new List<ShipManager>();
             tilesManager = new TilesManager();
+
+            timeToFirstEnemyPlane = GameConsts.EnemyPlane.DefaultTimeToFirstEnemyPlane;
+            timeToNextEnemyPlane = GameConsts.EnemyPlane.DefaultTimeToNextEnemyPlane;
         }
 
         /// <summary>
@@ -787,7 +791,7 @@ namespace Wof.Model.Level.XmlParser
                         }
                         catch
                         {
-                            timeToFirstEnemyPlane = 60 * 1000;
+                            timeToFirstEnemyPlane = GameConsts.EnemyPlane.DefaultTimeToFirstEnemyPlane;
                             return false;
                         }
                     }
@@ -799,7 +803,7 @@ namespace Wof.Model.Level.XmlParser
                         }
                         catch
                         {
-                            timeToNextEnemyPlane = 60 * 1000;
+                            timeToNextEnemyPlane = GameConsts.EnemyPlane.DefaultTimeToNextEnemyPlane;
                             return false;
                         }
                     }

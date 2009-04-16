@@ -260,6 +260,15 @@ namespace Wof.Model.Configuration
             /// </summary>
             public static float EnemyRotateStep = Math.PI/3; // 1.04719755
 
+            /// <summary>
+            /// Domyślna wartość czasu po jakim pojawi się pierwszy wrogi samolot.
+            /// </summary>
+            public static int DefaultTimeToFirstEnemyPlane = 1 * 60 * 1000;
+
+            /// <summary>
+            /// Domyślna wartość czasu po jakim pojawi się kolejny wrogi samolot.
+            /// </summary>
+            public static int DefaultTimeToNextEnemyPlane = 1 * 60 * 1000; 
             #endregion
         }
 
