@@ -67,7 +67,7 @@ namespace Wof.Model.Level.Effects
         /// <summary>
         /// Wartosc zmiany
         /// </summary>
-        public const float ChangeValue = 0.01f;
+        public const float ChangeValue = 0.05f;
 
         #endregion
 
@@ -91,7 +91,7 @@ namespace Wof.Model.Level.Effects
         /// <summary>
         /// Ostatnia zmiana.
         /// </summary>
-        protected float _lastUpdate;
+        protected int _lastUpdate;
 
         /// <summary>
         /// Stan efektu
@@ -176,7 +176,6 @@ namespace Wof.Model.Level.Effects
         public virtual void StartLoad()
         {
             _state = EffectState.Load;
-            _lastUpdate = Environment.TickCount;
         }
 
         /// <summary>
@@ -185,7 +184,6 @@ namespace Wof.Model.Level.Effects
         public virtual void StartConsumption()
         {
             _state = EffectState.Consumption;
-            _lastUpdate = Environment.TickCount;
         }
 
         #endregion
