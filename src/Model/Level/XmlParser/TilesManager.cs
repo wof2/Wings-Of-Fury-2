@@ -202,6 +202,9 @@ namespace Wof.Model.Level.XmlParser
         {
             //jesli element ma atrybuty.            
             TilesNode node = null;
+
+            bool containsCollisionRects = !reader.IsEmptyElement;
+
             if (reader.HasAttributes)
             {
                 node = new TilesNode();
@@ -209,7 +212,10 @@ namespace Wof.Model.Level.XmlParser
             }
 
             //collision rectangle
-            if (node != null && !String.IsNullOrEmpty(node.ID) && IsVariantionTiles(node.ID, node.Variation))
+            if (node != null && !String.IsNullOrEmpty(node.ID) && containsCollisionRects)
+                
+                // && IsVariantionTiles(node.ID, node.Variation))    
+ 
             //if (node != null && !String.IsNullOrEmpty(node.ID))
             {
                 while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
@@ -233,6 +239,7 @@ namespace Wof.Model.Level.XmlParser
             reader.MoveToElement();
         }
 
+        /*
         private bool IsVariantionTiles(String name, int variant)
         {
             if (String.IsNullOrEmpty(name))
@@ -260,7 +267,7 @@ namespace Wof.Model.Level.XmlParser
                 return true;
 
             return false;
-        }
+        }*/
 
         private void ReadAttributes(TilesNode node, XmlReader reader, NumberFormatInfo format)
         {
