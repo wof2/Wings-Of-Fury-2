@@ -46,36 +46,37 @@
  * 
  */
 
-
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using BetaGUI;
 using Microsoft.DirectX.DirectSound;
 using Mogre;
 using MOIS;
+using Wof.Controller.EffectBars;
 using Wof.Controller.Indicators;
 using Wof.Languages;
 using Wof.Model.Configuration;
 using Wof.Model.Exceptions;
 using Wof.Model.Level;
+using Wof.Model.Level.Effects;
+using Wof.Model.Level.Infantry;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
-using Wof.Model.Level.Infantry;
 using Wof.Model.Level.Weapon;
 using Wof.View;
-using Wof.View.Effects;
-using Button=BetaGUI.Button;
-using FontManager=Wof.Languages.FontManager;
-using Math=System.Math;
-using Plane=Wof.Model.Level.Planes.Plane;
+using Button = BetaGUI.Button;
+using FontManager = Wof.Languages.FontManager;
+using Math = System.Math;
+using ModelEffectsManager = Wof.Model.Level.Effects.EffectsManager;
+using Plane = Wof.Model.Level.Planes.Plane;
+using ViewEffectsManager = Wof.View.Effects.EffectsManager;
 
 namespace Wof.Controller.Screens
 {
@@ -107,9 +108,9 @@ namespace Wof.Controller.Screens
         /// </summary>
         private int ammoSelectedIndex;
         private int ammoSelectedIndexCount = 3;
-        
-        
-                            
+
+
+        private BulletTimeBar _bulletTimeBar;             
                             
 
         // obiekty kontroli sceny
@@ -361,6 +362,7 @@ namespace Wof.Controller.Screens
 
                     missionTypeWindow.show();
 
+                    _bulletTimeBar = new BulletTimeBar(missionTypeGui, framework.Viewport);
                     if (LevelNo == 1 && firstTakeOff)
                     {
 
@@ -465,7 +467,7 @@ namespace Wof.Controller.Screens
             }
             loadingOverlay.Show();
 
-            EffectsManager.Singleton.Load();
+            ViewEffectsManager.Singleton.Load();
 
             Console.WriteLine("Starting loading thread...");
             // start loading
@@ -482,7 +484,7 @@ namespace Wof.Controller.Screens
                 levelView = null;
             }
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
-            EffectsManager.Singleton.Clear();
+            ViewEffectsManager.Singleton.Clear();
             FrameWork.DestroyScenes();
             SoundManager.Instance.StopMusic();
 
@@ -922,25 +924,25 @@ namespace Wof.Controller.Screens
                             }
                             
                             // bullet time
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_BACK))
+                            bool backspaceKeyDown = inputKeyboard.IsKeyDown(KeyCode.KC_BACK);
+                            if (backspaceKeyDown) ModelEffectsManager.Instance.StartConsumptionEffect(EffectType.BulletTimeEffect);
+                            else ModelEffectsManager.Instance.StartLoadEffect(EffectType.BulletTimeEffect);
+                            if (backspaceKeyDown && ModelEffectsManager.Instance.GetEffectLevel(EffectType.BulletTimeEffect) > 0.0f)
                             {
-                            	if(EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierNormal)
-                            	{
-                            		
-                            		 this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.MOTION_BLUR, true);
-                            	}
-                            	if (gameMessages.IsMessageQueueEmpty()) gameMessages.AppendMessage("Bullet-time mode!"); //TODO: translation
-                            	EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierSlow;
-                            	
-                            	
-                            	
-                            } else
+                                if (EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierNormal)
+                                {
+                                    this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.MOTION_BLUR, true);
+                                }
+                                if (gameMessages.IsMessageQueueEmpty()) gameMessages.AppendMessage("Bullet-time mode!"); //TODO: translation
+                                EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierSlow;
+                            }
+                            else
                             {
-                            	if(EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierSlow)
-                            	{
+                                if (EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierSlow)
+                                {
                                     this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.MOTION_BLUR, false);
-                            	}
-                            	EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierNormal;
+                                }
+                                EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierNormal;
                             }
 
 
@@ -975,9 +977,9 @@ namespace Wof.Controller.Screens
                             // czas od ostatniej klatki przekazywany jest w sekundach
                             // natomiast model potrzebuje wartosci w milisekundach
                             // dlatego mnoze przez 1000 i zaokraglam     
-
-                            currentLevel.Update((int) Math.Round(evt.timeSinceLastFrame*1000));
-
+                            int timeInterval = (int)Math.Round(evt.timeSinceLastFrame * 1000);
+                            currentLevel.Update(timeInterval);
+                            _bulletTimeBar.Update(timeInterval);
                             if (!readyForLevelEnd)
                             {
                                 // sprawdzam, czy to juz ten moment

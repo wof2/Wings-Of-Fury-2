@@ -56,17 +56,23 @@ namespace Wof.Model.Level.Effects
     /// </summary>
     public sealed class EffectsManager
     {
+        #region Instance
+
+        private static readonly EffectsManager _manager = new EffectsManager();
+
+        public static EffectsManager Instance
+        {
+            get { return _manager; }
+        }
+
+        #endregion
+
         #region Private Fields
 
         /// <summary>
         /// Lista efektow.
         /// </summary>
         private List<TimeEffect> _timeEffects;
-
-        /// <summary>
-        /// Aktualny poziom gry
-        /// </summary>
-        private Level _level;
 
         #endregion
 
@@ -75,12 +81,10 @@ namespace Wof.Model.Level.Effects
         /// <summary>
         /// Konstruktor
         /// </summary>
-        /// <param name="level">Poziom gry</param>
-        public EffectsManager(Level level) 
+        private EffectsManager() 
         {
-            _level = level;
             _timeEffects = new List<TimeEffect>();
-            BulletTimeEffect bulletTimeEffect = new BulletTimeEffect(0.0f, 2000, 500);
+            BulletTimeEffect bulletTimeEffect = new BulletTimeEffect(1.0f, 2000, 500);
             bulletTimeEffect.LevelEffectChange += new LevelEffectChangeHandler(BulletTimeEffectLevelEffectChange);
             _timeEffects.Add(bulletTimeEffect);
         }
@@ -110,6 +114,43 @@ namespace Wof.Model.Level.Effects
         public void UpdateEffects(int time)
         {
             _timeEffects.ForEach(delegate(TimeEffect effect) { effect.Update(time); });
+        }
+
+        /// <summary>
+        /// Aktualizuje wybrany efekt
+        /// </summary>
+        /// <param name="time">Liczba milisekund, ktora uplynela od ostatniej aktualizacji.</param>
+        /// <param name="type">Typ efektu.</param>
+        public void UpdateEffect(int time, EffectType type)
+        {
+            switch (type)
+            {
+                case EffectType.BulletTimeEffect:
+                    TimeEffect te = _timeEffects.Find(delegate(TimeEffect effect) { return effect is BulletTimeEffect; });
+                    if (te != null)
+                        te.Update(time);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Pobiera poziom naladowania danego efektu.
+        /// </summary>
+        /// <param name="type">Typ efektu</param>
+        /// <returns>Poziom naładowania efektu. Zakres: [0 - 1]</returns>
+        public float GetEffectLevel(EffectType type)
+        {
+            switch (type)
+            {
+                case EffectType.BulletTimeEffect:
+                    TimeEffect te = _timeEffects.Find(delegate(TimeEffect effect) { return effect is BulletTimeEffect; });
+                    if (te != null)
+                        return te.EffectLevel;
+                    break;
+                default:
+                    throw new ArgumentException("Niepoprawny argument !", "type");
+            }
+            return 0.0f;
         }
 
         /// <summary>

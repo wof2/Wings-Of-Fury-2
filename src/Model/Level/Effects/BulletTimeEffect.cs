@@ -87,13 +87,15 @@ namespace Wof.Model.Level.Effects
 
         public override void Update(int time)
         {
-            float interval = Environment.TickCount - _lastUpdate, oldValue;
+            int interval = Environment.TickCount - _lastUpdate;
+            float oldValue;
             if (_state == EffectState.Consumption)
             {
                 if (interval > _consumptionInterval)
                 {
                     oldValue = _effectLevel;
                     _effectLevel = Math.Max(0.0f, _effectLevel - ChangeValue);
+                    _lastUpdate = Environment.TickCount;
                     if (LevelEffectChange != null)
                         LevelEffectChange(oldValue, _effectLevel);
                 }
@@ -104,6 +106,7 @@ namespace Wof.Model.Level.Effects
                 {
                     oldValue = _effectLevel;
                     _effectLevel = Math.Min(1.0f, _effectLevel + ChangeValue);
+                    _lastUpdate = Environment.TickCount;
                     if (LevelEffectChange != null)
                         LevelEffectChange(oldValue, _effectLevel);
                 }
