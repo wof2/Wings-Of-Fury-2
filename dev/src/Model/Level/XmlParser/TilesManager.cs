@@ -213,10 +213,6 @@ namespace Wof.Model.Level.XmlParser
 
             //collision rectangle
             if (node != null && !String.IsNullOrEmpty(node.ID) && containsCollisionRects)
-                
-                // && IsVariantionTiles(node.ID, node.Variation))    
- 
-            //if (node != null && !String.IsNullOrEmpty(node.ID))
             {
                 while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
                 {
