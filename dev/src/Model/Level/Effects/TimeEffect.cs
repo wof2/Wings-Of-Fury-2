@@ -67,7 +67,7 @@ namespace Wof.Model.Level.Effects
         /// <summary>
         /// Wartosc zmiany
         /// </summary>
-        public const float ChangeValue = 0.05f;
+        public const float ChangeValue = 0.005f;
 
         #endregion
 
