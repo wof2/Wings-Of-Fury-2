@@ -1420,7 +1420,7 @@ namespace Wof.View
                 if (p.AnimationMgr.CurrentAnimation == null || p.AnimationMgr.CurrentAnimation.Ended ||
                     !p.AnimationMgr.CurrentAnimation.Enabled)
                 {
-                    //EngineConfig.SpinKeys = true;//false
+                    EngineConfig.SpinKeys = true;//false
                     p.AnimationMgr.switchToIdle(true);
                 }
             }
