@@ -49,8 +49,9 @@
 namespace Wof.Model.Configuration
 {
     /// <summary>
-    /// Wszystkie pola w klasach sa wywolywane dynamicznie.
+    /// Odwzorowanie pliku xml na obiekty klas.
     /// </summary>
+    /// <remarks>Wszystkie pola w klasach sa wywolywane dynamicznie.</remarks>
     public static class ConfigurationAttributes
     {
         public static class UserPlane
@@ -130,7 +131,9 @@ namespace Wof.Model.Configuration
             public const string baseSpeed = @"baseSpeed";
         }
 
-
-        
+        public static class Effects
+        {
+            public const string bulletLoadTime = @"bulletLoadTime";
+        }        
     }
 }

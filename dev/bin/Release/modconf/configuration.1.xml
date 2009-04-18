@@ -141,4 +141,10 @@
    fireInterval = "1200"
    baseSpeed = "10"/>
 
+  <!--Wlasciwosci efektow:
+    bulletLoadTime - Przedział czasu jaki musi uplynac aby efekt BulletTime zwiekszyl sie o jedna jednostke.
+  -->
+  <Effects
+    bulletLoadTime="600"/>
+
 </Config>
