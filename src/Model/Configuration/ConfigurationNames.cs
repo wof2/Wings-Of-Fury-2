@@ -48,6 +48,9 @@
 
 namespace Wof.Model.Configuration
 {
+    /// <summary>
+    /// Nazwy elemntow gry, ktore sa konfigurowalne.
+    /// </summary>
     public static class ConfigurationNames
     {
         public const string Bomb = @"Bomb";
@@ -60,8 +63,6 @@ namespace Wof.Model.Configuration
         public const string ConcreteBunker = @"ConcreteBunker";
         public const string ShipConcreteBunker = @"ShipConcreteBunker";
         public const string ShipWoodenBunker = @"ShipWoodenBunker";
-       
-        
-        
+        public const string Effects = @"Effects";
     }
 }

@@ -471,9 +471,18 @@ namespace Wof.Model.Configuration
             #endregion
         }
 
+        public class Effects
+        {
+            #region Consts
+
+            /// <summary>
+            /// Przedział czasu jaki musi uplynac aby efekt BulletTime zwiekszyl sie o jedna jednostke.
+            /// </summary>
+            public static int BulletLoadTime = 1000;
+
+            #endregion
+        }
        
-
-
         public class Game
         {
             #region Consts

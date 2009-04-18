@@ -131,8 +131,9 @@ namespace Wof.Model.Configuration
 
             SetConsts(typeof(GameConsts.Torpedo),
                         configurations.GetConfiguration(ConfigurationNames.Torpedo), new GameConsts.Torpedo());
-
-   
+            //Effects
+            SetConsts(typeof(GameConsts.Effects), 
+                configurations.GetConfiguration(ConfigurationNames.Effects), new GameConsts.Effects());
            
         }
 

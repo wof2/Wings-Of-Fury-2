@@ -48,6 +48,7 @@
 
 using System;
 using System.Collections.Generic;
+using Wof.Model.Configuration;
 
 namespace Wof.Model.Level.Effects
 {
@@ -84,7 +85,7 @@ namespace Wof.Model.Level.Effects
         private EffectsManager() 
         {
             _timeEffects = new List<TimeEffect>();
-            BulletTimeEffect bulletTimeEffect = new BulletTimeEffect(1.0f, 1000, 60);
+            BulletTimeEffect bulletTimeEffect = new BulletTimeEffect(1.0f, GameConsts.Effects.BulletLoadTime, 60);
             bulletTimeEffect.LevelEffectChange += new LevelEffectChangeHandler(BulletTimeEffectLevelEffectChange);
             _timeEffects.Add(bulletTimeEffect);
         }
