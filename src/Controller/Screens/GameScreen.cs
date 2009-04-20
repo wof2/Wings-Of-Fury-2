@@ -58,6 +58,7 @@ using Mogre;
 using MOIS;
 using Wof.Controller.EffectBars;
 using Wof.Controller.Indicators;
+using Wof.Controller.Input.Keyboard;
 using Wof.Languages;
 using Wof.Model.Configuration;
 using Wof.Model.Exceptions;
@@ -905,13 +906,13 @@ namespace Wof.Controller.Screens
                             }
 
                             // strzal z rakiety
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_X) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Rocket))
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.RocketFire) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Rocket))
                             {
                                 currentLevel.OnFireSecondaryWeapon();
                             }
 
                             // strzal z dzialka
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_Z) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Gun))
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.GunFire) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Gun))
                             {
                                 currentLevel.OnFireGun();
                             }
@@ -924,7 +925,7 @@ namespace Wof.Controller.Screens
                             }
                             
                             // bullet time
-                            bool backspaceKeyDown = inputKeyboard.IsKeyDown(KeyCode.KC_BACK);
+                            bool backspaceKeyDown = inputKeyboard.IsKeyDown(KeyMap.Instance.BulletTimeEffect);
                             if (backspaceKeyDown) ModelEffectsManager.Instance.StartConsumptionEffect(EffectType.BulletTimeEffect);
                             else ModelEffectsManager.Instance.StartLoadEffect(EffectType.BulletTimeEffect);
                             if (backspaceKeyDown && ModelEffectsManager.Instance.GetEffectLevel(EffectType.BulletTimeEffect) > 0.0f)
