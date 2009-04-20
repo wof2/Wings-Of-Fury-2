@@ -155,6 +155,8 @@
       <DependentUpon>Splash.resx</DependentUpon>
     </Compile>
     <Compile Include="src\Controller\EffectBars\BulletTimeBar.cs" />
+    <Compile Include="src\Controller\Input\Keyboard\KeyCodeConflictException.cs" />
+    <Compile Include="src\Controller\Input\Keyboard\KeyMap.cs" />
     <Compile Include="src\Controller\Screens\BloodOptionsScreen.cs" />
     <Compile Include="src\Controller\Screens\HydraxOptionsScreen.cs" />
     <Compile Include="src\Controller\SoundManager3D.cs" />
@@ -463,6 +465,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\Statistics\LevelStatistics.cs" />
+    <Compile Include="src\Tests\ControllerTest\Input\Keyboard\KeyMapTest.cs" />
     <Compile Include="src\Tools\FileCRC.cs" />
     <Compile Include="src\Tools\FileEncrypter.cs" />
     <Compile Include="src\Tests\KamilTests.cs">
