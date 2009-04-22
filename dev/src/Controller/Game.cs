@@ -219,14 +219,18 @@ namespace Wof.Controller
             catch (Exception exc)
             {
              
+	            try{
+	                getGame().window.Destroy();
+	                ShowWofException(exc);
+	                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, exc.Message + " " + exc.StackTrace);
+	                Debug.WriteLine(exc.ToString());
+	            }
+            	catch
+            	{
+            		
+            	}
 
-                getGame().window.Destroy();
-                ShowWofException(exc);
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, exc.Message + " " + exc.StackTrace);
-                Debug.WriteLine(exc.ToString());
             }
-
-          
         }
 
         public static Game getGame()
@@ -451,9 +455,9 @@ namespace Wof.Controller
 
         public void GotoStartScreen()
         {
-            if (OptionsScreen.changed)
+            if (OptionsScreen.restartRequired)
             {
-                OptionsScreen.changed = false;
+                OptionsScreen.restartRequired = false;
                 shouldReload = true;
                 shutDown = true;
             }
@@ -814,6 +818,27 @@ namespace Wof.Controller
 
             currentScreen.DisplayGUI(justMenu);
         }
+        
+        public void GotoShadowsOptionsScreen()
+        {
+            Boolean justMenu = IsMenuScreen(currentScreen);
+
+            ScreenState ss = null;
+            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
+            {
+                ss = (currentScreen as AbstractScreen).GetScreenState();
+            }
+            initScreenAfter(currentScreen);
+            currentScreen = new ShadowsOptionsScreen(this, sceneMgr, viewport, camera, root);
+
+            if (ss != null)
+            {
+                ((AbstractScreen)currentScreen).SetScreenState(ss);
+            }
+
+            currentScreen.DisplayGUI(justMenu);
+        }
+        
 
         public void GotoControlsOptionsScreen()
         {

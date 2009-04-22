@@ -127,7 +127,7 @@ namespace Wof.Controller
             Easy = 0,
             Medium = 1,
             Hard = 2
-        } ;
+        };
 
         public enum JoystickButtons
         {
@@ -139,7 +139,18 @@ namespace Wof.Controller
             Engine = 2,
             Escape = 5
 
-        } ;
+        };
+        
+        
+        
+        public enum ShadowsQualityTypes
+        {
+        	None = 0,
+        	Low  = 1,
+        	Medium = 2,
+        	High  = 3
+        	
+        }
 
         public static DifficultyLevel Difficulty = DifficultyLevel.Easy; 
 
@@ -174,7 +185,7 @@ namespace Wof.Controller
         /// <summary>
         /// Wartoœæ przeciwna do LowDetails
         /// </summary>
-        public static bool Shadows = true;
+        public static ShadowsQualityTypes ShadowsQuality = ShadowsQualityTypes.Medium;
 
         /// <summary>
         /// Pokazuje dodatkowe informacje w trakcie gry
@@ -241,7 +252,7 @@ namespace Wof.Controller
                     InverseKeys = "true".Equals(configOptions[6]);
                     ExplosionLights = !LowDetails;
                     BodiesStay = !LowDetails;
-                    Shadows = !LowDetails;
+                   
                     
                     try
                     {
@@ -296,7 +307,32 @@ namespace Wof.Controller
                     {
                     	UseHydrax = false;
                     }
-                   
+                    
+                  UseHydrax = false;
+                  
+                    try
+					{
+						 //Difficulty
+	                    switch (configOptions[12])
+	                    {
+	                        case "None":
+	                            ShadowsQuality = ShadowsQualityTypes.None;
+	                            break;
+	                         case "Low":
+	                            ShadowsQuality = ShadowsQualityTypes.Low;
+	                            break;
+	                        case "Medium":
+	                             ShadowsQuality = ShadowsQualityTypes.Medium;
+	                            break;
+	                        case "High":
+	                             ShadowsQuality = ShadowsQualityTypes.High;
+	                            break;
+	                    }
+					}
+					catch(Exception)
+					{
+						ShadowsQuality = ShadowsQualityTypes.Medium;
+					}
                     
                 }
                 else
@@ -312,7 +348,7 @@ namespace Wof.Controller
 
         public static void SaveEngineConfig()
         {
-            String[] configuration = new String[12];
+            String[] configuration = new String[13];
             configuration[0] = BloomEnabled ? "true" : "false";
             configuration[1] = SoundEnabled ? "true" : "false";
             configuration[2] = SoundSystem.ToString();
@@ -325,12 +361,23 @@ namespace Wof.Controller
             configuration[9] = ShowIntro ? "true" : "false";
             configuration[10] = DisplayMinimap ? "true" : "false";
             configuration[11] = UseHydrax ? "true" : "false";
+            configuration[12] = ShadowsQuality.ToString();
             ExplosionLights = !LowDetails;
             BodiesStay = !LowDetails;
-            Shadows = !LowDetails;
-
+         
             //File.Create(C_ENGINE_CONFIG);
             File.WriteAllLines(C_ENGINE_CONFIG, configuration);
+           
+            string materialDir = "../../media/materials/scripts/";
+            if(ShadowsQuality >0)
+            {
+            	File.Copy(materialDir+"0NormalMappedSpecular.base", materialDir+"0NormalMappedSpecular.material",true );
+            } else
+            {
+            	File.Copy(materialDir+"0NormalMappedSpecularNoShadows.base", materialDir+"0NormalMappedSpecular.material",true );
+            	
+            }
+           
         }
     }
 }

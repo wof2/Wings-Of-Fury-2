@@ -1706,7 +1706,19 @@ namespace Wof.View
 
             Entity ocean2 = sceneMgr.CreateEntity("Ocean2", "OceanPlane.mesh");
             ocean2.CastShadows = false;
-            sceneMgr.RootSceneNode.AttachObject(ocean2);
+            if(EngineConfig.ShadowsQuality > 0) 
+            {
+            	ocean2.SetMaterialName("Ocean2_HLSL");
+            }
+            else 
+            {
+            	ocean2.SetMaterialName("Ocean2_HLSL_NoShadows");
+            }
+            
+            // ocean jest uniesiony z poziomu shadera (aby dzia³a³y cienie), teraz trzeba go opuscic
+            sceneMgr.RootSceneNode.CreateChildSceneNode("OceanNode", new Vector3(0,-0.5f,0)).AttachObject(ocean2);
+            
+            //sceneMgr.RootSceneNode.AttachObject( ocean2);
             // OCEAN
         }
 
@@ -1746,10 +1758,23 @@ namespace Wof.View
                     isNightScene = true;
                     break;
             }
-            MaterialPtr m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_GLSL");
+            MaterialPtr m;
+            if(EngineConfig.ShadowsQuality > 0) 
+            {
+            	m = MaterialManager.Singleton.GetByName("Ocean2_HLSL");
+            }
+            else 
+            {
+            	m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_NoShadows");
+            }
             m.Load(false);
-            Pass p = m.GetBestTechnique().GetPass(0);
-            TextureUnitState tu = p.GetTextureUnitState("Reflection");
+            Pass p = m.GetBestTechnique().GetPass("Decal");
+            TextureUnitState tu = null;
+            if(p!= null)
+            {
+            	 tu = p.GetTextureUnitState("Reflection");
+            }
+           
             
             if (tu != null)
             {
@@ -1837,37 +1862,43 @@ namespace Wof.View
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
             light.Position = new Vector3(0, 1000, -500);
             light.Direction = new Vector3(10, -20, 10);
+            light.Direction.Normalise();
             light.DiffuseColour = new ColourValue(0.95f, 0.90f, 0.90f);
             light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);
-
-            Camera texCamera = new Camera("TexCamera", sceneMgr);
-            LiSPSMShadowCameraSetup c = new LiSPSMShadowCameraSetup();
-            c.GetShadowCamera(sceneMgr, framework.Camera, framework.Viewport, light, texCamera);
-            ShadowCameraSetupPtr p = new ShadowCameraSetupPtr(c);
-            sceneMgr.SetShadowCameraSetup(p);
-
-            sceneMgr.ShadowFarDistance = 200;
+          
             sceneMgr.ShadowColour = new ColourValue(0.8f, 0.8f, 0.8f);
         }
 
         private void InitLight()
         {
+        	Vector3 lpos = new Vector3(-15, 50, -250);
             // create a default point light
             Light light = sceneMgr.CreateLight("MainLight");
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
-            light.Position = new Vector3(0, 2000, 500);
-            light.Direction = new Vector3(2, -18, -20);
+         //   light.Type = Light.LightTypes.LT_SPOTLIGHT;
+         //   light.SetSpotlightRange(new Degree(60),new Degree(90));		  
+            
+            light.Position = lpos;
+            Vector3 dir = new Vector3(15, -18, -20);
+            dir.Normalise();
+            light.SetDirection(dir.x, dir.y, dir.z);
             light.DiffuseColour = new ColourValue(0.50f, 0.50f, 0.52f);
             light.SpecularColour = new ColourValue(0.02f, 0.02f, 0.03f);
-
-           /* Camera texCamera = new Camera("TexCamera", sceneMgr);
-            LiSPSMShadowCameraSetup c = new LiSPSMShadowCameraSetup();
-            c.GetShadowCamera(sceneMgr, framework.Camera, framework.Viewport, light, texCamera);
-            ShadowCameraSetupPtr p = new ShadowCameraSetupPtr(c);
-            sceneMgr.SetShadowCameraSetup(p);
-
-            sceneMgr.ShadowFarDistance = 20000;*/
-            sceneMgr.ShadowColour = new ColourValue(0.8f, 0.8f, 0.8f);
+            
+            light.CastShadows = true;
+            
+             /*
+            BillboardSet lightbillboardset =
+                sceneMgr.CreateBillboardSet("_lights" , 1);
+            lightbillboardset.MaterialName = "Examples/Flare";
+            Billboard lightbillboard = lightbillboardset.CreateBillboard(lpos);
+            lightbillboard.SetDimensions(39, 39);
+            sceneMgr.RootSceneNode.AttachObject(lightbillboardset);
+            sceneMgr.RootSceneNode.AttachObject(light);
+			*/
+         
+           
+             sceneMgr.ShadowColour = new ColourValue(0.6f, 0.6f, 0.6f);
         }
 
         private void InitNightLight()
@@ -1877,6 +1908,7 @@ namespace Wof.View
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
             light.Position = new Vector3(-300, 1000, 200);
             light.Direction = new Vector3(1, -5, 2);
+            light.Direction.Normalise();
             light.DiffuseColour = new ColourValue(0.7f, 0.7f, 0.80f);
             light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.07f);
 

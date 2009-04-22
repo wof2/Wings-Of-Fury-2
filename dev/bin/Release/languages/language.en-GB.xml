@@ -462,6 +462,15 @@
   <data name="Blood">
     <value>Blood</value>
   </data>
+
+  <data name="None">
+    <value>None</value>
+  </data>
+
+ <data name="Shadows">
+    <value>Shadows</value>
+  </data>
+
   
 </root>
 

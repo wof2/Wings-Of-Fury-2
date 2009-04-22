@@ -249,8 +249,8 @@ namespace Wof.View
             float arrowSize = 2.5f;
             Quaternion q = new Quaternion();
             q.FromAngleAxis(new Radian(new Degree(90)), Vector3.UNIT_X );
-           q *= new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Z);
-          // EffectsManager.Singleton.RectangularEffect(sceneMgr, soldierNode, soldierNode.Name + "Arrow", EffectsManager.EffectType.HINT_ARROW, new Vector3(0, soldierModel.BoundingBox.Size.y + arrowSize, 0), new Vector2(arrowSize, arrowSize), q, true);
+            q *= new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Z);
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, soldierNode, soldierNode.Name + "Arrow", EffectsManager.EffectType.HINT_ARROW, new Vector3(0, soldierModel.BoundingBox.Size.y + arrowSize, 0), new Vector2(arrowSize, arrowSize), q, true);
 
 
            

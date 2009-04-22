@@ -213,6 +213,8 @@ namespace Wof.Languages
         public const string Next = @"Next";
         public const string NewGame = @"NewGame";
         public const string No = @"No";
+        public const string None = @"None";
+        
 
         #endregion
 
@@ -257,6 +259,7 @@ namespace Wof.Languages
         public const string ScreenshotWrittenTo = @"ScreenshotWrittenTo";
         public const string SelectAmmunition = @"SelectAmmunition";
         public const string SetupingResources = @"SetupingResources";
+        public const string Shadows = @"Shadows";        
         public const string Sound = @"Sound";
         public const string SpecialThanksToSteveWaldo = @"SpecialThanksToSteveWaldo";
         public const string Spin = @"Spin";

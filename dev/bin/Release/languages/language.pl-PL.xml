@@ -453,4 +453,13 @@
   <data name="Blood">
     <value>Krew</value>
   </data>
+
+  <data name="None">
+    <value>Brak</value>
+  </data>
+
+ <data name="Shadows">
+    <value>Cienie</value>
+  </data>
+
 </root>

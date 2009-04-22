@@ -260,5 +260,44 @@ namespace Wof.Misc
 
             return m;
         }
+        /*
+        public static Vector3 GetVerticalRayIntersection(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition)
+        {
+        	Vector3 startPosition = new Vector3(0,10000,0);
+        	Vector3 worldPosition = parent.WorldPosition + localPosition;
+        
+        	
+        	worldPosition.y = 0;
+        	RaySceneQuery raySceneQuery = sceneMgr.CreateRayQuery(new Ray(worldPosition + startPosition,
+			Vector3.NEGATIVE_UNIT_Y));
+	
+        	RaySceneQueryResult qryResult = raySceneQuery.Execute();
+			RaySceneQueryResult.Iterator i = qryResult.Begin();
+			while(true)
+			{
+				i.MoveNext();
+				Console.WriteLine("Intersection result" + i.Value);
+				if (i!=qryResult.End() && i.Value.worldFragment != null)
+				{
+					if (i.Value.worldFragment.singleIntersection.y<0 || i.Value.worldFragment.singleIntersection.y>100)
+					{					
+						continue;
+					}
+					Console.WriteLine("Found intersection: "+i.Value.worldFragment.singleIntersection);
+					worldPosition.y = i.Value.worldFragment.singleIntersection.y;
+				}
+				else
+				{
+					break;
+				}
+				
+			}
+			Vector3 ret = parent.WorldPosition + localPosition;
+			
+			ret.y = worldPosition.y;
+			
+			return ret - parent.WorldPosition;
+        	
+        }*/
     }
 }

@@ -432,4 +432,13 @@
   <data name="Blood">
     <value>Кровь</value>
   </data>
+
+  <data name="None">
+    <value>None</value>
+  </data>
+
+ <data name="Shadows">
+    <value>Shadows</value>
+  </data>
+
 </root>

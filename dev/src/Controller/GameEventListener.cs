@@ -67,6 +67,7 @@ namespace Wof.Controller
         void GotoHydraxOptionsScreen();
         void GotoBloodOptionsScreen();
         void GotoLODOptionsScreen();
+        void GotoShadowsOptionsScreen();
         void GotoControlsOptionsScreen();
         void GotoSoundOptionsScreen();
         void GotoLanguagesOptionsScreen();

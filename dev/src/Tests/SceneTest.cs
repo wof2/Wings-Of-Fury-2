@@ -172,7 +172,7 @@ namespace Wof.Tests
                                               5000, 5000, 10, 10, true, 1, 10, 10, Vector3.UNIT_Z);
 
             Entity ocean = sceneMgr.CreateEntity("Ocean", "OceanPlane");
-            ocean.SetMaterialName("Ocean2_HLSL_GLSL");
+            ocean.SetMaterialName("Ocean2_HLSL");
             ocean.CastShadows = false;
 
             sceneMgr.RootSceneNode.AttachObject(ocean);

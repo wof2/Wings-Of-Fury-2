@@ -448,4 +448,13 @@
   <data name="Blood">
     <value>Кров</value>
   </data>
+
+  <data name="None">
+    <value>None</value>
+  </data>
+
+ <data name="Shadows">
+    <value>Shadows</value>
+  </data>
+
 </root>

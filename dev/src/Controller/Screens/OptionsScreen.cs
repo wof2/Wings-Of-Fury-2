@@ -58,7 +58,7 @@ namespace Wof.Controller.Screens
     {
         private Window guiWindow;
      
-        public static Boolean changed = false;
+        public static Boolean restartRequired = false;
 
         public OptionsScreen(GameEventListener gameEventListener,
                              SceneManager sceneMgr, Viewport viewport, Camera camera) :
@@ -78,7 +78,7 @@ namespace Wof.Controller.Screens
                                           LanguageResources.GetString(LanguageKey.Options));
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
-            initButtons(12, 11);
+            initButtons(13, 12);
             uint i = 0;
             buttons[0] = guiWindow.createButton(new Vector4(0, 2 *  GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.VideoMode), cc, i++);
@@ -97,14 +97,16 @@ namespace Wof.Controller.Screens
             buttons[7] = guiWindow.createButton(new Vector4(0, 9 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Details), cc, i++);
             buttons[8] = guiWindow.createButton(new Vector4(0, 10 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
-                                                LanguageResources.GetString(LanguageKey.Controls), cc, i++);
+                                                LanguageResources.GetString(LanguageKey.Shadows), cc, i++);
             buttons[9] = guiWindow.createButton(new Vector4(0, 11 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
-                                                LanguageResources.GetString(LanguageKey.Languages), cc, i++);
+                                                LanguageResources.GetString(LanguageKey.Controls), cc, i++);
             buttons[10] = guiWindow.createButton(new Vector4(0, 12 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+                                                LanguageResources.GetString(LanguageKey.Languages), cc, i++);
+            buttons[11] = guiWindow.createButton(new Vector4(0, 13 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Sound), cc, i++);
-            buttons[11] = guiWindow.createButton(new Vector4(0, 14 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[12] = guiWindow.createButton(new Vector4(0, 15 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Back), cc, i);
-            selectButton(11);
+            selectButton(12);
             guiWindow.show();
         }
 
@@ -149,17 +151,21 @@ namespace Wof.Controller.Screens
                 }
                 else if (referer == buttons[8])
                 {
-                    gameEventListener.GotoControlsOptionsScreen();
+                    gameEventListener.GotoShadowsOptionsScreen();
                 }
                 else if (referer == buttons[9])
                 {
-                    gameEventListener.GotoLanguagesOptionsScreen();
+                    gameEventListener.GotoControlsOptionsScreen();
                 }
                 else if (referer == buttons[10])
                 {
-                    gameEventListener.GotoSoundOptionsScreen();
+                    gameEventListener.GotoLanguagesOptionsScreen();
                 }
                 else if (referer == buttons[11])
+                {
+                    gameEventListener.GotoSoundOptionsScreen();
+                }
+                else if (referer == buttons[12])
                 {
                     gameEventListener.GotoStartScreen();
                 }
