@@ -84,7 +84,7 @@ namespace Wof.View.TileViews
                 palm = sceneMgr.CreateEntity("Palm" + LevelView.PropCounter, "PalmTree.mesh");
             }
                 
-            palm.CastShadows = EngineConfig.Shadows;
+            palm.CastShadows = EngineConfig.ShadowsQuality > 0; 
             palmNode = installationNode.CreateChildSceneNode("PalmNode" + LevelView.PropCounter.ToString(), position);
 
             if (EngineConfig.LowDetails)
@@ -121,7 +121,7 @@ namespace Wof.View.TileViews
             else
                 palm = sceneMgr.CreateEntity("Palm" + LevelView.PropCounter.ToString(), "PalmTree2.mesh");
 
-            palm.CastShadows = EngineConfig.Shadows;
+            palm.CastShadows = EngineConfig.ShadowsQuality > 0; 
             palmNode = installationNode.CreateChildSceneNode("PalmNode" + LevelView.PropCounter.ToString(), position);
 
             if (EngineConfig.LowDetails)

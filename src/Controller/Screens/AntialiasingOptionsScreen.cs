@@ -101,7 +101,7 @@ namespace Wof.Controller.Screens
             if (!root.RenderSystem.GetConfigOptions()[C_ANTIALIASING].currentValue.Equals(selected))
             {
                 root.RenderSystem.SetConfigOption(C_ANTIALIASING, selected);
-                OptionsScreen.changed = true;
+                OptionsScreen.restartRequired = true;
             }
             root.SaveConfig();
         }

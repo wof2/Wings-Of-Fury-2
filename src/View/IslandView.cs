@@ -242,7 +242,18 @@ namespace Wof.View
             }
 
             compositeModel = sceneMgr.CreateEntity(name, islandMeshName);
-            compositeModel.CastShadows = EngineConfig.Shadows;
+            compositeModel.CastShadows = EngineConfig.ShadowsQuality > 0;
+           /* 
+            Mogre.Plane mPlane = new Mogre.Plane(Vector3.UNIT_Y, new Vector3(0,Mogre.Math.RangeRandom(0,1) ,0));
+	     
+            MeshManager.Singleton.CreatePlane("Myplane"+this.GetHashCode(),
+	            ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, mPlane, 1000,1000,50,50,true,1,5,5,Vector3.UNIT_Z);
+	        
+            Entity pPlaneEnt = sceneMgr.CreateEntity( "plane"+this.GetHashCode(), "Myplane"+this.GetHashCode() );
+            
+            compositeModel = pPlaneEnt;
+            compositeModel.SetMaterialName("Concrete");
+*/
 
             if (!backgroundDummy)
             {
@@ -313,13 +324,23 @@ namespace Wof.View
         }
         protected void initPalm(SceneNode parent, Vector3 position)
         {
-            initPalm(parent, position, false);   
+            initPalm(parent, position, false, true);   
 
         }
-        protected void initPalm(SceneNode parent, Vector3 position, bool forceLowDetails)
+         protected void initPalm(SceneNode parent, Vector3 position, bool forceLowDetails)
+        {
+            initPalm(parent, position, forceLowDetails, true);   
+
+        }
+        protected void initPalm(SceneNode parent, Vector3 position, bool forceLowDetails, bool rayBasedY)
         {
             Entity palm;
             SceneNode palmNode;
+            
+           /* if(rayBasedY)
+        	{
+        		position = ViewHelper.GetVerticalRayIntersection(sceneMgr, parent, position);
+        	}*/
 
             int id = LevelView.PropCounter;
             if (EngineConfig.LowDetails || forceLowDetails)
@@ -333,7 +354,7 @@ namespace Wof.View
                 palm = sceneMgr.CreateEntity("Palm" + id, "PalmTree.mesh");
             }
 
-            palm.CastShadows = EngineConfig.Shadows;
+            palm.CastShadows = EngineConfig.ShadowsQuality > 0; 
 
             palmNode = parent.CreateChildSceneNode("PalmNode" + LevelView.PropCounter, position);
 
@@ -369,10 +390,25 @@ namespace Wof.View
         {
             initPalm2(parent, position, false);
         }
-
-        protected void initPalm2(SceneNode parent, Vector3 position, bool forceLowDetails)
+        
+        
+        
+        /// <summary>
+        ///  Uwaga, wspolrzedna Y wektora pozycji jest pomijana i obliczany jest promien kolizji. Na jego podstawie liczony jest wlasciwy Y
+        ///  [UWAGA: na razie to nie jest zaimplementowane z uwagi na problemy z wydajnoœci¹ tego rozwi¹zania
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="position"></param>
+        /// <param name="forceLowDetails"></param>
+        /// <param name="rayBasedY"></param>
+        protected void initPalm2(SceneNode parent, Vector3 position, bool forceLowDetails, bool rayBasedY)
         {
-            Entity palm;
+        	/*if(rayBasedY)
+        	{
+        		position = ViewHelper.GetVerticalRayIntersection(sceneMgr, parent, position);
+        	}*/
+			
+			Entity palm;
             SceneNode palmNode;
 
 
@@ -388,7 +424,7 @@ namespace Wof.View
                 palm = sceneMgr.CreateEntity("Palm" + id, "PalmTree2.mesh");
             }
 
-            palm.CastShadows = EngineConfig.Shadows;
+            palm.CastShadows = EngineConfig.ShadowsQuality > 0; 
 
             palmNode = parent.CreateChildSceneNode("PalmNode" + LevelView.PropCounter, position);
 
@@ -411,10 +447,22 @@ namespace Wof.View
             {
                 palmNode.Rotate(Vector3.UNIT_Y, Math.RangeRandom(0.0f, Math.PI));
                 palmNode.Scale(1, Math.RangeRandom(0.9f, 1.1f), 1);
-                palmNode.Translate(new Vector3(0, -0.3f, 0));
+                palmNode.Translate(new Vector3(0, -0.0f, 0));
             }
             palmNode.AttachObject(palm);
 
+        	
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="position"></param>
+        /// <param name="forceLowDetails"></param>
+        protected void initPalm2(SceneNode parent, Vector3 position, bool forceLowDetails)
+        {
+        	initPalm2(parent, position, forceLowDetails, true);
 
         }
 
@@ -424,7 +472,7 @@ namespace Wof.View
             SceneNode lampNode;
             int id = LevelView.PropCounter;
             lamp = sceneMgr.CreateEntity("Lamp" + id, "LampPost.mesh");
-            lamp.CastShadows = EngineConfig.Shadows;
+            lamp.CastShadows = EngineConfig.ShadowsQuality > 0; 
 
             lampNode = parent.CreateChildSceneNode("LampNode" + LevelView.PropCounter, position);
             lampNode.Yaw(direction);

@@ -83,7 +83,7 @@ namespace Wof.View.Effects
             // podwodne elementy nie powinny byc zamglone
             foreach (Technique t in hydrax.MaterialManager.DepthTechniques)
             {
-                t.SetFog(true, FogMode.FOG_NONE);
+                t.SetFog(true, FogMode.FOG_NONE);               
             }
 
         }
@@ -141,6 +141,7 @@ namespace Wof.View.Effects
             hydrax.SetModule(module);
             hydrax.LoadCfg(cfgFileName);
             hydrax.Create();
+     
        //    MaterialPtr m = hydrax.MaterialManager.GetMaterial(MMaterialManager.MMaterialType.MAT_UNDERWATER_COMPOSITOR);
        //    m.GetBestTechnique().GetPass(0).GetTextureUnitState(1).SetTextureName("UnderwaterDistortion_none.png");
        //     m = null;

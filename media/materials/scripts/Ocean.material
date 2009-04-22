@@ -296,13 +296,13 @@ fragment_program GLSL/Ocean2FS glsl
 	source Ocean2GLSL.frag
 }
 
-material Ocean2_HLSL_GLSL
+material Ocean2_HLSL_NoShadows
 {
 
 	
 	technique HLSL
 	{
-		pass
+		pass Decal
 		{
 			//fog_override true exp 0.8 0.8 0.8 0.002 500 10000
 			vertex_program_ref HLSL/Ocean2VS
@@ -483,3 +483,158 @@ material LightFlare
 }
 
 
+
+
+
+
+
+material Ocean2_HLSL
+{
+
+	
+	technique HLSL
+	{
+	
+	
+	  pass Ambient
+    {
+           // base colours, not needed for rendering, but as information
+          // to lighting pass categorisation routine
+          ambient 1 1 1
+          diffuse 0 0 0 
+          specular 0 0 0 0 
+          // Really basic vertex program
+          vertex_program_ref Ogre/BasicVertexPrograms/AmbientOneTextureUnified
+          {
+          }
+    }
+    
+     pass lighting
+     {
+          scene_blend add		
+        	ambient 0 0 0 
+        	
+        			// Vertex program reference
+          vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
+          {
+          }
+          shadow_receiver_vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
+          {
+          }
+
+          // Fragment program
+          fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
+          {
+          }
+          shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
+          {
+          }
+			
+          // do this for each light
+          iteration once_per_light
+    }
+        
+		pass Decal
+		{
+			lighting off
+			// Really basic vertex program
+			vertex_program_ref Ogre/BasicVertexPrograms/AmbientOneTextureUnified
+			{
+				param_named ambient float4 1 1 1 1
+			}
+			scene_blend dest_colour zero
+			
+			
+			
+			//fog_override true exp 0.8 0.8 0.8 0.002 500 10000
+			vertex_program_ref HLSL/Ocean2VS
+			{
+				param_named BumpScale float 0.02
+				param_named textureScale float2 25 26
+				param_named bumpSpeed float2 0.015 -1
+				param_named_auto time time_0_x 100.0
+				param_named waveFreq float 0.028
+				param_named waveAmp float 0.2
+			}
+
+			fragment_program_ref HLSL/Ocean2FS
+			{
+				param_named deepColor float4 0 0.3 0.5 1.0
+				param_named shallowColor float4 0 1 1 1.0
+				param_named reflectionColor float4 0.95 1 1 1.0
+				param_named reflectionAmount float 1.0
+				param_named reflectionBlur float 0.0
+				param_named waterAmount float 0.3
+				param_named fresnelPower float 5.0
+				param_named fresnelBias float 0.328
+				param_named hdrMultiplier float 0.471
+			}
+
+			texture_unit
+			{
+				texture waves2.dds
+				tex_coord_set 0
+				filtering linear linear linear
+			}
+
+			texture_unit Reflection
+			{
+				cubic_texture morning.jpg combinedUVW
+				tex_address_mode clamp
+				filtering linear linear linear
+				tex_coord_set 1
+			}
+
+		}	
+
+
+	}
+
+	
+	technique Basic
+	{
+        pass
+        {
+            scene_blend alpha_blend
+            depth_write off
+
+            texture_unit
+            {
+                colour_op_ex source1 src_manual src_current 0.016 0.030 0.035
+                alpha_op_ex source1 src_manual src_current 0.93
+            }
+        }
+        
+        pass
+        {
+            scene_blend add
+            texture_unit
+            {	
+            	
+                    scale 0.3 0.3
+	            texture water.jpg
+	            scroll_anim 0.001 0.001
+	            rotate_anim 0.00004
+            }
+
+            texture_unit
+            {
+                scale 1.0 1.0
+                texture water_alpha.png             
+                colour_op alpha_blend
+
+            }
+            texture_unit
+            {
+                scale 0.22 0.21
+                texture water2.jpg
+                scroll_anim 0.0015 0.001
+                rotate_anim 0.00003
+                colour_op_ex blend_current_alpha src_texture src_current
+
+            }
+            
+        }
+        
+	}
+}

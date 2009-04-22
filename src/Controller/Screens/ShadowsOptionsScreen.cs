@@ -46,7 +46,7 @@
  * 
  */
 
-using System;
+
 using System.Collections.Generic;
 using BetaGUI;
 using Mogre;
@@ -54,81 +54,74 @@ using Wof.Languages;
 
 namespace Wof.Controller.Screens
 {
-    internal class VSyncOptionsScreen : AbstractOptionsScreen, BetaGUIListener
+    internal class ShadowsOptionsScreen : AbstractOptionsScreen, BetaGUIListener
     {
-        public const String C_VSYNC = "VSync";
-
-
-        public VSyncOptionsScreen(GameEventListener gameEventListener,
-                                  SceneManager sceneMgr, Viewport viewport, Camera camera, Root root) :
-                                      base(gameEventListener, sceneMgr, viewport, camera, root)
+        public ShadowsOptionsScreen(GameEventListener gameEventListener,
+                                     SceneManager sceneMgr, Viewport viewport, Camera camera, Root root) :
+                                         base(gameEventListener, sceneMgr, viewport, camera, root)
         {
         }
 
         protected override string getTitle()
         {
-            return String.Format("{0}?", LanguageResources.GetString(LanguageKey.EnableVSync));
+            return LanguageResources.GetString(LanguageKey.Shadows);
         }
 
-        protected override List<String> GetAvailableOptions(Root root)
+        protected override List<string> GetAvailableOptions(Root root)
         {
-            List<String> availableModes = new List<String>();
+            List<string> availableModes = new List<string>();
 
-            ConfigOption_NativePtr videoModeOption;
-
-            // staram sie znalezc opcje konfiguracyjna Video Mode
-            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
-            foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
-            {
-                if (m.Value.name.Equals(C_VSYNC))
-                {
-                    videoModeOption = m.Value;
-                    break;
-                }
-            }
-
-            // nie ma takiej mozliwosci, zebym nie znalazl
-            // konwertuje wektor na liste
-            foreach (String s in videoModeOption.possibleValues)
-            {
-                availableModes.Add(LanguageResources.GetString(s));
-            }
-
+            availableModes.Add(LanguageResources.GetString(LanguageKey.None));
+            availableModes.Add(LanguageResources.GetString(LanguageKey.Low));
+            availableModes.Add(LanguageResources.GetString(LanguageKey.Medium));
+            availableModes.Add(LanguageResources.GetString(LanguageKey.High));
 
             return availableModes;
         }
 
-        protected override bool IsOptionSelected(string option)
-        {
-            
-           
-            string curr = root.RenderSystem.GetConfigOptions()[C_VSYNC].currentValue;
-            if(curr.Equals("Yes"))
-            {
-                return LanguageResources.GetString(LanguageKey.Yes).Equals(option);
-            } else
-            {
-                return LanguageResources.GetString(LanguageKey.No).Equals(option);
-            }
-              
-          
-           
-        }
-
         protected override void ProcessOptionSelection(string selected)
         {
-            if (!root.RenderSystem.GetConfigOptions()[C_VSYNC].currentValue.Equals(selected))
+            if(LanguageResources.GetString(LanguageKey.None).Equals(selected))
             {
-                if (LanguageResources.GetString(LanguageKey.Yes).Equals(selected))
-                {
-                    root.RenderSystem.SetConfigOption(C_VSYNC, "Yes");
-                }else
-                {
-                    root.RenderSystem.SetConfigOption(C_VSYNC, "No"); 
-                }
-                OptionsScreen.restartRequired = true;
-            }
-            root.SaveConfig();
+            	EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.None;
+            } else
+            if(LanguageResources.GetString(LanguageKey.Low).Equals(selected))
+            {
+            	EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Low;
+            } else
+            if(LanguageResources.GetString(LanguageKey.Medium).Equals(selected))
+            {
+            	EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Medium;
+            } else
+            if(LanguageResources.GetString(LanguageKey.High).Equals(selected))
+            {
+            	EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.High;
+            } 
+           
+            EngineConfig.SaveEngineConfig();
+            
+            OptionsScreen.restartRequired = true;
+        }
+
+        protected override bool IsOptionSelected(string option)
+        {
+            if(LanguageResources.GetString(LanguageKey.None).Equals(option))
+            {
+            	return EngineConfig.ShadowsQuality == EngineConfig.ShadowsQualityTypes.None;
+            } else
+            if(LanguageResources.GetString(LanguageKey.Low).Equals(option))
+            {
+            	return EngineConfig.ShadowsQuality == EngineConfig.ShadowsQualityTypes.Low;
+            } else
+            if(LanguageResources.GetString(LanguageKey.Medium).Equals(option))
+            {
+            	return EngineConfig.ShadowsQuality == EngineConfig.ShadowsQualityTypes.Medium;
+            } else
+            if(LanguageResources.GetString(LanguageKey.High).Equals(option))
+            {
+            	return EngineConfig.ShadowsQuality == EngineConfig.ShadowsQualityTypes.High;
+            } 
+            return false;
         }
     }
 }

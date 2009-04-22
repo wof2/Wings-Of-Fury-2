@@ -80,7 +80,7 @@ namespace Wof.Controller.Screens
             if (!root.RenderSystem.GetConfigOptions()[C_VIDEO_MODE].currentValue.Equals(selected))
             {
                 root.RenderSystem.SetConfigOption(C_VIDEO_MODE, selected);
-                OptionsScreen.changed = true;
+                OptionsScreen.restartRequired = true;
             }
 
             root.SaveConfig();

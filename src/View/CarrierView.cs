@@ -292,7 +292,7 @@ namespace Wof.View
                 compositeModel = sceneMgr.CreateEntity(name, "Carrier.mesh");
             }
 
-            compositeModel.CastShadows = EngineConfig.Shadows;
+            compositeModel.CastShadows = EngineConfig.ShadowsQuality > 0; 
             carrierAerial1 = sceneMgr.CreateEntity(name + "Aerial1", "Aerial1.mesh");
             carrierAerial2 = sceneMgr.CreateEntity(name + "Aerial2", "Aerial2.mesh");
 

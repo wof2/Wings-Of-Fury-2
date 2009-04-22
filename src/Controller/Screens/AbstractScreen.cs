@@ -335,10 +335,22 @@ namespace Wof.Controller.Screens
             }
 
             Entity ocean = sceneMgr.CreateEntity("Ocean", "OceanPlane");
-            MaterialPtr m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_GLSL");
+            MaterialPtr m;
+            if(EngineConfig.ShadowsQuality > 0) 
+            {
+            	m = MaterialManager.Singleton.GetByName("Ocean2_HLSL");
+            }
+            else 
+            {
+            	m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_NoShadows");
+            }
             m.Load();
-            Pass p = m.GetBestTechnique().GetPass(0);
-            TextureUnitState tu = p.GetTextureUnitState("Reflection");
+             Pass p = m.GetBestTechnique().GetPass("Decal");
+            TextureUnitState tu = null;
+            if(p!= null)
+            {
+            	 tu = p.GetTextureUnitState("Reflection");
+            }
             if (tu != null)
             {
                 tu.SetCubicTextureName("morning.jpg", true);
@@ -349,7 +361,7 @@ namespace Wof.Controller.Screens
                 param.SetNamedConstant("bumpSpeed", new Vector3(0.015f, - 1f, 0));
                 p.SetVertexProgramParameters(param);
             }
-            ocean.SetMaterialName("Ocean2_HLSL_GLSL");
+            ocean.SetMaterialName(m.Name);
             ocean.CastShadows = false;
 
             sceneMgr.RootSceneNode.AttachObject(ocean);

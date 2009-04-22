@@ -137,10 +137,23 @@ namespace Wof.Controller.Screens
         {
 
             base.CreateOcean();
-            MaterialPtr m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_GLSL");
+            MaterialPtr m;
+            if(EngineConfig.ShadowsQuality > 0) 
+            {
+            	m = MaterialManager.Singleton.GetByName("Ocean2_HLSL");
+            }
+            else 
+            {
+            	m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_NoShadows");
+            }
             m.Load();
-            Pass p = m.GetBestTechnique().GetPass(0);
-            TextureUnitState tu = p.GetTextureUnitState("Reflection");
+            Pass p = m.GetBestTechnique().GetPass("Decal");
+            TextureUnitState tu = null;
+            if(p!= null)
+            {
+            	 tu = p.GetTextureUnitState("Reflection");
+            }
+            
             if (tu != null)
             {
                 tu.SetCubicTextureName("cloudy_noon.jpg", true);

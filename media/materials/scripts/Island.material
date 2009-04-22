@@ -1,5 +1,20 @@
 
-material Island
+material Island: NormalMappedSpecular
+{
+  set_texture_alias NormalMap concrete_normal.jpg
+  set_texture_alias DiffuseMap sand.jpg
+
+}
+material Palmtreedd: NormalMappedSpecular
+{
+  set_texture_alias NormalMap concrete_normal.jpg
+  set_texture_alias DiffuseMap concrete.jpg
+
+}
+
+
+
+material Island233
 {
     receive_shadows on
     transparency_casts_shadows off

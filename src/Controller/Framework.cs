@@ -482,8 +482,44 @@ namespace Wof.Controller
             sceneMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "SceneMgr");
 
 
-         //  if (EngineConfig.Shadows) sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
-
+            if (EngineConfig.ShadowsQuality > 0)
+            {
+            	sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE;
+            //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new FocusedShadowCameraSetup()));
+            	//sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new DefaultShadowCameraSetup()));
+            
+            	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new LiSPSMShadowCameraSetup()));
+            	sceneMgr.SetShadowTextureCasterMaterial("Ogre/DepthShadowmap/Caster/Float");
+           //		sceneMgr.SetShadowTextureReceiverMaterial("Ogre/DepthShadowmap/Receiver/Float");
+		
+				sceneMgr.ShadowTextureSelfShadow = (true);	
+			    sceneMgr.ShadowFarDistance = 200;
+				switch(EngineConfig.ShadowsQuality)
+				{
+					case EngineConfig.ShadowsQualityTypes.Low:
+						 sceneMgr.SetShadowTextureSettings(512, 2);
+						 sceneMgr.ShadowFarDistance *= 0.8f;
+					break;
+					
+					case EngineConfig.ShadowsQualityTypes.Medium:
+						 sceneMgr.SetShadowTextureSettings(1024, 2);
+					break;
+					
+					case EngineConfig.ShadowsQualityTypes.High:
+						 sceneMgr.SetShadowTextureSettings(2048, 2);
+						 sceneMgr.ShadowFarDistance *= 1.4f;
+					break;					
+						
+				}
+			   
+			    sceneMgr.SetShadowTexturePixelFormat(PixelFormat.PF_FLOAT32_R);
+			 
+			    sceneMgr.ShadowCasterRenderBackFaces = true;
+				sceneMgr.ShadowDirLightTextureOffset = 0.95f;
+			 //   sceneMgr.ShadowDirectionalLightExtrusionDistance = 100000;
+			//    
+				//sceneMgr.SetShadowUseInfiniteFarPlane(true);
+            }
 
 
             minimapMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "MinimapMgr");

@@ -1,0 +1,115 @@
+
+// Specific receiver material for Athene
+material NormalMappedSpecularBase
+{
+
+	// This is the preferred technique which uses both vertex and
+	// fragment programs, supports coloured lights
+	technique
+	{
+		// Base ambient pass
+		pass
+		{
+			// base colours, not needed for rendering, but as information
+			// to lighting pass categorisation routine
+			ambient 1 1 1
+			diffuse 0 0 0 
+			specular 0 0 0 0 
+			// Really basic vertex program
+			vertex_program_ref Ogre/BasicVertexPrograms/AmbientOneTextureUnified
+			{
+			}
+			
+		}
+		// Now do the lighting pass
+		// NB we don't do decal texture here because this is repeated per light
+		pass lighting
+		{
+			// base colours, not needed for rendering, but as information
+			// to lighting pass categorisation routine
+			ambient 0 0 0 
+			
+			// do this for each light
+			iteration once_per_light
+
+		
+			scene_blend add
+
+			// Vertex program reference
+			vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
+			{
+			}
+			shadow_receiver_vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
+			{
+			}
+
+			// Fragment program
+			fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
+			{
+			}
+			shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
+			{
+			}
+
+			// shadowmap texture will be bound by code
+
+			// Base bump map
+			texture_unit
+			{
+			  texture_alias NormalMap
+				texture dummy.bmp
+				colour_op replace
+			}
+			// Normalisation cube map
+			texture_unit
+			{
+				cubic_texture nm.png combinedUVW
+				tex_coord_set 1
+				tex_address_mode clamp
+			}
+
+		}
+		
+		// Decal pass
+		pass
+		{
+			// base colours, not needed for rendering, but as information
+			// to lighting pass categorisation routine
+			lighting off
+			// Really basic vertex program
+			vertex_program_ref Ogre/BasicVertexPrograms/AmbientOneTextureUnified
+			{
+				param_named ambient float4 1 1 1 1
+			}
+			scene_blend dest_colour zero
+
+
+			texture_unit
+			{
+			  texture_alias DiffuseMap
+				texture dummy.bmp
+			}
+			
+		}
+	}
+
+
+}
+
+
+
+// Specialisation to use PCF
+material NormalMappedSpecular : NormalMappedSpecularBase
+{
+	technique
+	{
+		pass lighting
+		{
+			// override just receiver program 
+			shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
+			{
+			}
+			
+		}
+	}
+}

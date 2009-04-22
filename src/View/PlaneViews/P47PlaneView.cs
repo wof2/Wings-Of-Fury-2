@@ -267,7 +267,7 @@ namespace Wof.View
              
             
 
-            planeEntity.CastShadows = EngineConfig.Shadows;
+            planeEntity.CastShadows = EngineConfig.ShadowsQuality > 0; 
             innerNode.AttachObject(planeEntity);
             outerNode.Scale(new Vector3(0.4f, 0.4f, 0.4f));
 

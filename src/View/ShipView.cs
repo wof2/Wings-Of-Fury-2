@@ -283,7 +283,7 @@ namespace Wof.View
             }
 
             compositeModel = sceneMgr.CreateEntity(name, meshName);
-            compositeModel.CastShadows = EngineConfig.Shadows;
+            compositeModel.CastShadows = EngineConfig.ShadowsQuality > 0; 
 
 
             staticNode.Translate(new Vector3(UnitConverter.LogicToWorldUnits(tileViews[0].LevelTile.TileIndex), -(tileViews[0].LevelTile as ShipTile).Depth, 0));
@@ -332,7 +332,7 @@ namespace Wof.View
             SceneNode lampNode;
             int id = LevelView.PropCounter;
             lamp = sceneMgr.CreateEntity("Lamp" + id, "LampPost.mesh");
-            lamp.CastShadows = EngineConfig.Shadows;
+            lamp.CastShadows = EngineConfig.ShadowsQuality > 0; 
 
             lampNode = parent.CreateChildSceneNode("LampNode" + LevelView.PropCounter, position);
             lampNode.Yaw(direction);
