@@ -296,9 +296,18 @@ namespace Wof.Controller
 
                 if (!carryOn) return false;
                 splash.Activate();
+              
+                
+                // Set default mipmap level (NB some APIs ignore this)
+                // TextureManager.Singleton.DefaultNumMipmaps = 32;
+                // Create any resource listeners (for loading screens)
+                CreateResourceListener();
+                // Load resources
+                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.LoadingResources)));
+                LoadResources();
+              
                 splash.Increment(
-                    String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingGameObjects)));
-
+                  String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingGameObjects)));
 
                 if (!EngineConfig.DebugStart)
                 {
@@ -308,13 +317,7 @@ namespace Wof.Controller
                 }
 
 
-                // Set default mipmap level (NB some APIs ignore this)
-                // TextureManager.Singleton.DefaultNumMipmaps = 32;
-                // Create any resource listeners (for loading screens)
-                CreateResourceListener();
-                // Load resources
-                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.LoadingResources)));
-                LoadResources();
+              
                 splash.Increment(4);
 
 
@@ -489,6 +492,9 @@ namespace Wof.Controller
             //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new DefaultShadowCameraSetup()));
             
           	 //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new LiSPSMShadowCameraSetup()));
+                
+           
+              
             	sceneMgr.SetShadowTextureCasterMaterial("Ogre/DepthShadowmap/Caster/Float");
          	//	sceneMgr.SetShadowTextureReceiverMaterial("Ogre/DepthShadowmap/Receiver/Float");
 		
