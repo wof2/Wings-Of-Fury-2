@@ -1871,11 +1871,11 @@ namespace Wof.View
 
         private void InitLight()
         {
-        	Vector3 lpos = new Vector3(-15, 50, 250);
+        	Vector3 lpos = new Vector3(-15, 500, 250);
             // create a default point light
             Light light = sceneMgr.CreateLight("MainLight");
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
-         //   light.Type = Light.LightTypes.LT_SPOTLIGHT;
+        //    light.Type = Light.LightTypes.LT_SPOTLIGHT;
          //   light.SetSpotlightRange(new Degree(60),new Degree(90));		  
             
             light.Position = lpos;

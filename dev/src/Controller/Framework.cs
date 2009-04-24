@@ -485,7 +485,7 @@ namespace Wof.Controller
             if (EngineConfig.ShadowsQuality > 0)
             {
             	sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE;
-               sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new FocusedShadowCameraSetup()));
+                sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new FocusedShadowCameraSetup()));
             //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new DefaultShadowCameraSetup()));
             
           	 //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new LiSPSMShadowCameraSetup()));
@@ -515,7 +515,7 @@ namespace Wof.Controller
 			    sceneMgr.SetShadowTexturePixelFormat(PixelFormat.PF_FLOAT32_R);
 			 
 			    sceneMgr.ShadowCasterRenderBackFaces = true;
-			    sceneMgr.ShadowDirLightTextureOffset = 0.95f;
+			//    sceneMgr.ShadowDirLightTextureOffset =60.99f;
 			    sceneMgr.ShadowDirectionalLightExtrusionDistance = 1000;
 			//    
 		//		sceneMgr.SetShadowUseInfiniteFarPlane(true);
