@@ -22,7 +22,7 @@ material NoFog
 // Alphablended
 material ABEffect:NoFog
 {
-
+  //receive_shadows false
 	technique Diffuse
 	{
       pass 0
@@ -63,6 +63,7 @@ material ABEffect:NoFog
 material AEffect:NoFog
 {
 
+  //receive_shadows false
 	technique Diffuse
 	{
       pass 0

@@ -1,9 +1,8 @@
-
-// Specific receiver material for Athene
+// Any number of lights, diffuse and specular
 material NormalMappedSpecularBase
 {
 
-	// This is the preferred technique which uses both vertex and
+// This is the preferred technique which uses both vertex and
 	// fragment programs, supports coloured lights
 	technique
 	{
@@ -92,10 +91,7 @@ material NormalMappedSpecularBase
 			
 		}
 	}
-
-
 }
-
 
 
 // Specialisation to use PCF

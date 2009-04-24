@@ -247,7 +247,7 @@ namespace Wof.Controller
             root.Dispose();
             root = null;
 
-            Console.ReadLine();
+            //Console.ReadLine();
         }
 
 
@@ -485,15 +485,15 @@ namespace Wof.Controller
             if (EngineConfig.ShadowsQuality > 0)
             {
             	sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE;
-            //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new FocusedShadowCameraSetup()));
-            	//sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new DefaultShadowCameraSetup()));
+               sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new FocusedShadowCameraSetup()));
+            //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new DefaultShadowCameraSetup()));
             
-            	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new LiSPSMShadowCameraSetup()));
+          	 //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new LiSPSMShadowCameraSetup()));
             	sceneMgr.SetShadowTextureCasterMaterial("Ogre/DepthShadowmap/Caster/Float");
-           //		sceneMgr.SetShadowTextureReceiverMaterial("Ogre/DepthShadowmap/Receiver/Float");
+         	//	sceneMgr.SetShadowTextureReceiverMaterial("Ogre/DepthShadowmap/Receiver/Float");
 		
 				sceneMgr.ShadowTextureSelfShadow = (true);	
-			    sceneMgr.ShadowFarDistance = 200;
+			    sceneMgr.ShadowFarDistance = 130;
 				switch(EngineConfig.ShadowsQuality)
 				{
 					case EngineConfig.ShadowsQualityTypes.Low:
@@ -515,10 +515,10 @@ namespace Wof.Controller
 			    sceneMgr.SetShadowTexturePixelFormat(PixelFormat.PF_FLOAT32_R);
 			 
 			    sceneMgr.ShadowCasterRenderBackFaces = true;
-				sceneMgr.ShadowDirLightTextureOffset = 0.95f;
-			 //   sceneMgr.ShadowDirectionalLightExtrusionDistance = 100000;
+			    sceneMgr.ShadowDirLightTextureOffset = 0.95f;
+			    sceneMgr.ShadowDirectionalLightExtrusionDistance = 1000;
 			//    
-				//sceneMgr.SetShadowUseInfiniteFarPlane(true);
+		//		sceneMgr.SetShadowUseInfiniteFarPlane(true);
             }
 
 

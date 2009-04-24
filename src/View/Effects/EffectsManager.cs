@@ -879,12 +879,14 @@ namespace Wof.View.Effects
                 vnAnimation.Node.Position += center;
                 vnAnimation.TimeScale = Mogre.Math.RangeRandom(0.9f, 1.1f);
                 vnAnimation.rewindToRandom();
+              
                 vnAnimation.Node.GetAttachedObject(0).RenderQueueGroup =
                     (byte) RenderQueueGroupID.RENDER_QUEUE_SKIES_EARLY;
                 vnAnimation.Node.Rotate(Vector3.UNIT_Z,
                                         Mogre.Math.DegreesToRadians(
                                             Mogre.Math.RangeRandom(-rotationDev.ValueDegrees,
                                                                     rotationDev.ValueDegrees)));
+                vnAnimation.Node.GetAttachedObject(0).CastShadows = false;
                 vnAnimation.Node.Rotate(Vector3.UNIT_X, Mogre.Math.HALF_PI);
 
                 if (Mogre.Math.RangeRandom(0.0f, 1.0f) >= 0.5f) // losowy kierunek lotu
@@ -926,27 +928,34 @@ namespace Wof.View.Effects
         public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
                               uint cloudCount)
         {
+        
         	float os = LevelView.oceanSize /2.0f;
             if (!sceneMgr.HasBillboardSet("Clouds1"))
             {
                 cloudsBS1 = sceneMgr.CreateBillboardSet("Clouds1");
                 cloudsBS1.MaterialName = "Effects/Cloud1";
-                
-                
-                cloudsBS1.SetBounds(new AxisAlignedBox(new Vector3(-os,-os,-os),new Vector3(os,os,os)), LevelView.oceanSize );
+               
+            
+                cloudsBS1.SetBounds(new AxisAlignedBox(new Vector3(-os,50,0),new Vector3(os,150,0)), LevelView.oceanSize );
                 cloudsBS1.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
-                
+               cloudsBS1.CastShadows = false;  
             }
 
             if (!sceneMgr.HasBillboardSet("Clouds2"))
             {
                 cloudsBS2 = sceneMgr.CreateBillboardSet("Clouds2");
                 cloudsBS2.MaterialName = "Effects/Cloud2";
-                cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,-os,-1),new Vector3(os,os,1)), LevelView.oceanSize );
+          
+                	
+                //cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,-os,-1),new Vector3(os,os,1)), LevelView.oceanSize );
+                cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,50,0),new Vector3(os,150,0)), LevelView.oceanSize );
             	cloudsBS2.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
+                cloudsBS2.CastShadows = false;
             }
-          	//cloudsBS1.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
-           // cloudsBS2.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
+          	cloudsBS1.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
+            cloudsBS2.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
+
+          
 
             int sizeDevX = (int) (defaultSize.x/10.0f);
             int sizeDevY = (int) (defaultSize.y/10.0f);
@@ -972,7 +981,7 @@ namespace Wof.View.Effects
 
             for (int i = -halfCount; i < halfCount; i += 2)
             {
-                Billboard cloud2 = cloudsBS2.CreateBillboard(i*25, Mogre.Math.RangeRandom(-50, 50), 0);
+                Billboard cloud2 = cloudsBS2.CreateBillboard(i*25, Mogre.Math.RangeRandom(-50, 50), 0);              
                 cloud2.SetDimensions(defaultSize.x + Mogre.Math.RangeRandom(-sizeDevX, sizeDevX),
                                      defaultSize.y + Mogre.Math.RangeRandom(-sizeDevY, sizeDevY));
                 cloud2.Position += cloudsCenter;

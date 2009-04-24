@@ -247,6 +247,7 @@ namespace Wof.View
 
         protected void InitLights(ColourValue c1, ColourValue c2)
         {
+        	
             Billboard lightbillboard;
             BillboardSet lightbillboardset = sceneMgr.CreateBillboardSet(name + "_lights", 1);
             lightbillboardset.MaterialName = "Effects/Flare";
@@ -290,12 +291,15 @@ namespace Wof.View
             else
             {
                 compositeModel = sceneMgr.CreateEntity(name, "Carrier.mesh");
+              //  compositeModel = sceneMgr.CreateEntity(name, "Carrier_low.mesh");
             }
 
             compositeModel.CastShadows = EngineConfig.ShadowsQuality > 0; 
+         
+
             carrierAerial1 = sceneMgr.CreateEntity(name + "Aerial1", "Aerial1.mesh");
             carrierAerial2 = sceneMgr.CreateEntity(name + "Aerial2", "Aerial2.mesh");
-
+          // compositeModel.SetMaterialName("Carrier");
             mainNode.AttachObject(compositeModel);
 
             carrierAerial1Node = mainNode.CreateChildSceneNode(name + "Aerial1Node", new Vector3(-8.6f, 9.1f, 5.7f - 47.8f));
@@ -337,7 +341,7 @@ namespace Wof.View
 
                 mainNode.Translate(new Vector3(UnitConverter.LogicToWorldUnits(firstTileIndex), 5, -1.0f));
                 mainNode.SetDirection(Vector3.UNIT_X);
-
+              //  mainNode.Roll(-Math.HALF_PI / 6.0f);
                 if (FrameWork.DisplayMinimap)
                 {
                     minimapItem =

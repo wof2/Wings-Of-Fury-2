@@ -64,9 +64,9 @@ fragment_program Ogre/DepthShadowmap/ReceiverFP_HLSL hlsl
 	default_params
     {
         param_named inverseShadowmapSize float 0.0009765625
-		param_named fixedDepthBias float 0.0000
-		param_named gradientClamp float 0.0098
-		param_named gradientScaleBias float 0
+		param_named fixedDepthBias float 0.007
+		param_named gradientClamp float 0.07
+		param_named gradientScaleBias float 0.008
 		//param_named shadowFuzzyWidth float 1
     }
 }
@@ -82,8 +82,8 @@ fragment_program Ogre/DepthShadowmap/ReceiverFPPCF_HLSL hlsl
 	default_params
     {
         param_named inverseShadowmapSize float 0.0009765625
-		param_named gradientClamp float 0.0098
-		param_named gradientScaleBias float 0
+		param_named gradientClamp float 0.07
+		param_named gradientScaleBias float 0.008
 		//param_named shadowFuzzyWidth float 1
     }
 }
@@ -117,9 +117,9 @@ fragment_program Ogre/DepthShadowmap/NormalMapReceiverFP_HLSL hlsl
     {
 		param_named_auto lightColour light_diffuse_colour 0
         param_named inverseShadowmapSize float 0.0009765625
-		param_named fixedDepthBias float 0.0000
-		param_named gradientClamp float 0.0098
-		param_named gradientScaleBias float 0
+		param_named fixedDepthBias float 0.007
+		param_named gradientClamp float 0.07
+		param_named gradientScaleBias float 0.008
 		//param_named shadowFuzzyWidth float 1
     }
 }
@@ -135,9 +135,9 @@ fragment_program Ogre/DepthShadowmap/NormalMapReceiverFPPCF_HLSL hlsl
     {
 		param_named_auto lightColour light_diffuse_colour 0
         param_named inverseShadowmapSize float 0.0009765625
-		param_named fixedDepthBias float 0.0000
-		param_named gradientClamp float 0.0098
-		param_named gradientScaleBias float 0
+		param_named fixedDepthBias float 0.007
+		param_named gradientClamp float 0.07
+		param_named gradientScaleBias float 0.008
 		//param_named shadowFuzzyWidth float 1
     }
 }
@@ -203,9 +203,9 @@ fragment_program Ogre/DepthShadowmap/ReceiverFP_GLSL glsl
     {
 		param_named shadowMap int 0
         param_named inverseShadowmapSize float 0.0009765625
-		param_named fixedDepthBias float 0.0000
-		param_named gradientClamp float 0.0098
-		param_named gradientScaleBias float 0
+		param_named fixedDepthBias float 0.007
+		param_named gradientClamp float 0.07
+		param_named gradientScaleBias float 0.008
 		//param_named shadowFuzzyWidth float 1
     }
 }
@@ -219,8 +219,8 @@ fragment_program Ogre/DepthShadowmap/ReceiverFPPCF_GLSL glsl
 	default_params
     {
         param_named inverseShadowmapSize float 0.0009765625
-		param_named gradientClamp float 0.0098
-		param_named gradientScaleBias float 0
+		param_named gradientClamp float 0.07
+		param_named gradientScaleBias float 0.008
 		//param_named shadowFuzzyWidth float 1
     }
 }
@@ -250,9 +250,9 @@ fragment_program Ogre/DepthShadowmap/NormalMapReceiverFP_GLSL glsl
     {
 		param_named_auto lightColour light_diffuse_colour 0
         param_named inverseShadowmapSize float 0.0009765625
-		param_named fixedDepthBias float 0.0000
-		param_named gradientClamp float 0.0098
-		param_named gradientScaleBias float 0
+		param_named fixedDepthBias float 0.007
+		param_named gradientClamp float 0.07
+		param_named gradientScaleBias float 0.008
 		//param_named shadowFuzzyWidth float 1
 
 		param_named shadowMap int 0
@@ -269,9 +269,9 @@ fragment_program Ogre/DepthShadowmap/NormalMapReceiverFPPCF_GLSL glsl
     {
 		param_named_auto lightColour light_diffuse_colour 0
         param_named inverseShadowmapSize float 0.0009765625
-		param_named fixedDepthBias float 0.0000
-		param_named gradientClamp float 0.0098
-		param_named gradientScaleBias float 0
+		param_named fixedDepthBias float 0.007
+		param_named gradientClamp float 0.07
+		param_named gradientScaleBias float 0.008
 		//param_named shadowFuzzyWidth float 1
 
 		param_named shadowMap int 0
@@ -591,6 +591,7 @@ material Ogre/DepthShadowmap/Receiver/Athene/PCF : Ogre/DepthShadowmap/Receiver/
 		}
 	}
 }
+
 
 
 

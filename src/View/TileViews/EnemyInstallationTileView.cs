@@ -100,6 +100,7 @@ namespace Wof.View.TileViews
 
         protected void InitLightFlare(ColourValue c1, Vector3 localPosition, Vector2 scale)
         {
+        	
             lightBillboardSet = sceneMgr.CreateBillboardSet("EnemyInstallation" + tileID + "_lightflare", 1);
             lightBillboardSet.MaterialName = "Effects/Flare";
             lightBillboard = lightBillboardSet.CreateBillboard(localPosition, c1);
