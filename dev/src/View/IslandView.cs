@@ -348,8 +348,8 @@ namespace Wof.View
             if (EngineConfig.LowDetails || forceLowDetails)
             {
                 palm = sceneMgr.CreateEntity("Palm" + id, "TwoSidedPlane.mesh");
-
                 palm.SetMaterialName("FakePalmTree");
+                
             }
             else
             {

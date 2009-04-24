@@ -1909,7 +1909,7 @@ namespace Wof.View
             light.Position = new Vector3(-300, 1000, 200);
             light.Direction = new Vector3(1, -5, 2);
             light.Direction.Normalise();
-            light.DiffuseColour = new ColourValue(0.7f, 0.7f, 0.80f);
+            light.DiffuseColour = new ColourValue(0.6f, 0.6f, 0.80f);
             light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.07f);
 
             sceneMgr.ShadowColour = new ColourValue(0.65f, 0.65f, 0.75f);

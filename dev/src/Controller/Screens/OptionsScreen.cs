@@ -59,6 +59,7 @@ namespace Wof.Controller.Screens
         private Window guiWindow;
      
         public static Boolean restartRequired = false;
+        public static Boolean shutdownRequired = false;
 
         public OptionsScreen(GameEventListener gameEventListener,
                              SceneManager sceneMgr, Viewport viewport, Camera camera) :

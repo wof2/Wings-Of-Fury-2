@@ -100,7 +100,7 @@ namespace Wof.Controller.Screens
            
             EngineConfig.SaveEngineConfig();
             
-            OptionsScreen.restartRequired = true;
+            OptionsScreen.shutdownRequired = true;
         }
 
         protected override bool IsOptionSelected(string option)

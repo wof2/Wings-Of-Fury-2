@@ -251,7 +251,7 @@ namespace Wof.View
             Billboard lightbillboard;
             BillboardSet lightbillboardset = sceneMgr.CreateBillboardSet(name + "_lights", 1);
             lightbillboardset.MaterialName = "Effects/Flare";
-
+		
             if (!EngineConfig.LowDetails)
             {
                 lightbillboard = lightbillboardset.CreateBillboard(-9.2f, 12.5f, -5.1f - 47.5f, c1);
@@ -259,12 +259,16 @@ namespace Wof.View
 
                 Light light = sceneMgr.CreateLight(name + "_light1");
                 light.Type = Light.LightTypes.LT_POINT;
-                light.SetAttenuation(5.0f, 0.5f, 0.9f, 0.01f);
+                light.SetAttenuation(15.0f, 0.5f, 0.9f, 0.01f);
                 light.DiffuseColour = c1;
                 light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);
                 light.CastShadows = false;
+             
                 SceneNode lightNode = mainNode.CreateChildSceneNode(new Vector3(-9.2f, 12.5f, -5.1f - 47.5f));
+              //  light.serBoundingRadius = new AxisAlignedBox(new Vector3(-50,-50,50),new Vector3(50,50,50));
+              
                 lightNode.AttachObject(light);
+         
             }
 
             lightbillboard = lightbillboardset.CreateBillboard(-10.7f, 12.3f, 12.6f - 47.5f, c2);

@@ -928,7 +928,7 @@ namespace Wof.View.Effects
         public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
                               uint cloudCount)
         {
-        return;
+       // return;
         	float os = LevelView.oceanSize /2.0f;
             if (!sceneMgr.HasBillboardSet("Clouds1"))
             {

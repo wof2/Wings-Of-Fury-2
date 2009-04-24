@@ -20,7 +20,7 @@
     <SourceAnalysisOverrideSettingsFile>C:\Documents and Settings\Adam\Application Data\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <StartArguments>-DebugInfo -FreeLook -DebugStart 8</StartArguments>
+    <StartArguments>-DebugInfo -FreeLook -DebugStart 4</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
