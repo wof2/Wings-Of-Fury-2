@@ -1,20 +1,168 @@
 
-material Island: NormalMappedSpecular
+material Island22: NormalMappedSpecular
 {
-  set_texture_alias NormalMap concrete_normal.jpg
+  set_texture_alias NormalMap sand_normal.jpg
   set_texture_alias DiffuseMap sand.jpg
 
 }
-material Palmtreedd: NormalMappedSpecular
+
+
+
+
+
+material IslandBase
 {
-  set_texture_alias NormalMap concrete_normal.jpg
-  set_texture_alias DiffuseMap concrete.jpg
+
+// This is the preferred technique which uses both vertex and
+	// fragment programs, supports coloured lights
+	technique
+	{
+		// Base ambient pass
+		pass
+		{
+			// base colours, not needed for rendering, but as information
+			// to lighting pass categorisation routine
+			ambient 1 1 1
+			diffuse 0 0 0 
+			specular 0 0 0 0 
+			// Really basic vertex program
+			vertex_program_ref Ogre/BasicVertexPrograms/AmbientOneTextureUnified
+			{
+			}
+			
+		}
+		// Now do the lighting pass
+		// NB we don't do decal texture here because this is repeated per light
+		pass lighting
+		{
+			// base colours, not needed for rendering, but as information
+			// to lighting pass categorisation routine
+			ambient 0 0 0 
+			
+			// do this for each light
+			iteration once_per_light
+
+		
+			scene_blend add
+
+			// Vertex program reference
+			vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
+			{
+			}
+			shadow_receiver_vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
+			{
+			}
+
+			// Fragment program
+			fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
+			{
+			}
+			shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
+			{
+			}
+
+			// shadowmap texture will be bound by code
+
+			// Base bump map
+			texture_unit
+			{
+			  texture_alias NormalMap
+				texture dummy.bmp
+				colour_op replace
+			}
+			// Normalisation cube map
+			texture_unit
+			{
+				cubic_texture nm.png combinedUVW
+				tex_coord_set 1
+				tex_address_mode clamp
+			}
+
+		}
+		
+		// Decal pass
+		pass
+		{
+			// base colours, not needed for rendering, but as information
+			// to lighting pass categorisation routine
+			lighting off
+			// Really basic vertex program
+			vertex_program_ref Ogre/BasicVertexPrograms/AmbientOneTextureUnified
+			{
+				param_named ambient float4 1 1 1 1
+			}
+			scene_blend dest_colour zero
+
+
+			texture_unit
+			{
+			   texture_alias DiffuseMap
+				 texture sand.jpg
+         // Scale the texture so, that it looks nice
+         scale 0.3 0.3
+			}
+			
+		}
+		
+		 // dirt pass
+    pass
+    {
+        lighting off
+        // Really basic vertex program
+        vertex_program_ref Ogre/BasicVertexPrograms/AmbientOneTextureUnified
+        {
+          param_named ambient float4 1 1 1 1
+        }
+        scene_blend dest_colour zero
+
+        // blend with former pass
+        scene_blend alpha_blend
+
+        // only overwrite fragments with the same depth
+        depth_func equal
+
+        // alpha map for the dirt
+        texture_unit
+        {
+             texture_alias AlphaMap
+            texture island_alpha.png
+
+            // use alpha from this texture
+            alpha_op_ex source1 src_texture src_texture
+            // and colour from last pass
+            colour_op_ex source2 src_texture src_texture
+        }
+
+        // detail texture
+        texture_unit
+        {
+             texture_alias DiffuseMap2
+            texture sand2.jpg
+            scale 0.2 0.2
+            // alpha blend colour with colour from last pass
+            colour_op_ex blend_diffuse_alpha src_texture src_current
+        }
+    }
+
+  
+		
+		
+	}
+}
+
+
+material Island: IslandBase
+{
+  set_texture_alias NormalMap sand_normal.jpg
+  set_texture_alias DiffuseMap sand.jpg
+  set_texture_alias DiffuseMap2 sand2.jpg
+  set_texture_alias AlphaMap island_alpha.png
 
 }
 
 
 
-material Island233
+material Islandold
 {
     receive_shadows on
     transparency_casts_shadows off
@@ -75,14 +223,21 @@ material Island233
 
         // lighting pass
         pass
-        {
-	    lighting on
-            ambient 1 1 1 1
+        {            
+            ambient 0 0 0
             diffuse 1 0.980392 0.835294 1
             specular 0.1 0.1 0.1 1 0
+            iteration once_per_light
 
-            depth_func equal
-            scene_blend zero src_colour
+            scene_blend add
+            
+             shadow_receiver_vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
+             {
+             }
+
+             shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
+             {
+             }
         }
 
 
@@ -285,7 +440,7 @@ fragment_program Island/FP hlsl
    target ps_2_0
 }
 
-material Island2
+material Islandold2
 {
    technique
    {

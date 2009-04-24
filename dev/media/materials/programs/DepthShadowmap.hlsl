@@ -246,6 +246,7 @@ void normalMapShadowReceiverFp(
 	// get bump map vector, again expand from range-compressed
 	float3 bumpVec = expand(tex2D(normalMap, uv).xyz);
 
+
 	// Calculate dot product
 	float4 vertexColour = lightColour * dot(bumpVec, lightVec);
 

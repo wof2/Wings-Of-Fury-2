@@ -1811,14 +1811,14 @@ namespace Wof.View
          //   sceneMgr.SetFog(FogMode.FOG_NONE);
 
             sceneMgr.AmbientLight = ambient;
-
+		
             // mewy
             if (!EngineConfig.LowDetails)
             {
                 EffectsManager.Singleton.AddSeagulls(sceneMgr, new Vector3(0, 150, -1500), new Vector2(20, 25),
                                                      new Degree(10), 20, 10);
             }
-
+	
             // chmury
             int cloudsets = 10;
             int currentX = (int) (-oceanSize/2.0f);
@@ -1871,7 +1871,7 @@ namespace Wof.View
 
         private void InitLight()
         {
-        	Vector3 lpos = new Vector3(-15, 50, -250);
+        	Vector3 lpos = new Vector3(-15, 50, 250);
             // create a default point light
             Light light = sceneMgr.CreateLight("MainLight");
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
@@ -1879,11 +1879,11 @@ namespace Wof.View
          //   light.SetSpotlightRange(new Degree(60),new Degree(90));		  
             
             light.Position = lpos;
-            Vector3 dir = new Vector3(15, -18, -20);
+            Vector3 dir = new Vector3(28, -18, 20);
             dir.Normalise();
             light.SetDirection(dir.x, dir.y, dir.z);
             light.DiffuseColour = new ColourValue(0.50f, 0.50f, 0.52f);
-            light.SpecularColour = new ColourValue(0.02f, 0.02f, 0.03f);
+            light.SpecularColour = new ColourValue(0.1f, 0.1f, 0.1f);
             
             light.CastShadows = true;
             
@@ -1898,7 +1898,7 @@ namespace Wof.View
 			*/
          
            
-             sceneMgr.ShadowColour = new ColourValue(0.6f, 0.6f, 0.6f);
+             sceneMgr.ShadowColour = new ColourValue(0.5f, 0.5f, 0.5f);
         }
 
         private void InitNightLight()
