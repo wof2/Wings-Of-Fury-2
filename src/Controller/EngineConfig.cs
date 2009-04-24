@@ -308,7 +308,7 @@ namespace Wof.Controller
                     	UseHydrax = false;
                     }
                     
-                  UseHydrax = false;
+                //  UseHydrax = false;
                   
                     try
 					{

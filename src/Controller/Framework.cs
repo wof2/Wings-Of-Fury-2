@@ -515,7 +515,7 @@ namespace Wof.Controller
 			    sceneMgr.SetShadowTexturePixelFormat(PixelFormat.PF_FLOAT32_R);
 			 
 			    sceneMgr.ShadowCasterRenderBackFaces = true;
-			//    sceneMgr.ShadowDirLightTextureOffset =60.99f;
+			//    sceneMgr.ShadowDirLightTextureOffset =0.99f;
 			    sceneMgr.ShadowDirectionalLightExtrusionDistance = 1000;
 			//    
 		//		sceneMgr.SetShadowUseInfiniteFarPlane(true);

@@ -183,7 +183,7 @@ material Palmtree
 material FakePalmTree
 {
 
-
+  
 	technique
 	{
 		pass
@@ -192,6 +192,7 @@ material FakePalmTree
 			diffuse 0.5 0.5 0.5			
 			scene_blend alpha_blend			
 			depth_write off
+			//depth_check on
 			lighting on	
 			texture_unit
 			{

@@ -461,6 +461,12 @@ namespace Wof.Controller
                 shouldReload = true;
                 shutDown = true;
             }
+            if(OptionsScreen.shutdownRequired)
+            {
+            	OptionsScreen.shutdownRequired = false;
+            	shouldReload = false;
+            	shutDown = true;
+            }
           
             Boolean justMenu = IsMenuScreen(currentScreen);
             initScreenAfter(currentScreen);
