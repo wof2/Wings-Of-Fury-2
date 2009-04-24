@@ -928,7 +928,7 @@ namespace Wof.View.Effects
         public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
                               uint cloudCount)
         {
-        
+        return;
         	float os = LevelView.oceanSize /2.0f;
             if (!sceneMgr.HasBillboardSet("Clouds1"))
             {
@@ -936,7 +936,7 @@ namespace Wof.View.Effects
                 cloudsBS1.MaterialName = "Effects/Cloud1";
                
             
-                cloudsBS1.SetBounds(new AxisAlignedBox(new Vector3(-os,50,0),new Vector3(os,150,0)), LevelView.oceanSize );
+                cloudsBS1.SetBounds(new AxisAlignedBox(new Vector3(-os,0,0),new Vector3(os,30,0)), 150);
                 cloudsBS1.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
                cloudsBS1.CastShadows = false;  
             }
@@ -948,7 +948,7 @@ namespace Wof.View.Effects
           
                 	
                 //cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,-os,-1),new Vector3(os,os,1)), LevelView.oceanSize );
-                cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,50,0),new Vector3(os,150,0)), LevelView.oceanSize );
+                cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,0,0),new Vector3(os,30,0)), 150);
             	cloudsBS2.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
                 cloudsBS2.CastShadows = false;
             }
