@@ -27,7 +27,7 @@ Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|Under
 <float>FoamTransparency=1
 
 #Depth parameters
-<float>DepthLimit=7
+<float>DepthLimit=3
 
 #Smooth transitions parameters
 <float>SmoothPower=5
