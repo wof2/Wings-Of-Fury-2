@@ -353,7 +353,7 @@ namespace Wof.Controller.Screens
                     missionTypeWindow = missionTypeGui.createWindow(new Vector4(viewport.ActualWidth - 40, viewport.ActualHeight - 40, 40, 40), "", (int)wt.NONE, "");
 
                     if (CurrentLevel.MissionType == MissionType.Assasination)
-                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 40, 40), "assasination.JPG");
+                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 40, 40), "assasination.png");
                     else if(CurrentLevel.MissionType == MissionType.Dogfight)
                         missionTypeWindow.createStaticImage(new Vector4(0, 0, 40, 40), "dogfight.png");
                     else if(CurrentLevel.MissionType == MissionType.Naval)
