@@ -99,20 +99,32 @@ namespace Wof.View.TileViews
             //gunPlaceNode.Translate(new Vector3(0.0f, 0.0f, positionOnIsland));
             gunPlaceNode.Translate(new Vector3(0.0f, levelTile.HitBound.LowestY, positionOnIsland));
 
-            Entity sandbags = sceneMgr.CreateEntity("Sandbags" + nameSuffix, "Sandbags.mesh");
-            gunPlaceNode.AttachObject(sandbags);
+            if(!(LevelTile is FortressBunkerTile))
+            {
+                 Entity sandbags = sceneMgr.CreateEntity("Sandbags" + nameSuffix, "Sandbags.mesh");
+                gunPlaceNode.AttachObject(sandbags);
+            }
+           
 
             installationNode =
                 gunPlaceNode.CreateChildSceneNode("BunkerNode" + nameSuffix, new Vector3(0.0f, 0.0f, 4.5f));
-
-            installationEntity = sceneMgr.CreateEntity("Bunker" + nameSuffix, "Bunker.mesh");
-
+            if (!(LevelTile is FortressBunkerTile))
+            {
+                installationEntity = sceneMgr.CreateEntity("Bunker" + nameSuffix, "Bunker.mesh");
+            }
+            else
+            {
+                installationEntity = sceneMgr.CreateEntity("Fortress" + nameSuffix, "Fortress.mesh");
+            }
+           
             isConcrete = false;
             if (LevelTile is ConcreteBunkerTile || LevelTile is FortressBunkerTile)
             {
                 isConcrete = true;
-                installationEntity.SetMaterialName("Concrete"); // aby by³ betonowy
+               
             }
+
+            if (LevelTile is ConcreteBunkerTile && !(LevelTile is FortressBunkerTile)) installationEntity.SetMaterialName("Concrete"); // aby by³ betonowy
 
             installationNode.AttachObject(installationEntity);
 
