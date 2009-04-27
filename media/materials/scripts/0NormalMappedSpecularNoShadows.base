@@ -86,7 +86,7 @@ material NormalMappedSpecular
 		}
 		
 		// Decal pass
-		pass
+		pass decal
 		{
 			lighting off
 			// Really basic vertex program
@@ -173,7 +173,7 @@ material NormalMappedSpecular
 		}
 		
 		// Decal pass
-		pass
+		pass decal
 		{
 			lighting off
 			// Really basic vertex program
@@ -199,7 +199,7 @@ material NormalMappedSpecular
   technique Simple
   {
 	
-	pass
+	pass decal
 	{
 		ambient 0.588235 0.588235 0.588235 
 		diffuse 0.788235 0.788235 0.788235 
@@ -295,7 +295,7 @@ material IslandBase
 		}
 		
 		// Decal pass
-		pass
+		pass decal
 		{
 			// base colours, not needed for rendering, but as information
 			// to lighting pass categorisation routine

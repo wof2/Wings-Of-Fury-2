@@ -70,7 +70,7 @@ material NormalMappedSpecularBase
 		}
 		
 		// Decal pass
-		pass
+		pass decal
 		{
 			// base colours, not needed for rendering, but as information
 			// to lighting pass categorisation routine
@@ -192,7 +192,7 @@ material IslandBase
 		}
 		
 		// Decal pass
-		pass
+		pass decal
 		{
 			// base colours, not needed for rendering, but as information
 			// to lighting pass categorisation routine
