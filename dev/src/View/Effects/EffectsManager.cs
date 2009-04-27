@@ -198,13 +198,13 @@ namespace Wof.View.Effects
             MaterialPtr m;
 
             m = ViewHelper.CloneMaterial("Wood", "DestroyedWood");
-            pass = m.GetBestTechnique().GetPass("Texture");
+            pass = m.GetBestTechnique().GetPass("decal");
             pass.GetTextureUnitState(0).SetTextureName("oldwood2_destroyed.jpg");
             m = null;
 
             m = ViewHelper.CloneMaterial("Concrete", "DestroyedConcrete");
            
-            pass = m.GetBestTechnique().GetPass("Texture");
+            pass = m.GetBestTechnique().GetPass("decal");
             if(pass == null)
             {
                 pass = m.GetBestTechnique().GetPass((ushort)(m.GetBestTechnique().NumPasses - 1));
