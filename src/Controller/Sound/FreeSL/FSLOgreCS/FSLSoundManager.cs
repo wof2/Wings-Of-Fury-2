@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Threading;
 using Mogre;
 
 namespace FSLOgreCS
@@ -11,6 +13,18 @@ namespace FSLOgreCS
         private List<FSLSoundObject> _soundObjectVector = new List<FSLSoundObject>();
         private bool _initSound;
         private FSLListener _listener;
+
+        protected Thread updaterThread;
+
+        protected bool updaterRunning = false;
+
+        public bool UpdaterRunning
+        {
+            get { return updaterRunning; }
+            set { this.updaterRunning = value; }
+        }
+
+        protected bool killUpdater = false;
 
         #endregion
 
@@ -54,6 +68,10 @@ namespace FSLOgreCS
 
         #endregion
 
+        public void ErrorCallback(string s, bool b)
+        {
+            Console.WriteLine("Error: " + s);   
+        }
         public bool InitializeSound(Camera listener, FreeSL.FSL_SOUND_SYSTEM soundSystem)
         {
             _listener = new FSLListener(listener);
@@ -64,11 +82,20 @@ namespace FSLOgreCS
                 return false;
 
             _initSound = true;
+
+            FreeSL.ErrorCallbackDelegate ErrorDelegate = new FreeSL.ErrorCallbackDelegate(ErrorCallback);
+            GCHandle AllocatedDelegate = GCHandle.Alloc(ErrorDelegate);
+            FreeSL.fslSetErrorCallback(ErrorDelegate);
+            updaterThread = new Thread(new ThreadStart((UpdateSoundObjects)));
+
+            updaterThread.Start();
+
             return true;
         }
 
         public void ShutDown()
         {
+           // this.updaterThread = new Thread(new ThreadStart(UpdateSoundObjects));
             FreeSL.fslShutDown();
             _initSound = false;
         }
@@ -112,22 +139,48 @@ namespace FSLOgreCS
 
         public void UpdateSoundObjects()
         {
-            if (!_initSound)
-                return;
-            _listener.Update();
-
-            try
+            while(true)
             {
-                for (int i = 0; i < _soundObjectVector.Count; i++)
+                lock(this)
                 {
-                    if (_soundObjectVector[i] != null) _soundObjectVector[i].Update();
-                }  
-            }
-            catch 
-            {
-                
+                    if (killUpdater)
+                    {
+                        updaterRunning = false;
+                        killUpdater = false;
+                        return;
+                    }
+
+                    if (updaterRunning)
+                    {
+                        
+                        updaterRunning = true;
+                        if (!_initSound)
+                            return;
+                        _listener.Update();
+
+                        try
+                        {
+                            for (int i = 0; i < _soundObjectVector.Count; i++)
+                            {
+                                if (_soundObjectVector[i] != null) _soundObjectVector[i].Update();
+                            }
+                        }
+                        catch
+                        {
+
+
+                        }
+
+                        FreeSL.fslUpdate();
+                        
+                       // Console.WriteLine("Running");
+                    }
+                    FreeSL.fslSleep(0.01f);
+                }
                
+              
             }
+            
            
         }
 
@@ -166,25 +219,44 @@ namespace FSLOgreCS
 
         public bool FrameStarted(FrameEvent evt)
         {
-            UpdateSoundObjects();
+            lock (this)
+            {
+                updaterRunning = true;
+            }
             return true;
         }
 
         public void Destroy()
         {
+            lock (this)
+            {
+                updaterRunning = false;
+                killUpdater = true;
+
+            }
+           
+           
+            while (updaterThread.ThreadState != ThreadState.Stopped)
+            {
+                Thread.Sleep(100);
+            }
+            killUpdater = false;
+            updaterThread = new Thread(UpdateSoundObjects);
+
             if (_soundObjectVector.Count != 0)
             {
 
                 for (int i = 0; i < _soundObjectVector.Count; i++)
                 {
                     _soundObjectVector[i].Destroy();
-                }  
+                }
                 _soundObjectVector.Clear();
             }
             if (_listener != null)
                 _listener = null;
             if (_initSound)
                 ShutDown();
+            
         }
 
         #region Environment Functions

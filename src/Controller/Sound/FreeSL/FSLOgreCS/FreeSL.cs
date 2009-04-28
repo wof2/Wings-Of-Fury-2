@@ -51,7 +51,11 @@ namespace FSLOgreCS
         [DllImport("FreeSL.dll", EntryPoint = "?fslSoundPause@@YAXI@Z")]
         public static extern void fslSoundPause(uint obj);
 
+       // [DllImport("FreeSL.dll", EntryPoint = "?fslSoundIsPlaying@@YA_NI@Z")]
+       // public static extern bool fslSoundIsPlaying(uint obj);
+
         [DllImport("FreeSL.dll", EntryPoint = "?fslSoundIsPlaying@@YA_NI@Z")]
+        [return: MarshalAs(UnmanagedType.U1)]
         public static extern bool fslSoundIsPlaying(uint obj);
 
         [DllImport("FreeSL.dll", EntryPoint = "?fslSoundIsPaused@@YA_NI@Z")]
@@ -162,5 +166,27 @@ namespace FSLOgreCS
         [DllImport("FreeSL.dll", EntryPoint = "?fslCreateListenerEnvironment@@YA?AUFSL_EAX_LISTENER_PROPERTIES@@PBDI@Z")
         ]
         public static extern FSL_EAX_LISTENER_PROPERTIES fslCreateListenerEnvironment(string strData, uint size);
+
+
+        [DllImport("FreeSL.dll", EntryPoint = "?fslUpdate@@YAXXZ")
+       ]
+        public static extern void fslUpdate();
+
+       [DllImport("FreeSL.dll", EntryPoint = "?fslSleep@@YAXM@Z")
+       ]
+        public static extern void fslSleep(float time);
+         
+        public delegate void ErrorCallbackDelegate(string s, bool b);
+
+        [DllImport("FreeSL.dll", EntryPoint = "?fslSetErrorCallback@@YAXP6AXPBD_N@Z@Z")
+       ]
+        public static extern void fslSetErrorCallback(ErrorCallbackDelegate d);
+
+
+
+       
+        
+
+      
     }
 }

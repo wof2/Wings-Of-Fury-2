@@ -97,6 +97,11 @@ namespace Wof.Controller
             PlayAmbient(sound, volume, false);
         }
 
+        public void PlayAmbient(String sound, int volume, bool preloadOnly, bool loop)
+        {
+            PlayAmbient(sound, volume, preloadOnly, loop, false);
+        }
+
         /// <summary>
         /// Odgrywa dŸwiêk/muzykê jako ambient (slychaæ z tak¹ sam¹ g³oœnoœci¹ bez wzglêdu na po³o¿enie kamery)
         /// </summary>
@@ -104,8 +109,10 @@ namespace Wof.Controller
         /// <param name="volume">0-100</param>
         /// <param name="preloadOnly">czy tylko preloadowaæ muzykê</param>
         /// <param name="loop">zapêtlenie dziêku</param>
-        public void PlayAmbient(String sound, int volume, bool preloadOnly, bool loop)
+        public void PlayAmbient(String sound, int volume, bool preloadOnly, bool loop, bool streaming)
         {
+
+           
 
             if (ambientSound == null || (ambientSound != null && !ambientSound.Name.Equals(sound + "_Ambient")))
             {
@@ -116,7 +123,7 @@ namespace Wof.Controller
                      ambientSound.Destroy();
                 }
 
-                ambientSound = CreateAmbientSound(sound, sound + "_Ambient", loop, false);
+                ambientSound = CreateAmbientSound(sound, sound + "_Ambient", loop, streaming);
                 ambientSound.SetGain(1.0f * volume / 100);
                 //Create Ambient sound  
                 if (!preloadOnly)
@@ -129,7 +136,10 @@ namespace Wof.Controller
             {
                 if (ambientSound!=null)
                 {
+                 
+              
                     ambientSound.SetGain(1.0f * volume / 100);
+                   
                     if (!ambientSound.IsPlaying() && !preloadOnly)
                     {
                         ambientSound.Play();
@@ -145,12 +155,12 @@ namespace Wof.Controller
 
         public void PlayAmbient(String sound, int volume, bool preloadOnly)
         {
-            PlayAmbient(sound, volume, preloadOnly, true);
+            PlayAmbient(sound, volume, preloadOnly, true, true);
         }
 
         public void PlayAmbient(String sound, bool loop)
         {
-            PlayAmbient(sound, EngineConfig.MusicVolume, false, loop);
+            PlayAmbient(sound, EngineConfig.MusicVolume, false, loop, true);
         }
 
         public void PlayAmbient(String sound)

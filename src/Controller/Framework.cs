@@ -1039,6 +1039,7 @@ namespace Wof.Controller
 
         public static void DestroyScenes()
         {
+
             if (sceneMgr != null)
             {
                 sceneMgr.DestroyAllBillboardSets();
