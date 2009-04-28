@@ -1,3 +1,4 @@
+using System;
 using Mogre;
 
 namespace FSLOgreCS
@@ -23,17 +24,32 @@ namespace FSLOgreCS
 
         public void Update()
         {
-            int zflip = (ZFlipped) ? -1 : 1; // added
-          
-            FreeSL.fslSetListenerPosition(_renderable.RealPosition.x,
-                                          _renderable.RealPosition.y,
-                                          _renderable.RealPosition.z); 
-           
-            Mogre.Vector3 yVec, zVec;
-            yVec = _renderable.RealOrientation.YAxis;
-            zVec = _renderable.RealOrientation.ZAxis * zflip;// change
+            unsafe
+            {
+                if (_renderable.NativePtr == null) return;
+            }
 
-            FreeSL.fslSetListenerOrientation(zVec.x, zVec.y, zVec.z, yVec.x, yVec.y, yVec.z); 
+            try
+            {
+                int zflip = (ZFlipped) ? -1 : 1; // added
+
+                FreeSL.fslSetListenerPosition(_renderable.RealPosition.x,
+                                              _renderable.RealPosition.y,
+                                              _renderable.RealPosition.z);
+
+                Mogre.Vector3 yVec, zVec;
+                yVec = _renderable.RealOrientation.YAxis;
+                zVec = _renderable.RealOrientation.ZAxis * zflip;// change
+
+                FreeSL.fslSetListenerOrientation(zVec.x, zVec.y, zVec.z, yVec.x, yVec.y, yVec.z); 
+
+            }
+            catch (Exception)
+            {
+
+               
+            }
+          
         } 
 
         public Vector3 GetPosition()

@@ -180,7 +180,7 @@ namespace Wof.View
             if (EngineConfig.SoundEnabled)
             {
                 dieSound.Play();
-                SoundManager3D.Instance.UpdateSoundObjects();
+                //SoundManager3D.Instance.UpdateSoundObjects();
             }
         }
 

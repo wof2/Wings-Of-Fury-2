@@ -2026,7 +2026,7 @@ namespace Wof.View
                 cameraHolders[currentCameraHolderIndex].AttachObject(framework.Camera);
 
                 SoundManager3D.Instance.SetListener(framework.Camera);
-                SoundManager3D.Instance.UpdateSoundObjects();
+                //SoundManager3D.Instance.UpdateSoundObjects();
             }
         }
 

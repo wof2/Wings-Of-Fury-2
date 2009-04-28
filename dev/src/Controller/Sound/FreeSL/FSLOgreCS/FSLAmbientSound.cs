@@ -15,7 +15,12 @@ namespace FSLOgreCS
         }
 
         public override void Update()
-        {
+        { 
+            if(this.IsPlaying())
+            {
+                FreeSL.fslUpdate();
+                //FreeSL.fslSleep(0.01f);
+            }
         }
     }
 }

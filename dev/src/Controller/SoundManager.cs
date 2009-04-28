@@ -231,7 +231,7 @@ namespace Wof.Controller
 
         public void PlayMainTheme()
         {
-            SoundManager3D.Instance.PlayAmbient("music/themesong.ogg");
+            SoundManager3D.Instance.PlayAmbient("music/themesong.ogg", 100, false, true, false);
             // Play(mainTheme);
         }
 

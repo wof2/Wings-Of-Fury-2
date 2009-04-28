@@ -8,6 +8,15 @@ namespace FSLOgreCS
         protected string _name;
         protected bool _withSound;
 
+        protected bool _streaming;
+
+       
+
+        public bool Streaming
+        {
+            get { return _streaming; }
+        }
+
         public FSLSoundObject(string soundFile, string name, bool loop, bool streaming)
         {
             _withSound = false;
@@ -46,7 +55,7 @@ namespace FSLOgreCS
                 _sound = FreeSL.fslStreamSound(soundFile);
             else
                 _sound = FreeSL.fslLoadSound(soundFile);
-
+            _streaming = streaming;
             LoopSound(loop);
             _withSound = true;
         }
@@ -74,17 +83,35 @@ namespace FSLOgreCS
 
         public void Play()
         {
+           // _playing = true;
             FreeSL.fslSoundPlay(_sound);
         }
 
         public void Stop()
         {
+           // _playing = false;
             FreeSL.fslSoundStop(_sound);
         }
 
         public bool IsPlaying()
         {
             return FreeSL.fslSoundIsPlaying(_sound);
+
+            // uwagi na bugi w streamingu w FreeSL trzeba zrobic workaround...
+            /*
+            if(FreeSL.fslSoundIsPlaying(_sound))
+            {
+                // nie wierzymy freeslowi
+                return _playing;
+            }
+            else
+            {
+                // wierzymy ze dzwiek sie zakonczyl
+                _playing = false;
+                return false;
+            }
+            */
+         
         }
 
         public void Pause()
