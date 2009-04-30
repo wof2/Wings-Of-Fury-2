@@ -27,6 +27,7 @@ namespace FSLOgreCS
 
         public override void Update()
         {
+        	base.Update();
             FreeSL.fslSoundSetPosition(_sound,
                                        _renderable.WorldPosition.x,
                                        _renderable.WorldPosition.y,
