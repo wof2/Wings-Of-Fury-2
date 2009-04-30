@@ -9,7 +9,12 @@ namespace FSLOgreCS
         protected bool _withSound;
 
         protected bool _streaming;
+        
+        protected bool _loop;
+        
+        protected bool _shouldBePlaying = false;
 
+        protected string _soundFile;
        
 
         public bool Streaming
@@ -21,6 +26,7 @@ namespace FSLOgreCS
         {
             _withSound = false;
             _name = name;
+            _loop = loop;
             SetSound(soundFile, loop, streaming);
         }
 
@@ -28,6 +34,7 @@ namespace FSLOgreCS
         {
             _withSound = false;
             _name = name;
+            _loop = loop;
             SetSound(package, soundFile, loop);
         }
 
@@ -56,7 +63,9 @@ namespace FSLOgreCS
             else
                 _sound = FreeSL.fslLoadSound(soundFile);
             _streaming = streaming;
-            LoopSound(loop);
+            if(!streaming) LoopSound(loop);
+           _loop = loop;
+           _soundFile = soundFile;
             _withSound = true;
         }
 
@@ -83,13 +92,13 @@ namespace FSLOgreCS
 
         public void Play()
         {
-           // _playing = true;
+            _shouldBePlaying = true;
             FreeSL.fslSoundPlay(_sound);
         }
 
         public void Stop()
         {
-           // _playing = false;
+            _shouldBePlaying = false;
             FreeSL.fslSoundStop(_sound);
         }
 
@@ -141,6 +150,17 @@ namespace FSLOgreCS
 
         public virtual void Update()
         {
+        	if(_streaming)
+        	{
+        		if(_loop && _shouldBePlaying && !IsPlaying())
+	        	{
+	        		this.SetSound(_soundFile, _loop, _streaming);
+	        		
+	        		Play();
+	        		
+	        	}
+        	}
+        	
         }
     }
 }
