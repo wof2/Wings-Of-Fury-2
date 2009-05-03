@@ -368,7 +368,7 @@ namespace Wof.Controller
             //File.Create(C_ENGINE_CONFIG);
             File.WriteAllLines(C_ENGINE_CONFIG, configuration);
            
-            string materialDir = "../../media/materials/scripts/";
+            string materialDir = "../../media/materials/scripts/ParentScripts";
             if(ShadowsQuality >0)
             {
             	File.Copy(materialDir+"0NormalMappedSpecular.base", materialDir+"0NormalMappedSpecular.material",true );
