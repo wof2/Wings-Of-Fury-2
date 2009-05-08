@@ -68,4 +68,8 @@
     <value>Shadows</value>
   </data>
 
+ <data name="BulletTime">
+    <value>Bullet Time</value>
+  </data>
+
 </root>

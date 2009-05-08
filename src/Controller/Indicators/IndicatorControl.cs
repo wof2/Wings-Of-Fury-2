@@ -551,12 +551,13 @@ namespace Wof.Controller.Screens
                                CountProportion(minimapViewport.ActualHeight,
                                                84, 34));
         }
-        private void ConfigureElement(OverlayElement element, int width, int height, String caption)
+        
+        public static void ConfigureElement(OverlayElement element, int width, int height, String caption)
         {
             ConfigureElement(element, width, height, caption, "BlueHighway");
         }
 
-        private void ConfigureElement(OverlayElement element, int width, int height, String caption, String fontName)
+        public static void ConfigureElement(OverlayElement element, int width, int height, String caption, String fontName)
         {
             element.SetDimensions(100, 50);
             element.MetricsMode = GuiMetricsMode.GMM_PIXELS;

@@ -50,25 +50,61 @@ using System;
 using System.Drawing;
 using BetaGUI;
 using Mogre;
+using Wof.Controller.Screens;
+using Wof.Languages;
 using Wof.Model.Level.Effects;
+using Wof.View.NodeAnimation;
 
 namespace Wof.Controller.EffectBars
 {
-    internal class BulletTimeBar
+	internal class BulletTimeBar : IDisposable
     {
         private const string ImageBar = @"bulletTimeBar.PNG";
-        private float _heigth = 25.0f;
+        private const string ImageBarBg = @"bulletTimeBarBg.PNG";
+        private float _height = 25.0f;
         private float _width = 150f;
         private Window _bar;
         private OverlayContainer _barOverConta;
+        
+        private Window _barBg;
+        private OverlayContainer _barOverContaBg;
+        private OverlayContainer _text;
+        
         private PointF _startPoint = Point.Empty;
+        
+        private static Timer blinkDelay = new Timer();
+        
+        private ColourValue _colour1 = new ColourValue(0.1f,0.2f,0.1f);
+        private ColourValue _colour2 = new ColourValue(0.6f,0.1f,0.1f);
+        
+        /// <summary>
+        /// Kiedy zaczyna konczyc sie efekt
+        /// </summary>
+        private float _threshold = 0.3f;
+        
+        private bool thresholdCrossed = false;
 
-        public BulletTimeBar(GUI gui, Viewport viewport)
+        public BulletTimeBar(GUI gui, Viewport viewport, float width, float height)
         {
+        	_height = height;
+        	_width = width;
+        
             //pozycja paska
-            _startPoint = new PointF(viewport.ActualWidth / 2 - 100, viewport.ActualHeight + 3);
-            _bar = gui.createWindow(new Vector4(_startPoint.X, _startPoint.Y, _width, _heigth), String.Empty, (int)wt.NONE, String.Empty);
-            _barOverConta = _bar.createStaticImage(new Vector4(0, 0, _width, _heigth), ImageBar);
+            _startPoint = new PointF(viewport.ActualWidth / 3.2f , viewport.ActualHeight * 1.005f);
+              
+            float min = _width / 150.0f;
+           // _barBg = gui.createWindow(new Vector4(_startPoint.X - min, _startPoint.Y - min, _width + 2*min, _height + 2*min), String.Empty, (int)wt.NONE, String.Empty);
+           
+            
+            _bar = gui.createWindow(new Vector4(_startPoint.X - min, _startPoint.Y - min, _width+ 2*min, _height+ 2*min), String.Empty, (int)wt.NONE, String.Empty);
+            _barOverContaBg = _bar.createStaticImage(new Vector4(0, 0, _width + 2*min, _height + 2*min), ImageBarBg);
+            _barOverConta = _bar.createStaticImage(new Vector4(min, min, _width, _height), ImageBar);
+         	
+            uint oldFontSize = gui.mFontSize;
+            gui.mFontSize = (uint)(oldFontSize * 0.65f);           
+            _text = _bar.createStaticText(new Vector4(min * 3.0f, min, _width, _height * 0.90f), LanguageResources.GetString(LanguageKey.BulletTime), _colour1);
+            gui.mFontSize = oldFontSize;
+            
         }
 
         public void Update(int time)
@@ -76,8 +112,50 @@ namespace Wof.Controller.EffectBars
             EffectsManager.Instance.UpdateEffect(time, EffectType.BulletTimeEffect);
             float width = EffectsManager.Instance.GetEffectLevel(EffectType.BulletTimeEffect) * _width;
             //_barOverConta.SetPosition(_startPoint.X, _startPoint.Y - (_heigth - h));
-            _barOverConta.SetDimensions(width, _heigth);
+           
+            
+            _barOverConta.SetDimensions(width, _height);
             _barOverConta.Show();
+            
+            // todo: timer 
+            if(width < _width * _threshold)
+            {
+            	thresholdCrossed = true;
+            	if(blinkDelay.Milliseconds > 100)
+            	{            
+            		BetaGUI.Window.ChangeContainerColour(_text, _colour2);
+            		if(_text.IsVisible)
+	            	{
+	            		_text.Hide();
+	            	} else
+	            	{
+	            		_text.Show();
+	            	}
+            		blinkDelay.Reset();
+            	}
+            	
+            } else
+            { 
+            
+            	if(thresholdCrossed)
+            	{
+            	    blinkDelay.Reset();            		  			
+            		BetaGUI.Window.ChangeContainerColour(_text, _colour1);
+            		if(!_text.IsVisible) _text.Show();
+            		thresholdCrossed = false;      
+            		
+            	}
+            	
+            }
+            
+        }
+        
+        public void Dispose()
+        {
+        	_bar.killWindow();
+        	_bar = null;
+        	blinkDelay = null;
+        	
         }
     }
 }

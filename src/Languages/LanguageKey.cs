@@ -87,6 +87,8 @@ namespace Wof.Languages
 
         
         public const string Bloom = @"Bloom";
+        public const string BulletTime = @"BulletTime"; 
+        
 
         #endregion
 
