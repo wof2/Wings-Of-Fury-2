@@ -205,7 +205,8 @@ namespace BetaGUI
             e.MetricsMode = GuiMetricsMode.GMM_PIXELS;
             e.SetDimensions(D.x, D.y);
             e.SetPosition(0, 0);
-
+            
+           
             //if (M != "")
             //    e.MaterialName = M;
 
@@ -503,14 +504,47 @@ namespace BetaGUI
         }
 
 
-        // zmiana zwracanego typu z void na OverlayContainer by Adam
         public OverlayContainer createStaticText(Vector4 D, String T)
+        {
+        	return createStaticText(D, T, ColourValue.White);
+        }
+        
+        public static void ChangeContainerColour(OverlayContainer cont,  ColourValue c)
+        {
+        	OverlayContainer.ChildIterator i = cont.GetChildIterator();
+        	while(i.MoveNext())
+        	{
+        		OverlayElement element =i.Current;        
+        		if(element != null)
+        		{
+        			ChangeElementColour(element, c);
+        		}
+        	}
+        
+        }
+        public static void ChangeElementColour(OverlayElement element,  ColourValue c)
+        {
+        	string colour = String.Format("{0:f} {1:f} {2:f}", StringConverter.ToString(c.r), StringConverter.ToString(c.g), StringConverter.ToString(c.b));
+        	
+        	element.SetParameter("colour_top", colour);
+            element.SetParameter("colour_bottom", colour);
+        }
+       
+        // zmiana zwracanego typu z void na OverlayContainer by Adam
+        public OverlayContainer createStaticText(Vector4 D, String T, ColourValue c)
         {
             OverlayContainer x = mGUI.createOverlay(mO.Name +
                                                     StringConverter.ToString(mGUI.tc++),
                                                     new Vector2(D.x, D.y), new Vector2(D.z, D.w), "", T, false);
+        	
+        	
+        	
+        	
+        	ChangeContainerColour(x,c);
+        	
             mO.AddChild(x);
             x.Show();
+          
             return x;
         }
 
@@ -523,13 +557,18 @@ namespace BetaGUI
             return createStaticImage(new Vector4(pos.x, pos.y, width, height), imageName);
 
         }
-
-        public OverlayContainer createStaticImage(Vector4 posAndSize, String imageName)
+        
+ 		public OverlayContainer createStaticImage(Vector4 posAndSize, String imageName)
+        {
+ 			return createStaticImage(posAndSize, imageName, 0);
+ 	
+	    }
+ 		
+        public OverlayContainer createStaticImage(Vector4 posAndSize, String imageName, ushort zOrder)
         {
             mGUI.tc++;
             MaterialPtr ptr = Wof.Misc.ViewHelper.CloneMaterial("bgui.image", "bgui.image_" + imageName + mO.Name + StringConverter.ToString(mGUI.tc));
             ptr.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(imageName);
-
 
             OverlayContainer x = mGUI.createOverlay(mO.Name + StringConverter.ToString(mGUI.tc) + imageName,
                                                     new Vector2(posAndSize.x, posAndSize.y), new Vector2(posAndSize.z, posAndSize.w), ptr.Name, "", false);
@@ -537,6 +576,7 @@ namespace BetaGUI
 
             mO.AddChild(x);
             x.Show();
+                       
             return x;
         }
 

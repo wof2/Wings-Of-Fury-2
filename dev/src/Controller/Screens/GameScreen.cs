@@ -363,7 +363,7 @@ namespace Wof.Controller.Screens
 
                     missionTypeWindow.show();
 
-                    _bulletTimeBar = new BulletTimeBar(missionTypeGui, framework.Viewport);
+                    _bulletTimeBar = new BulletTimeBar(missionTypeGui, framework.Viewport, viewport.ActualWidth / 2.7f, viewport.ActualHeight / 40.0f);
                     if (LevelNo == 1 && firstTakeOff)
                     {
 
@@ -497,9 +497,11 @@ namespace Wof.Controller.Screens
            // CompositorManager.Singleton.RemoveAll();
            // CompositorManager.Singleton.UnloadAll();
             try
-            {
+            { 	
+            	_bulletTimeBar.Dispose();
                 if (mGui != null)
                 {
+               
                     mGui.killGUI();
                     mGui = null;
                 }
