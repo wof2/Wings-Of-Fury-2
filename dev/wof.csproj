@@ -277,6 +277,7 @@
     <Compile Include="src\Languages\WofResourceManager.cs" />
     <Compile Include="src\Languages\XmlLanguage.cs" />
     <Compile Include="src\Languages\XmlLanguageManager.cs" />
+    <Compile Include="src\Misc\IniFileConfiguration.cs" />
     <Compile Include="src\Misc\UnitConverter.cs" />
     <Compile Include="src\Misc\ViewHelper.cs">
       <SubType>Code</SubType>
