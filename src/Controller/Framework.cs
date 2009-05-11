@@ -52,23 +52,25 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+
 using FSLOgreCS;
 using Microsoft.DirectX.DirectSound;
 using Mogre;
 using MOIS;
 using OIS;
+using Wof.Controller.Input.Keyboard;
 using Wof.Languages;
 using Wof.View.Effects;
-using Exception=System.Exception;
-using FontManager=Mogre.FontManager;
-using InputManager=MOIS.InputManager;
-using JoyStick=MOIS.JoyStick;
-using Keyboard=MOIS.Keyboard;
-using Math=Mogre.Math;
-using Mouse=MOIS.Mouse;
-using Plane=Wof.Model.Level.Planes.Plane;
-using Type=MOIS.Type;
-using Vector3=Mogre.Vector3;
+using Exception = System.Exception;
+using FontManager = Mogre.FontManager;
+using InputManager = MOIS.InputManager;
+using JoyStick = MOIS.JoyStick;
+using Keyboard = MOIS.Keyboard;
+using Math = Mogre.Math;
+using Mouse = MOIS.Mouse;
+using Plane = Wof.Model.Level.Planes.Plane;
+using Type = MOIS.Type;
+using Vector3 = Mogre.Vector3;
 
 namespace Wof.Controller
 {
@@ -751,27 +753,27 @@ namespace Wof.Controller
             inputKeyboard.Capture();
             if(inputJoystick != null) inputJoystick.Capture();
 
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) || GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape)) 
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape)) 
             {
                 // stop rendering loop
                 shutDown = true;
             }
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_LEFT))
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Left))
             {
                 camera.Yaw(scaleRotate);
             }
 
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_RIGHT))
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Right))
             {
                 camera.Yaw(-scaleRotate);
             }
 
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_UP) )
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up) )
             {
                 camera.Pitch(scaleRotate);
             }
 
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN))
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down))
             {
                 camera.Pitch(-scaleRotate);
             }

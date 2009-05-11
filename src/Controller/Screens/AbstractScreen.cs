@@ -47,14 +47,16 @@
  */
 
 
-using MHydrax;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using BetaGUI;
 using FSLOgreCS;
+using MHydrax;
 using Mogre;
 using MOIS;
+using Wof.Controller.Input.Keyboard;
 using Wof.Languages;
 using Wof.Model.Configuration;
 using Wof.View;
@@ -746,7 +748,7 @@ namespace Wof.Controller.Screens
                         mGui.injectKey("z", screenx, screeny);
                         KeyReceived("z");
                     }
-                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape))) 
+                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape))) 
                     {
                         KeyReceived("ESC");
                         if (tryToPressBackButton()) return;
@@ -757,7 +759,7 @@ namespace Wof.Controller.Screens
                     }
 
 
-                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter))) 
+                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter))) 
                     {
                         KeyReceived("ENTER");
                         wasEnterKeyPressed = true;
@@ -790,7 +792,7 @@ namespace Wof.Controller.Screens
                        
                     }
 
-                    if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN))
+                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down))
                     {
                         mGui.injectKey("down", screenx, screeny);
                         KeyReceived("DOWN");
@@ -912,7 +914,7 @@ namespace Wof.Controller.Screens
             }
            
 
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(joystick, EngineConfig.JoystickButtons.Enter)) 
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(joystick, EngineConfig.JoystickButtons.Enter)) 
             {
             	
                 wasEnterKeyPressed = true;
@@ -923,7 +925,7 @@ namespace Wof.Controller.Screens
                 wasUpKeyPressed = true;
                 KeyReceived("UP");
             }
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN))
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down))
             {
                 wasDownKeyPressed = true;
                 KeyReceived("DOWN");
@@ -1070,7 +1072,7 @@ namespace Wof.Controller.Screens
             {
                 KeyReceived("z");
             }
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) || FrameWork.GetJoystickButton(joystick, EngineConfig.JoystickButtons.Escape)) 
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(joystick, EngineConfig.JoystickButtons.Escape)) 
             {
                 KeyReceived("ESC");
             }

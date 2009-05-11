@@ -46,21 +46,26 @@
  * 
  */
 
-using MOIS;
-using System.Reflection;
 using System;
+using System.Reflection;
+using MOIS;
+using System.Text;
+using Wof.Misc;
 
 namespace Wof.Controller.Input.Keyboard
 {
     /// <summary>
     /// Mapa klawiszy odpowiadajaca odpowiednim zadaniom.
     /// </summary>
-    public sealed class KeyMap
+    public class KeyMap : IniFileConfiguration<KeyMap>
     {
         #region Private Constructor
 
-        private KeyMap() { }
-
+        private KeyMap() : base("KeyMap") 
+        {
+        
+        }
+        
         #endregion
 
         #region Singleton
@@ -68,9 +73,104 @@ namespace Wof.Controller.Input.Keyboard
         /// <summary>
         /// Instancja klasy
         /// </summary>
-        public static readonly KeyMap Instance = new KeyMap();
+        public static readonly KeyMap Instance = (new KeyMap()).Value;
 
         #endregion
+        
+        protected string GetString(string key, string defaultValue)
+        {
+        	try
+        	{
+        		string s = GetString(key);
+        		if(s.Length == 0) return defaultValue;
+        		return s;
+        	}
+        	catch(Exception)
+        	{
+        		return defaultValue;
+        	}
+        	
+        }
+        
+        private KeyCode GetKeyCode(string iniKey, string defaultValue)
+        {
+        	return (KeyCode)KeyCode.Parse(typeof(KeyCode), GetString(iniKey, defaultValue));
+        }
+        
+        private MOIS.Keyboard.Modifier GetModifier(string iniKey, string defaultValue)
+        {
+        	return (MOIS.Keyboard.Modifier)KeyCode.Parse(typeof(MOIS.Keyboard.Modifier), GetString(iniKey, defaultValue));
+        }
+        
+        public override string ToString()
+        {
+        	StringBuilder sb = new StringBuilder();        	
+        	sb.AppendLine("KeyMap object:");
+        	sb.AppendLine("_altFire:" + _altFire);
+        	sb.AppendLine("_gunFire:" + _gunFire);
+        	sb.AppendLine("_up:" + _up);
+        	sb.AppendLine("_down:" + _down);
+        	sb.AppendLine("_left:" + _left);
+        	sb.AppendLine("_right:" + _right);
+        	sb.AppendLine("_bulletTimeEffect:" + _bulletTimeEffect);
+        	sb.AppendLine("_enter:" + _enter);
+        	sb.AppendLine("_back:" + _back);
+        	sb.AppendLine("_gear:" + _gear);
+        	sb.AppendLine("_camera:" + _camera);
+        	sb.AppendLine("_engine:" + _engine);
+        	sb.AppendLine("_spin:" + _spin);
+        	return sb.ToString();
+        }
+        
+        public override KeyMap Value
+        {
+        	get 
+        	{
+        		KeyMap k = new KeyMap();        		
+        		k._altFire = GetKeyCode("_altFire", "KC_X");
+        		k._gunFire = GetKeyCode("_gunFire", "KC_Z");
+        		k._up = GetKeyCode("_up", "KC_UP");
+        		k._down = GetKeyCode("_down", "KC_DOWN");
+        		k._left = GetKeyCode("_left", "KC_LEFT");
+        		k._right = GetKeyCode("_right", "KC_RIGHT");        	
+        		k._bulletTimeEffect = GetKeyCode("_bulletTimeEffect", "KC_BACK");
+        		k._enter = GetKeyCode("_enter", "KC_RETURN");
+        		k._back = GetKeyCode("_back", "KC_ESCAPE");
+        		k._gear = GetKeyCode("_gear", "KC_G");
+        		k._camera = GetKeyCode("_camera", "KC_C");
+        		k._engine = GetKeyCode("_engine", "KC_E");
+        		
+        		try
+        		{
+        			k._spin = GetModifier("_spin", "Ctrl");
+        		}
+        		catch
+        		{
+        			k._spin = GetKeyCode("_spin", "KC_S");
+        		}
+        		
+        		
+        		return k;
+        	}
+        	set 
+        	{
+        		WriteString("_altFire", _altFire.ToString());
+        		WriteString("_gunFire", _gunFire.ToString());
+        		WriteString("_up", _up.ToString());
+        		WriteString("_down", _down.ToString());
+        		WriteString("_left", _left.ToString());
+        		WriteString("_right", _right.ToString());
+        	
+        		WriteString("_bulletTimeEffect", _bulletTimeEffect.ToString());
+        		WriteString("_enter", _enter.ToString());
+        		WriteString("_back", _back.ToString());        		
+        		WriteString("_gear", _gear.ToString());
+        		WriteString("_camera", _camera.ToString());
+        		WriteString("_engine", _engine.ToString());
+        		WriteString("_spin", _spin.ToString());
+        	}
+        	
+        }
 
         #region Key Code
 
@@ -84,23 +184,72 @@ namespace Wof.Controller.Input.Keyboard
             get { return _gunFire; }
             set { _gunFire = value; }
         }
+        
+        
+        private KeyCode _up;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za strzelania z dzialka samolotu.
+        /// </summary>
+        public KeyCode Up
+        {
+            get { return _up; }
+            set { _up = value; }
+        }
+        
+        
+        private KeyCode _down;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za nacisniecie strzalki do dołu
+        /// </summary>
+        public KeyCode Down
+        {
+            get { return _down; }
+            set { _down = value; }
+        }
+        
+        
+        private KeyCode _left;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za nacisniecie strzalki do lewo
+        /// </summary>
+        public KeyCode Left
+        {
+            get { return _left; }
+            set { _left = value; }
+        }
+        
+        
+        private KeyCode _right;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za nacisniecie strzalki do lewo
+        /// </summary>
+        public KeyCode Right
+        {
+            get { return _right; }
+            set { _right = value; }
+        }
+        
 
         //---------------------------------------------------
 
-        private KeyCode _rocketFire = KeyCode.KC_X;
+        private KeyCode _altFire;
 
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za strzelanie rakietami, zrzucaniem bomb i torped, itp.
         /// </summary>
-        public KeyCode RocketFire
+        public KeyCode AltFire
         {
-            get { return _rocketFire; }
-            set { _rocketFire = value; }
+            get { return _altFire; }
+            set { _altFire = value; }
         }
 
         //---------------------------------------------------
 
-        private KeyCode _bulletTimeEffect = KeyCode.KC_BACK;
+        private KeyCode _bulletTimeEffect;
 
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za wlaczenie efektu BulletTime.
@@ -109,6 +258,81 @@ namespace Wof.Controller.Input.Keyboard
         {
             get { return _bulletTimeEffect; }
             set { _bulletTimeEffect = value; }
+        }
+        
+        
+        
+        
+        private KeyCode _enter;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za enter.
+        /// </summary>
+        public KeyCode Enter
+        {
+            get { return _enter; }
+            set { _enter = value; }
+        }
+        
+        
+        
+        private KeyCode _back;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za esc.
+        /// </summary>
+        public KeyCode Escape
+        {
+            get { return _back; }
+            set { _back = value; }
+        }
+        
+        
+        private KeyCode _gear;
+       
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za nacisniecie gear
+        /// </summary>
+        public KeyCode Gear
+        {
+            get { return _gear; }
+            set { _gear = value; }
+        }
+        
+        
+        private KeyCode _camera;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmiane kamery.
+        /// </summary>
+        public KeyCode Camera
+        {
+            get { return _camera; }
+            set { _camera = value; }
+        }
+        
+        
+        private KeyCode _engine;
+       
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za nacisniecie strzalki do lewo
+        /// </summary>
+        public KeyCode Engine
+        {
+            get { return _engine; }
+            set { _engine = value; }
+        }
+        
+        
+        private object _spin ;
+       
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za nacisniecie spina
+        /// </summary>
+        public object Spin
+        {
+            get { return _spin; }
+            set { _spin = value; }
         }
 
         #endregion
@@ -123,7 +347,7 @@ namespace Wof.Controller.Input.Keyboard
         /// <returns>Jesli oba parametry sa rowne, to nie ma konfliktu - zwroci false.
         /// Jesli KeyCode podany w drugim parametrze jest zajety przez jakas funkjonalnosc, to metoda zwroci true.
         /// W przeciwnym przypadku false.</returns>
-        public static bool CheckKeyCodeConflikt(KeyCode presentKeyCode, KeyCode newKeyCode)
+        public static bool CheckKeyCodeConflict(KeyCode presentKeyCode, KeyCode newKeyCode)
         {
             if (presentKeyCode != newKeyCode)
             {

@@ -66,7 +66,7 @@ namespace Wof.Controller.EffectBars
         private Window _bar;
         private OverlayContainer _barOverConta;
         
-        private Window _barBg;
+       
         private OverlayContainer _barOverContaBg;
         private OverlayContainer _text;
         

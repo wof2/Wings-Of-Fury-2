@@ -267,6 +267,10 @@ namespace Wof.Controller.Screens
         public GameScreen(GameEventListener gameEventListener,
                           FrameWork framework, Device directSound, int lives, int levelNo)
         {
+        	
+        	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Using keys from KeyMap.ini: \n" +  KeyMap.Instance.ToString()); // needed to init KeyMap instance
+        	KeyMap.Instance.Value = KeyMap.Instance.Value;
+        		
             this.gameEventListener = gameEventListener;
             sceneMgr = FrameWork.SceneMgr;
             viewport = framework.Viewport;
@@ -593,7 +597,7 @@ namespace Wof.Controller.Screens
                     Vector2 joyVector = FrameWork.GetJoystickVector(inputJoystick);
 
 
-                    if ((inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape))  && Button.CanChangeSelectedButton(3.5f) &&
+                    if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape))  && Button.CanChangeSelectedButton(3.5f) &&
                         !changingAmmo)
                     {
                         if (!isGamePaused)
@@ -663,13 +667,13 @@ namespace Wof.Controller.Screens
                         {
                             if (Button.CanChangeSelectedButton())
                             {
-                                if (inputKeyboard.IsKeyDown(KeyCode.KC_UP) || joyVector.y > 0)
+                                if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up) || joyVector.y > 0)
                                 {
                                     resumeButton.activate(true);
                                     exitButton.activate(false);
                                     Button.ResetButtonTimer();
                                 }
-                                else if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN) || joyVector.y < 0)
+                                else if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down) || joyVector.y < 0)
                                 {
                                     resumeButton.activate(false);
                                     exitButton.activate(true);
@@ -677,7 +681,7 @@ namespace Wof.Controller.Screens
                                 }
                             }
 
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter)) 
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter)) 
                             {
                                 if (exitButton.activated) Button.TryToPressButton(exitButton, 0.1f);
                                 else
@@ -690,14 +694,14 @@ namespace Wof.Controller.Screens
                        
 
                         // przyciski - game over
-                        if (isInGameOverMenu && (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter))) 
+                        if (isInGameOverMenu && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter))) 
                         {
                             Button.TryToPressButton(gameOverButton);
                             
                         }
 
                         // przyciski - next level
-                        if (isInNextLevelMenu && (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter)))
+                        if (isInNextLevelMenu && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter)))
                         {
                             Button.TryToPressButton(nextLevelButton);
 
@@ -709,13 +713,13 @@ namespace Wof.Controller.Screens
                         	bool pressed = false;
                         	if(ammoSelectedIndex != ammoSelectedIndexCount)
                         	{                        		
-                        		if (inputKeyboard.IsKeyDown(KeyCode.KC_UP) || joyVector.y > 0)
+                        		if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up) || joyVector.y > 0)
 	                            {
 	                                ammoSelectedIndex -= 1;
 	                                pressed = true;
 	                            }
 
-	                            if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN) || joyVector.y < 0)
+	                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down) || joyVector.y < 0)
 	                            {
 	                                ammoSelectedIndex += 1;
 	                                pressed = true;
@@ -783,7 +787,7 @@ namespace Wof.Controller.Screens
 						    }
                           
 
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_RETURN) || inputKeyboard.IsKeyDown(KeyCode.KC_B) || inputKeyboard.IsKeyDown(KeyCode.KC_R) || inputKeyboard.IsKeyDown(KeyCode.KC_T))
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || inputKeyboard.IsKeyDown(KeyCode.KC_B) || inputKeyboard.IsKeyDown(KeyCode.KC_R) || inputKeyboard.IsKeyDown(KeyCode.KC_T))
                             {
                                 switch (ammoSelectedIndex)
                                 {
@@ -810,7 +814,7 @@ namespace Wof.Controller.Screens
                           
                             
 
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_ESCAPE) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape))
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape))
                             {
                                 ClearRestoreAmmunitionScreen();
                                 Button.ResetButtonTimer();
@@ -841,11 +845,11 @@ namespace Wof.Controller.Screens
                             // nie chcemy, zeby uzytkownik ruszyl sie jednoczesnie
                             // w lewo i w prawo, dlatego pierwszenstwo ma
                             // ruch w lewo.
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_LEFT) || joyVector.x < 0)
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Left) || joyVector.x < 0)
                             {
                                 currentLevel.OnSteerLeft();
                             }
-                            else if (inputKeyboard.IsKeyDown(KeyCode.KC_RIGHT) || joyVector.x > 0)
+                            else if (inputKeyboard.IsKeyDown(KeyMap.Instance.Right) || joyVector.x > 0)
                             {
                                 currentLevel.OnSteerRight();
                             }
@@ -857,11 +861,11 @@ namespace Wof.Controller.Screens
                                 // podobnie, uzytkownik nie powinien miec mozliwosci
                                 // ruszyc sie w tym samym momencie do gory i w dol.
                                 // Pierwszenstwo posiada zatem gora
-                                if (inputKeyboard.IsKeyDown(KeyCode.KC_UP) || joyVector.y > 0)
+                                if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up) || joyVector.y > 0)
                                 {
                                     currentLevel.OnSteerUp();
                                 }
-                                else if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN) || joyVector.y < 0)
+                                else if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down) || joyVector.y < 0)
                                 {
                                     currentLevel.OnSteerDown();
                                 }
@@ -871,11 +875,11 @@ namespace Wof.Controller.Screens
                             {
                                 // klawisze zamienione miejscami.
                                 // priorytet ma ruch do gory
-                                if (inputKeyboard.IsKeyDown(KeyCode.KC_DOWN) || joyVector.y < 0)
+                                if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down) || joyVector.y < 0)
                                 {
                                     currentLevel.OnSteerUp();
                                 }
-                                else if (inputKeyboard.IsKeyDown(KeyCode.KC_UP) || joyVector.y > 0)
+                                else if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up) || joyVector.y > 0)
                                 {
                                     currentLevel.OnSteerDown();
                                 }
@@ -885,7 +889,7 @@ namespace Wof.Controller.Screens
 
                             // uzytkownik moze wlaczyc i wylaczyc silnik w kazdym 
                             // momencie lotu w polaczeniu z kazda kombinacja klawiszy
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_E) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Engine))
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Engine) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Engine))
                             {
                                 currentLevel.OnToggleEngineOn();
                             }
@@ -893,7 +897,7 @@ namespace Wof.Controller.Screens
                             // uzytkownik moze starac sie schowac lub otworzyc
                             // podwozie w kazdym momencie lotu, o mozliwosc zajscia
                             //zdarzenia decyduje model
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_G) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Gear))
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Gear) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Gear))
                             {
                                 currentLevel.OnToggleGear();
                             }
@@ -908,7 +912,7 @@ namespace Wof.Controller.Screens
                             }
 
                             // strzal z rakiety
-                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.RocketFire) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Rocket))
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.AltFire) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Rocket))
                             {
                                 currentLevel.OnFireSecondaryWeapon();
                             }
@@ -921,10 +925,24 @@ namespace Wof.Controller.Screens
 
                             // obrót z 'pleców na brzuch' samolotu
                             // tymczasowo wy³¹czone - problematyczny obrót samolotu w modelu
-                            if (inputKeyboard.IsModifierDown(Keyboard.Modifier.Ctrl))
+                            
+                            if(KeyMap.Instance.Spin is MOIS.Keyboard.Modifier)
                             {
-                                currentLevel.OnSpinPressed();
+                            	if (inputKeyboard.IsModifierDown((MOIS.Keyboard.Modifier)KeyMap.Instance.Spin))
+	                            {
+	                                currentLevel.OnSpinPressed();
+	                            }
+                            } else
+                            {
+                            	if (inputKeyboard.IsKeyDown((KeyCode)KeyMap.Instance.Spin))
+	                            {
+	                                currentLevel.OnSpinPressed();
+	                            }
+                            	
                             }
+                            
+                            
+                            
                             
                             // bullet time
                             bool backspaceKeyDown = inputKeyboard.IsKeyDown(KeyMap.Instance.BulletTimeEffect);
@@ -936,7 +954,7 @@ namespace Wof.Controller.Screens
                                 {
                                     this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.MOTION_BLUR, true);
                                 }
-                                if (gameMessages.IsMessageQueueEmpty()) gameMessages.AppendMessage("Bullet-time mode!"); //TODO: translation
+                                if (gameMessages.IsMessageQueueEmpty()) gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.BulletTime));
                                 EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierSlow;
                             }
                             else
@@ -948,9 +966,10 @@ namespace Wof.Controller.Screens
                                 EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierNormal;
                             }
 
-
+                      
+                            
                             // zmiana kamery
-                            if ((inputKeyboard.IsKeyDown(KeyCode.KC_C) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Camera)) && Button.CanChangeSelectedButton(3.0f))
+                            if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Camera) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Camera)) && Button.CanChangeSelectedButton(3.0f))
                             {
                                 if (gameMessages.IsMessageQueueEmpty())
                                 {
