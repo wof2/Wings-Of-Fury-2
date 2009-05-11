@@ -64,6 +64,7 @@ using Wof.View.Effects;
 using FontManager = Wof.Languages.FontManager;
 using Math = Mogre.Math;
 using Vector3 = Mogre.Vector3;
+using Wof.View.NodeAnimation;
 
 namespace Wof.Controller.Screens
 {
@@ -182,6 +183,9 @@ namespace Wof.Controller.Screens
         protected int currentButton = 0; // aktualnie zaznaczony przycisk (klawiatur¹)
         protected int buttonsCount = 0; // iloœæ przycisków w menu
         protected int backButtonIndex = -1; // indeks przycisku 'powrót'.
+        
+        
+        protected List<SceneNode> cloudNodes;
 
         public uint MousePosX
         {
@@ -247,6 +251,8 @@ namespace Wof.Controller.Screens
             TextureManager.Singleton.UnloadUnreferencedResources();
             MaterialManager.Singleton.UnloadUnreferencedResources();
             MeshManager.Singleton.UnloadUnreferencedResources();
+            
+            cloudNodes = new List<SceneNode>();
 
             if(fontSize == 0)
             {
@@ -299,13 +305,20 @@ namespace Wof.Controller.Screens
             sceneMgr.ShadowFarDistance = 1000;
             sceneMgr.ShadowColour = new ColourValue(0.8f, 0.8f, 0.8f);
 
-            EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(0, 70, -800), new Vector2(1000, 100), new Degree(2),
-                                               10);
+            EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(0, -70, -500), new Vector2(1300, 450), new Degree(2),
+                                               6);
+  
+           
+           
+             
+           // EffectsManager.Singleton.AddSeagulls(sceneMgr, new Vector3(0, 100, -700), new Vector2(15,15), new Degree(10), 10, 30);
         }
 
         public virtual void CreateOcean()
         {
      
+        	return;
+        	
             // OCEAN          
             if(EngineConfig.UseHydrax)
             {
@@ -324,8 +337,7 @@ namespace Wof.Controller.Screens
             	// na wypadek jeœli ktoœ wy³¹czy³ hydraxa w opcjach dopiero teraz faktycznie zwalniana jest pamiêæ
             	HydraxManager.Singleton.DisposeHydrax();
             }
-           
-            	
+              	
         	if (!MeshManager.Singleton.ResourceExists("OceanPlane"))
             {
                 Plane plane; // = new Plane();
@@ -404,13 +416,48 @@ namespace Wof.Controller.Screens
                     planeViews.Add(p);
                 }
             }
+            
+            if(cloudNodes.Count == 0)
+            {
+            	cloudNodes = new List<SceneNode>();           
+	            for(int i = 0; i < 16; i++)
+	            {
+	            	 bool left = false;
+	            	 EffectsManager.EffectType type = EffectsManager.EffectType.CLOUD1_TRANSPARENT;
+	            	 if(Mogre.Math.RangeRandom(0,1) > 0.5f)
+	            	 {
+	            	 	type = EffectsManager.EffectType.CLOUD2_TRANSPARENT;
+	            	 }
+	            	 
+	            	 if(i % 2 == 0)
+            	     {
+	            	 	left = true;	            	 	            	   	
+            	     }
+	            	 VisibilityNodeAnimation ani = EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode, "MovingCloud"+i, type, new Vector3(left ? 200 : -200, 50 + Math.RangeRandom(-40,40), -200 + Math.RangeRandom(-600,1200)), new Vector2(600 + Math.RangeRandom(-50,50),600+ Math.RangeRandom(-50,50)), Quaternion.IDENTITY, true);
+	            	 if(left)
+	            	 {
+	            	 	 ani.Node.Yaw(new Radian(new Degree(20)));
+	            	 } else
+	            	 {
+	            	 	 ani.Node.Yaw(new Radian(new Degree(-20)));
+	            	 } 
+	            	 
+	            	 ani.Node.Roll(new Radian(new Degree(Math.RangeRandom(-10,10))));
+	            	
+		             cloudNodes.Add(ani.Node);
+	            } 
+            }
+           
+           
+            
         }
 
 
         protected virtual void PlaceCamera()
         {
             camera.NearClipDistance = 1;
-            camera.Position = new Vector3(0, 20, 70);
+            camera.Position = new Vector3(0, 0, 70);
+            camera.LookAt(0,19,0);
         }
 
         protected void createMouse()
@@ -516,6 +563,17 @@ namespace Wof.Controller.Screens
                 
             }
             EffectsManager.Singleton.UpdateTimeAndAnimateAll(evt.timeSinceLastFrame);
+            
+            foreach(SceneNode cloud in cloudNodes)
+            {
+            	if(cloud.Position.z < -2000)
+            	{            		
+            		cloud.SetPosition(cloud.Position.x, cloud.Position.y, 500);
+            	}
+            	cloud.SetPosition(cloud.Position.x, cloud.Position.y, cloud.Position.z - evt.timeSinceLastFrame * 60.0f * Mogre.Math.RangeRandom(0.8f, 1.2f));
+            
+            	
+            }
         }
         
         public void HandleInput(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
@@ -533,6 +591,7 @@ namespace Wof.Controller.Screens
                         planeViews[i].AnimationMgr.animateAll();
                     }
                 }
+                
 
                 inputMouse.Capture();
                 inputKeyboard.Capture();
