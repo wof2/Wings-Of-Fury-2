@@ -127,7 +127,11 @@ namespace Wof.View.Effects
             DEBRIS,
             PALMTOP1,
             PALMTOP2,
-            HINT_ARROW
+            HINT_ARROW,
+            CLOUD1,
+            CLOUD2,
+            CLOUD1_TRANSPARENT,
+            CLOUD2_TRANSPARENT
         }
 
         private enum MaterialToPreload
@@ -578,6 +582,26 @@ namespace Wof.View.Effects
                     info.material = "Effects/HintArrow";
                     break;
                     
+               case EffectType.CLOUD1:
+	                info.duration = 0.0f;
+	                info.material = "Effects/Cloud1";
+	                break;  
+	                
+	           case EffectType.CLOUD2:
+	                info.duration = 0.0f;
+	                info.material = "Effects/Cloud2";
+	                break;  
+	                
+              case EffectType.CLOUD1_TRANSPARENT:
+	                info.duration = 0.0f;
+	                info.material = "Effects/Cloud1T";
+	                break;  
+	                
+	           case EffectType.CLOUD2_TRANSPARENT:
+	                info.duration = 0.0f;
+	                info.material = "Effects/Cloud2T";
+	                break;  
+	                
                     
                 default:
                     info.duration = 0.0f;

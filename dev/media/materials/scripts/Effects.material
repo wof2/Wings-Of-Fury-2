@@ -426,6 +426,9 @@ material Effects/Cloud1 : ABEffect
    }
 }
 
+
+
+
 material Effects/Cloud2 : ABEffect
 {
    technique Diffuse
@@ -439,6 +442,59 @@ material Effects/Cloud2 : ABEffect
        }
    }
 }
+
+material Effects/Cloud1T
+{
+	technique
+	{
+	
+		pass 0
+		{	
+		  cull_hardware none
+      cull_software none	
+			lighting off					
+			scene_blend alpha_blend		
+			depth_write off
+			texture_unit 0
+			{
+              texture cloud1.png
+			        alpha_op_ex modulate src_texture src_manual 0.5 0.5			
+			}		
+
+		}
+
+	}
+	
+}
+
+
+material Effects/Cloud2T
+{
+	technique
+	{
+		pass 0
+		{	
+		  cull_hardware none
+      cull_software none	
+			lighting off					
+			scene_blend alpha_blend		
+			depth_write off
+			texture_unit 0
+			{
+              texture cloud2.png
+			        alpha_op_ex modulate src_texture src_manual 0.5 0.5			
+			}		
+
+		}
+
+	}
+	
+}
+
+
+
+
+
 
 material Effects/Fire : ABEffect
 {
