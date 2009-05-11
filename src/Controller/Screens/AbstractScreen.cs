@@ -920,7 +920,7 @@ namespace Wof.Controller.Screens
                 wasEnterKeyPressed = true;
                 KeyReceived("ENTER");
             }
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_UP))
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up))
             {
                 wasUpKeyPressed = true;
                 KeyReceived("UP");
