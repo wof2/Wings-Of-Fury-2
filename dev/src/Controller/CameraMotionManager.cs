@@ -94,18 +94,18 @@ namespace Wof.Controller
             float halfMaxHeight = (float) GameConsts.UserPlane.MaxHeight/2.0f;
 
             float realHalfMaxHeight = halfMaxHeight*0.95f;
-            float camAlt = c.WorldPosition.y + c.Position.y;
-
+        //    float camAlt = c._getDerivedPosition().y + c.Position.y;
+            float camAlt = c.RealPosition.y;
             float minCamAlt = 4.0f;
 
 
             /* bool duringEmergency = false;
 
              // awaryjne wynurzenie kamery;)
-             if (c.WorldPosition.y + c.Position.y <= 0)
+             if (c._getDerivedPosition().y + c.Position.y <= 0)
              {
                  // metr nad wod¹
-                 Vector3 emergency = new Vector3(0, c.Position.y + c.WorldPosition.y + 1.0f, 0);
+                 Vector3 emergency = new Vector3(0, c.Position.y + c._getDerivedPosition().y + 1.0f, 0);
                  c.MoveRelative(emergency);
                  duringEmergency = true;
              }*/
@@ -132,9 +132,9 @@ namespace Wof.Controller
             float altFactor = 0;
 
             // wspolczynnik wysokosci
-            if (c.WorldPosition.y > 0)
+            if (c.RealPosition.y > 0)
             {
-                altFactor = (float) Math.Log(c.WorldPosition.y + 1, 1.011);
+                altFactor = (float)Math.Log(c.RealPosition.y + 1, 1.011);
                 altFactor = Math.Max(0, altFactor);
             }
             float zoomFactor;
@@ -157,11 +157,11 @@ namespace Wof.Controller
 
 
             // ruch kamery w zaleznosci od wysokosci
-            if (c.WorldPosition.y >= realHalfMaxHeight && EngineConfig.CurrentGameSpeedMultiplier != EngineConfig.GameSpeedMultiplierSlow)
+            if (c.RealPosition.y >= realHalfMaxHeight && EngineConfig.CurrentGameSpeedMultiplier != EngineConfig.GameSpeedMultiplierSlow)
             {
                 translateVector.y -= (camAlt - realHalfMaxHeight);
             }
-            else if (c.WorldPosition.y < (realHalfMaxHeight*0.75f))
+            else if (c.RealPosition.y < (realHalfMaxHeight * 0.75f))
             {
                 if (c.Position.y < 0)
                 {

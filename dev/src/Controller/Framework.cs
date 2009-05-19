@@ -266,8 +266,8 @@ namespace Wof.Controller
                 splash.Increment(
                     String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingTheRootObject)));
                 root = new Root();
-                //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
-                LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
+                LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
+               // LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
                 LogManager.Singleton.LogMessage("Starting Wings of Fury 2 ver. " + EngineConfig.C_WOF_VERSION);
 
 
@@ -567,7 +567,7 @@ namespace Wof.Controller
             overlayCamera.FarClipDistance = 100.0f;
         }
 
-        protected static bool CreateSoundSystem(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)
+        protected static bool CreateSoundSystem(Camera camera,FreeSL.FSL_SOUND_SYSTEM ss)
         {
             return SoundManager3D.Instance.InitializeSound(camera, ss);
         }
@@ -1251,19 +1251,26 @@ namespace Wof.Controller
                     CompositionTechnique.TextureDefinition_NativePtr def = t.CreateTextureDefinition("scene");
                     def.width = 0;
                     def.height = 0;
-                    def.format = PixelFormat.PF_R8G8B8;
+                   
+                    PixelFormatList pf = new PixelFormatList();
+                    pf.Add( PixelFormat.PF_R8G8B8);
+                    def.formatList = pf;
                 }
                 {
                     CompositionTechnique.TextureDefinition_NativePtr def = t.CreateTextureDefinition("sum");
                     def.width = 0;
                     def.height = 0;
-                    def.format = PixelFormat.PF_R8G8B8;
+                    PixelFormatList pf = new PixelFormatList();
+                    pf.Add(PixelFormat.PF_R8G8B8);
+                    def.formatList = pf;
                 }
                 {
                     CompositionTechnique.TextureDefinition_NativePtr def = t.CreateTextureDefinition("temp");
                     def.width = 0;
                     def.height = 0;
-                    def.format = PixelFormat.PF_R8G8B8;
+                    PixelFormatList pf = new PixelFormatList();
+                    pf.Add(PixelFormat.PF_R8G8B8);
+                    def.formatList = pf;
                 }
                 /// Render scene
                 {

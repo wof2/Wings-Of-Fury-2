@@ -319,14 +319,19 @@ namespace Wof.View
             this.name = name;
 
             planeNode = parentNode.CreateChildSceneNode(name);
+
+          //  Quaternion q = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
+         //   Console.WriteLine(q);
+
+
             outerSteeringNode = planeNode.CreateChildSceneNode(name + "OuterSteeringNode");
             innerSteeringNode = outerSteeringNode.CreateChildSceneNode(name + "InnerSteeringNode");
 
             outerNode = innerSteeringNode.CreateChildSceneNode(name + "OuterNode");
-
             idleNode = outerNode.CreateChildSceneNode(name + "IdleNode");
-
             innerNode = idleNode.CreateChildSceneNode(name + "InnerNode");
+        
+
             initSmokeSystems();
             cameraHolders = new List<SceneNode>();
             initOnScene();
@@ -361,6 +366,7 @@ namespace Wof.View
 
         public virtual void refreshPosition()
         {
+          
             //Modelowy plane jest null'em dla samolocikow reprezentujacych zycia
             if (plane != null)
             {
@@ -370,17 +376,17 @@ namespace Wof.View
                 {
                     if (plane.Direction == Direction.Right)// && !Plane.spinned)
                     {
-                        InnerSteeringNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
+                        InnerSteeringNode.Orientation = new Quaternion((Radian)Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
                     }
                     else
                     {
-                        InnerSteeringNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
+                        InnerSteeringNode.Orientation = new Quaternion((Radian)Math.HALF_PI, Vector3.UNIT_Y); ;
                     }
 
-                    InnerSteeringNode.Orientation *= new Quaternion((float)plane.RelativeAngle, Vector3.UNIT_X);
+                    InnerSteeringNode.Orientation *= new Quaternion((Radian)plane.RelativeAngle, Vector3.UNIT_X);
 
                     if (Plane.Spinned)
-                        InnerSteeringNode.Orientation *= new Quaternion((float)Math.PI, Vector3.UNIT_Z);
+                        InnerSteeringNode.Orientation *= new Quaternion((Radian)Math.PI, Vector3.UNIT_Z);
                 }
                 // refresh minimap
                 if (minimapItem != null)

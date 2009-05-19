@@ -36,6 +36,8 @@ namespace FSLOgreCS
             _listener = null;
         }
 
+      
+
         /// <summary>
         /// Gets the instance.
         /// </summary>
@@ -74,6 +76,7 @@ namespace FSLOgreCS
         }
         public bool InitializeSound(Camera listener, FreeSL.FSL_SOUND_SYSTEM soundSystem)
         {
+          
             _listener = new FSLListener(listener);
             if (_initSound)
                 return true;
@@ -93,6 +96,11 @@ namespace FSLOgreCS
             return true;
         }
 
+
+        public void SetUserPlane(Wof.Model.Level.Planes.Plane plane)
+        {
+            SetListener(_listener.Renderable, plane);
+        }
         public void ShutDown()
         {
            // this.updaterThread = new Thread(new ThreadStart(UpdateSoundObjects));
@@ -157,6 +165,7 @@ namespace FSLOgreCS
                         if (!_initSound)
                             return;
                         _listener.Update();
+                       
 
                         try
                         {
@@ -189,6 +198,11 @@ namespace FSLOgreCS
             _listener = new FSLListener(listener);
         }
 
+        public void SetListener(Camera listener, Wof.Model.Level.Planes.Plane plane)
+        {
+            _listener = new FSLListener(listener, plane);
+        }
+
         public FSLListener GetListener()
         {
             return _listener;
@@ -200,7 +214,7 @@ namespace FSLOgreCS
             return AddSound(new FSLAmbientSound(soundFile, name, loop, streaming));
         }
 
-        public FSLSoundObject CreateSoundEntity(string soundFile, IRenderable renderable, string name, bool loop,
+        public FSLSoundObject CreateSoundEntity(string soundFile, SceneNode renderable, string name, bool loop,
                                                 bool streaming)
         {
             return AddSound(new FSLSoundEntity(soundFile, renderable, name, loop, streaming));
@@ -211,7 +225,7 @@ namespace FSLOgreCS
             return AddSound(new FSLAmbientSound(package, soundFile, name, loop));
         }
 
-        public FSLSoundObject CreateSoundEntity(string package, string soundFile, IRenderable renderable, string name,
+        public FSLSoundObject CreateSoundEntity(string package, string soundFile, SceneNode renderable, string name,
                                                 bool loop)
         {
             return AddSound(new FSLSoundEntity(package, soundFile, renderable, name, loop));

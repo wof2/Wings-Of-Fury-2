@@ -155,14 +155,14 @@ namespace Wof.View
         {
             if (ammunition.Direction == Direction.Right)
             {
-                ammunitionNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
+                ammunitionNode.Orientation = new Quaternion((Radian)Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
             }
             else
             {
-                ammunitionNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
+                ammunitionNode.Orientation = new Quaternion((Radian)Math.HALF_PI, Vector3.UNIT_Y);
             }
 
-            ammunitionNode.Orientation *= new Quaternion((float) ammunition.Angle, Vector3.UNIT_X);
+            ammunitionNode.Orientation *= new Quaternion((Radian)ammunition.Angle, Vector3.UNIT_X);
             if (FrameWork.DisplayMinimap)
             {
                 minimapItem.Show();

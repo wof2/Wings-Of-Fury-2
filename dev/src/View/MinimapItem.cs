@@ -264,11 +264,12 @@ namespace Wof.View
 
         public void Refresh()
         {
-            // minimapNode.SetOrientation(realObjectNode.WorldOrientation.w, realObjectNode.WorldOrientation.x, realObjectNode.WorldOrientation.y, realObjectNode.WorldOrientation.z);
+        
+            // minimapNode.SetOrientation(realObjectNode._getDerivedOrientation().w, realObjectNode._getDerivedOrientation().x, realObjectNode._getDerivedOrientation().y, realObjectNode._getDerivedOrientation().z);
 
             // ROTATION
-            Vector3 src = minimapNode.WorldOrientation*Vector3.NEGATIVE_UNIT_Z;
-            Vector3 dest = realObjectNode.WorldOrientation*Vector3.NEGATIVE_UNIT_Z;
+            Vector3 src = minimapNode._getDerivedOrientation()*Vector3.NEGATIVE_UNIT_Z;
+            Vector3 dest = realObjectNode._getDerivedOrientation()*Vector3.NEGATIVE_UNIT_Z;
 
             src.Normalise();
             dest.Normalise();
@@ -285,7 +286,7 @@ namespace Wof.View
 
 
             // POSITION
-            Vector3 wpos = realObjectNode.WorldPosition;
+            Vector3 wpos = realObjectNode._getDerivedPosition();
           
 
             // SCALE

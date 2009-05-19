@@ -258,7 +258,8 @@ namespace Wof.View
         {
             // main nodes init
             planeEntity = sceneMgr.CreateEntity(name + "_Body", "P47Body.mesh");
-          
+
+        
             if(GameConsts.UserPlane.PlaneCheat)
             {
                 ViewHelper.ReplaceMaterial(planeEntity, bodyMaterialName, "P47/BodyPL");
@@ -270,7 +271,7 @@ namespace Wof.View
             planeEntity.CastShadows = EngineConfig.ShadowsQuality > 0; 
             innerNode.AttachObject(planeEntity);
             outerNode.Scale(new Vector3(0.4f, 0.4f, 0.4f));
-
+      
             initBlade();
             initWheels();
 
@@ -291,7 +292,7 @@ namespace Wof.View
                 Entity torpedo = sceneMgr.CreateEntity(name + "_Torpedo", "Torpedo.mesh");
                 torpedoHolder.AttachObject(torpedo);
             }
-           
+           // Console.WriteLine(innerNode._getDerivedOrientation());
 
 
           
@@ -301,6 +302,7 @@ namespace Wof.View
             ViewHelper.AttachAxes(sceneMgr, innerNode, 1.5f);
 
             refreshPosition();
+            Console.WriteLine(innerNode._getDerivedOrientation());
             initAnimationManager();
             if(this.plane != null && this.plane.WheelsState == WheelsState.In) 
             {
@@ -335,6 +337,8 @@ namespace Wof.View
             // cameraHolders.Add(outerNode.CreateChildSceneNode(this.name + "NoseCameraHolder"));
 
             ResetCameraHolders();
+
+         //   Console.WriteLine(innerNode._getDerivedOrientation());
         }
     }
 }
