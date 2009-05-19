@@ -617,6 +617,7 @@ namespace Wof.View
                 else
                 {
                     playerPlaneView = new PlayerPlaneView(plane, sceneMgr, sceneMgr.RootSceneNode);
+                   // SoundManager3D.Instance.SetUserPlane(plane);
                 }
             }
         }
@@ -709,7 +710,7 @@ namespace Wof.View
 
 
             Vector3 smokeUp = Vector3.NEGATIVE_UNIT_Z;
-            Quaternion q = smokeUp.GetRotationTo(p.OuterNode.WorldOrientation*Vector3.NEGATIVE_UNIT_Z);
+            Quaternion q = smokeUp.GetRotationTo(p.OuterNode._getDerivedOrientation()*Vector3.NEGATIVE_UNIT_Z);
             smokeUp = q*smokeUp;
             smokeUp = new Quaternion(new Degree(90), Vector3.NEGATIVE_UNIT_Z)*smokeUp;
             if (p.Plane.Direction == Direction.Left)
@@ -870,8 +871,8 @@ namespace Wof.View
             na =
                EffectsManager.Singleton.RectangularEffect(sceneMgr, splashNode, type.ToString(), type, position,
                                                           new Vector2(4, 4), Quaternion.IDENTITY, false);
-            na.Node.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
-            na.Node.Orientation *= new Quaternion(Math.RangeRandom(-0.1f, 0.1f) * Math.HALF_PI, Vector3.UNIT_Y);
+            na.Node.Orientation = new Quaternion((Radian)Math.HALF_PI, Vector3.UNIT_X);
+            na.Node.Orientation *= new Quaternion((Radian)(Math.RangeRandom(-0.1f, 0.1f) * Math.HALF_PI), Vector3.UNIT_Y);
  
             na.onFinishInfo = na.Node;
             na.onFinish = onFreeSplashNode;    
@@ -1135,13 +1136,13 @@ namespace Wof.View
         public void OnFireGun(Plane plane)
         {
             PlaneView p = FindPlaneView(plane);
-            Quaternion orient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y); 
-            orient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
+            Quaternion orient = new Quaternion(-(Radian)Math.HALF_PI, Vector3.UNIT_Y);
+            orient *= new Quaternion(-(Radian)Math.HALF_PI, Vector3.UNIT_X);
           //  orient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
 
-            Quaternion trailOrient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y);
-            trailOrient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
-            trailOrient *= new Quaternion(Math.HALF_PI * -0.05f, Vector3.UNIT_Y);
+            Quaternion trailOrient = new Quaternion(-(Radian)Math.HALF_PI, Vector3.UNIT_Y);
+            trailOrient *= new Quaternion(-(Radian)Math.HALF_PI, Vector3.UNIT_X);
+            trailOrient *= new Quaternion((Radian)Math.HALF_PI * -0.05f, Vector3.UNIT_Y);
 
             EffectsManager.Singleton.RectangularEffect(sceneMgr, p.OuterNode, "LeftGunHit",
                                                        EffectsManager.EffectType.GUNHIT2,
@@ -1191,8 +1192,8 @@ namespace Wof.View
                                                            trailOrient, false);
             }
 
-            orient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
-            trailOrient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
+            orient *= new Quaternion((Radian)Math.HALF_PI, Vector3.UNIT_X);
+            trailOrient *= new Quaternion((Radian)Math.HALF_PI, Vector3.UNIT_X);
             EffectsManager.Singleton.RectangularEffect(sceneMgr, p.OuterNode, "LeftGunHitTop",
                                                        EffectsManager.EffectType.GUNHIT2,
                                                        new Vector3(-4.3f, -0.3f, -5.3f), new Vector2(4.5f, 3.5f),
@@ -1329,7 +1330,7 @@ namespace Wof.View
                 }
 
                 // Dym
-                if (p.Plane.Oil < p.Plane.MaxOil && p.PlaneNode.WorldPosition.y >= 0)
+                if (p.Plane.Oil < p.Plane.MaxOil && p.PlaneNode._getDerivedPosition().y >= 0)
                 {
                     // slaby dym
                     if (p.Plane.Oil < (p.Plane.MaxOil*0.9f))
@@ -1970,8 +1971,8 @@ namespace Wof.View
             na =
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, splashNode, type.ToString(), type, position,
                                                            new Vector2(4, 4), Quaternion.IDENTITY, false);
-            na.Node.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
-            na.Node.Orientation *= new Quaternion(Math.RangeRandom(-0.1f, 0.1f)*Math.HALF_PI, Vector3.UNIT_Y);
+            na.Node.Orientation = new Quaternion((Radian)Math.HALF_PI, Vector3.UNIT_X);
+            na.Node.Orientation *= new Quaternion((Radian)(Math.RangeRandom(-0.1f, 0.1f) * Math.HALF_PI), Vector3.UNIT_Y);
             na.onFinishInfo = na.Node;
             na.onFinish = onFreeSplashNode;
         }
@@ -2025,7 +2026,7 @@ namespace Wof.View
                 }
                 cameraHolders[currentCameraHolderIndex].AttachObject(framework.Camera);
 
-                SoundManager3D.Instance.SetListener(framework.Camera);
+                SoundManager3D.Instance.SetListener(framework.Camera, playerPlaneView.Plane);
                 //SoundManager3D.Instance.UpdateSoundObjects();
             }
         }

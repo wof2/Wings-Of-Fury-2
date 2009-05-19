@@ -87,7 +87,7 @@ namespace Wof.View.TileViews
 
         protected void rotateGun(float radians)
         {
-            gunNode.Orientation = new Quaternion(radians, Vector3.UNIT_X);
+            gunNode.Orientation = new Quaternion((Radian)radians, Vector3.UNIT_X);
         }
 
 

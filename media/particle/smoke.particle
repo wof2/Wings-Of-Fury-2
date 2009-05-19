@@ -1,6 +1,6 @@
 
 // smoke
-Smokes/Smoke
+particle_system Smokes/Smoke
 {
     	material        	Examples/Smoke
     	particle_width  	2
@@ -43,7 +43,7 @@ Smokes/Smoke
 
 
 // rocketsmoke
-Smokes/RocketSmoke
+particle_system Smokes/RocketSmoke
 {
     	material        	Examples/RocketSmoke
     	particle_width  	0.8
@@ -93,7 +93,7 @@ Smokes/RocketSmoke
 
 
 
-Smokes/TrailSmoke
+particle_system Smokes/TrailSmoke
 {
     	material        	Examples/TrailSmoke
     	particle_width  	0.2
@@ -138,7 +138,7 @@ Smokes/TrailSmoke
    	}
 
 }
-Smokes/LightSmoke
+particle_system Smokes/LightSmoke
 {
     	material        	Examples/TrailSmoke
     	particle_width  	1.6
@@ -186,7 +186,7 @@ Smokes/LightSmoke
 
 
 // smoke
-Smokes/DarkLightSmoke
+particle_system Smokes/DarkLightSmoke
 {
     	material        	Examples/Smoke
     	particle_width  	1.2

@@ -308,7 +308,7 @@ namespace Wof.Controller
                     	UseHydrax = false;
                     }
                     
-                //  UseHydrax = false;
+                 // UseHydrax = true;
                   
                     try
 					{
@@ -368,7 +368,7 @@ namespace Wof.Controller
             //File.Create(C_ENGINE_CONFIG);
             File.WriteAllLines(C_ENGINE_CONFIG, configuration);
            
-            string materialDir = "../../media/materials/scripts/ParentScripts";
+            string materialDir = "../../media/materials/scripts/";
             if(ShadowsQuality >0)
             {
             	File.Copy(materialDir+"0NormalMappedSpecular.base", materialDir+"0NormalMappedSpecular.material",true );

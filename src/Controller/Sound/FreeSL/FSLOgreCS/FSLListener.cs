@@ -1,5 +1,6 @@
 using System;
 using Mogre;
+using Math=Mogre.Math;
 
 namespace FSLOgreCS
 {
@@ -7,19 +8,30 @@ namespace FSLOgreCS
     {
         private Camera _renderable;
         public bool ZFlipped = true; // reversed stereo hack
-        public FSLListener()
+
+        private Wof.Model.Level.Planes.Plane _plane = null;
+
+        public Camera Renderable
         {
-            _renderable = null;
+            get { return _renderable;  }
         }
+        
 
         public FSLListener(Camera renderable)
         {
             _renderable = renderable;
         }
 
-        public void SetListener(Camera renderable)
+        public FSLListener(Camera renderable, Wof.Model.Level.Planes.Plane plane)
         {
             _renderable = renderable;
+            _plane = plane;
+        }
+
+        public void SetListener(Camera renderable, Wof.Model.Level.Planes.Plane plane)
+        {
+            _renderable = renderable;
+            _plane = plane;
         }
 
         public void Update()
@@ -36,6 +48,13 @@ namespace FSLOgreCS
                 FreeSL.fslSetListenerPosition(_renderable.RealPosition.x,
                                               _renderable.RealPosition.y,
                                               _renderable.RealPosition.z);
+               
+                if(_plane != null)
+                {
+
+                    FreeSL.fslSetListenerVelocity(Math.Abs(_plane.MovementVector.X * 10), Math.Abs(_plane.MovementVector.Y * 10), 0);
+                    
+                }
 
                 Mogre.Vector3 yVec, zVec;
                 yVec = _renderable.RealOrientation.YAxis;

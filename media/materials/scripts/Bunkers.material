@@ -1,3 +1,4 @@
+import * from "0NormalMappedSpecular.material"
 
 material Concrete: NormalMappedSpecular
 {
