@@ -302,7 +302,7 @@ namespace Wof.Controller.Screens
             light.DiffuseColour = new ColourValue(1.0f, 1.0f, 1.0f);
             light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);
 
-            sceneMgr.ShadowFarDistance = 1000;
+            sceneMgr.ShadowFarDistance = 100;
             sceneMgr.ShadowColour = new ColourValue(0.8f, 0.8f, 0.8f);
 
             EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(0, -70, -500), new Vector2(1300, 450), new Degree(2),

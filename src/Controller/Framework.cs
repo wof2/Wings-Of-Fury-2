@@ -491,6 +491,7 @@ namespace Wof.Controller
             {
             	sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE;
                 sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new FocusedShadowCameraSetup()));
+              //  sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new PSSMShadowCameraSetup()));
             //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new DefaultShadowCameraSetup()));
             
           	 //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new LiSPSMShadowCameraSetup()));
@@ -501,7 +502,7 @@ namespace Wof.Controller
          	//	sceneMgr.SetShadowTextureReceiverMaterial("Ogre/DepthShadowmap/Receiver/Float");
 		
 				sceneMgr.ShadowTextureSelfShadow = (true);	
-			    sceneMgr.ShadowFarDistance = 130;
+			    sceneMgr.ShadowFarDistance = 180;
 				switch(EngineConfig.ShadowsQuality)
 				{
 					case EngineConfig.ShadowsQualityTypes.Low:

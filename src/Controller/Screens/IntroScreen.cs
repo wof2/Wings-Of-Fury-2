@@ -147,7 +147,7 @@ namespace Wof.Controller.Screens
         protected override void CreateSkybox()
         {
             sceneMgr.AmbientLight = new ColourValue(1.0f, 1.0f, 1.0f);
-            sceneMgr.ShadowFarDistance = 1000;
+            sceneMgr.ShadowFarDistance = 100;
             sceneMgr.ShadowColour = new ColourValue(0.8f, 0.8f, 0.8f);
         }
 
