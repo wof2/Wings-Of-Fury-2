@@ -259,7 +259,7 @@ namespace Wof.View
 
                 Light light = sceneMgr.CreateLight(name + "_light1");
                 light.Type = Light.LightTypes.LT_POINT;
-                light.SetAttenuation(10.0f, 0.0f, 1.0f, 0.01f);
+                light.SetAttenuation(15.0f, 0.5f, 0.9f, 0.01f);
                 light.DiffuseColour = c1;
                 light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);
                 light.CastShadows = false;
@@ -518,7 +518,7 @@ namespace Wof.View
             float diff;
             for (int i = 0; i < arrestingWires.Count; i++)
             {
-                diff = p.RearWheelInnerNode._getDerivedPosition().x - arrestingWires[i]._getDerivedPosition().x;
+                diff = p.RearWheelInnerNode.WorldPosition.x - arrestingWires[i].WorldPosition.x;
                 if (Math.Abs(diff) < 0.1f && diff > 0 && !activeArrestingWires.Contains(arrestingWires[i]))
                 {
                     activeArrestingWires.Add(arrestingWires[i]);
@@ -550,14 +550,14 @@ namespace Wof.View
 
         private void initLArrestingWire(SceneNode lWire)
         {
-            lWire.Orientation = new Quaternion((Radian)Math.HALF_PI, Vector3.UNIT_Z);
+            lWire.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Z);
             lWire.SetScale(1, arrestingWiresSpan/2.0f, 1);
         }
 
         private void initRArrestingWire(SceneNode rWire)
         {
             initLArrestingWire(rWire);
-            rWire.Orientation *= new Quaternion(-(Radian)Math.PI, Vector3.UNIT_Z);
+            rWire.Orientation *= new Quaternion(-Math.PI, Vector3.UNIT_Z);
         }
 
 
@@ -566,17 +566,17 @@ namespace Wof.View
             float lastH;
             SceneNode lWire = (SceneNode) arrestingWire.GetChild(0);
             SceneNode rWire = (SceneNode) arrestingWire.GetChild(1);
-            lastH = lWire._getDerivedPosition().x - targetWorldXPos;
+            lastH = lWire.WorldPosition.x - targetWorldXPos;
             Radian alpha = Math.ATan(lastH/(0.5f*arrestingWiresSpan)); // k¹t wychylenia kawalkow liny
             float length = lastH/Math.Sin(alpha); // dlugosc liny
 
-            lWire.Orientation = new Quaternion((Radian)Math.HALF_PI, Vector3.UNIT_X);
-            lWire.Orientation *= new Quaternion((Radian)Math.HALF_PI, Vector3.UNIT_Z);
+            lWire.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
+            lWire.Orientation *= new Quaternion(Math.HALF_PI, Vector3.UNIT_Z);
             lWire.Orientation *= new Quaternion(alpha, Vector3.NEGATIVE_UNIT_Z);
             lWire.SetScale(1, length, 1);
 
-            rWire.Orientation = new Quaternion((Radian)Math.HALF_PI, Vector3.UNIT_X);
-            rWire.Orientation *= new Quaternion((Radian)Math.HALF_PI, Vector3.NEGATIVE_UNIT_Z);
+            rWire.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
+            rWire.Orientation *= new Quaternion(Math.HALF_PI, Vector3.NEGATIVE_UNIT_Z);
             rWire.Orientation *= new Quaternion(alpha, Vector3.UNIT_Z);
             rWire.SetScale(1, length, 1);
 
@@ -639,7 +639,7 @@ namespace Wof.View
                     {
                         arrestingWiresH[i] =
                             animateArrestingWire(activeArrestingWires[i],
-                                                 planeBeingCaught.RearWheelInnerNode._getDerivedPosition().x);
+                                                 planeBeingCaught.RearWheelInnerNode.WorldPosition.x);
                     }
                 }
                 if (isReleasingPlane)
@@ -650,7 +650,7 @@ namespace Wof.View
                         {
                             animateArrestingWire(
                                 activeArrestingWires[i],
-                                activeArrestingWires[i]._getDerivedPosition().x - arrestingWiresH[i]
+                                activeArrestingWires[i].WorldPosition.x - arrestingWiresH[i]
                                 );
                             arrestingWiresH[i] *= (1 - 10*timeSinceLastFrameUpdate);
                                 // 0.99f; - wymuszamy zmniejszenie wysokosci trojkatow

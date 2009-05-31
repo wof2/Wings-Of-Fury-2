@@ -401,16 +401,17 @@
     <value>Torpedoes</value>
   </data>
   
-  <!-- added 25.03.2009 -->
+
+ <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>All enemy planes destroyed, land on carrier and press X</value>
+    <value>All enemy planes destroyed, land on the carrier and press X</value>
   </data>
   
   <data name="EnemyPlanesLeft">
     <value>Enemy planes left</value>
   </data>
   
-    <data name="Target">
+  <data name="Target">
     <value>Target</value>
   </data>
   
@@ -421,16 +422,18 @@
   <data name="Alive">
     <value>Alive</value>
   </data> 
+  
   <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Target neutralized. Land on carrier and press X</value>
+      <value>Target neutralized. Land on the carrier and press X</value>
   </data> 
   
+  <!-- enemy ships left to be sunk -->
   <data name="EnemyShipsLeft">
     <value>Enemy ships left</value>
   </data>
   
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>All enemy ships destroyed, land on carrier and press X</value>
+    <value>All enemy ships destroyed, land on the carrier and press X</value>
   </data>
   
   <data name="EnemyInstallationDamaged">
@@ -438,21 +441,23 @@
   </data>
   
   <data name="TorpedoTooHigh">
-    <value>Too high altitude! Torpedo failed</value>
+    <value>Altitude too high! Torpedo failed</value>
   </data>
   
   <data name="TorpedoLongTravelDistance">
-    <value>Too long torpedo travel distance! Move closer</value>
+    <value>Torpedo ran out of fuel! Move closer</value>
   </data>
-
+	
+	<!-- Hydrax is a water effects library -->
   <data name="HydraxWater">
     <value>Hydrax Water</value>
   </data>
-  
+
   <data name="Blood">
     <value>Blood</value>
   </data>
 
+  <!-- Used in the options context like so: "shadows: none" -->
   <data name="None">
     <value>None</value>
   </data>
@@ -461,8 +466,57 @@
     <value>Shadows</value>
   </data>
 
+  <!-- Bullet time effect - like in Matrix :) -->
   <data name="BulletTime">
     <value>Bullet Time</value>
   </data>
+
+  <data name="MissionType">
+    <value>Mission type</value>
+  </data>
+  
+  <!-- available mission types: -->
+  <data name="Dogfight">
+    <value>Dogfight</value> <!-- destroying planes -->
+  </data>
+  
+  
+  <data name="BombingRun">
+    <value>Bombing run</value>
+  </data>
+  
+  
+  <data name="Assassination">
+    <value>Assassination</value> <!-- "kill the generals" -->
+  </data>
+  
+  
+  <data name="Naval">
+    <value>Naval</value> <!-- sink all ships -->
+  </data>
+  
+  <data name="KeyboardInfo1">
+    <value>Please use (game_directory)\Release\KeyMap.ini, </value>
+  </data>
+
+  <data name="KeyboardInfo2">
+    <value>file to change key mapping</value>
+  </data>
+  
+  <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
+  <data name="Tutorial0">
+   <value>
+     Mission types:
+     There are several missions types you can encounter throughout the game:
+     Dogfight - shot down all enemy planes to complete the mission.
+     Bombing run - eliminate all enemy soldiers.
+
+
+     Assassination  - enemy generals are hiding in the fortress somewhere in the area. Use your rockets to destroy them.
+     Naval - sink all enemy ships using torpedoes. Keep in mind that you need to fly low and steady before launching torpedoes.
+   </value>
+  </data>
+  
+  
 
 </root>

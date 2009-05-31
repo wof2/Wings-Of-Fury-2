@@ -81,7 +81,7 @@ namespace Wof.Controller
             return false;
         }
 
-        public FSLSoundEntity CreateSoundEntity(String filename, SceneNode entity, bool loop, bool play)
+        public FSLSoundEntity CreateSoundEntity(String filename, IRenderable entity, bool loop, bool play)
         {
             FSLSoundEntity sound = (FSLSoundEntity)CreateSoundEntity(filename, entity, filename + "_entity" + entity.GetHashCode()+ "_Sound", loop, false);
             if (play)
@@ -109,7 +109,6 @@ namespace Wof.Controller
         /// <param name="volume">0-100</param>
         /// <param name="preloadOnly">czy tylko preloadowaæ muzykê</param>
         /// <param name="loop">zapêtlenie dziêku</param>
-        /// <param name="streaming">czy ma byc streaming</param>
         public void PlayAmbient(String sound, int volume, bool preloadOnly, bool loop, bool streaming)
         {
 

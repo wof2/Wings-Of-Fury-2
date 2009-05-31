@@ -1,5 +1,3 @@
-import * from "smoke.particle"
-
 
 material Examples/Smoke
 {

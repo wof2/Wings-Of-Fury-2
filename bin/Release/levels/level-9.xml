@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="foggy" missionType="assasination" enemyPlanes="0">
+<level dayTime="foggy" missionType="assassination" enemyPlanes="0">
 
   <ocean width="100"/>
   <island-begin variation="3"/>

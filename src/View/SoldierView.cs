@@ -306,11 +306,11 @@ namespace Wof.View
            
             if (soldier.Direction == Direction.Right)
             {
-                soldierNode.Orientation = new Quaternion((Radian)Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
+                soldierNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
             }
             else
             {
-                soldierNode.Orientation = new Quaternion((Radian)Math.HALF_PI, Vector3.UNIT_Y);
+                soldierNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
             }
 
             if (FrameWork.DisplayMinimap && minimapItem != null && minimapItem.IsVisible)

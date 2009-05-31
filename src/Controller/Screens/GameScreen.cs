@@ -351,21 +351,39 @@ namespace Wof.Controller.Screens
                         hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.84f, 0, 0.9f * 0.15f * viewport.ActualWidth, 0.9f * 0.045f * viewport.ActualWidth), "hint_right.png");
                     }
                     hintWindow.show();
-
+                   
                     int h = (int)GetTextVSpacing();
                     missionTypeGui = new GUI(FontManager.CurrentFont, fontSize, "MissionTypeGUI");
-                    missionTypeWindow = missionTypeGui.createWindow(new Vector4(viewport.ActualWidth - 40, viewport.ActualHeight - 40, 40, 40), "", (int)wt.NONE, "");
+                    float dist = viewport.ActualWidth/4.5f;
+                    missionTypeWindow = missionTypeGui.createWindow(new Vector4(viewport.ActualWidth - dist, viewport.ActualHeight - 40, dist, 40), "", (int)wt.NONE, "");
 
-                    if (CurrentLevel.MissionType == MissionType.Assasination)
-                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 40, 40), "assasination.png");
-                    else if(CurrentLevel.MissionType == MissionType.Dogfight)
-                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 40, 40), "dogfight.png");
-                    else if(CurrentLevel.MissionType == MissionType.Naval)
-                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 40, 40), "naval.png");
-                    else
-                        missionTypeWindow.createStaticImage(new Vector4(0, 0, 40, 40), "bombing.png");
-
+                    switch (CurrentLevel.MissionType)
+                    {
+                    	case MissionType.Assassination:
+                            missionTypeWindow.createStaticImage(new Vector4(dist - 40, 0, 40, 40), "Assassination.png");
+                    	break;
+                    	
+                    	case MissionType.Dogfight:
+                            missionTypeWindow.createStaticImage(new Vector4(dist - 40, 0, 40, 40), "dogfight.png");
+                      
+                    	break;
+                    	
+                    	case MissionType.Naval:
+                            missionTypeWindow.createStaticImage(new Vector4(dist - 40, 0, 40, 40), "naval.png");
+                    	break;
+                    	
+                    	case MissionType.BombingRun:
+                            missionTypeWindow.createStaticImage(new Vector4(dist - 40, 0, 40, 40), "bombing.png");
+                    	break;
+                    		
+                    		
+                    }
+                   
+                    
+                    
+                   
                     missionTypeWindow.show();
+                    
 
                     _bulletTimeBar = new BulletTimeBar(missionTypeGui, framework.Viewport, viewport.ActualWidth / 2.7f, viewport.ActualHeight / 40.0f);
                     if (LevelNo == 1 && firstTakeOff)
@@ -421,7 +439,7 @@ namespace Wof.Controller.Screens
 
             string baseName = "Tutorial";
             string lang = "_" + LanguageManager.ActualLanguageCode;
-            int n = 1;
+            int n = 0;
             while (
                 ResourceGroupManager.Singleton.ResourceExists(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
                                                               baseName + n + lang + ".jpg"))
@@ -443,9 +461,9 @@ namespace Wof.Controller.Screens
             baseName = "Tutorial";
             string lang = "_" + LanguageManager.ActualLanguageCode;
             int n = FreeSplashScreens();
-            if (n > 0)
+            if (n >= 0)
             {
-                n = (new Random().Next(1, n));
+                n = (new Random().Next(0, n));
             }
             else
             {
@@ -458,7 +476,7 @@ namespace Wof.Controller.Screens
             MaterialPtr overlayMaterial = MaterialManager.Singleton.GetByName("SplashScreen");
 
             OverlayElement loadingText = OverlayManager.Singleton.GetOverlayElement("Wof/LoadingScreenText");
-            if (n > 0)
+            if (n >= 0)
             {
                 TextureManager.Singleton.Load(baseName + n + lang + ".jpg", "General").Load(false); // preload
 
@@ -1980,7 +1998,7 @@ namespace Wof.Controller.Screens
             {
                 message = LanguageResources.GetString(LanguageKey.AllEnemyPlanesDestroyedLandOnCarrierAndPressX);
             }
-            else if (currentLevel.MissionType == MissionType.Assasination)
+            else if (currentLevel.MissionType == MissionType.Assassination)
             {
                 message = LanguageResources.GetString(LanguageKey.TargetNeutralizedLandOnCarrierAndPressX);
             }

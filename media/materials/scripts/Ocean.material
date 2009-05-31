@@ -1,5 +1,3 @@
-import * from "0DepthShadowmap.material"
-
 vertex_program HLSL/OceanVS hlsl
 {
 	source oceanHLSL_Cg.vert
@@ -556,7 +554,7 @@ material Ocean2_HLSL
 				param_named bumpSpeed float2 0.015 -1
 				param_named_auto time time_0_x 100.0
 				param_named waveFreq float 0.028
-				param_named waveAmp float 0.05
+				param_named waveAmp float 0.2
 			}
 
 			fragment_program_ref HLSL/Ocean2FS

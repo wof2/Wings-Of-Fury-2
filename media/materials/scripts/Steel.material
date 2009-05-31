@@ -1,5 +1,3 @@
-import * from "0NormalMappedSpecular.material"
-
 material Steel : NormalMappedSpecular
 {
   set_texture_alias NormalMap steel_normal.jpg
