@@ -65,11 +65,11 @@ namespace Wof.Controller.Screens
                               SceneManager sceneMgr, Viewport viewport, Camera camera) :
                                   base(gameEventListener, sceneMgr, viewport, camera)
         {
-            screen = 1;
+            screen = 0;
             lastChange = DateTime.Now;
             tutorialOverlay = OverlayManager.Singleton.GetByName("Wof/Loading");
             string lang = "_" + LanguageManager.ActualLanguageCode;
-            int n = 1;
+            int n = 0;
 
             while (
                 ResourceGroupManager.Singleton.ResourceExists(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
@@ -103,7 +103,7 @@ namespace Wof.Controller.Screens
             }
             lastChange = DateTime.Now;
             screen++;
-            if (screen > 1)
+            if (screen >= 1)
             {
                 TextureManager.Singleton.Unload(C_SCREEN_NAME + (screen - 1) + lang + ".jpg");
             }

@@ -266,8 +266,8 @@ namespace Wof.Controller
                 splash.Increment(
                     String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingTheRootObject)));
                 root = new Root();
-                LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
-               // LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
+                //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
+                LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
                 LogManager.Singleton.LogMessage("Starting Wings of Fury 2 ver. " + EngineConfig.C_WOF_VERSION);
 
 
@@ -406,7 +406,18 @@ namespace Wof.Controller
                 //ResourceBackgroundQueue.Singleton.StartBackgroundThread = true;
                 //ResourceBackgroundQueue.Singleton.Initialise();
                 //ResourceBackgroundQueue.Singleton.InitialiseAllResourceGroups();
-                window = root.Initialise(true, "Wings Of Fury 2");
+                try
+                {
+                    window = root.Initialise(true, "Wings Of Fury 2");
+                 
+                }
+                catch (Exception)
+                {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unable to initialize requested display device. Deleting ogre.cfg (have you change your graphics card? Please try to run game again)");
+                    File.Delete("ogre.cfg");
+                    throw;
+                }
+             
                 windowHeight = window.Height;
                 windowWidth = window.Width;
                 //window.SetVisible(false);
@@ -457,13 +468,14 @@ namespace Wof.Controller
 
                 d3dxSystem.SetConfigOption("Full Screen", fullScreen);
                 d3dxSystem.SetConfigOption("Video Mode", videoMode);
-
+              
                 window = root.Initialise(true, "Wings Of Fury 2");
 
                 windowHeight = window.Height;
                 windowWidth = window.Width;
 
                 Resize += new EventHandler(OgreForm_Resize);
+                root.SaveConfig();
                 return true;
                 /*if (root.ShowConfigDialog())
                 {
@@ -491,7 +503,6 @@ namespace Wof.Controller
             {
             	sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE;
                 sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new FocusedShadowCameraSetup()));
-              //  sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new PSSMShadowCameraSetup()));
             //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new DefaultShadowCameraSetup()));
             
           	 //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new LiSPSMShadowCameraSetup()));
@@ -502,7 +513,7 @@ namespace Wof.Controller
          	//	sceneMgr.SetShadowTextureReceiverMaterial("Ogre/DepthShadowmap/Receiver/Float");
 		
 				sceneMgr.ShadowTextureSelfShadow = (true);	
-			    sceneMgr.ShadowFarDistance = 180;
+			    sceneMgr.ShadowFarDistance = 130;
 				switch(EngineConfig.ShadowsQuality)
 				{
 					case EngineConfig.ShadowsQualityTypes.Low:
@@ -568,7 +579,7 @@ namespace Wof.Controller
             overlayCamera.FarClipDistance = 100.0f;
         }
 
-        protected static bool CreateSoundSystem(Camera camera,FreeSL.FSL_SOUND_SYSTEM ss)
+        protected static bool CreateSoundSystem(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)
         {
             return SoundManager3D.Instance.InitializeSound(camera, ss);
         }
@@ -1252,26 +1263,19 @@ namespace Wof.Controller
                     CompositionTechnique.TextureDefinition_NativePtr def = t.CreateTextureDefinition("scene");
                     def.width = 0;
                     def.height = 0;
-                   
-                    PixelFormatList pf = new PixelFormatList();
-                    pf.Add( PixelFormat.PF_R8G8B8);
-                    def.formatList = pf;
+                    def.format = PixelFormat.PF_R8G8B8;
                 }
                 {
                     CompositionTechnique.TextureDefinition_NativePtr def = t.CreateTextureDefinition("sum");
                     def.width = 0;
                     def.height = 0;
-                    PixelFormatList pf = new PixelFormatList();
-                    pf.Add(PixelFormat.PF_R8G8B8);
-                    def.formatList = pf;
+                    def.format = PixelFormat.PF_R8G8B8;
                 }
                 {
                     CompositionTechnique.TextureDefinition_NativePtr def = t.CreateTextureDefinition("temp");
                     def.width = 0;
                     def.height = 0;
-                    PixelFormatList pf = new PixelFormatList();
-                    pf.Add(PixelFormat.PF_R8G8B8);
-                    def.formatList = pf;
+                    def.format = PixelFormat.PF_R8G8B8;
                 }
                 /// Render scene
                 {

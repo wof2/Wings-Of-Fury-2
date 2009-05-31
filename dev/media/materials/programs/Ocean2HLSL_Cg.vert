@@ -97,8 +97,9 @@ v2f main(a2v IN,
 	OUT.rotMatrix3.xyz = normalize(float3(ddx, 1, ddy)); // Normal
 
 	OUT.Position = mul(WorldViewProj, P);
-  OUT.Position.y += 0.2;
-  
+OUT.Position.y +=2.0;
+
+
 	// calculate texture coordinates for normal map lookup
 	// dodany bumpSpeed2 zamiast bumpSpeed
 	float2 bumpSpeed2 = float2(0.0, -1.5);

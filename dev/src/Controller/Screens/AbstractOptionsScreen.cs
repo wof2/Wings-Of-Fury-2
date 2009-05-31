@@ -86,7 +86,7 @@ namespace Wof.Controller.Screens
         private List<ButtonHolder> options;
         private int currentScreen;
 
-        private Window guiWindow;
+        protected Window guiWindow;
         private Button exitButton;
         private Button nextButton;
         private Button prevButton;
@@ -137,7 +137,7 @@ namespace Wof.Controller.Screens
             guiWindow.show();
         }
 
-        private void LayoutOptions(List<String> availableOptions, Window window, Callback cc)
+        protected virtual void LayoutOptions(List<String> availableOptions, Window window, Callback cc)
         {
             // trzeba stworzyc siatke opcji
             // w jednej kolumnie nie powinno byc wiecej niz C_MAX_OPTIONS opcji

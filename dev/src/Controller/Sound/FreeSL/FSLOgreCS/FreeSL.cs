@@ -183,25 +183,8 @@ namespace FSLOgreCS
         public static extern void fslSetErrorCallback(ErrorCallbackDelegate d);
 
 
-        [DllImport("FreeSL.dll", EntryPoint = "?fslSetListenerVelocity@@YAXMMM@Z")
-       ]
-        public static extern void fslSetListenerVelocity(float x, float y, float z);
 
-
-        [DllImport("FreeSL.dll", EntryPoint = "?fslSoundSetVelocity@@YAXIMMM@Z")
-        ]
-        public static extern void fslSoundSetVelocity(uint obj, float x, float y, float z);
-
-
-        [DllImport("FreeSL.dll", EntryPoint = "?fslSoundSetPitchAllSounds@@YAXM@Z")
-     ]
-        public static extern void fslSoundSetPitchAllSounds(float p);
-
-
-        [DllImport("FreeSL.dll", EntryPoint = "?fslSoundSetPitch@@YAXIM@Z")
-     ]
-        public static extern void fslSoundSetPitch(uint obj, float p);
-
+       
         
 
       

@@ -1,5 +1,4 @@
-import * from "0DepthShadowmap.material"
-import * from "0NormalMappedSpecular.material"
+
 
 
 material Island: IslandBase

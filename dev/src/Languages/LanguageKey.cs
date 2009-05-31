@@ -72,6 +72,7 @@ namespace Wof.Languages
  
         public const string Antyaliasing = @"Antialiasing";
         public const string AreYouTryingToReachStarsCaptain = @"AreYouTryingToReachStarsCaptain";
+        public const string Assassination = @"Assassination";
         public const string AverageFPS = @"AverageFPS";
 
         #endregion
@@ -81,6 +82,7 @@ namespace Wof.Languages
         public const string Back = @"Back";
         public const string BestFPS = @"BestFPS";
         public const string Blood = @"Blood";
+        public const string BombingRun = @"BombingRun";
         public const string Bombs = @"Bombs";
         public const string BombsAccuracy = @"BombsAccuracy";
         public const string BombsDropped = @"BombsDropped";
@@ -121,6 +123,7 @@ namespace Wof.Languages
 
         public const string Details = @"Details";
         public const string Difficulty = @"Difficulty";
+        public const string Dogfight = @"Dogfight";
         public const string Donate = "Donate";
         public const string DonateMessagePart1 = @"DonateMessagePart1";
         public const string DonateMessagePart2 = @"DonateMessagePart2";
@@ -183,6 +186,8 @@ namespace Wof.Languages
 
         #region ---K---
 
+        public const string KeyboardInfo1 = @"KeyboardInfo1";
+        public const string KeyboardInfo2 = @"KeyboardInfo2";
         public const string KillAllEnemySoldiers = @"KillAllEnemySoldiers";
 
         #endregion
@@ -206,11 +211,14 @@ namespace Wof.Languages
         #region ---M---
 
         public const string Medium = @"Medium";
+        public const string MissionType = @"MissionType";
+        
 
         #endregion
 
         #region ---N---
 
+        public const string Naval = @"Naval";
         public const string Neutralized = @"Neutralized";
         public const string Next = @"Next";
         public const string NewGame = @"NewGame";

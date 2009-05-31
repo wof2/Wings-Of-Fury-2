@@ -18,6 +18,6 @@
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <StartArguments>-DebugInfo -FreeLook -DebugStart 5</StartArguments>
+    <StartArguments>-DebugjjjInfo -FreeLook -DebuugStart 9</StartArguments>
   </PropertyGroup>
 </Project>

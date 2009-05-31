@@ -461,4 +461,52 @@
     <value>Bullet Time</value>
   </data>
 
+  <data name="MissionType">
+    <value>Mission type</value>
+  </data>
+  
+  <!-- available mission types: -->
+  <data name="Dogfight">
+    <value>Dogfight</value> <!-- destroying planes -->
+  </data>
+  
+  
+  <data name="BombingRun">
+    <value>Bombing run</value>
+  </data>
+  
+  
+  <data name="Assassination">
+    <value>Assassination</value> <!-- "kill the generals" -->
+  </data>
+  
+  
+  <data name="Naval">
+    <value>Naval</value> <!-- sink all ships -->
+  </data>
+
+  <data name="KeyboardInfo1">
+    <value>Please use (game_directory)\Release\KeyMap.ini, </value>
+  </data>
+
+  <data name="KeyboardInfo2">
+    <value>file to change key mapping</value>
+  </data>
+  
+  <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
+  <data name="Tutorial0">
+   <value>
+     Mission types:
+     There are several missions types you can encounter throughout the game:
+     Dogfight - shot down all enemy planes to complete the mission.
+     Bombing run - eliminate all enemy soldiers.
+
+
+     Assassination  - enemy generals are hiding in the fortress somewhere in the area. Use your rockets to destroy them.
+     Naval - sink all enemy ships using torpedoes. Keep in mind that you need to fly low and steady before launching torpedoes.
+   </value>
+  </data>
+  
+  
+
 </root>

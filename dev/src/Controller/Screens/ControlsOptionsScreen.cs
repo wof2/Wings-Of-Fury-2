@@ -47,6 +47,7 @@
  */
 
 
+using System;
 using System.Collections.Generic;
 using BetaGUI;
 using Mogre;
@@ -89,5 +90,19 @@ namespace Wof.Controller.Screens
             //return EngineConfig.InverseKeys == "Yes".Equals(option);
             return EngineConfig.InverseKeys == LanguageResources.GetString(LanguageKey.Yes).Equals(option);
         }
+
+        protected override void LayoutOptions(List<String> availableOptions, Window window, Callback cc)
+        {
+            base.LayoutOptions(availableOptions, window, cc);
+            string info1 = LanguageResources.GetString(LanguageKey.KeyboardInfo1);
+            string info2 = LanguageResources.GetString(LanguageKey.KeyboardInfo2);
+            guiWindow.createStaticText(
+               new Vector4(viewport.ActualWidth / 6, C_MAX_OPTIONS * GetTextVSpacing() + 9 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+               info1);
+            guiWindow.createStaticText(
+               new Vector4(viewport.ActualWidth / 6, C_MAX_OPTIONS * GetTextVSpacing() + 10 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+               info2);
+        }
     }
+
 }

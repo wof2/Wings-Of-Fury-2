@@ -98,7 +98,7 @@ namespace Wof.Misc
                         Quadrangle3D quadrangle3D =
                             new Quadrangle3D("BoundingQuadrangle_" + target.Name + "_" + q.GetHashCode());
                         quadrangle3D.SetCorners(q);
-                       // sceneMgr.RootSceneNode.AttachObject(quadrangle3D);
+                        sceneMgr.RootSceneNode.AttachObject(quadrangle3D);
 
                         helperQuandrangles.Add(q, quadrangle3D);
                     }
@@ -114,8 +114,8 @@ namespace Wof.Misc
                 {
                     if (helperQuandrangles.ContainsKey(q))
                     {
-                       // sceneMgr.RootSceneNode.DetachObject((Quadrangle3D) helperQuandrangles[q]);
-                      //  (helperQuandrangles[q] as Quadrangle3D).Dispose();
+                        sceneMgr.RootSceneNode.DetachObject((Quadrangle3D) helperQuandrangles[q]);
+                        (helperQuandrangles[q] as Quadrangle3D).Dispose();
                         helperQuandrangles.Remove(q);
                     }
                 }
@@ -264,7 +264,7 @@ namespace Wof.Misc
         public static Vector3 GetVerticalRayIntersection(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition)
         {
         	Vector3 startPosition = new Vector3(0,10000,0);
-        	Vector3 worldPosition = parent._getDerivedPosition() + localPosition;
+        	Vector3 worldPosition = parent.WorldPosition + localPosition;
         
         	
         	worldPosition.y = 0;
@@ -292,11 +292,11 @@ namespace Wof.Misc
 				}
 				
 			}
-			Vector3 ret = parent._getDerivedPosition() + localPosition;
+			Vector3 ret = parent.WorldPosition + localPosition;
 			
 			ret.y = worldPosition.y;
 			
-			return ret - parent._getDerivedPosition();
+			return ret - parent.WorldPosition;
         	
         }*/
     }

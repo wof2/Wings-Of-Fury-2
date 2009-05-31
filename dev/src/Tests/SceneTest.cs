@@ -621,7 +621,7 @@ namespace Wof.Tests
             carrierAerial1Node.Rotate(Vector3.NEGATIVE_UNIT_Y, evt.timeSinceLastFrame*1.0f, Node.TransformSpace.TS_LOCAL);
 
             /*
-            Vector3 distance = gunEmplacementNode._getDerivedPosition() - playerNode._getDerivedPosition();
+            Vector3 distance = gunEmplacementNode.WorldPosition - playerNode.WorldPosition;
          
             //&& flakBarrelNode.Orientation.
             if (Mogre.Math.Abs(distance.Length) < 50 )

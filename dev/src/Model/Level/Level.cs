@@ -303,7 +303,7 @@ namespace Wof.Model.Level
             
             switch(MissionType)
             {	
-            	case MissionType.Assasination:
+            	case MissionType.Assassination:
             	case MissionType.BombingRun:
                 case MissionType.Naval:
             	    info.Direction = Direction.Left;
@@ -695,7 +695,7 @@ namespace Wof.Model.Level
                                 return;
                             }
                         }
-                        if (this.MissionType == MissionType.Assasination)
+                        if (this.MissionType == MissionType.Assassination)
                         {
                             if (!enemyTile.IsDestroyed && enemyTile.GeneralCount > 0)
                             {
@@ -723,7 +723,7 @@ namespace Wof.Model.Level
                 controller.OnReadyLevelEnd();
             }
             //sprawdzam genera³ów.
-            else if(this.MissionType == MissionType.Assasination)
+            else if(this.MissionType == MissionType.Assassination)
             {
                 if (generalList != null)
                 {
@@ -1250,7 +1250,7 @@ namespace Wof.Model.Level
                         flyDirectionHint = FlyDirectionHint.None;
                     }
                     break;
-        		case MissionType.Assasination:
+        		case MissionType.Assassination:
         				flyDirectionHint = FlyDirectionHint.None;
         			break;
         			

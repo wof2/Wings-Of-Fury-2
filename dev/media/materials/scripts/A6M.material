@@ -1,6 +1,3 @@
-import * from "0NormalMappedSpecular.material"
-
-
 material A6M/Airscrew
 {
 	technique

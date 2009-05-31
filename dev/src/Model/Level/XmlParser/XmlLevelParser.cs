@@ -936,8 +936,8 @@ namespace Wof.Model.Level.XmlParser
         {
             if (name.Equals("BombingRun", StringComparison.InvariantCultureIgnoreCase))
                 return MissionType.BombingRun;
-            else if (name.Equals("Assasination", StringComparison.InvariantCultureIgnoreCase))
-                return MissionType.Assasination;
+            else if (name.Equals("Assassination", StringComparison.InvariantCultureIgnoreCase))
+                return MissionType.Assassination;
             else if (name.Equals("Dogfight", StringComparison.InvariantCultureIgnoreCase))
                 return MissionType.Dogfight;
             else if (name.Equals("Naval", StringComparison.InvariantCultureIgnoreCase))

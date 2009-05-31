@@ -14,7 +14,7 @@ namespace Wof.Model.Level
         /// <summary>
         /// Zabiæ genera³a
         /// </summary>
-        Assasination,
+        Assassination,
 
         /// <summary>
         /// zniszczyæ wszystkie samoloty
