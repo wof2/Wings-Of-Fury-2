@@ -362,6 +362,23 @@ namespace Wof.Controller.Input.Keyboard
             }
             return false;
         }
+        
+        public static string GetName(object keyCodeOrModifier)
+        {
+        	if(keyCodeOrModifier is KeyCode)
+        	{
+        		return ((KeyCode)keyCodeOrModifier).ToString().Substring(3);
+        	}else
+        	if(keyCodeOrModifier is MOIS.Keyboard.Modifier)
+        	{
+        		return ((MOIS.Keyboard.Modifier)keyCodeOrModifier).ToString();
+        	} else
+        	{
+        		return "";
+        	}
+        			
+        	
+        }
 
         #endregion
     }

@@ -1262,47 +1262,65 @@ namespace Wof.Controller.Screens
             y += (int)h;
             c =
                 guiWindow.createStaticText(new Vector4(left, top + y, width, h),
-                                           LanguageResources.GetString(LanguageKey.Engine) + ": " + "E (hold)");
+            	                           LanguageResources.GetString(LanguageKey.Engine) + ": (" + KeyMap.GetName(KeyMap.Instance.Engine)+ " hold)");
             
             // "Engine: E (hold)");
             y += (int)(h * 0.83f);
-            c =
+          
+
+
+            if(KeyMap.Instance.Left == KeyCode.KC_LEFT && KeyMap.Instance.Right == KeyCode.KC_RIGHT )
+            { 
+            	c =
                 guiWindow.createStaticText(new Vector4(left, top + y, width, h),
                                            LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + ": ");
-
-
-            guiWindow.createStaticImage(new Vector4(left + width * 0.5f, top + y - 0.41f * GetFontSize(), GetFontSize() * 0.95f, GetFontSize() * 0.95f), "arrow_left.png");
-            guiWindow.createStaticImage(new Vector4(left + width * 0.5f + h * 0.95f, top + y - 0.41f * GetFontSize(), GetFontSize() * 0.95f, GetFontSize() * 0.95f), "arrow_right.png");
-
+            	guiWindow.createStaticImage(new Vector4(left + width * 0.5f, top + y - 0.41f * GetFontSize(), GetFontSize() * 0.95f, GetFontSize() * 0.95f), "arrow_left.png");
+           		guiWindow.createStaticImage(new Vector4(left + width * 0.5f + h * 0.95f, top + y - 0.41f * GetFontSize(), GetFontSize() * 0.95f, GetFontSize() * 0.95f), "arrow_right.png");
+            } else
+            { 
+            	c =
+                guiWindow.createStaticText(new Vector4(left, top + y, width, h),
+            		                           LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + ": " + KeyMap.GetName(KeyMap.Instance.Left) + "/" +  KeyMap.GetName(KeyMap.Instance.Right));
+            	
+            }
+           
 
             y += (int)(h * 0.83f);
-            c =
+            
+
+            if(KeyMap.Instance.Up == KeyCode.KC_UP && KeyMap.Instance.Down == KeyCode.KC_DOWN )
+            {
+            	c =
                 guiWindow.createStaticText(new Vector4(left, top + y, width, h),
                                            LanguageResources.GetString(LanguageKey.Pitch) + ": ");
+            	guiWindow.createStaticImage(new Vector4(left + width * 0.5f, top + y - 0.35f * GetFontSize(), GetFontSize() * 0.95f, GetFontSize() * 0.95f), "arrow_up.png");
+            	guiWindow.createStaticImage(new Vector4(left + width * 0.5f + h * 0.95f, top + y - 0.35f * GetFontSize(), GetFontSize() * 0.95f, GetFontSize() * 0.95f), "arrow_down.png");
 
-            guiWindow.createStaticImage(new Vector4(left + width * 0.5f, top + y - 0.35f * GetFontSize(), GetFontSize() * 0.95f, GetFontSize() * 0.95f), "arrow_up.png");
-            guiWindow.createStaticImage(new Vector4(left + width * 0.5f + h * 0.95f, top + y - 0.35f * GetFontSize(), GetFontSize() * 0.95f, GetFontSize() * 0.95f), "arrow_down.png");
-
-
+            } else
+            {
+            	c =
+                guiWindow.createStaticText(new Vector4(left, top + y, width, h),
+                                           LanguageResources.GetString(LanguageKey.Pitch) + ": "  + KeyMap.GetName(KeyMap.Instance.Up) + "/" +  KeyMap.GetName(KeyMap.Instance.Down));
+            }
 
 
 
             y += (int)(h * 0.83f);
             c = guiWindow.createStaticText(new Vector4(left, top + y, width, h),  
-                                           LanguageResources.GetString(LanguageKey.Spin) + ": " + "Ctrl");
+                                           LanguageResources.GetString(LanguageKey.Spin) + ": " + KeyMap.GetName(KeyMap.Instance.Spin));
             y += (int)(h * 0.83f);
             c = guiWindow.createStaticText(new Vector4(left, top + y, width, h), 
-                                           LanguageResources.GetString(LanguageKey.Gear) + ": " + "G");
+                                           LanguageResources.GetString(LanguageKey.Gear) + ": " + KeyMap.GetName(KeyMap.Instance.Gear));
             y += (int)(h * 0.83f);
             c = guiWindow.createStaticText(new Vector4(left, top + y, width, h), 
-                                           LanguageResources.GetString(LanguageKey.Gun) + ": " + "Z");
+                                           LanguageResources.GetString(LanguageKey.Gun) + ": " + KeyMap.GetName(KeyMap.Instance.GunFire));
             y += (int)(h * 0.83f);
 
             c = guiWindow.createStaticText(new Vector4(left, top + y, width, h), 
-                                           LanguageResources.GetString(LanguageKey.Bombs) + "/" + LanguageResources.GetString(LanguageKey.Rockets)+ ": " + "X");
+                                           LanguageResources.GetString(LanguageKey.Bombs) + "/" + LanguageResources.GetString(LanguageKey.Rockets)+ ": " + KeyMap.GetName(KeyMap.Instance.AltFire));
             y += (int)(h * 0.83f);
             c = guiWindow.createStaticText(new Vector4(left, top + y, width, h), 
-                                           LanguageResources.GetString(LanguageKey.Camera) + ": " + "C");
+                                           LanguageResources.GetString(LanguageKey.Camera) + ": " + KeyMap.GetName(KeyMap.Instance.Camera));
             y += (int)(h * 0.83f);
             c = guiWindow.createStaticText(new Vector4(left, top + y, width, h),
                                            LanguageResources.GetString(LanguageKey.Zoomin) + ": " + "Page UP");
@@ -1312,7 +1330,7 @@ namespace Wof.Controller.Screens
                                            LanguageResources.GetString(LanguageKey.Zoomout) + ": " + "Page DOWN");
             y += (int)(h * 0.83f);
             c = guiWindow.createStaticText(new Vector4(left, top + y, width, h),
-                                           LanguageResources.GetString(LanguageKey.RearmEndMission) + ": " + "X");
+                                           LanguageResources.GetString(LanguageKey.RearmEndMission) + ": " + KeyMap.GetName(KeyMap.Instance.AltFire));
 
             mGui.mFontSize = oldFontSize;
 
