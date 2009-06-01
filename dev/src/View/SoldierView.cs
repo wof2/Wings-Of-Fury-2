@@ -219,7 +219,7 @@ namespace Wof.View
 
 
             soldierNode.AttachObject(soldierModel);
-            soldierNode.Scale(1.1f, 1.1f, 1.1f);
+            soldierNode.Scale(1.2f, 1.2f, 1.2f);
             runAnimationState = soldierModel.GetAnimationState("run");
             die1AnimationState = soldierModel.GetAnimationState("die1");
             die2AnimationState = soldierModel.GetAnimationState("die2");
@@ -274,10 +274,13 @@ namespace Wof.View
             }
             else if (Soldier is Seaman)
             {
-                //case Soldier.SoldierType.SEAMAN:
+                //case Soldier.SoldierType.SEAMAN:                
                 soldierModel.SetMaterialName("Seaman");
+            } else
+            {
+            	// na razie zwykli zolnierze tez sa seaman
+             	soldierModel.SetMaterialName("Seaman");
             }
-            
             Run();
             refreshPosition();
             soldierNode.SetVisible(true);
