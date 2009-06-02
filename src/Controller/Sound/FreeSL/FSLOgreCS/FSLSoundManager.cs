@@ -143,39 +143,48 @@ namespace FSLOgreCS
             {
                 lock(this)
                 {
+                   
                     if (killUpdater)
                     {
                         updaterRunning = false;
                         killUpdater = false;
                         return;
                     }
+                    try
+                    {
+                        if (updaterRunning)
+                        {
 
-                    if (updaterRunning)
+                            //updaterRunning = true;
+                            if (!_initSound)
+                                return;
+                            _listener.Update();
+
+                            try
+                            {
+                                for (int i = 0; i < _soundObjectVector.Count; i++)
+                                {
+                                    if (_soundObjectVector[i] != null) _soundObjectVector[i].Update();
+                                }
+                            }
+                            catch
+                            {
+
+
+                            }
+
+                            FreeSL.fslUpdate();
+
+                            // Console.WriteLine("Running");
+                        }
+                        FreeSL.fslSleep(0.01f);
+                    }
+                    catch
                     {
                         
-                        //updaterRunning = true;
-                        if (!_initSound)
-                            return;
-                        _listener.Update();
-
-                        try
-                        {
-                            for (int i = 0; i < _soundObjectVector.Count; i++)
-                            {
-                                if (_soundObjectVector[i] != null) _soundObjectVector[i].Update();
-                            }
-                        }
-                        catch
-                        {
-
-
-                        }
-
-                        FreeSL.fslUpdate();
-                        
-                       // Console.WriteLine("Running");
                     }
-                    FreeSL.fslSleep(0.01f);
+                     
+                    
                 }
                
               

@@ -193,7 +193,19 @@ namespace Wof.Model.Level.Planes
             Random r = new Random();
             int atEnd = r.Next(0, 2); //losuje 0 albo 1
             float endPos = (level.LevelTiles.Count)*LevelTile.Width - 2.0f*width;
-            float x = atEnd*endPos + (1 - atEnd)*100;
+
+            float x;
+
+            if (level.MissionType == MissionType.Dogfight && level.EnemyPlanesLeft == level.EnemyPlanesPoolCount)
+            {
+                // pierwszy samolot jest blizej lotniskowca
+                x = atEnd * endPos * 0.6f + (1 - atEnd) * endPos * 0.4f;
+            }
+            else
+            {
+                x = atEnd * endPos + (1 - atEnd) * endPos * 0.05f;
+            }
+           
             x += r.Next(-6, 6);
             float y = r.Next(30, 40);
             info.Direction = atEnd == 0 ? Direction.Right : Direction.Left;

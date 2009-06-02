@@ -75,7 +75,6 @@ using Wof.View;
 using Button = BetaGUI.Button;
 using FontManager = Wof.Languages.FontManager;
 using Math = System.Math;
-using ModelEffectsManager = Wof.Model.Level.Effects.EffectsManager;
 using Plane = Wof.Model.Level.Planes.Plane;
 using ViewEffectsManager = Wof.View.Effects.EffectsManager;
 

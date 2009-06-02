@@ -934,6 +934,7 @@ namespace Wof.Controller.Screens
                 }
                    
             }
+            /*
             if (inputKeyboard.IsKeyDown(KeyCode.KC_W))
             {
             	this.camera.SetPosition(camera.Position.x,camera.Position.y, camera.Position.z - 0.5f);
@@ -976,7 +977,7 @@ namespace Wof.Controller.Screens
             {
             	this.camera.SetPosition(camera.Position.x,camera.Position.y - 0.5f, camera.Position.z );
             }
-           
+           */
 
             if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(joystick, EngineConfig.JoystickButtons.Enter)) 
             {
