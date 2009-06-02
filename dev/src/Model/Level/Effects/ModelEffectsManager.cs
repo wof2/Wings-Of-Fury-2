@@ -55,13 +55,13 @@ namespace Wof.Model.Level.Effects
     /// <summary>
     /// Zarzadza efektami po stronie modelu.
     /// </summary>
-    public sealed class EffectsManager
+    public sealed class ModelEffectsManager
     {
         #region Instance
 
-        private static readonly EffectsManager _manager = new EffectsManager();
+        private static readonly ModelEffectsManager _manager = new ModelEffectsManager();
 
-        public static EffectsManager Instance
+        public static ModelEffectsManager Instance
         {
             get { return _manager; }
         }
@@ -82,12 +82,18 @@ namespace Wof.Model.Level.Effects
         /// <summary>
         /// Konstruktor
         /// </summary>
-        private EffectsManager() 
+        private ModelEffectsManager() 
+        {
+            Reset();
+        }
+
+        public void Reset()
         {
             _timeEffects = new List<TimeEffect>();
             BulletTimeEffect bulletTimeEffect = new BulletTimeEffect(1.0f, GameConsts.Effects.BulletLoadTime, 60);
             bulletTimeEffect.LevelEffectChange += new LevelEffectChangeHandler(BulletTimeEffectLevelEffectChange);
             _timeEffects.Add(bulletTimeEffect);
+            
         }
 
         #endregion

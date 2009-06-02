@@ -337,7 +337,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\Model\Level\Effects\BulletTimeEffect.cs" />
-    <Compile Include="src\Model\Level\Effects\EffectsManager.cs" />
+    <Compile Include="src\Model\Level\Effects\ModelEffectsManager.cs" />
     <Compile Include="src\Model\Level\Effects\EffectState.cs" />
     <Compile Include="src\Model\Level\Effects\TimeEffect.cs" />
     <Compile Include="src\Model\Level\Effects\EffectType.cs" />

@@ -53,6 +53,7 @@ using Wof.Controller;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Carriers;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.Effects;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
@@ -232,6 +233,11 @@ namespace Wof.Model.Level
         /// 
         private int enemyPlanesPoolCount;
 
+        public int EnemyPlanesPoolCount
+        {
+            get { return enemyPlanesPoolCount; }
+        }
+
         /// <summary>
         /// Statystyki poziomu
         /// </summary>
@@ -274,6 +280,7 @@ namespace Wof.Model.Level
         /// <author>Michal Ziober</author>
         public Level(string fileName, IController controller, int lives)
         {
+            ModelEffectsManager.Instance.Reset();
             this.controller = controller;
 
             if (String.IsNullOrEmpty(fileName))
@@ -333,9 +340,17 @@ namespace Wof.Model.Level
             //this.enemyPlane = new EnemyPlane(this);
             //this.enemyPlane.RegisterWeaponEvent += new RegisterWeapon(enemyPlane_RegisterWeaponEvent);
             enemyPlanes = new List<Plane>();
-            timeToFirstEnemyPlane = levelParser.TimeToFirstEnemyPlane;
-            timeToNextEnemyPlane = levelParser.TimeToNextEnemyPlane;
-
+            if(MissionType != Model.Level.MissionType.Dogfight)
+            {
+                timeToFirstEnemyPlane = levelParser.TimeToFirstEnemyPlane;
+                timeToNextEnemyPlane = levelParser.TimeToNextEnemyPlane;
+            }
+            else
+            {
+                timeToFirstEnemyPlane = 0;
+                timeToNextEnemyPlane = levelParser.TimeToNextEnemyPlane * 0.5f;
+            }
+            
             enemyPlanesLeft = enemyPlanesPoolCount = levelParser.EnemyPlanes;
 
             currentTimeToNextEnemy = timeToFirstEnemyPlane;

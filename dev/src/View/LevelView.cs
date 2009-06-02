@@ -1805,8 +1805,8 @@ namespace Wof.View
             skyPlane.d = oceanSize/2.0f;
 
 
-           sceneMgr.SetSkyPlane(true, skyPlane, material, oceanSize/110.0f, 1, true, 0.5f, 10, 10);
-          //  sceneMgr.SetSkyBox(true, "Skybox/Noon", 99999*3, true);
+            sceneMgr.SetSkyPlane(true, skyPlane, material, oceanSize/110.0f, 1, true, 0.5f, 10, 10);
+          //  sceneMgr.SetSkyBox(true, "Skybox/Morning", 10000, true);
      
          //   sceneMgr.SetFog(FogMode.FOG_NONE);
 

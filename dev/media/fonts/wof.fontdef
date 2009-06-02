@@ -13,6 +13,7 @@ Wof_pl-PL
 	size 		16
 	resolution 	96
 	code_points     33-380
+	/*33-125 377-380 */
 }
 
 Wof_ru-RU

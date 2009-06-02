@@ -72,7 +72,7 @@ namespace Wof.Controller.EffectBars
         
         private PointF _startPoint = Point.Empty;
         
-        private static Timer blinkDelay = new Timer();
+        private static Timer blinkDelay;
         
         private ColourValue _colour1 = new ColourValue(0.1f,0.2f,0.1f);
         private ColourValue _colour2 = new ColourValue(0.6f,0.1f,0.1f);
@@ -86,6 +86,7 @@ namespace Wof.Controller.EffectBars
 
         public BulletTimeBar(GUI gui, Viewport viewport, float width, float height)
         {
+            blinkDelay = new Timer();
         	_height = height;
         	_width = width;
         
@@ -109,8 +110,9 @@ namespace Wof.Controller.EffectBars
 
         public void Update(int time)
         {
-            EffectsManager.Instance.UpdateEffect(time, EffectType.BulletTimeEffect);
-            float width = EffectsManager.Instance.GetEffectLevel(EffectType.BulletTimeEffect) * _width;
+           
+            ModelEffectsManager.Instance.UpdateEffect(time, EffectType.BulletTimeEffect);
+            float width = ModelEffectsManager.Instance.GetEffectLevel(EffectType.BulletTimeEffect) * _width;
             //_barOverConta.SetPosition(_startPoint.X, _startPoint.Y - (_heigth - h));
            
             
