@@ -47,6 +47,7 @@
  */
 
 
+using FSLOgreCS;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -58,12 +59,11 @@ using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.View.Effects;
 using Wof.View.TileViews;
-using Math=Mogre.Math;
-
+using Math = Mogre.Math;
 
 namespace Wof.View
 {
-    public class ShipView : CompositeModelView
+    public class ShipView : CompositeModelView, IDisposable
     {
        
         private static int shipCounter = 0;
@@ -76,6 +76,8 @@ namespace Wof.View
             get { return staticNode; }
         }
 
+        
+        private FSLSoundEntity dieSound = null;
         private int count;
 
         #region Minimap representation
@@ -150,6 +152,11 @@ namespace Wof.View
 
         public void OnShipBeginSinking(LevelTile shipTile)
         {
+            if (EngineConfig.SoundEnabled)
+            {
+                dieSound.Play();                
+            }
+            
         	foreach(TileView tv in TileViews)
             {
             	if(tv is ShipBunkerTileView)
@@ -300,6 +307,14 @@ namespace Wof.View
             {
                 tileViews[i].initOnScene(staticNode, i + 1, tileViews.Count);
             }
+             
+            string soundFile = SoundManager3D.C_SHIP_SINKING;
+            if(Mogre.Math.RangeRandom(0,1) > 0.5f)
+            {
+            	soundFile = SoundManager3D.C_SHIP_SINKING_2;
+            }
+            dieSound = SoundManager3D.Instance.CreateSoundEntity(soundFile, mainNode, false, false);
+            dieSound.SetGain(1.5f * EngineConfig.SoundVolume / 100.0f);
 
             // minimapa
             if (FrameWork.DisplayMinimap)
@@ -349,5 +364,13 @@ namespace Wof.View
                 parkedPlanes[i].
             }*/
         }
+    	
+		public void Dispose()
+		{
+		    if (dieSound != null)
+            {
+                 SoundManager3D.Instance.RemoveSound(dieSound.Name); 
+            }
+		}
     }
 }
