@@ -15,7 +15,7 @@
     <value>Bommen</value>
   </data>
   <data name="ChangeOptionMessage1">
-    <value>Verandering van sommige opties gaan pas</value>
+    <value>Verandering van sommige opties treden pas</value>
   </data>
   <data name="ChangeOptionMessage2">
     <value>in werking na opnieuw starten van het spel.</value>
@@ -73,7 +73,7 @@
   </data>
   <!-- ID of the current language -->
   <data name="LanguageID">
-    <value>Dutch</value>
+    <value>Nederlands</value>
   </data>
   <!-- level / stage of the game -->
   <data name="Level">
@@ -142,7 +142,7 @@
     <value>Bezig met laden van shaders</value>
   </data>
   <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
-    <value>Alle vijandige soldaten zijn gedood, land op het vliegdekschip en druk op 'X'</value>
+    <value>Alle vijandige soldaten zijn gedood, land op het vliegdekschip en druk op X</value>
   </data>
   <data name="AverageFPS">
     <value>Gemiddeld aantal FPS</value>
@@ -188,10 +188,10 @@
     <value>Draai toetsen om</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
-    <value>Land op het vliegdekschip en druk op 'X' om bij te tanken</value>
+    <value>Land op het vliegdekschip en druk op X om bij te tanken</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRepair">
-    <value>Land op het vliegdekschip en druk op 'X' voor reparaties</value>
+    <value>Land op het vliegdekschip en druk op X voor reparaties</value>
   </data>
   <!-- low difficulty / details -->
   <data name="Laag">
@@ -211,10 +211,10 @@
     <value>Nee</value>
   </data>
   <data name="PressEToTurnOnTheEngine">
-    <value>Druk op 'E' en blijf indrukken om de motor te starten</value>
+    <value>Druk op 'E' en hou ingedrukt om de motor te starten</value>
   </data>
   <data name="PressXToChangeAmmo">
-    <value>Druk op 'X' om de munite te veranderen, voor reparaties en voor bijtanken</value>
+    <value>Druk op X om de munite te veranderen, voor reparaties en voor bijtanken</value>
   </data>
   <data name="ScreenshotWrittenTo">
     <value>Screenshot geschreven naar</value>
@@ -223,7 +223,7 @@
     <value>Moeilijkheidsgraad</value>
   </data>
   <data name="TriangleCount">
-    <value>Aantal driehoeken</value>
+    <value>Aantal 'triangles'</value>
   </data>
   <data name="WorstFPS">
     <value>Slechtste aantal FPS</value>
@@ -232,10 +232,10 @@
     <value>Ja</value>
   </data>
   <data name="AreYouTryingToReachStarsCaptain">
-    <value>Probeer je nar de sterren te vliegen kapitein?</value>
+    <value>Probeer je naar de sterren te vliegen kapitein?</value>
   </data>
   <data name="EnemyInstallationDestroyed">
-    <value>Vijandige installtie vernietigt kapitein!</value>
+    <value>Vijandige installtie vernietigd kapitein!</value>
   </data>
   <data name="EnemyInstallationsAreBothSideCaptain">
     <value>Er zijn vijandige installaties aan beide kanten kapitein!</value>
@@ -404,33 +404,33 @@
     <value>Torpedo</value>
   </data>
   <data name="Torpedoes">
-    <value>Torpedoes</value>
+    <value>Torpedo's</value>
   </data>
   
  
  <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>All enemy planes destroyed, land on the carrier and press X</value>
+    <value>Alle vijandige vliegtuigen zijn vernietigd, land op het vliegdekschip en drup op X</value>
   </data>
   
   <data name="EnemyPlanesLeft">
-    <value>Enemy planes left</value>
+    <value>Vijandige vliegtuigen overgebleven</value>
   </data>
   
   <data name="Target">
-    <value>Target</value>
+    <value>Doel</value>
   </data>
   
   <data name="Neutralized">
-    <value>Neutralized</value>
+    <value>Geneutraliseerd</value>
   </data>
   
   <data name="Alive">
-    <value>Alive</value>
+    <value>Levend</value>
   </data> 
   
   <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Target neutralized. Land on the carrier and press X</value>
+      <value>Doel geneutraliseerd. Land op het vliegdekschip en drup op X</value>
   </data> 
   
   <!-- enemy ships left to be sunk -->
@@ -439,19 +439,19 @@
   </data>
   
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>All enemy ships destroyed, land on the carrier and press X</value>
+    <value>Alle vijandige schepen zijn vernietigd, land op het vliegdekschip en drup op X</value>
   </data>
   
   <data name="EnemyInstallationDamaged">
-    <value>Enemy installation damaged, Sir!</value>
+    <value>Vijandige installatie beschadigd, kapitein!</value>
   </data>
   
   <data name="TorpedoTooHigh">
-    <value>Altitude too high! Torpedo failed</value>
+    <value>Te hoog afgeworpen! Torpedolancering mislukt</value>
   </data>
   
   <data name="TorpedoLongTravelDistance">
-    <value>Torpedo ran out of fuel! Move closer</value>
+    <value>De torpedo had te weinig brandstof! Werp dichterbij af!</value>
   </data>
 	
 	<!-- Hydrax is a water effects library -->
@@ -460,66 +460,65 @@
   </data>
 
   <data name="Blood">
-    <value>Blood</value>
+    <value>Bloed</value>
   </data>
 
   <!-- Used in the options context like so: "shadows: none" -->
   <data name="None">
-    <value>None</value>
+    <value>Geen</value>
   </data>
 
  <data name="Shadows">
-    <value>Shadows</value>
+    <value>Schaduwen</value>
   </data>
 
   <!-- Bullet time effect - like in Matrix :) -->
   <data name="BulletTime">
-    <value>Bullet Time</value>
+    <value>Tijdsvertraging (Bullet Time)</value>
   </data>
 
   <data name="MissionType">
-    <value>Mission type</value>
+    <value>Type Missie</value>
   </data>
   
   <!-- available mission types: -->
   <data name="Dogfight">
-    <value>Dogfight</value> <!-- destroying planes -->
+    <value>Vliegtuig tegen vliegtuig (Dogfight)</value> <!-- destroying planes -->
   </data>
   
   
   <data name="BombingRun">
-    <value>Bombing run</value>
+    <value>Bommen afwerpen</value>
   </data>
   
   
   <data name="Assassination">
-    <value>Assassination</value> <!-- "kill the generals" -->
+    <value>Iemand dood maken</value> <!-- "kill the generals" -->
   </data>
   
   
   <data name="Naval">
-    <value>Naval</value> <!-- sink all ships -->
+    <value>Marine</value> <!-- sink all ships -->
   </data>
 
   <data name="KeyboardInfo1">
-    <value>Please use (game_directory)\Release\KeyMap.ini, </value>
+    <value>Gebruik a.u.b. (game_directory)\Release\KeyMap.ini, </value>
   </data>
 
   <data name="KeyboardInfo2">
-    <value>file to change key mapping</value>
+    <value>bestand om toets-toewijzing te wijzigen</value>
   </data>
   
   <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
   <data name="Tutorial0">
    <value>
-     Mission types:
-     There are several missions types you can encounter throughout the game:
-     Dogfight - shot down all enemy planes to complete the mission.
-     Bombing run - eliminate all enemy soldiers.
+	Types missies:
+	Er zijn verschillende types missies die je kunt tegenkomen in het spel:
+	Vliegtuig tegen vliegtuig (Dogfight) - Schiet alle vijandige vliegtuigen neer
+	Bommen afwerpen - Dood alle vijandige soldaten
 
-
-     Assassination  - enemy generals are hiding in the fortress somewhere in the area. Use your rockets to destroy them.
-     Naval - sink all enemy ships using torpedoes. Keep in mind that you need to fly low and steady before launching torpedoes.
+	Iemand dood maken - Vijandige generaals verstoppen zich in bunkers ergens in het gebied. Gebruik je raketten om ze te vernietigen.
+	Marine - Breng alle vijandige schepen tot zinken. Bedenk dat je laag en stabiel moet vliegen voordat je een torpedo afwerpt.
    </value>
   </data>
   

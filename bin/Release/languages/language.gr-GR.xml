@@ -377,7 +377,7 @@
   </data>
 
   <data name="Camera">
-    <value>Camera</value>
+    <value>Κάμερα</value>
   </data>
 
   <data name="Zoomin">
@@ -397,126 +397,126 @@
   <!-- added 2.01.2009 -->
 
   <data name="Torpedo">
-    <value>Torpedo</value>
+    <value>Τορπίλη</value>
   </data>
   <data name="Torpedoes">
-    <value>Torpedoes</value>
+    <value>Τορπίλες</value>
   </data>
   
   
  <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>All enemy planes destroyed, land on the carrier and press X</value>
+    <value>Όλα τα εχθρικά αεροσκάφη εχούν καταστραφεί, προσνηώσου στο αεροπλανοφόρο και πάτησε το πλήκτρο X</value>
   </data>
   
   <data name="EnemyPlanesLeft">
-    <value>Enemy planes left</value>
+    <value>Εναπομείναντα εχθρικά αεροσκάφη</value>
   </data>
   
   <data name="Target">
-    <value>Target</value>
+    <value>Ο στόχος</value>
   </data>
   
   <data name="Neutralized">
-    <value>Neutralized</value>
+    <value>Εξουδετερώθηκε</value>
   </data>
   
   <data name="Alive">
-    <value>Alive</value>
+    <value>Ζωντανοί</value>
   </data> 
   
   <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Target neutralized. Land on the carrier and press X</value>
+      <value>Ο στόχος εξουδετερλωθηκε. Προσνηώσου στο αεροπλανοφόρο και πάτησε το πλήκτρο X</value>
   </data> 
   
   <!-- enemy ships left to be sunk -->
   <data name="EnemyShipsLeft">
-    <value>Enemy ships left</value>
+    <value>Εναπομείναντα εχθρικά πλοία</value>
   </data>
   
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>All enemy ships destroyed, land on the carrier and press X</value>
+    <value>Όλα τα εχθρικά πλοία καταστράφηκαν, προσνηώσου στο αεροπλανοφόρο και πάτησε το πλήκτρο Χ</value>
   </data>
   
   <data name="EnemyInstallationDamaged">
-    <value>Enemy installation damaged, Sir!</value>
+    <value>Οι εχθρικές εγκαταστάσεις υπέστησαν ζημίες ,κυβερνήτα! </value>
   </data>
   
   <data name="TorpedoTooHigh">
-    <value>Altitude too high! Torpedo failed</value>
+    <value>Μεγάλο ύψος! Αποτυχία τορπίλης</value>
   </data>
   
   <data name="TorpedoLongTravelDistance">
-    <value>Torpedo ran out of fuel! Move closer</value>
+    <value>Η τορπίλη ξέμεινε απο καύσιμα! Πλησίασε ποιό κοντά</value>
   </data>
 	
 	<!-- Hydrax is a water effects library -->
   <data name="HydraxWater">
-    <value>Hydrax Water</value>
+    <value>Νερό τύπου Hydrax</value>
   </data>
 
   <data name="Blood">
-    <value>Blood</value>
+    <value>Αίμα</value>
   </data>
 
   <!-- Used in the options context like so: "shadows: none" -->
   <data name="None">
-    <value>None</value>
+    <value>Καθόλου</value>
   </data>
 
  <data name="Shadows">
-    <value>Shadows</value>
+    <value>Σκιές</value>
   </data>
 
   <!-- Bullet time effect - like in Matrix :) -->
   <data name="BulletTime">
-    <value>Bullet Time</value>
+    <value>Επιβράδυνση χωροχρόνου</value>
   </data>
 
   <data name="MissionType">
-    <value>Mission type</value>
+    <value>Τύπος Αποστολής</value>
   </data>
   
   <!-- available mission types: -->
   <data name="Dogfight">
-    <value>Dogfight</value> <!-- destroying planes -->
+    <value>Αερομαχία</value> <!-- destroying planes -->
   </data>
   
   
   <data name="BombingRun">
-    <value>Bombing run</value>
+    <value>Βομβαρδισμός</value>
   </data>
   
   
   <data name="Assassination">
-    <value>Assasination</value> <!-- "kill the generals" -->
+    <value>Δολοφονία</value> <!-- "kill the generals" -->
   </data>
   
   
   <data name="Naval">
-    <value>Naval</value> <!-- sink all ships -->
+    <value>Ναυτική</value> <!-- sink all ships -->
   </data>
 
   <data name="KeyboardInfo1">
-    <value>Please use (game_directory)\Release\KeyMap.ini, </value>
+    <value>Παρακαλώ χρησιμοποιήστε (game_directory)\Release\KeyMap.ini, </value>
   </data>
 
   <data name="KeyboardInfo2">
-    <value>file to change key mapping</value>
+    <value>αρχείο πρός αλλαγή προσδιορισμού πλήκτρων</value>
   </data>
   
 
   <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
   <data name="Tutorial0">
    <value>
-     Mission types:
-     There are several missions types you can encounter throughout the game:
-     Dogfight - shot down all enemy planes to complete the mission.
-     Bombing run - eliminate all enemy soldiers.
+     Τύποι Αποστολών:
+     Υπάρχουν πολλοί τύποι αποστολών πού μπορεί να συναντήσετε κατά την διάρκεια του παιχνδιού:
+     Αερομαχία - Καταρίωτε όλα τα αντίπαλα αεροσκάφη για να ολοκληρώσετε την αποστολή.
+     Βομβαρδισμός - Εξολοθρεύστε ύλους τους εχθρικούς στρατιώτες.
 
 
-     Assassination  - enemy generals are hiding in the fortress somewhere in the area. Use your rockets to destroy them.
-     Naval - sink all enemy ships using torpedoes. Keep in mind that you need to fly low and steady before launching torpedoes.
+     Δολοφονία  - Στρατηγοί του εχθρού κρύβοντε στο οχυρό στην γύρω περιοχή fortress somewhere in the area. Χρησιμοποίησε τις ρουκετες για να τους              εξολοθρεύσεις.
+     Ναυτική - Βύθισε ολα τα εχθρικά πλοία χρησιμοποιώντας τορπίλες. Έχε υπόψην οτι πρέπει να πετάς χαμηλά και με σταθερή ταχύτητα πρίν την εκτόξευση των          τορπίλων.
    </value>
   </data>
   
