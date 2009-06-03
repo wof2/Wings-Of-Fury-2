@@ -434,60 +434,60 @@
   </data>
 
   <data name="None">
-    <value>None</value>
+    <value>Брак</value>
   </data>
 
  <data name="Shadows">
-    <value>Shadows</value>
+    <value>Тени</value>
   </data>
 
  <data name="BulletTime">
-    <value>Bullet Time</value>
+    <value>Замедление времени</value>
   </data>
 
   <data name="MissionType">
-    <value>Mission type</value>
+    <value>Виды заданий</value>
   </data>
       
   <!-- available mission types: -->
   <data name="Dogfight">
-    <value>Dogfight</value> <!-- destroying planes -->
+    <value>Борьба</value> <!-- destroying planes -->
   </data>
   
   
   <data name="BombingRun">
-    <value>Bombing run</value>
+    <value>Бомбардировка</value>
   </data>
   
   
   <data name="Assassination">
-    <value>Assassination</value> <!-- "kill the generals" -->
+    <value>Уничтожение</value> <!-- "kill the generals" -->
   </data>
   
   
   <data name="Naval">
-    <value>Naval</value> <!-- sink all ships -->
+    <value>Морской бой</value> <!-- sink all ships -->
   </data>
 
   <data name="KeyboardInfo1">
-    <value>Please use (game_directory)\Release\KeyMap.ini, </value>
+    <value>Если вы хотите изменить клавиши,</value>
   </data>
 
   <data name="KeyboardInfo2">
-    <value>file to change key mapping</value>
+    <value>пожалуста, измените этот файл (каталог_игры)\Release\KeyMap.ini</value>
   </data>
   
   <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
   <data name="Tutorial0">
    <value>
-     Mission types:
-     There are several missions types you can encounter throughout the game:
-     Dogfight - shot down all enemy planes to complete the mission.
-     Bombing run - eliminate all enemy soldiers.
+     Виды заданий:
+     Есть несколько видов миссий, с которыми придется/предстоит столкнуться в ходе игры.
+     Борьба - сбейте все вражеские самолеты.
+     Бомбардировка - уничтожьте всю вражескую пехоту.
 
 
-     Assassination  - enemy generals are hiding in the fortress somewhere in the area. Use your rockets to destroy them.
-     Naval - sink all enemy ships using torpedoes. Keep in mind that you need to fly low and steady before launching torpedoes.
+     Уничтожение - вражеские генералы скрываются в укреплениях, находящихся в этой области. Используй ракеты что бы уничтожить их.
+     Морской бой - потопите все вражеские корабли используя торпеды. Помните, для запуска торпед необходимо лететь низко и плавно.
    </value>
   </data>
   
