@@ -120,6 +120,8 @@ namespace Wof.Controller
         public static bool DisplayMinimap = true; // czy pokazywaæ minimape? (nadpisywane przez wofconf.dat)
  		public static bool UseHydrax = true; // czy korzystaæ z zaawansowanej symulacji wody? (nadpisywane przez wofconf.dat)
 
+ 		public static bool AudioStreaming = false;
+ 		
         public static string Language = "en-GB";
 
         public enum DifficultyLevel
@@ -328,11 +330,21 @@ namespace Wof.Controller
 	                             ShadowsQuality = ShadowsQualityTypes.High;
 	                            break;
 	                    }
-					}
+					}                    
 					catch(Exception)
 					{
 						ShadowsQuality = ShadowsQualityTypes.Medium;
 					}
+					
+					try
+					{
+                    	 AudioStreaming = "true".Equals(configOptions[13]);
+                    }
+                    catch(Exception)
+                    {
+                    	 AudioStreaming = false;
+                    }
+										
                     
                 }
                 else
@@ -348,7 +360,7 @@ namespace Wof.Controller
 
         public static void SaveEngineConfig()
         {
-            String[] configuration = new String[13];
+            String[] configuration = new String[14];
             configuration[0] = BloomEnabled ? "true" : "false";
             configuration[1] = SoundEnabled ? "true" : "false";
             configuration[2] = SoundSystem.ToString();
@@ -362,6 +374,8 @@ namespace Wof.Controller
             configuration[10] = DisplayMinimap ? "true" : "false";
             configuration[11] = UseHydrax ? "true" : "false";
             configuration[12] = ShadowsQuality.ToString();
+            configuration[13] = AudioStreaming.ToString();
+                        
             ExplosionLights = !LowDetails;
             BodiesStay = !LowDetails;
          

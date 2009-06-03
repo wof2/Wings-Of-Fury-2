@@ -9,7 +9,7 @@ namespace Wof.Controller
     /// <summary>
     /// Singleton odpowiadaj¹ce za zaawansowane dŸwiêki oraz dekodowanie muzyki. Wykorzystuje FreeSL.
     /// </summary>
-    internal class SoundManager3D : FSLSoundManager
+    internal class SoundManager3D : FSLSoundManager, IDisposable
     {
 
         public static readonly string C_ENEMY_ENGINE_IDLE = "sounds/enemy_engineidle.ogg";
@@ -22,7 +22,10 @@ namespace Wof.Controller
 
         public static readonly string C_ENEMY_WARCRY = "sounds/banzai.wav";
         public static readonly string C_ENEMY_WARCRY2 = "sounds/banzai2.wav";
-        public static readonly string C_PLANE_PASS = "sounds/plane_pass.wav";   
+        public static readonly string C_PLANE_PASS = "sounds/plane_pass.wav"; 
+        public static readonly string C_SHIP_SINKING = "sounds/ship_sinking.ogg"; 
+        public static readonly string C_SHIP_SINKING_2 = "sounds/ship_sinking2.ogg"; 
+       
 
         private FreeSL.FSL_SOUND_SYSTEM soundSystem;
         private string currentMusic;
@@ -155,7 +158,7 @@ namespace Wof.Controller
 
         public void PlayAmbient(String sound, int volume, bool preloadOnly)
         {
-            PlayAmbient(sound, volume, preloadOnly, true, true);
+            PlayAmbient(sound, volume, preloadOnly, true, EngineConfig.AudioStreaming);
         }
 
         public void PlayAmbient(String sound, bool loop)

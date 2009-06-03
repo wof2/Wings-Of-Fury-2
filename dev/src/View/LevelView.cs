@@ -182,6 +182,10 @@ namespace Wof.View
 
             if (compositeModelViews != null)
             {
+            	foreach(CompositeModelView cmv in compositeModelViews)
+            	{
+            		if(cmv is IDisposable) (cmv as IDisposable).Dispose();
+            	}
                 compositeModelViews.Clear();
                 compositeModelViews = null;
             }
