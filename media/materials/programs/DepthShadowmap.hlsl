@@ -178,15 +178,36 @@ void normalMapShadowReceiverVp(float4 position	: POSITION,
 			 
 			 // outputs
 			 out float4 outPos    	 : POSITION,
+			 out int    outDirectional : TEXCOORD3,
 			 out float4 outShadowUV	 : TEXCOORD0,
 			 out float2 oUv	 		 : TEXCOORD1,
 			 out float3 oTSLightDir  : TEXCOORD2,
+			 out float    lightDist : TEXCOORD4,
+			 out float    attenuationDist : TEXCOORD5,
 			 // parameters
 			 uniform float4 lightPosition, // object space
 			 uniform float4x4 world,
 			 uniform float4x4 worldViewProj,
-			 uniform float4x4 texViewProj)
+			 uniform float4x4 texViewProj,
+			 uniform float4 lightAttenuation
+			 )
 {
+
+  if(lightPosition.w <= 0.5)
+  {
+     outDirectional = 1;
+  } else
+  { 
+     outDirectional = 0;
+  }
+  
+  attenuationDist = lightAttenuation[0];
+
+  float xdist = abs(lightPosition.x - position.x);
+  float ydist = abs(lightPosition.y - position.y);
+  float zdist = abs(lightPosition.z - position.z);
+  lightDist =  sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
+  
 	float4 worldPos = mul(world, position);
 	outPos = mul(worldViewProj, position);
 
@@ -225,30 +246,72 @@ void normalMapShadowReceiverFp(
 			  float4 shadowUV	: TEXCOORD0,
 			  float2 uv			: TEXCOORD1,
 			  float3 TSlightDir : TEXCOORD2,
+			  int    isDirectional : TEXCOORD3,		
+			  float    lightDist : TEXCOORD4,
+			  float    attenuationDist : TEXCOORD5,
 
 			  out float4 result	: COLOR,
 
 			  uniform float4 lightColour,
+			//  uniform float4 shadowDepthRange, 
+			//  uniform int   lightCastsShadows,
 			  uniform float inverseShadowmapSize,
 			  uniform float fixedDepthBias,
 			  uniform float gradientClamp,
 			  uniform float gradientScaleBias,
+			  
+			    
 			  uniform float shadowFuzzyWidth,
+			
 			  
 			  uniform sampler2D   shadowMap : register(s0),
 			  uniform sampler2D   normalMap : register(s1),
 			  uniform samplerCUBE normalCubeMap : register(s2))
 {
 
-	// retrieve normalised light vector, expand from range-compressed
-	float3 lightVec = expand(texCUBE(normalCubeMap, TSlightDir).xyz);
 
-	// get bump map vector, again expand from range-compressed
-	float3 bumpVec = expand(tex2D(normalMap, uv).xyz);
+  
+  float3 lightVec;
+	float3 bumpVec;
+	float4 vertexColour;
+	
+	if(isDirectional == 0)
+  {
+      if(lightDist > attenuationDist)
+      {
+        result = float4(0,0,0,1);
+        return;
+      }
+      
+      // retrieve normalised light vector, expand from range-compressed
+      lightVec = expand(texCUBE(normalCubeMap, TSlightDir).xyz);
+
+      // get bump map vector, again expand from range-compressed
+      bumpVec = expand(tex2D(normalMap, uv).xyz);
 
 
-	// Calculate dot product
-	float4 vertexColour = lightColour * dot(bumpVec, lightVec);
+      // Calculate dot product
+      vertexColour = lightColour * dot(bumpVec, lightVec);
+      
+      
+      result = vertexColour;
+      result *= (attenuationDist - lightDist) / attenuationDist;
+      return;
+  
+  }
+  
+ 
+ // retrieve normalised light vector, expand from range-compressed
+  lightVec = expand(texCUBE(normalCubeMap, TSlightDir).xyz);
+
+  // get bump map vector, again expand from range-compressed
+  bumpVec = expand(tex2D(normalMap, uv).xyz);
+
+
+  // Calculate dot product
+  vertexColour = lightColour * dot(bumpVec, lightVec);
+    
+	
 
 
 	// point on shadowmap
@@ -301,7 +364,10 @@ void normalMapShadowReceiverFp(
 #else
 	result = (finalCenterDepth > shadowUV.z) ? vertexColour : float4(0,0,0,1);
 #endif
-
+ 
+ 
+  
+ 
 #endif
 
 

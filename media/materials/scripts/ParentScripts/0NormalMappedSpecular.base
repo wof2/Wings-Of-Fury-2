@@ -37,17 +37,22 @@ material NormalMappedSpecularBase
 			// Vertex program reference
 			vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
 			{
+      
 			}
 			shadow_receiver_vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
 			{
+       
 			}
 
 			// Fragment program
 			fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
 			{
+        
+
 			}
 			shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
 			{
+			  
 			}
 
 			// shadowmap texture will be bound by code
@@ -103,7 +108,7 @@ material NormalMappedSpecular : NormalMappedSpecularBase
 		{
 			// override just receiver program 
 			shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
-			{
+			{        
 			}
 			
 		}
@@ -142,6 +147,10 @@ material IslandBase
 			}
 			
 		}
+		
+		
+		
+
 		// Now do the lighting pass
 		// NB we don't do decal texture here because this is repeated per light
 		pass lighting
@@ -159,14 +168,17 @@ material IslandBase
 			// Vertex program reference
 			vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
 			{
+          
 			}
 			shadow_receiver_vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
 			{
+        
 			}
 
 			// Fragment program
 			fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
-			{
+			{			
+			
 			}
 			shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
 			{
