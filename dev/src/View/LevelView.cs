@@ -1036,7 +1036,13 @@ namespace Wof.View
             {
                 BombView.FreeInstance(ammunition);
             }
-            if (EngineConfig.ExplosionLights && IsNightScene) av.ExplosionFlash.Visible = false;
+            if (EngineConfig.ExplosionLights && IsNightScene) 
+            {
+            	av.ExplosionFlash.Visible = false;
+            	av.ExplosionFlash.SetDiffuseColour(0,0,0);
+            	av.ExplosionFlash.SetSpecularColour(0,0,0);
+            	//sceneMgr.DestroyLight(av.ExplosionFlash);
+            }
         }
 
         public void OnTileRestored(BunkerTile restoredBunker)
