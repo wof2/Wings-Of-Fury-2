@@ -289,21 +289,23 @@
         Next 5 messages will be concatenated into one.        
  -->
  <data name="DonateMessagePart1">
- 	<value>Wenn dir das Spiel gefällt,</value>
+ 	<value>Wenn dir</value>
  </data>
  <!-- here will goes "Wings of fury 2" - but it's translated already -->
  <data name="DonateMessagePart2">
- 	<value>würden wir uns sehr über eine </value>
+ 	<value>gefällt, würden wir uns</value>
  </data>
  <data name="DonateMessagePart3">
-	 <value>kleine Spende freuen.</value>
+	 <value>sehr über eine kleine Spende freuen.</value>
  </data>
  <data name="DonateMessagePart4">
-	 <value>Geplante Weiterentwicklung:</value>
+	 <value>Dies motiviert zur</value>
  </data>
  <data name="DonateMessagePart5">
- 	<value>Erstellung von Wassereinheiten</value>
+ 	<value>Weiterentwicklung des Spieles.</value>
  </data>
+ 
+ 
  <data name="CameraChanged">
  	<value>Kamera gewechselt</value>
  </data>
@@ -398,125 +400,139 @@
     <value>Torpedo</value>
   </data>
   <data name="Torpedoes">
-    <value>Torpedoes</value>
+    <value>Torpedos</value>
   </data>
   
 
  <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>All enemy planes destroyed, land on the carrier and press X</value>
+    <value>Alle feindlichen Flugzeuge zerstört. Lande auf dem Flugzeugträger und drücke X.</value>
+    <!-- CHECK IF LENGTH IS OK (maybe too long) -->
   </data>
   
   <data name="EnemyPlanesLeft">
-    <value>Enemy planes left</value>
+    <value>Feindliche Flugzeuge fliehen</value>
+    <!-- CECK: right translated?  - "planes go away"  (or did you mean "are still there" or "on left side"?) -->
   </data>
   
   <data name="Target">
-    <value>Target</value>
+    <value>Ziel</value>
   </data>
   
   <data name="Neutralized">
-    <value>Neutralized</value>
+    <value>Kaltgestellt</value>
+    <!-- CHECK:  If the meaning is destroyed, then use e.g. "Kaltgestellt" or "Vernichtet" - I don't know the context -->
   </data>
   
   <data name="Alive">
-    <value>Alive</value>
+    <value>Lebendig</value>
+    <!-- CHECK: there are different possible meanings - which one is needed? Any context? -->
   </data> 
   
   <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Target neutralized. Land on the carrier and press X</value>
+      <value>Ziel neutralisiert. Lande auf dem Flugzeugträger und drücke X.</value>
+    <!-- CHECK IF LENGTH IS OK (maybe too long) -->
   </data> 
   
   <!-- enemy ships left to be sunk -->
   <data name="EnemyShipsLeft">
-    <value>Enemy ships left</value>
+    <value>Feindliche Schiffe sinken</value>
+    <!-- CHECK: translation means - "ships are sinking" - is it right? -->
   </data>
   
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>All enemy ships destroyed, land on the carrier and press X</value>
+    <value>Alle feindlichen Schiffe zerstört. Lande auf dem Flugzeugträger und drücke X.</value>
+    <!-- CHECK IF LENGTH IS OK (maybe too long) -->
   </data>
   
   <data name="EnemyInstallationDamaged">
-    <value>Enemy installation damaged, Sir!</value>
+    <value>Feindliche Anlagen zerstört, Sir!</value>
   </data>
   
   <data name="TorpedoTooHigh">
-    <value>Altitude too high! Torpedo failed</value>
+    <value>Flughöhe zu groß! Torpedo hat Ziel verfehlt.</value>
   </data>
   
   <data name="TorpedoLongTravelDistance">
-    <value>Torpedo ran out of fuel! Move closer</value>
+    <value>Torpedo hat kein Treibstoff mehr. Fliege näher ans Ziel.</value>
+    <!-- CHECK IF LENGTH IS OK (maybe too long) -->
   </data>
 	
 	<!-- Hydrax is a water effects library -->
   <data name="HydraxWater">
-    <value>Hydrax Water</value>
+    <value>Hydrax Wasser-Effekt</value>
   </data>
 
   <data name="Blood">
-    <value>Blood</value>
+    <value>Blut</value>
   </data>
 
   <!-- Used in the options context like so: "shadows: none" -->
   <data name="None">
-    <value>None</value>
+    <value>Keine</value>
   </data>
 
  <data name="Shadows">
-    <value>Shadows</value>
+    <value>Schatten</value>
   </data>
 
   <!-- Bullet time effect - like in Matrix :) -->
   <data name="BulletTime">
-    <value>Bullet Time</value>
+    <value>Zeitlupe</value>
+    <!-- CHECK:  my translation means "slow motion" - right? I don't know what you mean exactly. -->
   </data>
 
   <data name="MissionType">
-    <value>Mission type</value>
+    <value>Missions-Art</value>
   </data>
   
   <!-- available mission types: -->
   <data name="Dogfight">
-    <value>Dogfight</value> <!-- destroying planes -->
+    <value>Luft-Schlacht</value> <!-- destroying planes -->
   </data>
   
   
   <data name="BombingRun">
-    <value>Bombing run</value>
+    <value>Bomben abwerfen</value>
+    <!-- CHECK:  my translation means "drop bombs" - right? -->
   </data>
   
   
   <data name="Assassination">
-    <value>Assassination</value> <!-- "kill the generals" -->
+    <value>Attentat</value> <!-- "kill the generals" -->
   </data>
   
   
   <data name="Naval">
-    <value>Naval</value> <!-- sink all ships -->
+    <value>See-Schlacht</value> <!-- sink all ships -->
   </data>
   
   <data name="KeyboardInfo1">
-    <value>Please use (game_directory)\Release\KeyMap.ini, </value>
+    <value>Bitte nutze Datei (Spiel-Verzeichnis)\Release\KeyMap.ini, </value>
+    <!-- CHECK IF LENGTH IS OK (maybe too long) -->
   </data>
 
   <data name="KeyboardInfo2">
-    <value>file to change key mapping</value>
+    <value>zum Ändern der Tastenbelegung.</value>
   </data>
   
   <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
   <data name="Tutorial0">
    <value>
-     Mission types:
-     There are several missions types you can encounter throughout the game:
-     Dogfight - shot down all enemy planes to complete the mission.
-     Bombing run - eliminate all enemy soldiers.
-
-
-     Assassination  - enemy generals are hiding in the fortress somewhere in the area. Use your rockets to destroy them.
-     Naval - sink all enemy ships using torpedoes. Keep in mind that you need to fly low and steady before launching torpedoes.
+     Missions-Arten:
+     Es gibt verschiedene Missions-Arten, die Du während des Spiels antriffst:
+     Luft-Schlacht - Schieße alle feindlichen Flugzeuge ab, um die Mission zu erfüllen.
+     Bomben abwerfen - Vernichte alle feindlichen Soldaten.
+     
+     Attentat - Feindliche Generäle verstecken sich in einer Festung irgendwo in der Gegend. Nutze Deine Raketen, um sie zu töten.
+     See-Schlacht - Versenke alle gegnerischen Schiffe mit Torpedos. Denke daran, daß Du niedrig und gleichmäßig fliegen mußt, bevor Du die Torpedos abwirfst.
    </value>
   </data>
+
+
   
-  
+  <!-- IDEA: Good for translaters would be to add the content of the splash screen here, too. -->
+
+  <!-- TODO: Check if the umlauts are correct encoded. My editor tells "U8-DOS". If there are problems, please tell me and I use an other encoding. -> beautyod@gmx.de -->
 
 </root>
