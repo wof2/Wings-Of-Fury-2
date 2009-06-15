@@ -104,13 +104,14 @@ namespace Wof.Controller.Screens
                                     "Jonathan Rae",
                                     "Winnow Driscoll",
                                     "Detlef Spengler",
+                                    "Mr. B.",
                                     String.Empty,
                                     "The Winner of the first dogfight competition",
                                     "Jack Flushell",
                                     String.Empty,
                                     LanguageResources.GetString(LanguageKey.SpecialThanksToSteveWaldo),
                                     LanguageResources.GetString(LanguageKey.CreatorOfOriginalWingsOfFury),
-                                    String.Format(@"{0} 2008", LanguageResources.GetString(LanguageKey.Poland)) 
+                                    String.Format(@"{0} 2009", LanguageResources.GetString(LanguageKey.Poland)) 
                                  };
 
         #endregion

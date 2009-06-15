@@ -64,7 +64,7 @@ namespace Wof.Controller
         /// <summary>
         /// Wersja tej kompilacji WOfa. Powinna siê byæ w formacie X.XX
         /// </summary>
-        public static readonly String C_WOF_VERSION = "2.00";
+        public static readonly String C_WOF_VERSION = "3.00";
 
         /// <summary>
         /// Czy bie¿¹ca kompilacja jest demem?
