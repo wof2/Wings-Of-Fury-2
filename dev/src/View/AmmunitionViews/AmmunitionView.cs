@@ -139,9 +139,9 @@ namespace Wof.View
             {
                 explosionFlash = sceneMgr.CreateLight("Ammunition" + GetHashCode() + "_light");
                 explosionFlash.Type = Light.LightTypes.LT_POINT;
-                explosionFlash.SetAttenuation(10.0f, 0.5f, 0.9f, 0.01f);
+                explosionFlash.SetAttenuation(5.0f, 0.0f, 1.0f, 0.00f);
                 explosionFlash.DiffuseColour = new ColourValue(1.0f, 1.0f, 1.0f);
-                explosionFlash.SpecularColour = new ColourValue(0.7f, 0.7f, 0.7f);
+                explosionFlash.SpecularColour = new ColourValue(0.3f, 0.3f, 0.3f);
                 explosionFlash.Visible = false;
                 explosionFlash.CastShadows = false;
             }

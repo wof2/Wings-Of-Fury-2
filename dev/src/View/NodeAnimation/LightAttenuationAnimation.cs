@@ -119,6 +119,15 @@ namespace Wof.View.NodeAnimation
             light.SetDiffuseColour(amplitude*baseDiffuseColour.r, amplitude*baseDiffuseColour.g,
                                    amplitude*baseDiffuseColour.b);
             //  light.SetAttenuation(amplitude * baseAttenuationRange, light.AttenuationConstant, light.AttenuationLinear, light.AttenuationQuadric);
+            if(amplitude <= float.Epsilon)
+            {  
+            	light.Visible = false;
+            	//node.SetVisible(false);
+            } else
+            {
+            	light.Visible = true;
+            	//node.SetVisible(true);
+            }
             lastAmplitude = amplitude;
         }
     }
