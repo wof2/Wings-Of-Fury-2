@@ -306,13 +306,13 @@
     <value>please consider donating.</value>
   </data>
   <data name="DonateMessagePart3">
-    <value>We are looking for funds to</value>
+    <value>via Paypal. We are looking for</value>
   </data>
   <data name="DonateMessagePart4">
-    <value>support further game devel-</value>
+    <value>funds to support further</value>
   </data>
   <data name="DonateMessagePart5">
-    <value>-opment (including naval units).</value>
+    <value>game development.</value>
   </data>
   <!-- message displayed after pressing 'c' (change camera) key. -->
   <data name="CameraChanged">
