@@ -231,7 +231,7 @@ namespace Wof.View
                 if (minimapItem == null)
                 {
                     minimapItem =
-                    new MinimapItem(soldierNode, FrameWork.MinimapMgr, "Cube.mesh", new ColourValue(1.0f, 1.0f, 1.0f),
+                    new MinimapItem(soldierNode, FrameWork.MinimapMgr, "Cube.mesh", new ColourValue(0.97f, 1.0f, 0.66f),
                                     soldierModel);
                     minimapItem.ScaleOverride = new Vector2(4, 7); // stala wysokosc bunkra, niezale¿na od bounding box 
                 }
@@ -417,6 +417,18 @@ namespace Wof.View
 
         public void updateTime(float timeSinceLastFrame)
         {
+        	
+        	if (FrameWork.DisplayMinimap)
+            {
+                if (((DateTime.Now.Millisecond/100.0f)%100) > 7)
+                {
+                    if (minimapItem.IsVisible) minimapItem.Hide();
+                }
+                else
+                {
+                    if (!minimapItem.IsVisible) minimapItem.Show();
+                }
+        	}
             if (animationState.AnimationName.Equals("run"))
             {
                 timeSinceLastFrame *= (soldier.Speed/5.0f); // dopasuj szybkosc animacji do szybkosci zolnierza

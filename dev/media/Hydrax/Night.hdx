@@ -16,7 +16,7 @@ HydraxVersion=0.5.0
 Components=Sun|Foam|Depth|Smooth|Caustics|Underwater|UnderwaterReflections|UnderwaterGodRays
 
 #Sun parameters
-<vector3>SunPosition=-1700x200x-5000
+<vector3>SunPosition=-2200x200x-5000
 <float>SunStrength=0.4
 <float>SunArea=900
 <vector3>SunColor=0.66x0.70x0.8

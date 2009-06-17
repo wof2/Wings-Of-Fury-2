@@ -13,11 +13,10 @@
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
     <ProjectView>ShowAllFiles</ProjectView>
+    <StartArguments>-DebugInfo -FreeLook -DebugdguStafrt 0</StartArguments>
+    <StartWorkingDirectory>bin\Release\</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <StartArguments>-DebugjjjInfo -FreeLook -DebugStart 9</StartArguments>
   </PropertyGroup>
 </Project>

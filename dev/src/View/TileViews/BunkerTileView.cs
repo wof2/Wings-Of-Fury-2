@@ -137,8 +137,13 @@ namespace Wof.View.TileViews
 
             if (FrameWork.DisplayMinimap)
             {
+            	ColourValue col = ColourValue.Red;
+            	if(isConcrete)
+            	{
+            		col = new ColourValue(0,0,0.7f);
+            	}
                 minimapItem =
-                    new MinimapItem(gunPlaceNode, FrameWork.MinimapMgr, "Cube.mesh", ColourValue.Red, installationEntity);
+                    new MinimapItem(gunPlaceNode, FrameWork.MinimapMgr, "Cube.mesh", col, installationEntity);
                 minimapItem.ScaleOverride = new Vector2(0, 15); // stala wysokosc dziala, niezale¿na od bounding box
                 minimapItem.Refresh();
             }
