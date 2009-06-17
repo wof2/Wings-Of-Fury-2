@@ -242,8 +242,8 @@ namespace Wof.Model.Level.Planes
             timeToNextRocket = Math.Max(0, timeToNextRocket);
             //dodane tymczasowo, bo po wgraniu planszy pierwszy komunikat odœwie¿enia przychodzi 
             //z bardzo du¿¹ wartoœci¹ time
-            if (time > timeUnit/10)
-                return;
+         //   if (time > timeUnit/10)
+         //       return;
             if (planeState == PlaneState.Crashed)
             {
                 MoveAfterCrash(time, timeUnit);

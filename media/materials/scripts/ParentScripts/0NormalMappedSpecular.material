@@ -26,7 +26,7 @@ material NormalMappedSpecularBase
 		{
 			// base colours, not needed for rendering, but as information
 			// to lighting pass categorisation routine
-			ambient 0.2 0.2 0.2 
+			ambient 0 0 0
 			
 			// do this for each light
 			iteration once_per_light
@@ -139,7 +139,7 @@ material IslandBase
 			// base colours, not needed for rendering, but as information
 			// to lighting pass categorisation routine
 			ambient 1 1 1
-			diffuse 0 0 0 
+			diffuse 0 0 0
 			specular 0 0 0 0 
 			// Really basic vertex program
 			vertex_program_ref Ogre/BasicVertexPrograms/AmbientOneTextureUnified
@@ -157,7 +157,7 @@ material IslandBase
 		{
 			// base colours, not needed for rendering, but as information
 			// to lighting pass categorisation routine
-			ambient 0 0 0 
+			ambient 0 0 0
 			
 			// do this for each light
 			iteration once_per_light

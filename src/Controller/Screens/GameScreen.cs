@@ -262,6 +262,8 @@ namespace Wof.Controller.Screens
         private IndicatorControl indicatorControl;
         private GameMessages gameMessages;
         private bool wasLeftMousePressed = false;
+        
+        protected bool isFirstFrame;
 
         public GameScreen(GameEventListener gameEventListener,
                           FrameWork framework, Device directSound, int lives, int levelNo)
@@ -269,7 +271,8 @@ namespace Wof.Controller.Screens
         	
         	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Using keys from KeyMap.ini: \n" +  KeyMap.Instance.ToString()); // needed to init KeyMap instance
         	KeyMap.Instance.Value = KeyMap.Instance.Value;
-        		
+        
+        	isFirstFrame = false;
             this.gameEventListener = gameEventListener;
             sceneMgr = FrameWork.SceneMgr;
             viewport = framework.Viewport;
@@ -310,6 +313,7 @@ namespace Wof.Controller.Screens
             {
                 try
                 {
+                	
                     loadingStart = DateTime.Now;
                     LogManager.Singleton.LogMessage("About to load level view...", LogMessageLevel.LML_CRITICAL);
                     levelView = new LevelView(framework, this);
@@ -607,6 +611,7 @@ namespace Wof.Controller.Screens
 
                 if (!loading && loadingOverlay == null)
                 {
+                	
                     isStillFireGun = false;
                     inputMouse.Capture();
                     inputKeyboard.Capture();
@@ -1017,6 +1022,12 @@ namespace Wof.Controller.Screens
                             // natomiast model potrzebuje wartosci w milisekundach
                             // dlatego mnoze przez 1000 i zaokraglam     
                             int timeInterval = (int)Math.Round(evt.timeSinceLastFrame * 1000);
+                            if(isFirstFrame)
+                            {
+                            	// w pierwszej klatce chcemy wyzerowaæ czas
+                            	timeInterval = 0;         
+                            	isFirstFrame = false;
+                            }
                             currentLevel.Update(timeInterval);
                             _bulletTimeBar.Update(timeInterval);
                             if (!readyForLevelEnd)
@@ -1075,6 +1086,7 @@ namespace Wof.Controller.Screens
                 {
                     if (loading == false)
                     {
+                    	isFirstFrame = true;
                         TimeSpan diff = DateTime.Now.Subtract(loadingStart);
                         if (EngineConfig.DebugStart || diff.TotalMilliseconds > EngineConfig.C_LOADING_DELAY)
                         {
