@@ -59,7 +59,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	if(!IsNetfx20Installed())
 	{
-		MessageBox(0,L".NET runtime 2.0 is required.",L"Wings of Fury launching error!",MB_ICONINFORMATION);
+		MessageBox(0,L".NET framework 2.0 is required.",L"Wings of Fury launching error!",MB_ICONINFORMATION);
+		return 0;
 	}
 
 	strcat(dir,"\\bin\\Release");
@@ -79,8 +80,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	if(found != NULL) break;
 	}
 	PostMessage(found,WM_CLOSE,0,0);
-	return 0;
 	*/
+	return 0;
 }
 
 
