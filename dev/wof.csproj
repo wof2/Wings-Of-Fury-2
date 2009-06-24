@@ -99,9 +99,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MHydrax, Version=0.5.0.0, Culture=neutral, processorArchitecture=x86" />
-    <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
-    <Reference Include="Microsoft.DirectX.AudioVideoPlayback, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
-    <Reference Include="Microsoft.DirectX.DirectSound, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.DirectX.AudioVideoPlayback" />
+    <Reference Include="Microsoft.DirectX.DirectSound" />
     <Reference Include="Mogre, Version=1.4.8.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="MOIS, Version=1.1.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="System" />
