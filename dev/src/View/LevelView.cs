@@ -924,7 +924,11 @@ namespace Wof.View
             {
                 BombView.FreeInstance(ammunition);
             }
-            if (EngineConfig.ExplosionLights && IsNightScene) av.ExplosionFlash.Visible = false;
+            if (EngineConfig.ExplosionLights && IsNightScene) 
+            {
+            
+            	av.ExplosionFlash.Visible = false;
+            }
         }
 
         /// <summary>
@@ -1038,10 +1042,11 @@ namespace Wof.View
             }
             if (EngineConfig.ExplosionLights && IsNightScene) 
             {
-            	av.ExplosionFlash.Visible = false;
-            	av.ExplosionFlash.SetDiffuseColour(0,0,0);
-            	av.ExplosionFlash.SetSpecularColour(0,0,0);
-            	//sceneMgr.DestroyLight(av.ExplosionFlash);
+            	NodeAnimation.NodeAnimation ani = EffectsManager.Singleton.GetEffect("LightAnimation" + av.GetHashCode());
+            	//EffectsManager.Singleton.RemoveAnimation(ani);
+            	ani.Enabled = false;
+            	(ani as LightAttenuationAnimation).Light = null;
+            	av.DestroyExplosionFlash();            	
             }
         }
 

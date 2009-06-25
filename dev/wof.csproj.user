@@ -13,15 +13,30 @@
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
     <ProjectView>ShowAllFiles</ProjectView>
-    <StartArguments>-DebugInfo -FreeLook -DebugdguStafrt 0</StartArguments>
-    <StartWorkingDirectory>bin\Release\</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
+    <StartArguments>-DebugInfo -FreeLook -DebugStart 6</StartArguments>
+    <StartWorkingDirectory>bin\Release\</StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <StartArguments>-DebugInfo -FreeLook -DebugStart 10</StartArguments>
-    <StartWorkingDirectory>
-    </StartWorkingDirectory>
+    <StartArguments>-DebugInfo -FreeLook -DebugStart 6</StartArguments>
+    <StartWorkingDirectory>bin\Release\</StartWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <StartArguments>-DebugInfo -FreeLook -DebugdguStafrt 0</StartArguments>
+    <StartWorkingDirectory>bin\Release\</StartWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <StartArguments>-DebugInfo -FreeLook -DebugdguStafrt 0</StartArguments>
+    <StartWorkingDirectory>bin\Release\</StartWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <StartArguments>-DebugInfo -FreeLook -DebugdguStafrt 0</StartArguments>
+    <StartWorkingDirectory>bin\Release\</StartWorkingDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <StartArguments>-DebugInfo -FreeLook -DebugdguStafrt 0</StartArguments>
+    <StartWorkingDirectory>bin\Release\</StartWorkingDirectory>
   </PropertyGroup>
 </Project>

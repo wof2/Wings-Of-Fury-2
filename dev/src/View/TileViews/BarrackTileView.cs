@@ -30,7 +30,7 @@ namespace Wof.View.TileViews
 
             installationNode.Translate(new Vector3(0.0f, levelTile.HitBound.LowestY, 0.0f));
 
-            if (LevelView.IsNightScene)
+            if (LevelView.IsNightScene && EngineConfig.ShadowsQuality == 0) // cienie nie lubia innych zrodel swiatla :/
             {
                 InitLightFlare(new ColourValue(1f, 1f, 0.9f), new Vector3(0, 1.9f, -2.6f), new Vector2(1.5f, 1.5f));
             }

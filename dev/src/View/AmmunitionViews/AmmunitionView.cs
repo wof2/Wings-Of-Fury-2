@@ -135,7 +135,12 @@ namespace Wof.View
 
         protected void preInitOnScene()
         {
-            if (EngineConfig.ExplosionLights && LevelView.IsNightScene)
+           
+        }
+
+        protected virtual void postInitOnScene()
+        {
+        	 if (EngineConfig.ExplosionLights && LevelView.IsNightScene)
             {
                 explosionFlash = sceneMgr.CreateLight("Ammunition" + GetHashCode() + "_light");
                 explosionFlash.Type = Light.LightTypes.LT_POINT;
@@ -149,12 +154,11 @@ namespace Wof.View
 
             SceneNode flashNode = ammunitionNode.CreateChildSceneNode(new Vector3(0.0f, 2.5f, 0.0f));
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene) flashNode.AttachObject(explosionFlash);
-        }
-
-        protected virtual void postInitOnScene()
-        {
+            
+            
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene)
-            {
+            { 
+            	explosionFlash.SetAttenuation(5.0f, 0.0f, 1.0f, 0.00f);
         	  	explosionFlash.DiffuseColour = new ColourValue(0.7f, 0.7f, 0.7f);
         	  	explosionFlash.SpecularColour = new ColourValue(0.3f, 0.3f, 0.3f);
         	  	
@@ -178,10 +182,25 @@ namespace Wof.View
             ammunitionNode.SetVisible(true, false);
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene) explosionFlash.Visible = false;
         }
-
+        public virtual void DestroyExplosionFlash()
+        {
+        	if(explosionFlash != null)
+        	{
+        		explosionFlash.Visible = false;
+	        	explosionFlash.SetDiffuseColour(0,0,0);
+	        	explosionFlash.SetSpecularColour(0,0,0);
+	        	explosionFlash.SetAttenuation(0,0,0,0);
+	        	
+	        	sceneMgr.DestroyLight(explosionFlash);
+	        	explosionFlash = null;
+        	}
+    		
+        }
 
         public virtual void Hide()
         {
+        	            	
+            	
             ammunitionNode.SetVisible(false);
 
             if (FrameWork.DisplayMinimap)
