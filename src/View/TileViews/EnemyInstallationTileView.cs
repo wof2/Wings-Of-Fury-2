@@ -109,7 +109,7 @@ namespace Wof.View.TileViews
 
             light = sceneMgr.CreateLight("EnemyInstallation" + tileID + "_light");
             light.Type = Light.LightTypes.LT_POINT;
-            light.SetAttenuation(5.0f, 0.5f, 0.9f, 0.01f);
+            light.SetAttenuation(5.0f, 0.0f, 1.0f, 0.00f);
             light.DiffuseColour = c1;
             light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);
             light.CastShadows = false;

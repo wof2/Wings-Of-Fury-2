@@ -59,6 +59,11 @@ namespace Wof.View.NodeAnimation
     public abstract class LightAttenuationAnimation : NodeAnimation
     {
         protected Light light;
+        
+		public Light Light {
+			get { return light; }
+			set { light = value; }
+		}
 
         protected float multiplier;
 
@@ -99,7 +104,7 @@ namespace Wof.View.NodeAnimation
             //float lightChange = 0;
 
             frameInit(); // percent, percentAfter, delta and enabled are now set            
-
+ 			if (!enabled) return;
 
             float amplitude = animationFunction(percentAfter*cycleLength.ValueRadians);
 
@@ -116,18 +121,23 @@ namespace Wof.View.NodeAnimation
             }
             startNewLoop = false;
             */
-            light.SetDiffuseColour(amplitude*baseDiffuseColour.r, amplitude*baseDiffuseColour.g,
-                                   amplitude*baseDiffuseColour.b);
-            //  light.SetAttenuation(amplitude * baseAttenuationRange, light.AttenuationConstant, light.AttenuationLinear, light.AttenuationQuadric);
-            if(amplitude <= float.Epsilon)
-            {  
-            	light.Visible = false;
-            	//node.SetVisible(false);
-            } else
-            {
-            	light.Visible = true;
-            	//node.SetVisible(true);
-            }
+           if(light != null)
+           {
+	           	light.SetDiffuseColour(amplitude*baseDiffuseColour.r, amplitude*baseDiffuseColour.g,
+	                                   amplitude*baseDiffuseColour.b);
+	           
+	           
+	            //  light.SetAttenuation(amplitude * baseAttenuationRange, light.AttenuationConstant, light.AttenuationLinear, light.AttenuationQuadric);
+	            if(amplitude <= float.Epsilon)
+	            {  
+	            	light.Visible = false;
+	            	//node.SetVisible(false);
+	            } else
+	            {
+	            	light.Visible = true;
+	            	//node.SetVisible(true);
+	            }
+           }
             lastAmplitude = amplitude;
         }
     }
