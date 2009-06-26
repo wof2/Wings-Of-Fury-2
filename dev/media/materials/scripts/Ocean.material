@@ -515,17 +515,17 @@ material Ocean2_HLSL
         	ambient 0 0 0 
         	
         			// Vertex program reference
-          vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
-          {
-          }
+          //vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
+          //{
+         //}
           shadow_receiver_vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
           {
           }
 
           // Fragment program
-          fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
-          {
-          }
+          //fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
+         // {
+         // }
           shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
           {
           }
@@ -549,12 +549,12 @@ material Ocean2_HLSL
 			//fog_override true exp 0.8 0.8 0.8 0.002 500 10000
 			vertex_program_ref HLSL/Ocean2VS
 			{
-				param_named BumpScale float 0.02
+				param_named BumpScale float 0.09
 				param_named textureScale float2 25 26
 				param_named bumpSpeed float2 0.015 -1
 				param_named_auto time time_0_x 100.0
 				param_named waveFreq float 0.028
-				param_named waveAmp float 0.2
+				param_named waveAmp float 0.1
 			}
 
 			fragment_program_ref HLSL/Ocean2FS
