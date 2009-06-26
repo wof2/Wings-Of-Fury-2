@@ -523,10 +523,10 @@ material Ocean2_HLSL
           }
 
           // Fragment program
-          //fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
+          //fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
          // {
          // }
-          shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
+          shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
           {
           }
 			
