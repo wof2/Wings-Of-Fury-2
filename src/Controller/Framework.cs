@@ -501,19 +501,23 @@ namespace Wof.Controller
 
             if (EngineConfig.ShadowsQuality > 0)
             {
-            	sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE;
-                sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new FocusedShadowCameraSetup()));
-            //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new DefaultShadowCameraSetup()));
-            
-          	 //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new LiSPSMShadowCameraSetup()));
-                
-           
+            	sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE;            
+            	FocusedShadowCameraSetup cam = new FocusedShadowCameraSetup();                       	
+            	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(cam));
+            	
+            //sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new DefaultShadowCameraSetup()));
+           	//  LiSPSMShadowCameraSetup cam = new LiSPSMShadowCameraSetup();
+            //	cam.OptimalAdjustFactor = 3.0f;
+            //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new LiSPSMShadowCameraSetup()));
+            	//sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new  PSSMShadowCameraSetup()));
+            	
+        
               
             	sceneMgr.SetShadowTextureCasterMaterial("Ogre/DepthShadowmap/Caster/Float");
          	//	sceneMgr.SetShadowTextureReceiverMaterial("Ogre/DepthShadowmap/Receiver/Float");
 		
 				sceneMgr.ShadowTextureSelfShadow = (true);	
-			    sceneMgr.ShadowFarDistance = 130;
+			    sceneMgr.ShadowFarDistance = 140;
 				switch(EngineConfig.ShadowsQuality)
 				{
 					case EngineConfig.ShadowsQualityTypes.Low:
@@ -532,13 +536,13 @@ namespace Wof.Controller
 						
 				}
 			   
-			    sceneMgr.SetShadowTexturePixelFormat(PixelFormat.PF_FLOAT32_R);
+			  //  sceneMgr.SetShadowTexturePixelFormat(PixelFormat.PF_FLOAT32_R);
 			 
 			    sceneMgr.ShadowCasterRenderBackFaces = true;
-			//    sceneMgr.ShadowDirLightTextureOffset =0.99f;
+			    sceneMgr.ShadowDirLightTextureOffset =0.9f;
 			    sceneMgr.ShadowDirectionalLightExtrusionDistance = 1000;
-			//    
-		//		sceneMgr.SetShadowUseInfiniteFarPlane(true);
+			//    sceneMgr.SetShadowTextureFadeEnd(0.5f);
+			//	sceneMgr.SetShadowUseInfiniteFarPlane(true);
             }
 
 
