@@ -1843,14 +1843,14 @@ namespace Wof.View
 
                 if (!EngineConfig.LowDetails)
                     EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 100, -500), new Vector2(150, 50),
-                                                       new Degree(2), 10);
+                                                       new Degree(5), 10);
 
                 float cloudZ;
 
                 cloudZ = -4200;
                 EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudZ),
                                            new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
-                                           new Degree(1), 5);
+                                           new Degree(5), 5);
 
                 /*if (level.DayTime == DayTime.Foggy)
                 {
