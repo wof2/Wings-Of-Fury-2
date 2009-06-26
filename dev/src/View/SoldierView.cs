@@ -160,7 +160,7 @@ namespace Wof.View
 
             sv.StopBlood();
 
-            if (hide && FrameWork.DisplayMinimap)
+            if (FrameWork.DisplayMinimap)
             {
                 if (sv.minimapItem != null)
                 {
@@ -387,6 +387,7 @@ namespace Wof.View
 
         public void DieFromExplosion(bool blood)
         {
+        	
             runAnimationState.Enabled = false;
 
             die2AnimationState.Enabled = true;
@@ -418,7 +419,7 @@ namespace Wof.View
         public void updateTime(float timeSinceLastFrame)
         {
         	
-        	if (FrameWork.DisplayMinimap)
+        	if (soldier.IsAlive && FrameWork.DisplayMinimap)
             {
                 if (((DateTime.Now.Millisecond/100.0f)%100) > 7)
                 {
@@ -429,6 +430,7 @@ namespace Wof.View
                     if (!minimapItem.IsVisible) minimapItem.Show();
                 }
         	}
+        	
             if (animationState.AnimationName.Equals("run"))
             {
                 timeSinceLastFrame *= (soldier.Speed/5.0f); // dopasuj szybkosc animacji do szybkosci zolnierza
