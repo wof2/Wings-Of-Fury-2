@@ -88,7 +88,7 @@ v2f main(a2v IN,
 		ddx -= deriv * wave[i].dir.x;
 		ddy -= deriv * wave[i].dir.y;
 	}
-
+P.y += 0.5f;
 	// compute the 3x3 tranform from tangent space to object space
 	// first rows are the tangent and binormal scaled by the bump scale
 
@@ -97,7 +97,7 @@ v2f main(a2v IN,
 	OUT.rotMatrix3.xyz = normalize(float3(ddx, 1, ddy)); // Normal
 
 	OUT.Position = mul(WorldViewProj, P);
-OUT.Position.y +=2.0;
+//OUT.Position.y +=2.0;
 
 
 	// calculate texture coordinates for normal map lookup
@@ -108,5 +108,6 @@ OUT.Position.y +=2.0;
 	OUT.bumpCoord2.xy = IN.TexCoord*textureScale * 4.0 + time * bumpSpeed * 8.0;
 
 	OUT.eyeVector = P.xyz - eyePosition; // eye position in vertex space
+	
 	return OUT;
 }
