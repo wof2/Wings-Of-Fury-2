@@ -320,6 +320,15 @@ void normalMapShadowReceiverFp(
 #else
 	shadowUV = shadowUV / shadowUV.w;
 #endif
+
+  // shadowUV.z contains lightspace position of current object
+  if(shadowUV.z > 1.0f) 
+  {    
+     result = vertexColour;
+     return; // this is a fix for focused shadow camera setup
+  }
+  
+  
 	float centerdepth = tex2D(shadowMap, shadowUV.xy).x;
     
     // gradient calculation
@@ -338,8 +347,9 @@ void normalMapShadowReceiverFp(
 	float depthAdjust = gradientFactor + (fixedDepthBias * centerdepth);
 	float finalCenterDepth = centerdepth + depthAdjust;
 
-	// shadowUV.z contains lightspace position of current object
-
+	
+  
+  
 #if FUZZY_TEST
 	// fuzzy test - introduces some ghosting in result and doesn't appear to be needed?
 	//float visibility = saturate(1 + delta_z / (gradient * shadowFuzzyWidth));
@@ -352,19 +362,21 @@ void normalMapShadowReceiverFp(
 	// use depths from prev, calculate diff
 	depths += depthAdjust.xxxx;
 	float final = (finalCenterDepth > shadowUV.z) ? 1.0f : 0.0f;
+	
 	final += (depths.x > shadowUV.z) ? 1.0f : 0.0f;
 	final += (depths.y > shadowUV.z) ? 1.0f : 0.0f;
 	final += (depths.z > shadowUV.z) ? 1.0f : 0.0f;
 	final += (depths.w > shadowUV.z) ? 1.0f : 0.0f;
-	
 	final *= 0.2f;
+	//
 
 	result = float4(vertexColour.xyz * final, 1);
 	
 #else
 	result = (finalCenterDepth > shadowUV.z) ? vertexColour : float4(0,0,0,1);
 #endif
- 
+  
+  
  
   
  
