@@ -59,7 +59,8 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	if(!IsNetfx20Installed())
 	{
-		MessageBox(0,L".NET framework 2.0 is required.",L"Wings of Fury launching error!",MB_ICONINFORMATION);
+		MessageBox(0,L".NET framework 2.0 is required. Download page will appear after this message.",L"Wings of Fury launching error!",MB_ICONINFORMATION);
+		ShellExecuteA(0,"open","http://www.microsoft.com/downloads/thankyou.aspx?familyId=0856eacb-4362-4b0d-8edd-aab15c5e04f5","",dir,SW_SHOWNORMAL);
 		return 0;
 	}
 
