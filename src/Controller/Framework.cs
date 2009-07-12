@@ -58,7 +58,7 @@ using Microsoft.DirectX.DirectSound;
 using Mogre;
 using MOIS;
 using OIS;
-using Wof.Controller.Input.Keyboard;
+using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
 using Wof.View.Effects;
 using Exception = System.Exception;
@@ -769,7 +769,7 @@ namespace Wof.Controller
             inputKeyboard.Capture();
             if(inputJoystick != null) inputJoystick.Capture();
 
-            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape)) 
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)) 
             {
                 // stop rendering loop
                 shutDown = true;
@@ -994,13 +994,22 @@ namespace Wof.Controller
             inputMouse = (Mouse) inputManager.CreateInputObject(Type.OISMouse, UseBufferedInput);
         }
 
-        public static bool GetJoystickButton(JoyStick j, EngineConfig.JoystickButtons button)
+        public static bool GetJoystickButton(JoyStick j, int button)
         {
             if(j!=null)
             {
                 if ((int)button - 1 < j.JoyStickState.ButtonCount)// indexed from 0
                 {
-                  return j.JoyStickState.GetButton((int) button - 1); 
+                    try
+                    {
+                        return j.JoyStickState.GetButton((int)button - 1); 
+                    }
+                    catch (Exception ex)
+                    {
+                        LogManager.Singleton.LogMessage("Unable to read joystick button state (" + button +"), please check your joystick and Keymap.ini file");
+                        return false;
+                    }
+                  
                 }
             }
             return false;
@@ -1016,24 +1025,38 @@ namespace Wof.Controller
                     return new Vector2(v.x, v.y);
                 } else 
                 {
-                    double deadZone = 0.01f;
+                   
                     int num = j.JoyStickState.AxisCount;
                     if(num >= 2)
                     {
-                        Axis_NativePtr axisV = j.JoyStickState.GetAxis(0);
-                        Axis_NativePtr axisH = j.JoyStickState.GetAxis(1);
-                        
+                        int axisCount = j.JoyStickState.AxisCount;
+
+                        if (KeyMap.Instance.JoystickVerticalAxisNo > axisCount - 1)
+                        {
+                            throw new Exception("JoystickVerticalAxisNo is greater than number of axes. Please change it in your KeyMap.ini");
+                        }
+
+                        if (KeyMap.Instance.JoystickHorizontalAxisNo > axisCount - 1)
+                        {
+                            throw new Exception("JoystickHorizontalAxisNo is greater than number of axes. Please change it in your KeyMap.ini");
+                        }
+
+
+                        Axis_NativePtr axisV = j.JoyStickState.GetAxis(KeyMap.Instance.JoystickVerticalAxisNo);
+                        Axis_NativePtr axisH = j.JoyStickState.GetAxis(KeyMap.Instance.JoystickHorizontalAxisNo);
+                     
+
                         double v = (1.0 * axisV.abs / JoyStick.MAX_AXIS);
                         double h = (1.0 * axisH.abs / JoyStick.MAX_AXIS);
 
                        // Console.WriteLine(h + " " + v);
                      
                       
-                        if (System.Math.Abs(v) < deadZone) v = 0;
+                        if (System.Math.Abs(v) < KeyMap.Instance.JoystickDeadZone) v = 0;
                         else if (v > 1) v = 1;
                         else if (v < -1) v = -1;
 
-                        if (System.Math.Abs(h) < deadZone) h = 0;
+                        if (System.Math.Abs(h) < KeyMap.Instance.JoystickDeadZone) h = 0;
                         else if (h > 1) h = 1;
                         else if (h < -1) h = -1;
                      

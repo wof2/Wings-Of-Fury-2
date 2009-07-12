@@ -47,8 +47,8 @@
  */
 
 using MOIS;
-using Wof.Controller.Input.Keyboard;
 using System;
+using Wof.Controller.Input.KeyboardAndJoystick;
 
 namespace Wof.src.Tests.ControllerTest.Input.Keyboard
 {
