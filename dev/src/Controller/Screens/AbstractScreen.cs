@@ -56,7 +56,7 @@ using FSLOgreCS;
 using MHydrax;
 using Mogre;
 using MOIS;
-using Wof.Controller.Input.Keyboard;
+using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
 using Wof.Model.Configuration;
 using Wof.View;
@@ -812,7 +812,7 @@ namespace Wof.Controller.Screens
                         mGui.injectKey("z", screenx, screeny);
                         KeyReceived("z");
                     }
-                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Escape))) 
+                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape))) 
                     {
                         KeyReceived("ESC");
                         if (tryToPressBackButton()) return;
@@ -823,7 +823,7 @@ namespace Wof.Controller.Screens
                     }
 
 
-                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(inputJoystick, EngineConfig.JoystickButtons.Enter))) 
+                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter))) 
                     {
                         KeyReceived("ENTER");
                         wasEnterKeyPressed = true;
@@ -979,7 +979,7 @@ namespace Wof.Controller.Screens
             }
            */
 
-            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(joystick, EngineConfig.JoystickButtons.Enter)) 
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(joystick, KeyMap.Instance.JoystickEnter)) 
             {
             	
                 wasEnterKeyPressed = true;
@@ -1137,7 +1137,7 @@ namespace Wof.Controller.Screens
             {
                 KeyReceived("z");
             }
-            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(joystick, EngineConfig.JoystickButtons.Escape)) 
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(joystick, KeyMap.Instance.JoystickEscape)) 
             {
                 KeyReceived("ESC");
             }

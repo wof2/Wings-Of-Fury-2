@@ -140,9 +140,19 @@ namespace Wof.View
 
         protected virtual void postInitOnScene()
         {
-        	 if (EngineConfig.ExplosionLights && LevelView.IsNightScene)
+        	if (EngineConfig.ExplosionLights && LevelView.IsNightScene)
             {
-                explosionFlash = sceneMgr.CreateLight("Ammunition" + GetHashCode() + "_light");
+                string lightName = "Ammunition" + GetHashCode() + "_light";
+               
+                if (sceneMgr.HasLight(lightName))
+                {
+                    explosionFlash = sceneMgr.GetLight(lightName);
+                }
+                else
+                {
+                    explosionFlash = sceneMgr.CreateLight(lightName);
+                }
+               
                 explosionFlash.Type = Light.LightTypes.LT_POINT;
                 explosionFlash.SetAttenuation(5.0f, 0.0f, 1.0f, 0.00f);
                 explosionFlash.DiffuseColour = new ColourValue(0.7f, 0.7f, 0.7f);
@@ -153,11 +163,12 @@ namespace Wof.View
             else explosionFlash = null;
 
             SceneNode flashNode = ammunitionNode.CreateChildSceneNode(new Vector3(0.0f, 2.5f, 0.0f));
-            if (EngineConfig.ExplosionLights && LevelView.IsNightScene) flashNode.AttachObject(explosionFlash);
-            
+           
             
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene)
-            { 
+            {
+                if (!explosionFlash.IsAttached) flashNode.AttachObject(explosionFlash);
+            
             	explosionFlash.SetAttenuation(5.0f, 0.0f, 1.0f, 0.00f);
         	  	explosionFlash.DiffuseColour = new ColourValue(0.7f, 0.7f, 0.7f);
         	  	explosionFlash.SpecularColour = new ColourValue(0.3f, 0.3f, 0.3f);

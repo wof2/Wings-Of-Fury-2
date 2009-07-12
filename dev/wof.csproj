@@ -160,8 +160,8 @@
       <DependentUpon>Splash.resx</DependentUpon>
     </Compile>
     <Compile Include="src\Controller\EffectBars\BulletTimeBar.cs" />
-    <Compile Include="src\Controller\Input\Keyboard\KeyCodeConflictException.cs" />
-    <Compile Include="src\Controller\Input\Keyboard\KeyMap.cs" />
+    <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyCodeConflictException.cs" />
+    <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyMap.cs" />
     <Compile Include="src\Controller\Screens\BloodOptionsScreen.cs" />
     <Compile Include="src\Controller\Screens\HydraxOptionsScreen.cs" />
     <Compile Include="src\Controller\Screens\ShadowsOptionsScreen.cs" />

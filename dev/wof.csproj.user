@@ -21,7 +21,8 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <StartArguments>-DebugInfo -FreeLook -DebugStart 6</StartArguments>
-    <StartWorkingDirectory>bin\Release\</StartWorkingDirectory>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <StartArguments>-DebugInfo -FreeLook -DebugdguStafrt 0</StartArguments>

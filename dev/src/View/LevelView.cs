@@ -1044,9 +1044,13 @@ namespace Wof.View
             {
             	NodeAnimation.NodeAnimation ani = EffectsManager.Singleton.GetEffect("LightAnimation" + av.GetHashCode());
             	//EffectsManager.Singleton.RemoveAnimation(ani);
-            	ani.Enabled = false;
-            	(ani as LightAttenuationAnimation).Light = null;
-            	av.DestroyExplosionFlash();            	
+                if(ani!= null)
+                {
+                    ani.Enabled = false;
+                    (ani as LightAttenuationAnimation).Light = null;
+                    av.DestroyExplosionFlash();     
+                }
+            	       	
             }
         }
 
