@@ -676,7 +676,7 @@ namespace Wof.Model.Level.Weapon
             builder.AppendLine("Bomb count: " + bombCount);
             builder.AppendLine("Rocket count: " + rocketCount);
             builder.AppendLine("Torpedo count: " + torpedoCount);
-            builder.AppendLine("Curent weapon: " + actualWeapon);
+            builder.AppendLine("Current weapon: " + actualWeapon);
 
             return builder.ToString();
         }
