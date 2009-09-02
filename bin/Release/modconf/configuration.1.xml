@@ -43,7 +43,7 @@
     breakingMinSpeed = "5"
     sinkingSpeed = "1.3"
     maxHeight = "150"
-    landingSpeed = "2.0"
+    landingSpeed = "2.8"
     userRotateStep = "2.3943951"
     userRotateBrakingFactor = "1.5"
     userMaxRotateValue = "2.0943951"

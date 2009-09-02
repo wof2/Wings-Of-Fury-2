@@ -40,7 +40,7 @@ material Seaman
         {
             ambient 1.0 1.0 1.0
             diffuse 1.0 1.0 1.0
-            specular 0.506471 0.501176 0.541176 0.0
+            specular 0.506471 0.501176 0.741176 0.0
             emissive 0.0 0.0 0.0
             texture_unit
             {

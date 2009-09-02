@@ -349,38 +349,44 @@ namespace Wof.View.Effects
             return m;
         }
 
-        public void Smoke(SceneManager sceneMgr, SceneNode parent, SmokeType type, Vector3 localPosition,
+        public ParticleSystem Smoke(SceneManager sceneMgr, SceneNode parent, SmokeType type, Vector3 localPosition,
                           Vector3 direction, Vector2 defaultParticleSize)
         {
-            Smoke(sceneMgr, parent, type, localPosition, direction, defaultParticleSize, true);
+            return Smoke(sceneMgr, parent, type, localPosition, direction, defaultParticleSize, true);
         }
 
-        public void Smoke(SceneManager sceneMgr, SceneNode parent, SmokeType type, Vector3 localPosition,
+        public ParticleSystem Smoke(SceneManager sceneMgr, SceneNode parent, SmokeType type, Vector3 localPosition,
                           Vector3 direction, Vector2 defaultParticleSize, bool enabled)
         {
             ParticleManager m = GetSmokeManager(type);
             ParticleSystem e = m.Start(sceneMgr, parent, localPosition, direction, defaultParticleSize, enabled);
             if (e != null) smokeSystems[e] = parent;
+            return e;
         }
 
-        public void Smoke(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition, Vector3 direction,
+        public ParticleSystem Smoke(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition, Vector3 direction,
                           Vector2 defaultParticleSize)
         {
             ParticleSystem e = smokeMgr.Start(sceneMgr, parent, localPosition, direction, defaultParticleSize);
             if (e != null) smokeSystems[e] = parent;
+            return e;
         }
 
 
-        public void Smoke(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition, Vector3 direction)
+        public ParticleSystem Smoke(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition, Vector3 direction)
         {
+        	
             ParticleSystem e = smokeMgr.Start(sceneMgr, parent, localPosition, direction);
             if (e != null) smokeSystems[e] = parent;
+            return e;
+           
         }
 
-        public void Smoke(SceneManager sceneMgr, SceneNode parent)
+        public ParticleSystem Smoke(SceneManager sceneMgr, SceneNode parent)
         {
             ParticleSystem e = smokeMgr.Start(sceneMgr, parent);
             if (e != null) smokeSystems[e] = parent;
+            return e;
         }
 
 

@@ -10,8 +10,15 @@
   <aircraft-carrier-restore-ammunition width="1"/>
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
-
+  
   <ocean width="25"/>
+  
+  <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-end width="1" />
+  
+  <ocean width="2"/>
 
   <island-begin variation="3"/>
   <terrain variation="1"/>

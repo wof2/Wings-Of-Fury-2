@@ -179,7 +179,19 @@ namespace Wof.View.TileViews
         public override void Destroy()
         {
             gunNode.Orientation = Quaternion.IDENTITY;
-            base.Destroy();
+            base.Destroy(true, true, true);
+            //smokeParticleSystem.GetEmitter(0).EmissionRate *= 0.5f; 
+            
+            // rescale smoke system
+            smokeParticleSystem.SetDefaultDimensions(0.5f, 0.5f);            
+            for(ushort i=0; i<smokeParticleSystem.NumAffectors; i++)
+            {
+            	if(smokeParticleSystem.GetAffector(i).Type.Equals("Scaler"))
+            	{
+            		smokeParticleSystem.GetAffector(i).SetParameter("rate", "2");
+            	}
+            }
+            
             if (isConcrete)
             {
                 ViewHelper.ReplaceMaterial(installationEntity, "Concrete", "DestroyedConcrete");

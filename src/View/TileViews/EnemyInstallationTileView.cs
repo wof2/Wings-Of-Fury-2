@@ -68,7 +68,8 @@ namespace Wof.View.TileViews
         protected Entity installationEntity;
         protected AnimationState animationState;
 
-
+		protected ParticleSystem smokeParticleSystem = null;
+        
         protected SceneNode gunNode;
 
         public SceneNode GunNode
@@ -132,7 +133,7 @@ namespace Wof.View.TileViews
                
             }
 
-            if(smoke) EffectsManager.Singleton.Smoke(sceneMgr, installationNode, new Vector3(0, -1, 0), Vector3.UNIT_Y);
+            if(smoke) smokeParticleSystem = EffectsManager.Singleton.Smoke(sceneMgr, installationNode, new Vector3(0, -1, 0), Vector3.UNIT_Y);
             SetLightFlareVisibility(false);
 
             if (firePossibility && Math.RangeRandom(0.0f, 1.0f) > 0.8f)

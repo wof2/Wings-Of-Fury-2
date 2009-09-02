@@ -1,35 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="dawn" enemyPlanes="1">
-  <ocean width="125"/>
 
-  <island-begin variation="1"/>
-  <terrain variation="0"/>
-  <concrete-bunker num-soldiers="3" variation="0"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="1"/>
-  <barrack num-soldiers="6" variation="1"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="1"/>
-  <concrete-bunker num-soldiers="3" variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="1"/>
-  <barrack num-soldiers="6" variation="1"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="1"/>
-  <concrete-bunker num-soldiers="3" variation="0"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <island-end/> 
+<level dayTime="noon" missionType="naval" enemyPlanes="1">
+  <ocean width="100"/>
 
-  <ocean width="60"/>
+  <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-end width="1" />
+  
+  <ocean width="11" />
 
+  <ocean width="1" variation="3"/>
+  <ocean width="8" />
 
   <aircraft-carrier-begin width="1"/>
   <aircraft-carrier-middle width="3"/>
@@ -37,31 +20,33 @@
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
 
-  <ocean width="60"/>
-
-  <island-begin variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <barrack num-soldiers="5" />
-  <barrack num-soldiers="6" variation="1"/>
-  <wooden-bunker num-soldiers="3"/>
-  <concrete-bunker num-soldiers="3"/>
-  <terrain variation="1"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <island-end/> 
-
-  <ocean width="40"/>
+  <ocean width="15"/>
+    <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-end width="1" />
   
-  <island-begin variation="2"/>
-  <concrete-bunker num-soldiers="5" variation="3" />
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <concrete-bunker num-soldiers="6" variation="3" />
-  <island-end/> 
-
-
+  
+   
+  
+  <ocean width="19"/>
+  <!-- warship -->
+  <ship-begin width="1" variation="1" traversable="true" type="warship"/>
+  <ship-concrete-bunker num-soldiers="2" traversable="true" variation="1" />
+  <ship-concrete-bunker num-soldiers="2" traversable="false" variation="1" />
+  <ship-deck width="1" variation="2" traversable="false"/>
+  <ship-deck width="1" variation="3" traversable="false"/>
+  <ship-deck width="1" variation="2" traversable="false"/>
+  <ship-deck width="1" variation="1" traversable="false"/>  
+  <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" />
+  <ship-end width="1" variation="1" traversable="false"/>
+  
+  <ocean width="16"/>
+   
+   <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-end width="1" />
+  
   <ocean width="100"/>
 </level>
