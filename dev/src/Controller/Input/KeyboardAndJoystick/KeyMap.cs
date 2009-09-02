@@ -148,7 +148,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 k._down = GetKeyCode("_down", "KC_DOWN");
                 k._left = GetKeyCode("_left", "KC_LEFT");
                 k._right = GetKeyCode("_right", "KC_RIGHT");        	
-                k._bulletTimeEffect = GetKeyCode("_bulletTimeEffect", "KC_BACK");
+                k._bulletTimeEffect = GetKeyCode("_bulletTimeEffect", "KC_SPACE");
                 k._enter = GetKeyCode("_enter", "KC_RETURN");
                 k._back = GetKeyCode("_back", "KC_ESCAPE");
                 k._gear = GetKeyCode("_gear", "KC_G");
@@ -214,7 +214,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 WriteString("_joystickVerticalAxisNo", _joystickVerticalAxisNo.ToString());
                 WriteString("_joystickHorizontalAxisNo", _joystickHorizontalAxisNo.ToString());
 
-                WriteString("_joystickDeadZone", _joystickDeadZone.ToString());
+                WriteString("_joystickDeadZone", _joystickDeadZone.ToString(new System.Globalization.CultureInfo("en-US")));
                 
 
                
