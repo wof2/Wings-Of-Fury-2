@@ -106,7 +106,7 @@ namespace Wof.Controller.Screens
                                             completedLevels[i], cc, completedLevels[i]));
             }
             buttons[completedLevels.Count] =
-                guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing() + 10 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+                guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing() + 20 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                        LanguageResources.GetString(LanguageKey.Back), cc);
 
   //          selectButton(0);

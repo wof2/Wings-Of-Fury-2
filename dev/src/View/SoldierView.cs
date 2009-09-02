@@ -219,7 +219,7 @@ namespace Wof.View
 
 
             soldierNode.AttachObject(soldierModel);
-            soldierNode.Scale(1.2f, 1.2f, 1.2f);
+            soldierNode.Scale(1.3f, 1.35f, 1.3f);
             runAnimationState = soldierModel.GetAnimationState("run");
             die1AnimationState = soldierModel.GetAnimationState("die1");
             die2AnimationState = soldierModel.GetAnimationState("die2");

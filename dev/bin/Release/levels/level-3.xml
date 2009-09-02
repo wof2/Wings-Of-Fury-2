@@ -9,27 +9,10 @@
   <ship-wooden-bunker num-soldiers="1" traversable="false"/>
   <ship-end width="1" />
   
-  <ocean width="10"/>
+
   
-    <!-- warship -->
-  <ship-begin width="1" variation="1" traversable="true" type="warship"/>
-  <ship-concrete-bunker num-soldiers="1" traversable="true" variation="1" />
-  <ship-concrete-bunker num-soldiers="1" traversable="false" variation="1" />
-  <ship-deck width="1" variation="2" traversable="false"/>
-  <ship-deck width="1" variation="3" traversable="false"/>
-  <ship-deck width="1" variation="2" traversable="false"/>
-  <ship-deck width="1" variation="1" traversable="false"/>  
-  <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" />
-  <ship-end width="1" variation="1" traversable="false"/>
+  <ocean width="20"/>
   
-  <ocean width="10"/>
-  
-  <!-- patrolboat -->
-  <ship-begin width="1"/>
-  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
-  <ship-end width="1" />
-  
-  <ocean width="10"/>
   <!-- high island: Island12u -->
   <island-begin variation="10" traversable="false"/>
   <terrain variation="14" traversable="false"/>
@@ -53,23 +36,21 @@
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
 
-  <ocean width="10"/>
+  <ocean width="15"/>
     <!-- patrolboat -->
   <ship-begin width="1"/>
   <ship-wooden-bunker num-soldiers="1" traversable="false"/>
   <ship-end width="1" />
   
-  <ocean width="10"/>
-  <!-- warship -->
-  <ship-begin width="1" variation="1" traversable="true" type="warship"/>
-  <ship-concrete-bunker num-soldiers="1" traversable="true" variation="1" />
-  <ship-concrete-bunker num-soldiers="1" traversable="false" variation="1" />
-  <ship-deck width="1" variation="2" traversable="false"/>
-  <ship-deck width="1" variation="3" traversable="false"/>
-  <ship-deck width="1" variation="2" traversable="false"/>
-  <ship-deck width="1" variation="1" traversable="false"/>  
-  <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" />
-  <ship-end width="1" variation="1" traversable="false"/>
+  
+  
+  <ocean width="19"/>
+  
+     <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="3" traversable="false"/>
+  <ship-end width="1" />
+  
   
   <ocean width="100"/>
 </level>

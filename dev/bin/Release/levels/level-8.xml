@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="foggy" missionType="naval" enemyPlanes="1" timeToNextEnemyPlane="4" timeToFirstEnemyPlane="8">
+<level dayTime="foggy" missionType="naval" enemyPlanes="1" timeToNextEnemyPlane="40000" timeToFirstEnemyPlane="800000">
   <ocean width="1" variation="3"/>
   <ocean width="19"/>
   <ocean width="1" variation="2"/>
   <ocean width="19"/>
   <ocean width="1" variation="4"/>
+  
+   <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <!-- <ship-concrete-bunker num-soldiers="3"/>-->
+  <!--  <ship-deck width="1"/> -->
+  <ship-end width="1" />
+  
   <ocean width="19"/>
   <island-begin variation="0"/>
   <concrete-bunker num-soldiers="3"/>
@@ -14,8 +22,7 @@
   <terrain variation="2"/>
   <barrack num-soldiers="5" />
   <barrack num-soldiers="6" variation="1"/>
-  <wooden-bunker num-soldiers="3"/>
-  
+  <wooden-bunker num-soldiers="3"/>  
   <terrain variation="1"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
@@ -25,39 +32,6 @@
   <ocean width="10"/>
   <ocean width="1" variation="3"/>
   <ocean width="10"/>
-  <!-- high island: Island12u -->
-  <island-begin variation="1"/>
-  <terrain variation="1"/>
-  <concrete-bunker num-soldiers="3" variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <island-end/> 
-  <!-- high island: Island12u -->
-  <ocean width="12"/>
-
-  <ocean width="1" variation="3"/>
-
-  <ocean width="25"/>
-  <ocean width="1" variation="2" />
-
-  <!-- patrolboat -->
-  <ship-begin width="1"/>
-  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
-  <!-- <ship-concrete-bunker num-soldiers="3"/>-->
-  <!--  <ship-deck width="1"/> -->
-  <ship-end width="1" />
-
-  <ocean width="20"/>
-
-  <!-- patrolboat -->
-  <ship-begin width="1"/>
-  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
-  <!-- <ship-concrete-bunker num-soldiers="3"/>-->
-  <!--  <ship-deck width="1"/> -->
-  <ship-end width="1" />
-  
-  <ocean width="20"/>
-  
   <!-- warship -->
   <ship-begin width="1" variation="1" traversable="true" type="warship"/>
   <ship-concrete-bunker num-soldiers="1" traversable="true" variation="1" />
@@ -68,10 +42,39 @@
   <ship-deck width="1" variation="1" traversable="false"/>  
   <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" />
   <ship-end width="1" variation="1" traversable="false"/>
+  
+  <ocean width="11"/>
+  
+  <!-- high island: Island12u -->
+  <island-begin variation="1"/>
+  <terrain variation="1"/>
+  <concrete-bunker num-soldiers="3" variation="2"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <island-end/> 
+  <!-- high island: Island12u -->
+  
+  
+  <ocean width="12"/>
 
+  <ocean width="1" variation="3"/>
+
+  <ocean width="20"/>
+  <ocean width="1" variation="2" />
+
+ 
+
+  <ocean width="12"/>
+
+  <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <!-- <ship-concrete-bunker num-soldiers="3"/>-->
+  <!--  <ship-deck width="1"/> -->
+  <ship-end width="1" />
+  
+  <ocean width="20"/>
   <ocean width="6" />
-
-
 
   
   <aircraft-carrier-begin width="1"/>
@@ -85,21 +88,7 @@
   <ocean width="1" variation="4"/>
   <ocean width="24"/>
 
-  <island-begin variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <wooden-bunker num-soldiers="3"/>
-  <terrain variation="0"/>
-  <barrels variation="0" traversable="false"/>
-  <terrain variation="2"/>
-  <barrack num-soldiers="6" variation="1"/>
-  <terrain variation="0"/>
-
-  <terrain variation="0" traversable="false"/>
-  <wooden-bunker num-soldiers="3"/>
-  <terrain variation="2"/>
-  <island-end/> 
-
+  
 
 
   <ocean width="30"/>
@@ -122,19 +111,19 @@
   <concrete-bunker num-soldiers="3"/>
   <island-end/>
   <!-- lane island: Island18u -->
-
-  
-  
-  
-
+ 
   <ocean width="21"/>
+  <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <!-- <ship-concrete-bunker num-soldiers="3"/>-->
+  <!--  <ship-deck width="1"/> -->
+  <ship-end width="1" />
 
-  <island-begin variation="4"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <wooden-bunker num-soldiers="3"/>
-  <terrain variation="0"/>
-  <island-end/> 
+
+
+  
+  
 
   <ocean width="100"/>
 </level>

@@ -1879,8 +1879,8 @@ namespace Wof.View
             // create a default point light
             Light light = sceneMgr.CreateLight("MainLight");
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
-            light.Position = new Vector3(0, 1000, -500);
-            light.Direction = new Vector3(10, -20, 10);
+           
+            light.Direction = new Vector3(1, -1, 2);
             light.Direction.Normalise();
             light.DiffuseColour = new ColourValue(0.95f, 0.90f, 0.90f);
             light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);
@@ -1890,15 +1890,15 @@ namespace Wof.View
 
         private void InitLight()
         {
-        	Vector3 lpos = new Vector3(-15, 500, 250);
+        
             // create a default point light
             Light light = sceneMgr.CreateLight("MainLight");
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
         //    light.Type = Light.LightTypes.LT_SPOTLIGHT;
          //   light.SetSpotlightRange(new Degree(60),new Degree(90));		  
             
-            light.Position = lpos;
-            Vector3 dir = new Vector3(28, -18, 20);
+         
+            Vector3 dir = new Vector3(2.8f, -1.8f, 3.0f);
             dir.Normalise();
             light.SetDirection(dir.x, dir.y, dir.z);
             light.DiffuseColour = new ColourValue(0.50f, 0.50f, 0.52f);

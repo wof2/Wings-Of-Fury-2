@@ -61,5 +61,6 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             : base(yBegin, yEnd, viewXShift, hitBound, soldierNum, generalNum, type, collisionRectangle)
         {
         }
+            
     }
 }

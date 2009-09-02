@@ -3,12 +3,7 @@
 <level dayTime="night" missionType="dogFight" enemyPlanes="5" timeToFirstEnemyPlane="0" timeToNextEnemyPlane="30000">
   <ocean width="30"/>
 
-  <island-begin variation="1"/>
-  <terrain variation="1"/>
-  <concrete-bunker num-soldiers="3" variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <island-end/> 
+
 
   <ocean width="20"/>
   <ocean width="1" variation="3"/>
@@ -39,28 +34,11 @@
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
   <ocean width="1" variation="4"/>
-  <ocean width="10"/>
-      <!-- patrolboat -->
-  <ship-begin width="1"/>
-  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
-  <ship-end width="1" />
+
   
   <ocean width="30"/>
   <ocean width="1" variation="1"/>
   
-  <island-begin variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <barrack num-soldiers="5" />
-  <barrack num-soldiers="6" variation="1"/>
-  <wooden-bunker num-soldiers="3"/>
-  <concrete-bunker num-soldiers="3"/>
-  <terrain variation="1"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <island-end/> 
-  <ocean width="1" variation="4"/>
+
   <ocean width="30"/>
 </level>

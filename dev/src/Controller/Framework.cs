@@ -531,7 +531,7 @@ namespace Wof.Controller
 					
 					case EngineConfig.ShadowsQualityTypes.High:
 						 sceneMgr.SetShadowTextureSettings(2048, 2);
-						 sceneMgr.ShadowFarDistance *= 1.4f;
+						 sceneMgr.ShadowFarDistance *= 1.3f;
 					break;					
 						
 				}
