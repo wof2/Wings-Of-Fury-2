@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<level dayTime="noon" missionType="naval" enemyPlanes="2">
+  <ocean width="100"/>
+
+  <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-end width="1" />
+  
+  <ocean width="8"/>
+  
+  <!-- warship -->
+  <ship-begin width="1" variation="1" traversable="true" type="warship"/>
+  <ship-concrete-bunker num-soldiers="2" traversable="true" variation="1" />
+  <ship-concrete-bunker num-soldiers="3" traversable="false" variation="1" />
+  <ship-deck width="1" variation="2" traversable="false"/>
+  <ship-deck width="1" variation="3" traversable="false"/>
+  <ship-deck width="1" variation="2" traversable="false"/>
+  <ship-deck width="1" variation="1" traversable="false"/>  
+  <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" />
+  <ship-end width="1" variation="1" traversable="false"/>
+  
+  <ocean width="8"/>
+  
+  <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-end width="1" />
+  
+  <ocean width="20"/>
+  
+  <!-- high island: Island12u -->
+  <island-begin variation="10" traversable="false"/>
+  <terrain variation="14" traversable="false"/>
+  <terrain variation="15" traversable="false"/>
+  <barrels variation="0" />
+  <barrack num-soldiers="6" variation="1"/>
+  <wooden-bunker num-soldiers="3"/>
+  <terrain variation="0" width="1" traversable="true"/>
+  <terrain variation="10" width="1" traversable="false"/>
+  <terrain variation="13" width="1" traversable="false"/>
+  <terrain variation="12" width="1" traversable="false"/>
+  <terrain variation="11" width="1" traversable="false"/>
+  <island-end variation="10" traversable="false"/>
+  <!-- high island: Island12u -->
+  <ocean width="1" variation="3"/>
+  <ocean width="9" />
+
+  <aircraft-carrier-begin width="1"/>
+  <aircraft-carrier-middle width="3"/>
+  <aircraft-carrier-restore-ammunition width="1"/>
+  <aircraft-carrier-middle width="1"/>
+  <aircraft-carrier-end width="3"/>
+
+  <ocean width="15"/>
+    <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-end width="1" />
+  
+  <ocean width="19"/>
+  <!-- warship -->
+  <ship-begin width="1" variation="1" traversable="true" type="warship"/>
+  <ship-concrete-bunker num-soldiers="1" traversable="true" variation="1" />
+  <ship-concrete-bunker num-soldiers="1" traversable="false" variation="1" />
+  <ship-deck width="1" variation="2" traversable="false"/>
+  <ship-deck width="1" variation="3" traversable="false"/>
+  <ship-deck width="1" variation="2" traversable="false"/>
+  <ship-deck width="1" variation="1" traversable="false"/>  
+  <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" />
+  <ship-end width="1" variation="1" traversable="false"/>
+  
+  <ocean width="100"/>
+</level>

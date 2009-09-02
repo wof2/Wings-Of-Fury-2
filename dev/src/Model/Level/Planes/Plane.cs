@@ -74,6 +74,8 @@ namespace Wof.Model.Level.Planes
     	public float Speed = 0;	
     	public WheelsState WheelsState = WheelsState.Out;  
     	public EngineState EngineState = EngineState.SwitchedOff;
+    	
+    	public MissionType MissionType = MissionType.BombingRun;
        
     }
     
@@ -763,15 +765,24 @@ namespace Wof.Model.Level.Planes
             if(info != null) Init();
 
             weaponManager = new WeaponManager(level, this);
-
-            if (info != null && info.PositionType == StartPositionType.Airborne)
+            if(info == null)
             {
-                weaponManager.SelectWeapon = WeaponType.Rocket;
-            }
-            else
+            	weaponManager.SelectWeapon = WeaponType.Bomb;            	
+            }else
             {
-                weaponManager.SelectWeapon = WeaponType.Bomb; //Domyslna ciezka amunicja.
+            	if (info.MissionType == MissionType.Dogfight)
+	            {
+	                weaponManager.SelectWeapon = WeaponType.Rocket;
+	            }
+	            else if (info.MissionType == MissionType.Naval)
+	            {
+	                weaponManager.SelectWeapon = WeaponType.Torpedo;
+	            } else 
+	            {
+	            	weaponManager.SelectWeapon = WeaponType.Bomb;
+	            }
             }
+            
             weaponManager.RegisterWeaponToModelEvent += weaponManager_RegisterWeaponToModelEvent;
 
             this.isEnemy = isEnemy;

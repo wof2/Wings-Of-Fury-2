@@ -271,6 +271,14 @@ namespace Wof.Model.Level
         {
 
         }
+        
+        public static MissionType GetMissionType(string fileName)
+        {
+        	if (String.IsNullOrEmpty(fileName))
+                throw new IOException("File name must be set !");
+        	return ReadEncodedXmlFile(fileName).MissionType;       	
+        	
+        }
 
         /// <summary>
         /// Publiczny konstruktor.
@@ -285,7 +293,7 @@ namespace Wof.Model.Level
 
             if (String.IsNullOrEmpty(fileName))
                 throw new IOException("File name must be set !");
-            ReadEncodedXmlFile(fileName);
+            levelParser = ReadEncodedXmlFile(fileName);
             SetAttributesForInstallationsAndShips();
             soldierList = new List<Soldier>(10);
             generalList = new List<General>(1);
@@ -316,7 +324,8 @@ namespace Wof.Model.Level
             	    info.Direction = Direction.Left;
 		            info.EngineState = EngineState.SwitchedOff;
 		            info.PositionType = StartPositionType.Carrier;
-		            info.WheelsState = WheelsState.Out;      
+		            info.WheelsState = WheelsState.Out;    
+		           
             	break;
             	
             	
@@ -331,6 +340,7 @@ namespace Wof.Model.Level
             	
             }
                  
+            info.MissionType = MissionType;
          
             userPlane = new Plane(this, false, info);
             userPlane.RegisterWeaponEvent += userPlane_RegisterWeaponEvent;
@@ -1048,9 +1058,9 @@ namespace Wof.Model.Level
         /// <remarks>Zaleca siê przed kontynuowaniem dalszych operacji sprawdziæ, czy aby napewno
         /// plik zostal wczytany poprawnie.</remarks>
         /// <author>Michal Ziober</author>
-        private void ReadEncodedXmlFile(String fileName)
+        private static XmlLevelParser ReadEncodedXmlFile(String fileName)
         {
-            levelParser = new XmlLevelParser(fileName);
+            return new XmlLevelParser(fileName);
         }
 
         /// <summary>

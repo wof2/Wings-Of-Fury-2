@@ -28,7 +28,7 @@
   -->
   <UserPlane 
     oilLoss="0.05"
-    moveStep="10"
+    moveStep="11"
     maxSpeed="65"
     petrolLoss="1"
     bombCount="30"
