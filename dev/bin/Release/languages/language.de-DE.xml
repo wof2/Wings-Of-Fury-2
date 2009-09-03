@@ -528,6 +528,10 @@
      See-Schlacht - Versenke alle gegnerischen Schiffe mit Torpedos. Denke daran, daß Du niedrig und gleichmäßig fliegen mußt, bevor Du die Torpedos abwirfst.
    </value>
   </data>
+  
+  <data name="EnemyGenerals">
+    <value>Feindliche Generäle</value>
+  </data>
 
 
   

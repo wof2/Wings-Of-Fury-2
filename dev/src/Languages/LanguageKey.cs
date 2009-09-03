@@ -138,6 +138,7 @@ namespace Wof.Languages
         public const string EnableBloom = @"EnableBloom";
         public const string EnableSound = @"EnableSound";
         public const string EnableVSync = @"EnableVSync";
+        public const string EnemyGenerals = @"EnemyGenerals";  
         public const string EnemyInstallationsAreBothSideCaptain = @"EnemyInstallationsAreBothSideCaptain";
         public const string EnemyInstallationsAreLeftCaptain = @"EnemyInstallationsAreLeftCaptain";
         public const string EnemyInstallationsAreRightCaptain = @"EnemyInstallationsAreRightCaptain";

@@ -484,7 +484,7 @@ namespace Wof.View
             // strzalka nad glowna genera³a
             if(missionType == MissionType.Assassination)
             {
-            	sv.showArrow();
+            	if(soldier is General) sv.showArrow();
             }
             soldierViews.Add(sv);
         }

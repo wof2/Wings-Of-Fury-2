@@ -486,6 +486,7 @@
   </data>
   
   
+  
   <data name="Naval">
     <value>Morska</value> <!-- sink all ships -->
   </data>
@@ -511,6 +512,10 @@
    </value>
   </data>
   
+  
+  <data name="EnemyGenerals">
+    <value>Generałów</value>
+  </data>
   
 
 </root>
