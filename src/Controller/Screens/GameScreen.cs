@@ -524,7 +524,7 @@ namespace Wof.Controller.Screens
             // preloader tekstur
             if(EngineConfig.UseHardwareTexturePreloader)
             {
-	            MaterialPtr preloadingMaterial = ViewHelper.BuildPreloaderMaterial();             
+	            MaterialPtr preloadingMaterial = ViewHelper.BuildPreloaderMaterial(EngineConfig.HardwareTexturePreloaderTextureLimit);             
 	            if(preloadingMaterial != null)
 	            {
 		            preloadingOverlay = OverlayManager.Singleton.GetByName("Wof/Preloader");  
@@ -1855,12 +1855,15 @@ namespace Wof.Controller.Screens
                     gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.TorpedoTooLongTravelDistance));
             }
         }
-
-        public void OnTileDamaged(LevelTile tile, Ammunition ammunition)
+		public void OnFortressHit(FortressBunkerTile tile, Ammunition ammunition)
         {
-            gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.EnemyInstallationDamaged));
-            OnTileBombed(tile, ammunition);
-        }
+			gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.EnemyInstallationDamaged));            
+			OnTileBombed(tile, ammunition);			
+			levelView.OnFortressHit(tile, ammunition);
+			
+		}
+    
+        
 
         public void OnTileBombed(LevelTile tile, Ammunition ammunition)
         {

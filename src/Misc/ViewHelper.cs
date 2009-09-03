@@ -242,7 +242,7 @@ namespace Wof.Misc
             }
         }
 
-        public static MaterialPtr BuildPreloaderMaterial()
+        public static MaterialPtr BuildPreloaderMaterial(int maxTextures)
         {
         	Pass pass;           
             Technique t;
@@ -267,7 +267,7 @@ namespace Wof.Misc
             ResourceManager.ResourceMapIterator i = TextureManager.Singleton.GetResourceIterator();       
             int j = 0;
             int k = 0;
-            while(j < 128 && i.MoveNext())
+            while(j <  System.Math.Ceiling(maxTextures / 2.0f) && i.MoveNext())
             {
             	j++;            
             	pass = t.CreatePass();

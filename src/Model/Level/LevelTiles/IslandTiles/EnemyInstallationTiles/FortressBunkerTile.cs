@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+
 using Wof.Model.Level.Common;
+using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+using Wof.Model.Level.Weapon;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 {
@@ -27,7 +29,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 
         public void Hit()
         {
-            if (!IsDestroyed && rocketHitsLeft > 0) rocketHitsLeft--;
+            if (!IsDestroyed && rocketHitsLeft > 0) rocketHitsLeft--;          
         }
         
     }
