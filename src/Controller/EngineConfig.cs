@@ -80,9 +80,10 @@ namespace Wof.Controller
         
         public static readonly bool DisplayAxes = false;
 
-        public static readonly bool DisplayBoundingQuadrangles = true;
+        public static readonly bool DisplayBoundingQuadrangles = false;
 
         public static readonly bool AutoEncodeXMLs = true;
+      
 
         /// <summary>
         /// Ustawiane tylko przy ladowaniu zmiennych z argv (-FreeLook). Punkt odniesienia
@@ -120,6 +121,8 @@ namespace Wof.Controller
         public static bool DisplayMinimap = true; // czy pokazywaæ minimape? (nadpisywane przez wofconf.dat)
  		public static bool UseHydrax = true; // czy korzystaæ z zaawansowanej symulacji wody? (nadpisywane przez wofconf.dat)
 
+ 		public static bool UseHardwareTexturePreloader = true; // czy wysylac do karty graficznej tesktury przed rozpoczeciem gry
+        
  		public static bool AudioStreaming = false;
  		
         public static string Language = "en-GB";

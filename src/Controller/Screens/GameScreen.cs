@@ -52,6 +52,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+
 using BetaGUI;
 using Microsoft.DirectX.DirectSound;
 using Mogre;
@@ -60,6 +61,7 @@ using Wof.Controller.EffectBars;
 using Wof.Controller.Indicators;
 using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
+using Wof.Misc;
 using Wof.Model.Configuration;
 using Wof.Model.Exceptions;
 using Wof.Model.Level;
@@ -256,6 +258,7 @@ namespace Wof.Controller.Screens
         private readonly object loadingLock;
         private Thread loaderThread;
         private Overlay loadingOverlay;
+        private Overlay preloadingOverlay;
       
         private Boolean firstTakeOff = true;
 
@@ -305,6 +308,9 @@ namespace Wof.Controller.Screens
             indicatorControl = new IndicatorControl(framework.OverlayViewport, framework.MinimapViewport, this);
             gameMessages = new GameMessages(framework.Viewport);
         }
+        
+        
+       
 
         private void StartLoading()
         {
@@ -313,6 +319,8 @@ namespace Wof.Controller.Screens
             {
                 try
                 {
+              
+                	
                 	
                     loadingStart = DateTime.Now;
                     LogManager.Singleton.LogMessage("About to load level view...", LogMessageLevel.LML_CRITICAL);
@@ -492,8 +500,25 @@ namespace Wof.Controller.Screens
                 loadingText = null;
             }
             loadingOverlay.Show();
-
+            
             ViewEffectsManager.Singleton.Load();
+            
+            // preloader tekstur
+            if(EngineConfig.UseHardwareTexturePreloader)
+            {
+	            MaterialPtr preloadingMaterial = ViewHelper.BuildPreloaderMaterial();             
+	            if(preloadingMaterial != null)
+	            {
+		            preloadingOverlay = OverlayManager.Singleton.GetByName("Wof/Preloader");  
+		            OverlayElement preloaderScreen = OverlayManager.Singleton.GetOverlayElement("Wof/PreloaderScreen");
+		            preloaderScreen.MaterialName =  preloadingMaterial.Name;
+		            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Presenting hardware preloader overlay.");
+		            preloadingOverlay.Show();
+	            }            
+            }
+            
+           
+       
 
             Console.WriteLine("Starting loading thread...");
             // start loading
@@ -1107,6 +1132,14 @@ namespace Wof.Controller.Screens
                  //         levelView.InitOceanSurface();
 
                             levelView.SetVisible(true);
+                            
+                            if(EngineConfig.UseHardwareTexturePreloader && preloadingOverlay != null)
+					        {
+					        	preloadingOverlay.Hide();  
+					        	preloadingOverlay.Dispose();
+                            	preloadingOverlay = null;
+					        }
+                            
                             loadingOverlay.Hide();
                             loadingOverlay.Dispose();
                             loadingOverlay = null;
