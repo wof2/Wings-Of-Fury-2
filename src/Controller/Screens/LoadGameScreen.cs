@@ -109,7 +109,7 @@ namespace Wof.Controller.Screens
                
                 // ikonka typu misji
                 string filename = null;
-                switch(Level.GetMissionType(GameScreen.GetLevelName(i+1)))
+                switch(Level.GetMissionType(GameScreen.GetLevelName((int)completedLevels[i])))
                 {
                 	case MissionType.Assassination:
                 		filename = "Assassination.png";

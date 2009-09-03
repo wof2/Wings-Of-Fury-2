@@ -776,11 +776,13 @@ namespace Wof.Model.Level.Planes
             	if (info.MissionType == MissionType.Dogfight)
 	            {
 	                weaponManager.SelectWeapon = WeaponType.Rocket;
-	            }
-	            else if (info.MissionType == MissionType.Naval)
+	            } else if (info.MissionType == MissionType.Naval)
 	            {
 	                weaponManager.SelectWeapon = WeaponType.Torpedo;
-	            } else 
+	            } else if (info.MissionType == MissionType.Assassination)
+	            {
+	                weaponManager.SelectWeapon = WeaponType.Rocket;
+	            } else
 	            {
 	            	weaponManager.SelectWeapon = WeaponType.Bomb;
 	            }

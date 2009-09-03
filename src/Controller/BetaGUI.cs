@@ -227,7 +227,7 @@ namespace BetaGUI
                 OverlayManager.Singleton.CreateOverlayElement("Panel", name + "ContainerHack" + (oc++).ToString());
             c.MetricsMode = GuiMetricsMode.GMM_PIXELS;
             c.SetDimensions(D.x, D.y);
-            c.SetPosition(P.x, P.y);
+            c.SetPosition(P.x, P.y);            
             if (M != "")
                 c.MaterialName = M;
             c.AddChild(e);
@@ -572,11 +572,12 @@ namespace BetaGUI
 
             OverlayContainer x = mGUI.createOverlay(mO.Name + StringConverter.ToString(mGUI.tc) + imageName,
                                                     new Vector2(posAndSize.x, posAndSize.y), new Vector2(posAndSize.z, posAndSize.w), ptr.Name, "", false);
+           
             ptr = null;
 
             mO.AddChild(x);
             x.Show();
-                       
+                      
             return x;
         }
 

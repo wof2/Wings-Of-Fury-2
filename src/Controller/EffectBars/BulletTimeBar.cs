@@ -98,8 +98,8 @@ namespace Wof.Controller.EffectBars
            
             
             _bar = gui.createWindow(new Vector4(_startPoint.X - min, _startPoint.Y - min, _width+ 2*min, _height+ 2*min), String.Empty, (int)wt.NONE, String.Empty);
-            _barOverContaBg = _bar.createStaticImage(new Vector4(0, 0, _width + 2*min, _height + 2*min), ImageBarBg);
-            _barOverConta = _bar.createStaticImage(new Vector4(min, min, _width, _height), ImageBar);
+            _barOverContaBg = _bar.createStaticImage(new Vector4(0, 0, _width + 2*min, _height + 2*min), ImageBarBg, 0);
+            _barOverConta = _bar.createStaticImage(new Vector4(min, min, _width, _height), ImageBar, 10);
          	
             uint oldFontSize = gui.mFontSize;
             gui.mFontSize = (uint)(oldFontSize * 0.65f);           

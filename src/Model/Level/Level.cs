@@ -1245,7 +1245,7 @@ namespace Wof.Model.Level
                         for (int i = 0; i < enemyInstallationTiles.Count; i++)
                         {
                             tile = enemyInstallationTiles[i];
-                            if (tile is ShipTile && tile.TileIndex < aircraftIndex)
+                            if (tile is ShipBunkerTile && tile.TileIndex < aircraftIndex)
                             {
                                 left = true;
                                 break;
@@ -1254,7 +1254,7 @@ namespace Wof.Model.Level
                         for (int i = 0; i < enemyInstallationTiles.Count; i++)
                         {
                             tile = enemyInstallationTiles[i];
-                            if (tile is ShipTile && tile.TileIndex > aircraftIndex)
+                            if (tile is ShipBunkerTile && tile.TileIndex > aircraftIndex)
                             {
                                 right = true;
                                 break;
@@ -1276,10 +1276,52 @@ namespace Wof.Model.Level
                     }
                     break;
         		case MissionType.Assassination:
-        				flyDirectionHint = FlyDirectionHint.None;
+                    	if (enemyInstallationTiles != null && enemyInstallationTiles.Count > 0 &&
+		                aircraftTiles != null && aircraftTiles.Count > 0)
+			            {
+			                int aircraftIndex = aircraftTiles[0].TileIndex;
+			                bool left = false, right = false;
+			                for (int i = 0; i < enemyInstallationTiles.Count ; i++)
+			                {
+			                    if (enemyInstallationTiles[i] is FortressBunkerTile
+			                	    &&
+			                	    ((FortressBunkerTile)enemyInstallationTiles[i]).GeneralCount > 0 
+			                	    &&
+			                	    enemyInstallationTiles[i].TileIndex < aircraftIndex)
+			                    {
+			                        left = true;
+			                        break;
+			                    }
+			                }
+			                for (int i = 0; i < enemyInstallationTiles.Count; i++)
+			                {
+			                    if (enemyInstallationTiles[i] is FortressBunkerTile
+			                	    &&
+			                	    ((FortressBunkerTile)enemyInstallationTiles[i]).GeneralCount > 0
+			                	    &&
+			                	    enemyInstallationTiles[i].TileIndex > aircraftIndex)
+			                    {
+			                        right = true;
+			                        break;
+			                    }
+			                }
+			
+			                if (left && right)
+			                    flyDirectionHint = FlyDirectionHint.Both;
+			                else if (left)
+			                    flyDirectionHint = FlyDirectionHint.Left;
+			                else if (right)
+			                    flyDirectionHint = FlyDirectionHint.Right;
+			                else
+			                    flyDirectionHint = FlyDirectionHint.None;
+			            }
+	        			else 
+	        			{
+	        				flyDirectionHint = FlyDirectionHint.None;
+	        			}  
         			break;
         			
-        		case MissionType.Dogfight:
+        		case MissionType.Dogfight:        			
         				flyDirectionHint = FlyDirectionHint.None;
         			break;
         	}
