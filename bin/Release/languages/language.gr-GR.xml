@@ -520,7 +520,10 @@
    </value>
   </data>
   
-  
+    
+  <data name="EnemyGenerals">
+    <value>Στρατηγοί του εχθρού</value>
+  </data>
 
   
 </root>

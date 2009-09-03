@@ -304,10 +304,8 @@ namespace Wof.Controller.Screens
                         LanguageResources.GetString(LanguageKey.Level),
                         gameScreen.LevelNo,
                         difficulty,
-                        LanguageResources.GetString(LanguageKey.Target),
-                        (gameScreen.CurrentLevel.GeneralsCount == 0) ? 
-                            LanguageResources.GetString(LanguageKey.Neutralized) : 
-                            LanguageResources.GetString(LanguageKey.Alive),
+                        LanguageResources.GetString(LanguageKey.EnemyGenerals),
+                        gameScreen.CurrentLevel.GeneralsCount,
                         gameScreen.Framework.UpdateStats());
                     }
                     else if (gameScreen.CurrentLevel.MissionType == MissionType.Naval)

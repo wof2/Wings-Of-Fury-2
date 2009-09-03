@@ -126,6 +126,12 @@
    </value>
   </data>
   
+   
+  <data name="EnemyGenerals">
+    <value>Enemy generals left</value>
+  </data>
+  
+  
   
 
 </root>
