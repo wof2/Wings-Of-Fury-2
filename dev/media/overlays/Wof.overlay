@@ -27,6 +27,27 @@ Wof/Loading
 	}
 }
 
+
+
+Wof/Preloader
+{	
+	
+	zorder 1
+	container BorderPanel(Wof/PreloaderScreen)
+	{
+		metrics_mode relative		
+		left 0 
+		top 0
+		width 0.1
+		height 0.1
+		material Soldier
+	}
+	
+}
+
+
+
+
 Wof/Intro
 {
 	zorder 500
@@ -42,6 +63,11 @@ Wof/Intro
 		
 	}
 }
+
+
+
+
+
 
 
 Wof/HUD

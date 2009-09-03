@@ -242,6 +242,59 @@ namespace Wof.Misc
             }
         }
 
+        public static MaterialPtr BuildPreloaderMaterial()
+        {
+        	Pass pass;           
+            Technique t;
+            string name = "PreloaderMaterial";
+            MaterialPtr mptr;
+            if(MaterialManager.Singleton.ResourceExists(name))
+            {
+            	mptr = (MaterialPtr)MaterialManager.Singleton.Load(name, MaterialManager.DEFAULT_SCHEME_NAME);
+            	if(mptr.GetBestTechnique().NumPasses > 1)            		
+            	{
+            		// material jest juz gotowy
+            		return mptr;	
+            	}
+            	
+            }else 
+            {
+            	return null;
+            }
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Building hardware preloader material.");
+            
+          	t = mptr.GetBestTechnique();     
+            ResourceManager.ResourceMapIterator i = TextureManager.Singleton.GetResourceIterator();       
+            int j = 0;
+            int k = 0;
+            while(j < 128 && i.MoveNext())
+            {
+            	j++;            
+            	pass = t.CreatePass();
+            	TexturePtr texture = (TexturePtr)(i.Current);
+            	pass.CreateTextureUnitState(texture.Name);
+            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Material will be preloaded - " + texture.Name);
+            	k++;
+            	if(i.MoveNext())
+            	{
+            		k++;
+            		texture = (TexturePtr)(i.Current);
+            		pass.CreateTextureUnitState(texture.Name);
+            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Material will be preloaded - " + texture.Name);
+            	}
+    
+            	pass.SetSceneBlending(SceneBlendFactor.SBF_ZERO, SceneBlendFactor.SBF_ONE);
+            	
+            }
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Total materials to be hardware preloaded: " + k);
+           		
+            mptr.Load();
+            mptr.Compile();
+            return mptr;
+            
+            
+        }
+        
         public static MaterialPtr CloneBumpMaterial(String textureMapName, String normalMapName, String outMatName)
         {
             Pass pass;
