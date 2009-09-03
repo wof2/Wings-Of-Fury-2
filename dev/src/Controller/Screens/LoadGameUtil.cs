@@ -112,8 +112,12 @@ namespace Wof.Controller.Screens
                     return;
                 }
             }
-
-            completedLevels.Insert((int) levelNo - 1, levelNo);
+            if(!completedLevels.Contains(levelNo))
+            {
+           		completedLevels.Add(levelNo);
+            }
+            completedLevels.Sort();
+           
             string toFile = "";
             foreach (int i in completedLevels)
             {

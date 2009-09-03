@@ -348,20 +348,38 @@ namespace Wof.Controller.Screens
                    
 
                     
+                    // Game hints
                     mGuiHint = new GUI(FontManager.CurrentFont, fontSize);
                     hintWindow = mGuiHint.createWindow(new Vector4(0, 0.35f * viewport.ActualHeight, viewport.ActualWidth, 0.2f * viewport.ActualHeight), "", (int)wt.NONE, "");
                     
+                    string hintLeftFilename = "hint_left.png";
+                    string hintRightFilename = "hint_right.png";
+                    switch(this.currentLevel.MissionType)
+                    {
+                    	case MissionType.Assassination:
+                    			hintLeftFilename = "hint_left_assasination.png";
+                    			hintRightFilename = "hint_right_assasination.png";
+                    		break;
+                    		
+                    	case MissionType.Naval:
+                    			hintLeftFilename = "hint_left_naval.png";
+                    			hintRightFilename = "hint_right_naval.png";
+                    		break;
+                    }
+                    
                     if(currentLevel.FlyDirectionHint == FlyDirectionHint.Left || currentLevel.FlyDirectionHint == FlyDirectionHint.Both)
                     {
-                        hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.01f, 0, 0.9f * 0.15f * viewport.ActualWidth, 0.9f * 0.045f * viewport.ActualWidth), "hint_left.png");
+                        hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.01f, 0, 0.9f * 0.15f * viewport.ActualWidth, 0.9f * 0.045f * viewport.ActualWidth), hintLeftFilename);
                        
                     } 
                     if(currentLevel.FlyDirectionHint == FlyDirectionHint.Right || currentLevel.FlyDirectionHint == FlyDirectionHint.Both)
                     {
 
-                        hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.84f, 0, 0.9f * 0.15f * viewport.ActualWidth, 0.9f * 0.045f * viewport.ActualWidth), "hint_right.png");
+                        hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.84f, 0, 0.9f * 0.15f * viewport.ActualWidth, 0.9f * 0.045f * viewport.ActualWidth), hintRightFilename);
                     }
                     hintWindow.show();
+                    
+                    
                    
                     int h = (int)GetTextVSpacing();
                     missionTypeGui = new GUI(FontManager.CurrentFont, fontSize, "MissionTypeGUI");
