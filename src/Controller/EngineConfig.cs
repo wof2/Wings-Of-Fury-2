@@ -62,7 +62,7 @@ namespace Wof.Controller
     public class EngineConfig
     {
         /// <summary>
-        /// Wersja tej kompilacji WOfa. Powinna siê byæ w formacie X.XX
+        /// Wersja tej kompilacji WOfa. Powinna byæ w formacie X.XX
         /// </summary>
         public static readonly String C_WOF_VERSION = "3.00";
 
@@ -123,7 +123,7 @@ namespace Wof.Controller
 
  		public static bool UseHardwareTexturePreloader = true; // czy wysylac do karty graficznej tesktury przed rozpoczeciem gry
  		
- 		public static int HardwareTexturePreloaderTextureLimit = 255;
+ 		public static int HardwareTexturePreloaderTextureLimit = 128;
         
  		public static bool AudioStreaming = false;
  		
