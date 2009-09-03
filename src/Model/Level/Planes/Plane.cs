@@ -470,6 +470,9 @@ namespace Wof.Model.Level.Planes
         /// Okreœla czy zosta³a wciœniêta strza³ka w prawo od ostatniego odœwie¿enia.
         /// </summary>
         private bool isRightPressed;
+        
+        
+       
 
         /// <summary>
         /// Okreœla czy klawisz jest zablokowany czy nie.
@@ -2361,9 +2364,12 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         /// <author>Tomek , Kamil S³awiñski</author>
         private void lowerTailStep(float scaleFactor)
-        {
+        {   
+        	//bounds.Rotate(-bounds.Angle);
+        	//return;
             isLoweringTail = true;
             isRaisingTail = false;
+          
 
             int deltaCount = (int)(scaleFactor * 2000)+1;
             float scaleFactorDelta = scaleFactor / deltaCount;
@@ -2379,6 +2385,8 @@ namespace Wof.Model.Level.Planes
                     break;
                 }
             }
+            
+            
         }
 
         /// <summary>
@@ -2388,6 +2396,8 @@ namespace Wof.Model.Level.Planes
         /// <author>Tomek , Kamil S³awiñski</author>
         private void raiseTailStep(float scaleFactor)
         {
+        	//bounds.Rotate(-bounds.Angle);
+        	//return;
             isRaisingTail = true;
             isLoweringTail = false;
 
@@ -2873,22 +2883,34 @@ namespace Wof.Model.Level.Planes
 
             // co siê dzieje zaraz po prawid³owym starcie
             if (isJustAfterTakeOff)
-            {
+            {       	
+            	
+            	// zakonczyla sie procedura startu. Przestala dzialac sila sciagajaca w dol. Nalezy "zresetowac" wektor ruchu, gdyz zostal on odklejony od
+            	// "strugi" przez sile sciagajaca do ziemi
                 if(justAfterTakeOffTimer > justAfterTakeOffTimerMax)
                 {
                     justAfterTakeOffTimer = 0;
-                    isJustAfterTakeOff = false;
+                    isJustAfterTakeOff = false;                   
+                    movementVector = new PointD(minFlyingSpeed * (int)direction * Math.Cos(bounds.Angle), minFlyingSpeed * (int)direction * Math.Sin(bounds.Angle));
+                   
+                    
                 } else
                 {
+                	// sciaganie do ziemi
                     //Console.WriteLine(time);
                     if (justAfterTakeOffTimer < 0.5f * justAfterTakeOffTimerMax)
-                    {
-                        // spadanie (szybciej)
-                        movementVector.Y += -40.5f * scaleFactor * Math.Sin(Math.HALF_PI +  Math.TWO_PI * (justAfterTakeOffTimer / justAfterTakeOffTimerMax));
+                    { 
+                    	// spadanie (szybciej)
+                    	float temp = -40.5f * scaleFactor * Math.Sin(Math.HALF_PI +  Math.TWO_PI * (justAfterTakeOffTimer / justAfterTakeOffTimerMax));
+                    	//temp = 0;
+                    
+                        movementVector.Y += temp;
                     } else
                     {
-                        // unoszenie (wolniej)
-                        movementVector.Y += -5.0f * scaleFactor * Math.Sin(Math.HALF_PI + Math.TWO_PI * (justAfterTakeOffTimer / justAfterTakeOffTimerMax));
+                        // unoszenie (wolniej)                        
+                        float temp = - 5.0f * scaleFactor * Math.Sin(Math.HALF_PI + Math.TWO_PI * (justAfterTakeOffTimer / justAfterTakeOffTimerMax));
+                        //temp = 0;                      
+                        movementVector.Y += temp;
                     }
                     
                     justAfterTakeOffTimer += scaleFactor;
@@ -2908,6 +2930,7 @@ namespace Wof.Model.Level.Planes
                             {
                                 level.Controller.OnPlaneWrongDirectionStart();
                                 oil -= rightTakeOffOilLoss;
+                                this.isJustAfterTakeOff = true;
                             } else
                             {
                                 this.isJustAfterTakeOff = true;
