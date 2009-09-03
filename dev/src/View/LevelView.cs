@@ -930,7 +930,10 @@ namespace Wof.View
             	av.ExplosionFlash.Visible = false;
             }
         }
-
+        
+      
+		
+		
         /// <summary>
         /// Wybuch pocisku.
         /// </summary>
@@ -1100,6 +1103,23 @@ namespace Wof.View
             if(sv == null) return;
             sv.OnShipSinking(tile);
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tile"></param>
+        /// <param name="ammunition"></param>
+		public void OnFortressHit(FortressBunkerTile tile, Ammunition ammunition)
+        {			
+			BunkerTileView bunker = (BunkerTileView)FindTileView(tile);
+			if(bunker == null)
+			{
+				return;
+			}
+			
+			bunker.Damage(true);
+        }
+		
 
         public void OnTileDestroyed(LevelTile tile)
         {

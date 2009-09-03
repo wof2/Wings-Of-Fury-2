@@ -89,6 +89,8 @@ namespace Wof.View.TileViews
         {
             gunNode.Orientation = new Quaternion(radians, Vector3.UNIT_X);
         }
+        
+        
 
 
         private void initBunker(SceneNode islandNode, float positionOnIsland)
@@ -198,6 +200,26 @@ namespace Wof.View.TileViews
                 minimapItem.Refresh();
             }
         }
+        
+        public void Damage(bool firePossibility)
+        {
+        	
+           // smokeParticleSystem = EffectsManager.Singleton.Smoke(sceneMgr, installationNode, new Vector3(0, -1, 0), Vector3.UNIT_Y);
+          
+
+            if (firePossibility && Mogre.Math.RangeRandom(0.0f, 1.0f) > 0.8f)
+            {
+                EffectsManager.Singleton.Sprite(sceneMgr, InstallationNode,
+                                                new Vector3(2, 2.4f, Mogre.Math.RangeRandom(-4, 4)), new Vector2(5, 5),
+                                                EffectsManager.EffectType.FIRE, true, 0);
+            }
+            
+            if (isConcrete)
+            {
+                ViewHelper.ReplaceMaterial(installationEntity, "Concrete", "DestroyedConcrete");
+            }
+        }
+        
 
         public override void Destroy()
         {

@@ -697,6 +697,8 @@ namespace Wof.Model.Level
                 userPlane.Weapon.Fire(userPlane.RelativeAngle, WeaponType.Gun);
             }
         }
+        
+        
 
         /// <summary>
         /// Funkcja zostanie wywolana jesli widkok zakonczyl procedure

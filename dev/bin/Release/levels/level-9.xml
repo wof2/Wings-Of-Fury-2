@@ -4,7 +4,7 @@
 
   <ocean width="100"/>
   <island-begin variation="3"/>
-  <terrain variation="0"/>
+  <concrete-bunker num-soldiers="2" variation="0"/>
   <terrain variation="0"/>
   <fortress-bunker variation="0" num-generals="1"/>
   <terrain variation="0"/>

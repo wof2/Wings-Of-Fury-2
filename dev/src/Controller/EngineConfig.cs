@@ -122,6 +122,8 @@ namespace Wof.Controller
  		public static bool UseHydrax = true; // czy korzystaæ z zaawansowanej symulacji wody? (nadpisywane przez wofconf.dat)
 
  		public static bool UseHardwareTexturePreloader = true; // czy wysylac do karty graficznej tesktury przed rozpoczeciem gry
+ 		
+ 		public static int HardwareTexturePreloaderTextureLimit = 255;
         
  		public static bool AudioStreaming = false;
  		
