@@ -706,6 +706,9 @@ namespace Wof.Model.Level
         /// </summary>
         public void OnSoldierEndDeath()
         {
+        	
+        
+        		
             //sprawdzam stan wrogich instalacji.
             if (enemyInstallationTiles != null)
             {

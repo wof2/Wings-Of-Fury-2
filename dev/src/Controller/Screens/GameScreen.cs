@@ -2070,6 +2070,8 @@ namespace Wof.Controller.Screens
 
         public void OnReadyLevelEnd()
         {
+        	if(readyForLevelEnd) return; // nie ma co sprawdzac, i tak juz zostal odtrabiony koniec misji
+        	
             readyForLevelEnd = true;
 
             string message = "";
@@ -2091,7 +2093,7 @@ namespace Wof.Controller.Screens
                 message = LanguageResources.GetString(LanguageKey.AllEnemyShipsDestroyedLandOnCarrierAndPressX);
             }
 
-            gameMessages.AppendMessage(message);
+            gameMessages.AppendMessage(new MessageEntry(0, 0, message, true, true ));
 
             SoundManager.Instance.PlayFanfare();
         }
