@@ -1740,9 +1740,18 @@ namespace Wof.Controller.Screens
         	if(bunker is FortressBunkerTile)
         	{
         		SoundManager.Instance.PlayFortressFireSound();
-        	} else
+        	}         	
+        	else if(bunker is ShipBunkerTile && Mogre.Math.RangeRandom(0,1) > 0.5f)
         	{
-            	SoundManager.Instance.PlayBunkerFireSound();
+        		SoundManager.Instance.PlayShipFireSound();
+        	} else {
+        		if(Mogre.Math.RangeRandom(0,1) > 0.5f)
+        		{
+            		SoundManager.Instance.PlayBunkerFireSound();
+        		} else
+        		{
+        			SoundManager.Instance.PlayBunkerFireSound2();
+        		}
         	}
             levelView.OnBunkerFire(bunker, plane);
             // Console.WriteLine("OnBunkerFire " + " BunkerTile bunker " + " Plane plane");
