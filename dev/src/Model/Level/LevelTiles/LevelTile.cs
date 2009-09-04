@@ -49,9 +49,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
+using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 
 namespace Wof.Model.Level.LevelTiles
@@ -280,8 +282,17 @@ namespace Wof.Model.Level.LevelTiles
             {
                 tilesIndex = value;
                 int positionX = value * Width;
-                hitBound = new Quadrangle(new PointD(positionX, 0), new PointD(positionX, YBegin),
-                                          new PointD(positionX + Width, yEnd), new PointD(positionX + Width, 0));
+                if(hitBound == null)
+                {
+                	// domyslny hitbound zbudowany w oparciu o YBegin i YEnd
+	                hitBound = new Quadrangle(new PointD(positionX, 0), new PointD(positionX, YBegin),
+	                                          new PointD(positionX + Width, yEnd), new PointD(positionX + Width, 0));
+                } else
+                {
+                	// hitbound podany 'explicite'. Do tej pory w zmiennej hitBound jest prostokat o wierzcholkach ulozonych relatywnie (tak jak collision-rect) -> zamieniamy na wartosci bezwzgledne
+                	hitBound = new Quadrangle(new PointD(positionX + hitBound.LeftMostX, hitBound.LowestY), new PointD(positionX + hitBound.LeftMostX, hitBound.HighestY ),
+	                                          new PointD(positionX + hitBound.RightMostX, hitBound.HighestY), new PointD(positionX + hitBound.RightMostX, hitBound.LowestY));
+                }
 
                 if (collisionRectangles != null && collisionRectangles.Count > 0)
                 {
@@ -474,6 +485,11 @@ namespace Wof.Model.Level.LevelTiles
         public virtual CollisionType InCollision(Quadrangle quad)
         {
         
+        	if(this is FortressBunkerTile)
+        	{
+        		
+        	}
+        	
         	if (quad == null) return CollisionType.None;
         	if(this.InSimpleCollision(quad.Center)) {
         		return CollisionType.Altitude;
@@ -494,13 +510,19 @@ namespace Wof.Model.Level.LevelTiles
         }
 
         /// <summary>
-        /// Funkcja sprawdza czy dany obiekt jest w kolizji z innym obiektem. Porównywana jest wy³¹cznie wysokoœæ (YBegin, YEnd)
+        /// Funkcja sprawdza czy dany obiekt jest w kolizji z innym obiektem. Porównywana jest wy³¹cznie wysokoœæ (YBegin / hitBound.LowestY)
         /// </summary>
         /// <param name="center">Punkt srodkowy obiektu z ktorym sprawdzamy kolizje.</param>
         /// <returns>Jesli punkt srodkowy obiektu jest ponizej linni powierzchni - kolizja nastapila.</returns>
         public virtual bool InSimpleCollision(PointD center)
         {
-            return ((this.YBegin + this.YEnd) / 2.0f) >= center.Y;
+        	if(hitBound != null)
+        	{
+            	return this.hitBound.LowestY > center.Y;
+        	} else
+        	{
+        		return false;
+        	}
         }
         
         

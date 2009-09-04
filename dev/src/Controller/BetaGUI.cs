@@ -478,6 +478,8 @@ namespace BetaGUI
         public OverlayContainer mO;
         public List<Button> mB = new List<Button>();
         public List<TextInput> mT = new List<TextInput>();
+        public List<OverlayContainer> mI = new List<OverlayContainer>();
+
 
         // Adam Witczak
         public Button createButton(Vector4 D, String M, String T, Callback C, uint ID)
@@ -577,6 +579,7 @@ namespace BetaGUI
 
             mO.AddChild(x);
             x.Show();
+            mI.Add(x);
                       
             return x;
         }
@@ -634,6 +637,27 @@ namespace BetaGUI
                 mB[i].killButton();
             for (int i = 0; i < mT.Count; i++)
                 mT[i].killTextInput();
+            
+            try
+            {
+	            for (int i = 0; i < mI.Count; i++)
+	            {
+	            	foreach (OverlayContainer container in mI[i].GetChildContainerIterator())
+	                foreach (OverlayElement element in container.GetChildIterator())
+	                    OverlayManager.Singleton.DestroyOverlayElement(element);
+	            	
+	             	OverlayManager.Singleton.DestroyOverlayElement(mI[i]);
+	             	
+	            }
+	          //  mO.Hide();
+	          //  mO.Dispose();
+	          //  mO = null;
+            }
+            catch(Exception)
+            {
+            	
+            }
+           
         }
 
         /// <summary>

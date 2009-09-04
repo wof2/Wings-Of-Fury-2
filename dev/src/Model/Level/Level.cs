@@ -344,7 +344,7 @@ namespace Wof.Model.Level
          
             userPlane = new Plane(this, false, info);
             userPlane.RegisterWeaponEvent += userPlane_RegisterWeaponEvent;
-            SetFlyDirectionHint();
+           // SetFlyDirectionHint();
             //dodane przez Emila
             //this.enemyPlane = new EnemyPlane(this, new PointD(100, 40), Direction.Right);
             //this.enemyPlane = new EnemyPlane(this);
@@ -1196,140 +1196,168 @@ namespace Wof.Model.Level
         /// <summary>
         /// Ustawia informacje o wystepowaniu 
         /// instalacji obronnych na planszy.
+        /// <returns>Czy hint siê zmieni³ w stosunku do poprzedniego sprawdzenia</returns>
         /// </summary>
-        private void SetFlyDirectionHint()
+        public bool SetFlyDirectionHint()
         {
+        	FlyDirectionHint old = flyDirectionHint;
+        	bool left = false, right = false;
+        	int planeIndex = Mathematics.PositionToIndex(this.userPlane.Position.X);
+        	
         	
         	switch(this.MissionType)
         	{
-        		case MissionType.BombingRun:
-        			if (enemyInstallationTiles != null && enemyInstallationTiles.Count > 0 &&
-		                aircraftTiles != null && aircraftTiles.Count > 0)
-		            {
-		                int aircraftIndex = aircraftTiles[0].TileIndex;
-		                bool left = false, right = false;
+        		case MissionType.BombingRun:     			
+        			
+        			if (enemyInstallationTiles != null)
+		            {		              
+		                // bunkry z zolniezami
 		                for (int i = 0; i < enemyInstallationTiles.Count ; i++)
-		                {
-		                    if (enemyInstallationTiles[i].TileIndex < aircraftIndex)
+		                {		                	
+		                	LevelTile et = enemyInstallationTiles[i];		                	
+		                	if ( 
+		                	    !left &&
+		                	    et.TileIndex < planeIndex &&
+		                	    et is BunkerTile &&
+		                	    ((BunkerTile)et).SoldierCount > 0)
 		                    {
-		                        left = true;
-		                        break;
+		                        left = true;		                    
 		                    }
-		                }
-		                for (int i = 0; i < enemyInstallationTiles.Count; i++)
-		                {
-		                    if (enemyInstallationTiles[i].TileIndex > aircraftIndex)
+		                	
+		                	if ( 
+		                	    !right &&
+		                	    et.TileIndex > planeIndex &&
+		                	    et is BunkerTile &&
+		                	    ((BunkerTile)et).SoldierCount > 0)
 		                    {
-		                        right = true;
-		                        break;
-		                    }
+		                        right = true;		                    
+		                    }		                	
 		                }
-		
-		                if (left && right)
-		                    flyDirectionHint = FlyDirectionHint.Both;
-		                else if (left)
-		                    flyDirectionHint = FlyDirectionHint.Left;
-		                else if (right)
-		                    flyDirectionHint = FlyDirectionHint.Right;
-		                else
-		                    flyDirectionHint = FlyDirectionHint.None;
-		            }
-        			else 
-        			{
-        				flyDirectionHint = FlyDirectionHint.None;
         			}
-		        	
+		                
+	                // zolnierze wolnobiegajacy	                
+	                if(!left || !right)
+	                {
+		                for (int i = 0; i < soldierList.Count; i++)
+		                {
+		                	if(soldierList[i].IsAlive)
+		                	{
+		                		int sIndex = Mathematics.PositionToIndex(soldierList[i].XPosition);
+		                		if(sIndex < planeIndex)
+		                		{
+		                			left = true;
+		                		} else		                		
+		                		{
+		                			right = true;
+		                		}
+		                	}
+		                }
+	                }
         			break;
+        			
+        			
+        			
                 case MissionType.Naval:
-                    if (enemyInstallationTiles != null && enemyInstallationTiles.Count > 0 &&
-                        aircraftTiles != null && aircraftTiles.Count > 0)
-                    {
-                        int aircraftIndex = aircraftTiles[0].TileIndex;
-                        bool left = false, right = false;
+                    if (enemyInstallationTiles != null )
+                    {    
                         LevelTile tile;
                         for (int i = 0; i < enemyInstallationTiles.Count; i++)
                         {
                             tile = enemyInstallationTiles[i];
-                            if (tile is ShipBunkerTile && tile.TileIndex < aircraftIndex)
+                            if (tile is ShipBunkerTile && !((ShipBunkerTile)tile).IsSunkDown && !((ShipBunkerTile)tile).IsSinking)
                             {
-                                left = true;
-                                break;
+	                            if(tile.TileIndex < planeIndex)                            
+	                            {
+	                                left = true;	                                
+	                            } else
+	                            {
+	                            	right = true;
+	                            }
                             }
                         }
-                        for (int i = 0; i < enemyInstallationTiles.Count; i++)
-                        {
-                            tile = enemyInstallationTiles[i];
-                            if (tile is ShipBunkerTile && tile.TileIndex > aircraftIndex)
-                            {
-                                right = true;
-                                break;
-                            }
-                        }
-
-                        if (left && right)
-                            flyDirectionHint = FlyDirectionHint.Both;
-                        else if (left)
-                            flyDirectionHint = FlyDirectionHint.Left;
-                        else if (right)
-                            flyDirectionHint = FlyDirectionHint.Right;
-                        else
-                            flyDirectionHint = FlyDirectionHint.None;
-                    }
-                    else
-                    {
-                        flyDirectionHint = FlyDirectionHint.None;
                     }
                     break;
+                    
         		case MissionType.Assassination:
-                    	if (enemyInstallationTiles != null && enemyInstallationTiles.Count > 0 &&
-		                aircraftTiles != null && aircraftTiles.Count > 0)
-			            {
-			                int aircraftIndex = aircraftTiles[0].TileIndex;
-			                bool left = false, right = false;
-			                for (int i = 0; i < enemyInstallationTiles.Count ; i++)
-			                {
-			                    if (enemyInstallationTiles[i] is FortressBunkerTile
-			                	    &&
-			                	    ((FortressBunkerTile)enemyInstallationTiles[i]).GeneralCount > 0 
-			                	    &&
-			                	    enemyInstallationTiles[i].TileIndex < aircraftIndex)
-			                    {
-			                        left = true;
-			                        break;
-			                    }
-			                }
-			                for (int i = 0; i < enemyInstallationTiles.Count; i++)
-			                {
-			                    if (enemyInstallationTiles[i] is FortressBunkerTile
-			                	    &&
-			                	    ((FortressBunkerTile)enemyInstallationTiles[i]).GeneralCount > 0
-			                	    &&
-			                	    enemyInstallationTiles[i].TileIndex > aircraftIndex)
-			                    {
-			                        right = true;
-			                        break;
-			                    }
-			                }
-			
-			                if (left && right)
-			                    flyDirectionHint = FlyDirectionHint.Both;
-			                else if (left)
-			                    flyDirectionHint = FlyDirectionHint.Left;
-			                else if (right)
-			                    flyDirectionHint = FlyDirectionHint.Right;
-			                else
-			                    flyDirectionHint = FlyDirectionHint.None;
-			            }
-	        			else 
-	        			{
-	        				flyDirectionHint = FlyDirectionHint.None;
-	        			}  
+	                if (enemyInstallationTiles != null)
+		            {		              
+		                // bunkry z generalami
+		                for (int i = 0; i < enemyInstallationTiles.Count ; i++)
+		                {		                	
+		                	LevelTile et = enemyInstallationTiles[i];		                	
+		                	if ( 
+		                	    !left &&
+		                	    et.TileIndex < planeIndex &&
+		                	    et is FortressBunkerTile &&
+		                	    ((FortressBunkerTile)et).GeneralCount > 0)
+		                    {
+		                        left = true;		                    
+		                    }
+		                	
+		                	if ( 
+		                	    !right &&
+		                	    et.TileIndex > planeIndex &&
+		                	    et is FortressBunkerTile &&
+		                	    ((FortressBunkerTile)et).GeneralCount > 0)
+		                    {
+		                        right = true;		                    
+		                    }		                	
+		                }
+        			}
+		                
+	                // generalowie wolnobiegajacy	                
+	                if(!left || !right)
+	                {
+		                for (int i = 0; i < generalList.Count; i++)
+		                {
+		                	if(generalList[i].IsAlive)
+		                	{
+		                		int sIndex = Mathematics.PositionToIndex(generalList[i].XPosition);
+		                		if(sIndex < planeIndex)
+		                		{
+		                			left = true;
+		                		} else		                		
+		                		{
+		                			right = true;
+		                		}
+		                	}
+		                }
+	                }
         			break;
         			
-        		case MissionType.Dogfight:        			
-        				flyDirectionHint = FlyDirectionHint.None;
+        			
+        		case MissionType.Dogfight: 
+        		    for (int i = 0; i < enemyPlanes.Count; i++)
+		            {
+        		    	Plane ep = enemyPlanes[i];
+        		    	if(ep.PlaneState == PlaneState.Intact || ep.PlaneState == PlaneState.Damaged)
+        		    	{
+        		    		int epIndex = Mathematics.PositionToIndex(ep.Position.X);
+	                		if(epIndex < planeIndex)
+	                		{
+	                			left = true;
+	                		} else		                		
+	                		{
+	                			right = true;
+	                		}
+        		    	}
+        			 	
+        		    }
         			break;
         	}
+        	
+        	  
+            if (left && right)
+                flyDirectionHint = FlyDirectionHint.Both;
+            else if (left)
+                flyDirectionHint = FlyDirectionHint.Left;
+            else if (right)
+                flyDirectionHint = FlyDirectionHint.Right;
+            else
+                flyDirectionHint = FlyDirectionHint.None;
+		           
+        	
+        	return flyDirectionHint != old;
           
         }
 
