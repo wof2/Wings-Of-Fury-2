@@ -115,7 +115,9 @@ namespace Wof.Controller
         private Audio stopEngineSound;
         private Audio failedEngineSound;
         private Audio bunkerFireSound;
+        private Audio bunkerFireSound2;
         private Audio fortressFireSound;
+        private Audio shipFireSound;
         
         private Audio explosionSound;
     
@@ -159,7 +161,10 @@ namespace Wof.Controller
                 stopEngineSound = new Audio("sounds/enginestop.wav");
                 failedEngineSound = new Audio("sounds/startengine.wav");
                 bunkerFireSound = new Audio("sounds/cannon.wav");
+                bunkerFireSound2 = new Audio("sounds/cannon2.wav");
                 fortressFireSound = new Audio("sounds/fortress_cannon.wav");
+                shipFireSound = new Audio("sounds/ship_cannon.wav");
+                
                          
                 explosionSound = new Audio("sounds/explosion.wav");
             
@@ -290,14 +295,27 @@ namespace Wof.Controller
         }
 
         public void PlayBunkerFireSound()
-        {        	
+        { 
             Play(bunkerFireSound);
+        }
+        
+        public void PlayBunkerFireSound2()
+        {          	
+          
+            Play(bunkerFireSound2);
         }
         
  		public void PlayFortressFireSound()
         {
             Play(fortressFireSound);
         }
+ 		
+ 		public void PlayShipFireSound()
+        {
+            Play(shipFireSound);
+        }
+ 		
+ 		
      
         
      
