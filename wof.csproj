@@ -468,9 +468,6 @@
     <Compile Include="src\Model\Level\XmlParser\XmlLevelParser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="src\Model\ModelProgram.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="src\Statistics\LevelStatistics.cs" />
     <Compile Include="src\Tests\ControllerTest\Input\Keyboard\KeyMapTest.cs" />
     <Compile Include="src\Tools\FileCRC.cs" />

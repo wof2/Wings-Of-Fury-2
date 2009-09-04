@@ -48,9 +48,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Xml;
+
 using Wof.Controller;
 using Wof.Model.Exceptions;
 using Wof.Model.Level.Common;
@@ -214,14 +216,27 @@ namespace Wof.Model.Level.XmlParser
             //collision rectangle
             if (node != null && !String.IsNullOrEmpty(node.ID) && containsCollisionRects)
             {
+            	
                 while (reader.Read() && reader.NodeType != XmlNodeType.EndElement)
-                {
+                { 
+                	string name = reader.Name;
                     if (reader.NodeType == XmlNodeType.Element)
                     {
                         if (reader.HasAttributes)
                         {
-                            reader.MoveToAttribute(0);
-                            node.CollisionRectangle.Add(StringToQuadrangle(reader.Value, format));
+                        	if(name == "collision-rect")
+                            {
+                        		reader.MoveToAttribute(0);
+                            	node.CollisionRectangle.Add(StringToQuadrangle(reader.Value, format));
+                            }else
+                            if(name == "hit-bound")
+                            {
+                        		reader.MoveToAttribute(0);         
+                            	node.HitRectangle = StringToQuadrangle(reader.Value, format);
+                            }
+                        	
+                                   
+                      	
                         }
                     }
                 }

@@ -2102,6 +2102,10 @@ namespace Wof.Model.Level.Planes
                 if (hitByPlane) //ma³e trafienie
                 {
                     oil -= GameConsts.UserPlane.HitCoefficient;
+                    if(isEnemy)
+                    {
+                        oil -= GameConsts.UserPlane.HitCoefficient / 3.0f; // przeciwnik dostaje wiecej damage'u
+                    }                     
                     if(GameConsts.UserPlane.PlaneCheat)
                     {
                         if(isEnemy)
@@ -2110,11 +2114,9 @@ namespace Wof.Model.Level.Planes
                         } else
                         {
                             oil += GameConsts.UserPlane.HitCoefficient / 4.0f; // dwa razy mniejsze uszkodzenia
-                        }
-                        
+                        }                        
                     }
                 }
-
                 else
                 {
                     oilLeak += GameConsts.UserPlane.HitCoefficient;

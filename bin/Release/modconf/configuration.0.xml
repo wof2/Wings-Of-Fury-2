@@ -35,7 +35,7 @@
     rocketCount="30"
     torpedoCount="3" 
     breakingPower = "4"
-    hitCoefficient="0.28"
+    hitCoefficient="0.48"
     rangeSlowWheelingSpeed = "0.004"
     rangeFastWheelingMaxSpeed = "0.3"
     engineCounterThreshold="1500"

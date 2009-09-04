@@ -120,8 +120,9 @@
    <!-- fortress Bunker - dokladnie taki sam jak concrete -->
 
   <tile name="fortress-bunker" y-start="1.5" y-end="1.5" variation="0">
-	<collision-rect rectangle="[0, 3.1 ][5  ][1.6]"/> <!-- bunkier -->
+ 
 	<collision-rect rectangle="[6, 2.5 ][1.5][1  ]"/> <!-- dzialko -->	
+	<hit-bound      rectangle="[-7, 7.2 ][9.1  ][7.0]"/> <!-- hit-bound -->	
   </tile>
 
   <!-- wersja uniesiona -->
@@ -155,6 +156,7 @@
 	<collision-rect rectangle="[6  , 2.5 ][1.5][1  ]"/> <!-- dzialko -->
 	<collision-rect rectangle="[5.5, 4.5 ][1.5][3  ]"/> <!-- flaga pomiedzy bunkrem i dzialkiem -->	
   </tile>
+  
 
 
   <!-- Barrack -->

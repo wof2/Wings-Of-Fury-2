@@ -311,6 +311,66 @@ namespace Wof.Controller.Screens
         
         
        
+        
+        private void UpdateHints(bool forceRefresh)
+        {
+        	if(readyForLevelEnd)
+        	{
+        		hintWindow.hide();
+        		return;
+        	}
+        	
+        	if(currentLevel.SetFlyDirectionHint() && !forceRefresh)
+        	{
+        		return;
+        	}
+        	        	
+        	// Game hints
+        	if(mGuiHint == null)
+        	{
+	            mGuiHint = new GUI(FontManager.CurrentFont, fontSize);
+        	}
+        	if(hintWindow != null)
+        	{
+        		hintWindow.killWindow();
+        	}
+        	
+	        hintWindow = mGuiHint.createWindow(new Vector4(0, 0.35f * viewport.ActualHeight, viewport.ActualWidth, 0.2f * viewport.ActualHeight), "", (int)wt.NONE, "");
+	        
+        	
+            string hintLeftFilename = "hint_left.png";
+            string hintRightFilename = "hint_right.png";
+            switch(this.currentLevel.MissionType)
+            {
+            	case MissionType.Assassination:
+            			hintLeftFilename = "hint_left_assasination.png";
+            			hintRightFilename = "hint_right_assasination.png";
+            		break;
+            		
+            	case MissionType.Naval:
+            			hintLeftFilename = "hint_left_naval.png";
+            			hintRightFilename = "hint_right_naval.png";
+            		break;
+            		
+            	case MissionType.Dogfight:
+            			hintLeftFilename = "hint_left_dogfight.png";
+            			hintRightFilename = "hint_right_dogfight.png";
+            		break;
+            }
+           
+            if(currentLevel.FlyDirectionHint == FlyDirectionHint.Left || currentLevel.FlyDirectionHint == FlyDirectionHint.Both)
+            {
+                hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.01f, 0, 0.9f * 0.15f * viewport.ActualWidth, 0.9f * 0.045f * viewport.ActualWidth), hintLeftFilename);
+            } 
+            
+            if(currentLevel.FlyDirectionHint == FlyDirectionHint.Right || currentLevel.FlyDirectionHint == FlyDirectionHint.Both)
+            {
+                hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.84f, 0, 0.9f * 0.15f * viewport.ActualWidth, 0.9f * 0.045f * viewport.ActualWidth), hintRightFilename);
+            }
+            hintWindow.show();
+        }
+        
+        
 
         private void StartLoading()
         {
@@ -318,10 +378,7 @@ namespace Wof.Controller.Screens
             lock (loadingLock)
             {
                 try
-                {
-              
-                	
-                	
+                {                	
                     loadingStart = DateTime.Now;
                     LogManager.Singleton.LogMessage("About to load level view...", LogMessageLevel.LML_CRITICAL);
                     levelView = new LevelView(framework, this);
@@ -346,38 +403,7 @@ namespace Wof.Controller.Screens
                     }
                     LogManager.Singleton.LogMessage("Finished loading level.", LogMessageLevel.LML_CRITICAL);
                    
-
-                    
-                    // Game hints
-                    mGuiHint = new GUI(FontManager.CurrentFont, fontSize);
-                    hintWindow = mGuiHint.createWindow(new Vector4(0, 0.35f * viewport.ActualHeight, viewport.ActualWidth, 0.2f * viewport.ActualHeight), "", (int)wt.NONE, "");
-                    
-                    string hintLeftFilename = "hint_left.png";
-                    string hintRightFilename = "hint_right.png";
-                    switch(this.currentLevel.MissionType)
-                    {
-                    	case MissionType.Assassination:
-                    			hintLeftFilename = "hint_left_assasination.png";
-                    			hintRightFilename = "hint_right_assasination.png";
-                    		break;
-                    		
-                    	case MissionType.Naval:
-                    			hintLeftFilename = "hint_left_naval.png";
-                    			hintRightFilename = "hint_right_naval.png";
-                    		break;
-                    }
-                    
-                    if(currentLevel.FlyDirectionHint == FlyDirectionHint.Left || currentLevel.FlyDirectionHint == FlyDirectionHint.Both)
-                    {
-                        hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.01f, 0, 0.9f * 0.15f * viewport.ActualWidth, 0.9f * 0.045f * viewport.ActualWidth), hintLeftFilename);
-                       
-                    } 
-                    if(currentLevel.FlyDirectionHint == FlyDirectionHint.Right || currentLevel.FlyDirectionHint == FlyDirectionHint.Both)
-                    {
-
-                        hintWindow.createStaticImage(new Vector4(viewport.ActualWidth * 0.84f, 0, 0.9f * 0.15f * viewport.ActualWidth, 0.9f * 0.045f * viewport.ActualWidth), hintRightFilename);
-                    }
-                    hintWindow.show();
+                    UpdateHints(true);
                     
                     
                    
@@ -1103,6 +1129,13 @@ namespace Wof.Controller.Screens
                             //      Console.WriteLine("EXCEPTION VIEW!!" + ex.ToString());
                             //
                             // }
+                            
+                            // odswiez raz na jakis czas
+                            // TODO: timer
+                            if(Mogre.Math.RangeRandom(0,1) > 0.8f)
+                            {
+                            	UpdateHints(false);
+                            }
                         }
                     }
 
@@ -1704,7 +1737,13 @@ namespace Wof.Controller.Screens
         /// <param name="plane">Samolot gracza.</param>
         public void OnBunkerFire(BunkerTile bunker, Plane plane)
         {
-            SoundManager.Instance.PlayBunkerFireSound();
+        	if(bunker is FortressBunkerTile)
+        	{
+        		SoundManager.Instance.PlayFortressFireSound();
+        	} else
+        	{
+            	SoundManager.Instance.PlayBunkerFireSound();
+        	}
             levelView.OnBunkerFire(bunker, plane);
             // Console.WriteLine("OnBunkerFire " + " BunkerTile bunker " + " Plane plane");
         }
@@ -2253,11 +2292,11 @@ namespace Wof.Controller.Screens
                     break;
             }
 
-            if(mGuiHint!=null)
+           /* if(mGuiHint!=null)
             {
                 mGuiHint.killGUI();
                 mGuiHint = null;
-            }
+            }*/
           
 
             firstTakeOff = false;
