@@ -80,6 +80,7 @@ namespace Wof.View
     /// Klasa reprezentuj¹ca poziom gry w warstwie View
     /// <author>Adam Witczak, Kamil S³awiñski</author>
     /// </summary>
+    
     internal class LevelView
     {
         public int CurrentCameraHolderIndex
@@ -1450,6 +1451,10 @@ namespace Wof.View
                 {
                     p.AnimationMgr.switchToSpin(true, null, controller.OnSpinEnd, p.Plane , true);
                     p.AnimationMgr.PrepareToSpin = false;
+                } else
+                {
+                	// animacja sie nie zakonczyla, chcemy ja przyspieszyc
+                	p.AnimationMgr.CurrentAnimation.TimeScale = 3.5f;
                 }
             }
 
@@ -1477,6 +1482,10 @@ namespace Wof.View
                     p.AnimationMgr.switchToTurn(true, controller.OnPrepareChangeDirectionEnd,
                                                 controller.OnChangeDirectionEnd);
                     p.AnimationMgr.PrepareToChangeDirection = false;
+                } else
+                {
+                	// animacja sie nie zakonczyla, chcemy ja przyspieszyc
+                	p.AnimationMgr.CurrentAnimation.TimeScale = 3.5f;
                 }
             }
             // jeœli zakoñczy³ siê obrót powróæ do IDLE

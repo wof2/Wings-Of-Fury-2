@@ -203,6 +203,7 @@ namespace Wof.View.NodeAnimation
             switchTo(AnimationType.IDLE);
             Enabled = true;
             Looped = true;
+            currentAnimation.TimeScale = 1.0f;
         }
 
 
