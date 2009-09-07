@@ -2104,13 +2104,13 @@ namespace Wof.Model.Level.Planes
                     oil -= GameConsts.UserPlane.HitCoefficient;
                     if(isEnemy)
                     {
-                        oil -= GameConsts.UserPlane.HitCoefficient / 3.0f; // przeciwnik dostaje wiecej damage'u
+                        oil -= GameConsts.UserPlane.HitCoefficient / 2.0f; // przeciwnik dostaje wiecej damage'u
                     }                     
                     if(GameConsts.UserPlane.PlaneCheat)
                     {
                         if(isEnemy)
                         {
-                            oil -= GameConsts.UserPlane.HitCoefficient / 4.0f; // lepsze dzia³ko
+                            oil -= GameConsts.UserPlane.HitCoefficient / 3.0f; // lepsze dzia³ko
                         } else
                         {
                             oil += GameConsts.UserPlane.HitCoefficient / 4.0f; // dwa razy mniejsze uszkodzenia
