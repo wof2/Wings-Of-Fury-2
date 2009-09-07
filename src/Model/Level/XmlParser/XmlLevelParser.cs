@@ -918,6 +918,8 @@ namespace Wof.Model.Level.XmlParser
                 return DayTime.Dawn;
             else if (name.Equals("morning", StringComparison.InvariantCultureIgnoreCase))
                 return DayTime.Dawn;
+             else if (name.Equals("morning2", StringComparison.InvariantCultureIgnoreCase))
+                return DayTime.Dawn2;
             else if (name.Equals("noon", StringComparison.InvariantCultureIgnoreCase))
                 return DayTime.Noon;
             else if (name.Equals("foggy", StringComparison.InvariantCultureIgnoreCase))

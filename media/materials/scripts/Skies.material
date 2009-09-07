@@ -33,6 +33,42 @@ material Skyplane/Morning : NoFog
 	}
 }
 
+material Skybox/Morning2 : NoFog
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture morning2.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+
+material Skyplane/Morning2 : NoFog
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				texture morning2_FR.jpg
+			}
+		}
+	}
+}
+
 material Skybox/Noon : NoFog
 {
 	technique
