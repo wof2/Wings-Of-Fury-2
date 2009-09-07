@@ -1797,6 +1797,12 @@ namespace Wof.View
                     texture = "morning.jpg";
                     InitDawnLight();
                     break;
+                    
+                 case DayTime.Dawn2:
+                    material = "Skyplane/Morning2";
+                    texture = "morning2.jpg";
+                    InitDawnLight();
+                    break;
 
                 case DayTime.Night:
                     material = "Skyplane/Night";
