@@ -1213,7 +1213,7 @@ namespace Wof.Controller.Screens
         {
             if (isStillFireGun)
             {
-                SoundManager.Instance.LoopGunFireSoundIfCan();
+                SoundManager.Instance.LoopGunFireSoundIfCan();                
             }
             else
             {
@@ -2108,6 +2108,13 @@ namespace Wof.Controller.Screens
         /// <param name="plane"></param>
         public void OnGunHitPlane(Plane plane)
         {
+        	if(
+        		!SoundManager.Instance.IsRicochetBeingPlayed() &&  Mogre.Math.RangeRandom(0,1) > 0.9f ||
+        	  	Mogre.Math.RangeRandom(0,1) > 0.99f
+        	  )
+        	{
+        		SoundManager.Instance.PlayRicochetSound();
+        	}
             levelView.OnGunHitPlane(plane);
         }
 

@@ -632,8 +632,9 @@ namespace Wof.Model.Level.Planes
                 float currentDistanceToUserPlane = Center.X - level.UserPlane.Center.X;
                 float absDistance = Mogre.Math.Abs(currentDistanceToUserPlane);
                 float distanceFactor = 6.5f * Mogre.Math.Abs(level.UserPlane.MovementVector.X) / Plane.MinFlyingSpeed;
+                float absYDistance = Mogre.Math.Abs(Center.Y - level.UserPlane.Center.Y);
 
-                bool result = (absDistance < lastAbsDistance && absDistance < distanceFactor);
+                bool result = (absDistance < lastAbsDistance && absDistance < distanceFactor && absYDistance < 1.5f * distanceFactor);
 
                 lastAbsDistance = absDistance;
                 return result;

@@ -117,6 +117,8 @@ namespace Wof.Controller
         private Audio bunkerFireSound;
         private Audio bunkerFireSound2;
         private Audio fortressFireSound;
+        private Audio ricochetSound;
+        
         private Audio shipFireSound;
         
         private Audio explosionSound;
@@ -162,6 +164,8 @@ namespace Wof.Controller
                 failedEngineSound = new Audio("sounds/startengine.wav");
                 bunkerFireSound = new Audio("sounds/cannon.wav");
                 bunkerFireSound2 = new Audio("sounds/cannon2.wav");
+                ricochetSound = new Audio("sounds/ricochet.wav");
+                
                 fortressFireSound = new Audio("sounds/fortress_cannon.wav");
                 shipFireSound = new Audio("sounds/ship_cannon.wav");
                 
@@ -314,6 +318,16 @@ namespace Wof.Controller
         {
             Play(shipFireSound);
         }
+ 		
+ 		public void PlayRicochetSound()
+        {
+            Play(ricochetSound);
+        }
+ 		
+ 		public bool IsRicochetBeingPlayed()
+ 		{
+ 			return  ricochetSound.CurrentPosition > 0 && ricochetSound.CurrentPosition < ricochetSound.Duration;
+ 		}
  		
  		
      

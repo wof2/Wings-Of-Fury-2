@@ -75,7 +75,7 @@
     attackStoragePlaneDistance = "15.5"
     carrierDistanceAlarm = "1200"
     enemyRotateStep = "1.04719755"
-    maxSimultaneousEnemyPlanes="2"
+    maxSimultaneousEnemyPlanes="3"
   />
 
   <!--Żołnierze:
