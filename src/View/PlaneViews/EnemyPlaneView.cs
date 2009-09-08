@@ -135,7 +135,7 @@ namespace Wof.View
         {
             if (EngineConfig.SoundEnabled && !engineSound.IsPlaying())
             {
-                engineSound.SetGain(EngineConfig.SoundVolume / 100.0f);
+                engineSound.SetGain(0.3f * EngineConfig.SoundVolume / 100.0f);
                 engineSound.Play();
                 //SoundManager3D.Instance.UpdateSoundObjects();
             }

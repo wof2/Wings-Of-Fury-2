@@ -545,6 +545,11 @@ namespace Wof.Model.Level.Weapon
 
         #region Static Method
 
+        public static bool CanHitEnemyPlane(Plane plane, Plane enemyPlane)
+        {
+            return CanHitEnemyPlane(plane, enemyPlane, 0);
+        }
+
         /// <summary>
         /// Funkcja sprawdza czy samolot bedzie mogl trafic rakieta w inny obiekt.
         /// </summary>
@@ -553,7 +558,7 @@ namespace Wof.Model.Level.Weapon
         /// <returns>Zwraca true jesli moze trafic wrogi samolot; false - w przeciwnym
         /// przypadku.</returns> 
         /// <author>Michal Ziober</author>
-        public static bool CanHitEnemyPlane(Plane plane, Plane enemyPlane)
+        public static bool CanHitEnemyPlane(Plane plane, Plane enemyPlane, float tolerance)
         {
             if (plane.Direction == Direction.Right && plane.Center.X > enemyPlane.Center.X)
                 return false;
@@ -570,7 +575,14 @@ namespace Wof.Model.Level.Weapon
             Line lineA = new Line(planeQuad.Peaks[1], planeQuad.Peaks[2]);
             for (int i = 0; i < enemyPlane.Bounds.Peaks.Count - 1; i++)
             {
-                Line lineB = new Line(enemyPlane.Bounds.Peaks[i], enemyPlane.Bounds.Peaks[i + 1]);
+                PointD start = enemyPlane.Bounds.Peaks[i];
+                start += new PointD(Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f), Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f));
+
+                PointD finish = enemyPlane.Bounds.Peaks[i + 1];
+                finish += new PointD(Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f), Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f));
+
+                Line lineB = new Line(start, finish);
+
                 PointD cut = lineA.Intersect(lineB);
                 if (cut == null)
                     continue;

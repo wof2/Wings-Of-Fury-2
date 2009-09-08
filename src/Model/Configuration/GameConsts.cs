@@ -224,6 +224,13 @@ namespace Wof.Model.Configuration
             public static float ViewRange = 80;
 
             /// <summary>
+            /// Określa celność samolotu wroga. Wartosc np. 99 oznacza ze samolot zdecyduje sie na strzal nawet jesli linia strzału przecina się gdzieś z zasięgu 1 metra (100 - 99)
+            /// od perfekcyjnej trajektorii strzału
+            /// </summary>
+            public static float Accuracy = 100.0f;
+
+
+            /// <summary>
             /// Liczba dostepnych rakiet.
             /// </summary>
             public static int RocketCount = 5;

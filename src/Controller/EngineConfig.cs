@@ -339,6 +339,17 @@ namespace Wof.Controller
                     {
                     	 AudioStreaming = false;
                     }
+                    try
+					{
+                        UseHardwareTexturePreloader = "true".Equals(configOptions[14]);
+                    }
+                    catch(Exception)
+                    {
+                        UseHardwareTexturePreloader = false;
+                    }
+
+
+                    
 										
                     
                 }
@@ -355,7 +366,7 @@ namespace Wof.Controller
 
         public static void SaveEngineConfig()
         {
-            String[] configuration = new String[14];
+            String[] configuration = new String[15];
             configuration[0] = BloomEnabled ? "true" : "false";
             configuration[1] = SoundEnabled ? "true" : "false";
             configuration[2] = SoundSystem.ToString();
@@ -370,7 +381,7 @@ namespace Wof.Controller
             configuration[11] = UseHydrax ? "true" : "false";
             configuration[12] = ShadowsQuality.ToString();
             configuration[13] = AudioStreaming.ToString();
-                        
+            configuration[14] = UseHardwareTexturePreloader ? "true" : "false";
             ExplosionLights = !LowDetails;
             BodiesStay = !LowDetails;
          

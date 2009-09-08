@@ -343,7 +343,7 @@ namespace Wof.Model.Level.Weapon
                 {
                     //sprawdzam czy wrogi samolot nie trafil w samolot gracza.
                     if ((Math.Abs(ammunitionOwner.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
-                        Gun.IsHitEnemyPlane(ammunitionOwner, refToLevel.UserPlane))
+                        Gun.CanHitPlane(ammunitionOwner, refToLevel.UserPlane))
                     {
                         //ubytek paliwa.
                         refToLevel.UserPlane.Hit(true);
@@ -375,7 +375,7 @@ namespace Wof.Model.Level.Weapon
                     foreach (EnemyPlane ep in refToLevel.EnemyPlanes)
                     {
                         if ((Math.Abs(ep.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
-                            Gun.IsHitEnemyPlane(refToLevel.UserPlane, ep))
+                            Gun.CanHitPlane(refToLevel.UserPlane, ep))
                         {
                             //ubytek paliwa.
                             ep.Hit(true);

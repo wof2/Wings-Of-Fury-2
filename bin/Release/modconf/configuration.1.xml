@@ -64,7 +64,7 @@
     carrierDistanceAlarm - Określa na na jakiej odlełości od lotniskowca włacza się alarm. Typ: int
   -->
   <EnemyPlane 
-    speed="32"
+    speed="36"
     oilLoss="1"
     minPitch = "10"
     viewRange = "75"
@@ -76,6 +76,7 @@
     carrierDistanceAlarm = "1200"
     enemyRotateStep = "1.04719755"
     maxSimultaneousEnemyPlanes="4"
+    accuracy = "99.0"
     />
 
   <!--Żołnierze:

@@ -92,6 +92,7 @@ namespace Wof.Model.Configuration
             public const string storagePlaneDistanceFault = @"storagePlaneDistanceFault";
             public const string safeUserPlaneDistance = @"safeUserPlaneDistance";
             public const string attackStoragePlaneDistance = @"attackStoragePlaneDistance";
+            public const string accuracy = @"accuracy";
             public const string carrierDistanceAlarm = @"carrierDistanceAlarm";
             public const string enemyRotateStep = @"enemyRotateStep";
             public const string maxSimultaneousEnemyPlanes = @"maxSimultaneousEnemyPlanes";
