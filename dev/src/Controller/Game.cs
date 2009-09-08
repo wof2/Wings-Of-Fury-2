@@ -590,7 +590,7 @@ namespace Wof.Controller
             initScreenAfter(currentScreen);
             SoundManager.Instance.PlayMainTheme();
 
-            currentScreen = new EndingScreen(this, sceneMgr, viewport, camera, true, 15, highscore);
+            currentScreen = new EndingScreen(this, sceneMgr, viewport, camera, true, 25, highscore);
 
             if (ss != null)
             {
