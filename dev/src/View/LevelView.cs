@@ -1801,7 +1801,7 @@ namespace Wof.View
                  case DayTime.Dawn2:
                     material = "Skyplane/Morning2";
                     texture = "morning2.jpg";
-                    InitDawnLight();
+                    InitLight();
                     break;
 
                 case DayTime.Night:
@@ -1872,6 +1872,7 @@ namespace Wof.View
                 EffectsManager.Singleton.AddSeagulls(sceneMgr, new Vector3(0, 150, -1500), new Vector2(20, 25),
                                                      new Degree(10), 20, 10);
             }
+            bool lighterClouds = (level.DayTime == DayTime.Dawn2);
 	
             // chmury
             int cloudsets = 10;
@@ -1882,14 +1883,14 @@ namespace Wof.View
 
                 if (!EngineConfig.LowDetails)
                     EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 100, -500), new Vector2(150, 50),
-                                                       new Degree(5), 10);
+                                                       new Degree(5), 10, lighterClouds);
 
                 float cloudZ;
 
                 cloudZ = -4200;
                 EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudZ),
                                            new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
-                                           new Degree(5), 5);
+                                           new Degree(5), 5, lighterClouds);
 
                 /*if (level.DayTime == DayTime.Foggy)
                 {
@@ -1905,7 +1906,7 @@ namespace Wof.View
 
               
                 // nad samolotem (niebo)
-                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 170, 0), new Vector2(500, 200), 0, 1);
+                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 170, 0), new Vector2(500, 200), 0, 1, lighterClouds);
             }
         }
 

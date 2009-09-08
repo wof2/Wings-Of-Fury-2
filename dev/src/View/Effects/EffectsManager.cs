@@ -954,29 +954,47 @@ namespace Wof.View.Effects
                 }
             }
         }
+        public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
+                             uint cloudCount)
+        {
+            AddClouds(sceneMgr, cloudsCenter, defaultSize, maxRotation, cloudCount, false);
+        }
+
 
         public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
-                              uint cloudCount)
+                              uint cloudCount, bool lighterClouds)
         {
        // return;
         	float os = LevelView.oceanSize /2.0f;
             if (!sceneMgr.HasBillboardSet("Clouds1"))
             {
                 cloudsBS1 = sceneMgr.CreateBillboardSet("Clouds1");
-                cloudsBS1.MaterialName = "Effects/Cloud1";
-               
+                if(lighterClouds)
+                {
+                    cloudsBS1.MaterialName = "Effects/Cloud1a";
+                }
+                else
+                {
+                     cloudsBS1.MaterialName = "Effects/Cloud1";
+                }
             
                 cloudsBS1.SetBounds(new AxisAlignedBox(new Vector3(-os,0,0),new Vector3(os,30,0)), 150);
                 cloudsBS1.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
-               cloudsBS1.CastShadows = false;  
+                cloudsBS1.CastShadows = false;  
             }
 
             if (!sceneMgr.HasBillboardSet("Clouds2"))
             {
                 cloudsBS2 = sceneMgr.CreateBillboardSet("Clouds2");
-                cloudsBS2.MaterialName = "Effects/Cloud2";
-          
-                	
+                if (lighterClouds)
+                {
+                    cloudsBS2.MaterialName = "Effects/Cloud2a";
+                }
+                else
+                {
+                    cloudsBS2.MaterialName = "Effects/Cloud2";
+                }
+
                 //cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,-os,-1),new Vector3(os,os,1)), LevelView.oceanSize );
                 cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,0,0),new Vector3(os,30,0)), 150);
             	cloudsBS2.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
@@ -985,7 +1003,7 @@ namespace Wof.View.Effects
           	cloudsBS1.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
             cloudsBS2.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
 
-          
+         
 
             int sizeDevX = (int) (defaultSize.x/10.0f);
             int sizeDevY = (int) (defaultSize.y/10.0f);
@@ -1011,7 +1029,8 @@ namespace Wof.View.Effects
 
             for (int i = -halfCount; i < halfCount; i += 2)
             {
-                Billboard cloud2 = cloudsBS2.CreateBillboard(i*25, Mogre.Math.RangeRandom(-50, 50), 0);              
+                Billboard cloud2 = cloudsBS2.CreateBillboard(i * 25, Mogre.Math.RangeRandom(-50, 50), 0);
+               // cloud2.Colour = ColourValue.White;        
                 cloud2.SetDimensions(defaultSize.x + Mogre.Math.RangeRandom(-sizeDevX, sizeDevX),
                                      defaultSize.y + Mogre.Math.RangeRandom(-sizeDevY, sizeDevY));
                 cloud2.Position += cloudsCenter;

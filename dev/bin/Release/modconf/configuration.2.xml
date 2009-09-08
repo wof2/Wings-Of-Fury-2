@@ -61,7 +61,7 @@
     storagePlaneDistanceFault - Okresli o ile metrów samolot wroga może się pomylić w ataku na dodatkowe samoloty. Typ: Double
   -->
   <EnemyPlane 
-    speed="34"
+    speed="38"
     oilLoss="1"
     minPitch = "10"
     viewRange = "85"
@@ -73,6 +73,7 @@
     carrierDistanceAlarm = "1200"
     enemyRotateStep = "1.04719755"
     maxSimultaneousEnemyPlanes="6"
+    accuracy = "100.0"
 />
 
   <!--Żołnierze:

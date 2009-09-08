@@ -458,7 +458,7 @@ material Effects/Cloud1T
 			texture_unit 0
 			{
               texture cloud1.png
-			        alpha_op_ex modulate src_texture src_manual 0.5 0.5			
+			        alpha_op_ex modulate src_texture src_manual 0.4 0.4			
 			}		
 
 		}
@@ -482,7 +482,7 @@ material Effects/Cloud2T
 			texture_unit 0
 			{
               texture cloud2.png
-			        alpha_op_ex modulate src_texture src_manual 0.5 0.5			
+			        alpha_op_ex modulate src_texture src_manual 0.4 0.4			
 			}		
 
 		}
@@ -491,6 +491,87 @@ material Effects/Cloud2T
 	
 }
 
+
+
+
+material Effects/Cloud1a : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              texture cloud1a.png
+          }
+       }
+   }
+}
+
+
+
+
+material Effects/Cloud2a : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              texture cloud2a.png
+          }
+       }
+   }
+}
+
+material Effects/Cloud1aT
+{
+	technique
+	{
+	
+		pass 0
+		{	
+		  cull_hardware none
+      cull_software none	
+			lighting off					
+			scene_blend alpha_blend		
+			depth_write off
+			texture_unit 0
+			{
+              texture cloud1a.png
+			        alpha_op_ex modulate src_texture src_manual 0.4 0.4			
+			}		
+
+		}
+
+	}
+	
+}
+
+
+material Effects/Cloud2aT
+{
+	technique
+	{
+		pass 0
+		{	
+		  cull_hardware none
+      cull_software none	
+			lighting off					
+			scene_blend alpha_blend		
+			depth_write off
+			texture_unit 0
+			{
+              texture cloud2a.png
+			        alpha_op_ex modulate src_texture src_manual 0.4 0.4			
+			}		
+
+		}
+
+	}
+	
+}
 
 
 

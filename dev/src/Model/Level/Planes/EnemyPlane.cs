@@ -47,6 +47,7 @@
  */
 
 using System;
+using System.Diagnostics;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
@@ -103,7 +104,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Okreœla na jak¹ wysokoœæ nad samolot gracza bêdzie siê wznosi³/opada³ samolot wroga.
         /// </summary>
-        private const float userPlaneHeightDiff = 9;
+        private const float userPlaneHeightDiff = 4;
 
         /// <summary>
         /// Wysokoœæ samolotu.
@@ -297,7 +298,7 @@ namespace Wof.Model.Level.Planes
 
                 //atak samolotu gracza
                 if (ShouldBeChasingUserPlane)
-                    AttackUserPlane();
+                    AttackUserPlane(level.UserPlane, scaleFactor);
             }
             // Console.WriteLine(temp + "   -   " + movementVector);
 
@@ -395,20 +396,39 @@ namespace Wof.Model.Level.Planes
                 }
                 else if (ShouldAvoidUserPlaneCrash) //czy ma omin¹æ gracza
                 {
+                    Trace.WriteLine("AVOIDING!!!");
                     AvoidUserPlaneCrash(scaleFactor);
                 }
                 else
                 {
+                   
                     //czy ma lecieæ w dó³
+                    float yDiff =  1 + Math.Abs(Center.Y - level.UserPlane.Center.Y);
+                    float yDiffNorm = (float)Math.Log10(yDiff) * 0.5f;
+
+                   
+
                     if (Center.Y > level.UserPlane.Center.Y + userPlaneHeightDiff && RelativeAngle > -maxAngle)
-                        RotateDown(scaleFactor*rotateStep);
+                    {
+                        Trace.WriteLine("DOWN PITCH: " + yDiff + " normalized: " + yDiffNorm);
+                        RotateDown(scaleFactor * rotateStep * yDiffNorm);
+                    }
                     else //czy ma lecieæ w górê
+                    {
                         if (Center.Y < level.UserPlane.Center.Y - userPlaneHeightDiff && RelativeAngle < maxAngle)
-                            RotateUp(scaleFactor*rotateStep);
+                        {
+                            Trace.WriteLine("UP PITCH: " + yDiff + " normalized: " + yDiffNorm);
+                            RotateUp(scaleFactor * rotateStep * yDiffNorm);
+                        }
                         else //czy ma prostowaæ samolot 
-                            if (Math.Abs(RelativeAngle) >= 0)
-                                //Rotate(-1.0 * (float)direction * Math.Sign(RelativeAngle) * scaleFactor * Math.Min(rotateStep, Math.Abs(RelativeAngle)));
-                                SteerToHorizon(scaleFactor);
+                        if (Math.Abs(RelativeAngle) >= 0)
+                        {
+                            Trace.WriteLine("HORIZON PITCH: " + yDiff + " normalized: " + yDiffNorm);
+                            SteerToHorizon(scaleFactor);
+                            
+                        }
+                                
+                    }
                 }
             }
             else
@@ -493,32 +513,44 @@ namespace Wof.Model.Level.Planes
         /// <param name="rocketAttack">Jeœli true sprawdzana bêdzie mo¿liwoœæ trafienia rakiet¹
         /// w przeciwnym przypadku mo¿liwoœæ trafienia dzia³kiem.</param>
         /// <returns></returns>
-        private bool CanHitUserPlane(bool rocketAttack)
+        private bool CanHitUserPlane(bool rocketAttack, float tolerance)
         {
             if (rocketAttack)
-                return weaponManager.RocketCount > 0 && Rocket.CanHitEnemyPlane(this, level.UserPlane);
+                return weaponManager.RocketCount > 0 && Rocket.CanHitEnemyPlane(this, level.UserPlane, tolerance);
             else
-                return Gun.IsHitEnemyPlane(this, level.UserPlane);
+                return Gun.CanHitPlane(this, level.UserPlane, tolerance);
 
-            //!IsAfterUserPlane && 
-            //Mogre.Math.Abs((float)(level.UserPlane.Center.X - this.Center.X)) < 300  &&
-            //Center.Y < level.UserPlane.Center.Y + Plane.Height / 2 &&
-            //Center.Y > level.UserPlane.Center.Y - Plane.Height / 2)
+          
         }
 
         /// <summary>
         /// Próbuje zaatkaowaæ samolot gracza. Najpierw sprawdza mo¿liwoœæ ataku rakiet¹
         /// a póŸniej dzia³kiem.
         /// </summary>
-        private void AttackUserPlane()
+        private void AttackUserPlane(Plane userPlane, float scaleFactor)
         {
             //return; //chwilowo do testów
             //sprawdzam czy samolot nie jest za daleko, ¿eby atakowaæ
-            if (Math.Abs(Center.X - level.UserPlane.Center.X) > GameConsts.EnemyPlane.ViewRange)
-                return;
             
-           
-            if (CanHitUserPlane(true)) //najpierw próbuje strzeliæ rakiet¹
+                // staraj sie dogonic samolot gracza
+            if (IsTurnedTowardsUserPlane(userPlane) && Speed < GameConsts.EnemyPlane.Speed * 1.4f)
+            {
+                Speed += 0.8f * scaleFactor;
+            }
+            
+            if (!IsTurnedTowardsUserPlane(userPlane) && Speed > Plane.MinFlyingSpeed)
+            {
+                Speed -= 0.8f * scaleFactor;
+            }
+
+
+            if (Math.Abs(Center.X - level.UserPlane.Center.X) > GameConsts.EnemyPlane.ViewRange)
+            {
+                return;
+            }
+
+
+            if (CanHitUserPlane(true, 100 - GameConsts.EnemyPlane.Accuracy)) //najpierw próbuje strzeliæ rakiet¹
             {
                 if(warCryTimer > warCryTimerMin)
                 {
@@ -527,8 +559,8 @@ namespace Wof.Model.Level.Planes
                 }
                 FireRocket();
             }
-                
-            else if (CanHitUserPlane(false))
+
+            else if (CanHitUserPlane(false, 100 - GameConsts.EnemyPlane.Accuracy))
             {
                 if (warCryTimer > warCryTimerMin)
                 {
@@ -656,6 +688,16 @@ namespace Wof.Model.Level.Planes
         }
 
         /// <summary>
+        /// Sprawdza, czy znajduje siê za samolotem gracza.
+        /// </summary>
+        private bool IsTurnedTowardsUserPlane(Plane userPlane)
+        {
+            return (direction == Direction.Right && bounds.LeftMostX < userPlane.Bounds.RightMostX) ||
+                   (direction == Direction.Left && bounds.RightMostX > userPlane.Bounds.LeftMostX);
+       
+        }
+
+        /// <summary>
         /// Sprawdza czy samolot znajduje siê za samolotami na lotniskowcu
         /// </summary>
         private bool IsAfterPlanesOnCarrier
@@ -763,7 +805,9 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
-                if (direction == level.UserPlane.Direction ||
+                if (
+                    (direction == level.UserPlane.Direction && Math.Abs(Center.X - level.UserPlane.Center.X) > 0.2f * GameConsts.EnemyPlane.SafeUserPlaneDistance && Math.Abs(Center.Y - level.UserPlane.Center.Y) > 0.2f * safeUserPlaneHeightDiff) ||
+
                     IsAfterUserPlane ||
                     Math.Abs(Center.X - level.UserPlane.Center.X) > GameConsts.EnemyPlane.SafeUserPlaneDistance ||
                     Math.Abs(Center.Y - level.UserPlane.Center.Y) > safeUserPlaneHeightDiff
