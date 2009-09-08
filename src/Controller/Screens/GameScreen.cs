@@ -2109,7 +2109,7 @@ namespace Wof.Controller.Screens
         public void OnGunHitPlane(Plane plane)
         {
         	if(
-        		!SoundManager.Instance.IsRicochetBeingPlayed() &&  Mogre.Math.RangeRandom(0,1) > 0.9f ||
+        		!SoundManager.Instance.IsRicochetBeingPlayed() &&  Mogre.Math.RangeRandom(0,1) > 0.92f ||
         	  	Mogre.Math.RangeRandom(0,1) > 0.99f
         	  )
         	{
