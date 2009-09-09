@@ -396,7 +396,7 @@ namespace Wof.Model.Level.Planes
                 }
                 else if (ShouldAvoidUserPlaneCrash) //czy ma omin¹æ gracza
                 {
-                    Trace.WriteLine("AVOIDING!!!");
+                    //Trace.WriteLine("AVOIDING!!!");
                     AvoidUserPlaneCrash(scaleFactor);
                 }
                 else
@@ -410,20 +410,20 @@ namespace Wof.Model.Level.Planes
 
                     if (Center.Y > level.UserPlane.Center.Y + userPlaneHeightDiff && RelativeAngle > -maxAngle)
                     {
-                        Trace.WriteLine("DOWN PITCH: " + yDiff + " normalized: " + yDiffNorm);
+                      //  Trace.WriteLine("DOWN PITCH: " + yDiff + " normalized: " + yDiffNorm);
                         RotateDown(scaleFactor * rotateStep * yDiffNorm);
                     }
                     else //czy ma lecieæ w górê
                     {
                         if (Center.Y < level.UserPlane.Center.Y - userPlaneHeightDiff && RelativeAngle < maxAngle)
                         {
-                            Trace.WriteLine("UP PITCH: " + yDiff + " normalized: " + yDiffNorm);
+                        //    Trace.WriteLine("UP PITCH: " + yDiff + " normalized: " + yDiffNorm);
                             RotateUp(scaleFactor * rotateStep * yDiffNorm);
                         }
                         else //czy ma prostowaæ samolot 
                         if (Math.Abs(RelativeAngle) >= 0)
                         {
-                            Trace.WriteLine("HORIZON PITCH: " + yDiff + " normalized: " + yDiffNorm);
+                          //  Trace.WriteLine("HORIZON PITCH: " + yDiff + " normalized: " + yDiffNorm);
                             SteerToHorizon(scaleFactor);
                             
                         }
