@@ -384,28 +384,27 @@ namespace Wof.Controller.Screens
            
         }
 
+        private List<Vector3> planesInitialPositions; 
+
         public virtual void CreateScene()
         {
+            planesInitialPositions = new List<Vector3>
+                                     {
+                                         new Vector3(-10, 17, 40),
+                                         new Vector3(0, 19, 40),
+                                         new Vector3(10, 17, 40)
+                                     };
+
+
             if (planeViews == null || planeViews.Count == 0)
             {
                 // add planes
                 planeViews = new List<PlaneView>();
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < planesInitialPositions.Count; i++)
                 {
                     P47PlaneView p = new P47PlaneView(null, sceneMgr, sceneMgr.RootSceneNode, "Plane");
-
-                    if (i == 0)
-                    {
-                        p.PlaneNode.Translate(-10, 17, 40);
-                    }
-                    else if (i == 1)
-                    {
-                        p.PlaneNode.Translate(0, 20, 40);
-                    }
-                    else if (i == 2)
-                    {
-                        p.PlaneNode.Translate(10, 17, 40);
-                    }
+                    p.PlaneNode.Translate(planesInitialPositions[i]);
+                   
                     p.AnimationMgr.SetGearsVisible(false);
                     p.PlaneNode.Yaw(Math.PI);
                     p.AnimationMgr.switchToIdle(false);
@@ -579,6 +578,7 @@ namespace Wof.Controller.Screens
             
             	
             }
+
         }
         
         public void HandleInput(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
@@ -588,12 +588,20 @@ namespace Wof.Controller.Screens
             {
                 FrameStarted(evt);
 
+
                 if (planeViews != null)
                 {
+                    float yAmplitude = 0.4f;
                     for (int i = 0; i < planeViews.Count; i++)
                     {
-                        planeViews[i].AnimationMgr.updateTimeAll(evt.timeSinceLastFrame);
-                        planeViews[i].AnimationMgr.animateAll();
+                        PlaneView p = planeViews[i];
+                        p.PlaneNode.SetPosition(p.PlaneNode.Position.x,
+                                                planesInitialPositions[i].y -
+                                                yAmplitude * Mogre.Math.Sin(p.PlaneNode.Position.x + 1.0f * EffectsManager.Singleton.TotalTime),
+                                                p.PlaneNode.Position.z);
+
+                        p.AnimationMgr.updateTimeAll(evt.timeSinceLastFrame);
+                        p.AnimationMgr.animateAll();
                     }
                 }
                 

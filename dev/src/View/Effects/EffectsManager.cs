@@ -90,6 +90,9 @@ namespace Wof.View.Effects
         private ParticleManager trailSmokeMgr;
         private ParticleManager lightSmokeMgr;
         private ParticleManager darkLightSmokeMgr;
+
+        private float totalTime = 0;
+
         
 
         private BillboardSet cloudsBS1;
@@ -102,6 +105,11 @@ namespace Wof.View.Effects
         public static EffectsManager Singleton
         {
             get { return singleton; }
+        }
+
+        public float TotalTime
+        {
+            get { return totalTime; }
         }
 
         public enum EffectType
@@ -157,6 +165,7 @@ namespace Wof.View.Effects
 
         public void Clear()
         {
+            totalTime = 0;
             if (effects != null)
             {
                 /* foreach (EffectTextureAnimation a in effects.Values)
@@ -291,6 +300,7 @@ namespace Wof.View.Effects
         /// <param name="timeSinceLastFrame"></param>
         public void UpdateTimeAndAnimateAll(float timeSinceLastFrame)
         {
+            totalTime = TotalTime + timeSinceLastFrame;
             foreach (NodeAnimation.NodeAnimation a in effects.Values)
             {
                 a.updateTime(timeSinceLastFrame);
