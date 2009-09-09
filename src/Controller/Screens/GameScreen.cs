@@ -1890,17 +1890,21 @@ namespace Wof.Controller.Screens
             //Console.WriteLine("OnEnemyPlaneBombed " + " Plane plane " + " Ammunition ammunition ");
         }
 
-        public void OnTorpedoSunk(LevelTile tile, Torpedo ammunition, TorpedoFailure torpedoFailure)
+        public void OnTorpedoSunk(LevelTile tile, Torpedo ammunition, TorpedoFailure? torpedoFailure)
         {
-            if (tile is OceanTile)
+            if (tile is OceanTile || tile is ShipTile)
             {
                 levelView.OnAmmunitionVanish(tile, ammunition);
                 SoundManager.Instance.PlayIncorrectStart();
                 OnWaterBubblesSound();
-                if (torpedoFailure == TorpedoFailure.TooHigh)
-                    gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.TorpedoTooHigh));
-                else if (torpedoFailure == TorpedoFailure.LongTravelDistance)
-                    gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.TorpedoTooLongTravelDistance));
+                if (torpedoFailure != null)
+                {
+                    if (torpedoFailure == TorpedoFailure.TooHigh)
+                        gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.TorpedoTooHigh));
+                    else if (torpedoFailure == TorpedoFailure.LongTravelDistance)
+                        gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.TorpedoTooLongTravelDistance));
+                }
+               
             }
         }
 		public void OnFortressHit(FortressBunkerTile tile, Ammunition ammunition)

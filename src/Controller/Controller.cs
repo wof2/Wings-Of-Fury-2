@@ -145,7 +145,7 @@ namespace Wof.Controller
         /// <param name="tile"></param>
         /// <param name="ammunition"></param>
         /// <param name="torpedoFailure"></param>
-        void OnTorpedoSunk(LevelTile tile, Torpedo ammunition, TorpedoFailure torpedoFailure);
+        void OnTorpedoSunk(LevelTile tile, Torpedo ammunition, TorpedoFailure? torpedoFailure);
 
         /// <summary>
         /// Funkcja jest wywolywana jesli zostal trafiony wrogi obiekt,
