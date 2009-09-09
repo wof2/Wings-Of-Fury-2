@@ -384,16 +384,16 @@ namespace Wof.Controller.Screens
            
         }
 
-        private List<Vector3> planesInitialPositions; 
-
-        public virtual void CreateScene()
-        {
-            planesInitialPositions = new List<Vector3>
+        private List<Vector3> planesInitialPositions = new List<Vector3>
                                      {
                                          new Vector3(-10, 17, 40),
                                          new Vector3(0, 19, 40),
                                          new Vector3(10, 17, 40)
                                      };
+
+        public virtual void CreateScene()
+        {
+          
 
 
             if (planeViews == null || planeViews.Count == 0)
