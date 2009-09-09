@@ -139,6 +139,12 @@ namespace Wof.Model.Level.Weapon
         protected float maxWaterTravelDistance = 100.0f;
 
         /// <summary>
+        /// Min. odległość jaką może przepłynąć torpeda zanim się uzbroi
+        /// </summary>
+        protected float minWaterTravelDistance = 15.0f;
+
+
+        /// <summary>
         /// Wartosc zapamietuje czas od ostatniego przesuniecia.
         /// </summary>
         /// <author>Michal Ziober</author>
@@ -260,12 +266,12 @@ namespace Wof.Model.Level.Weapon
 
         }
 
-        public void SinkTorpedo(TorpedoFailure torpedoFailure)
+        public void SinkTorpedo(TorpedoFailure? torpedoFailure)
         {
             int index = Mathematics.PositionToIndex(Center.X);
             if (index > -1 && index < refToLevel.LevelTiles.Count)
             {
-                refToLevel.Controller.OnTorpedoSunk(refToLevel.LevelTiles[index], this , torpedoFailure);
+                refToLevel.Controller.OnTorpedoSunk(refToLevel.LevelTiles[index], this, torpedoFailure);
                 state = MissileState.Destroyed;
                 return;
             }
@@ -358,9 +364,21 @@ namespace Wof.Model.Level.Weapon
                     //jesli nie ma kolizji z zadnym obiektem
                     if (refToLevel.LevelTiles[index].InCollision(this.boundRectangle) == CollisionType.None) return;
 
-                    //jesli nie da sie zniszczyc dany obiekt bomba.
+
+
+
+                    //jesli nie da sie zniszczyc dany obiekt torpeda.
                     if (this.IsInWater)
                     {
+
+                        if(waterTravelDistance < this.minWaterTravelDistance)
+                        {
+                            SinkTorpedo(null);
+                            return;
+                        }
+
+                            
+
                         if (!CanBeDestroyed(index) && !(refToLevel.LevelTiles[index] is OceanTile))
                         {
                             refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
