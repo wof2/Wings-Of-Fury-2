@@ -80,6 +80,8 @@ namespace BetaGUI
             if (mMP != null) mMP.Show();
         }
 
+
+
         public void killGUI()
         {
             for (int i = 0; i < WN.Count; i++)
@@ -185,6 +187,25 @@ namespace BetaGUI
         {
             mXW = w;
         }
+
+        public void killWindow(Window w)
+        {
+            
+            for (int i = 0; i < WN.Count; i++)
+            {
+                if(WN[i].Equals(w))
+                {
+                    WN.Remove(w);
+                    w.killWindow();
+                    //wc--;
+                    break;
+                }
+                
+            }
+               
+        }
+         
+
         /// <summary>
         /// 
         /// </summary>
