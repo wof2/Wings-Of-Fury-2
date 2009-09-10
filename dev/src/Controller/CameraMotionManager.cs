@@ -148,7 +148,7 @@ namespace Wof.Controller
             // Bullet-time
             if(EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierSlow)
             {
-            	zoomFactor +=  -manualZoom + minCamDistance - c.Position.z - 50.0f;
+            	zoomFactor +=  -manualZoom + minCamDistance - c.Position.z + 30.0f;
             }
             
             translateVector.z += zoomFactor;

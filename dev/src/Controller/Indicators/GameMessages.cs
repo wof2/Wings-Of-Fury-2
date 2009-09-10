@@ -220,6 +220,12 @@ namespace Wof.Controller.Indicators
            
 
         }
+        
+        public void ClearMessages()
+        {
+         	ClearMessage();
+         	messageQueue.Clear();
+        }
 
         public void ClearMessage()
         {

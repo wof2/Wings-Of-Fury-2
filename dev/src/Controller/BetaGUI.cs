@@ -642,9 +642,9 @@ namespace BetaGUI
             {
 	            for (int i = 0; i < mI.Count; i++)
 	            {
-	            	foreach (OverlayContainer container in mI[i].GetChildContainerIterator())
-	                foreach (OverlayElement element in container.GetChildIterator())
-	                    OverlayManager.Singleton.DestroyOverlayElement(element);
+	            	//foreach (OverlayContainer container in mI[i].GetChildContainerIterator())
+	               // foreach (OverlayElement element in container.GetChildIterator())
+	               //     OverlayManager.Singleton.DestroyOverlayElement(element);
 	            	
 	             	OverlayManager.Singleton.DestroyOverlayElement(mI[i]);
 	             	

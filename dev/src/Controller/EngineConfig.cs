@@ -348,7 +348,14 @@ namespace Wof.Controller
                         UseHardwareTexturePreloader = false;
                     }
 
-
+					try
+					{
+                        Gore = "true".Equals(configOptions[15]);
+                    }
+                    catch(Exception)
+                    {
+                        Gore = false;
+                    }
                     
 										
                     
@@ -366,7 +373,7 @@ namespace Wof.Controller
 
         public static void SaveEngineConfig()
         {
-            String[] configuration = new String[15];
+            String[] configuration = new String[16];
             configuration[0] = BloomEnabled ? "true" : "false";
             configuration[1] = SoundEnabled ? "true" : "false";
             configuration[2] = SoundSystem.ToString();
@@ -382,6 +389,7 @@ namespace Wof.Controller
             configuration[12] = ShadowsQuality.ToString();
             configuration[13] = AudioStreaming.ToString();
             configuration[14] = UseHardwareTexturePreloader ? "true" : "false";
+            configuration[15] = Gore ? "true" : "false";
             ExplosionLights = !LowDetails;
             BodiesStay = !LowDetails;
          
