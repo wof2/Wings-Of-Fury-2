@@ -2151,7 +2151,7 @@ namespace Wof.Controller.Screens
             {
                 message = LanguageResources.GetString(LanguageKey.AllEnemyShipsDestroyedLandOnCarrierAndPressX);
             }
-
+            gameMessages.ClearMessages();
             gameMessages.AppendMessage(new MessageEntry(0, 0, message, true, true ));
 
             SoundManager.Instance.PlayFanfare();
