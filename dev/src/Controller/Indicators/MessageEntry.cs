@@ -145,7 +145,7 @@ namespace Wof.Controller.Indicators
         {
         }
 
-        public MessageEntry(String message) : this(5000, message)
+        public MessageEntry(String message) : this(4000, message)
         {
         }
     }
