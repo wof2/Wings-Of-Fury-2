@@ -127,6 +127,8 @@ namespace Wof.Controller
         private Audio waterExplosionSound;
         private Audio missleSound;
         private Audio torpedoSound;
+        private Buffer torpedoRunSound;
+        
         
         private Audio catchPlaneSound;
         private Audio bunkerRebuild;
@@ -175,8 +177,7 @@ namespace Wof.Controller
                 waterExplosionSound = new Audio("sounds/watersplash.wav");
                 missleSound = new Audio("sounds/missile.wav");
                 torpedoSound = new Audio("sounds/torpedo.wav");
-
-                
+            
                 catchPlaneSound = new Audio("sounds/landing.wav");
                 bunkerRebuild = new Audio("sounds/construction.wav");
                 reloadSound = new Audio("sounds/reload.wav");
@@ -203,6 +204,11 @@ namespace Wof.Controller
 
                 oceanSound = new Buffer("sounds/ocean.wav", dsDevice);
                 oceanSound.Volume = -2400;
+
+                torpedoRunSound = new Buffer("sounds/torpedo_run.wav", dsDevice);
+               // torpedoRunSound.Volume = -2400;
+
+                
             }
             catch (Exception ex)
             {
@@ -354,7 +360,18 @@ namespace Wof.Controller
         {
             Play(torpedoSound);
         }
-        
+
+        public void LoopTorpedoRunSound()
+        {
+            LoopDXSound(torpedoRunSound); //, -1000);
+        }
+
+        public void HaltTorpedoRunSound()
+        {
+            HaltDXSound(torpedoRunSound);
+        }
+
+     
 
         public void PlayCatchPlaneSound()
         {

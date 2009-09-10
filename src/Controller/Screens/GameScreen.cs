@@ -314,13 +314,13 @@ namespace Wof.Controller.Screens
         
         private void UpdateHints(bool forceRefresh)
         {
-        	if(readyForLevelEnd)
+            if (readyForLevelEnd && hintWindow != null)
         	{
         		hintWindow.hide();
         		return;
         	}
         	
-        	if(currentLevel.SetFlyDirectionHint() && !forceRefresh)
+        	if(!currentLevel.SetFlyDirectionHint() && !forceRefresh)
         	{
         		return;
         	}
@@ -332,7 +332,8 @@ namespace Wof.Controller.Screens
         	}
         	if(hintWindow != null)
         	{
-        		hintWindow.killWindow();
+                mGuiHint.killWindow(hintWindow);
+        	    hintWindow = null;
         	}
         	
 	        hintWindow = mGuiHint.createWindow(new Vector4(0, 0.35f * viewport.ActualHeight, viewport.ActualWidth, 0.2f * viewport.ActualHeight), "", (int)wt.NONE, "");
@@ -1933,6 +1934,15 @@ namespace Wof.Controller.Screens
 
         public void OnTorpedoHitGroundOrWater(LevelTile tile, Torpedo torpedo, float posX, float posY)
         {
+            if(tile is OceanTile)
+            {
+                SoundManager.Instance.LoopTorpedoRunSound();
+            }
+            else
+            {
+                SoundManager.Instance.HaltTorpedoRunSound();
+            }
+            
             levelView.OnTorpedoHitGroundOrWater(tile, torpedo, posX, posY);
         }
 

@@ -230,6 +230,7 @@ namespace Wof.View
 
         public override void Hide()
         {
+            SoundManager.Instance.HaltTorpedoRunSound();
            
             innerNode.SetVisible(false, false);
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene) explosionFlash.Visible = false;
