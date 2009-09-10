@@ -153,7 +153,7 @@ namespace Wof.Controller
 
         public static bool SoundEnabled = true;
         public static FreeSL.FSL_SOUND_SYSTEM SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_DIRECTSOUND;
-        public static int MusicVolume = 80;
+        public static int MusicVolume = 40;
 
         protected static int soundVolume = 100;
         public static int SoundVolume
@@ -242,7 +242,7 @@ namespace Wof.Controller
                     }
                     catch (Exception)
                     {
-                        MusicVolume = 100;
+                        MusicVolume = 40;
                     }
 
                     LowDetails = "true".Equals(configOptions[5]);
