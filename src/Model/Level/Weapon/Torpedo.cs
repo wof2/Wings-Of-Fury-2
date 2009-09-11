@@ -371,11 +371,7 @@ namespace Wof.Model.Level.Weapon
                     if (this.IsInWater)
                     {
 
-                        if(waterTravelDistance < this.minWaterTravelDistance)
-                        {
-                            SinkTorpedo(null);
-                            return;
-                        }
+                        
 
                             
 
@@ -388,6 +384,12 @@ namespace Wof.Model.Level.Weapon
                             LevelTile destroyTile = refToLevel.LevelTiles[index];
                             if (destroyTile is BeginShipTile || destroyTile is EndShipTile)
                             {
+                            	if(waterTravelDistance < this.minWaterTravelDistance)
+		                        {
+		                            SinkTorpedo(null);
+		                            return;
+		                        }
+                            	
                                 ShipTile st = destroyTile as ShipTile;
                                 if (!st.IsDestroyed && !st.IsSunkDown)
                                 {
