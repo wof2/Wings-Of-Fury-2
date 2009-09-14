@@ -47,6 +47,8 @@
  */
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -118,6 +120,9 @@ namespace Wof.Controller.Screens
         // obiekty kontroli sceny
         private readonly GameEventListener gameEventListener;
         private SceneManager sceneMgr;
+        
+        private Dictionary<Button, uint> soundButtonIds = new Dictionary<Button, uint>();
+        private Dictionary<Button, uint> musicButtonIds = new Dictionary<Button, uint>();
 
         private Viewport viewport;
         private Camera camera;
@@ -747,7 +752,9 @@ namespace Wof.Controller.Screens
                           //w poprzedniej klatce uzytkownik
                           // trzymal wcisniety przycisk myszki
                           // a teraz go zwolnil
-                          mGui.injectMouse(mousePosX, mousePosY, true);
+                          int id = mGui.injectMouse(mousePosX, mousePosY, true);
+                          
+                          	
                           wasLeftMousePressed = false;
                         }
 
@@ -1309,6 +1316,167 @@ namespace Wof.Controller.Screens
             }
         }
 
+        
+        
+        #region BetaGUIListener Members
+
+        public void onButtonPress(BetaGUI.Button referer)
+        {
+        	
+        	//volumes     
+        	
+        	foreach(KeyValuePair<Button,uint> pair in soundButtonIds)
+        	{        
+        		
+        		if(pair.Key.Equals(referer))
+        		{	
+        			//if(!referer.activated) referer.activate(true);
+        			// change music volume
+        			SoundManager3D.SetSoundVolume(pair.Value);
+        			
+        			// zgas inne przyciski
+        			foreach(Button otherButton in soundButtonIds.Keys)
+        			{ 
+        				//if(otherButton.activated) otherButton.activate(false);
+        			}
+        			
+        			return;
+        		} 
+        	}
+        	
+        	foreach(KeyValuePair<Button,uint> pair in musicButtonIds)
+        	{
+        		if(pair.Key.Equals(referer))
+        		{	        			
+        			// change sound volume
+        			//if(!referer.activated) referer.activate(true);
+        			SoundManager3D.SetMusicVolume(pair.Value);
+        			
+        			// zgas inne przyciski
+        			foreach(Button otherButton in musicButtonIds.Keys)
+        			{ 
+        				//if(otherButton.activated) otherButton.activate(false);
+        			}
+        			return;
+        		}
+        	}
+        	
+        	// other buttons
+        	
+            if (referer == resumeButton)
+            {
+                ClearPauseScreen();
+                SoundManager.Instance.LoopOceanSound();
+                if (mayPlaySound)
+                {
+                    SoundManager.Instance.LoopEngineSound();
+                }
+            }
+            if (referer == exitButton)
+            {
+                if (mGui != null)
+                {
+                    mGui.killGUI();
+                    mGui = null;
+                }
+                if (mGuiHint != null)
+                {
+                    mGuiHint.killGUI();
+                    mGuiHint = null;
+                }
+                if (missionTypeGui != null)
+                {
+                    missionTypeGui.killGUI();
+                    missionTypeGui = null;
+                }
+                if (levelView != null)
+                {
+                    levelView.Destroy();
+                    levelView = null;
+                }
+                gameEventListener.GotoStartScreen();
+            }
+            if (referer == gameOverButton)
+            {
+                if (mGui != null)
+                {
+                    mGui.killGUI();
+                    mGui = null;
+                }
+                if (mGuiHint != null)
+                {
+                    mGuiHint.killGUI();
+                    mGuiHint = null;
+                }
+                if (missionTypeGui != null)
+                {
+                    missionTypeGui.killGUI();
+                    missionTypeGui = null;
+                }
+                if (levelView != null)
+                {
+                    levelView.Destroy();
+                    levelView = null;
+                }
+
+                HighscoreUtil util = new HighscoreUtil();
+                int leastScore = util.FindLeastHighscore();
+
+                if (score >= leastScore)
+                {
+                    gameEventListener.GotoEnterScoreScreen(score);
+                    isInGameOverMenu = false;
+                    return;
+                }
+                else
+                {
+                    gameEventListener.GotoHighscoresScreen();
+                    isInGameOverMenu = false;
+                    return;
+                }
+            }
+            if (referer == nextLevelButton)
+            {
+                nextFrameGotoNextLevel = true;
+                isInNextLevelMenu = false;
+            }
+
+
+            if (referer == rocketsButton)
+            {
+                // zmieniam bron na rakiety
+                currentLevel.OnRestoreAmmunition(WeaponType.Rocket);
+                ClearRestoreAmmunitionScreen();
+                SoundManager.Instance.PlayReloadSound();
+                indicatorControl.ChangeAmmoType(WeaponType.Rocket);
+
+                return;
+            }
+
+            if (referer == torpedoesButton)
+            {
+                // zmieniam bron na torpedy
+                currentLevel.OnRestoreAmmunition(WeaponType.Torpedo);
+                ClearRestoreAmmunitionScreen();
+                SoundManager.Instance.PlayReloadSound();
+                indicatorControl.ChangeAmmoType(WeaponType.Torpedo);
+
+                return;
+            }
+            
+            if (referer == bombsButton)
+            {
+                // zmieniam bron na bomby
+                currentLevel.OnRestoreAmmunition(WeaponType.Bomb);
+                ClearRestoreAmmunitionScreen();
+                SoundManager.Instance.PlayReloadSound();
+                indicatorControl.ChangeAmmoType(WeaponType.Bomb);
+                return;
+            }
+        }
+
+        #endregion
+        
 
         private void DisplayPauseScreen()
         {
@@ -1326,7 +1494,7 @@ namespace Wof.Controller.Screens
             mGui = new GUI(FontManager.CurrentFont, fontSize);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
-                                                      viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 14.5f * h),
+                                                      viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 19.0f * h),
                                           "bgui.window", (int) wt.NONE, LanguageResources.GetString(LanguageKey.Pause));
             Callback cc = new Callback(this);
 
@@ -1382,9 +1550,7 @@ namespace Wof.Controller.Screens
             }
            
 
-            y += (int)(h * 0.83f);
-            
-
+            y += (int)(h * 0.83f);    
             if(KeyMap.Instance.Up == KeyCode.KC_UP && KeyMap.Instance.Down == KeyCode.KC_DOWN )
             {
             	c =
@@ -1431,12 +1597,59 @@ namespace Wof.Controller.Screens
 
             mGui.mFontSize = oldFontSize;
 
-
+            y += (int)(2*h);
+            
+            // Opcje dzwieku
+            float soundWidth = width / 13.0f;
+         	float iconSize = h;
+            
+         	// myzuka
+            c = guiWindow.createStaticImage(new Vector4(left, top + y, iconSize, iconSize), "music_icon.png");           
+            uint j = 1;
+            uint startId = 1000;
+            
+            string styleOff = "bgui.button";
+            string styleOn = "bgui.selected.button";
+            
+            for (uint i = 0; i <= 100; i += 10)
+            {
+            	
+            	
+              
+                 Button button = guiWindow.createButton(
+                    new Vector4(
+                        left + j * soundWidth, top + y, soundWidth, h),
+            		    EngineConfig.MusicVolume == i ? styleOn : styleOff, i.ToString(), cc,  startId++);
+            	 soundButtonIds[button]= i;
+            	 j++;
+            	
+            }
+            
+            y += (int)(2*h);
+            
+            
+            // dzwiek
+            c = guiWindow.createStaticImage(new Vector4(left, top + y, iconSize, iconSize), "sound_icon.png");           
+            j = 1;
+            
+            for (uint i = 0; i <= 100; i += 10)
+            {
+            	string style = "bgui.button";
+                
+                 Button button = guiWindow.createButton(
+                    new Vector4(
+                        left + j * soundWidth, top + y, soundWidth, h),
+            		EngineConfig.SoundVolume == i ? styleOn : styleOff, i.ToString(), cc,  startId++);
+            	 musicButtonIds[button]= i;
+            	 j++;
+            }
+            
+            y += (int)(h);            
             guiWindow.show();
-
-
         }
 
+        
+        
         private void ClearPauseScreen()
         {
             isGamePaused = false;
@@ -1611,123 +1824,6 @@ namespace Wof.Controller.Screens
             }
         }
 
-        #region BetaGUIListener Members
-
-        public void onButtonPress(Button referer)
-        {
-            if (referer == resumeButton)
-            {
-                ClearPauseScreen();
-                SoundManager.Instance.LoopOceanSound();
-                if (mayPlaySound)
-                {
-                    SoundManager.Instance.LoopEngineSound();
-                }
-            }
-            if (referer == exitButton)
-            {
-                if (mGui != null)
-                {
-                    mGui.killGUI();
-                    mGui = null;
-                }
-                if (mGuiHint != null)
-                {
-                    mGuiHint.killGUI();
-                    mGuiHint = null;
-                }
-                if (missionTypeGui != null)
-                {
-                    missionTypeGui.killGUI();
-                    missionTypeGui = null;
-                }
-                if (levelView != null)
-                {
-                    levelView.Destroy();
-                    levelView = null;
-                }
-                gameEventListener.GotoStartScreen();
-            }
-            if (referer == gameOverButton)
-            {
-                if (mGui != null)
-                {
-                    mGui.killGUI();
-                    mGui = null;
-                }
-                if (mGuiHint != null)
-                {
-                    mGuiHint.killGUI();
-                    mGuiHint = null;
-                }
-                if (missionTypeGui != null)
-                {
-                    missionTypeGui.killGUI();
-                    missionTypeGui = null;
-                }
-                if (levelView != null)
-                {
-                    levelView.Destroy();
-                    levelView = null;
-                }
-
-                HighscoreUtil util = new HighscoreUtil();
-                int leastScore = util.FindLeastHighscore();
-
-                if (score >= leastScore)
-                {
-                    gameEventListener.GotoEnterScoreScreen(score);
-                    isInGameOverMenu = false;
-                    return;
-                }
-                else
-                {
-                    gameEventListener.GotoHighscoresScreen();
-                    isInGameOverMenu = false;
-                    return;
-                }
-            }
-            if (referer == nextLevelButton)
-            {
-                nextFrameGotoNextLevel = true;
-                isInNextLevelMenu = false;
-            }
-
-
-            if (referer == rocketsButton)
-            {
-                // zmieniam bron na rakiety
-                currentLevel.OnRestoreAmmunition(WeaponType.Rocket);
-                ClearRestoreAmmunitionScreen();
-                SoundManager.Instance.PlayReloadSound();
-                indicatorControl.ChangeAmmoType(WeaponType.Rocket);
-
-                return;
-            }
-
-            if (referer == torpedoesButton)
-            {
-                // zmieniam bron na torpedy
-                currentLevel.OnRestoreAmmunition(WeaponType.Torpedo);
-                ClearRestoreAmmunitionScreen();
-                SoundManager.Instance.PlayReloadSound();
-                indicatorControl.ChangeAmmoType(WeaponType.Torpedo);
-
-                return;
-            }
-            
-            if (referer == bombsButton)
-            {
-                // zmieniam bron na bomby
-                currentLevel.OnRestoreAmmunition(WeaponType.Bomb);
-                ClearRestoreAmmunitionScreen();
-                SoundManager.Instance.PlayReloadSound();
-                indicatorControl.ChangeAmmoType(WeaponType.Bomb);
-                return;
-            }
-        }
-
-        #endregion
 
         #region IController Members
 

@@ -68,7 +68,7 @@
 
   <!-- patrolboat -->
   <ship-begin width="1"/>
-  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-concrete-bunker num-soldiers="1" traversable="false"/>
   <!-- <ship-concrete-bunker num-soldiers="3"/>-->
   <!--  <ship-deck width="1"/> -->
   <ship-end width="1" />
