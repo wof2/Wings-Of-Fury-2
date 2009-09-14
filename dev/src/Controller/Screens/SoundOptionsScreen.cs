@@ -58,21 +58,34 @@ namespace Wof.Controller.Screens
 {
     internal class SoundOptionsScreen : AbstractOptionsScreen, BetaGUIListener
     {
-        private Hashtable soundSystems;
+        private static Hashtable soundSystems = null;
+        
+		public static Hashtable SoundSystems {
+			get 
+			{
+        		if(soundSystems == null) 
+        		{
+        	    	soundSystems = new Hashtable();
+		            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_DIRECTSOUND3D] = "Direct Sound 3D";
+		            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_DIRECTSOUND] = "Direct Sound";
+		            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NVIDIA_NFORCE_2] = "nVidia nForce 2";
+		            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_CREATIVE_AUDIGY_2] = "Creative Audigy 2";
+		            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_MMSYSTEM] = "Microsoft sound system";
+		            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_ALUT] = "ALUT";
+		            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_EAX2] = "EAX 2.0 (Direct Sound 3D)";
+		            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM] = "No sound";
+        		}
+        		return soundSystems;
+        	
+        	}
+		}
 
         public SoundOptionsScreen(GameEventListener gameEventListener,
                                   SceneManager sceneMgr, Viewport viewport, Camera camera, Root root) :
                                       base(gameEventListener, sceneMgr, viewport, camera, root)
         {
-            soundSystems = new Hashtable();
-            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_DIRECTSOUND3D] = "Direct Sound 3D";
-            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_DIRECTSOUND] = "Direct Sound";
-            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NVIDIA_NFORCE_2] = "nVidia nForce 2";
-            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_CREATIVE_AUDIGY_2] = "Creative Audigy 2";
-            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_MMSYSTEM] = "Microsoft sound system";
-            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_ALUT] = "ALUT";
-            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_EAX2] = "EAX 2.0 (Direct Sound 3D)";
-            soundSystems[FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM] = "No sound";
+        	
+           soundSystems = SoundSystems; // init
         }
 
         protected override string getTitle()
@@ -164,23 +177,15 @@ namespace Wof.Controller.Screens
 
             // music volume
             if (selected.StartsWith("Music volume: "))
-            {
-               
-                EngineConfig.MusicVolume = int.Parse(selected.Substring("Music volume: ".Length));
-                if (EngineConfig.MusicVolume == 0)
-                {
-               
-                }
-                SoundManager3D.Instance.PlayAmbient(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
-                EngineConfig.SaveEngineConfig();
+            { 
+            	SoundManager3D.SetMusicVolume(uint.Parse(selected.Substring("Music volume: ".Length)));
                 return;
             }
 
             // sound volume
             if (selected.StartsWith("Sound volume: "))
             {
-                EngineConfig.SoundVolume = int.Parse(selected.Substring("Sound volume: ".Length));
-                EngineConfig.SaveEngineConfig();
+            	SoundManager3D.SetSoundVolume(uint.Parse(selected.Substring("Sound volume: ".Length)));
                 return;
             }
 

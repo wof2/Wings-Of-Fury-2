@@ -60,7 +60,24 @@ namespace Wof.Controller
         {
             get { return SingletonCreator.instance; }
         }
-
+        
+        
+        public static void SetMusicVolume(uint volume)
+        {
+        	EngineConfig.MusicVolume = (int)volume;
+            if (EngineConfig.MusicVolume == 0)
+            {
+           
+            }
+            SoundManager3D.Instance.PlayAmbient(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
+            EngineConfig.SaveEngineConfig();          
+        }
+        
+		public static void SetSoundVolume(uint volume)
+        {
+        	EngineConfig.SoundVolume = (int)volume;
+            EngineConfig.SaveEngineConfig();
+        }
 
         public new bool InitializeSound(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)
         {
