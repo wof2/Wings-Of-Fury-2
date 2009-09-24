@@ -99,7 +99,7 @@ namespace Wof.View
         {
             if (EngineConfig.SoundEnabled && !planePassSound.IsPlaying())
             {
-                planePassSound.SetGain(EngineConfig.SoundVolume / 100.0f);
+                //planePassSound.SetGain(EngineConfig.SoundVolume / 100.0f);
                 planePassSound.Play();
             }
         }

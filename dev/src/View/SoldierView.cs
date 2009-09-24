@@ -201,17 +201,17 @@ namespace Wof.View
                 if (rand >= 0 && rand < 1.0)
                 {
                     dieSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_1, soldierNode, false, false);
-                    dieSound.SetGain(3.5f * EngineConfig.SoundVolume / 100.0f);
+                    dieSound.SetBaseGain(3.5f);
                    
                 }
                 else if (rand >= 1 && rand < 2.0)
                 {
                     dieSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_2, soldierNode, false, false);
-                    dieSound.SetGain(4.0f * EngineConfig.SoundVolume / 100.0f);
+                    dieSound.SetBaseGain(4.0f);
                 }else
                 {
                     dieSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_3, soldierNode, false, false);
-                    dieSound.SetGain(3.0f * EngineConfig.SoundVolume / 100.0f);
+                    dieSound.SetBaseGain(3.0f);
                 }
                 dieSound.SetReferenceDistance(60); // make it a bit louder but dissapear faster
             

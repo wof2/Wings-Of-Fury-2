@@ -1,4 +1,5 @@
 using System.IO;
+using Wof.Controller;
 
 namespace FSLOgreCS
 {
@@ -15,7 +16,9 @@ namespace FSLOgreCS
         protected bool _shouldBePlaying = false;
 
         protected string _soundFile;
-       
+
+
+        protected float _baseGain = 1.0f;
 
         public bool Streaming
         {
@@ -141,6 +144,17 @@ namespace FSLOgreCS
         public bool IsLooping()
         {
             return FreeSL.fslSoundIsLooping(_sound);
+        }
+        
+
+        public float GetBaseGain()
+        {
+            return _baseGain;
+        }
+        public void SetBaseGain(float baseGain)
+        {
+            this._baseGain = baseGain;
+            SetGain(baseGain * EngineConfig.SoundVolume / 100.0f);
         }
 
         public void SetGain(float gain)
