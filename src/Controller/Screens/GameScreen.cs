@@ -1324,22 +1324,19 @@ namespace Wof.Controller.Screens
         {
         	
         	//volumes     
-        	
+        	string styleOff = "bgui.button";
+            string styleOn = "bgui.selected.button";
+
         	foreach(KeyValuePair<Button,uint> pair in soundButtonIds)
         	{        
         		
         		if(pair.Key.Equals(referer))
-        		{	
-        			//if(!referer.activated) referer.activate(true);
-        			// change music volume
-        			SoundManager3D.SetSoundVolume(pair.Value);
-        			
-        			// zgas inne przyciski
-        			foreach(Button otherButton in soundButtonIds.Keys)
-        			{ 
-        				//if(otherButton.activated) otherButton.activate(false);
-        			}
-        			
+        		{
+                    // change sound volume
+                    SoundManager3D.SetSoundVolume(pair.Value);
+                    SoundManager.Instance.PlayBombSound();
+                    ClearPauseScreen();
+        			DisplayPauseScreen();
         			return;
         		} 
         	}
@@ -1348,15 +1345,13 @@ namespace Wof.Controller.Screens
         	{
         		if(pair.Key.Equals(referer))
         		{	        			
-        			// change sound volume
-        			//if(!referer.activated) referer.activate(true);
+        			// change music volume
+                    referer.mO.MaterialName = styleOn;
         			SoundManager3D.SetMusicVolume(pair.Value);
+                    ClearPauseScreen();
+                    DisplayPauseScreen();
         			
-        			// zgas inne przyciski
-        			foreach(Button otherButton in musicButtonIds.Keys)
-        			{ 
-        				//if(otherButton.activated) otherButton.activate(false);
-        			}
+        		
         			return;
         		}
         	}
@@ -1615,12 +1610,11 @@ namespace Wof.Controller.Screens
             {
             	
             	
-              
                  Button button = guiWindow.createButton(
                     new Vector4(
                         left + j * soundWidth, top + y, soundWidth, h),
             		    EngineConfig.MusicVolume == i ? styleOn : styleOff, i.ToString(), cc,  startId++);
-            	 soundButtonIds[button]= i;
+                 musicButtonIds[button] = i;
             	 j++;
             	
             }
@@ -1640,7 +1634,7 @@ namespace Wof.Controller.Screens
                     new Vector4(
                         left + j * soundWidth, top + y, soundWidth, h),
             		EngineConfig.SoundVolume == i ? styleOn : styleOff, i.ToString(), cc,  startId++);
-            	 musicButtonIds[button]= i;
+            	 soundButtonIds[button]= i;
             	 j++;
             }
             

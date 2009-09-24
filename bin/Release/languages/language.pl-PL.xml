@@ -226,10 +226,10 @@
     <value>Kapitanie, chcesz dotknąć gwiazd?</value>
   </data>
   <data name="EnemyInstallationDestroyed">
-    <value>Bunkier przeciwnika został zniszczony !</value>
+    <value>Instalacja przeciwnika została zniszczona!</value>
   </data>
   <data name="EnemyInstallationsAreBothSideCaptain">
-    <value>Kapitanie, instalacje obronne są z obu stron !</value>
+    <value>Kapitanie, instalacje obronne są z obu stron!</value>
   </data>
   <data name="EnemyInstallationsAreLeftCaptain">
     <value>Kapitanie, instalacje obronne są z lewej strony !</value>

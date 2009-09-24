@@ -314,7 +314,7 @@ namespace Wof.View
             	soundFile = SoundManager3D.C_SHIP_SINKING_2;
             }
             dieSound = SoundManager3D.Instance.CreateSoundEntity(soundFile, mainNode, false, false);
-            dieSound.SetGain(0.25f * EngineConfig.SoundVolume / 100.0f);
+            dieSound.SetBaseGain(0.25f);
 
             // minimapa
             if (FrameWork.DisplayMinimap)

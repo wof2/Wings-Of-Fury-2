@@ -75,6 +75,15 @@ namespace Wof.Controller
         
 		public static void SetSoundVolume(uint volume)
         {
+            foreach (FSLSoundObject soundObject in SoundManager3D.Instance.SoundObjectVector)
+		    {
+		        if(soundObject is FSLSoundEntity)
+		        {
+                    soundObject.SetGain(soundObject.GetBaseGain() * volume / 100.0f);
+		        }
+		    }
+
+           // FreeSL.fslSetVolume(volume / 100.0f);
         	EngineConfig.SoundVolume = (int)volume;
             EngineConfig.SaveEngineConfig();
         }
@@ -148,7 +157,6 @@ namespace Wof.Controller
                 //Create Ambient sound  
                 if (!preloadOnly)
                 {
-                    
                     ambientSound.Play();
                 }
             }

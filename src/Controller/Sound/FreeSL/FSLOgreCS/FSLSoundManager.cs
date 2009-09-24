@@ -62,7 +62,7 @@ namespace FSLOgreCS
 
         private FSLSoundObject AddSound(FSLSoundObject sound)
         {
-            _soundObjectVector.Add(sound);
+            SoundObjectVector.Add(sound);
             return sound;
         }
 
@@ -110,6 +110,11 @@ namespace FSLOgreCS
             get { return _initSound; }
         }
 
+        public List<FSLSoundObject> SoundObjectVector
+        {
+            get { return _soundObjectVector; }
+        }
+
         public void RemoveSound(string name)
         {
             FSLSoundObject sound = GetSound(name);
@@ -117,7 +122,7 @@ namespace FSLOgreCS
                 return;
             else
             {
-                _soundObjectVector.Remove(sound); // zmiana
+                SoundObjectVector.Remove(sound); // zmiana
                 sound.Destroy();
                 sound = null;
             }
@@ -126,12 +131,12 @@ namespace FSLOgreCS
 
         public FSLSoundObject GetSound(string name)
         {
-            if (_soundObjectVector.Count == 0)
+            if (SoundObjectVector.Count == 0)
                 return null;
 
-            for (int i = 0; i < _soundObjectVector.Count; i++)
+            for (int i = 0; i < SoundObjectVector.Count; i++)
             {
-                if (_soundObjectVector[i].Name == name) return _soundObjectVector[i];
+                if (SoundObjectVector[i].Name == name) return SoundObjectVector[i];
             }  
            
             return null;
@@ -162,9 +167,9 @@ namespace FSLOgreCS
 
                             try
                             {
-                                for (int i = 0; i < _soundObjectVector.Count; i++)
+                                for (int i = 0; i < SoundObjectVector.Count; i++)
                                 {
-                                    if (_soundObjectVector[i] != null) _soundObjectVector[i].Update();
+                                    if (SoundObjectVector[i] != null) SoundObjectVector[i].Update();
                                 }
                             }
                             catch
@@ -256,14 +261,14 @@ namespace FSLOgreCS
             killUpdater = false;
             updaterThread = new Thread(UpdateSoundObjects);
 
-            if (_soundObjectVector.Count != 0)
+            if (SoundObjectVector.Count != 0)
             {
 
-                for (int i = 0; i < _soundObjectVector.Count; i++)
+                for (int i = 0; i < SoundObjectVector.Count; i++)
                 {
-                    _soundObjectVector[i].Destroy();
+                    SoundObjectVector[i].Destroy();
                 }
-                _soundObjectVector.Clear();
+                SoundObjectVector.Clear();
             }
             if (_listener != null)
                 _listener = null;

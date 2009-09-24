@@ -1367,7 +1367,7 @@ namespace Wof.Controller.Screens
         {
             if (EngineConfig.SoundEnabled && !clickSound.IsPlaying())
             {
-                clickSound.SetGain(EngineConfig.SoundVolume / 100.0f);
+             //   clickSound.SetGain(100.0f);
                 clickSound.Play();
             }
         }
@@ -1377,7 +1377,7 @@ namespace Wof.Controller.Screens
         {
             if (EngineConfig.SoundEnabled && !cheatSound.IsPlaying())
             {
-                clickSound.SetGain(EngineConfig.SoundVolume / 100.0f);
+              //  clickSound.SetGain(EngineConfig.SoundVolume / 100.0f);
                 cheatSound.Play();
             }
         }
