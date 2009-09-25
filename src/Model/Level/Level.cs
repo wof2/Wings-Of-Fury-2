@@ -1288,17 +1288,17 @@ namespace Wof.Model.Level
 		                	if ( 
 		                	    !left &&
 		                	    et.TileIndex < planeIndex &&
-		                	    et is FortressBunkerTile &&
-		                	    ((FortressBunkerTile)et).GeneralCount > 0)
+		                	    et is EnemyInstallationTile &&
+		                	    ((EnemyInstallationTile)et).GeneralCount > 0)
 		                    {
 		                        left = true;		                    
-		                    }
-		                	
+		                    }		                	
+		                
 		                	if ( 
 		                	    !right &&
 		                	    et.TileIndex > planeIndex &&
-		                	    et is FortressBunkerTile &&
-		                	    ((FortressBunkerTile)et).GeneralCount > 0)
+		                	    et is EnemyInstallationTile &&
+		                	    ((EnemyInstallationTile)et).GeneralCount > 0)
 		                    {
 		                        right = true;		                    
 		                    }		                	

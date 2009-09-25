@@ -1,4 +1,5 @@
 using Mogre;
+using Wof.Controller;
 
 namespace FSLOgreCS
 {
@@ -32,6 +33,13 @@ namespace FSLOgreCS
                                        _renderable.WorldPosition.x,
                                        _renderable.WorldPosition.y,
                                        _renderable.WorldPosition.z);
+        }
+        
+        public new void Play()
+        {
+        	// dzwieki powinny miec ustawiona lokalna glosnosc (niezalezna od muzyki) przed rozpoczeciem pierwszego odtworzenia
+        	SetGain(GetBaseGain() * EngineConfig.SoundVolume / 100.0f);
+        	base.Play();
         }
 
         public void SetMaxDistance(float distance)
