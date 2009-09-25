@@ -123,6 +123,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Splash.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\Controller\Splash.resx">
+      <DependentUpon>Splash.designer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Tests\ModelTest\IntersectionTestForm.resx">
       <DependentUpon>IntersectionTestForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -587,7 +590,6 @@
   <ItemGroup>
     <Content Include="converterIcon.ico" />
     <Content Include="Resources\ico.ICO" />
-    <Content Include="Resources\splash.jpg" />
     <Content Include="WofIcon.ico" />
   </ItemGroup>
   <ItemGroup>
