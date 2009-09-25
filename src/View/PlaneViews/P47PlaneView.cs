@@ -213,6 +213,11 @@ namespace Wof.View
 
         public override void ResetCameraHolders()
         {
+        	cameraHolders.Add(planeNode.CreateChildSceneNode(name + "MainCameraHolder"));
+            cameraHolders.Add(planeNode.CreateChildSceneNode(name + "BirdCameraHolder"));
+            cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveLeftCameraHolder"));
+            cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveRightCameraHolder"));
+            
             // MAIN CAMERA HOLDER
             cameraHolders[0].ResetOrientation();
             cameraHolders[0].Position = new Vector3(0, 2.5f, 8);
@@ -224,15 +229,21 @@ namespace Wof.View
             cameraHolders[1].Pitch(new Radian(-Math.HALF_PI));
             //cameraHolders[1].Roll(new Radian(Mogre.Math.HALF_PI));
 
-            // NOSE CAMERA HOLDER
-//            cameraHolders[2].ResetOrientation();
-            //Wercha 1
-            //cameraHolders[2].Position = new Vector3(0, 2.0f, 1.4f);
-
-            //Wercha 2
-//            cameraHolders[2].Position = new Vector3(0, 2.4f, 0);
-            // cameraHolders[2].Position = new Vector3(0, 0.4f, -1);
-            // cameraHolders[2].Yaw(new Radian(Mogre.Math.HALF_PI));
+            // ABOVE CAMERA HOLDERS
+            
+            cameraHolders[2].ResetOrientation();
+            cameraHolders[2].Position = new Vector3(-19, 11.0f, 0);
+            cameraHolders[2].Yaw(new Radian(-Math.HALF_PI));
+            cameraHolders[2].Pitch(new Radian(-Math.HALF_PI * 0.30f));
+            
+            
+            cameraHolders[3].ResetOrientation();
+            cameraHolders[3].Position = new Vector3(19, 11.0f, 0);
+            cameraHolders[3].Yaw(new Radian(Math.HALF_PI));
+            cameraHolders[3].Pitch(new Radian(-Math.HALF_PI * 0.30f));
+            
+            
+         
         }
 
         public override void SmashPaint()
@@ -330,9 +341,7 @@ namespace Wof.View
                 minimapItem.Refresh();
             }
             // kamery
-            cameraHolders.Add(planeNode.CreateChildSceneNode(name + "MainCameraHolder"));
-            cameraHolders.Add(planeNode.CreateChildSceneNode(name + "BirdCameraHolder"));
-            // cameraHolders.Add(outerNode.CreateChildSceneNode(this.name + "NoseCameraHolder"));
+          
 
             ResetCameraHolders();
         }
