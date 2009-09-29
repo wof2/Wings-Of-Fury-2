@@ -83,6 +83,8 @@ namespace Wof.View
     
     internal class LevelView
     {
+
+        private int cameraIndexBeforeHangaring;
         public int CurrentCameraHolderIndex
         {
             get { return currentCameraHolderIndex; }
@@ -1663,6 +1665,26 @@ namespace Wof.View
             }
         }
 
+        public void OnStartHangaring(int hangaringDirection, int hangaringCameraIndex)
+        {
+            if (hangaringCameraIndex >= 0 )
+            {
+                cameraIndexBeforeHangaring = OnChangeCamera(hangaringCameraIndex);
+            }
+            this.carrierView.StartHangaringPlane(this.playerPlaneView, hangaringDirection);
+        }
+
+        public bool IsHangaringFinished()
+        {
+            return this.carrierView.IsHangaringFinished();
+        }
+
+        public void OnHangaringFinished()
+        {
+            OnChangeCamera(cameraIndexBeforeHangaring);    
+            this.carrierView.ResetHangaringFinished();
+        }
+
         public void OnRegisterLevel(Level level)
         {
             this.level = level;
@@ -2067,22 +2089,26 @@ namespace Wof.View
 
         public void OnChangeCamera()
         {
-            // if (EngineConfig.ManualCamera)
+            OnChangeCamera(currentCameraHolderIndex + 1);
+        }
+
+        public int OnChangeCamera(int camIndex)
+        {
+            int lastIndex = currentCameraHolderIndex;
+            
+            //framework.CameraZoom = 0;
+            framework.Camera.Position = Vector3.ZERO;
+            framework.Camera.Orientation = Quaternion.IDENTITY;
+
+            currentCameraHolderIndex = (camIndex % cameraHolders.Count);
+            for (int i = 0; i < cameraHolders.Count; i++)
             {
-                //framework.CameraZoom = 0;
-                framework.Camera.Position = Vector3.ZERO;
-                framework.Camera.Orientation = Quaternion.IDENTITY;
-
-                currentCameraHolderIndex = ((++currentCameraHolderIndex)%cameraHolders.Count);
-                for (int i = 0; i < cameraHolders.Count; i++)
-                {
-                    CurrentCameraHolder.DetachObject(framework.Camera);
-                }
-                cameraHolders[currentCameraHolderIndex].AttachObject(framework.Camera);
-
-                SoundManager3D.Instance.SetListener(framework.Camera);
-                //SoundManager3D.Instance.UpdateSoundObjects();
+                CurrentCameraHolder.DetachObject(framework.Camera);
             }
+            cameraHolders[currentCameraHolderIndex].AttachObject(framework.Camera);
+
+            SoundManager3D.Instance.SetListener(framework.Camera);
+            return lastIndex;
         }
 
         public void OnResetCamera()
