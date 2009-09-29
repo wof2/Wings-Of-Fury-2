@@ -123,9 +123,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Splash.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Controller\Splash.resx">
-      <DependentUpon>Splash.designer.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="src\Tests\ModelTest\IntersectionTestForm.resx">
       <DependentUpon>IntersectionTestForm.cs</DependentUpon>
       <SubType>Designer</SubType>
