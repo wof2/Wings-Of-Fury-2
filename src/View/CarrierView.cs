@@ -58,6 +58,7 @@ using Wof.Model.Level.Planes;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;
 using Wof.View.TileViews;
+using Plane=Wof.Model.Level.Planes.Plane;
 
 namespace Wof.View
 {
@@ -69,11 +70,23 @@ namespace Wof.View
     {
         private static int carrierCounter = 0;
 
+        private static int hangarDepth = 3;
+
         protected Entity carrierAerial1;
         protected Entity carrierAerial2;
+        protected Entity carrierHangar;
 
+
+        protected bool isHangaringPlane = false;
+        protected PlaneView hangarPlane;
+
+       
+        private int hangaringDirection = 1;
+        private bool isHangaringFinished = false;
+     
         protected SceneNode carrierAerial1Node;
         protected SceneNode carrierAerial2Node;
+        protected SceneNode carrierHangarNode;
       
         private ConstRotateNodeAnimation aerialAnimation1;
         private ConstRotateNodeAnimation aerialAnimation2;
@@ -136,6 +149,11 @@ namespace Wof.View
             get { return isReleasingPlane; }
         }
 
+        public PlaneView HangarPlane
+        {
+            get { return hangarPlane; }
+        }
+
         #endregion
 
         // protected float lastH;
@@ -154,6 +172,9 @@ namespace Wof.View
             initOnScene();
 
         }
+
+
+
 
 
         public void CrewStatePlaneOnCarrier()
@@ -269,7 +290,7 @@ namespace Wof.View
                 light.CastShadows = true;     
           
               
-                SceneNode lightNode = mainNode.CreateChildSceneNode(new Vector3(-9.2f, 12.5f, -5.1f - 47.5f));
+                SceneNode lightNode = mainNode.CreateChildSceneNode(new Vector3(-9.2f, 12.5f, -4.0f  -5.1f - 47.5f));
                
                 lightNode.AttachObject(light);
            
@@ -311,6 +332,14 @@ namespace Wof.View
             carrierAerial2 = sceneMgr.CreateEntity(name + "Aerial2", "Aerial2.mesh");
           // compositeModel.SetMaterialName("Carrier");
             mainNode.AttachObject(compositeModel);
+
+            
+            carrierHangar = sceneMgr.CreateEntity(name + "Hangar", "HangarFloor.mesh");
+            carrierHangarNode = mainNode.CreateChildSceneNode(name + "HangarNode", Vector3.ZERO);
+
+            carrierHangarNode.AttachObject(carrierHangar);
+
+
 
             carrierAerial1Node = mainNode.CreateChildSceneNode(name + "Aerial1Node", new Vector3(-8.6f, 9.1f, 5.7f - 47.8f));
             carrierAerial1Node.AttachObject(carrierAerial1);
@@ -532,9 +561,23 @@ namespace Wof.View
             }
         }
 
+       
+        
+
+        public bool IsHangaringFinished()
+        {
+            return isHangaringFinished;
+        }
+
+        public void ResetHangaringFinished()
+        {
+            isHangaringFinished = false;
+        }
+
 
         public void StartCatchingPlane(PlaneView plane, EndAircraftCarrierTile carrierTile)
         {
+          
             isCatchingPlane = true;
             if (carrierTile == null)
             {
@@ -609,6 +652,15 @@ namespace Wof.View
             return true;
         }
 
+        public void StartHangaringPlane(PlaneView plane, int hangaringDirection)
+        {
+            hangarPlane = plane;
+            isHangaringPlane = true;
+            this.hangaringDirection = hangaringDirection;
+        }
+
+
+
         public void updateTime(float timeSinceLastFrameUpdate)
         {
             aerialAnimation1.updateTime(timeSinceLastFrameUpdate);
@@ -637,6 +689,41 @@ namespace Wof.View
                 {
                     crewAnimationStates[i].AddTime(timeSinceLastFrameUpdate);
                 }
+               
+                // hangar
+                if(isHangaringPlane)
+                {
+                    
+                    carrierHangarNode.Translate(0, timeSinceLastFrameUpdate * hangaringDirection, 0);
+                    hangarPlane.Plane.Bounds.Move(0, timeSinceLastFrameUpdate * hangaringDirection);
+                   // hangarPlane.Plane.Position
+                    if (hangaringDirection == -1)
+                    {
+                        // opuszczanie
+                        float targetDepth = hangarDepth*hangaringDirection;
+                        if (carrierHangarNode.Position.y < targetDepth)
+                        {
+                            hangarPlane.Plane.Bounds.Move(0, carrierHangarNode.Position.y - targetDepth);
+                            carrierHangarNode.Position = new Vector3(0, targetDepth, 0);
+                            isHangaringPlane = false;
+                        }
+                    }
+                    else
+                    {
+                        // podnoszenie 
+                        if (carrierHangarNode.Position.y >= 0)
+                        {
+                            carrierHangarNode.SetPosition(0,0,0);
+                            hangarPlane.Plane.Bounds.Move(0, -carrierHangarNode.Position.y);
+                            isHangaringFinished = true;
+                            isHangaringPlane = false;
+                        }
+
+                    }
+                   
+                }
+
+
 
                 if (isCatchingPlane)
                 {

@@ -114,8 +114,9 @@ namespace Wof.Controller.Screens
         private int ammoSelectedIndexCount = 3;
 
 
-        private BulletTimeBar _bulletTimeBar;             
-                            
+        private BulletTimeBar _bulletTimeBar;
+
+        private int cameraIndexBeforeChangingAmmo;
 
         // obiekty kontroli sceny
         private readonly GameEventListener gameEventListener;
@@ -924,210 +925,240 @@ namespace Wof.Controller.Screens
                        // mouseState = null;
                     }
 
+                    if(levelView.IsHangaringFinished())
+                    {
+                        levelView.OnHangaringFinished();
+                    }
+                    
 
                     // jezeli uzytkownik bedzie w stanie pauzy, to nie
                     // moze miec mozliwosci ruszac samolotem
-                    if (!isGamePaused && !changingAmmo)
+                    if (!isGamePaused)
                     {
-                        
-                        //  if (timeCounter > 0.5f)
+                        if (!changingAmmo)
                         {
-                            if (EngineConfig.DebugInfo)
+
+                            //  if (timeCounter > 0.5f)
                             {
-                                if (inputKeyboard.IsKeyDown(KeyCode.KC_B) && Button.CanChangeSelectedButton())
+                                if (EngineConfig.DebugInfo)
                                 {
-                                    levelView.SceneMgr.ShowBoundingBoxes = !levelView.SceneMgr.ShowBoundingBoxes;
+                                    if (inputKeyboard.IsKeyDown(KeyCode.KC_B) && Button.CanChangeSelectedButton())
+                                    {
+                                        levelView.SceneMgr.ShowBoundingBoxes = !levelView.SceneMgr.ShowBoundingBoxes;
+                                        Button.ResetButtonTimer();
+                                    }
+                                }
+
+                                // nie chcemy, zeby uzytkownik ruszyl sie jednoczesnie
+                                // w lewo i w prawo, dlatego pierwszenstwo ma
+                                // ruch w lewo.
+                                if (inputKeyboard.IsKeyDown(KeyMap.Instance.Left) || joyVector.x < 0)
+                                {
+                                    currentLevel.OnSteerLeft();
+                                }
+                                else if (inputKeyboard.IsKeyDown(KeyMap.Instance.Right) || joyVector.x > 0)
+                                {
+                                    currentLevel.OnSteerRight();
+                                }
+
+                                // góra / dó³
+                                if ((!EngineConfig.InverseKeys && !EngineConfig.SpinKeys) ||
+                                    (EngineConfig.InverseKeys && EngineConfig.SpinKeys))
+                                {
+                                    // podobnie, uzytkownik nie powinien miec mozliwosci
+                                    // ruszyc sie w tym samym momencie do gory i w dol.
+                                    // Pierwszenstwo posiada zatem gora
+                                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up) || joyVector.y > 0)
+                                    {
+                                        currentLevel.OnSteerUp();
+                                    }
+                                    else if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down) || joyVector.y < 0)
+                                    {
+                                        currentLevel.OnSteerDown();
+                                    }
+                                    else if (EngineConfig.SpinKeys) EngineConfig.SpinKeys = false;
+                                }
+                                else
+                                {
+                                    // klawisze zamienione miejscami.
+                                    // priorytet ma ruch do gory
+                                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down) || joyVector.y < 0)
+                                    {
+                                        currentLevel.OnSteerUp();
+                                    }
+                                    else if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up) || joyVector.y > 0)
+                                    {
+                                        currentLevel.OnSteerDown();
+                                    }
+                                    else if (EngineConfig.SpinKeys) EngineConfig.SpinKeys = false;
+                                }
+
+
+                                // uzytkownik moze wlaczyc i wylaczyc silnik w kazdym 
+                                // momencie lotu w polaczeniu z kazda kombinacja klawiszy
+                                if (inputKeyboard.IsKeyDown(KeyMap.Instance.Engine) ||
+                                    FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEngine))
+                                {
+                                    currentLevel.OnToggleEngineOn();
+                                }
+
+                                // uzytkownik moze starac sie schowac lub otworzyc
+                                // podwozie w kazdym momencie lotu, o mozliwosc zajscia
+                                //zdarzenia decyduje model
+                                if (inputKeyboard.IsKeyDown(KeyMap.Instance.Gear) ||
+                                    FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickGear))
+                                {
+                                    currentLevel.OnToggleGear();
+                                }
+
+                                // przyczep / odczep kamere
+                                if (inputKeyboard.IsKeyDown(KeyCode.KC_V) && EngineConfig.FreeLook &&
+                                    Button.CanChangeSelectedButton(3.0f))
+                                {
+                                    EngineConfig.ManualCamera = !EngineConfig.ManualCamera;
+                                    if (!EngineConfig.ManualCamera) levelView.OnResetCamera();
+                                    Button.ResetButtonTimer();
+                                }
+
+                                // strzal z rakiety
+                                if (inputKeyboard.IsKeyDown(KeyMap.Instance.AltFire) ||
+                                    FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickRocket))
+                                {
+                                    currentLevel.OnFireSecondaryWeapon();
+                                }
+
+                                // strzal z dzialka
+                                if (inputKeyboard.IsKeyDown(KeyMap.Instance.GunFire) ||
+                                    FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickGun))
+                                {
+                                    currentLevel.OnFireGun();
+                                }
+
+                                // obrót z 'pleców na brzuch' samolotu
+                                // tymczasowo wy³¹czone - problematyczny obrót samolotu w modelu
+
+                                if (KeyMap.Instance.Spin is MOIS.Keyboard.Modifier)
+                                {
+                                    if (inputKeyboard.IsModifierDown((MOIS.Keyboard.Modifier) KeyMap.Instance.Spin))
+                                    {
+                                        currentLevel.OnSpinPressed();
+                                    }
+                                }
+                                else
+                                {
+                                    if (inputKeyboard.IsKeyDown((KeyCode) KeyMap.Instance.Spin))
+                                    {
+                                        currentLevel.OnSpinPressed();
+                                    }
+
+                                }
+
+
+
+
+                                // bullet time
+                                bool backspaceKeyDown = inputKeyboard.IsKeyDown(KeyMap.Instance.BulletTimeEffect) ||
+                                                        FrameWork.GetJoystickButton(inputJoystick,
+                                                                                    KeyMap.Instance.
+                                                                                        JoystickBulletiTimeEffect);
+
+                                if (backspaceKeyDown)
+                                    ModelEffectsManager.Instance.StartConsumptionEffect(EffectType.BulletTimeEffect);
+                                else ModelEffectsManager.Instance.StartLoadEffect(EffectType.BulletTimeEffect);
+                                if (backspaceKeyDown &&
+                                    ModelEffectsManager.Instance.GetEffectLevel(EffectType.BulletTimeEffect) > 0.0f)
+                                {
+                                    if (EngineConfig.CurrentGameSpeedMultiplier ==
+                                        EngineConfig.GameSpeedMultiplierNormal)
+                                    {
+                                        this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.MOTION_BLUR, true);
+                                    }
+                                    if (gameMessages.IsMessageQueueEmpty())
+                                        gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.BulletTime));
+                                    EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierSlow;
+                                }
+                                else
+                                {
+                                    if (EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierSlow)
+                                    {
+                                        this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.MOTION_BLUR, false);
+                                    }
+                                    EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierNormal;
+                                }
+
+
+
+                                // zmiana kamery
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Camera) ||
+                                     FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickCamera)) &&
+                                    Button.CanChangeSelectedButton(3.0f))
+                                {
+                                    if (gameMessages.IsMessageQueueEmpty())
+                                    {
+                                        gameMessages.AppendMessage(String.Format(@"{0}...",
+                                                                                 LanguageResources.GetString(
+                                                                                     LanguageKey.CameraChanged)));
+                                    }
+                                    levelView.OnChangeCamera();
+                                    Button.ResetButtonTimer();
+                                }
+
+                                // screenshots
+                                if (inputKeyboard.IsKeyDown(KeyCode.KC_SYSRQ) && Button.CanChangeSelectedButton())
+                                {
+                                    string[] temp = Directory.GetFiles(Environment.CurrentDirectory, "screenshot*.jpg");
+                                    string fileName = string.Format("screenshot{0}.jpg", temp.Length + 1);
+                                    framework.TakeScreenshot(fileName);
+                                    gameMessages.AppendMessage(String.Format("{0} '{1}'",
+                                                                             LanguageResources.GetString(
+                                                                                 LanguageKey.ScreenshotWrittenTo),
+                                                                             fileName));
                                     Button.ResetButtonTimer();
                                 }
                             }
-                          
-                            // nie chcemy, zeby uzytkownik ruszyl sie jednoczesnie
-                            // w lewo i w prawo, dlatego pierwszenstwo ma
-                            // ruch w lewo.
-                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Left) || joyVector.x < 0)
-                            {
-                                currentLevel.OnSteerLeft();
-                            }
-                            else if (inputKeyboard.IsKeyDown(KeyMap.Instance.Right) || joyVector.x > 0)
-                            {
-                                currentLevel.OnSteerRight();
-                            }
-                           
-                            // góra / dó³
-                            if ((!EngineConfig.InverseKeys && !EngineConfig.SpinKeys) ||
-                                 (EngineConfig.InverseKeys &&  EngineConfig.SpinKeys))
-                            {
-                                // podobnie, uzytkownik nie powinien miec mozliwosci
-                                // ruszyc sie w tym samym momencie do gory i w dol.
-                                // Pierwszenstwo posiada zatem gora
-                                if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up) || joyVector.y > 0)
-                                {
-                                    currentLevel.OnSteerUp();
-                                }
-                                else if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down) || joyVector.y < 0)
-                                {
-                                    currentLevel.OnSteerDown();
-                                }
-                                else if (EngineConfig.SpinKeys) EngineConfig.SpinKeys = false;
-                            }
-                            else
-                            {
-                                // klawisze zamienione miejscami.
-                                // priorytet ma ruch do gory
-                                if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down) || joyVector.y < 0)
-                                {
-                                    currentLevel.OnSteerUp();
-                                }
-                                else if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up) || joyVector.y > 0)
-                                {
-                                    currentLevel.OnSteerDown();
-                                }
-                                else if (EngineConfig.SpinKeys) EngineConfig.SpinKeys = false;
-                            }
-
-
-                            // uzytkownik moze wlaczyc i wylaczyc silnik w kazdym 
-                            // momencie lotu w polaczeniu z kazda kombinacja klawiszy
-                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Engine) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEngine))
-                            {
-                                currentLevel.OnToggleEngineOn();
-                            }
-
-                            // uzytkownik moze starac sie schowac lub otworzyc
-                            // podwozie w kazdym momencie lotu, o mozliwosc zajscia
-                            //zdarzenia decyduje model
-                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Gear) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickGear))
-                            {
-                                currentLevel.OnToggleGear();
-                            }
-
-                            // przyczep / odczep kamere
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_V) && EngineConfig.FreeLook &&
-                                Button.CanChangeSelectedButton(3.0f))
-                            {
-                                EngineConfig.ManualCamera = !EngineConfig.ManualCamera;
-                                if (!EngineConfig.ManualCamera) levelView.OnResetCamera();
-                                Button.ResetButtonTimer();
-                            }
-
-                            // strzal z rakiety
-                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.AltFire) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickRocket))
-                            {
-                                currentLevel.OnFireSecondaryWeapon();
-                            }
-
-                            // strzal z dzialka
-                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.GunFire) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickGun))
-                            {
-                                currentLevel.OnFireGun();
-                            }
-
-                            // obrót z 'pleców na brzuch' samolotu
-                            // tymczasowo wy³¹czone - problematyczny obrót samolotu w modelu
-                            
-                            if(KeyMap.Instance.Spin is MOIS.Keyboard.Modifier)
-                            {
-                            	if (inputKeyboard.IsModifierDown((MOIS.Keyboard.Modifier)KeyMap.Instance.Spin))
-	                            {
-	                                currentLevel.OnSpinPressed();
-	                            }
-                            } else
-                            {
-                            	if (inputKeyboard.IsKeyDown((KeyCode)KeyMap.Instance.Spin))
-	                            {
-	                                currentLevel.OnSpinPressed();
-	                            }
-                            	
-                            }
-                            
-                            
-                            
-                            
-                            // bullet time
-                            bool backspaceKeyDown = inputKeyboard.IsKeyDown(KeyMap.Instance.BulletTimeEffect) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickBulletiTimeEffect);
-                            
-                            if (backspaceKeyDown) ModelEffectsManager.Instance.StartConsumptionEffect(EffectType.BulletTimeEffect);
-                            else ModelEffectsManager.Instance.StartLoadEffect(EffectType.BulletTimeEffect);
-                            if (backspaceKeyDown && ModelEffectsManager.Instance.GetEffectLevel(EffectType.BulletTimeEffect) > 0.0f)
-                            {
-                                if (EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierNormal)
-                                {
-                                    this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.MOTION_BLUR, true);
-                                }
-                                if (gameMessages.IsMessageQueueEmpty()) gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.BulletTime));
-                                EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierSlow;
-                            }
-                            else
-                            {
-                                if (EngineConfig.CurrentGameSpeedMultiplier == EngineConfig.GameSpeedMultiplierSlow)
-                                {
-                                    this.framework.SetCompositorEnabled(FrameWork.CompositorTypes.MOTION_BLUR, false);
-                                }
-                                EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierNormal;
-                            }
-
-                      
-                            
-                            // zmiana kamery
-                            if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Camera) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickCamera)) && Button.CanChangeSelectedButton(3.0f))
-                            {
-                                if (gameMessages.IsMessageQueueEmpty())
-                                {
-                                    gameMessages.AppendMessage(String.Format(@"{0}...", LanguageResources.GetString(LanguageKey.CameraChanged)));
-                                }
-                                levelView.OnChangeCamera();
-                                Button.ResetButtonTimer();
-                            }
-
-                            // screenshots
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_SYSRQ) && Button.CanChangeSelectedButton())
-                            {
-                                string[] temp = Directory.GetFiles(Environment.CurrentDirectory, "screenshot*.jpg");
-                                string fileName = string.Format("screenshot{0}.jpg", temp.Length + 1);
-                                framework.TakeScreenshot(fileName);
-                                gameMessages.AppendMessage(String.Format("{0} '{1}'",
-                                                                         LanguageResources.GetString(
-                                                                             LanguageKey.ScreenshotWrittenTo), fileName));
-                                Button.ResetButtonTimer();
-                            }
                         }
-
 
                         if (!isGamePaused)
                         {
-                            // odswiezam model przed wyrenderowaniem klatki
-                            // czas od ostatniej klatki przekazywany jest w sekundach
-                            // natomiast model potrzebuje wartosci w milisekundach
-                            // dlatego mnoze przez 1000 i zaokraglam     
-                            int timeInterval = (int)Math.Round(evt.timeSinceLastFrame * 1000);
-                            if(isFirstFrame)
+                            if (!changingAmmo)
                             {
-                            	// w pierwszej klatce chcemy wyzerowaæ czas
-                            	timeInterval = 0;         
-                            	isFirstFrame = false;
-                            }
-                            currentLevel.Update(timeInterval);
-                            _bulletTimeBar.Update(timeInterval);
-                            if (!readyForLevelEnd)
-                            {
-                                // sprawdzam, czy to juz ten moment
-                                currentLevel.OnSoldierEndDeath();
-                            }
+                                // odswiezam model przed wyrenderowaniem klatki
+                                // czas od ostatniej klatki przekazywany jest w sekundach
+                                // natomiast model potrzebuje wartosci w milisekundach
+                                // dlatego mnoze przez 1000 i zaokraglam     
+                                int timeInterval = (int) Math.Round(evt.timeSinceLastFrame*1000);
+                                if (isFirstFrame)
+                                {
+                                    // w pierwszej klatce chcemy wyzerowaæ czas
+                                    timeInterval = 0;
+                                    isFirstFrame = false;
+                                }
 
-                            SoundManager.Instance.SetEngineFrequency((int) currentLevel.UserPlane.AirscrewSpeed*7);
-
-                            if (levelView.CurrentCameraHolderIndex == 0)
-                            {
-                                framework.HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt, framework.Camera,
-                                                            framework.MinimapCamera, currentLevel.UserPlane);
-                            }
-                            else
-                            {
-                                framework.HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt, null,
-                                                            framework.MinimapCamera, currentLevel.UserPlane);
-                            }
+                                currentLevel.Update(timeInterval);
+                                _bulletTimeBar.Update(timeInterval);
 
 
+                                if (!readyForLevelEnd)
+                                {
+                                    // sprawdzam, czy to juz ten moment
+                                    currentLevel.OnSoldierEndDeath();
+                                }
+
+                                SoundManager.Instance.SetEngineFrequency((int) currentLevel.UserPlane.AirscrewSpeed*7);
+
+                                if (levelView.CurrentCameraHolderIndex == 0)
+                                {
+                                    framework.HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt,
+                                                                framework.Camera,
+                                                                framework.MinimapCamera, currentLevel.UserPlane);
+                                }
+                                else
+                                {
+                                    framework.HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt, null,
+                                                                framework.MinimapCamera, currentLevel.UserPlane);
+                                }
+
+                            }
                             // try
                             //  {
                             levelView.OnFrameStarted(evt);
@@ -1140,7 +1171,7 @@ namespace Wof.Controller.Screens
                             
                             // odswiez raz na jakis czas
                             // TODO: timer
-                            if(Mogre.Math.RangeRandom(0,1) > 0.8f)
+                            if(!changingAmmo && Mogre.Math.RangeRandom(0,1) > 0.8f)
                             {
                             	UpdateHints(false);
                             }
@@ -1816,6 +1847,8 @@ namespace Wof.Controller.Screens
             {
                 SoundManager.Instance.LoopEngineSound();
             }
+            levelView.OnStartHangaring(1, -1); // powrot platformy
+            
         }
 
 
@@ -2261,13 +2294,19 @@ namespace Wof.Controller.Screens
         {
             //currentLevel.OnSoldierEndDeath();
             levelView.OnStopPlayingEnemyPlaneEngineSounds();
-
+          
             if (!readyForLevelEnd)
             {
+                
                 changingAmmo = true;
                 SoundManager.Instance.HaltEngineSound();
                 SoundManager.Instance.HaltOceanSound();
+                levelView.OnStartHangaring(-1, 3);
+
                 DisplayChangeAmmoScreen();
+
+
+
 
                 //DisplayNextLevelScreen();
                 //DisplayGameoverScreen();
