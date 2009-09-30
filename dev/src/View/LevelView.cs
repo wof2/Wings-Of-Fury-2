@@ -1337,6 +1337,8 @@ namespace Wof.View
 
             (p as VertexAnimable).updateTime(timeSinceLastFrame);
 
+            if(p is PlayerPlaneView) p.UpdateCrossHairVisibility(framework.Camera);
+
             if (p.Plane != null)
             {
            

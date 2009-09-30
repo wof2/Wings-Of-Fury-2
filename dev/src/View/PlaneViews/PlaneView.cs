@@ -276,6 +276,7 @@ namespace Wof.View
         }
 
 
+        private VisibilityNodeAnimation crossHairEffectNodeAnimation;
         public abstract void SetBladeVisibility(bool visible);
 
         /// <summary>
@@ -293,21 +294,58 @@ namespace Wof.View
         {
             Quaternion q = Quaternion.IDENTITY;
             q.FromAngleAxis(new Radian(Math.HALF_PI), Vector3.UNIT_X);
-            EffectsManager.Singleton.RectangularEffect(sceneMgr, innerNode, "CrossHair",
-                                                       EffectsManager.EffectType.CROSSHAIR, new Vector3(0, 0, -30),
+            crossHairEffectNodeAnimation = EffectsManager.Singleton.RectangularEffect(sceneMgr, innerNode, "CrossHair",
+                                                       EffectsManager.EffectType.CROSSHAIR, new Vector3(0, -2, -30),
                                                        new Vector2(3, 3), q, true);
         }
 
 
         public void HideCrossHair()
         {
+            crossHairEffectNodeAnimation = null;
             EffectsManager.Singleton.HideSprite(sceneMgr, innerNode, EffectsManager.EffectType.CROSSHAIR, "CrossHair");
         }
 
         protected void DestroyCrossHair()
         {
+            crossHairEffectNodeAnimation = null;
             EffectsManager.Singleton.NoSprite(sceneMgr, innerNode, EffectsManager.EffectType.CROSSHAIR, "CrossHair");
         }
+
+        /// <summary>
+        /// Celownik zwiêksza swoj¹ przezroczystoœæ kiedy jest blisko kamery. TODO: na razie jest jeden materia³ dla wszystkich celowników w grze
+        /// </summary>
+        /// <param name="camera"></param>
+        public void UpdateCrossHairVisibility(Camera camera)
+        {
+            if (crossHairEffectNodeAnimation != null)
+            {
+                float normalVisibilityDist = 3.0f;
+                float dist = (crossHairEffectNodeAnimation.Node.WorldPosition - camera.WorldPosition).Length;
+                float visibility = dist * normalVisibilityDist;
+                if (visibility < 0) visibility = 0;
+                if (visibility > 100) visibility = 100;
+                visibility /= 100.0f;
+
+                try
+                {
+                    MovableObject obj = crossHairEffectNodeAnimation.Node.GetAttachedObject(0);
+                    if (obj != null && obj is BillboardSet)
+                    {
+                        ((BillboardSet)obj).GetMaterial().GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetAlphaOperation(LayerBlendOperationEx.LBX_MODULATE, LayerBlendSource.LBS_TEXTURE, LayerBlendSource.LBS_MANUAL, visibility, visibility);
+
+                    }
+                }
+                catch (Exception)
+                {
+                    
+                  
+                }
+                
+               
+            }
+        }
+
        
 
         public void ResetWheels()
@@ -455,8 +493,11 @@ namespace Wof.View
 
         #region VertexAnimable members
 
+       
+
         public void updateTime(float timeSinceLastFrame)
         {
+           
             animationState.AddTime(timeSinceLastFrame);
         }
 
