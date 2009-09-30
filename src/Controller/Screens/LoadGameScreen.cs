@@ -108,24 +108,8 @@ namespace Wof.Controller.Screens
                                             completedLevels[i], cc, completedLevels[i]));
                
                 // ikonka typu misji
-                string filename = null;
-                switch(Level.GetMissionType(GameScreen.GetLevelName((int)completedLevels[i])))
-                {
-                	case MissionType.Assassination:
-                		filename = "Assassination.png";
-                		break;
-                	case MissionType.Dogfight:
-                		filename = "dogfight.png";
-                		break;
-                	case MissionType.Naval:
-                		filename = "naval.png";
-                		break;
-                	case MissionType.BombingRun:
-                		filename = "bombing.png";
-                		break;   
-                	
-                }
-                
+                string filename = Level.GetMissionTypeTextureFile(Level.GetMissionType(GameScreen.GetLevelName((int) completedLevels[i])));
+               
                 if(filename != null)
                 {
                 	guiWindow.createStaticImage(new Vector4(viewport.ActualWidth / 2 - GetTextVSpacing(), 3 * GetTextVSpacing() + i * GetTextVSpacing(), GetTextVSpacing(), GetTextVSpacing()), filename, (ushort)(1000 + i));

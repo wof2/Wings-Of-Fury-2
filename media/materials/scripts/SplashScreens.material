@@ -16,6 +16,23 @@ material SplashScreen
 	}
 }
 
+
+material MissionType
+{
+	technique
+	{
+		pass
+		{			
+			scene_blend alpha_blend 	
+			texture_unit 
+			{
+				texture bombing.png				
+			}
+		}
+	}
+}
+
+
 material IntroScreen1
 {
 	technique

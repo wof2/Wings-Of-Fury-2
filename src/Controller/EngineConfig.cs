@@ -249,6 +249,7 @@ namespace Wof.Controller
                     InverseKeys = "true".Equals(configOptions[6]);
                     ExplosionLights = !LowDetails;
                     BodiesStay = !LowDetails;
+                    
                    
                     
                     try
@@ -296,7 +297,9 @@ namespace Wof.Controller
                     {
                     	DisplayMinimap = true;
                     }
-                     try
+
+
+                    try
 					{
                     	UseHydrax = "true".Equals(configOptions[11]);
                     }
@@ -304,6 +307,8 @@ namespace Wof.Controller
                     {
                     	UseHydrax = false;
                     }
+
+
                     
                 //  UseHydrax = false;
                   
