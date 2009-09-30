@@ -76,51 +76,52 @@ namespace Wof.Controller
         /// </summary>
         private void InitializeComponent()
         {
-        	this.LoadingText = new System.Windows.Forms.Label();
-        	this.Progress = new System.Windows.Forms.ProgressBar();
-        	this.SuspendLayout();
-        	// 
-        	// LoadingText
-        	// 
-        	this.LoadingText.AutoEllipsis = true;
-        	this.LoadingText.BackColor = System.Drawing.Color.Transparent;
-        	this.LoadingText.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-        	this.LoadingText.ForeColor = System.Drawing.Color.White;
-        	this.LoadingText.Location = new System.Drawing.Point(9, 264);
-        	this.LoadingText.Name = "LoadingText";
-        	this.LoadingText.Size = new System.Drawing.Size(376, 13);
-        	this.LoadingText.TabIndex = 0;
-        	this.LoadingText.Text = "Loading...";
-        	this.LoadingText.UseWaitCursor = true;
-        	// 
-        	// Progress
-        	// 
-        	this.Progress.Location = new System.Drawing.Point(12, 280);
-        	this.Progress.Maximum = 8;
-        	this.Progress.Name = "Progress";
-        	this.Progress.Size = new System.Drawing.Size(278, 18);
-        	this.Progress.Step = 1;
-        	this.Progress.TabIndex = 1;
-        	this.Progress.UseWaitCursor = true;
-        	// 
-        	// Splash
-        	// 
-        	this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-        	this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        	this.BackgroundImage = global::Wof.Properties.Resources.newsplash;
-        	this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-        	this.ClientSize = new System.Drawing.Size(300, 300);
-        	this.ControlBox = false;
-        	this.Controls.Add(this.Progress);
-        	this.Controls.Add(this.LoadingText);
-        	this.DoubleBuffered = true;
-        	this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-        	this.Name = "Splash";
-        	this.ShowIcon = false;
-        	this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-        	this.Text = "Loading...";
-        	this.UseWaitCursor = true;
-        	this.ResumeLayout(false);
+            this.LoadingText = new System.Windows.Forms.Label();
+            this.Progress = new System.Windows.Forms.ProgressBar();
+            this.SuspendLayout();
+            // 
+            // LoadingText
+            // 
+            this.LoadingText.AutoEllipsis = true;
+            this.LoadingText.BackColor = System.Drawing.Color.Transparent;
+            this.LoadingText.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.LoadingText.ForeColor = System.Drawing.Color.Gold;
+            this.LoadingText.Location = new System.Drawing.Point(9, 264);
+            this.LoadingText.Name = "LoadingText";
+            this.LoadingText.Size = new System.Drawing.Size(376, 13);
+            this.LoadingText.TabIndex = 0;
+            this.LoadingText.Text = "Loading...";
+            this.LoadingText.UseWaitCursor = true;
+            // 
+            // Progress
+            // 
+            this.Progress.Location = new System.Drawing.Point(12, 280);
+            this.Progress.Maximum = 8;
+            this.Progress.Name = "Progress";
+            this.Progress.Size = new System.Drawing.Size(278, 18);
+            this.Progress.Step = 1;
+            this.Progress.TabIndex = 1;
+            this.Progress.UseWaitCursor = true;
+            // 
+            // Splash
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = global::Wof.Properties.Resources.newsplash;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(300, 300);
+            this.ControlBox = false;
+            this.Controls.Add(this.Progress);
+            this.Controls.Add(this.LoadingText);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "Splash";
+            this.ShowIcon = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Loading...";
+            this.UseWaitCursor = true;
+            this.ResumeLayout(false);
+
         }
 
         #endregion

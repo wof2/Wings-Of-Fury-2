@@ -291,6 +291,22 @@ material Effects/PalmTop1 : ABEffect
    }
 }
 
+
+material Effects/CrossHair : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+             	texture CrossHair.png
+          }
+       }
+   }
+}
+
+
 material Effects/PalmTop2 : ABEffect
 {
    technique Diffuse

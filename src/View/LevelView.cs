@@ -92,6 +92,8 @@ namespace Wof.View
 
         private int currentCameraHolderIndex = 0;
 
+        private List<int> crossHairCameraIndexes = new List<int>() { 2, 3 };
+
         public SceneNode CurrentCameraHolder
         {
             get
@@ -2025,7 +2027,7 @@ namespace Wof.View
             SceneNode splashNode = getSplashNode();
             if (splashNode == null) return; // koniec poola
             Boolean ocean = false;
-            NodeAnimation.NodeAnimation na;
+            NodeAnimation.NodeAnimation na, na2;
 
             if (tile is OceanTile)
             {
@@ -2051,7 +2053,21 @@ namespace Wof.View
             na.Node.Orientation *= new Quaternion(Math.RangeRandom(-0.1f, 0.1f)*Math.HALF_PI, Vector3.UNIT_Y);
             na.onFinishInfo = na.Node;
             na.onFinish = onFreeSplashNode;
+
+
+            // zeby bylo widac z gory
+            na2 =
+               EffectsManager.Singleton.RectangularEffect(sceneMgr, splashNode, type + "top", type, position,
+                                                          new Vector2(4, 4), Quaternion.IDENTITY, false);
+
+            na2.Node.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
+            na2.Node.Orientation *= new Quaternion(Math.RangeRandom(-0.1f, 0.1f) * Math.HALF_PI, Vector3.UNIT_Y);
+            na2.Node.Orientation *= new Quaternion(Math.HALF_PI, Vector3.UNIT_Z);
+
+            na2.onFinishInfo = na.Node;
+            na2.onFinish = onFreeSplashNode;
         }
+
 
         public void onFreeSplashNode(object o)
         {
@@ -2107,6 +2123,22 @@ namespace Wof.View
             }
             cameraHolders[currentCameraHolderIndex].AttachObject(framework.Camera);
 
+            // crosshair
+            if (crossHairCameraIndexes.Contains(camIndex))
+            {
+                playerPlaneView.ShowCrossHair();
+            }
+            else
+            {
+                playerPlaneView.HideCrossHair();
+            }
+
+           
+
+            
+
+
+          //  EffectsManager.Singleton.NoSprite();
             SoundManager3D.Instance.SetListener(framework.Camera);
             return lastIndex;
         }
