@@ -289,6 +289,27 @@ namespace Wof.View
         public abstract void HideTorpedo();
 
 
+        public void ShowCrossHair()
+        {
+            Quaternion q = Quaternion.IDENTITY;
+            q.FromAngleAxis(new Radian(Math.HALF_PI), Vector3.UNIT_X);
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, innerNode, "CrossHair",
+                                                       EffectsManager.EffectType.CROSSHAIR, new Vector3(0, 0, -30),
+                                                       new Vector2(3, 3), q, true);
+        }
+
+
+        public void HideCrossHair()
+        {
+            EffectsManager.Singleton.HideSprite(sceneMgr, innerNode, EffectsManager.EffectType.CROSSHAIR, "CrossHair");
+        }
+
+        protected void DestroyCrossHair()
+        {
+            EffectsManager.Singleton.NoSprite(sceneMgr, innerNode, EffectsManager.EffectType.CROSSHAIR, "CrossHair");
+        }
+       
+
         public void ResetWheels()
         {
             if (rWheelInnerNode == null || lWheelInnerNode==null) return;

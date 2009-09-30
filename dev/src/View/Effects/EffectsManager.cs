@@ -135,6 +135,7 @@ namespace Wof.View.Effects
             DEBRIS,
             PALMTOP1,
             PALMTOP2,
+            CROSSHAIR,
             HINT_ARROW,
             CLOUD1,
             CLOUD2,
@@ -592,6 +593,12 @@ namespace Wof.View.Effects
                     info.duration = 0.0f;
                     info.material = "Effects/PalmTop2";
                     break;
+
+                case EffectType.CROSSHAIR:
+                    info.duration = 0.0f;
+                    info.material = "Effects/CrossHair";
+                    break;
+                    
                     
   				case EffectType.HINT_ARROW:
                     info.duration = 1.0f;
@@ -627,9 +634,9 @@ namespace Wof.View.Effects
             return info;
         }
 
-        public void HideSprite(SceneManager sceneMgr, SceneNode parent, EffectType type, uint index)
+        public void HideSprite(SceneManager sceneMgr, SceneNode parent, EffectType type, string localName)
         {
-            string aName = parent.Name + "_" + type.ToString() + "_index" + index; // animation name
+            string aName = parent.Name + "_" + type.ToString() + "_index" + localName; // animation name
             string bsName = aName + "BS"; // billboardset name
             VisibilityNodeAnimation ret;
 
@@ -640,6 +647,13 @@ namespace Wof.View.Effects
                 ret.Node.SetVisible(false);
             }
         }
+
+
+        public void HideSprite(SceneManager sceneMgr, SceneNode parent, EffectType type, uint index)
+        {
+            HideSprite(sceneMgr, parent, type, index.ToString());
+        }
+
         public void NoSprite(SceneManager sceneMgr, SceneNode parent, EffectType type, uint index)
         {
             NoSprite(sceneMgr, parent, type, index.ToString());
