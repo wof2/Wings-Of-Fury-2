@@ -379,6 +379,39 @@ namespace Wof.Model.Level
 
         #region Public Method
 
+
+        public static String GetMissionTypeTextureFile(MissionType missionType)
+        {
+
+            string texture;
+            switch (missionType)
+            {
+                case MissionType.Assassination:
+                    texture = "Assassination.png";
+                    break;
+
+                case MissionType.Dogfight:
+                    texture = "dogfight.png";
+                    break;
+
+                case MissionType.Naval:
+                    texture = "naval.png";
+                    break;
+
+                case MissionType.BombingRun:
+                    texture = "bombing.png";
+                    break;
+
+                default:
+                    texture = "bombing.png";
+                    break;
+
+            }
+            return texture;
+
+        }
+
+
         /// <summary>
         /// Zmienia stan silnika na w³¹czony.
         /// </summary>
@@ -1530,6 +1563,8 @@ namespace Wof.Model.Level
             get { return levelParser.MissionType; }
         }
 
+
+        
         /// <summary>
         /// Zwraca liste wczytanych obiektow.
         /// </summary>

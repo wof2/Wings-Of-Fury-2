@@ -273,6 +273,7 @@ namespace Wof.Controller.Screens
         private bool wasLeftMousePressed = false;
         
         protected bool isFirstFrame;
+        private Window loadingMissionTypeWindow;
 
         public GameScreen(GameEventListener gameEventListener,
                           FrameWork framework, Device directSound, int lives, int levelNo)
@@ -389,8 +390,7 @@ namespace Wof.Controller.Screens
                     loadingStart = DateTime.Now;
                     LogManager.Singleton.LogMessage("About to load level view...", LogMessageLevel.LML_CRITICAL);
                     levelView = new LevelView(framework, this);
-                    LogManager.Singleton.LogMessage("About to load model...", LogMessageLevel.LML_CRITICAL);
-                    currentLevel = new Level(GetLevelName(levelNo), this, lives);
+                
                     LogManager.Singleton.LogMessage("About to register level " + levelNo + " to view...", LogMessageLevel.LML_CRITICAL);
                     SoundManager.Instance.PreloadRandomIngameMusic();
                     levelView.OnRegisterLevel(currentLevel);
@@ -419,31 +419,8 @@ namespace Wof.Controller.Screens
                     float dist = viewport.ActualWidth/4.5f;
                     missionTypeWindow = missionTypeGui.createWindow(new Vector4(viewport.ActualWidth - dist, viewport.ActualHeight - 40, dist, 40), "", (int)wt.NONE, "");
 
-                    switch (CurrentLevel.MissionType)
-                    {
-                    	case MissionType.Assassination:
-                            missionTypeWindow.createStaticImage(new Vector4(dist - 40, 0, 40, 40), "Assassination.png");
-                    	break;
-                    	
-                    	case MissionType.Dogfight:
-                            missionTypeWindow.createStaticImage(new Vector4(dist - 40, 0, 40, 40), "dogfight.png");
-                      
-                    	break;
-                    	
-                    	case MissionType.Naval:
-                            missionTypeWindow.createStaticImage(new Vector4(dist - 40, 0, 40, 40), "naval.png");
-                    	break;
-                    	
-                    	case MissionType.BombingRun:
-                            missionTypeWindow.createStaticImage(new Vector4(dist - 40, 0, 40, 40), "bombing.png");
-                    	break;
-                    		
-                    		
-                    }
-                   
-                    
-                    
-                   
+                    string filename = Level.GetMissionTypeTextureFile(CurrentLevel.MissionType);
+                    missionTypeWindow.createStaticImage(new Vector4(dist - 40, 0, 40, 40), filename);
                     missionTypeWindow.show();
                     
 
@@ -517,6 +494,10 @@ namespace Wof.Controller.Screens
 
         public void DisplayGUI(Boolean justMenu)
         {
+
+            LogManager.Singleton.LogMessage("About to load model...", LogMessageLevel.LML_CRITICAL);
+            currentLevel = new Level(GetLevelName(levelNo), this, lives);
+
             string baseName;
             //Console.WriteLine("LOADING WAITING GUI");        
 
@@ -546,13 +527,23 @@ namespace Wof.Controller.Screens
                 overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(baseName + n + lang +
                                                                                                    ".jpg");
                 overlayMaterial = null;
-                loadingText.Caption = LanguageResources.GetString(LanguageKey.Level) + ": "+ levelNo;
+                loadingText.Caption = LanguageResources.GetString(LanguageKey.Level) + ": " + levelNo + ", " + LanguageResources.GetString(LanguageKey.MissionType) + ": " + LanguageResources.GetString(CurrentLevel.MissionType.ToString());
                 loadingText.SetParameter("font_name", FontManager.CurrentFont);
                 loadingText = null;
             }
+
+
+            MaterialPtr missionTypeMaterial = MaterialManager.Singleton.GetByName("MissionType");
+            missionTypeMaterial.Load();
+            string texture;
+
+            texture = Level.GetMissionTypeTextureFile(CurrentLevel.MissionType);
+            missionTypeMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(texture);
+
             loadingOverlay.Show();
-            
+
             ViewEffectsManager.Singleton.Load();
+
             
             // preloader tekstur
             if(EngineConfig.UseHardwareTexturePreloader)
@@ -925,7 +916,7 @@ namespace Wof.Controller.Screens
                        // mouseState = null;
                     }
 
-                    if(levelView.IsHangaringFinished())
+                    if(levelView != null && levelView.IsHangaringFinished())
                     {
                         levelView.OnHangaringFinished();
                     }

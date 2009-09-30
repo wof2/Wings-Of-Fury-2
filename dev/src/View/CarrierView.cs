@@ -46,6 +46,7 @@
  * 
  */
 
+using System;
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
@@ -58,6 +59,7 @@ using Wof.Model.Level.Planes;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;
 using Wof.View.TileViews;
+using Math=Mogre.Math;
 using Plane=Wof.Model.Level.Planes.Plane;
 
 namespace Wof.View
@@ -333,8 +335,14 @@ namespace Wof.View
           // compositeModel.SetMaterialName("Carrier");
             mainNode.AttachObject(compositeModel);
 
-            
-            carrierHangar = sceneMgr.CreateEntity(name + "Hangar", "HangarFloor.mesh");
+            if (EngineConfig.LowDetails)
+            {
+                carrierHangar = sceneMgr.CreateEntity(name + "Hangar", "HangarFloor_low.mesh");
+            }
+            else
+            {
+                carrierHangar = sceneMgr.CreateEntity(name + "Hangar", "HangarFloor.mesh");
+            }
             carrierHangarNode = mainNode.CreateChildSceneNode(name + "HangarNode", Vector3.ZERO);
 
             carrierHangarNode.AttachObject(carrierHangar);
@@ -693,18 +701,23 @@ namespace Wof.View
                 // hangar
                 if(isHangaringPlane)
                 {
+                    float targetDepth = hangarDepth * hangaringDirection;
+                    float progress =  1 - (targetDepth - carrierHangarNode.Position.y)/targetDepth;
+                    float step = 3.0f * timeSinceLastFrameUpdate * hangaringDirection; //* Math.Cos(Math.HALF_PI * progress);
                     
-                    carrierHangarNode.Translate(0, timeSinceLastFrameUpdate * hangaringDirection, 0);
-                    hangarPlane.Plane.Bounds.Move(0, timeSinceLastFrameUpdate * hangaringDirection);
-                   // hangarPlane.Plane.Position
+                    progress = Math.Abs(progress);
+                    step *= 1 / (1 +  (float)System.Math.Pow((-1.5f + 3.0f * progress), 2)) * 0.75f; // p³ynne przyspieszenie i hamowanie wg. pochodniej arctan ktora wynosi 1 / (1 + x^2)
+
+                    carrierHangarNode.Position = carrierHangarNode.Position + new Vector3(0, step, 0);
+                    hangarPlane.Plane.Bounds.Move(0, step);
+
                     if (hangaringDirection == -1)
                     {
                         // opuszczanie
-                        float targetDepth = hangarDepth*hangaringDirection;
                         if (carrierHangarNode.Position.y < targetDepth)
                         {
                             hangarPlane.Plane.Bounds.Move(0, carrierHangarNode.Position.y - targetDepth);
-                            carrierHangarNode.Position = new Vector3(0, targetDepth, 0);
+                            carrierHangarNode.SetPosition(0, targetDepth, 0);
                             isHangaringPlane = false;
                         }
                     }
