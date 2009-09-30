@@ -300,7 +300,7 @@ material Effects/CrossHair : ABEffect
        {
           texture_unit 0
           { 
-             	texture CrossHair.png
+             	texture CrossHair.png		
           }
        }
    }

@@ -234,13 +234,13 @@ namespace Wof.View
             cameraHolders[2].ResetOrientation();
             cameraHolders[2].Position = new Vector3(-19, 11.0f, 0);
             cameraHolders[2].Yaw(new Radian(-Math.HALF_PI));
-            cameraHolders[2].Pitch(new Radian(-Math.HALF_PI * 0.30f));
+            cameraHolders[2].Pitch(new Radian(-Math.HALF_PI * 0.28f));
             
             
             cameraHolders[3].ResetOrientation();
             cameraHolders[3].Position = new Vector3(19, 11.0f, 0);
             cameraHolders[3].Yaw(new Radian(Math.HALF_PI));
-            cameraHolders[3].Pitch(new Radian(-Math.HALF_PI * 0.30f));
+            cameraHolders[3].Pitch(new Radian(-Math.HALF_PI * 0.28f));
             
             
          
