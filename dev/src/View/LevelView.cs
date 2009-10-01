@@ -1932,7 +1932,7 @@ namespace Wof.View
 
               
                 // nad samolotem (niebo)
-                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 170, 0), new Vector2(500, 200), 0, 1, lighterClouds);
+                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 170, -50), new Vector2(500, 200), 0, 1, lighterClouds);
             }
         }
 
@@ -2066,7 +2066,7 @@ namespace Wof.View
             na2.Node.Orientation *= new Quaternion(Math.RangeRandom(-0.1f, 0.1f) * Math.HALF_PI, Vector3.UNIT_Y);
             na2.Node.Orientation *= new Quaternion(Math.HALF_PI, Vector3.UNIT_Z);
 
-            na2.onFinishInfo = na.Node;
+            na2.onFinishInfo = na2.Node;
             na2.onFinish = onFreeSplashNode;
         }
 
