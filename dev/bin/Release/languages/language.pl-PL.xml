@@ -516,6 +516,10 @@
   <data name="EnemyGenerals">
     <value>Generałów</value>
   </data>
+
+ <data name="Altitude">
+    <value>Wysokość</value>
+  </data>
   
 
 </root>

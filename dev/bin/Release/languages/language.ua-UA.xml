@@ -510,6 +510,10 @@
     <data name="EnemyGenerals">
     <value>ворожі генерали</value>
   </data>
+
+   <data name="Altitude">
+    <value>вершина</value>
+  </data>
   
   
   

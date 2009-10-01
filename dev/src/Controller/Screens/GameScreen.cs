@@ -115,6 +115,7 @@ namespace Wof.Controller.Screens
 
 
         private BulletTimeBar _bulletTimeBar;
+        private AltitudeBar _altitudeBar;
 
         private int cameraIndexBeforeChangingAmmo;
 
@@ -424,7 +425,10 @@ namespace Wof.Controller.Screens
                     missionTypeWindow.show();
                     
 
-                    _bulletTimeBar = new BulletTimeBar(missionTypeGui, framework.Viewport, viewport.ActualWidth / 2.7f, viewport.ActualHeight / 40.0f);
+                    _bulletTimeBar = new BulletTimeBar(fontSize, framework.Viewport, viewport.ActualWidth / 5.5f, viewport.ActualHeight / 75.0f);
+                    _altitudeBar = new AltitudeBar(fontSize, framework.Viewport, viewport.ActualWidth / 5.5f, viewport.ActualHeight / 75.0f);
+                    
+                    
                     if (LevelNo == 1 && firstTakeOff)
                     {
 
@@ -591,6 +595,7 @@ namespace Wof.Controller.Screens
             try
             { 	
             	_bulletTimeBar.Dispose();
+            	_altitudeBar.Dispose();
                 if (mGui != null)
                 {
                
@@ -1127,7 +1132,7 @@ namespace Wof.Controller.Screens
 
                                 currentLevel.Update(timeInterval);
                                 _bulletTimeBar.Update(timeInterval);
-
+								_altitudeBar.Update(timeInterval);
 
                                 if (!readyForLevelEnd)
                                 {

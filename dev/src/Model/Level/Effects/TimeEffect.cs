@@ -60,7 +60,7 @@ namespace Wof.Model.Level.Effects
     /// <summary>
     /// Klasa abstarkcyjna dla wszystkich efektow, ktore sie zmieniaja w czasie.
     /// </summary>
-    public abstract class TimeEffect
+    public abstract class TimeEffect : BaseEffect
     {
         #region Static Fields
 
@@ -164,11 +164,7 @@ namespace Wof.Model.Level.Effects
 
         #region Abstract & Virtual Methods
 
-        /// <summary>
-        /// Metoda aktualizuje efekt.
-        /// </summary>
-        /// <param name="time">Liczba milisekund, ktora uplynela od ostatniej aktualizacji.</param>
-        public abstract void Update(int time);
+      
 
         /// <summary>
         /// Rozpoczyna proces ladowania efektu.

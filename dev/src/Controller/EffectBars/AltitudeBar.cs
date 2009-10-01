@@ -57,12 +57,13 @@ using Wof.View.NodeAnimation;
 
 namespace Wof.Controller.EffectBars
 {
-	internal class BulletTimeBar : IDisposable
+	internal class AltitudeBar : IDisposable
     {
-        private const string ImageBar = @"bulletTimeBar.PNG";
+        private const string ImageBar = @"altitudeBar.PNG";
         private const string ImageBarBg = @"bulletTimeBarBg.PNG";
         private float _height = 25.0f;
         private float _width = 75f;
+        
         private Window _bar;
         private Window _bar2;
         
@@ -79,35 +80,35 @@ namespace Wof.Controller.EffectBars
         
         private static Timer blinkDelay;
         
-       private ColourValue _colour1 = new ColourValue(0.9f,1.0f,0.45f);
+        private ColourValue _colour1 = new ColourValue(1.0f,1.0f,0.45f);
         private ColourValue _colour2 = new ColourValue(0.6f,0.1f,0.1f);
         
         /// <summary>
         /// Kiedy zaczyna konczyc sie efekt
         /// </summary>
-        private float _threshold = 0.3f;
+        private float _threshold = 0.05f;
         
         private bool thresholdCrossed = false;
 
-        public BulletTimeBar(float fontSize, Viewport viewport, float width, float height)
+        public AltitudeBar(float fontSize, Viewport viewport, float width, float height)
         {
-            blinkDelay = new Timer();
+             blinkDelay = new Timer();
         	_height = height;
         	_width = width;
         
             //pozycja paska
-            _startPoint = new PointF(viewport.ActualWidth / 3.2f , viewport.ActualHeight * 1.020f);
+            _startPoint = new PointF(_width * 1.05f +  viewport.ActualWidth / 3.2f , viewport.ActualHeight * 1.020f);
               
             float min = _width / 150.0f;
          
-            _gui1 = new GUI(Wof.Languages.FontManager.CurrentFont, (uint)fontSize, "BulletTimeBarGUI");
+            _gui1 = new GUI(Wof.Languages.FontManager.CurrentFont, (uint)fontSize, "AltitudeBarGUI1");
             _gui1.SetZOrder(100);
             
             _bar = _gui1.createWindow(new Vector4(_startPoint.X - min, _startPoint.Y - min, _width+ 2*min, _height+ 2*min), String.Empty, (int)wt.NONE, String.Empty);
             _barOverContaBg = _bar.createStaticImage(new Vector4(0, 0, _width + 2*min, _height + 2*min), ImageBarBg, 0);
            
             
-            _gui2 = new GUI(Wof.Languages.FontManager.CurrentFont, (uint)fontSize, "BulletTimeBarGUI2");
+            _gui2 = new GUI(Wof.Languages.FontManager.CurrentFont, (uint)fontSize, "AltitudeBarGUI2");
             _gui2.SetZOrder(110);
             
             _bar2 = _gui2.createWindow(new Vector4(_startPoint.X - min, _startPoint.Y - min, _width+ 2*min, _height+ 2*min), String.Empty, (int)wt.NONE, String.Empty);
@@ -116,7 +117,7 @@ namespace Wof.Controller.EffectBars
               
             uint oldFontSize = _gui2.mFontSize;
             _gui2.mFontSize = (uint)(oldFontSize * 0.55f);           
-            _text = _bar2.createStaticText(new Vector4(min * 3.0f, - 9.5f *min, _width, _height * 0.90f), LanguageResources.GetString(LanguageKey.BulletTime), _colour1);
+            _text = _bar2.createStaticText(new Vector4(min, - 9.5f *min, _width, _height * 0.90f), LanguageResources.GetString(LanguageKey.Altitude), _colour1);
             _gui2.mFontSize = oldFontSize;
             
         }
@@ -124,8 +125,8 @@ namespace Wof.Controller.EffectBars
         public void Update(int time)
         {
            
-            ModelEffectsManager.Instance.UpdateEffect(time, EffectType.BulletTimeEffect);
-            float width = ModelEffectsManager.Instance.GetEffectLevel(EffectType.BulletTimeEffect) * _width;
+            ModelEffectsManager.Instance.UpdateEffect(time, EffectType.AltitudeEffect);
+            float width = ModelEffectsManager.Instance.GetEffectLevel(EffectType.AltitudeEffect) * _width;
             //_barOverConta.SetPosition(_startPoint.X, _startPoint.Y - (_heigth - h));
            
             
@@ -172,11 +173,6 @@ namespace Wof.Controller.EffectBars
         	
         	_gui2.killGUI();
         	_gui2 = null;
-        	//_bar.killWindow();
-        	//_bar = null;
-        	
-        	//_bar2.killWindow();
-        	//_bar2 = null;
         	
         	blinkDelay = null;
         	

@@ -533,7 +533,10 @@
     <value>Feindliche Generäle</value>
   </data>
 
-
+  <data name="Altitude">
+    <value>Höhe</value>
+  </data>
+  
   
   <!-- IDEA: Good for translaters would be to add the content of the splash screen here, too. -->
 

@@ -49,6 +49,7 @@
 using System;
 using System.Collections.Generic;
 using Wof.Model.Configuration;
+using Wof.Model.Level.Planes;
 
 namespace Wof.Model.Level.Effects
 {
@@ -60,10 +61,13 @@ namespace Wof.Model.Level.Effects
         #region Instance
 
         private static readonly ModelEffectsManager _manager = new ModelEffectsManager();
-
+       
         public static ModelEffectsManager Instance
         {
-            get { return _manager; }
+            get 
+            {   
+        		return _manager;
+        	}
         }
 
         #endregion
@@ -74,6 +78,12 @@ namespace Wof.Model.Level.Effects
         /// Lista efektow.
         /// </summary>
         private List<TimeEffect> _timeEffects;
+        
+        
+        /// <summary>
+        /// Lista efektow innego typu.
+        /// </summary>
+        private List<BaseEffect> _otherEffects;
 
         #endregion
 
@@ -83,16 +93,21 @@ namespace Wof.Model.Level.Effects
         /// Konstruktor
         /// </summary>
         private ModelEffectsManager() 
-        {
-            Reset();
+        {      
         }
+        
 
-        public void Reset()
-        {
+        public void Reset(Plane plane)
+        {        
+        	
             _timeEffects = new List<TimeEffect>();
             BulletTimeEffect bulletTimeEffect = new BulletTimeEffect(1.0f, GameConsts.Effects.BulletLoadTime, 60);
             bulletTimeEffect.LevelEffectChange += new LevelEffectChangeHandler(BulletTimeEffectLevelEffectChange);
             _timeEffects.Add(bulletTimeEffect);
+            
+            AltitudeEffect altitudeEffect = new AltitudeEffect(plane);
+            _otherEffects = new List<BaseEffect>();
+            _otherEffects.Add(altitudeEffect);
             
         }
 
@@ -121,6 +136,7 @@ namespace Wof.Model.Level.Effects
         public void UpdateEffects(int time)
         {
             _timeEffects.ForEach(delegate(TimeEffect effect) { effect.Update(time); });
+            _otherEffects.ForEach(delegate(BaseEffect effect) { effect.Update(time); });
         }
 
         /// <summary>
@@ -130,13 +146,21 @@ namespace Wof.Model.Level.Effects
         /// <param name="type">Typ efektu.</param>
         public void UpdateEffect(int time, EffectType type)
         {
+        	BaseEffect te ;
             switch (type)
             {
                 case EffectType.BulletTimeEffect:
-                    TimeEffect te = _timeEffects.Find(delegate(TimeEffect effect) { return effect is BulletTimeEffect; });
+                    te = _timeEffects.Find(delegate(TimeEffect effect) { return effect is BulletTimeEffect; });
                     if (te != null)
                         te.Update(time);
                     break;
+                    
+                case EffectType.AltitudeEffect:
+                    te = _otherEffects.Find(delegate(BaseEffect effect) { return effect is AltitudeEffect; });
+                    if (te != null)
+                        te.Update(time);
+                    break;
+               
             }
         }
 
@@ -154,6 +178,13 @@ namespace Wof.Model.Level.Effects
                     if (te != null)
                         return te.EffectLevel;
                     break;
+                    
+                case EffectType.AltitudeEffect:
+                    AltitudeEffect ae = (AltitudeEffect)_otherEffects.Find(delegate(BaseEffect effect) { return effect is AltitudeEffect; });
+                    if (ae != null)
+                        return ae.EffectLevel;
+                    break;
+                    
                 default:
                     throw new ArgumentException("Niepoprawny argument !", "type");
             }

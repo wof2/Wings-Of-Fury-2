@@ -525,5 +525,9 @@
     <value>Στρατηγοί του εχθρού</value>
   </data>
 
+  <data name="Altitude">
+    <value>υψόμετρο</value>
+  </data>
+
   
 </root>

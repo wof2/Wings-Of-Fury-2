@@ -394,6 +394,19 @@ namespace Wof.Controller
         {
             //   window.WindowMovedOrResized( );
         }
+        
+        private void DetectGraphicsSettings()
+        {
+        	
+        	/* uint budget = MeshManager.Singleton.;
+        	
+        	String device = root.RenderSystem.GetConfigOptions()["Rendering Device"].currentValue;
+        	if(device.Contains("Geforce 3"))
+        	{
+        		
+        	}*/
+        	
+        }
 
 
         /// <summary>
@@ -409,7 +422,7 @@ namespace Wof.Controller
                 try
                 {
                     window = root.Initialise(true, "Wings Of Fury 2");
-                 
+                    DetectGraphicsSettings();
                 }
                 catch (Exception)
                 {
@@ -431,7 +444,9 @@ namespace Wof.Controller
             {
                 if (root.RestoreConfig())
                 {
-                    window = root.Initialise(true, "Wings Of Fury 2");
+                    window = root.Initialise(true, "Wings Of Fury 2");  
+                    
+                 
                     windowHeight = window.Height;
                     windowWidth = window.Width;
                     Resize += OgreForm_Resize;
@@ -450,7 +465,7 @@ namespace Wof.Controller
 
                 // jako stan startowy moze zostac wybrany tylko directx system
                 RenderSystem d3dxSystem = null;
-
+				
                 while (enumerator.MoveNext())
                 {
                     RenderSystem renderSystem = enumerator.Current;
@@ -468,12 +483,14 @@ namespace Wof.Controller
 
                 d3dxSystem.SetConfigOption("Full Screen", fullScreen);
                 d3dxSystem.SetConfigOption("Video Mode", videoMode);
-              
+                
+        
+              	
                 window = root.Initialise(true, "Wings Of Fury 2");
 
                 windowHeight = window.Height;
                 windowWidth = window.Width;
-
+                
                 Resize += new EventHandler(OgreForm_Resize);
                 root.SaveConfig();
                 return true;
