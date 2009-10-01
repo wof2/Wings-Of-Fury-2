@@ -123,10 +123,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Splash.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Controller\Splash.resx">
-      <DependentUpon>Splash.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="src\Tests\ModelTest\IntersectionTestForm.resx">
       <DependentUpon>IntersectionTestForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -163,6 +159,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Splash.resx</DependentUpon>
     </Compile>
+    <Compile Include="src\Controller\EffectBars\AltitudeBar.cs" />
     <Compile Include="src\Controller\EffectBars\BulletTimeBar.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyCodeConflictException.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyMap.cs" />
@@ -339,6 +336,8 @@
     <Compile Include="src\Model\Level\Direction.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\Model\Level\Effects\AltitudeEffect.cs" />
+    <Compile Include="src\Model\Level\Effects\BaseEffect.cs" />
     <Compile Include="src\Model\Level\Effects\BulletTimeEffect.cs" />
     <Compile Include="src\Model\Level\Effects\ModelEffectsManager.cs" />
     <Compile Include="src\Model\Level\Effects\EffectState.cs" />

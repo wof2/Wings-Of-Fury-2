@@ -525,6 +525,10 @@
   <data name="EnemyGenerals">
     <value>Vijandige generaals</value>
   </data>
+
+  <data name="Altitude">
+    <value>Hoogte</value>
+  </data>
   
   
 

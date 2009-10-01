@@ -47,139 +47,47 @@
  */
 
 using System;
-using System.Drawing;
-using BetaGUI;
-using Mogre;
-using Wof.Controller.Screens;
-using Wof.Languages;
-using Wof.Model.Level.Effects;
-using Wof.View.NodeAnimation;
+using Wof.Model.Configuration;
+using Wof.Model.Level.Planes;
 
-namespace Wof.Controller.EffectBars
+namespace Wof.Model.Level.Effects
 {
-	internal class BulletTimeBar : IDisposable
+    /// <summary>
+    /// Implementacja efektu BulletTime
+    /// </summary>
+    public sealed class AltitudeEffect : BaseEffect
     {
-        private const string ImageBar = @"bulletTimeBar.PNG";
-        private const string ImageBarBg = @"bulletTimeBarBg.PNG";
-        private float _height = 25.0f;
-        private float _width = 75f;
-        private Window _bar;
-        private Window _bar2;
-        
-        private GUI _gui1;
-        private GUI _gui2;
-        
-        private OverlayContainer _barOverConta;
-        
-       
-        private OverlayContainer _barOverContaBg;
-        private OverlayContainer _text;
-        
-        private PointF _startPoint = Point.Empty;
-        
-        private static Timer blinkDelay;
-        
-       private ColourValue _colour1 = new ColourValue(0.9f,1.0f,0.45f);
-        private ColourValue _colour2 = new ColourValue(0.6f,0.1f,0.1f);
-        
-        /// <summary>
-        /// Kiedy zaczyna konczyc sie efekt
+    	private float _effectLevel = 0;
+    	private Plane _plane;
+    	/// <summary>
+        /// Pobiera poziom naładowania efektu. Zakres: [0 - 1]
         /// </summary>
-        private float _threshold = 0.3f;
-        
-        private bool thresholdCrossed = false;
-
-        public BulletTimeBar(float fontSize, Viewport viewport, float width, float height)
+        public float EffectLevel
         {
-            blinkDelay = new Timer();
-        	_height = height;
-        	_width = width;
+            get { return _effectLevel; }
+        }
         
-            //pozycja paska
-            _startPoint = new PointF(viewport.ActualWidth / 3.2f , viewport.ActualHeight * 1.020f);
-              
-            float min = _width / 150.0f;
-         
-            _gui1 = new GUI(Wof.Languages.FontManager.CurrentFont, (uint)fontSize, "BulletTimeBarGUI");
-            _gui1.SetZOrder(100);
-            
-            _bar = _gui1.createWindow(new Vector4(_startPoint.X - min, _startPoint.Y - min, _width+ 2*min, _height+ 2*min), String.Empty, (int)wt.NONE, String.Empty);
-            _barOverContaBg = _bar.createStaticImage(new Vector4(0, 0, _width + 2*min, _height + 2*min), ImageBarBg, 0);
-           
-            
-            _gui2 = new GUI(Wof.Languages.FontManager.CurrentFont, (uint)fontSize, "BulletTimeBarGUI2");
-            _gui2.SetZOrder(110);
-            
-            _bar2 = _gui2.createWindow(new Vector4(_startPoint.X - min, _startPoint.Y - min, _width+ 2*min, _height+ 2*min), String.Empty, (int)wt.NONE, String.Empty);
-            _barOverConta = _bar2.createStaticImage(new Vector4(min, min, _width, _height), ImageBar, 10);
-            
-              
-            uint oldFontSize = _gui2.mFontSize;
-            _gui2.mFontSize = (uint)(oldFontSize * 0.55f);           
-            _text = _bar2.createStaticText(new Vector4(min * 3.0f, - 9.5f *min, _width, _height * 0.90f), LanguageResources.GetString(LanguageKey.BulletTime), _colour1);
-            _gui2.mFontSize = oldFontSize;
-            
+        #region Constructors
+
+       
+        public AltitudeEffect(Plane plane)
+        {
+        	this._plane = plane;
         }
 
-        public void Update(int time)
+  
+
+        #endregion
+
+
+        #region Public Methods
+
+        public override void Update(int time)
         {
-           
-            ModelEffectsManager.Instance.UpdateEffect(time, EffectType.BulletTimeEffect);
-            float width = ModelEffectsManager.Instance.GetEffectLevel(EffectType.BulletTimeEffect) * _width;
-            //_barOverConta.SetPosition(_startPoint.X, _startPoint.Y - (_heigth - h));
-           
-            
-            _barOverConta.SetDimensions(width, _height);
-            _barOverConta.Show();
-            
-            // todo: timer 
-            if(width < _width * _threshold)
-            {
-            	thresholdCrossed = true;
-            	if(blinkDelay.Milliseconds > 100)
-            	{            
-            		BetaGUI.Window.ChangeContainerColour(_text, _colour2);
-            		if(_text.IsVisible)
-	            	{
-	            		_text.Hide();
-	            	} else
-	            	{
-	            		_text.Show();
-	            	}
-            		blinkDelay.Reset();
-            	}
-            	
-            } else
-            { 
-            
-            	if(thresholdCrossed)
-            	{
-            	    blinkDelay.Reset();            		  			
-            		BetaGUI.Window.ChangeContainerColour(_text, _colour1);
-            		if(!_text.IsVisible) _text.Show();
-            		thresholdCrossed = false;      
-            		
-            	}
-            	
-            }
-            
+        	_effectLevel = (_plane.Bounds.Center.Y) / (GameConsts.UserPlane.MaxHeight * 0.6f);
+            if(_effectLevel > 1) _effectLevel = 1;
         }
-        
-        public void Dispose()
-        {
-        	_gui1.killGUI();
-        	_gui1 = null;
-        	
-        	_gui2.killGUI();
-        	_gui2 = null;
-        	//_bar.killWindow();
-        	//_bar = null;
-        	
-        	//_bar2.killWindow();
-        	//_bar2 = null;
-        	
-        	blinkDelay = null;
-        	
-        }
+
+        #endregion
     }
 }

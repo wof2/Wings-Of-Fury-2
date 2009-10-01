@@ -288,7 +288,7 @@ namespace Wof.Model.Level
         /// <author>Michal Ziober</author>
         public Level(string fileName, IController controller, int lives)
         {
-            ModelEffectsManager.Instance.Reset();
+           
             this.controller = controller;
 
             if (String.IsNullOrEmpty(fileName))
@@ -344,6 +344,9 @@ namespace Wof.Model.Level
          
             userPlane = new Plane(this, false, info);
             userPlane.RegisterWeaponEvent += userPlane_RegisterWeaponEvent;
+            
+            ModelEffectsManager.Instance.Reset(userPlane);
+            
            // SetFlyDirectionHint();
             //dodane przez Emila
             //this.enemyPlane = new EnemyPlane(this, new PointD(100, 40), Direction.Right);

@@ -530,7 +530,10 @@
   <data name="EnemyGenerals">
     <value>Enemy generals left</value>
   </data>
-
+ 
+  <data name="Altitude">
+    <value>Altitude</value>
+  </data>
   
 </root>
 

@@ -69,7 +69,7 @@ namespace Wof.Languages
         public const string AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX =
             @"AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX";
 
- 
+ 		public const string Altitude = @"Altitude";
         public const string Antyaliasing = @"Antialiasing";
         public const string AreYouTryingToReachStarsCaptain = @"AreYouTryingToReachStarsCaptain";
         public const string Assassination = @"Assassination";

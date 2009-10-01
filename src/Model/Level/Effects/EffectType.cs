@@ -58,6 +58,8 @@ namespace Wof.Model.Level.Effects
         /// <summary>
         /// Efekt BulletTime
         /// </summary>
-        BulletTimeEffect = 0
+        BulletTimeEffect = 0,
+        
+        AltitudeEffect = 1
     }
 }

@@ -36,6 +36,12 @@ namespace BetaGUI
         private uint oldMouseX = 0;
         private uint oldMouseY = 0;
 
+        public void SetZOrder(ushort zorder)
+        {
+        	mO.ZOrder = zorder;
+        }
+        	
+        
         public GUI(String font, uint fontSize)
         {
             mXW = null;
@@ -46,7 +52,7 @@ namespace BetaGUI
             bc = 0;
             tc = 0;
             oc = 0;
-            mO = OverlayManager.Singleton.Create("BetaGUI" + DateTime.Now.Ticks);
+            mO = OverlayManager.Singleton.Create("BetaGUI" + DateTime.Now.Ticks);         
             name = "BetaGUI" + DateTime.Now.Ticks;
             mO.Show();
         }
@@ -248,7 +254,8 @@ namespace BetaGUI
                 OverlayManager.Singleton.CreateOverlayElement("Panel", name + "ContainerHack" + (oc++).ToString());
             c.MetricsMode = GuiMetricsMode.GMM_PIXELS;
             c.SetDimensions(D.x, D.y);
-            c.SetPosition(P.x, P.y);            
+            c.SetPosition(P.x, P.y);        
+                      
             if (M != "")
                 c.MaterialName = M;
             c.AddChild(e);
