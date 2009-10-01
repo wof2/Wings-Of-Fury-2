@@ -1804,34 +1804,41 @@ namespace Wof.View
             // zmienne odbicie w wodzie
             string texture = "morning.jpg";
             string material = "Skyplane/Morning";
+            material = "Skybox/Morning";
+
             switch (level.DayTime)
             {
                 case DayTime.Noon:
                     material = "Skyplane/Noon";
+                    material = "Skybox/Noon";
                     texture = "cloudy_noon.jpg";
                     InitLight();
                     break;
 
                 case DayTime.Foggy:
                     material = "Skyplane/Foggy";
+                    material = "Skybox/Foggy";
                     texture = "foggy.jpg";
                     InitLight();
                     break;
 
                 case DayTime.Dawn:
                     material = "Skyplane/Morning";
+                    material = "Skybox/Morning";
                     texture = "morning.jpg";
                     InitDawnLight();
                     break;
                     
                  case DayTime.Dawn2:
                     material = "Skyplane/Morning2";
+                    material = "Skybox/Morning2";
                     texture = "morning2.jpg";
                     InitLight();
                     break;
 
                 case DayTime.Night:
                     material = "Skyplane/Night";
+                    material = "Skybox/Night";
                     texture = "night.jpg";
                     ambient = new ColourValue(0.27f, 0.27f, 0.32f);
                     InitNightLight();
@@ -1885,8 +1892,8 @@ namespace Wof.View
             skyPlane.d = oceanSize/2.0f;
 
 
-            sceneMgr.SetSkyPlane(true, skyPlane, material, oceanSize/110.0f, 1, true, 0.5f, 10, 10);
-          //  sceneMgr.SetSkyBox(true, "Skybox/Morning", 10000, true);
+         //   sceneMgr.SetSkyPlane(true, skyPlane, material, oceanSize/110.0f, 1, true, 0.5f, 10, 10);
+            sceneMgr.SetSkyBox(true, material, 10000, true);
      
          //   sceneMgr.SetFog(FogMode.FOG_NONE);
 
