@@ -92,7 +92,7 @@ namespace Wof.View
 
         private int currentCameraHolderIndex = 0;
 
-        private List<int> crossHairCameraIndexes = new List<int>() { 2, 3 };
+        private List<int> crossHairCameraIndexes = new List<int>() { 2, 3, 4, 5 };
 
         public SceneNode CurrentCameraHolder
         {
@@ -1908,34 +1908,50 @@ namespace Wof.View
             bool lighterClouds = (level.DayTime == DayTime.Dawn2);
 	
             // chmury
-            int cloudsets = 10;
-            int currentX = (int) (-oceanSize/2.0f);
+            int cloudsets = 8;
+            int currentX = (int) (-oceanSize/1.8f);
+            int currentZ = (int) (-oceanSize/1.8f);
+             
             for (int i = -cloudsets; i < cloudsets; i += 2)
             {
                 currentX += (oceanSize/cloudsets);
+                currentZ += (oceanSize/cloudsets);
 
                 if (!EngineConfig.LowDetails)
                     EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 100, -500), new Vector2(150, 50),
                                                        new Degree(5), 10, lighterClouds);
 
-                float cloudZ;
+                float cloudDist;
 
-                cloudZ = -4200;
-                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudZ),
-                                           new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
+                cloudDist = -4200;
+                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
+                                           new Vector2(5500, 400) + ViewHelper.RandomVector2(1000, 100),
                                            new Degree(5), 5, lighterClouds);
+                
+                
+                Quaternion q = new Quaternion(new Radian(Mogre.Math.HALF_PI), Vector3.UNIT_Y);
+                
+                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
+                                           new Vector2(5500, 400) + ViewHelper.RandomVector2(1000, 100),
+                                           new Degree(5), 5, lighterClouds, q);
+                
+                Quaternion q2 = new Quaternion(new Radian(-Mogre.Math.HALF_PI), Vector3.UNIT_Y);
+                
+               EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
+                                           new Vector2(5500, 400) + ViewHelper.RandomVector2(1000, 100),
+                                           new Degree(5), 5, lighterClouds, q2);
 
-                /*if (level.DayTime == DayTime.Foggy)
+                if (level.DayTime == DayTime.Foggy)
                 {
                     
                   
-                    cloudZ = -500; // heavy clouds
-                    EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudZ),
+                    cloudDist = -500; // heavy clouds
+                    EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
                                                new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
                                                new Degree(1), 5);
 
                 }
-                */
+                
 
               
                 // nad samolotem (niebo)

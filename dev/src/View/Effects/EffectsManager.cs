@@ -95,8 +95,7 @@ namespace Wof.View.Effects
 
         
 
-        private BillboardSet cloudsBS1;
-        private BillboardSet cloudsBS2;
+       
         private bool isLoaded = false;
         private Hashtable smokeSystems; // <ParticleSystem> -> <node>
 
@@ -984,15 +983,24 @@ namespace Wof.View.Effects
             AddClouds(sceneMgr, cloudsCenter, defaultSize, maxRotation, cloudCount, false);
         }
 
-
-        public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
+		public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
                               uint cloudCount, bool lighterClouds)
         {
-       // return;
+        	AddClouds(sceneMgr, cloudsCenter, defaultSize, maxRotation, cloudCount, false, Quaternion.IDENTITY);
+        	
+        }
+        public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
+                              uint cloudCount, bool lighterClouds, Quaternion nodeOrientation)
+        {
+        	BillboardSet cloudsBS1;
+            BillboardSet cloudsBS2;
+        	// jesli chcemy zmienic orientacje to nalezy utworzyc osobne billboard sety
+        	String name = nodeOrientation.GetHashCode().ToString();
+        	
         	float os = LevelView.oceanSize /2.0f;
-            if (!sceneMgr.HasBillboardSet("Clouds1"))
+            if (!sceneMgr.HasBillboardSet("Clouds1"+name))
             {
-                cloudsBS1 = sceneMgr.CreateBillboardSet("Clouds1");
+                cloudsBS1 = sceneMgr.CreateBillboardSet("Clouds1"+name);
                 if(lighterClouds)
                 {
                     cloudsBS1.MaterialName = "Effects/Cloud1a";
@@ -1002,14 +1010,19 @@ namespace Wof.View.Effects
                      cloudsBS1.MaterialName = "Effects/Cloud1";
                 }
             
-                cloudsBS1.SetBounds(new AxisAlignedBox(new Vector3(-os,0,0),new Vector3(os,30,0)), 150);
+                cloudsBS1.SetBounds(new AxisAlignedBox(new Vector3(-os,0,-os),new Vector3(os,30,os)), 1500);
                 cloudsBS1.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
-                cloudsBS1.CastShadows = false;  
+                cloudsBS1.CastShadows = false;
+                cloudsBS1.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
+                
+            } else 
+            {
+            	cloudsBS1 = sceneMgr.GetBillboardSet("Clouds1"+name);
             }
 
-            if (!sceneMgr.HasBillboardSet("Clouds2"))
+            if (!sceneMgr.HasBillboardSet("Clouds2"+name))
             {
-                cloudsBS2 = sceneMgr.CreateBillboardSet("Clouds2");
+                cloudsBS2 = sceneMgr.CreateBillboardSet("Clouds2"+name);
                 if (lighterClouds)
                 {
                     cloudsBS2.MaterialName = "Effects/Cloud2a";
@@ -1020,12 +1033,17 @@ namespace Wof.View.Effects
                 }
 
                 //cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,-os,-1),new Vector3(os,os,1)), LevelView.oceanSize );
-                cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,0,0),new Vector3(os,30,0)), 150);
+                cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,0,-os),new Vector3(os,30,os)), 1500);
             	cloudsBS2.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
                 cloudsBS2.CastShadows = false;
+                cloudsBS2.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
+            }else 
+            {
+            	cloudsBS2 = sceneMgr.GetBillboardSet("Clouds2"+name);
             }
-          	cloudsBS1.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
-            cloudsBS2.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
+            
+          
+           
 
          
 
@@ -1034,8 +1052,24 @@ namespace Wof.View.Effects
 
             Degree rotationDev = maxRotation/2.0f;
 
-            if (cloudsBS1.ParentSceneNode != sceneMgr.RootSceneNode) sceneMgr.RootSceneNode.AttachObject(cloudsBS1);
-            if (cloudsBS2.ParentSceneNode != sceneMgr.RootSceneNode) sceneMgr.RootSceneNode.AttachObject(cloudsBS2);
+            if (cloudsBS1.ParentSceneNode == null) 
+            {
+            	SceneNode node1 = sceneMgr.RootSceneNode.CreateChildSceneNode("CouldsBS1" + cloudsBS1.GetHashCode());            	
+            	node1.AttachObject(cloudsBS1);
+            	node1.Orientation =  nodeOrientation;
+            	//node1.Yaw(new Degree(nodeOrientation));
+            	//node1.Pitch(new Degree(Mogre.Math.RangeRandom(-90,90)));
+            	                                             
+            
+            }
+            if (cloudsBS2.ParentSceneNode == null) 
+            {
+            	SceneNode node2 = sceneMgr.RootSceneNode.CreateChildSceneNode("CouldsBS2" + cloudsBS2.GetHashCode());            	
+                node2.AttachObject(cloudsBS2);
+            	node2.Orientation = nodeOrientation;
+            	//node2.Yaw(new Degree(nodeOrientation));
+           
+            }
 
             int halfCount = (int) Math.Ceiling(cloudCount/2.0f);
             for (int i = -halfCount; i < halfCount; i += 2)
@@ -1044,9 +1078,11 @@ namespace Wof.View.Effects
                 cloud1.Position += cloudsCenter;
                 cloud1.SetDimensions(defaultSize.x + Mogre.Math.RangeRandom(-sizeDevX, sizeDevX),
                                      defaultSize.y + Mogre.Math.RangeRandom(-sizeDevY, 0));
-                cloud1.Rotation =
+                cloud1.Rotation = 
                     Mogre.Math.DegreesToRadians(
                         Mogre.Math.RangeRandom(-rotationDev.ValueDegrees, (float) rotationDev.ValueDegrees));
+                
+                
             }
 
             halfCount--;
@@ -1058,10 +1094,13 @@ namespace Wof.View.Effects
                 cloud2.SetDimensions(defaultSize.x + Mogre.Math.RangeRandom(-sizeDevX, sizeDevX),
                                      defaultSize.y + Mogre.Math.RangeRandom(-sizeDevY, sizeDevY));
                 cloud2.Position += cloudsCenter;
-                cloud2.Rotation =
+                cloud2.Rotation = 
                     Mogre.Math.DegreesToRadians(
                         Mogre.Math.RangeRandom(-rotationDev.ValueDegrees, rotationDev.ValueDegrees));
+                
             }
+            
+            
         }
     }
 }
