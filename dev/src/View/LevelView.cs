@@ -1794,7 +1794,7 @@ namespace Wof.View
             }
             
             // ocean jest uniesiony z poziomu shadera (aby dzia³a³y cienie), teraz trzeba go opuscic
-            sceneMgr.RootSceneNode.CreateChildSceneNode("OceanNode", new Vector3(0,-0.5f,0)).AttachObject(ocean2);
+            sceneMgr.RootSceneNode.CreateChildSceneNode("OceanNode", new Vector3(0,-0.28f,0)).AttachObject(ocean2);
             
             //sceneMgr.RootSceneNode.AttachObject( ocean2);
             // OCEAN
