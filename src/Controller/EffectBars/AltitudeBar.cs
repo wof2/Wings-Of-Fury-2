@@ -86,7 +86,7 @@ namespace Wof.Controller.EffectBars
         /// <summary>
         /// Kiedy zaczyna konczyc sie efekt
         /// </summary>
-        private float _threshold = 0.05f;
+        private float _threshold = 0.08f;
         
         private bool thresholdCrossed = false;
 
