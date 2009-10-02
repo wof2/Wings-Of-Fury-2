@@ -1696,9 +1696,9 @@ namespace Wof.View
         public void OnRegisterLevel(Level level)
         {
             this.level = level;
-
+			InitOceanSurface();
             InitSkies();
-            InitOceanSurface();
+            
 
             List<LevelTile> lvlTiles = level.LevelTiles;
 

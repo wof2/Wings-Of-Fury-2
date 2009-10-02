@@ -1009,6 +1009,9 @@ namespace Wof.View.Effects
         	
             MaterialPtr mat = ViewHelper.CloneMaterial(material, material+name);
             
+            HydraxManager.Singleton.AddHydraxDepthTechnique(material+name); // chmury nie powinny przeswitywac spod wody
+            //mat = MaterialManager.Singleton.GetByName(material);
+            
         	float os = LevelView.oceanSize /2.0f;
             if (!sceneMgr.HasBillboardSet("Clouds1"+name))
             {
@@ -1068,7 +1071,7 @@ namespace Wof.View.Effects
             	node1.Orientation =  nodeOrientation;
             	//node1.Yaw(new Degree(nodeOrientation));
             	//node1.Pitch(new Degree(Mogre.Math.RangeRandom(-90,90)));
-            	                                             
+                               
             
             }
             if (cloudsBS2.ParentSceneNode == null) 
@@ -1077,7 +1080,7 @@ namespace Wof.View.Effects
                 node2.AttachObject(cloudsBS2);
             	node2.Orientation = nodeOrientation;
             	//node2.Yaw(new Degree(nodeOrientation));
-           
+               
             }
 
             int halfCount = (int) Math.Ceiling(cloudCount/2.0f);
@@ -1098,7 +1101,7 @@ namespace Wof.View.Effects
 
             for (int i = -halfCount; i < halfCount; i += 2)
             {
-                Billboard cloud2 = cloudsBS2.CreateBillboard(i * 25, Mogre.Math.RangeRandom(-50, 50), 0, colour);
+            	Billboard cloud2 = cloudsBS2.CreateBillboard(i * 25, Mogre.Math.RangeRandom(-50, 50), 0, colour);
                // cloud2.Colour = ColourValue.White;        
                 cloud2.SetDimensions(defaultSize.x + Mogre.Math.RangeRandom(-sizeDevX, sizeDevX),
                                      defaultSize.y + Mogre.Math.RangeRandom(-sizeDevY, sizeDevY));
