@@ -88,7 +88,7 @@ v2f main(a2v IN,
 		ddx -= deriv * wave[i].dir.x;
 		ddy -= deriv * wave[i].dir.y;
 	}
-P.y += 0.15f;
+P.y += 0.26f;
 	// compute the 3x3 tranform from tangent space to object space
 	// first rows are the tangent and binormal scaled by the bump scale
 

@@ -815,7 +815,11 @@ namespace Wof.View
             }
 
             if (p is PlayerPlaneView) 
-                EngineConfig.SpinKeys = false;
+            {
+            	 EngineConfig.SpinKeys = false;
+            	 OnChangeCamera(0); // przelacz kamere
+            }
+               
 
 
             EffectsManager.Singleton.Smoke(sceneMgr, p.OuterNode, Vector3.ZERO, SmokeUpVector(p));
