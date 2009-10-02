@@ -18,7 +18,7 @@ namespace Wof.View.Effects
         /// <summary>
         /// Które materia³y maja byc dolaczone do hydrax depth techniques
         /// </summary>
-        private string[] hydraxDepthMaterials = new string[] { "Island", "Concrete", "Steel", "Effects/Cloud1", "Effects/Cloud2", "Effects/Cloud1a", "Effects/Cloud2a" };
+        private List<string> hydraxDepthMaterials = new List<string> { "Island", "Concrete", "Steel" };
 
         /// <summary>
         /// Zawiera mapê: nazwa materialu vs. iloœæ technik (przed dodaniem depth technique). Umozliwia to pozniejsze usuniecie depthtechnique
@@ -54,7 +54,7 @@ namespace Wof.View.Effects
         }
         public void RemoveHydraxDepthTechniques()
         {
-
+			
             foreach (string material in hydraxDepthMaterials)
             {
                 MaterialPtr m = MaterialManager.Singleton.GetByName(material);
@@ -68,14 +68,23 @@ namespace Wof.View.Effects
         
         public void AddHydraxDepthTechnique(String materialName)
         {
+        	if(hydrax == null || !hydrax.IsCreated) return;
         	
             MaterialPtr m = MaterialManager.Singleton.GetByName(materialName);
             if (m != null && m.GetTechnique("_Hydrax_Depth_Technique") == null)
-            {
-            	Technique t = m.CreateTechnique();
-                hydrax.MaterialManager.AddDepthTechnique(t);
-                t.SetFog(true, FogMode.FOG_NONE);               
+            {	
+            	hydraxDepthMaterialsMap[materialName] = ((MaterialPtr)m).NumTechniques;
+            	hydraxDepthMaterials.Add(materialName);
+            	
+            	Technique t = m.CreateTechnique();            
+                hydrax.MaterialManager.AddDepthTechnique(t);        
+               
                 m = null;
+            }
+            
+            foreach (Technique t in hydrax.MaterialManager.DepthTechniques)
+            {
+                t.SetFog(true, FogMode.FOG_NONE);               
             }
             
         }
@@ -90,7 +99,7 @@ namespace Wof.View.Effects
                 MaterialPtr m = MaterialManager.Singleton.GetByName(material);
                 if (m != null && m.GetTechnique("_Hydrax_Depth_Technique") == null)
                 {
-                    hydrax.MaterialManager.AddDepthTechnique(m.CreateTechnique());
+                    hydrax.MaterialManager.AddDepthTechnique(m.CreateTechnique());                   
                     m = null;
                 }
             }
