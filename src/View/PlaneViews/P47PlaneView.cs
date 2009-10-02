@@ -218,6 +218,7 @@ namespace Wof.View
             cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveLeftCameraHolder"));
             cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveRightCameraHolder"));
             cameraHolders.Add(innerNode.CreateChildSceneNode(name + "TempCameraHolder"));
+            cameraHolders.Add(innerNode.CreateChildSceneNode(name + "NoseCameraHolder"));
             
             // MAIN CAMERA HOLDER
             cameraHolders[0].ResetOrientation();
@@ -246,9 +247,12 @@ namespace Wof.View
 
 
             cameraHolders[4].ResetOrientation();
-            cameraHolders[4].Position = new Vector3(0, 2.0f, 30);
-           // cameraHolders[4].Yaw(new Radian(Math.HALF_PI));
-           // cameraHolders[4].Pitch(new Radian(-Math.HALF_PI * 0.01f));
+            cameraHolders[4].Position = new Vector3(0, 4.0f, 30);        
+            cameraHolders[4].Pitch(new Radian(-Math.HALF_PI * 0.01f));
+            
+            cameraHolders[5].ResetOrientation();
+            cameraHolders[5].Position = new Vector3(0, 0.0f, -6);        
+            //cameraHolders[5].Pitch(new Radian(-Math.HALF_PI * 0.01f));
             
             
          
