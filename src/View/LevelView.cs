@@ -229,8 +229,9 @@ namespace Wof.View
 
             if (EngineConfig.UseHydrax)
             {
+            	HydraxManager.Singleton.RemoveHydraxDepthTechniques();
                 HydraxManager.Singleton.DisposeHydrax();
-                HydraxManager.Singleton.RemoveHydraxDepthTechniques();
+                
             }
         }
 

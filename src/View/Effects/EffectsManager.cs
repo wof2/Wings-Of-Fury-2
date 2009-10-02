@@ -49,9 +49,10 @@
 using System;
 using System.Collections;
 using Mogre;
+using Wof.Controller;
 using Wof.Misc;
 using Wof.View.NodeAnimation;
-using Math=System.Math;
+using Math = System.Math;
 
 namespace Wof.View.Effects
 {
@@ -1006,10 +1007,24 @@ namespace Wof.View.Effects
             {
                 material = "Effects/Cloud1";
             }
-        	
-            MaterialPtr mat = ViewHelper.CloneMaterial(material, material+name);
+        	MaterialPtr mat;
+            if(!MaterialManager.Singleton.ResourceExists(material+name))
+            {
+            	mat = ViewHelper.CloneMaterial(material, material+name);
+            	if(EngineConfig.UseHydrax) 
+	            {
+	            	HydraxManager.Singleton.AddHydraxDepthTechnique(material+name); // chmury nie powinny przeswitywac spod wody
+	            }
+            	
+            } else
+            {
+            	mat = MaterialManager.Singleton.GetByName(material+name);
+            }
             
-            HydraxManager.Singleton.AddHydraxDepthTechnique(material+name); // chmury nie powinny przeswitywac spod wody
+            
+            
+           
+            
             //mat = MaterialManager.Singleton.GetByName(material);
             
         	float os = LevelView.oceanSize /2.0f;
