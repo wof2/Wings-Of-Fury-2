@@ -18,7 +18,7 @@ namespace Wof.View.Effects
         /// <summary>
         /// Które materia³y maja byc dolaczone do hydrax depth techniques
         /// </summary>
-        private string[] hydraxDepthMaterials = new string[] { "Island", "Concrete", "Steel", "Effects/Cloud1", "Effects/Cloud2" };
+        private string[] hydraxDepthMaterials = new string[] { "Island", "Concrete", "Steel", "Effects/Cloud1", "Effects/Cloud2", "Effects/Cloud1a", "Effects/Cloud2a" };
 
         /// <summary>
         /// Zawiera mapê: nazwa materialu vs. iloœæ technik (przed dodaniem depth technique). Umozliwia to pozniejsze usuniecie depthtechnique
@@ -64,6 +64,20 @@ namespace Wof.View.Effects
                     m = null;
                 }
             }
+        }
+        
+        public void AddHydraxDepthTechnique(String materialName)
+        {
+        	
+            MaterialPtr m = MaterialManager.Singleton.GetByName(materialName);
+            if (m != null && m.GetTechnique("_Hydrax_Depth_Technique") == null)
+            {
+            	Technique t = m.CreateTechnique();
+                hydrax.MaterialManager.AddDepthTechnique(t);
+                t.SetFog(true, FogMode.FOG_NONE);               
+                m = null;
+            }
+            
         }
 
         /// <summary>
