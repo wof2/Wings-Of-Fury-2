@@ -1906,6 +1906,14 @@ namespace Wof.View
                                                      new Degree(10), 20, 10);
             }
             bool lighterClouds = (level.DayTime == DayTime.Dawn2);
+            float visibility = 1.0f;
+            
+            ColourValue colour = ColourValue.White;
+            if(level.DayTime == DayTime.Night)
+            {
+            	//visibility = 0.3f;
+            	colour = new ColourValue(0.247f, 0.211f, 0.145f);
+            }
 	
             // chmury
             int cloudsets = 8;
@@ -1918,44 +1926,44 @@ namespace Wof.View
                 currentZ += (oceanSize/cloudsets);
 
                 if (!EngineConfig.LowDetails)
-                    EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 100, -500), new Vector2(150, 50),
-                                                       new Degree(5), 10, lighterClouds);
+                    EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 100, -600), new Vector2(150, 50),
+                                                       new Degree(5), 10, lighterClouds, Quaternion.IDENTITY, visibility, colour);
 
                 float cloudDist;
 
                 cloudDist = -4200;
                 EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
                                            new Vector2(5500, 400) + ViewHelper.RandomVector2(1000, 100),
-                                           new Degree(5), 5, lighterClouds);
+                                           new Degree(5), 5, lighterClouds, Quaternion.IDENTITY, visibility, ColourValue.White);
                 
                 
                 Quaternion q = new Quaternion(new Radian(Mogre.Math.HALF_PI), Vector3.UNIT_Y);
                 
                 EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
                                            new Vector2(5500, 400) + ViewHelper.RandomVector2(1000, 100),
-                                           new Degree(5), 5, lighterClouds, q);
+                                           new Degree(5), 5, lighterClouds, q, visibility, ColourValue.White);
                 
                 Quaternion q2 = new Quaternion(new Radian(-Mogre.Math.HALF_PI), Vector3.UNIT_Y);
                 
                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
                                            new Vector2(5500, 400) + ViewHelper.RandomVector2(1000, 100),
-                                           new Degree(5), 5, lighterClouds, q2);
+                                           new Degree(5), 5, lighterClouds, q2, visibility, ColourValue.White);
 
                 if (level.DayTime == DayTime.Foggy)
                 {
                     
                   
-                    cloudDist = -500; // heavy clouds
+                    cloudDist = -700; // heavy clouds
                     EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
                                                new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
-                                               new Degree(1), 5);
+                                               new Degree(1), 5, lighterClouds, Quaternion.IDENTITY, visibility, colour);
 
                 }
                 
 
               
                 // nad samolotem (niebo)
-                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 170, -50), new Vector2(500, 200), 0, 1, lighterClouds);
+                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 170, -150), new Vector2(500, 200), 0, 1, lighterClouds, Quaternion.IDENTITY, visibility, colour);
             }
         }
 

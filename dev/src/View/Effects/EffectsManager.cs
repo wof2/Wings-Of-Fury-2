@@ -986,34 +986,45 @@ namespace Wof.View.Effects
 		public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
                               uint cloudCount, bool lighterClouds)
         {
-        	AddClouds(sceneMgr, cloudsCenter, defaultSize, maxRotation, cloudCount, false, Quaternion.IDENTITY);
+        	AddClouds(sceneMgr, cloudsCenter, defaultSize, maxRotation, cloudCount, false, Quaternion.IDENTITY, 1.0f, ColourValue.White);
         	
         }
         public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
-                              uint cloudCount, bool lighterClouds, Quaternion nodeOrientation)
+                              uint cloudCount, bool lighterClouds, Quaternion nodeOrientation, float visibility, ColourValue colour)
         {
         	BillboardSet cloudsBS1;
             BillboardSet cloudsBS2;
         	// jesli chcemy zmienic orientacje to nalezy utworzyc osobne billboard sety
         	String name = nodeOrientation.GetHashCode().ToString();
+    	    
+        	String material;
+        	if(lighterClouds)
+            {
+                material = "Effects/Cloud1a";
+            }
+            else
+            {
+                material = "Effects/Cloud1";
+            }
         	
+            MaterialPtr mat = ViewHelper.CloneMaterial(material, material+name);
+            
         	float os = LevelView.oceanSize /2.0f;
             if (!sceneMgr.HasBillboardSet("Clouds1"+name))
             {
                 cloudsBS1 = sceneMgr.CreateBillboardSet("Clouds1"+name);
-                if(lighterClouds)
-                {
-                    cloudsBS1.MaterialName = "Effects/Cloud1a";
-                }
-                else
-                {
-                     cloudsBS1.MaterialName = "Effects/Cloud1";
-                }
+                cloudsBS1.MaterialName = mat.Name;
             
                 cloudsBS1.SetBounds(new AxisAlignedBox(new Vector3(-os,0,-os),new Vector3(os,30,os)), 1500);
                 cloudsBS1.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
                 cloudsBS1.CastShadows = false;
                 cloudsBS1.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
+              
+               // if(visibility < 1.0f)
+                {
+                	 cloudsBS1.GetMaterial().GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetAlphaOperation(LayerBlendOperationEx.LBX_MODULATE, LayerBlendSource.LBS_TEXTURE, LayerBlendSource.LBS_MANUAL, visibility, visibility);
+                }
+               
                 
             } else 
             {
@@ -1023,20 +1034,18 @@ namespace Wof.View.Effects
             if (!sceneMgr.HasBillboardSet("Clouds2"+name))
             {
                 cloudsBS2 = sceneMgr.CreateBillboardSet("Clouds2"+name);
-                if (lighterClouds)
-                {
-                    cloudsBS2.MaterialName = "Effects/Cloud2a";
-                }
-                else
-                {
-                    cloudsBS2.MaterialName = "Effects/Cloud2";
-                }
+                cloudsBS2.MaterialName = mat.Name;
 
                 //cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,-os,-1),new Vector3(os,os,1)), LevelView.oceanSize );
                 cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,0,-os),new Vector3(os,30,os)), 1500);
             	cloudsBS2.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
                 cloudsBS2.CastShadows = false;
                 cloudsBS2.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
+                
+               // if(visibility < 1.0f)
+                {
+                	 cloudsBS2.GetMaterial().GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetAlphaOperation(LayerBlendOperationEx.LBX_MODULATE, LayerBlendSource.LBS_TEXTURE, LayerBlendSource.LBS_MANUAL, visibility, visibility);
+                }
             }else 
             {
             	cloudsBS2 = sceneMgr.GetBillboardSet("Clouds2"+name);
@@ -1074,7 +1083,7 @@ namespace Wof.View.Effects
             int halfCount = (int) Math.Ceiling(cloudCount/2.0f);
             for (int i = -halfCount; i < halfCount; i += 2)
             {
-                Billboard cloud1 = cloudsBS1.CreateBillboard(i*25, Mogre.Math.RangeRandom(-50, 50), 0);
+                Billboard cloud1 = cloudsBS1.CreateBillboard(i*25, Mogre.Math.RangeRandom(-50, 50), 0, colour);
                 cloud1.Position += cloudsCenter;
                 cloud1.SetDimensions(defaultSize.x + Mogre.Math.RangeRandom(-sizeDevX, sizeDevX),
                                      defaultSize.y + Mogre.Math.RangeRandom(-sizeDevY, 0));
@@ -1089,7 +1098,7 @@ namespace Wof.View.Effects
 
             for (int i = -halfCount; i < halfCount; i += 2)
             {
-                Billboard cloud2 = cloudsBS2.CreateBillboard(i * 25, Mogre.Math.RangeRandom(-50, 50), 0);
+                Billboard cloud2 = cloudsBS2.CreateBillboard(i * 25, Mogre.Math.RangeRandom(-50, 50), 0, colour);
                // cloud2.Colour = ColourValue.White;        
                 cloud2.SetDimensions(defaultSize.x + Mogre.Math.RangeRandom(-sizeDevX, sizeDevX),
                                      defaultSize.y + Mogre.Math.RangeRandom(-sizeDevY, sizeDevY));
