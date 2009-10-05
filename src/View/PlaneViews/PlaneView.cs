@@ -296,12 +296,12 @@ namespace Wof.View
         public abstract void HideTorpedo();
 
 
-        public void ShowCrossHair()
+        public void ShowCrossHair(float distance)
         {
             Quaternion q = Quaternion.IDENTITY;
             q.FromAngleAxis(new Radian(Math.HALF_PI), Vector3.UNIT_X);
             crossHairEffectNodeAnimation = EffectsManager.Singleton.RectangularEffect(sceneMgr, innerNode, "CrossHair",
-                                                       EffectsManager.EffectType.CROSSHAIR, new Vector3(0, 0, -35),
+                                                       EffectsManager.EffectType.CROSSHAIR, new Vector3(0, 0, -distance),
                                                        new Vector2(3, 3), q, true);
         }
 
