@@ -1040,7 +1040,7 @@ namespace Wof.View.Effects
               
                // if(visibility < 1.0f)
                 {
-                	 cloudsBS1.GetMaterial().GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetAlphaOperation(LayerBlendOperationEx.LBX_MODULATE, LayerBlendSource.LBS_TEXTURE, LayerBlendSource.LBS_MANUAL, visibility, visibility);
+                	 cloudsBS1.GetMaterial().GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetAlphaOperation(LayerBlendOperationEx.LBX_MODULATE, LayerBlendSource.LBS_TEXTURE, LayerBlendSource.LBS_MANUAL, 1.0f, visibility);
                 }
                
                 

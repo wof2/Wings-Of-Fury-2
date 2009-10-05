@@ -95,7 +95,10 @@ namespace Wof.Controller
             // 
             // Progress
             // 
+            this.Progress.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.Progress.ForeColor = System.Drawing.Color.Gold;
             this.Progress.Location = new System.Drawing.Point(12, 280);
+            this.Progress.Margin = new System.Windows.Forms.Padding(0);
             this.Progress.Maximum = 8;
             this.Progress.Name = "Progress";
             this.Progress.Size = new System.Drawing.Size(278, 18);
