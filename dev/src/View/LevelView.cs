@@ -2187,7 +2187,12 @@ namespace Wof.View
             // crosshair
             if (crossHairCameraIndexes.Contains(camIndex))
             {
-                playerPlaneView.ShowCrossHair();
+                float distance = 35;
+                if(camIndex == 5)
+                {
+                    distance = 50;
+                }
+                playerPlaneView.ShowCrossHair(distance);
             }
             else
             {

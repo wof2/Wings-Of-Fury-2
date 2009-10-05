@@ -425,8 +425,8 @@ namespace Wof.Controller.Screens
                     missionTypeWindow.show();
                     
 
-                    _bulletTimeBar = new BulletTimeBar(fontSize, framework.Viewport, viewport.ActualWidth / 5.5f, viewport.ActualHeight / 75.0f);
-                    _altitudeBar = new AltitudeBar(fontSize, framework.Viewport, viewport.ActualWidth / 5.5f, viewport.ActualHeight / 75.0f);
+                    _bulletTimeBar = new BulletTimeBar(fontSize, framework.Viewport, viewport.ActualWidth / 6.5f, viewport.ActualHeight / 75.0f);
+                    _altitudeBar = new AltitudeBar(fontSize, framework.Viewport, viewport.ActualWidth / 6.5f, viewport.ActualHeight / 75.0f);
                     
                     
                     if (LevelNo == 1 && firstTakeOff)

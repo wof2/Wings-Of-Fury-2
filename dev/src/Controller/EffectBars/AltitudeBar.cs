@@ -79,8 +79,8 @@ namespace Wof.Controller.EffectBars
         private PointF _startPoint = Point.Empty;
         
         private static Timer blinkDelay;
-        
-        private ColourValue _colour1 = new ColourValue(1.0f,1.0f,0.45f);
+
+        private ColourValue _colour1 = new ColourValue(0.68f, 0.77f, 0.41f);
         private ColourValue _colour2 = new ColourValue(0.6f,0.1f,0.1f);
         
         /// <summary>
@@ -97,7 +97,7 @@ namespace Wof.Controller.EffectBars
         	_width = width;
         
             //pozycja paska
-            _startPoint = new PointF(_width * 1.05f +  viewport.ActualWidth / 3.2f , viewport.ActualHeight * 1.020f);
+            _startPoint = new PointF(_width * 1.15f + viewport.ActualWidth / 3.0f , viewport.ActualHeight * 1.020f);
               
             float min = _width / 150.0f;
          
@@ -117,7 +117,7 @@ namespace Wof.Controller.EffectBars
               
             uint oldFontSize = _gui2.mFontSize;
             _gui2.mFontSize = (uint)(oldFontSize * 0.55f);           
-            _text = _bar2.createStaticText(new Vector4(min, - 9.5f *min, _width, _height * 0.90f), LanguageResources.GetString(LanguageKey.Altitude), _colour1);
+            _text = _bar2.createStaticText(new Vector4(min, - 9.0f *min, _width, _height * 0.90f), LanguageResources.GetString(LanguageKey.Altitude), _colour1);
             _gui2.mFontSize = oldFontSize;
             
         }

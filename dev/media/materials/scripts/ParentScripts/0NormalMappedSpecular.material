@@ -11,7 +11,7 @@ material NormalMappedSpecularBase
 		{
 			// base colours, not needed for rendering, but as information
 			// to lighting pass categorisation routine
-			ambient 1 1 1
+			ambient 0.75 0.75 0.75 
 			diffuse 0 0 0 
 			specular 0 0 0 0 
 			// Really basic vertex program

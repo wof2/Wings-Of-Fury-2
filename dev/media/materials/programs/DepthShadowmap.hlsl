@@ -367,8 +367,8 @@ void normalMapShadowReceiverFp(
 	final += (depths.y > shadowUV.z) ? 1.0f : 0.0f;
 	final += (depths.z > shadowUV.z) ? 1.0f : 0.0f;
 	final += (depths.w > shadowUV.z) ? 1.0f : 0.0f;
-	final *= 0.2f;
-	//
+	final *= 0.35f;
+	
 
 	result = float4(vertexColour.xyz * final, 1);
 	

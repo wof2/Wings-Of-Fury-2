@@ -63,10 +63,10 @@ fragment_program Ogre/DepthShadowmap/ReceiverFP_HLSL hlsl
 
 	default_params
     {
-        param_named inverseShadowmapSize float 0.0014765625
-		param_named fixedDepthBias float 0.003
-		param_named gradientClamp float 0.0002
-		param_named gradientScaleBias float 0.001
+        param_named inverseShadowmapSize float 0.0214765625
+		param_named fixedDepthBias float 0.005
+		param_named gradientClamp float 0.0001
+		param_named gradientScaleBias float 0.021
 		//param_named shadowFuzzyWidth float 1
     }
 }
@@ -81,9 +81,9 @@ fragment_program Ogre/DepthShadowmap/ReceiverFPPCF_HLSL hlsl
 
 	default_params
     {
-        param_named inverseShadowmapSize float 0.0014765625
-        param_named gradientClamp float 0.0002
-        param_named gradientScaleBias float 0.001
+        param_named inverseShadowmapSize float 0.0214765625
+        param_named gradientClamp float 0.0001
+        param_named gradientScaleBias float 0.021
         //param_named shadowFuzzyWidth float 1
     }
 }
@@ -118,10 +118,10 @@ fragment_program Ogre/DepthShadowmap/NormalMapReceiverFP_HLSL hlsl
     {
 		param_named_auto lightColour light_diffuse_colour 0		
 		//param_named_auto lightCastsShadows light_casts_shadows 0
-    param_named inverseShadowmapSize float 0.0014765625
-		param_named fixedDepthBias float 0.003
-		param_named gradientClamp float 0.0002
-		param_named gradientScaleBias float 0.001
+    param_named inverseShadowmapSize float 0.0214765625
+		param_named fixedDepthBias float 0.005
+		param_named gradientClamp float 0.0001
+		param_named gradientScaleBias float 0.021
 		//param_named shadowFuzzyWidth float 1
 		
 		
@@ -139,10 +139,10 @@ fragment_program Ogre/DepthShadowmap/NormalMapReceiverFPPCF_HLSL hlsl
     {
         param_named_auto lightColour light_diffuse_colour 0	        
         //param_named_auto lightCastsShadows light_casts_shadows 0
-        param_named inverseShadowmapSize float 0.0014765625
-        param_named fixedDepthBias float 0.003
-        param_named gradientClamp float 0.0002
-        param_named gradientScaleBias float 0.001		
+        param_named inverseShadowmapSize float 0.0214765625
+        param_named fixedDepthBias float 0.005
+        param_named gradientClamp float 0.0001
+        param_named gradientScaleBias float 0.021		
         
         //param_named shadowFuzzyWidth float 1
     }
@@ -208,10 +208,10 @@ fragment_program Ogre/DepthShadowmap/ReceiverFP_GLSL glsl
 	default_params
     {
 		param_named shadowMap int 0
-        param_named inverseShadowmapSize float 0.0014765625
-		param_named fixedDepthBias float 0.003
-		param_named gradientClamp float 0.0002
-		param_named gradientScaleBias float 0.001
+        param_named inverseShadowmapSize float 0.0214765625
+		param_named fixedDepthBias float 0.005
+		param_named gradientClamp float 0.0001
+		param_named gradientScaleBias float 0.021
 		//param_named shadowFuzzyWidth float 1
     }
 }
@@ -224,9 +224,9 @@ fragment_program Ogre/DepthShadowmap/ReceiverFPPCF_GLSL glsl
 
 	default_params
     {
-        param_named inverseShadowmapSize float 0.0014765625
-		param_named gradientClamp float 0.0002
-		param_named gradientScaleBias float 0.001
+        param_named inverseShadowmapSize float 0.0214765625
+		param_named gradientClamp float 0.0001
+		param_named gradientScaleBias float 0.021
 		//param_named shadowFuzzyWidth float 1
     }
 }
@@ -255,10 +255,10 @@ fragment_program Ogre/DepthShadowmap/NormalMapReceiverFP_GLSL glsl
 	default_params
     {
 		param_named_auto lightColour light_diffuse_colour 0
-    param_named inverseShadowmapSize float 0.0014765625
-		param_named fixedDepthBias float 0.003
-		param_named gradientClamp float 0.0002
-		param_named gradientScaleBias float 0.001
+    param_named inverseShadowmapSize float 0.0214765625
+		param_named fixedDepthBias float 0.005
+		param_named gradientClamp float 0.0001
+		param_named gradientScaleBias float 0.021
 		//param_named shadowFuzzyWidth float 1
 
 		param_named shadowMap int 0
@@ -274,10 +274,10 @@ fragment_program Ogre/DepthShadowmap/NormalMapReceiverFPPCF_GLSL glsl
 	default_params
     {
 		param_named_auto lightColour light_diffuse_colour 0
-        param_named inverseShadowmapSize float 0.0014765625
-		param_named fixedDepthBias float 0.003
-		param_named gradientClamp float 0.0002
-		param_named gradientScaleBias float 0.001
+        param_named inverseShadowmapSize float 0.0214765625
+		param_named fixedDepthBias float 0.005
+		param_named gradientClamp float 0.0001
+		param_named gradientScaleBias float 0.021
 		//param_named shadowFuzzyWidth float 1
 
 		param_named shadowMap int 0
