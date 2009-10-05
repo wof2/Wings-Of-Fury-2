@@ -141,6 +141,7 @@ namespace Wof.View
 
         protected SceneNode lWheelNode, rWheelNode, rearWheelNode;
         protected List<SceneNode> cameraHolders;
+        protected SceneNode hangaringCameraHolder;
 
 
         public List<SceneNode> CameraHolders
@@ -262,6 +263,11 @@ namespace Wof.View
             get { return minimapItem; }
         }
 
+        public SceneNode HangaringCameraHolder
+        {
+            get { return hangaringCameraHolder; }
+        }
+
         #endregion
 
         protected void InitLight(SceneNode parent, ColourValue c1, Vector3 localPosition, Vector2 size)
@@ -295,7 +301,7 @@ namespace Wof.View
             Quaternion q = Quaternion.IDENTITY;
             q.FromAngleAxis(new Radian(Math.HALF_PI), Vector3.UNIT_X);
             crossHairEffectNodeAnimation = EffectsManager.Singleton.RectangularEffect(sceneMgr, innerNode, "CrossHair",
-                                                       EffectsManager.EffectType.CROSSHAIR, new Vector3(0, -2, -30),
+                                                       EffectsManager.EffectType.CROSSHAIR, new Vector3(0, 0, -35),
                                                        new Vector2(3, 3), q, true);
         }
 
