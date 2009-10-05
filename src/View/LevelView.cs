@@ -1190,7 +1190,7 @@ namespace Wof.View
 
             Quaternion trailOrient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y);
             trailOrient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
-            trailOrient *= new Quaternion(Math.HALF_PI * -0.05f, Vector3.UNIT_Y);
+            trailOrient *= new Quaternion(Math.HALF_PI * -0.0f, Vector3.UNIT_Y);
 
             EffectsManager.Singleton.RectangularEffect(sceneMgr, p.OuterNode, "LeftGunHit",
                                                        EffectsManager.EffectType.GUNHIT2,
@@ -1219,8 +1219,8 @@ namespace Wof.View
             showLeftTrail  |= (Math.RangeRandom(0.0f, 1.0f) > 0.95f); // czasem przerwij efekt i zacznij od poczatku
             showRightTrail |= (Math.RangeRandom(0.0f, 1.0f) > 0.95f); // czasem przerwij efekt i zacznij od poczatku
            
-            Vector3 leftTrailBase = new Vector3(-4.3f, -3.0f, -5.3f - trailWidth * 0.5f);
-            Vector3 rightTrailBase = new Vector3(4.3f, -3.0f, -5.3f - trailWidth * 0.5f);
+            Vector3 leftTrailBase = new Vector3(-4.3f, -0.0f, -5.3f - trailWidth * 0.5f);
+            Vector3 rightTrailBase = new Vector3(4.3f, -0.0f, -5.3f - trailWidth * 0.5f);
             
             if (showLeftTrail)
             {
@@ -1674,12 +1674,13 @@ namespace Wof.View
             }
         }
 
-        public void OnStartHangaring(int hangaringDirection, int hangaringCameraIndex)
+        public void OnStartHangaring(int hangaringDirection, bool changeCam)
         {
-            if (hangaringCameraIndex >= 0 )
+            if (changeCam)
             {
-                cameraIndexBeforeHangaring = OnChangeCamera(hangaringCameraIndex);
+                cameraIndexBeforeHangaring = OnChangeCamera(this.playerPlaneView.HangaringCameraHolder);
             }
+           
             this.carrierView.StartHangaringPlane(this.playerPlaneView, hangaringDirection);
         }
 
@@ -2145,6 +2146,28 @@ namespace Wof.View
         {
             OnChangeCamera(currentCameraHolderIndex + 1);
         }
+
+        public int OnChangeCamera(SceneNode holder)
+        {
+            int lastIndex = currentCameraHolderIndex;
+      
+            framework.Camera.Position = Vector3.ZERO;
+            framework.Camera.Orientation = Quaternion.IDENTITY;
+     
+            for (int i = 0; i < cameraHolders.Count; i++)
+            {
+                CurrentCameraHolder.DetachObject(framework.Camera);
+            }
+
+
+            holder.AttachObject(framework.Camera);
+            playerPlaneView.HideCrossHair();
+      
+            //  EffectsManager.Singleton.NoSprite();
+            SoundManager3D.Instance.SetListener(framework.Camera);
+            return lastIndex;
+        }
+
 
         public int OnChangeCamera(int camIndex)
         {

@@ -1843,7 +1843,7 @@ namespace Wof.Controller.Screens
             {
                 SoundManager.Instance.LoopEngineSound();
             }
-            levelView.OnStartHangaring(1, -1); // powrot platformy
+            levelView.OnStartHangaring(1, false); // powrot platformy
             
         }
 
@@ -2297,7 +2297,7 @@ namespace Wof.Controller.Screens
                 changingAmmo = true;
                 SoundManager.Instance.HaltEngineSound();
                 SoundManager.Instance.HaltOceanSound();
-                levelView.OnStartHangaring(-1, 3);
+                levelView.OnStartHangaring(-1, true);
 
                 DisplayChangeAmmoScreen();
 

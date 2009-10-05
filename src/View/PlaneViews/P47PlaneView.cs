@@ -213,11 +213,13 @@ namespace Wof.View
 
         public override void ResetCameraHolders()
         {
+
+            hangaringCameraHolder = planeNode.CreateChildSceneNode(name + "HangaringCameraHolder");
         	cameraHolders.Add(planeNode.CreateChildSceneNode(name + "MainCameraHolder"));
             cameraHolders.Add(planeNode.CreateChildSceneNode(name + "BirdCameraHolder"));
             cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveLeftCameraHolder"));
             cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveRightCameraHolder"));
-            cameraHolders.Add(innerNode.CreateChildSceneNode(name + "TempCameraHolder"));
+            cameraHolders.Add(innerNode.CreateChildSceneNode(name + "BehindCameraHolder"));
             cameraHolders.Add(innerNode.CreateChildSceneNode(name + "NoseCameraHolder"));
             
             // MAIN CAMERA HOLDER
@@ -253,6 +255,14 @@ namespace Wof.View
             cameraHolders[5].ResetOrientation();
             cameraHolders[5].Position = new Vector3(0, 0.0f, -6);        
             //cameraHolders[5].Pitch(new Radian(-Math.HALF_PI * 0.01f));
+
+            HangaringCameraHolder.ResetOrientation();
+            HangaringCameraHolder.Position = new Vector3(19, 7.0f, 0);
+            HangaringCameraHolder.Yaw(new Radian(Math.HALF_PI));
+            HangaringCameraHolder.Pitch(new Radian(-Math.HALF_PI * 0.28f));
+            
+
+            
             
             
          
