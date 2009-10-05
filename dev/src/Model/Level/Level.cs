@@ -504,8 +504,13 @@ namespace Wof.Model.Level
                         {
                             userPlane.Destroy(); 
                         }
-                       // Statistics.PlanesShotDown++;
+                    
+                        if (ep.PlaneState != PlaneState.Destroyed && ep.PlaneState != PlaneState.Crashed)
+                        {
+                            SoundManager.Instance.PlayCollisionPlaneSound();
+                        }
                         ep.Destroy();
+                       
                     }
 
                     // kolizje z innymi samolotami 

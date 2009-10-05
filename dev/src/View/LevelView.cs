@@ -1933,7 +1933,7 @@ namespace Wof.View
 
                 if (!EngineConfig.LowDetails)
                     EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 100, -600), new Vector2(150, 50),
-                                                       new Degree(5), 10, lighterClouds, Quaternion.IDENTITY, visibility, colour);
+                                                       new Degree(5), 10, lighterClouds, Quaternion.IDENTITY, visibility * 0.75f, colour);
 
                 float cloudDist;
 
@@ -1955,14 +1955,14 @@ namespace Wof.View
                                            new Vector2(5500, 400) + ViewHelper.RandomVector2(1000, 100),
                                            new Degree(5), 5, lighterClouds, q2, visibility, ColourValue.White);
 
-                if (level.DayTime == DayTime.Foggy)
+                if (level.DayTime == DayTime.Foggy && !EngineConfig.LowDetails)
                 {
-                    
-                  
+
+                    Quaternion q3 = new Quaternion(new Radian(0.0001f), Vector3.UNIT_Y);
                     cloudDist = -700; // heavy clouds
-                    EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
+                    EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 10, cloudDist),
                                                new Vector2(5000, 400) + ViewHelper.RandomVector2(1000, 100),
-                                               new Degree(1), 5, lighterClouds, Quaternion.IDENTITY, visibility, colour);
+                                               new Degree(1), 5, lighterClouds, q3, visibility * 0.2f, colour);
 
                 }
                 

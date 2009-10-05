@@ -131,6 +131,8 @@ namespace Wof.Controller
         
         
         private Audio catchPlaneSound;
+        private Audio collisionSound;
+
         private Audio bunkerRebuild;
         private Audio reloadSound;
         private Audio buzzerSound;
@@ -185,6 +187,8 @@ namespace Wof.Controller
                 bombSound = new Audio("sounds/bombwhistle.wav");
                 incorrectStart = new Audio("sounds/incorrectstart.wav");
                 fanfare = new Audio("sounds/fanfare.wav");
+
+                collisionSound = new Audio("sounds/collision.wav");
 
                 engineIdleSound = new Buffer("sounds/engineidle.wav",
                                              dsDevice);
@@ -377,6 +381,13 @@ namespace Wof.Controller
         {
             Play(catchPlaneSound);
         }
+
+        public void PlayCollisionPlaneSound()
+        {
+            Play(collisionSound, 500);
+        }
+
+        
 
         public void PlayBunkerRebuild()
         {
