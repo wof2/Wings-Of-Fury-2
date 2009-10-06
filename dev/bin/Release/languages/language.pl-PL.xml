@@ -136,7 +136,7 @@
     <value>Ładowanie shaderow</value>
   </data>
   <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
-    <value>Wszyscy żołnierze zostali zlikwidowani, wyląduj na lotniskowcu i wciśnij X</value>
+    <value>Wszyscy żołnierze zostali zlikwidowani, wyląduj na lotniskowcu i wciśnij '{0}'</value>
   </data>
   <data name="AverageFPS">
     <value>Średni FPS</value>
@@ -181,10 +181,10 @@
     <value>Odwrócić klawisze</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
-    <value>Wyląduj na lotniskowcu i wciśnij X aby uzupełnić paliwo</value>
+    <value>Wyląduj na lotniskowcu i wciśnij '{0}' aby uzupełnić paliwo</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRepair">
-    <value>Wyląduj na lotniskowcu i wciśnij X aby naprawić silnik</value>
+    <value>Wyląduj na lotniskowcu i wciśnij '{0}' aby naprawić silnik</value>
   </data>
   <data name="Low">
     <value>Niski</value>
@@ -202,11 +202,13 @@
     <value>Nie</value>
   </data>
   <data name="PressEToTurnOnTheEngine">
-    <value>Przytrzymaj E aby uruchomić silnik</value>
+    <value>Przytrzymaj '{0}' aby uruchomić silnik</value>
   </data>
+ 
   <data name="PressXToChangeAmmo">
-    <value>Wciśnij X aby uzupełnić broń, paliwo oraz naprawić silnik</value>
+    <value>Wciśnij '{0}' aby uzupełnić broń, paliwo oraz naprawić silnik</value>
   </data>
+  
   <data name="ScreenshotWrittenTo">
     <value>Zrzut ekranu został zapisany do</value>
   </data>
@@ -247,7 +249,7 @@
     <value>O, Nie ! Żołnierze odbudowali bunkier! Zniszcz go!</value>
   </data>
   <data name="RetractYourLandingGearWithG">
-    <value>Aby schować/otworzyć podwozie wciśnij G</value>
+    <value>Aby schować/otworzyć podwozie wciśnij '{0}'</value>
   </data>
   <data name="WARNINGProtectTheCarrierFromEnemyPlane">
     <value>Uwaga! Samolot wroga atakuje lotniskowiec! Zrób coś!</value>
@@ -404,7 +406,7 @@
   
   <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>Wszystkie samoloty wroga zniszczone, wyląduj na lotniskowcu i wciśnij X</value>
+    <value>Wszystkie samoloty wroga zniszczone, wyląduj na lotniskowcu i wciśnij '{0}'</value>
   </data>
 
   <data name="EnemyPlanesLeft">
@@ -423,7 +425,7 @@
     <value>Nietknięty</value>
   </data> 
   <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Cel wyeliminowany, wyląduj na lotniskowcu i wciśnij X</value>
+      <value>Cel wyeliminowany, wyląduj na lotniskowcu i wciśnij '{0}'</value>
   </data> 
   
   <data name="EnemyShipsLeft">
@@ -431,7 +433,7 @@
   </data>
   
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>Wszystkie statki wroga zniszczone, wyląduj na lotniskowcu i wciśnij X</value>
+    <value>Wszystkie statki wroga zniszczone, wyląduj na lotniskowcu i wciśnij '{0}'</value>
   </data>
   
   <data name="EnemyInstallationDamaged">
@@ -520,6 +522,12 @@
  <data name="Altitude">
     <value>Wysokość</value>
   </data>
-  
+
+
+  <data name="PressLeftUpToTakeOff">
+    <value>Naciśnij '{0}','{1}' aby wystartować</value>
+  </data>
+ 
+
 
 </root>

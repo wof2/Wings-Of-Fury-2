@@ -117,8 +117,6 @@ namespace Wof.Controller.Screens
         private BulletTimeBar _bulletTimeBar;
         private AltitudeBar _altitudeBar;
 
-        private int cameraIndexBeforeChangingAmmo;
-
         // obiekty kontroli sceny
         private readonly GameEventListener gameEventListener;
         private SceneManager sceneMgr;
@@ -274,8 +272,7 @@ namespace Wof.Controller.Screens
         private bool wasLeftMousePressed = false;
         
         protected bool isFirstFrame;
-        private Window loadingMissionTypeWindow;
-
+       
         public GameScreen(GameEventListener gameEventListener,
                           FrameWork framework, Device directSound, int lives, int levelNo)
         {
@@ -432,12 +429,17 @@ namespace Wof.Controller.Screens
                     if (LevelNo == 1 && firstTakeOff)
                     {
 
+
+                      
+
+
+
                         MessageEntry message =
-                            new MessageEntry(0.15f, 0.4f,
-                                             LanguageResources.GetString(LanguageKey.PressEToTurnOnTheEngine), true,
-                                             true);
+                            new MessageEntry(0.15f, 0.4f, GetHintMessage(), true, true);
                         message.IncreaseY(-message.CharHeight/2.0f);
                         gameMessages.AppendMessage(message);
+
+
                     }
 
                     loading = false;
@@ -465,6 +467,27 @@ namespace Wof.Controller.Screens
                 }
             }
         }
+
+        
+
+        private static String GetHintMessage()
+        {
+            return String.Format(LanguageResources.GetString(LanguageKey.PressEToTurnOnTheEngine), KeyMap.GetName(KeyMap.Instance.Engine));
+        }
+
+        private static String GetHintMessage2()
+        {
+            return String.Format(LanguageResources.GetString(LanguageKey.PressLeftUpToTakeOff),
+                                                          KeyMap.GetName(KeyMap.Instance.Left),
+                                                          KeyMap.GetName(KeyMap.Instance.Up));
+        }
+
+        private static String GetChangeAmmoMessage()
+        {
+            return String.Format(LanguageResources.GetString(LanguageKey.PressXToChangeAmmo), KeyMap.GetName(KeyMap.Instance.AltFire));
+        }
+
+
 
        
         public static String GetLevelName(int levelNo)
@@ -1185,7 +1208,7 @@ namespace Wof.Controller.Screens
                     }
 
                     ControlGunFireSound();
-                    ControlChangeAmmunition();
+                   // ControlChangeAmmunition();
                     ControlFuelState();
                     ControlOilState();
 
@@ -1256,7 +1279,7 @@ namespace Wof.Controller.Screens
             }
         }
 
-        public void ControlChangeAmmunition()
+       /* public void ControlChangeAmmunition()
         {
             if (currentLevel.UserPlane.LocationState == LocationState.AircraftCarrier)
             {
@@ -1264,7 +1287,7 @@ namespace Wof.Controller.Screens
                 {
                     if (!prevCouldChangeAmmo)
                     {
-                        gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.PressXToChangeAmmo));
+                        gameMessages.AppendMessage(GetChangeAmmoMessage());
                             // GameMessages.C_PRESS_X);
                         prevCouldChangeAmmo = true;
                     }
@@ -1273,17 +1296,14 @@ namespace Wof.Controller.Screens
             }
             prevCouldChangeAmmo = false;
         }
-
+        */
         public void ControlFuelState()
         {
             if (currentLevel.UserPlane.Petrol < 10)
             {
                 if (!prevFuelTooLow)
                 {
-                    string message =
-                        String.Format("{0} {1}",
-                                      String.Format("{0}!", LanguageResources.GetString(LanguageKey.LowFuelWarning)),
-                                      LanguageResources.GetString(LanguageKey.LandOnTheCarrierAndPressXToRefuel));
+                    string message = String.Format("{0}!", LanguageResources.GetString(LanguageKey.LowFuelWarning)) + " " +  String.Format(LanguageResources.GetString(LanguageKey.LandOnTheCarrierAndPressXToRefuel), KeyMap.GetName(KeyMap.Instance.AltFire));
                     gameMessages.AppendMessage(message);
                     prevFuelTooLow = true;
                 }
@@ -1298,11 +1318,7 @@ namespace Wof.Controller.Screens
             {
                 if (!prevOilTooLow)
                 {
-                    string message = String.Format("{0} {1}",
-                                                   String.Format("{0}!",
-                                                                 LanguageResources.GetString(LanguageKey.LowOilWarning)),
-                                                   LanguageResources.GetString(
-                                                       LanguageKey.LandOnTheCarrierAndPressXToRepair));
+                    string message = String.Format("{0}!", LanguageResources.GetString(LanguageKey.LowOilWarning)) + " " + String.Format(LanguageResources.GetString(LanguageKey.LandOnTheCarrierAndPressXToRepair), KeyMap.GetName(KeyMap.Instance.AltFire));
                     gameMessages.AppendMessage(message);
                     prevOilTooLow = true;
                 }
@@ -1350,8 +1366,8 @@ namespace Wof.Controller.Screens
         public void onButtonPress(BetaGUI.Button referer)
         {
         	
-        	//volumes     
-        	string styleOff = "bgui.button";
+        	//volumes    
+        
             string styleOn = "bgui.selected.button";
 
         	foreach(KeyValuePair<Button,uint> pair in soundButtonIds)
@@ -1655,8 +1671,6 @@ namespace Wof.Controller.Screens
             
             for (uint i = 0; i <= 100; i += 10)
             {
-            	string style = "bgui.button";
-                
                  Button button = guiWindow.createButton(
                     new Vector4(
                         left + j * soundWidth, top + y, soundWidth, h),
@@ -1966,8 +1980,21 @@ namespace Wof.Controller.Screens
             SoundManager.Instance.PlayRandomIngameMusic(EngineConfig.MusicVolume);
 
             // wy³¹cz komunikat 
-            gameMessages.ClearMessages(LanguageResources.GetString(LanguageKey.PressEToTurnOnTheEngine));
-         
+            gameMessages.ClearMessages(GetHintMessage());
+          
+
+            if (LevelNo == 1 && firstTakeOff)
+            {
+               
+                MessageEntry message = new MessageEntry(0.15f, 0.4f, GetHintMessage2(), true, true);
+                message.IncreaseY(-message.CharHeight/2.0f);
+                gameMessages.AppendMessage(message);
+
+                gameMessages.AppendMessage(GetChangeAmmoMessage());
+                
+            }
+
+
         }
 
 
@@ -2266,19 +2293,35 @@ namespace Wof.Controller.Screens
 
             if (currentLevel.MissionType == MissionType.BombingRun)
             {
-                message = LanguageResources.GetString(LanguageKey.AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX);
+                message =
+                    String.Format(
+                        LanguageResources.GetString(LanguageKey.AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX),
+                        KeyMap.GetName(KeyMap.Instance.AltFire));
+                         
             }
             else if (currentLevel.MissionType == MissionType.Dogfight)
             {
-                message = LanguageResources.GetString(LanguageKey.AllEnemyPlanesDestroyedLandOnCarrierAndPressX);
+                message =
+                   String.Format(
+                       LanguageResources.GetString(LanguageKey.AllEnemyPlanesDestroyedLandOnCarrierAndPressX),
+                       KeyMap.GetName(KeyMap.Instance.AltFire));
+             
             }
             else if (currentLevel.MissionType == MissionType.Assassination)
             {
-                message = LanguageResources.GetString(LanguageKey.TargetNeutralizedLandOnCarrierAndPressX);
+                message =
+                   String.Format(
+                       LanguageResources.GetString(LanguageKey.TargetNeutralizedLandOnCarrierAndPressX),
+                       KeyMap.GetName(KeyMap.Instance.AltFire));
+             
             }
             else if (currentLevel.MissionType == MissionType.Naval)
             {
-                message = LanguageResources.GetString(LanguageKey.AllEnemyShipsDestroyedLandOnCarrierAndPressX);
+                message =
+                   String.Format(
+                       LanguageResources.GetString(LanguageKey.AllEnemyShipsDestroyedLandOnCarrierAndPressX),
+                       KeyMap.GetName(KeyMap.Instance.AltFire));
+              
             }
             gameMessages.ClearMessages();
             gameMessages.AppendMessage(new MessageEntry(0, 0, message, true, true ));
@@ -2423,7 +2466,9 @@ namespace Wof.Controller.Screens
         {
             if (firstTakeOff && levelNo == 1)
             {
-                gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.RetractYourLandingGearWithG));
+                gameMessages.ClearMessages(GetHintMessage2());
+
+                gameMessages.AppendMessage(String.Format(LanguageResources.GetString(LanguageKey.RetractYourLandingGearWithG), KeyMap.GetName(KeyMap.Instance.Gear)));
                 gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.KillAllEnemySoldiers));
             }
 

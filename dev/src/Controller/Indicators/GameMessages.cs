@@ -48,6 +48,7 @@
 
 using System;
 using System.Collections.Generic;
+using BetaGUI;
 using Mogre;
 using Wof.Languages;
 using FontManager=Wof.Languages.FontManager;
@@ -71,8 +72,10 @@ namespace Wof.Controller.Indicators
         private Overlay messageOverlay;
         private Viewport mainViewport;
 
-        private readonly float xMargin = 0.01f;
-        private readonly float yMargin = 0.01f;
+        private readonly float xMargin = 0.03f;
+        private readonly float yMargin = 0.011f;
+        private Overlay radioIcon;
+
 
 
         public GameMessages(Viewport mainViewport, float xMargin, float yMargin) : this(mainViewport)
@@ -87,12 +90,23 @@ namespace Wof.Controller.Indicators
             this.mainViewport = mainViewport;
 
             messageOverlay = OverlayManager.Singleton.GetByName("Wof/HUD");
-            CreateMessageContainer();
+            CreateMessageContainer(mainViewport);
         }
 
 
-        private void CreateMessageContainer()
+        private void CreateMessageContainer(Viewport viewport)
         {
+           // BetaGUI.GUI gui = new GUI();
+           // Window w = gui.createWindow();
+           // w.createStaticImage()
+            radioIcon = OverlayManager.Singleton.GetByName("Wof/MessageBar");
+            OverlayElement barOverlay = OverlayManager.Singleton.GetOverlayElement("Wof/MessageBarIcon");
+
+            float width = viewport.ActualHeight / 18f;
+            barOverlay.SetDimensions(width, width);
+       
+           
+
             messageElement = OverlayManager.Singleton.CreateOverlayElement(
                 "TextArea", "messageElement " + DateTime.Now.Ticks);
             messageContainer = (OverlayContainer) OverlayManager.Singleton.CreateOverlayElement(
@@ -111,7 +125,7 @@ namespace Wof.Controller.Indicators
 
             messageContainer.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             messageContainer.SetDimensions(1.0f, 1.0f);
-            messageContainer.SetPosition(0.01f, 0.01f);
+           // messageContainer.SetPosition(0.055f, 0.015f);
 
             messageContainer.AddChild(messageElement);
             messageOverlay.Add2D(messageContainer);
@@ -150,6 +164,10 @@ namespace Wof.Controller.Indicators
                     DisplayMessage();
                     messageQueue.RemoveAt(0);
                 }
+                else
+                {
+                   if(radioIcon.IsVisible)  radioIcon.Hide();
+                }
             }
             else
             {
@@ -165,6 +183,7 @@ namespace Wof.Controller.Indicators
 
         private void DisplayMessage()
         {
+            if (!radioIcon.IsVisible) radioIcon.Show();
             startTime = DateTime.Now;
 
             currentMessage.IncreaseX(xMargin);

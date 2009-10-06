@@ -144,7 +144,7 @@
   </data>
   <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
     <!--<value>All enemy soldiers eliminated, land on the carrier and press X</value>-->
-    <value>All enemy soldiers eliminated, land on carrier and press X</value>
+    <value>All enemy soldiers eliminated, land on carrier and press '{0}'</value>
   </data>
   <data name="AverageFPS">
     <value>Average FPS</value>
@@ -191,11 +191,11 @@
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
     <!--<value>Land on the carrier and press 'X' to refuel</value>-->
-    <value>Land on carrier and press 'X' to refuel</value>
+    <value>Land on carrier and press '{0}' to refuel</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRepair">
     <!--<value>Land on the carrier and press 'X' to repair</value>-->
-    <value>Land on carrier and press 'X' to repair</value>
+    <value>Land on carrier and press '{0}' to repair</value>
   </data>
   <!-- low difficulty / details -->
   <data name="Low">
@@ -214,12 +214,16 @@
   <data name="No">
     <value>No</value>
   </data>
+  
   <data name="PressEToTurnOnTheEngine">
-    <value>Press and hold 'E' to turn on the engine</value>
+    <value>Press and hold '{0}' to turn on the engine</value>
   </data>
+  
   <data name="PressXToChangeAmmo">
-    <value>Press 'X' to change the ammo, repair and refuel</value>
+    <value>Press '{0}' to change the ammo, repair and refuel</value>
   </data>
+  
+  
   <data name="ScreenshotWrittenTo">
     <value>Screenshot written to</value>
   </data>
@@ -260,7 +264,7 @@
     <value>Oh, no! Enemy soldiers are rebuilding bunker!</value>
   </data>
   <data name="RetractYourLandingGearWithG">
-    <value>Retract your landing gear with 'G'</value>
+    <value>Retract your landing gear with '{0}'</value>
   </data>
   <data name="WARNINGProtectTheCarrierFromEnemyPlane">
     <value>WARNING! Protect the carrier from enemy plane!</value>
@@ -413,7 +417,7 @@
 
  <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>All enemy planes destroyed, land on the carrier and press X</value>
+    <value>All enemy planes destroyed, land on the carrier and press '{0}'</value>
   </data>
   
   <data name="EnemyPlanesLeft">
@@ -433,7 +437,7 @@
   </data> 
   
   <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Target neutralized. Land on the carrier and press X</value>
+      <value>Target neutralized. Land on the carrier and press '{0}'</value>
   </data> 
   
   <!-- enemy ships left to be sunk -->
@@ -442,7 +446,7 @@
   </data>
   
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>All enemy ships destroyed, land on the carrier and press X</value>
+    <value>All enemy ships destroyed, land on the carrier and press '{0}'</value>
   </data>
   
   <data name="EnemyInstallationDamaged">
@@ -534,6 +538,12 @@
   <data name="Altitude">
     <value>Altitude</value>
   </data>
+
+
+  <data name="PressLeftUpToTakeOff">
+    <value>Press '{0}','{1}' to take off</value>
+  </data>
+  
   
 </root>
 

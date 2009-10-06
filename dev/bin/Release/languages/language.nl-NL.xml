@@ -142,7 +142,7 @@
     <value>Bezig met laden van shaders</value>
   </data>
   <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
-    <value>Alle vijandige soldaten zijn gedood, land op het vliegdekschip en druk op X</value>
+    <value>Alle vijandige soldaten zijn gedood, land op het vliegdekschip en druk op '{0}'</value>
   </data>
   <data name="AverageFPS">
     <value>Gemiddeld aantal FPS</value>
@@ -188,10 +188,10 @@
     <value>Draai toetsen om</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
-    <value>Land op het vliegdekschip en druk op X om bij te tanken</value>
+    <value>Land op het vliegdekschip en druk op '{0}' om bij te tanken</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRepair">
-    <value>Land op het vliegdekschip en druk op X voor reparaties</value>
+    <value>Land op het vliegdekschip en druk op '{0}' voor reparaties</value>
   </data>
   <!-- low difficulty / details -->
   <data name="Laag">
@@ -210,12 +210,21 @@
   <data name="No">
     <value>Nee</value>
   </data>
+  
   <data name="PressEToTurnOnTheEngine">
-    <value>Druk op 'E' en hou ingedrukt om de motor te starten</value>
+    <value>Druk op '{0}' en hou ingedrukt om de motor te starten</value>
   </data>
+ 
+
+  
+  
+  
+  
   <data name="PressXToChangeAmmo">
-    <value>Druk op X om de munite te veranderen, voor reparaties en voor bijtanken</value>
+    <value>Druk op '{0}' om de munite te veranderen, voor reparaties en voor bijtanken</value>
   </data>
+
+  
   <data name="ScreenshotWrittenTo">
     <value>Screenshot geschreven naar</value>
   </data>
@@ -256,7 +265,7 @@
     <value>Oh, nee! Vijandige soldaten herbouwen een bunker!</value>
   </data>
   <data name="RetractYourLandingGearWithG">
-    <value>Haal je landingsgestel in met 'G'</value>
+    <value>Haal je landingsgestel in met '{0}'</value>
   </data>
   <data name="WARNINGProtectTheCarrierFromEnemyPlane">
     <value>WAARSCHUWING! Bescherm het vliegdekschip tegen het vijandige vliegtuig!</value>
@@ -410,7 +419,7 @@
  
  <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>Alle vijandige vliegtuigen zijn vernietigd, land op het vliegdekschip en drup op X</value>
+    <value>Alle vijandige vliegtuigen zijn vernietigd, land op het vliegdekschip en drup op '{0}'</value>
   </data>
   
   <data name="EnemyPlanesLeft">
@@ -430,7 +439,7 @@
   </data> 
   
   <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Doel geneutraliseerd. Land op het vliegdekschip en drup op X</value>
+      <value>Doel geneutraliseerd. Land op het vliegdekschip en drup op '{0}'</value>
   </data> 
   
   <!-- enemy ships left to be sunk -->
@@ -439,7 +448,7 @@
   </data>
   
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>Alle vijandige schepen zijn vernietigd, land op het vliegdekschip en drup op X</value>
+    <value>Alle vijandige schepen zijn vernietigd, land op het vliegdekschip en drup op '{0}'</value>
   </data>
   
   <data name="EnemyInstallationDamaged">
@@ -530,6 +539,9 @@
     <value>Hoogte</value>
   </data>
   
+  <data name="PressLeftUpToTakeOff">
+    <value>Druk '{0}','{1}' om op te stijgen</value>
+  </data>
   
 
 </root>
