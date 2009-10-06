@@ -136,7 +136,7 @@
     <value>Προσθήκη στοιχειοθετών</value>
   </data>
   <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
-    <value>Όλοι οι στρατιώτες του εχθρού εξολοθρεύτηκαν, επέστρεψε στο αεροπλανοφόρο και πάτησε X</value>
+    <value>Όλοι οι στρατιώτες του εχθρού εξολοθρεύτηκαν, επέστρεψε στο αεροπλανοφόρο και πάτησε '{0}'</value>
   </data>
   <data name="AverageFPS">
     <value>Μέσος όρος FPS</value>
@@ -181,10 +181,10 @@
     <value>Αντιστροφή πλήκτρων</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
-    <value>Προσνηώσου στο αεροπλανοφόρο και πάτησε X για ανεφοδιασμό</value>
+    <value>Προσνηώσου στο αεροπλανοφόρο και πάτησε '{0}' για ανεφοδιασμό</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRepair">
-    <value>Προσνηώσου στο αεροπλανοφόρο και πάτησε X για επισκευή</value>
+    <value>Προσνηώσου στο αεροπλανοφόρο και πάτησε '{0}' για επισκευή</value>
   </data>
   <data name="Low">
     <value>Χαμηλό</value>
@@ -202,11 +202,14 @@
     <value>Όχι</value>
   </data>
   <data name="PressEToTurnOnTheEngine">
-    <value>Πάτησε E για εκκίνηση του κινητήρα</value>
+    <value>Πάτησε '{0}' για εκκίνηση του κινητήρα</value>
   </data>
+    
   <data name="PressXToChangeAmmo">
-    <value>Πάτησε X για αλλαγή πυρομαχικών, επισκευή και ανεφοδιασμό</value>
+    <value>Πάτησε '{0}' για αλλαγή πυρομαχικών, επισκευή και ανεφοδιασμό</value>
   </data>
+    
+  
   <data name="ScreenshotWrittenTo">
     <value>Screenshot αποθηκεύτηκε στο</value>
   </data>
@@ -247,7 +250,7 @@
     <value>Ωω, Όχι! Οι στρατιώτες του εχθρού ξανακατασκευάζουν το οχυρό!</value>
   </data>
   <data name="RetractYourLandingGearWithG">
-    <value>Ανασήκωσε το σύστημα τροχών πατώντας'G'</value>
+    <value>Ανασήκωσε το σύστημα τροχών πατώντας '{0}'</value>
   </data>
   <data name="WARNINGProtectTheCarrierFromEnemyPlane">
     <value>ΠΡΟΣΟΧΗ! Προστάτεψε το αεροπλανοφόρο απο το εχθρικό αεροσκάφος!</value>
@@ -406,7 +409,7 @@
   
  <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>Όλα τα εχθρικά αεροσκάφη εχούν καταστραφεί, προσνηώσου στο αεροπλανοφόρο και πάτησε το πλήκτρο X</value>
+    <value>Όλα τα εχθρικά αεροσκάφη εχούν καταστραφεί, προσνηώσου στο αεροπλανοφόρο και πάτησε το πλήκτρο '{0}'</value>
   </data>
   
   <data name="EnemyPlanesLeft">
@@ -426,7 +429,7 @@
   </data> 
   
   <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Ο στόχος εξουδετερλωθηκε. Προσνηώσου στο αεροπλανοφόρο και πάτησε το πλήκτρο X</value>
+      <value>Ο στόχος εξουδετερλωθηκε. Προσνηώσου στο αεροπλανοφόρο και πάτησε το πλήκτρο '{0}'</value>
   </data> 
   
   <!-- enemy ships left to be sunk -->
@@ -435,7 +438,7 @@
   </data>
   
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>Όλα τα εχθρικά πλοία καταστράφηκαν, προσνηώσου στο αεροπλανοφόρο και πάτησε το πλήκτρο Χ</value>
+    <value>Όλα τα εχθρικά πλοία καταστράφηκαν, προσνηώσου στο αεροπλανοφόρο και πάτησε το πλήκτρο '{0}'</value>
   </data>
   
   <data name="EnemyInstallationDamaged">
@@ -529,5 +532,10 @@
     <value>υψόμετρο</value>
   </data>
 
+
+  <data name="PressLeftUpToTakeOff">
+    <value>Press '{0}','{1}' to take off</value>
+  </data>
+  
   
 </root>

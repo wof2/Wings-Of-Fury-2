@@ -33,6 +33,24 @@ material MissionType
 }
 
 
+
+
+material MessageBarIcon
+{
+    technique
+    {
+        pass
+        {
+            scene_blend alpha_blend 	           
+            texture_unit
+            {
+                texture radio.png
+            }
+        }
+    }
+}
+
+
 material IntroScreen1
 {
 	technique

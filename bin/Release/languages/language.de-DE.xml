@@ -136,7 +136,7 @@
     <value>Lade Shader</value>
   </data>
   <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
-    <value>Alle Soldaten wurden getötet, lande auf dem Flugzeugträger und drücke X</value>
+    <value>Alle Soldaten wurden getötet, lande auf dem Flugzeugträger und drücke '{0}'</value>
   </data>
   <data name="AverageFPS">
     <value>Mittlere Bildrate (FPS)</value>
@@ -181,10 +181,10 @@
     <value>Tasten oben/unten vertauschen</value>    <!-- means top/down keys -->
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
-    <value>Lande auf dem Flugzeugträger und drücke X um aufzutanken</value>
+    <value>Lande auf dem Flugzeugträger und drücke '{0}' um aufzutanken</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRepair">
-    <value>Lande auf dem Flugträger und drücke X zum reparieren</value>
+    <value>Lande auf dem Flugträger und drücke '{0}' zum reparieren</value>
   </data>
   <data name="Low">
     <value>Niedrig</value>
@@ -202,11 +202,14 @@
     <value>Nein</value>
   </data>
   <data name="PressEToTurnOnTheEngine">
-    <value>Drücke E, bis der Motor gestartet ist</value>
+    <value>Drücke {0}', bis der Motor gestartet ist</value>
   </data>
+      
   <data name="PressXToChangeAmmo">
-    <value>Drücke X zum Nachladen, Tanken, Reparieren</value>
+    <value>Drücke '{0}' zum Nachladen, Tanken, Reparieren</value>
   </data>
+   
+  
   <data name="ScreenshotWrittenTo">
     <value>Das Bildschirmfoto wurde gespeichert</value>
   </data>
@@ -247,7 +250,7 @@
     <value>Oh Nein! Soldaten bauen den Bunker wieder auf!</value>
   </data>
   <data name="RetractYourLandingGearWithG">
-    <value>Drücken Sie G um Fahrwerk einzufahren</value>
+    <value>Drücken Sie '{0}' um Fahrwerk einzufahren</value>
   </data>
   <data name="WARNINGProtectTheCarrierFromEnemyPlane">
     <value>ACHTUNG! Schützen Sie den Flugzeugträger vor feindlichen Flugzeugen!</value>
@@ -406,7 +409,7 @@
 
  <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>Alle feindlichen Flugzeuge zerstört. Lande auf dem Flugzeugträger und drücke X.</value>
+    <value>Alle feindlichen Flugzeuge zerstört. Lande auf dem Flugzeugträger und drücke '{0}'</value>
     <!-- CHECK IF LENGTH IS OK (maybe too long) -->
   </data>
   
@@ -430,7 +433,7 @@
   </data> 
   
   <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Ziel neutralisiert. Lande auf dem Flugzeugträger und drücke X.</value>
+      <value>Ziel neutralisiert. Lande auf dem Flugzeugträger und drücke '{0}'</value>
     <!-- CHECK IF LENGTH IS OK (maybe too long) -->
   </data> 
   
@@ -441,7 +444,7 @@
   </data>
   
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>Alle feindlichen Schiffe zerstört. Lande auf dem Flugzeugträger und drücke X.</value>
+    <value>Alle feindlichen Schiffe zerstört. Lande auf dem Flugzeugträger und drücke '{0}'</value>
     <!-- CHECK IF LENGTH IS OK (maybe too long) -->
   </data>
   
@@ -536,7 +539,12 @@
   <data name="Altitude">
     <value>Höhe</value>
   </data>
-  
+
+
+  <data name="PressLeftUpToTakeOff">
+    <value>Press '{0}','{1}' to take off</value>
+  </data>
+ 
   
   <!-- IDEA: Good for translaters would be to add the content of the splash screen here, too. -->
 

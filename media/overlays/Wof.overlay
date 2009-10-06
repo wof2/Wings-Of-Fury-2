@@ -41,6 +41,22 @@ Wof/Loading
 }
 
 
+Wof/MessageBar
+{
+	zorder 400
+	container BorderPanel(Wof/MessageBarIcon)
+	{
+
+		metrics_mode pixels		
+		left 0 
+		top 0
+		width 64
+		height 64
+		material MessageBarIcon
+
+	}
+}
+
 
 Wof/Preloader
 {	
