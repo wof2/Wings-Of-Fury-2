@@ -75,7 +75,13 @@ namespace Wof.Controller.Indicators
         private readonly float xMargin = 0.03f;
         private readonly float yMargin = 0.011f;
         private Overlay radioIcon;
-
+		private OverlayElement radioIconElement;
+		
+		private float radioIconWidth 
+		{
+			get {  return mainViewport.ActualHeight / 18f; }
+			
+		}
 
 
         public GameMessages(Viewport mainViewport, float xMargin, float yMargin) : this(mainViewport)
@@ -90,21 +96,20 @@ namespace Wof.Controller.Indicators
             this.mainViewport = mainViewport;
 
             messageOverlay = OverlayManager.Singleton.GetByName("Wof/HUD");
-            CreateMessageContainer(mainViewport);
+            CreateMessageContainer();
         }
 
 
-        private void CreateMessageContainer(Viewport viewport)
+        private void CreateMessageContainer()
         {
            // BetaGUI.GUI gui = new GUI();
            // Window w = gui.createWindow();
            // w.createStaticImage()
             radioIcon = OverlayManager.Singleton.GetByName("Wof/MessageBar");
-            OverlayElement barOverlay = OverlayManager.Singleton.GetOverlayElement("Wof/MessageBarIcon");
-
-            float width = viewport.ActualHeight / 18f;
-            barOverlay.SetDimensions(width, width);
-       
+            radioIconElement = OverlayManager.Singleton.GetOverlayElement("Wof/MessageBarIcon");
+          
+            radioIconElement.SetDimensions(radioIconWidth, radioIconWidth);
+      
            
 
             messageElement = OverlayManager.Singleton.CreateOverlayElement(
@@ -166,7 +171,7 @@ namespace Wof.Controller.Indicators
                 }
                 else
                 {
-                   if(radioIcon.IsVisible)  radioIcon.Hide();
+                   
                 }
             }
             else
@@ -183,13 +188,19 @@ namespace Wof.Controller.Indicators
 
         private void DisplayMessage()
         {
-            if (!radioIcon.IsVisible) radioIcon.Show();
+        	radioIconElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
+        	if (!radioIcon.IsVisible) 
+        	{
+        		
+        		radioIconElement.SetPosition( ( currentMessage.X), (currentMessage.Y));        	
+        		radioIcon.Show();
+        	}
             startTime = DateTime.Now;
 
             currentMessage.IncreaseX(xMargin);
             currentMessage.IncreaseY(yMargin);
 
-            messageContainer.SetPosition(currentMessage.X, currentMessage.Y);
+            messageContainer.SetPosition(radioIconElement.Width + currentMessage.X, currentMessage.Y);
             messageElement.SetParameter("char_height", currentMessage.getCharHeightString());
             messageElement.SetParameter("colour_top", currentMessage.ColourTop);
             messageElement.SetParameter("colour_bottom", currentMessage.ColourBottom);
@@ -254,6 +265,7 @@ namespace Wof.Controller.Indicators
             {
                 messageElement.Caption = "";
             }
+            if(radioIcon.IsVisible)  radioIcon.Hide();
         }
 
 
