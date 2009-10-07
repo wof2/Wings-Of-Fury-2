@@ -202,7 +202,7 @@
     <value>Nie</value>
   </data>
   <data name="PressEToTurnOnTheEngine">
-    <value>Przytrzymaj '{0}' aby uruchomić silnik</value>
+    <value>PRZYTRZYMAJ '{0}' aby uruchomić silnik</value>
   </data>
  
   <data name="PressXToChangeAmmo">

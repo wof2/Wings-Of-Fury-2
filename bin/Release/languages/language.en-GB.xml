@@ -216,7 +216,7 @@
   </data>
   
   <data name="PressEToTurnOnTheEngine">
-    <value>Press and hold '{0}' to turn on the engine</value>
+    <value>Press and HOLD '{0}' to turn on the engine</value>
   </data>
   
   <data name="PressXToChangeAmmo">

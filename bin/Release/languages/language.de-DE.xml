@@ -202,7 +202,7 @@
     <value>Nein</value>
   </data>
   <data name="PressEToTurnOnTheEngine">
-    <value>Drücke {0}', bis der Motor gestartet ist</value>
+    <value>Drücke '{0}', bis der Motor gestartet ist</value>
   </data>
       
   <data name="PressXToChangeAmmo">

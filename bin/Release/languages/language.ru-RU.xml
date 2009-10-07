@@ -181,10 +181,10 @@
     <value>Противоположные кнопки</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
-    <value>Прилети на авианосец и нажьми '{0}' чтобы наремонтировать двигатель</value>
+    <value>Прилети на авианосец и нажьми "{0}" чтобы наремонтировать двигатель</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRepair">
-    <value>Прилети на авианосец и нажьми '{0}' чтобы пополнить топливо</value>
+    <value>Прилети на авианосец и нажьми "{0}" чтобы пополнить топливо</value>
   </data>
   <data name="Low">
     <value>Низкий</value>
@@ -202,10 +202,10 @@
     <value>Нет</value>
   </data>
   <data name="PressEToTurnOnTheEngine">
-    <value>Нажьми '{0}', чтобы началась работа двигателя</value>
+    <value>Нажьми "{0}", чтобы началась работа двигателя</value>
   </data>
   <data name="PressXToChangeAmmo">
-    <value>Нажьми '{0}', чтобы пополнить боеприпасы,  пополнить топливо, и наремонтировать двигатель</value>
+    <value>Нажьми "{0}", чтобы пополнить боеприпасы,  пополнить топливо, и наремонтировать двигатель</value>
   </data>
   <data name="ScreenshotWrittenTo">
     <value>Записать в</value>
@@ -247,7 +247,7 @@
     <value>ВНИМАНИЕ! Солдаты неприятеля построили заного бункер!</value>
   </data>
   <data name="RetractYourLandingGearWithG">
-    <value>Чтобы сохронить шассы нажьми '{0}'</value>
+    <value>Чтобы сохронить шассы нажьми "{0}"</value>
   </data>
   <data name="WARNINGProtectTheCarrierFromEnemyPlane">
     <value>ВНИМАНИЕ! Защищай авианосец от самолёта неприятеля!</value>
@@ -502,7 +502,7 @@
 
 
   <data name="PressLeftUpToTakeOff">
-    <value>Нажмите '{0}','{1}', чтобы самолет взлетел</value>
+    <value>Нажмите "{0}","{1}", чтобы самолет взлетел</value>
   </data>
   
   

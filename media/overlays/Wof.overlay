@@ -15,7 +15,7 @@ Wof/Loading
 		{
 			metrics_mode relative
 			left 0.03
-			top 0.5
+			top 0.51
 			width 0.2
 			height 0.025
 			font_name BlueHighway

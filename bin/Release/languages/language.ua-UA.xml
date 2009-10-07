@@ -136,7 +136,7 @@
     <value>Зававантаження шейдерів</value>
   </data>
   <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
-    <value>Всі солдати ворога - убиті. Приземлітся на корабель і втисніть '{0}'</value>
+    <value>Всі солдати ворога - убиті. Приземлітся на корабель і втисніть "{0}"</value>
   </data>
   <data name="AverageFPS">
     <value>Середній ФПС</value>
@@ -181,10 +181,10 @@
     <value>Повернути клавіші</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
-    <value>Приземлітся на корабель і втисніть '{0}' щоб заправитись</value>
+    <value>Приземлітся на корабель і втисніть "{0}" щоб заправитись</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRepair">
-    <value>Приземлітся на корабель і втисніть '{0}' щоб злагодити двигун</value>
+    <value>Приземлітся на корабель і втисніть "{0}" щоб злагодити двигун</value>
   </data>
   <data name="Low">
     <value>Низький</value>
@@ -202,10 +202,10 @@
     <value>Ні</value>
   </data>
   <data name="PressEToTurnOnTheEngine">
-    <value>Втисніть '{0}' щоб вмикнути двигун</value>
+    <value>Втисніть "{0}" щоб вмикнути двигун</value>
   </data>
   <data name="PressXToChangeAmmo">
-    <value>Втисніть '{0}' щоб змінити тип патронів, заправитись і злагодити двигун</value>
+    <value>Втисніть "{0}" щоб змінити тип патронів, заправитись і злагодити двигун</value>
   </data>
   
   <data name="ScreenshotWrittenTo">
@@ -248,7 +248,7 @@
     <value>О, Ні! Солдати ворога відбудували бункер!</value>
   </data>
   <data name="RetractYourLandingGearWithG">
-    <value>Щоб сховати шасі втисніть '{0}'</value>
+    <value>Щоб сховати шасі втисніть "{0}"</value>
   </data>
   <data name="WARNINGProtectTheCarrierFromEnemyPlane">
     <value>ПОПЕРЕДЖЕНЯ! Захистіть корабель від літаків ворога!</value>
@@ -401,7 +401,7 @@
   
   <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>Всі ворожі літаки знищені, посади літак на авіаносець і натисни '{0}'</value>
+    <value>Всі ворожі літаки знищені, посади літак на авіаносець і натисни "{0}"</value>
   </data>
   <data name="EnemyPlanesLeft">
     <value>Ворожих літаків залишилось</value>
@@ -419,7 +419,7 @@
     <value>Цілий</value>
   </data> 
     <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Мішень знищена, посади літак на авіаносець і натисни '{0}'</value>
+      <value>Мішень знищена, посади літак на авіаносець і натисни "{0}"</value>
   </data> 
   
     <data name="EnemyShipsLeft">
@@ -427,7 +427,7 @@
   </data>
   
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>Всі ворожі кораблі знищені, посади літак на авіаносець і натисни '{0}'</value>
+    <value>Всі ворожі кораблі знищені, посади літак на авіаносець і натисни "{0}"</value>
   </data>
   
   <data name="EnemyInstallationDamaged">
@@ -518,7 +518,7 @@
 
 
   <data name="PressLeftUpToTakeOff">
-    <value>Натисніть '{0}','{1}' щоб літак злетів</value>
+    <value>Натисніть "{0}","{1}" щоб літак злетів</value>
   </data>
 
 

@@ -532,9 +532,8 @@
     <value>υψόμετρο</value>
   </data>
 
-
   <data name="PressLeftUpToTakeOff">
-    <value>Press '{0}','{1}' to take off</value>
+    <value>Πάτησε '{0}','{1}' για να απογειώσεις</value>
   </data>
   
   

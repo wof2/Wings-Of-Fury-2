@@ -47,24 +47,104 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
-using MOIS;
 using System.Text;
+
+using MOIS;
 using Wof.Misc;
 
 namespace Wof.Controller.Input.KeyboardAndJoystick
 {
+	
+	
     /// <summary>
     /// Mapa klawiszy odpowiadajaca odpowiednim zadaniom.
     /// </summary>
     public class KeyMap : IniFileConfiguration<KeyMap>
     {
+    	private static Dictionary<KeyCode, String> russianKeyMapping;
+    	private static Dictionary<KeyCode, String> ukrainianKeyMapping;
+    	
         #region Private Constructor
 
         private KeyMap() : base("KeyMap") 
         {
-        
+        	russianKeyMapping = new Dictionary<KeyCode, String>() {         		
+        		{KeyCode.KC_GRAVE, "ё"},
+        		{KeyCode.KC_Q, "й"},
+        		{KeyCode.KC_W, "ц"},
+        		{KeyCode.KC_E, "у"},
+        		{KeyCode.KC_R, "к"},
+        		{KeyCode.KC_T, "е"},        		
+        		{KeyCode.KC_Y, "н"},
+        		{KeyCode.KC_U, "г"},        		
+        		{KeyCode.KC_I, "ш"},
+        		{KeyCode.KC_O, "щ"},        		
+        		{KeyCode.KC_P, "з"},
+        		{KeyCode.KC_LBRACKET, "х"},
+        		{KeyCode.KC_RBRACKET, "ъ"},        		
+        		{KeyCode.KC_A, "ф"},
+        		{KeyCode.KC_S, "ы"},        		
+        		{KeyCode.KC_D, "в"},
+        		{KeyCode.KC_F, "а"},        		
+        		{KeyCode.KC_G, "п"},
+        		{KeyCode.KC_H, "р"},        		
+        		{KeyCode.KC_J, "о"},
+        		{KeyCode.KC_K, "л"},        		
+        		{KeyCode.KC_L, "д"},
+        		{KeyCode.KC_SEMICOLON, "ж"},        		
+        		{KeyCode.KC_APOSTROPHE, "э"}, // '
+        		{KeyCode.KC_Z, "я"},        		
+        		{KeyCode.KC_X, "ч"},
+        		{KeyCode.KC_C, "c"},        		
+        		{KeyCode.KC_V, "м"},
+        		{KeyCode.KC_B, "и"},        		
+        		{KeyCode.KC_N, "т"},
+        		{KeyCode.KC_M, "ь"},        		        		
+        		{KeyCode.KC_COMMA, "б"},
+        		{KeyCode.KC_PERIOD, "ю"},
+        		{KeyCode.KC_SLASH, "."},        	    	
+        	};     
+    
+        	ukrainianKeyMapping = new Dictionary<KeyCode, String>() {         		
+        		{KeyCode.KC_GRAVE, "ё"},
+        		{KeyCode.KC_Q, "й"},
+        		{KeyCode.KC_W, "ц"},
+        		{KeyCode.KC_E, "у"},
+        		{KeyCode.KC_R, "к"},
+        		{KeyCode.KC_T, "е"},        		
+        		{KeyCode.KC_Y, "н"},
+        		{KeyCode.KC_U, "г"},        		
+        		{KeyCode.KC_I, "ш"},
+        		{KeyCode.KC_O, "щ"},        		
+        		{KeyCode.KC_P, "з"},
+        		{KeyCode.KC_LBRACKET, "х"},
+        		{KeyCode.KC_RBRACKET, "ї"},        		
+        		{KeyCode.KC_A, "ф"},
+        		{KeyCode.KC_S, "і"},        		
+        		{KeyCode.KC_D, "в"},
+        		{KeyCode.KC_F, "а"},        		
+        		{KeyCode.KC_G, "п"},
+        		{KeyCode.KC_H, "р"},        		
+        		{KeyCode.KC_J, "о"},
+        		{KeyCode.KC_K, "л"},        		
+        		{KeyCode.KC_L, "д"},
+        		{KeyCode.KC_SEMICOLON, "ж"},        		
+        		{KeyCode.KC_APOSTROPHE, "є"}, // '
+        		{KeyCode.KC_Z, "я"},        		
+        		{KeyCode.KC_X, "ч"},
+        		{KeyCode.KC_C, "c"},        		
+        		{KeyCode.KC_V, "м"},
+        		{KeyCode.KC_B, "и"},        		
+        		{KeyCode.KC_N, "т"},
+        		{KeyCode.KC_M, "ь"},        		        		
+        		{KeyCode.KC_COMMA, "б"},
+        		{KeyCode.KC_PERIOD, "ю"},
+        		{KeyCode.KC_SLASH, "."},        	    	
+        	};     
+    
         }
         
         #endregion
@@ -511,10 +591,47 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             return false;
         }
         
+        
+        
+        
+        private static string GetRussianName(KeyCode keyCode)
+        {
+        	if(russianKeyMapping.ContainsKey(keyCode))
+        	{
+        		return russianKeyMapping[keyCode];
+        	}else
+        	{
+        		return keyCode.ToString().Substring(3);
+        	}
+        }
+        
+        private static string GetUkrainianName(KeyCode keyCode)
+        {
+        	if(ukrainianKeyMapping.ContainsKey(keyCode))
+        	{
+        		return ukrainianKeyMapping[keyCode];
+        	}else
+        	{
+        		return keyCode.ToString().Substring(3);
+        	}
+        }
+         
         public static string GetName(object keyCodeOrModifier)
         {
             if(keyCodeOrModifier is KeyCode)
             {
+            	if(Languages.LanguageManager.ActualLanguageCode.Equals("ru-RU"))
+            	{
+            		return GetRussianName((KeyCode)keyCodeOrModifier);
+            	}
+            	
+            	if(Languages.LanguageManager.ActualLanguageCode.Equals("ua-UA"))
+            	{
+            		return GetUkrainianName((KeyCode)keyCodeOrModifier);
+            	}
+            	
+            	
+            	
                 return ((KeyCode)keyCodeOrModifier).ToString().Substring(3);
             }else
                 if(keyCodeOrModifier is MOIS.Keyboard.Modifier)
