@@ -964,6 +964,9 @@ namespace Wof.Controller.Screens
                                     }
                                 }
 
+
+                              
+
                                 // nie chcemy, zeby uzytkownik ruszyl sie jednoczesnie
                                 // w lewo i w prawo, dlatego pierwszenstwo ma
                                 // ruch w lewo.
@@ -1102,20 +1105,43 @@ namespace Wof.Controller.Screens
                                 }
 
 
-
+                               
                                 // zmiana kamery
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam1)) && Button.CanChangeSelectedButton(2.0f))
+                                {
+                                    SwitchCamera(0);
+                                }
+
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam2)) && Button.CanChangeSelectedButton(2.0f))
+                                {
+                                    SwitchCamera(1);
+                                }
+
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam3)) && Button.CanChangeSelectedButton(2.0f))
+                                {
+                                    SwitchCamera(2);
+                                }
+
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam4)) && Button.CanChangeSelectedButton(2.0f))
+                                {
+                                    SwitchCamera(3);
+                                }
+
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam5)) && Button.CanChangeSelectedButton(2.0f))
+                                {
+                                    SwitchCamera(4);
+                                }
+
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam6)) && Button.CanChangeSelectedButton(2.0f))
+                                {
+                                    SwitchCamera(5);
+                                }
+
                                 if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Camera) ||
                                      FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickCamera)) &&
-                                    Button.CanChangeSelectedButton(3.0f))
+                                    Button.CanChangeSelectedButton(1.0f))
                                 {
-                                    if (gameMessages.IsMessageQueueEmpty())
-                                    {
-                                        gameMessages.AppendMessage(String.Format(@"{0}...",
-                                                                                 LanguageResources.GetString(
-                                                                                     LanguageKey.CameraChanged)));
-                                    }
-                                    levelView.OnChangeCamera();
-                                    Button.ResetButtonTimer();
+                                    SwitchCamera();
                                 }
 
                                 // screenshots
@@ -1262,6 +1288,23 @@ namespace Wof.Controller.Screens
                 }
             }
         }
+        private void SwitchCamera()
+        {
+            SwitchCamera(levelView.CurrentCameraHolderIndex + 1);
+        }
+
+        private void SwitchCamera(int index)
+        {
+            if (gameMessages.IsMessageQueueEmpty())
+            {
+                gameMessages.AppendMessage(String.Format(@"{0}...",
+                                                         LanguageResources.GetString(
+                                                             LanguageKey.CameraChanged)));
+            }
+            levelView.OnChangeCamera(index);
+            Button.ResetButtonTimer();
+        }
+
 
         private void ControlGunFireSound()
         {

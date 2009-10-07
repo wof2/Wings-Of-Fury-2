@@ -187,6 +187,13 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         {
             StringBuilder sb = new StringBuilder();        	
             sb.AppendLine("KeyMap object:");
+            sb.AppendLine("_cam1:" + _cam1);
+            sb.AppendLine("_cam2:" + _cam2);
+            sb.AppendLine("_cam3:" + _cam3);
+            sb.AppendLine("_cam4:" + _cam4);
+            sb.AppendLine("_cam5:" + _cam5);
+            sb.AppendLine("_cam6:" + _cam6);
+
             sb.AppendLine("_altFire:" + _altFire);
             sb.AppendLine("_gunFire:" + _gunFire);
             sb.AppendLine("_up:" + _up);
@@ -221,7 +228,13 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         {
             get 
             {
-                KeyMap k = new KeyMap();        		
+                KeyMap k = new KeyMap();
+                k._cam1 = GetKeyCode("_cam1", "KC_F1");
+                k._cam2 = GetKeyCode("_cam2", "KC_F2");
+                k._cam3 = GetKeyCode("_cam3", "KC_F3");
+                k._cam4 = GetKeyCode("_cam4", "KC_F4");
+                k._cam5 = GetKeyCode("_cam5", "KC_F5");
+                k._cam6 = GetKeyCode("_cam6", "KC_F6");
                 k._altFire = GetKeyCode("_altFire", "KC_X");
                 k._gunFire = GetKeyCode("_gunFire", "KC_Z");
                 k._up = GetKeyCode("_up", "KC_UP");
@@ -266,6 +279,13 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             }
             set 
             {
+                WriteString("_cam1", _cam1.ToString());
+                WriteString("_cam2", _cam2.ToString());
+                WriteString("_cam3", _cam3.ToString());
+                WriteString("_cam4", _cam4.ToString());
+                WriteString("_cam5", _cam5.ToString());
+                WriteString("_cam6", _cam6.ToString());
+
                 WriteString("_altFire", _altFire.ToString());
                 WriteString("_gunFire", _gunFire.ToString());
                 WriteString("_up", _up.ToString());
@@ -306,10 +326,83 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
 
         #region Key Code
 
+
+        private KeyCode _cam1 = KeyCode.KC_F1;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmianę kamery
+        /// </summary>
+        public KeyCode Cam1
+        {
+            get { return _cam1; }
+            set { _cam1 = value; }
+        }
+
+
+        private KeyCode _cam2 = KeyCode.KC_F2;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmianę kamery
+        /// </summary>
+        public KeyCode Cam2
+        {
+            get { return _cam2; }
+            set { _cam2 = value; }
+        }
+
+        private KeyCode _cam3 = KeyCode.KC_F3;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmianę kamery
+        /// </summary>
+        public KeyCode Cam3
+        {
+            get { return _cam3; }
+            set { _cam3 = value; }
+        }
+
+
+        private KeyCode _cam4 = KeyCode.KC_F4;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmianę kamery
+        /// </summary>
+        public KeyCode Cam4
+        {
+            get { return _cam4; }
+            set { _cam4 = value; }
+        }
+
+
+        private KeyCode _cam5 = KeyCode.KC_F5;
+        
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmianę kamery
+        /// </summary>
+        public KeyCode Cam5
+        {
+            get { return _cam5; }
+            set { _cam5 = value; }
+        }
+
+        private KeyCode _cam6 = KeyCode.KC_F6;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmianę kamery
+        /// </summary>
+        public KeyCode Cam6
+        {
+            get { return _cam6; }
+            set { _cam6 = value; }
+        }
+
+       
+
+
         private KeyCode _gunFire = KeyCode.KC_Z;
 
         /// <summary>
-        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za strzelania z dzialka samolotu.
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za strzelanie z dzialka samolotu.
         /// </summary>
         public KeyCode GunFire
         {
