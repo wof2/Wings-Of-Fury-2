@@ -233,8 +233,7 @@ namespace Wof.Controller.Screens
 
         private int hiscoreCache = -1;
 
-        private Boolean changingAmmo;
-        private Boolean prevCouldChangeAmmo = false;
+        private Boolean changingAmmo;      
         private Boolean prevFuelTooLow = false;
         private Boolean prevOilTooLow = false;
 
@@ -250,6 +249,8 @@ namespace Wof.Controller.Screens
 
         private Boolean loading;
         private DateTime loadingStart;
+        
+      
 
         // zmienna okresla, czy w dalszym ciagu nalezy odtwarzac 
         // dzwiek dzialka
@@ -428,11 +429,6 @@ namespace Wof.Controller.Screens
                     
                     if (LevelNo == 1 && firstTakeOff)
                     {
-
-
-                      
-
-
 
                         MessageEntry message =
                             new MessageEntry(0.15f, 0.4f, GetHintMessage(), true, true);
