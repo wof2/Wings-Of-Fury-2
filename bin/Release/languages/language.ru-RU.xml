@@ -502,7 +502,7 @@
 
 
   <data name="PressLeftUpToTakeOff">
-    <value>Press '{0}','{1}' to take off</value>
+    <value>Нажмите '{0}','{1}', чтобы самолет взлетел</value>
   </data>
   
   

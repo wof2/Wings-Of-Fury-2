@@ -43,7 +43,7 @@ Wof/Loading
 
 Wof/MessageBar
 {
-	zorder 400
+	
 	container BorderPanel(Wof/MessageBarIcon)
 	{
 
