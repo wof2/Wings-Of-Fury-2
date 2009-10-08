@@ -568,6 +568,7 @@ namespace Wof.Tests
         /// <returns></returns>
         public override bool FrameStarted(FrameEvent evt)
         {
+        	
             time += evt.timeSinceLastFrame;
 
             //  japanFlagState.AddTime(evt.timeSinceLastFrame);

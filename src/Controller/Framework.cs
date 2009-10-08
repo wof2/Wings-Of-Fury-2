@@ -217,12 +217,11 @@ namespace Wof.Controller
 
             // clean up
 
-            if (Game.getGame().CurrentScreen != null)
+            if (Game.getGame() != null && Game.getGame().CurrentScreen != null)
             {
                 Game.getGame().CurrentScreen.CleanUp(false);
             }
-             
-            
+                         
             
 
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
@@ -1212,12 +1211,17 @@ namespace Wof.Controller
             // 
         }
 
-        /// Method which will define the source of resources (other than current folder)
         public virtual void SetupResources()
+        {
+        	SetupResources("resources.cfg");
+        }
+        
+        /// Method which will define the source of resources (other than current folder)
+        public virtual void SetupResources(string cfgFilename)
         {
             // Load resource paths from config file
             ConfigFile cf = new ConfigFile();
-            cf.Load("resources.cfg", "\t:=", true);
+            cf.Load(cfgFilename, "\t:=", true);
 
             // Go through all sections & settings in the file
             ConfigFile.SectionIterator seci = cf.GetSectionIterator();
