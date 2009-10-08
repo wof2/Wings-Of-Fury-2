@@ -191,12 +191,14 @@ namespace Wof.Controller
                         
                 }
             }
-            bool firstRun = true;
-            
+            bool firstRun = !File.Exists(EngineConfig.C_ENGINE_CONFIG);
+          
+            // przeprowadz test wydajnosci
             if(firstRun)
             {
             	StartPerformanceTest();
             } 
+
             StartWOFApplication();	            
             SoundManager3D.Instance.Dispose();
 	        if (getGame().afterExit != null) getGame().afterExit();
@@ -256,15 +258,8 @@ namespace Wof.Controller
             {
                 performanceTest = new PerformanceTestFramework();
                 performanceTest.Go();
-                if(performanceTest.Window != null)
-                {
-                	if(performanceTest.Window.AverageFPS > 0)
-                	{
-                		
-                	}
-                }
-                
-                
+
+             
             }
             catch (SEHException)
             {
@@ -286,6 +281,12 @@ namespace Wof.Controller
             try
             {
                 game = new Game();
+
+                // jesli przeprowadzono test wydajnosci, przekaz go dalej
+                if (performanceTest != null && performanceTest.HasResults)
+                {
+                    game.InjectPerformanceTestResults(performanceTest);
+                }
                 game.SetDisplayMinimap(false);
                 game.Go();
             }
@@ -1046,6 +1047,8 @@ namespace Wof.Controller
         }
 
         #endregion
+
+       
     }
 
     #region Import function - user32.dll
