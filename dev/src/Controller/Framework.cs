@@ -92,6 +92,7 @@ namespace Wof.Controller
         protected float minimapHeight = 0.14f;
         protected float minimapWidth = 0.3f;
 
+        private PerformanceTestFramework performanceTestFramework;
 
         protected static bool displayMinimap = true;
 
@@ -225,36 +226,45 @@ namespace Wof.Controller
             
 
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
-            EffectsManager.Singleton.Clear();
+           
+            if(!(this is PerformanceTestFramework))
+            {
+                EffectsManager.Singleton.Clear();
+            }
             DestroyScenes();
-                        
             TextureManager.Singleton.UnloadAll();
             MaterialManager.Singleton.UnloadAll();
             CompositorManager.Singleton.RemoveAll();
             CompositorManager.Singleton.UnloadAll();
-
             MeshManager.Singleton.UnloadAll();
             FontManager.Singleton.UnloadAll();
             GpuProgramManager.Singleton.UnloadAll();
             HighLevelGpuProgramManager.Singleton.UnloadAll();
-        
             window.RemoveAllListeners();
-            window.RemoveAllViewports();
+            window.RemoveAllViewports(); 
             Root.Singleton.RenderSystem.DestroyRenderWindow(window.Name);
-
+         
+            window.Dispose();
             window = null;
 
-
+          
+            root.Shutdown();
             root.Dispose();
             root = null;
-
+        
             //Console.ReadLine();
         }
+       
 
 
+        public void InjectPerformanceTestResults(PerformanceTestFramework performanceTestFramework)
+        {
+            this.performanceTestFramework = performanceTestFramework;
+        }
+       
         public virtual bool Setup()
         {
-        
+           
             Splash splash = new Splash();
             splash.Show();
             splash.SetStepsCount(10);
@@ -266,8 +276,8 @@ namespace Wof.Controller
                     String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingTheRootObject)));
                 root = new Root();
                 //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
-                LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
-                LogManager.Singleton.LogMessage("Starting Wings of Fury 2 ver. " + EngineConfig.C_WOF_VERSION);
+               // LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
+               /// LogManager.Singleton.LogMessage("Starting Wings of Fury 2 ver. " + EngineConfig.C_WOF_VERSION);
 
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.SetupingResources)));
@@ -394,18 +404,7 @@ namespace Wof.Controller
             //   window.WindowMovedOrResized( );
         }
         
-        private void DetectGraphicsSettings()
-        {
-        	
-        	/* uint budget = MeshManager.Singleton.;
-        	
-        	String device = root.RenderSystem.GetConfigOptions()["Rendering Device"].currentValue;
-        	if(device.Contains("Geforce 3"))
-        	{
-        		
-        	}*/
-        	
-        }
+      
 
 
         /// <summary>
@@ -421,7 +420,7 @@ namespace Wof.Controller
                 try
                 {
                     window = root.Initialise(true, "Wings Of Fury 2");
-                    DetectGraphicsSettings();
+                
                 }
                 catch (Exception)
                 {
@@ -436,76 +435,53 @@ namespace Wof.Controller
                 return true;
             }
 
-            // Show the configuration dialog and initialise the system
-            // You can skip this and use root.restoreConfig() to load configuration
-            // settings if you were sure there are valid ones saved in ogre.cfg          
-            if (EngineConfig.UseLastHardwareSettings)
+           
+           
+            RenderSystemList renderSystems = root.GetAvailableRenderers();
+            IEnumerator<RenderSystem> enumerator = renderSystems.GetEnumerator();
+
+            // jako stan startowy moze zostac wybrany tylko directx system
+            RenderSystem d3dxSystem = null;
+			
+            while (enumerator.MoveNext())
             {
-                if (root.RestoreConfig())
+                RenderSystem renderSystem = enumerator.Current;
+                if (renderSystem.Name.Contains("Direct"))
                 {
-                    window = root.Initialise(true, "Wings Of Fury 2");  
-                    
-                 
-                    windowHeight = window.Height;
-                    windowWidth = window.Width;
-                    Resize += OgreForm_Resize;
-                    //window.SetVisible(false);
-                    return true;
-                }
-                else
-                {
-                    return false;
+                    d3dxSystem = renderSystem;
+                    break;
                 }
             }
-            else
+
+            root.RenderSystem = d3dxSystem;
+            
+     
+            string fullScreen = "Yes";
+            string videoMode = "800 x 600 @ 32-bit colour";
+
+            if (performanceTestFramework != null && performanceTestFramework.HasResults)
             {
-                RenderSystemList renderSystems = root.GetAvailableRenderers();
-                IEnumerator<RenderSystem> enumerator = renderSystems.GetEnumerator();
-
-                // jako stan startowy moze zostac wybrany tylko directx system
-                RenderSystem d3dxSystem = null;
-				
-                while (enumerator.MoveNext())
-                {
-                    RenderSystem renderSystem = enumerator.Current;
-                    if (renderSystem.Name.Contains("Direct"))
-                    {
-                        d3dxSystem = renderSystem;
-                        break;
-                    }
-                }
-
-                root.RenderSystem = d3dxSystem;
-
-                string fullScreen = "Yes";
-                string videoMode = "800 x 600 @ 32-bit colour";
-
-                d3dxSystem.SetConfigOption("Full Screen", fullScreen);
-                d3dxSystem.SetConfigOption("Video Mode", videoMode);
-                
-        
-              	
-                window = root.Initialise(true, "Wings Of Fury 2");
-
-                windowHeight = window.Height;
-                windowWidth = window.Width;
-                
-                Resize += new EventHandler(OgreForm_Resize);
-                root.SaveConfig();
-                return true;
-                /*if (root.ShowConfigDialog())
-                {
-                   
-                    // If returned true, user clicked OK so initialise
-                    // Here we choose to let the system create a default rendering window by passing 'true'
-                    window = root.Initialise(true, "Main game window");
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }*/
+                fullScreen = performanceTestFramework.FullScreen;
+                videoMode = performanceTestFramework.VideoMode;
             }
+            
+            d3dxSystem.SetConfigOption("Full Screen", fullScreen);
+            d3dxSystem.SetConfigOption("Video Mode", videoMode);
+           
+
+          
+            
+    
+          	
+            window = root.Initialise(true, "Wings Of Fury 2");
+           
+            windowHeight = window.Height;
+            windowWidth = window.Width;
+            
+            Resize += new EventHandler(OgreForm_Resize);
+            root.SaveConfig();
+            return true;
+           
         }
 
 
