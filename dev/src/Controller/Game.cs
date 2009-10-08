@@ -78,6 +78,7 @@ namespace Wof.Controller
         protected float time = 0;
 
         private static Game game;
+        private static PerformanceTestFramework performanceTest;
 
         private MenuScreen currentScreen;
 
@@ -190,9 +191,17 @@ namespace Wof.Controller
                         
                 }
             }
-            StartWOFApplication();
+            bool firstRun = true;
+            
+            if(firstRun)
+            {
+            	StartPerformanceTest();
+            } 
+            StartWOFApplication();	            
             SoundManager3D.Instance.Dispose();
-            if (getGame().afterExit != null) getGame().afterExit();
+	        if (getGame().afterExit != null) getGame().afterExit();
+            
+           
         }
 
         /// <summary>
@@ -237,6 +246,38 @@ namespace Wof.Controller
         {
             return Game.game;
         }
+        
+        /// <summary>
+        /// Uruchamia pierwsza instancje na tym komputerze
+        /// </summary>
+        private static void StartPerformanceTest()
+        {
+            try
+            {
+                performanceTest = new PerformanceTestFramework();
+                performanceTest.Go();
+                if(performanceTest.Window != null)
+                {
+                	if(performanceTest.Window.AverageFPS > 0)
+                	{
+                		
+                	}
+                }
+                
+                
+            }
+            catch (SEHException)
+            {
+                // Check if it's an Ogre Exception
+                if (OgreException.IsThrown)
+                    ShowOgreException();
+                else
+                    throw;
+            }
+                       
+        }
+        
+        
         /// <summary>
         /// Uruchamia pierwsza instancje na tym komputerze
         /// </summary>
