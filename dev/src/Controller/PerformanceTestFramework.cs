@@ -208,8 +208,9 @@ namespace Wof.Controller
             camera = sceneMgr.CreateCamera("mainCamera");
             camera.NearClipDistance = 1.0f;
 		}
-		
-		public override void CreateViewports()
+
+        
+        public override void CreateViewports()
         {
             // zwolnij zasoby
             if (viewport != null && CompositorManager.Singleton.HasCompositorChain(viewport)) CompositorManager.Singleton.RemoveCompositorChain(viewport);            
@@ -218,7 +219,7 @@ namespace Wof.Controller
             
 	    }
 		
-        protected override void HandleInput(FrameEvent evt)
+        protected override void OnUpdateModel(FrameEvent evt)
         {
           
         }
@@ -265,6 +266,12 @@ namespace Wof.Controller
 	           
             }
         }
+
+        public override void ModelFrameStarted(FrameEvent evt)
+        {
+            
+        }
+
         public override bool FrameStarted(FrameEvent evt)
         {
         	time += evt.timeSinceLastFrame;

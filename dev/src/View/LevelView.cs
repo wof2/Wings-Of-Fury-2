@@ -573,6 +573,7 @@ namespace Wof.View
         public void OnLoopEnemyPlaneEngineSound(EnemyPlane plane)
         {
             EnemyPlaneView pv = (EnemyPlaneView)FindPlaneView(plane);
+            if(pv == null) return; // byc moze w levelview jeszcze nie ma tego samolotu
             pv.LoopEngineSound();
         }
 
@@ -588,6 +589,7 @@ namespace Wof.View
         public void OnStopPlayingEnemyPlaneEngineSound(EnemyPlane plane)
         {
             EnemyPlaneView pv = (EnemyPlaneView)FindPlaneView(plane);
+            if (pv == null) return;
             pv.StopEngineSound();
         }
 
@@ -671,17 +673,21 @@ namespace Wof.View
         public void OnBunkerFire(BunkerTile bunker, Plane plane)
         {
             PlaneView p = FindPlaneView(plane);
+            if (p != null)
+            {
+                EffectsManager.Singleton.Sprite(
+                   sceneMgr,
+                   p.OuterNode,
+                   ViewHelper.RandomVector3(5),
+                   new Vector2(2, 2) + ViewHelper.UnsignedRandomVector2(5),
+                   EffectsManager.EffectType.EXPLOSION1,
+                   false,
+                   bunker.GetHashCode().ToString()
+                   );
 
-            EffectsManager.Singleton.Sprite(
-                sceneMgr,
-                p.OuterNode,
-                ViewHelper.RandomVector3(5),
-                new Vector2(2, 2) + ViewHelper.UnsignedRandomVector2(5),
-                EffectsManager.EffectType.EXPLOSION1,
-                false,
-                bunker.GetHashCode().ToString()
-                );
+            }
 
+           
 
             TileView t = FindTileView(bunker);
             if (t is EnemyInstallationTileView)
@@ -1165,6 +1171,7 @@ namespace Wof.View
         public void OnWarCry(Plane plane)
         {
             PlaneView p = FindPlaneView(plane);
+            if (p == null) return;
             if(p is EnemyPlaneView)
             {
                 (p as EnemyPlaneView).PlayWarcry();
@@ -1174,7 +1181,7 @@ namespace Wof.View
         public void OnPlanePass(Plane plane)
         {
             PlaneView p = FindPlaneView(plane);
-
+            if (p == null) return;
             if (p is PlayerPlaneView)
             {
                 (p as PlayerPlaneView).PlayPlanePass();
@@ -1184,6 +1191,7 @@ namespace Wof.View
         public void OnFireGun(Plane plane)
         {
             PlaneView p = FindPlaneView(plane);
+            if (p == null) return;
             Quaternion orient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y); 
             orient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
           //  orient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
@@ -2051,6 +2059,7 @@ namespace Wof.View
         public void OnToggleGear(Plane plane)
         {
             PlaneView p = FindPlaneView(plane);
+            if (p == null) return;
             p.AnimationMgr.switchToGearUpDown(false, null, controller.OnGearToggled);
             p.AnimationMgr.CurrentAnimation.onFinishInfo = plane;
         }
@@ -2117,7 +2126,9 @@ namespace Wof.View
 
         public void OnCatchPlane(Plane plane, EndAircraftCarrierTile carrierTile)
         {
-            carrierView.StartCatchingPlane(FindPlaneView(plane), carrierTile);
+            PlaneView p = FindPlaneView(plane);
+            if (p == null) return;
+            carrierView.StartCatchingPlane(p, carrierTile);
         }
 
         public void OnReleasePlane(Plane plane, EndAircraftCarrierTile carrierTile)

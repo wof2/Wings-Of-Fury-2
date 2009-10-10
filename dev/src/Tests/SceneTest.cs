@@ -46,11 +46,13 @@
  * 
  */
 
+using System;
 using System.Runtime.InteropServices;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
 using Wof.View.NodeAnimation;
+using Math=Mogre.Math;
 
 namespace Wof.Tests
 {
@@ -133,6 +135,8 @@ namespace Wof.Tests
             CreateMinimapCamera();
             CreateOverlayCamera();
         }
+
+        
 
         public override void CreateFrameListener()
         {
@@ -561,6 +565,11 @@ namespace Wof.Tests
         }
 
 
+        public override void ModelFrameStarted(FrameEvent evt)
+        {
+            
+        }
+
         /// <summary>
         /// Handler zdarzenia FrameStarted: animacja
         /// </summary>
@@ -653,7 +662,7 @@ namespace Wof.Tests
             if (window.IsClosed)
                 return false;
 
-            HandleInput(evt);
+            OnUpdateModel(evt);
 
             return !shutDown;
         }

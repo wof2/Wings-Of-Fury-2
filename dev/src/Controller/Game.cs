@@ -56,6 +56,7 @@ using System.Windows.Forms;
 using FSLOgreCS;
 using Microsoft.Win32;
 using Mogre;
+using MOIS;
 using Wof.Controller.Screens;
 using Wof.Model.Configuration;
 using Wof.View;
@@ -126,6 +127,13 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(false);
         }
 
+       
+
+        public void OnFrameStarted(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        {
+
+        }
+
         /// <summary>
         /// Handler zdarzenia FrameStarted: animacja
         /// </summary>
@@ -137,20 +145,30 @@ namespace Wof.Controller
         	evt.timeSinceLastFrame *= EngineConfig.CurrentGameSpeedMultiplier;
             time += evt.timeSinceLastFrame;
 
-           // Thread.Sleep(100); - do testow
+            if (currentScreen != null)
+            {
+                currentScreen.OnHandleViewUpdate(evt, inputMouse, inputKeyboard, inputJoystick);
+            }
+
             if (window.IsClosed)
                 return false;
        
-            HandleInput(evt);
+           
           
             return !shutDown;
         }
 
-        protected override void HandleInput(FrameEvent evt)
+        public override void ModelFrameStarted(FrameEvent evt)
+        {
+            evt.timeSinceLastFrame *= EngineConfig.CurrentGameSpeedMultiplier;
+            OnUpdateModel(evt);
+        }
+
+        protected override void OnUpdateModel(FrameEvent evt)
         {
             if (currentScreen != null)
             {
-                currentScreen.HandleInput(evt, inputMouse, inputKeyboard, inputJoystick);
+                currentScreen.OnUpdateModel(evt, inputMouse, inputKeyboard, inputJoystick);
             }
         }
 
