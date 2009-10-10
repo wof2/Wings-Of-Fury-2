@@ -49,8 +49,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 using FSLOgreCS;
@@ -69,6 +71,7 @@ using Keyboard = MOIS.Keyboard;
 using Math = Mogre.Math;
 using Mouse = MOIS.Mouse;
 using Plane = Wof.Model.Level.Planes.Plane;
+using Timer=Mogre.Timer;
 using Type = MOIS.Type;
 using Vector3 = Mogre.Vector3;
 
@@ -106,6 +109,7 @@ namespace Wof.Controller
             displayMinimap = enabled;
         }
 
+        private BackgroundWorker modelWorker = new BackgroundWorker();
 
         protected Root root;
         protected Camera camera, minimapCamera, minimapNoseCamera, overlayCamera;
@@ -213,10 +217,12 @@ namespace Wof.Controller
         {
             if (!Setup())
                 return;
-
+            modelWorker.WorkerSupportsCancellation = true;
+            modelWorker.RunWorkerAsync();
             root.StartRendering();
-
+            
             // clean up
+            modelWorker.CancelAsync();
 
             if (Game.getGame() != null && Game.getGame().CurrentScreen != null)
             {
@@ -597,9 +603,16 @@ namespace Wof.Controller
             CreateOverlayCamera();
         }
 
+       
+
+       
+       
+
         public virtual void CreateFrameListener()
         {
+            modelWorker.DoWork += LoopModelWorker;
             root.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
+          
             root.RenderSystem.EventOccurred +=
                 new RenderSystem.Listener.EventOccurredHandler(RenderSystem_EventOccurred);
             SoundManager3D.Instance.CreateFrameListener(root);
@@ -611,12 +624,36 @@ namespace Wof.Controller
                 window.WindowMovedOrResized();
         }
 
+       
+
+        public virtual void LoopModelWorker(object sender, EventArgs args)
+        {
+            int modelWorkerDelay = 20; // 20 ms
+            FrameEvent evt = new FrameEvent();
+            Timer timer =new Timer();
+            timer.Reset();
+            uint lastTime = timer.Milliseconds;
+            while(!modelWorker.CancellationPending)
+            {
+                evt.timeSinceLastFrame = (timer.Milliseconds - lastTime) / 1000.0f; // w sekundach
+                lastTime = timer.Milliseconds;
+                ModelFrameStarted(evt);
+                Thread.Sleep(modelWorkerDelay);
+            }
+        }
+
+
+
+        public virtual void ModelFrameStarted(FrameEvent evt)
+        {
+            OnUpdateModel(evt);
+        }
+
         public virtual bool FrameStarted(FrameEvent evt)
         {
             if (window.IsClosed)
                 return false;
 
-            HandleInput(evt);
 
             return !shutDown;
         }
@@ -751,7 +788,7 @@ namespace Wof.Controller
         }
 
 
-        protected virtual void HandleInput(FrameEvent evt)
+        protected virtual void OnUpdateModel(FrameEvent evt)
         {
           
            

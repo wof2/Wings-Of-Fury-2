@@ -745,7 +745,7 @@ namespace Wof.Model.Level
         /// Funkcja zostanie wywolana jesli widkok zakonczyl procedure
         /// usmiercania jednego zolnierza.
         /// </summary>
-        public void OnSoldierEndDeath()
+        public void OnCheckVictoryConditions()
         {
         	
         

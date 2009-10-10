@@ -60,6 +60,8 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
     {  
         #region Private Fields
 
+        private float sinkingTime;
+
         /// <summary>
         /// Zmienna informujaca czy na dane pole moze wejsc zolnierz.
         /// Jesli zmienna jest ustawiona na true, to zolnierz moze wejsc;
@@ -145,6 +147,11 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             get { return (_shipManager.State == ShipState.Destroyed); }
         }
 
+        public float SinkingTime
+        {
+            get { return sinkingTime; }
+        }
+
         public virtual void Destroy()
         {
             StartSinking();
@@ -155,8 +162,8 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         public override float Sink(float time, float timeUnit)
         {
             float amount = base.Sink(time, timeUnit);
-           
-            
+
+            sinkingTime = SinkingTime + time;
             attractorForce.X = 0;
             attractorForce.Y = -amount;
             

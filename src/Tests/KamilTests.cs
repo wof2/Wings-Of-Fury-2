@@ -46,6 +46,7 @@
  * 
  */
 
+using System;
 using System.Runtime.InteropServices;
 using Mogre;
 using Wof.Controller;
@@ -54,6 +55,7 @@ using Wof.Model.Level.Common;
 using Wof.Model.Level.Infantry;
 using Wof.Model.Level.Weapon;
 using Wof.View;
+using Math=Mogre.Math;
 
 namespace Wof.Tests
 {
@@ -97,6 +99,7 @@ namespace Wof.Tests
                 }
             }
 
+         
             public override void CreateScene()
             {
                 lvl = new Level("levels/test-level.xml", null);
@@ -138,6 +141,11 @@ namespace Wof.Tests
                 //lvlView.OnRegisterSoldier(soldier);// , lvl.LevelTiles[112]);
             }
 
+            public override void ModelFrameStarted(FrameEvent evt)
+            {
+                
+            }
+
             public override bool FrameStarted(FrameEvent evt)
             {
                 if (window.IsClosed)
@@ -150,7 +158,7 @@ namespace Wof.Tests
                     //lvlView.OnAmmunitionExplode(lvl.LevelTiles[136], rock);
                 }
 
-                HandleInput(evt);
+                OnUpdateModel(evt);
 
                 return !shutDown;
             }

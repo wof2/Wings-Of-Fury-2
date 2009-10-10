@@ -116,6 +116,9 @@ namespace Wof.Controller.Screens
         {
            this.fontSize = fontSize;
         }
+
+       
+
         public uint GetFontSize()
         {
             return fontSize;   
@@ -558,30 +561,7 @@ namespace Wof.Controller.Screens
         {
         }
 
-        public virtual void FrameStarted(FrameEvent evt)
-        {
-            if (EngineConfig.UseHydrax)
-            {
-                HydraxManager.Singleton.Update(evt);
-       //       HydraxManager.Singleton.TranslateSurface(new Vector3(0, 0, -20.0f * evt.timeSinceLastFrame));
-                
-            }
-            EffectsManager.Singleton.UpdateTimeAndAnimateAll(evt.timeSinceLastFrame);
-            
-            foreach(SceneNode cloud in cloudNodes)
-            {
-            	if(cloud.Position.z < -2000)
-            	{            		
-            		cloud.SetPosition(cloud.Position.x, cloud.Position.y, 500);
-            	}
-            	cloud.SetPosition(cloud.Position.x, cloud.Position.y, cloud.Position.z - evt.timeSinceLastFrame * 60.0f * Mogre.Math.RangeRandom(0.8f, 1.2f));
-            
-            	
-            }
-
-        }
-        
-        public void HandleInput(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
             screenTime += evt.timeSinceLastFrame;
             if (initialized)
@@ -604,16 +584,16 @@ namespace Wof.Controller.Screens
                         p.AnimationMgr.animateAll();
                     }
                 }
-                
+
 
                 inputMouse.Capture();
                 inputKeyboard.Capture();
                 if (inputJoystick != null) inputJoystick.Capture();
-                             
+
                 receiveKeys(inputKeyboard, inputJoystick);
 
-              
-                
+
+
 
                 if (inputMouse.MouseState.ButtonDown(MouseButtonID.MB_Left))
                 {
@@ -820,7 +800,7 @@ namespace Wof.Controller.Screens
                         mGui.injectKey("z", screenx, screeny);
                         KeyReceived("z");
                     }
-                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape))) 
+                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)))
                     {
                         KeyReceived("ESC");
                         if (tryToPressBackButton()) return;
@@ -831,7 +811,7 @@ namespace Wof.Controller.Screens
                     }
 
 
-                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter))) 
+                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter)))
                     {
                         KeyReceived("ENTER");
                         wasEnterKeyPressed = true;
@@ -857,11 +837,12 @@ namespace Wof.Controller.Screens
                             mGui.injectKey("up", screenx, screeny);
                             KeyReceived("UP");
                             wasUpKeyPressed = true;
-                        }else
-                        {
-                            wasUpKeyPressed = false;   
                         }
-                       
+                        else
+                        {
+                            wasUpKeyPressed = false;
+                        }
+
                     }
 
                     if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down))
@@ -883,23 +864,23 @@ namespace Wof.Controller.Screens
                         {
                             wasDownKeyPressed = false;
                         }
-                        
+
                     }
 
-                   
+
                     int id = -1;
-                   
+
                     if (mouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
                     {
-                       wasLeftMousePressed = true;
+                        wasLeftMousePressed = true;
                     }
                     else if (wasLeftMousePressed)
                     {
-                       // w poprzedniej klatce uzytkownik
-                       // trzymal wcisniety przycisk myszki
-                       // a teraz go zwolnil
-                       id = mGui.injectMouse(screenx, screeny, true);
-                       wasLeftMousePressed = false;
+                        // w poprzedniej klatce uzytkownik
+                        // trzymal wcisniety przycisk myszki
+                        // a teraz go zwolnil
+                        id = mGui.injectMouse(screenx, screeny, true);
+                        wasLeftMousePressed = false;
                     }
                     else
                     {
@@ -913,7 +894,8 @@ namespace Wof.Controller.Screens
                         else if (wasUpKeyPressed)
                         {
                             tryToChangeSelectedButton(currentButton - 1);
-                        } else if(id!= -1)
+                        }
+                        else if (id != -1)
                         {
                             selectButton(id, true); currentButton = id;
                         }
@@ -922,6 +904,36 @@ namespace Wof.Controller.Screens
             }
 
             wereAllKeysReleased = areAllKeysReleased(inputKeyboard, inputJoystick);
+        }
+
+
+        public virtual void FrameStarted(FrameEvent evt)
+        {
+            if (EngineConfig.UseHydrax)
+            {
+                HydraxManager.Singleton.Update(evt);
+       //       HydraxManager.Singleton.TranslateSurface(new Vector3(0, 0, -20.0f * evt.timeSinceLastFrame));
+                
+            }
+            EffectsManager.Singleton.UpdateTimeAndAnimateAll(evt.timeSinceLastFrame);
+            
+            foreach(SceneNode cloud in cloudNodes)
+            {
+            	if(cloud.Position.z < -2000)
+            	{            		
+            		cloud.SetPosition(cloud.Position.x, cloud.Position.y, 500);
+            	}
+            	cloud.SetPosition(cloud.Position.x, cloud.Position.y, cloud.Position.z - evt.timeSinceLastFrame * 60.0f * Mogre.Math.RangeRandom(0.8f, 1.2f));
+            
+            	
+            }
+
+        }
+        
+        public void OnUpdateModel(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        {
+
+          
         }
 
         private void receiveKeys(Keyboard inputKeyboard, JoyStick joystick)
