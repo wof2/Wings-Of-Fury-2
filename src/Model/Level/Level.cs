@@ -680,7 +680,10 @@ namespace Wof.Model.Level
             if (userPlane.LocationState == LocationState.AircraftCarrier)
             {
                 if (userPlane.CanChangeAmmunition)
+                {
                     controller.OnChangeAmmunition();
+                }
+                    
             }
 
             switch (userPlane.Weapon.SelectWeapon)

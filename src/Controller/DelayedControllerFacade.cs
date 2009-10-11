@@ -59,13 +59,22 @@ namespace Wof.Controller
         {
             lock (this)
             {
-                foreach (KeyValuePair<int, KeyValuePair<String, object[]>> job in jobs)
+                try
                 {
-                    KeyValuePair<String, object[]> jobInfo = job.Value;
-                    controller.GetType().GetMethod(jobInfo.Key).Invoke(controller, jobInfo.Value);
+                    foreach (KeyValuePair<int, KeyValuePair<String, object[]>> job in jobs)
+                    {
+                        KeyValuePair<String, object[]> jobInfo = job.Value;
+                        controller.GetType().GetMethod(jobInfo.Key).Invoke(controller, jobInfo.Value);
+                    }
+                    jobs.Clear();
+                    lastId = 0;
                 }
-                jobs.Clear();
-                lastId = 0;
+                catch (Exception ex)
+                {
+
+                    ex.ToString();
+                }
+                
             }
         }
 
@@ -413,7 +422,7 @@ namespace Wof.Controller
         /// <param name="carrierTile"></param>
         public void OnCatchPlane(Plane plane, EndAircraftCarrierTile carrierTile)
         {
-            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { carrierTile });
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { plane, carrierTile });
         }
 
         /// <summary>
