@@ -628,7 +628,7 @@ namespace Wof.Controller
 
         public virtual void LoopModelWorker(object sender, EventArgs args)
         {
-            int modelWorkerDelay = 20; // 20 ms
+            int modelWorkerDelay = 10; // 20 ms
             FrameEvent evt = new FrameEvent();
             Timer timer =new Timer();
             timer.Reset();

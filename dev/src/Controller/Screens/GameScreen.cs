@@ -782,12 +782,14 @@ namespace Wof.Controller.Screens
                             {
                                 currentLevel.OnFireSecondaryWeapon();
                             }
-
+                            
+                            isStillFireGun = false;
                             // strzal z dzialka
                             if (inputKeyboard.IsKeyDown(KeyMap.Instance.GunFire) ||
                                 FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickGun))
                             {
                                 currentLevel.OnFireGun();
+                                isStillFireGun = true;
                             }
 
                             // obrót z 'pleców na brzuch' samolotu
@@ -1157,15 +1159,15 @@ namespace Wof.Controller.Screens
                 if (!loading && loadingOverlay == null)
                 {
 
-                    inputMouse.Capture();
-                    inputKeyboard.Capture();
-                    if (inputJoystick != null) inputJoystick.Capture();
+                   // inputMouse.Capture();
+                   // inputKeyboard.Capture();
+                  //  if (inputJoystick != null) inputJoystick.Capture();
                     Vector2 joyVector = FrameWork.GetJoystickVector(inputJoystick);
 
                     UpdateMenusGui(inputMouse, inputKeyboard, inputJoystick);
 
 
-                    isStillFireGun = false;
+                   
                     if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)) && Button.CanChangeSelectedButton(3.5f) &&
                        !changingAmmo)
                     {
@@ -1910,35 +1912,44 @@ namespace Wof.Controller.Screens
 
         private void DisplayChangeAmmoScreen()
         {
-            mGui = new GUI(FontManager.CurrentFont, (uint)(fontSize * 1.05f));
-            mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
-          //  mGui.injectMouse(0, 0, false);
-            guiWindow = mGui.createWindow(new Vector4(0,
-                                                      0, viewport.ActualWidth, viewport.ActualHeight),
-                                          "bgui.window", (int) wt.NONE,
-                                          LanguageResources.GetString(LanguageKey.SelectAmmunition));
-            Callback cc = new Callback(this);
-            bombsButton = guiWindow.createButton(new Vector4(viewport.ActualWidth/4,
-                                                             viewport.ActualHeight / 4 + 2*GetTextVSpacing(),
-                                                             viewport.ActualWidth / 2, GetTextVSpacing()),
-                                                 "bgui.button",
-                                                 LanguageResources.GetString(LanguageKey.Bombs), cc);
-            bombsButton.activate(true);
-            rocketsButton = guiWindow.createButton(new Vector4(viewport.ActualWidth/4,
-                                                               viewport.ActualHeight / 4 + 3 * GetTextVSpacing(),
-                                                               viewport.ActualWidth / 2, GetTextVSpacing()),
-                                                   "bgui.button",
-                                                   LanguageResources.GetString(LanguageKey.Rockets), cc);
+            try
+            {
+                mGui = new GUI(FontManager.CurrentFont, (uint)(fontSize * 1.05f));
+                mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
+                //  mGui.injectMouse(0, 0, false);
+                guiWindow = mGui.createWindow(new Vector4(0,
+                                                          0, viewport.ActualWidth, viewport.ActualHeight),
+                                              "bgui.window", (int)wt.NONE,
+                                              LanguageResources.GetString(LanguageKey.SelectAmmunition));
+                Callback cc = new Callback(this);
+                bombsButton = guiWindow.createButton(new Vector4(viewport.ActualWidth / 4,
+                                                                 viewport.ActualHeight / 4 + 2 * GetTextVSpacing(),
+                                                                 viewport.ActualWidth / 2, GetTextVSpacing()),
+                                                     "bgui.button",
+                                                     LanguageResources.GetString(LanguageKey.Bombs), cc);
+                bombsButton.activate(true);
+                rocketsButton = guiWindow.createButton(new Vector4(viewport.ActualWidth / 4,
+                                                                   viewport.ActualHeight / 4 + 3 * GetTextVSpacing(),
+                                                                   viewport.ActualWidth / 2, GetTextVSpacing()),
+                                                       "bgui.button",
+                                                       LanguageResources.GetString(LanguageKey.Rockets), cc);
 
 
-            torpedoesButton = guiWindow.createButton(new Vector4(viewport.ActualWidth / 4,
-                                                               viewport.ActualHeight / 4 + 4 * GetTextVSpacing(),
-                                                               viewport.ActualWidth / 2, GetTextVSpacing()),
-                                                   "bgui.button",
-                                                   LanguageResources.GetString(LanguageKey.Torpedoes), cc);
+                torpedoesButton = guiWindow.createButton(new Vector4(viewport.ActualWidth / 4,
+                                                                   viewport.ActualHeight / 4 + 4 * GetTextVSpacing(),
+                                                                   viewport.ActualWidth / 2, GetTextVSpacing()),
+                                                       "bgui.button",
+                                                       LanguageResources.GetString(LanguageKey.Torpedoes), cc);
 
-            
-            guiWindow.show();
+
+                guiWindow.show();
+            }
+            catch (Exception ex)
+            {
+                
+                throw ex;
+            }
+       
         }
 
         private void ClearRestoreAmmunitionScreen()
@@ -2350,8 +2361,6 @@ namespace Wof.Controller.Screens
 
         public void OnFireGun(Plane plane)
         {
-            isStillFireGun = true;
-
             if (Environment.TickCount - lastFireTick >= Gun.FireInterval)
             {
                 levelView.OnFireGun(plane);
@@ -2439,13 +2448,19 @@ namespace Wof.Controller.Screens
           
             if (!readyForLevelEnd)
             {
-                
-                changingAmmo = true;
-                SoundManager.Instance.HaltEngineSound();
-                SoundManager.Instance.HaltOceanSound();
-                levelView.OnStartHangaring(-1, true);
 
-                DisplayChangeAmmoScreen();
+                if(!changingAmmo)
+                {
+                    DisplayChangeAmmoScreen();
+                   
+                    SoundManager.Instance.HaltEngineSound();
+                    SoundManager.Instance.HaltOceanSound();
+                    levelView.OnStartHangaring(-1, true);
+                    changingAmmo = true;
+                }
+               
+
+                
 
 
 
