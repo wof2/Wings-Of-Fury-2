@@ -1011,17 +1011,17 @@ namespace Wof.View.Effects
             if(!MaterialManager.Singleton.ResourceExists(material+name))
             {
             	mat = ViewHelper.CloneMaterial(material, material+name);
-            	if(EngineConfig.UseHydrax) 
-	            {
-	            	HydraxManager.Singleton.AddHydraxDepthTechnique(material+name); // chmury nie powinny przeswitywac spod wody
-	            }
+            	
             	
             } else
             {
             	mat = MaterialManager.Singleton.GetByName(material+name);
             }
-            
-            
+
+            if (EngineConfig.UseHydrax)
+            {
+                HydraxManager.Singleton.AddHydraxDepthTechnique(material + name); // chmury nie powinny przeswitywac spod wody
+            }
             
            
             
