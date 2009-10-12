@@ -496,10 +496,9 @@ namespace Wof.Controller
             // Get the SceneManager, in this case a generic one
             sceneMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "SceneMgr");
 
-
             if (EngineConfig.ShadowsQuality > 0)
-            {
-            	sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE;            
+            {            	
+            	sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE; 
             	FocusedShadowCameraSetup cam = new FocusedShadowCameraSetup();                       	
             	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(cam));
             	
@@ -519,28 +518,21 @@ namespace Wof.Controller
 				switch(EngineConfig.ShadowsQuality)
 				{
 					case EngineConfig.ShadowsQualityTypes.Low:
-						 sceneMgr.SetShadowTextureSettings(512, 2);
+						 sceneMgr.SetShadowTextureSettings(512, 1);
 						 sceneMgr.ShadowFarDistance *= 0.8f;
 					break;
 					
 					case EngineConfig.ShadowsQualityTypes.Medium:
-						 sceneMgr.SetShadowTextureSettings(1024, 2);
+						 sceneMgr.SetShadowTextureSettings(1024, 1);
 					break;
 					
 					case EngineConfig.ShadowsQualityTypes.High:
-						 sceneMgr.SetShadowTextureSettings(2048, 2);
+						 sceneMgr.SetShadowTextureSettings(1024, 1);
 						 sceneMgr.ShadowFarDistance *= 1.3f;
 					break;					
 						
-				}
-			   
-			  //  sceneMgr.SetShadowTexturePixelFormat(PixelFormat.PF_FLOAT32_R);
-			 
-			    sceneMgr.ShadowCasterRenderBackFaces = true;
-			    sceneMgr.ShadowDirLightTextureOffset =0.9f;
-			    sceneMgr.ShadowDirectionalLightExtrusionDistance = 1000;
-			//    sceneMgr.SetShadowTextureFadeEnd(0.5f);
-			//	sceneMgr.SetShadowUseInfiniteFarPlane(true);
+				}				
+				
             }
 
 
@@ -628,17 +620,27 @@ namespace Wof.Controller
 
         public virtual void LoopModelWorker(object sender, EventArgs args)
         {
-            int modelWorkerDelay = 10; // 20 ms
+            int frameTime = 20; // 20 ms -> 50 fps
+            
             FrameEvent evt = new FrameEvent();
             Timer timer =new Timer();
-            timer.Reset();
-            uint lastTime = timer.Milliseconds;
+            timer.Reset();          
+            uint start, end;
+            start = timer.Milliseconds;
+             
             while(!modelWorker.CancellationPending)
-            {
-                evt.timeSinceLastFrame = (timer.Milliseconds - lastTime) / 1000.0f; // w sekundach
-                lastTime = timer.Milliseconds;
+            {            	
+                evt.timeSinceLastFrame = (timer.Milliseconds - start) / 1000.0f; // w sekundach                       
+                start = timer.Milliseconds;
                 ModelFrameStarted(evt);
-                Thread.Sleep(modelWorkerDelay);
+                end = timer.Milliseconds;  
+                
+                int duration = (int)(end - start);
+                
+                int sleepTime = frameTime - duration;
+                if(sleepTime <0) sleepTime = 1;
+                
+                Thread.Sleep(sleepTime);
             }
         }
 

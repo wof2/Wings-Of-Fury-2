@@ -688,9 +688,9 @@ namespace Wof.Controller.Screens
         
             if (!loading && loadingOverlay == null)
             {
-                inputMouse.Capture();
-                inputKeyboard.Capture();
-                if(inputJoystick != null) inputJoystick.Capture();
+               // inputMouse.Capture();
+                //inputKeyboard.Capture();
+                //if(inputJoystick != null) inputJoystick.Capture();
                 Vector2 joyVector = FrameWork.GetJoystickVector(inputJoystick);
 
                
@@ -788,8 +788,11 @@ namespace Wof.Controller.Screens
                             if (inputKeyboard.IsKeyDown(KeyMap.Instance.GunFire) ||
                                 FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickGun))
                             {
-                                currentLevel.OnFireGun();
-                                isStillFireGun = true;
+                            	if(currentLevel.OnFireGun())
+                            	{
+                            		isStillFireGun = true;
+                            	}
+                                
                             }
 
                             // obrót z 'pleców na brzuch' samolotu
@@ -1159,9 +1162,9 @@ namespace Wof.Controller.Screens
                 if (!loading && loadingOverlay == null)
                 {
 
-                   // inputMouse.Capture();
-                   // inputKeyboard.Capture();
-                  //  if (inputJoystick != null) inputJoystick.Capture();
+                    inputMouse.Capture();
+                    inputKeyboard.Capture();
+                    if (inputJoystick != null) inputJoystick.Capture();
                     Vector2 joyVector = FrameWork.GetJoystickVector(inputJoystick);
 
                     UpdateMenusGui(inputMouse, inputKeyboard, inputJoystick);

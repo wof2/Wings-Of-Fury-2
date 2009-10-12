@@ -72,7 +72,7 @@ namespace Wof.Controller
                 vpv = 0;
             }
 
-            if(fps < 100)
+            if(fps < 50)
             {
                 // very low
                 quality= GraphicsQuality.VeryLow;

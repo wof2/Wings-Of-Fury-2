@@ -733,13 +733,15 @@ namespace Wof.Model.Level
         /// za otwarcie ognia z dzialka.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public void OnFireGun()
+        public bool OnFireGun()
         {
             if (userPlane.LocationState == LocationState.Air &&
                 userPlane.PlaneState != PlaneState.Destroyed && userPlane.PlaneState != PlaneState.Crashed)
             {
                 userPlane.Weapon.Fire(userPlane.RelativeAngle, WeaponType.Gun);
+                return true;
             }
+        	return false;
         }
         
         
