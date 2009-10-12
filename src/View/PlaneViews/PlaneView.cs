@@ -429,6 +429,7 @@ namespace Wof.View
             //Modelowy plane jest null'em dla samolocikow reprezentujacych zycia
             if (plane != null)
             {
+            	
                 Vector2 v = UnitConverter.LogicToWorldUnits(plane.Center);
                 planeNode.SetPosition(v.x, v.y, 0.0f);
                 if (!plane.IsChangingDirection)
@@ -441,11 +442,21 @@ namespace Wof.View
                     {
                         InnerSteeringNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
                     }
-
+                    
+					
                     InnerSteeringNode.Orientation *= new Quaternion((float)plane.RelativeAngle, Vector3.UNIT_X);
 
                     if (Plane.Spinned)
                         InnerSteeringNode.Orientation *= new Quaternion((float)Math.PI, Vector3.UNIT_Z);
+                    
+                    if(!plane.IsEnemy)
+                    { 
+                    	//LogManager.Singleton.LogMessage("REFRESH outerNode: " + outerNode.Orientation.w +" "+ outerNode.Orientation.x +" "+ outerNode.Orientation.y +" "+ outerNode.Orientation.z, LogMessageLevel.LML_CRITICAL);
+	      				//LogManager.Singleton.LogMessage("REFRESH InnerSteeringNode: " + InnerSteeringNode.Orientation.w +" "+ InnerSteeringNode.Orientation.x +" "+ InnerSteeringNode.Orientation.y +" "+ InnerSteeringNode.Orientation.z, LogMessageLevel.LML_CRITICAL);
+	      				//LogManager.Singleton.LogMessage("plane.RelativeAngle " + plane.RelativeAngle, LogMessageLevel.LML_CRITICAL);
+                    	
+                    }
+                   
                 }
                 // refresh minimap
                 if (minimapItem != null)
