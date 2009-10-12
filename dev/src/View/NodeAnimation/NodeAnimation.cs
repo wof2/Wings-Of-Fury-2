@@ -194,11 +194,13 @@ namespace Wof.View.NodeAnimation
         {
             if (enabled)
             {
-                if (this.timeSinceLastFrame == -1 && onStart != null)
-                {
-                    //Console.WriteLine("Levelview: "+onStart.ToString());
-                    onStart(onStartInfo);
-                }
+            	if (this.timeSinceLastFrame == -1)
+            	{
+            		if (onStart != null)
+	                {	                   
+	                    onStart(onStartInfo);
+	                }
+            	}                
                 this.timeSinceLastFrame = timeSinceLastFrame;
             }
         }

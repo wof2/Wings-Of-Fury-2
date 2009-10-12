@@ -1520,6 +1520,11 @@ namespace Wof.Model.Level.Planes
         {
             Bounds.Rotate(angle);
             movementVector.Rotate(new PointD(0, 0), angle);
+            if(locationState == LocationState.AirTurningRound)
+            {
+            	turningVector.Rotate(new PointD(0, 0), angle);
+            }
+            
         }
 
         /// <summary>
@@ -1590,8 +1595,9 @@ namespace Wof.Model.Level.Planes
                 {
                     turningTimeLeft -= time;
                     if (!(Speed >= minFlyingSpeed && movementVector.SignX != turningVector.SignX))
-                    {
+                    {                    	
                         movementVector = -Math.Cos(turningTimeLeft / turningTime * Math.PI) * turningVector;
+                        
                     }
                 }
             }
@@ -1624,14 +1630,23 @@ namespace Wof.Model.Level.Planes
                     else         sin *=  sin*30;
 
                     float liftVectorY = 0.7f*(1 - sin);
-                    bounds.Move(0, liftVectorY*scaleFactor);
+                   
+                   // bounds.Move(0, liftVectorY*scaleFactor);
 
                     //Grawitacja
-                    bounds.Move(0, (-1.0f)*scaleFactor);
+                   // bounds.Move(0, (-1.0f)*scaleFactor);
+                   
                 }
 
+                  
                 bounds.Move(scaleFactor * movementVector); 
-                UpdatePlaneAngle(scaleFactor);
+                    
+                //if(locationState != LocationState.AirTurningRound)
+                {
+                	UpdatePlaneAngle(scaleFactor);
+                }
+                	
+                
             }
             else if (isLanding) //schodzenie do l¹dowania
             {

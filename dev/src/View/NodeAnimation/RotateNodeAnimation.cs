@@ -88,10 +88,28 @@ namespace Wof.View.NodeAnimation
         {
             this.maxAngle = maxAngle;
             this.axis = axis;
+            
+           
             initialOrientation =
                 new Quaternion(node.Orientation.w, node.Orientation.x, node.Orientation.y, node.Orientation.z);
+                  }
+        
+ 		public override void updateTime(float timeSinceLastFrame)
+        {
+ 			if (enabled)
+            {
+ 				// za kazdym razem pobierz aktualna orientacje
+            	if (this.timeSinceLastFrame == -1)
+            	{            
+            		 initialOrientation =
+                		new Quaternion(node.Orientation.w, node.Orientation.x, node.Orientation.y, node.Orientation.z);
+            	}                
+               
+            }
+ 			base.updateTime(timeSinceLastFrame);
+ 			
+            
         }
-
 
         public override void animate()
         {
@@ -105,7 +123,8 @@ namespace Wof.View.NodeAnimation
             {
                 // if frame init finished the animation
                 if (returnToInitialOrientation && initialOrientation != null)
-                {
+                {            	
+                	
                     node.Orientation = initialOrientation;
                 }
             }
