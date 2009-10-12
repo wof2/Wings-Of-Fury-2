@@ -315,7 +315,7 @@ namespace Wof.Controller.Screens
 
 
             hiscoreCache = -1;
-            loading = true;
+            //loading = true;
             wasLeftMousePressed = false;
 
             indicatorControl = new IndicatorControl(framework.OverlayViewport, framework.MinimapViewport, this);
@@ -598,8 +598,9 @@ namespace Wof.Controller.Screens
 
             Console.WriteLine("Starting loading thread...");
             // start loading
-            loaderThread = new Thread(StartLoading);
-            loaderThread.Start();
+            //loaderThread = new Thread(StartLoading);
+            //loaderThread.Start();
+            
         }
 
     
@@ -1120,7 +1121,13 @@ namespace Wof.Controller.Screens
        
         public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
-
+        	
+        	if(levelView == null)
+        	{
+        		StartLoading();
+        	}
+			
+			
             lock (loadingLock)
             {
                 if (nextFrameGotoNextLevel)
