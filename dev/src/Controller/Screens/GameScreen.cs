@@ -676,6 +676,7 @@ namespace Wof.Controller.Screens
 
         public void OnUpdateModel(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
+        	if(levelView == null || currentLevel == null) return; // moze sie zdarzyc kiedy level nie jest jeszcze zaladowany
           
             if(nextFrameGotoNextLevel) return;
 
