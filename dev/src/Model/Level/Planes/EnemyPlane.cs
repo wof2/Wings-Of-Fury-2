@@ -259,7 +259,7 @@ namespace Wof.Model.Level.Planes
 
             if (planeState == PlaneState.Destroyed) //jeœli zniszczony to tylko spada
             {
-                FallDown(time, timeUnit);
+                FallDown(time, timeUnit, GlideType.destroyed);
             }
             else
             {
@@ -294,7 +294,7 @@ namespace Wof.Model.Level.Planes
                 }
                 if (locationState == LocationState.Air && planeState != PlaneState.Crashed &&
                     motorState == EngineState.SwitchedOff)
-                    FallDown(time, timeUnit);
+                    FallDown(time, timeUnit, GlideType.glider);
 
                 //atak samolotu gracza
                 if (ShouldBeChasingUserPlane)

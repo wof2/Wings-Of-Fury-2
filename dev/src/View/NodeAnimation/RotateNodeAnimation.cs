@@ -98,12 +98,12 @@ namespace Wof.View.NodeAnimation
         {
  			if (enabled)
             {
- 				// za kazdym razem pobierz aktualna orientacje
-            	if (this.timeSinceLastFrame == -1)
-            	{            
-            		 initialOrientation =
-                		new Quaternion(node.Orientation.w, node.Orientation.x, node.Orientation.y, node.Orientation.z);
-            	}                
+ 				// za kazdym razem pobierz aktualna orientacje - jakos rozwala SPIN :/
+            	//if (this.timeSinceLastFrame == -1)
+            	//{            
+            		 //initialOrientation =
+                	//	new Quaternion(node.Orientation.w, node.Orientation.x, node.Orientation.y, node.Orientation.z);
+            	//}                
                
             }
  			base.updateTime(timeSinceLastFrame);

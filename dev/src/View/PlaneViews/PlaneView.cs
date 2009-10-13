@@ -432,7 +432,7 @@ namespace Wof.View
             	
                 Vector2 v = UnitConverter.LogicToWorldUnits(plane.Center);
                 planeNode.SetPosition(v.x, v.y, 0.0f);
-                if (!plane.IsChangingDirection)
+               // if (!plane.IsChangingDirection)
                 {
                     if (plane.Direction == Direction.Right)// && !Plane.spinned)
                     {

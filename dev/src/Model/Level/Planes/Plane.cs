@@ -282,8 +282,9 @@ namespace Wof.Model.Level.Planes
 
         /// OKreœla ile meterów przed maxHeight samolot zaczyna sie prostowac.
         /// </summary>
-        private const float maxHeightTurningRange = 0.85f;
+        private const float maxHeightTurningRange = 0.80f;
 
+        
         /// <summary>
         /// Okreœla ile tail przed koñcem mapy samolot zaczyna zawracac.
         /// </summary>
@@ -969,6 +970,23 @@ namespace Wof.Model.Level.Planes
         }
 
         /// <summary>
+        /// Sprawdza czy samolot mo¿e rozpocz¹æ zawracanie
+        /// </summary>
+        public bool CanTurnAround
+        {
+            get
+            {
+                // nie mozna zawracac na duzej wysokosci w taki sposob ze samolot zakonczylby zawrotke dziobem do gory
+                if (Bounds.Center.Y > GameConsts.UserPlane.MaxHeight * 0.8f * maxHeightTurningRange && ClimbingAngle < 0)
+                {
+                    return false;
+                }
+                return System.Math.Abs(Angle) < maxTurningAngle; // czy nie mamy za du¿ego k¹ta?
+
+            }
+        }
+
+        /// <summary>
         /// Sprawdza czy samolot mo¿e rozpocz¹æ spin
         /// </summary>
         /// <author>Adam,Kamil</author>
@@ -1565,9 +1583,6 @@ namespace Wof.Model.Level.Planes
                 return;
             }
             
-          
-            
-
             ProcessInput(time, timeUnit);
     
             //odjêcie benzyny i ewentualnie oleju
@@ -1581,30 +1596,32 @@ namespace Wof.Model.Level.Planes
                 oil -= scaleFactor*GameConsts.UserPlane.OilLoss;
             oil = System.Math.Max(oil, 0);
 
+            // koniec paliwa
             if (!GameConsts.UserPlane.GodMode && planeState != PlaneState.Destroyed &&
                 planeState != PlaneState.Crashed)
             {
                 if (petrol == 0 || oil == 0)
                     OutOfPetrolOrOil(scaleFactor);
             }
+
             if (motorState == EngineState.Working)
             {
-                //zmiana wektora ruchu przy zawracaniu
+                
+                //zmiana wektora ruchu przy zawracaniu (TURN)
                 if (planeState != PlaneState.Destroyed && locationState == LocationState.AirTurningRound &&
                     isChangingDirection)
                 {
                     turningTimeLeft -= time;
                     if (!(Speed >= minFlyingSpeed && movementVector.SignX != turningVector.SignX))
-                    {                    	
+                    { 
                         movementVector = -Math.Cos(turningTimeLeft / turningTime * Math.PI) * turningVector;
-                        
                     }
                 }
             }
 
             //czy ma w³¹czony silnik, jeœli nie to obrót samolotu, tak ¿eby spada³
             if (!IsOnAircraftCarrier && planeState != PlaneState.Crashed && motorState == EngineState.SwitchedOff)
-                FallDown(time, timeUnit);
+                FallDown(time, timeUnit, GlideType.glider);
 
             if (IsEngineWorking)
                 airscrewSpeed = minAirscrewSpeed + (int) Math.Abs((int) (15f*movementVector.X));
@@ -1626,15 +1643,15 @@ namespace Wof.Model.Level.Planes
                 {
                     float sin = Math.Sin(RelativeAngle);
 
-                    if (sin > 0) sin *= -sin*17;
-                    else         sin *=  sin*30;
+                    if (sin > 0) sin *= -sin*17; // si³a unosz¹ca
+                    else         sin *=  sin*26; // si³a sci¹gaj¹ca 
 
                     float liftVectorY = 0.7f*(1 - sin);
                    
-                   // bounds.Move(0, liftVectorY*scaleFactor);
+                    bounds.Move(0, liftVectorY*scaleFactor);
 
                     //Grawitacja
-                   // bounds.Move(0, (-1.0f)*scaleFactor);
+                    bounds.Move(0, (-1.0f)*scaleFactor);
                    
                 }
 
@@ -1736,13 +1753,15 @@ namespace Wof.Model.Level.Planes
                             addSpeedToMax(addSpeed, maxWheelOutSpeed);
                     }
                     else //kierunek przeciwny do kierunku lotu
-                        if (System.Math.Abs(Angle) < maxTurningAngle) //sprawdzam czy mo¿e zawróciæ
+                        if (CanTurnAround) //sprawdzam czy mo¿e zawróciæ
                         {
                             TurnRound(direction, TurnType.Airborne);
                         }
                     break;
             }
         }
+
+      
 
         /// <summary>
         /// Powoduje rozpoczêcie obrotu samolotu (z 'pleców' na 'brzuch').
@@ -1751,7 +1770,7 @@ namespace Wof.Model.Level.Planes
         {
             if (planeState != PlaneState.Crashed)
             {
-              //  rotateValue = 0; //hamujê zmianê k¹ta
+                // rotateValue = 0; //hamujê zmianê k¹ta - test
                 //isChangingDirection = true;
                 //isBlockSpin = true;
 
@@ -2271,30 +2290,64 @@ namespace Wof.Model.Level.Planes
             else
                 ResetEngineParameters();
 
+
+            bool relativeUp = isUpPressed;
+            bool relativeDown = isDownPressed;
+            float rotationFactor;  
             switch (locationState)
             {
+                    // mozna zmienic k¹t nawet podczas zawracania
+                case LocationState.AirTurningRound:
                 case LocationState.Air:
+
                     if (motorState == EngineState.SwitchedOff)
                         break;
-                    if (isLeftPressed || isRightPressed)
+
+                    if(locationState == LocationState.AirTurningRound)
                     {
-                        Direction steerDir = isLeftPressed ? Direction.Left : Direction.Right;
-                        Steer(steerDir, scaleFactor);
+                        // w czasie zawracania odwracamy gore z dolem (gdyz jeszcze nie zostal zmieniony direction a samolot juz jest w przeciwna strone)
+                        // tu jest PROBLEM
+                       /* if (Bounds.Center.Y > 0.9f * GameConsts.UserPlane.MaxHeight * maxHeightTurningRange)
+                        {
+                            rotateValue = 0;
+                            rotationFactor = 0.00f; // jesli jestesmy przy 'suficie' to nie mozemy zmieniac k¹ta i zawracac na raz
+                        }
+                        else*/
+                        {
+                            rotationFactor = 0.10f;// jak spowolnione jest unoszenie/obni¿anie dzioba podczas zawracania
+                        }
+                      
+                        relativeUp = isDownPressed;
+                        relativeDown = isUpPressed;
+
+
                     }
                     else
                     {
-                        //hamowanie samolotu
-                        float subSpeed = scaleFactor*GameConsts.UserPlane.MoveStep;
-                        subSpeedToMin(subSpeed, minFlyingSpeed);
+                        rotationFactor = 1.0f;
+
+                        if (isLeftPressed || isRightPressed)
+                        {
+                            Direction steerDir = isLeftPressed ? Direction.Left : Direction.Right;
+                            Steer(steerDir, scaleFactor);
+                        }
+                        else
+                        {
+                            //hamowanie samolotu
+                            float subSpeed = scaleFactor * GameConsts.UserPlane.MoveStep;
+                            subSpeedToMin(subSpeed, minFlyingSpeed);
+                        }
+
                     }
-                    if (isUpPressed)
+                   
+                    if (relativeUp)
                     {
                        
                         if (wheelsState == WheelsState.In || wheelsState == WheelsState.TogglingIn ||
                             RelativeAngle < landingAngle ||
                             ((isLeftPressed || isRightPressed) && RelativeAngle < maxWheelOutAngle))
                         {
-                            IncreaseRotateValue(scaleFactor*(float) direction*rotateStep); //zwyk³y obrót
+                            IncreaseRotateValue(rotationFactor * scaleFactor * (float)direction * rotateStep); //zwyk³y obrót
                         }
                         else if (!isLeftPressed && !isRightPressed)
                             //je¿eli ¿aden przycisk kierunku nie jest wciœniêty, samolot powinien obni¿yæ lot
@@ -2303,28 +2356,36 @@ namespace Wof.Model.Level.Planes
                             rotateValue = 0; //samolot nie powinien siê dalej obracaæ
                             if (RelativeAngle > landingAngle)
                             {
-                                float tempAngle = - 1.0f*(float) direction*(RelativeAngle - landingAngle);
+                                float tempAngle = - rotationFactor * 1.0f*(float) direction*(RelativeAngle - landingAngle);
                                 Rotate(tempAngle);
                             }
                         }
                         isAfterFlyingDown = false;
                     }
-                    if (isDownPressed)
+                    if (relativeDown)
                     {
                      
                         if (wheelsState == WheelsState.In || RelativeAngle > -maxWheelOutAngle)
                         {
-                            IncreaseRotateValue(-scaleFactor*(float) direction*rotateStep);
+                            IncreaseRotateValue(-rotationFactor * scaleFactor * (float)direction * rotateStep);
                         }
                         isAfterFlyingDown = false;
                     }
-                    if (!isDownPressed && !isUpPressed)//"hamowanie" obrotu
+
+
+                    if (!relativeDown && !relativeUp)//"hamowanie" obrotu
                         DecreaseRotateValue(rotateBrakingFactor*scaleFactor*rotateStep);
-                                      
-                    if (isSpinPressed && !isBlockSpin && CanSpin)
+
+
+                    // nie mozna wykonac spinu podczas zawracania
+                    if (locationState == LocationState.Air)
                     {
-                        Spin();
+                        if (isSpinPressed && !isBlockSpin && CanSpin)
+                        {
+                            Spin();
+                        }
                     }
+                    
                     break;
 
                 case LocationState.AircraftCarrier:
@@ -2469,29 +2530,87 @@ namespace Wof.Model.Level.Planes
             UpdateAirscrewSpeed();
         }
 
+        protected enum GlideType
+        {
+            destroyed,
+            heightLimit,
+            glider
+        } ;
+
         /// <summary>
-        /// Spadanie/szybowanie samolotu 
+        /// padanie/szybowanie samolotu 
         /// </summary>
         /// <param name="time">Czas jaki up³yn¹³ od ostatniego wywo³ania ProcessInput. Wyra¿ony w ms.</param>
         /// <param name="timeUnit">Wartoœæ czasu do której odnoszone s¹ wektor ruchu i wartoœæ obrotu. Wyra¿ona w ms.</param>
-        protected void FallDown(float time, float timeUnit)
+        /// <param name="glideType">Czy ma byæ delikatne szybowanie czy 'kamien w wode'?</param>
+        protected void FallDown(float time, float timeUnit, GlideType glideType)
         {
-            bool isSliding = (locationState == LocationState.Air && planeState != PlaneState.Crashed && planeState != PlaneState.Destroyed && motorState == EngineState.SwitchedOff); // samolot moze spadac zniszczony albo szybowaæ po wy³¹czeniu silnika
-            rotateValue = 0;
-            float scaleFactor = time/timeUnit;
+         
+            float scaleFactor = time / timeUnit;
             float oldAngle = movementVector.Angle;
-            movementVector.Y -= isSliding ?  gravitationalAcceleration * scaleFactor / 8 : gravitationalAcceleration * scaleFactor;
-       
-            // szybszy spadek wektora jeœli dziob jest do gory
-            if (isSliding) movementVector.Y -= 0.2f * ClimbingAngle / Math.PI * gravitationalAcceleration * scaleFactor;
 
-            // spowalniamy
-            if (isSliding && ClimbingAngle > 0) movementVector.X -= 0.10f * movementVector.X * scaleFactor * ClimbingAngle / Math.PI;
+            PointD tempMV = (PointD)movementVector.Clone();
 
-            float newAngle = movementVector.Angle;
+            switch (glideType)
+            {
+                case GlideType.destroyed:
+                        tempMV.Y -= gravitationalAcceleration * scaleFactor;
+                    break;
+
+                case GlideType.heightLimit:
+
+                        float yForce = 1;
+
+                        if (locationState == LocationState.AirTurningRound && isChangingDirection)// jesli zawracamy
+                        {
+                           
+                           // yForce = false;
+                            if(turningTimeLeft < 0.5f * turningTime )// i jesteœmy ju¿ w pierwszej fazie 
+                            {
+                              //  yForce = -0.3f;
+                            }
+                        }
+
+                        // spowolnij obrotu UP/DOWN przekazane przez gracza (ociê¿a³y samolot)
+                        if(rotateValue > 0)
+                        {
+                            rotateValue -= 2.5f * scaleFactor; // wytraæ jedn¹ jednostkê (radian) obrotu w 1 sek.
+                            rotateValue = System.Math.Max(0, rotateValue);
+                        }
+                        else
+                        {
+                            rotateValue += 2.5f * scaleFactor; // wytraæ jedn¹ jednostkê (radian) obrotu w 1 sek.
+                            rotateValue = System.Math.Min(0, rotateValue);
+                        }
+
+
+                        tempMV.Y -= yForce * gravitationalAcceleration * scaleFactor / 2;
+                        tempMV.Y -= yForce * 0.4f * ClimbingAngle / Math.PI * gravitationalAcceleration * scaleFactor;
+                       
+                       
+                        
+                        // spowalniamy
+                        if (ClimbingAngle > 0) tempMV.X -= 0.12f * tempMV.X * scaleFactor * ClimbingAngle / Math.PI;
+
+                    break;
+
+                case GlideType.glider:
+                        tempMV.Y -= gravitationalAcceleration * scaleFactor / 8;
+                        tempMV.Y -= 0.2f * ClimbingAngle / Math.PI * gravitationalAcceleration * scaleFactor;
+
+                        // spowalniamy
+                        if (ClimbingAngle > 0) tempMV.X -= 0.10f * tempMV.X * scaleFactor * ClimbingAngle / Math.PI;
+                    break;
+            }
+           
+
+            float newAngle = tempMV.Angle;
             float rot = (newAngle - oldAngle);
-            bounds.Rotate(rot);
+            Rotate(rot);
+
         }
+
+        
 
         /// <summary>
         /// Sprawdza czy któryœ z wierzcho³ków ma Y mniejszy lub równy 0.
@@ -2749,102 +2868,10 @@ namespace Wof.Model.Level.Planes
 
             if (Bounds.Center.Y > GameConsts.UserPlane.MaxHeight*maxHeightTurningRange)
             {
+                FallDown(time, timeUnit, GlideType.heightLimit);
                 level.OnPlaneForceGoDown(this);
-
-                bool normalFlightToUp = direction == Direction.Left &&  -Math.HALF_PI <= Angle && Angle < 0 ||
-                                        direction == Direction.Right && 0 < Angle && Angle < Math.HALF_PI;
-
-                bool upSideDownFlightToUp = direction == Direction.Left && -Math.PI < Angle && Angle < -Math.HALF_PI ||
-                                            direction == Direction.Right && Math.HALF_PI <= Angle && Angle <= Math.PI;
-
-                if ((normalFlightToUp || upSideDownFlightToUp) && !isMaxHeightRotate)
-                {
-                    isMaxHeightRotate = true;
-                    speedBeforeMaxHeightRotation = Speed;
-                }
-
-                if (upSideDownFlightToUp)
-                {
-                  float delta = Math.Abs(Math.PI - Math.Abs(Bounds.Angle));
-
-                  if (delta <= rot)
-                  {
-                      Bounds.Rotate((int) direction*delta);
-                      movementVector.Y = 0;
-                      isBlockDown = false;
-                      isBlockUp = false;
-
-                      //Bugfix - Kamil S³awiñski
-                      if (direction == Direction.Left)
-                          movementVector.X = speedBeforeMaxHeightRotation;
-                      else
-                          movementVector.X = -speedBeforeMaxHeightRotation;
-
-                      //Nie³adnie !!! - ta linijka kosztowa³a mnie 2 dni debug'owania - KS
-                      //Speed = speedBeforeMaxHeightRotation;
-
-                      isMaxHeightRotate = false;
-                  }
-                  else
-                  {
-                      rotateValue = 0;
-                      Bounds.Rotate((int) direction*rot);
-                      Speed = minFlyingSpeed;
-                      isBlockDown = true;
-                      isBlockUp = true;
-
-                      if ((int) direction*Angle <= 0)
-                      {
-                          isBlockDown = false;
-                          isBlockUp = false;
-
-                          Speed = speedBeforeMaxHeightRotation;
-                          isMaxHeightRotate = false;
-                      }
-                  }
-                }
-                if (normalFlightToUp)
-                {
-                  float delta = System.Math.Abs(Bounds.Angle);
-
-                  if (delta <= rot)
-                  {
-                      Bounds.Rotate((-1)*(int) direction*delta);
-                      movementVector.Y = 0;
-                      isBlockDown = false;
-                      isBlockUp = false;
-
-                      //Bugfix - Kamil S³awiñski
-                      if (direction == Direction.Left)
-                          movementVector.X = -speedBeforeMaxHeightRotation;
-                      else
-                          movementVector.X = speedBeforeMaxHeightRotation;
-
-                      //Nie³adnie !!! - ta linijka kosztowa³a mnie 2 dni debug'owania - KS
-                      //Speed = speedBeforeMaxHeightRotation;
-
-                      isMaxHeightRotate = false;
-                  }
-                  else
-                  {
-                      rotateValue = 0;
-                      Bounds.Rotate((-1)*(int) direction*rot);
-                      Speed = minFlyingSpeed;
-                      isBlockDown = true;
-                      isBlockUp = true;
-                  }
-                }
             }
-
-            // awaryjne œci¹gniêcie na dó³ (próba ³atania buga)
-            /*if (Bounds.Center.Y > GameConsts.UserPlane.MaxHeight)
-            {
-
-                bounds.Move(new PointD(0,
-                                       -((Bounds.Center.Y - GameConsts.UserPlane.MaxHeight*0.99f)*time)/
-                                       timeUnit));
-
-            }*/
+            
         }
      
 
@@ -3001,7 +3028,7 @@ namespace Wof.Model.Level.Planes
                             movementVector.X += (int) direction*SlippingFromCarrierAcceleration*scaleFactor;
                     }
                     else
-                        FallDown(time, timeUnit);
+                        FallDown(time, timeUnit, GlideType.destroyed);
                 }
             } else
             {
