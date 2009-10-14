@@ -691,6 +691,7 @@ namespace Wof.Model.Level
             {
                 if (userPlane.CanChangeAmmunition)
                 {
+                	userPlane.MovementVector.X = 0;
                     controller.OnChangeAmmunition();
                 }
                     

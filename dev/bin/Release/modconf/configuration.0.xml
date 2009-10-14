@@ -45,7 +45,7 @@
     maxHeight = "150"
     landingSpeed = "4.0"
     userRotateStep = "2.6943951"
-    userRotateBrakingFactor = "3.4"
+    userRotateBrakingFactor = "5.4"
     userMaxRotateValue = "2.0943951"
     godMode = "0"
     width = "5.5"
