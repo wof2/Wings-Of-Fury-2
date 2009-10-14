@@ -219,6 +219,7 @@ namespace Wof.View.NodeAnimation
             {
                 currentName = animationName;
                 currentAnimation = this[currentName];
+                currentAnimation.TimeScale = 1.0f;
                 return true;
             }
             else return false;

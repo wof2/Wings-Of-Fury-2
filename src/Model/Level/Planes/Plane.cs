@@ -387,6 +387,8 @@ namespace Wof.Model.Level.Planes
         /// jeszcze komunikatu o tym, ¿e proces siê zakoñczy³.
         /// </summary>
         protected bool isChangingDirection = false;
+        
+        protected bool lastIsChangingDirection = false;
 
         protected Quadrangle bounds;
 
@@ -1456,7 +1458,7 @@ namespace Wof.Model.Level.Planes
             }
            
             isChangingDirection = false;
-
+			lastIsChangingDirection = false;
             UnblockAllInput();
             ResetInputFlags();
 
@@ -2536,7 +2538,9 @@ namespace Wof.Model.Level.Planes
             heightLimit,
             glider
         } ;
-
+ 
+        
+ 
         /// <summary>
         /// padanie/szybowanie samolotu 
         /// </summary>
@@ -2544,11 +2548,10 @@ namespace Wof.Model.Level.Planes
         /// <param name="timeUnit">Wartoœæ czasu do której odnoszone s¹ wektor ruchu i wartoœæ obrotu. Wyra¿ona w ms.</param>
         /// <param name="glideType">Czy ma byæ delikatne szybowanie czy 'kamien w wode'?</param>
         protected void FallDown(float time, float timeUnit, GlideType glideType)
-        {
-         
+        {         
             float scaleFactor = time / timeUnit;
             float oldAngle = movementVector.Angle;
-
+            
             PointD tempMV = (PointD)movementVector.Clone();
 
             switch (glideType)
@@ -2563,14 +2566,36 @@ namespace Wof.Model.Level.Planes
 
                         if (locationState == LocationState.AirTurningRound && isChangingDirection)// jesli zawracamy
                         {
-                           
-                           // yForce = false;
-                            if(turningTimeLeft < 0.5f * turningTime )// i jesteœmy ju¿ w pierwszej fazie 
-                            {
-                              //  yForce = -0.3f;
-                            }
+                        	
+                        	// za pierwszym razem tylko
+                        	if(!lastIsChangingDirection && isChangingDirection)
+                        	{
+                        	//	tempMV.Y = scaleFactor;
+                        	}
+                        	
+                        	// zmniejszaj pionowy movementVector na poczatkowej fazie obrotu 
+                        	if(turningTime - turningTimeLeft <0.05f * turningTime )
+                        	{
+                        		if(tempMV.Y > 0)
+                        		{
+                        			tempMV.Y -= scaleFactor;
+                        			tempMV.Y = System.Math.Max(0, tempMV.Y);
+                        		}
+                        		
+                        		if(tempMV.Y < 0)
+                        		{
+                        			tempMV.Y += scaleFactor;
+                        			tempMV.Y = System.Math.Min(0, tempMV.Y);
+                        		}
+                        	}   
+                        	
+                        	// jesli zawracamy to mimo ze samolot sie juz prawie obrocil to direction ma stary wiec nalezy zmienic znak 
+                        	// sily (od polowy obrotu)
+                        	yForce  = -(float)Math.Cos((Math.PI * (turningTime - turningTimeLeft) / turningTime));
+                        	yForce *= 0.2f;
+                        
                         }
-
+						
                         // spowolnij obrotu UP/DOWN przekazane przez gracza (ociê¿a³y samolot)
                         if(rotateValue > 0)
                         {
@@ -2582,12 +2607,11 @@ namespace Wof.Model.Level.Planes
                             rotateValue += 2.5f * scaleFactor; // wytraæ jedn¹ jednostkê (radian) obrotu w 1 sek.
                             rotateValue = System.Math.Min(0, rotateValue);
                         }
-
+                       
 
                         tempMV.Y -= yForce * gravitationalAcceleration * scaleFactor / 2;
                         tempMV.Y -= yForce * 0.4f * ClimbingAngle / Math.PI * gravitationalAcceleration * scaleFactor;
-                       
-                       
+                                       
                         
                         // spowalniamy
                         if (ClimbingAngle > 0) tempMV.X -= 0.12f * tempMV.X * scaleFactor * ClimbingAngle / Math.PI;
@@ -2606,8 +2630,9 @@ namespace Wof.Model.Level.Planes
 
             float newAngle = tempMV.Angle;
             float rot = (newAngle - oldAngle);
+            
             Rotate(rot);
-
+			lastIsChangingDirection  = isChangingDirection;
         }
 
         
