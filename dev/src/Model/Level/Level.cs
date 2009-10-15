@@ -341,12 +341,12 @@ namespace Wof.Model.Level
             }
             
             // TEST TEST TEST
-              info.Direction = Direction.Left;
+            /*  info.Direction = Direction.Left;
 		            info.EngineState = EngineState.Working;
 		            info.Position = null;
 		            info.PositionType = StartPositionType.Airborne;
 		            info.WheelsState = WheelsState.In;      
-		            
+		    */    
 		            
 		            
                  

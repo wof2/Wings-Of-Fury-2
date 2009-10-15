@@ -979,7 +979,7 @@ namespace Wof.Model.Level.Planes
             get
             {
                 // nie mozna zawracac na duzej wysokosci w taki sposob ze samolot zakonczylby zawrotke dziobem do gory
-                if (Bounds.Center.Y > GameConsts.UserPlane.MaxHeight * 0.8f * maxHeightTurningRange && ClimbingAngle < 0)
+                if (Bounds.Center.Y > GameConsts.UserPlane.MaxHeight * 0.9f * maxHeightTurningRange && ClimbingAngle < -0.5f)
                 {
                     return false;
                 }
