@@ -138,6 +138,7 @@ namespace Wof.View
            
         }
 
+
         protected virtual void postInitOnScene()
         {
         	if (EngineConfig.ExplosionLights && LevelView.IsNightScene)
@@ -183,7 +184,7 @@ namespace Wof.View
                 ammunitionNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
             }
 
-            ammunitionNode.Orientation *= new Quaternion((float) ammunition.Angle, Vector3.UNIT_X);
+            ammunitionNode.Orientation *= new Quaternion((Radian)ammunition.Angle, Vector3.UNIT_X);
             if (FrameWork.DisplayMinimap)
             {
                 minimapItem.Show();

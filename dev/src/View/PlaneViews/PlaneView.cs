@@ -327,7 +327,7 @@ namespace Wof.View
             if (crossHairEffectNodeAnimation != null)
             {
                 float normalVisibilityDist = 3.0f;
-                float dist = (crossHairEffectNodeAnimation.Node.WorldPosition - camera.WorldPosition).Length;
+                float dist = (crossHairEffectNodeAnimation.Node._getDerivedPosition() - camera.RealPosition).Length;
                 float visibility = dist * normalVisibilityDist;
                 if (visibility < 0) visibility = 0;
                 if (visibility > 100) visibility = 100;

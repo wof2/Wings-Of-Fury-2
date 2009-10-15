@@ -110,7 +110,7 @@ namespace Wof.Controller
             return false;
         }
 
-        public FSLSoundEntity CreateSoundEntity(String filename, IRenderable entity, bool loop, bool play)
+        public FSLSoundEntity CreateSoundEntity(String filename, SceneNode entity, bool loop, bool play)
         {
             FSLSoundEntity sound = (FSLSoundEntity)CreateSoundEntity(filename, entity, filename + "_entity" + entity.GetHashCode()+ "_Sound", loop, false);
             if (play)

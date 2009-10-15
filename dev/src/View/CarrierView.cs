@@ -561,7 +561,7 @@ namespace Wof.View
             float diff;
             for (int i = 0; i < arrestingWires.Count; i++)
             {
-                diff = p.RearWheelInnerNode.WorldPosition.x - arrestingWires[i].WorldPosition.x;
+                diff = p.RearWheelInnerNode._getDerivedPosition().x - arrestingWires[i]._getDerivedPosition().x;
                 if (Math.Abs(diff) < 0.1f && diff > 0 && !activeArrestingWires.Contains(arrestingWires[i]))
                 {
                     activeArrestingWires.Add(arrestingWires[i]);
@@ -623,7 +623,7 @@ namespace Wof.View
             float lastH;
             SceneNode lWire = (SceneNode) arrestingWire.GetChild(0);
             SceneNode rWire = (SceneNode) arrestingWire.GetChild(1);
-            lastH = lWire.WorldPosition.x - targetWorldXPos;
+            lastH = lWire._getDerivedPosition().x - targetWorldXPos;
             Radian alpha = Math.ATan(lastH/(0.5f*arrestingWiresSpan)); // k¹t wychylenia kawalkow liny
             float length = lastH/Math.Sin(alpha); // dlugosc liny
 
@@ -745,7 +745,7 @@ namespace Wof.View
                     {
                         arrestingWiresH[i] =
                             animateArrestingWire(activeArrestingWires[i],
-                                                 planeBeingCaught.RearWheelInnerNode.WorldPosition.x);
+                                                 planeBeingCaught.RearWheelInnerNode._getDerivedPosition().x);
                     }
                 }
                 if (isReleasingPlane)
@@ -756,7 +756,7 @@ namespace Wof.View
                         {
                             animateArrestingWire(
                                 activeArrestingWires[i],
-                                activeArrestingWires[i].WorldPosition.x - arrestingWiresH[i]
+                                activeArrestingWires[i]._getDerivedPosition().x - arrestingWiresH[i]
                                 );
                             arrestingWiresH[i] *= (1 - 10*timeSinceLastFrameUpdate);
                                 // 0.99f; - wymuszamy zmniejszenie wysokosci trojkatow

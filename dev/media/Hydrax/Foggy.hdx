@@ -1,7 +1,7 @@
 #Hydrax cfg file.
 
 #Hydrax version field
-HydraxVersion=0.5.0
+HydraxVersion=0.5.1
 
 #Main options field
 <vector3>Position=0x-0.6x0
