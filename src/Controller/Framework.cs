@@ -253,10 +253,11 @@ namespace Wof.Controller
             window.Dispose();
             window = null;
 
-          
+            ResourceGroupManager.Singleton.Dispose();
             root.Shutdown();
             root.Dispose();
             root = null;
+
         
             //Console.ReadLine();
         }
@@ -280,10 +281,13 @@ namespace Wof.Controller
             {
                 splash.Increment(
                     String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingTheRootObject)));
+               
+
                 root = new Root();
+              
                 //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
                // LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
-               /// LogManager.Singleton.LogMessage("Starting Wings of Fury 2 ver. " + EngineConfig.C_WOF_VERSION);
+                LogManager.Singleton.LogMessage("Starting Wings of Fury 2 ver. " + EngineConfig.C_WOF_VERSION);
 
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.SetupingResources)));
