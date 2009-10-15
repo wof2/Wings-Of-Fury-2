@@ -80,6 +80,7 @@ using Button = BetaGUI.Button;
 using FontManager = Wof.Languages.FontManager;
 using Math = System.Math;
 using Plane = Wof.Model.Level.Planes.Plane;
+using Vector3=Mogre.Vector3;
 using ViewEffectsManager = Wof.View.Effects.EffectsManager;
 
 namespace Wof.Controller.Screens
@@ -678,6 +679,7 @@ namespace Wof.Controller.Screens
         {
         	if(levelView == null || currentLevel == null) return; // moze sie zdarzyc kiedy level nie jest jeszcze zaladowany
           
+          //  camera.Move(new Vector3(evt.timeSinceLastFrame * 5,0,0));
             if(nextFrameGotoNextLevel) return;
 
             // przeladuj efekty

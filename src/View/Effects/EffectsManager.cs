@@ -205,38 +205,47 @@ namespace Wof.View.Effects
             }
         }
 
-        private static void BuildMaterials()
+           private static void BuildMaterials()
         {
-            // build materials
-            Pass pass;
-            MaterialPtr m;
-
-            m = ViewHelper.CloneMaterial("Wood", "DestroyedWood");
-            pass = m.GetBestTechnique().GetPass("decal");
-            pass.GetTextureUnitState(0).SetTextureName("oldwood2_destroyed.jpg");
-            m = null;
-
-            m = ViewHelper.CloneMaterial("Concrete", "DestroyedConcrete");
-           
-            pass = m.GetBestTechnique().GetPass("decal");
-            if(pass == null)
+            try
             {
-                pass = m.GetBestTechnique().GetPass((ushort)(m.GetBestTechnique().NumPasses - 1));
-            }
-            pass.GetTextureUnitState(0).SetTextureName("concrete_destroyed.jpg");
-            m = null;
+                // build materials
+                Pass pass;
+                MaterialPtr m;
 
-
-            // Preload materials
-            IEnumerator i = Enum.GetNames(typeof (MaterialToPreload)).GetEnumerator();
-            String enumName;
-            while (i.MoveNext())
-            {
-                enumName = (i.Current as String);
-                m = MaterialManager.Singleton.Load(enumName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
-                m.Touch();
+                m = ViewHelper.CloneMaterial("Wood", "DestroyedWood");
+                pass = m.GetBestTechnique().GetPass("decal");
+                pass.GetTextureUnitState(0).SetTextureName("oldwood2_destroyed.jpg");
                 m = null;
+
+                m = ViewHelper.CloneMaterial("Concrete", "DestroyedConcrete");
+                Technique t = m.GetBestTechnique();
+                pass = t.GetPass("decal");
+                if (pass == null)
+                {
+                    pass = m.GetBestTechnique().GetPass((ushort)(m.GetBestTechnique().NumPasses - 1));
+                }
+                pass.GetTextureUnitState(0).SetTextureName("concrete_destroyed.jpg");
+                m = null;
+
+
+                // Preload materials
+                IEnumerator i = Enum.GetNames(typeof(MaterialToPreload)).GetEnumerator();
+                String enumName;
+                while (i.MoveNext())
+                {
+                    enumName = (i.Current as String);
+                    m = MaterialManager.Singleton.Load(enumName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                    m.Touch();
+                    m = null;
+                }
             }
+            catch (Exception ex)
+            {
+                
+               
+            }
+          
         }
 
         public void PreloadEffects2(SceneManager sceneMgr)
@@ -318,14 +327,14 @@ namespace Wof.View.Effects
                 system = (i.Key as ParticleSystem);
                 emitter = system.GetEmitter(0);
                 node = i.Value as SceneNode;
-                if (emitter.Enabled && node.WorldPosition.y < 0) // node jest pod wod¹
+                if (emitter.Enabled && node._getDerivedPosition().y < 0) // node jest pod wod¹
                 {
                     emitter.Enabled = false;
                 }
                 else
                 {
                     // dym wraca gdy wylonimy sie znad wody
-                    if (node.WorldPosition.y > 0)
+                    if (node._getDerivedPosition().y > 0)
                     {
                         emitter.Enabled = true;
                     }

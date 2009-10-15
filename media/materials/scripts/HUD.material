@@ -1,3 +1,4 @@
+
 material Panels/Panel1
 {
 	technique
@@ -5,7 +6,7 @@ material Panels/Panel1
 		pass
 		{
 			//depth_write off
-			lighting Off
+			lighting off
 			ambient 0.588235 0.588235 0.588235 
 			diffuse 0.588235 0.588235 0.588235 
 			specular 0 0 0 10
@@ -26,7 +27,7 @@ material Panels/Panel1_rocket
 		pass
 		{
 			//depth_write off
-			lighting Off
+			lighting off
 			ambient 0.588235 0.588235 0.588235 
 			diffuse 0.588235 0.588235 0.588235 
 			specular 0 0 0 10
@@ -47,7 +48,7 @@ material Panels/Panel1_torpedo
 		pass
 		{
 			//depth_write off
-			lighting Off
+			lighting off
 			ambient 0.588235 0.588235 0.588235 
 			diffuse 0.588235 0.588235 0.588235 
 			specular 0 0 0 10
@@ -68,7 +69,7 @@ material Panels/Panel2
 		pass
 		{
 			//depth_write off
-			lighting Off
+			lighting off
 			ambient 0.588235 0.588235 0.588235 
 			diffuse 0.588235 0.588235 0.588235 
 			specular 0 0 0 10
@@ -90,7 +91,7 @@ material Panels/Panel4
 		pass
 		{
 			//depth_write off
-			lighting Off
+			lighting off
 			ambient 0.588235 0.588235 0.588235 
 			diffuse 0.588235 0.588235 0.588235 
 			specular 0 0 0 10
@@ -112,7 +113,7 @@ material Panels/Panel5
 		pass
 		{
 			//depth_write off
-			lighting Off
+			lighting off
 			ambient 0.588235 0.588235 0.588235 
 			diffuse 0.588235 0.588235 0.588235 
 			specular 0 0 0 10

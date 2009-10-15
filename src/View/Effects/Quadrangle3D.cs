@@ -53,18 +53,18 @@ using Wof.Model.Level.Common;
 
 namespace Wof.View.Effects
 {
-    public class Quadrangle3D : ManualObject
+    public class Quadrangle3D //: ManualObject
     {
+        private ManualObject o;
         /// <summary>
         /// Wczorok¹t w view. Klasa pomocnicza
         /// <author>Adam Witczak</author>
         /// </summary>
         /// <param name="name"></param>
         public Quadrangle3D(String name)
-            : base(name)
         {
-            RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_OVERLAY;
-            QueryFlags = 0;
+            o.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_OVERLAY;
+            o.QueryFlags = 0;
         }
 
         public void SetCorners(Quadrangle quadrangle)
@@ -75,23 +75,23 @@ namespace Wof.View.Effects
             Vector2 rightBottom = UnitConverter.LogicToWorldUnits(quadrangle.Peaks[3]);
 
 
-            Clear();
-            Begin("Misc/BoundingQuadrangle", RenderOperation.OperationTypes.OT_LINE_STRIP);
-            Position(leftBottom.x, leftBottom.y, 0);
-            TextureCoord(0,0);
-            Position(leftTop.x, leftTop.y, 0);
-            TextureCoord(0, 1);
-            Position(rightTop.x, rightTop.y, 0);
-            TextureCoord(1, 1);
-            Position(rightBottom.x, rightBottom.y, 0);
-            TextureCoord(0, 1);
-            Position(leftBottom.x, leftBottom.y, 0);
-            TextureCoord(0, 0);
-            End();
+            o.Clear();
+            o.Begin("Misc/BoundingQuadrangle", RenderOperation.OperationTypes.OT_LINE_STRIP);
+            o.Position(leftBottom.x, leftBottom.y, 0);
+            o.TextureCoord(0, 0);
+            o.Position(leftTop.x, leftTop.y, 0);
+            o.TextureCoord(0, 1);
+            o.Position(rightTop.x, rightTop.y, 0);
+            o.TextureCoord(1, 1);
+            o.Position(rightBottom.x, rightBottom.y, 0);
+            o.TextureCoord(0, 1);
+            o.Position(leftBottom.x, leftBottom.y, 0);
+            o.TextureCoord(0, 0);
+            o.End();
 
             AxisAlignedBox box = new AxisAlignedBox();
             box.SetInfinite();
-            BoundingBox = box;
+            o.BoundingBox = box;
         }
     }
 }

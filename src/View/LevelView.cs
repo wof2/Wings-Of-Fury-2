@@ -725,7 +725,7 @@ namespace Wof.View
 
 
             Vector3 smokeUp = Vector3.NEGATIVE_UNIT_Z;
-            Quaternion q = smokeUp.GetRotationTo(p.OuterNode.WorldOrientation*Vector3.NEGATIVE_UNIT_Z);
+            Quaternion q = smokeUp.GetRotationTo(p.OuterNode._getDerivedOrientation()*Vector3.NEGATIVE_UNIT_Z);
             smokeUp = q*smokeUp;
             smokeUp = new Quaternion(new Degree(90), Vector3.NEGATIVE_UNIT_Z)*smokeUp;
             if (p.Plane.Direction == Direction.Left)
@@ -1388,7 +1388,7 @@ namespace Wof.View
                 }
 
                 // Dym
-                if (p.Plane.Oil < p.Plane.MaxOil && p.PlaneNode.WorldPosition.y >= 0)
+                if (p.Plane.Oil < p.Plane.MaxOil && p.PlaneNode._getDerivedPosition().y >= 0)
                 {
                     // slaby dym
                     if (p.Plane.Oil < (p.Plane.MaxOil*0.9f))

@@ -1,6 +1,4 @@
-
-
-
+import * from "Fog.material"
 
 // Alphablended
 material ABEffect:NoFog

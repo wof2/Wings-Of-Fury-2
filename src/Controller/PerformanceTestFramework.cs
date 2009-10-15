@@ -60,8 +60,8 @@ namespace Wof.Controller
             EngineConfig.LoadEngineConfig();
             fullScreen = "Yes";
 		    GraphicsQuality quality;
-            String vertexProgramVer = root.RenderSystem.Capabilities.MaxVertexProgramVersion.Replace("vs","").Replace("_", "");
-
+          //  String vertexProgramVer = root.RenderSystem.Capabilities.MaxVertexProgramVersion.Replace("vs","").Replace("_", "");
+            String vertexProgramVer = "vs_3_0"; // naprawic
             uint vpv;
             if(uint.TryParse(vertexProgramVer, out vpv))
             {

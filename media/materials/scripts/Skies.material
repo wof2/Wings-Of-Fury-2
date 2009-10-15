@@ -1,3 +1,5 @@
+import * from "Effects.material"
+
 material Skybox/Morning : NoFog
 {
 	technique

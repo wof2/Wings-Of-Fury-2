@@ -7,20 +7,37 @@ namespace FSLOgreCS
     {
         private Camera _renderable;
         public bool ZFlipped = true; // reversed stereo hack
+
+        private Wof.Model.Level.Planes.Plane _plane = null;
+
+        public Camera Renderable
+        {
+            get { return _renderable; }
+        }
+        
         public FSLListener()
         {
             _renderable = null;
         }
+
 
         public FSLListener(Camera renderable)
         {
             _renderable = renderable;
         }
 
-        public void SetListener(Camera renderable)
+        public FSLListener(Camera renderable, Wof.Model.Level.Planes.Plane plane)
         {
             _renderable = renderable;
+            _plane = plane;
         }
+
+        public void SetListener(Camera renderable, Wof.Model.Level.Planes.Plane plane)
+        {
+            _renderable = renderable;
+            _plane = plane;
+        }
+
 
         public void Update()
         {

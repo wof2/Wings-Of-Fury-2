@@ -1330,19 +1330,25 @@ namespace Wof.Controller
                     CompositionTechnique.TextureDefinition_NativePtr def = t.CreateTextureDefinition("scene");
                     def.width = 0;
                     def.height = 0;
-                    def.format = PixelFormat.PF_R8G8B8;
+                    PixelFormatList pf = new PixelFormatList();
+                    pf.Add(PixelFormat.PF_R8G8B8);
+                    def.formatList = pf;
                 }
                 {
                     CompositionTechnique.TextureDefinition_NativePtr def = t.CreateTextureDefinition("sum");
                     def.width = 0;
                     def.height = 0;
-                    def.format = PixelFormat.PF_R8G8B8;
+                    PixelFormatList pf = new PixelFormatList();
+                    pf.Add(PixelFormat.PF_R8G8B8);
+                    def.formatList = pf;
                 }
                 {
                     CompositionTechnique.TextureDefinition_NativePtr def = t.CreateTextureDefinition("temp");
                     def.width = 0;
                     def.height = 0;
-                    def.format = PixelFormat.PF_R8G8B8;
+                    PixelFormatList pf = new PixelFormatList();
+                    pf.Add(PixelFormat.PF_R8G8B8);
+                    def.formatList = pf;
                 }
                 /// Render scene
                 {
