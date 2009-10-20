@@ -75,8 +75,9 @@ namespace Wof.View.Effects
             {	
             	hydraxDepthMaterialsMap[materialName] = ((MaterialPtr)m).NumTechniques;
             	hydraxDepthMaterials.Add(materialName);
-            	
-            	Technique t = m.CreateTechnique();            
+
+                Technique t = m.CreateTechnique();
+             
                 hydrax.MaterialManager.AddDepthTechnique(t);        
                
                 m = null;
@@ -99,6 +100,7 @@ namespace Wof.View.Effects
                 MaterialPtr m = MaterialManager.Singleton.GetByName(material);
                 if (m != null && m.GetTechnique("_Hydrax_Depth_Technique") == null)
                 {
+                    
                     hydrax.MaterialManager.AddDepthTechnique(m.CreateTechnique());                   
                     m = null;
                 }
@@ -165,6 +167,7 @@ namespace Wof.View.Effects
             hydrax.LoadCfg(cfgFileName);
             hydrax.Create();
      
+
        //    MaterialPtr m = hydrax.MaterialManager.GetMaterial(MMaterialManager.MMaterialType.MAT_UNDERWATER_COMPOSITOR);
        //    m.GetBestTechnique().GetPass(0).GetTextureUnitState(1).SetTextureName("UnderwaterDistortion_none.png");
        //     m = null;
