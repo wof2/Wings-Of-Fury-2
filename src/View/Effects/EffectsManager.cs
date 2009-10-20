@@ -1002,6 +1002,7 @@ namespace Wof.View.Effects
         public void AddClouds(SceneManager sceneMgr, Vector3 cloudsCenter, Vector2 defaultSize, Degree maxRotation,
                               uint cloudCount, bool lighterClouds, Quaternion nodeOrientation, float visibility, ColourValue colour)
         {
+           
         	BillboardSet cloudsBS1;
             BillboardSet cloudsBS2;
         	// jesli chcemy zmienic orientacje to nalezy utworzyc osobne billboard sety

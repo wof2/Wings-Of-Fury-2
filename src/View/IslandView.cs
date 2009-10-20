@@ -244,7 +244,7 @@ namespace Wof.View
 
             compositeModel = sceneMgr.CreateEntity(name, islandMeshName);
             compositeModel.CastShadows = false;// EngineConfig.ShadowsQuality > 0;
-            
+          //  compositeModel.SetMaterialName("Carrier");
       //      compositeModel.SetMaterialName("Carrier/Panels");
            /* 
             Mogre.Plane mPlane = new Mogre.Plane(Vector3.UNIT_Y, new Vector3(0,Mogre.Math.RangeRandom(0,1) ,0));

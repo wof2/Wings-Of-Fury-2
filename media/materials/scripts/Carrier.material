@@ -8,7 +8,7 @@ material Carrier : NormalMappedSpecular
 }
 
 
-material Carrier/Panels: NormalMappedSpecular
+material CarrierPanels: NormalMappedSpecular
 {
   set_texture_alias NormalMap metalPanels_normal.jpg
   set_texture_alias DiffuseMap metalPanels.jpg
@@ -16,7 +16,7 @@ material Carrier/Panels: NormalMappedSpecular
 }
 
 
-material Carrier/Lane : NormalMappedSpecular
+material CarrierLane : NormalMappedSpecular
 {
   set_texture_alias NormalMap lane_normal.dds
   set_texture_alias DiffuseMap lane.dds

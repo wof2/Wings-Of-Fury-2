@@ -1,163 +1,38 @@
-/* This file implements standard programs for depth shadow mapping. 
-   These particular ones are suitable for additive lighting models, and
-   include 3 techniques to reduce depth fighting on self-shadowed surfaces,
-   constant bias, gradient (slope-scale) bias, and a fuzzy shadow map comparison*/
-
-
 // Shadow caster vertex program.
 void casterVP(
-	float4 position			: POSITION,
-	out float4 outPos		: POSITION,
+	float4 pos   			: POSITION,
+		
 	out float2 outDepth		: TEXCOORD0,
+	out float4 outPos		: POSITION,
 
-	uniform float4x4 worldViewProj,
-	uniform float4 texelOffsets,
+	uniform float4x4 worldViewProj,	
 	uniform float4 depthRange
 	)
 {
-	outPos = mul(worldViewProj, position);
+	outPos = mul(worldViewProj, pos);
 
-	// fix pixel / texel alignment
-	outPos.xy += texelOffsets.zw * outPos.w;
-	// linear depth storage
-	// offset / scale range output
-#if LINEAR_RANGE
-	outDepth.x = (outPos.z - depthRange.x) * depthRange.w;
-#else
-	outDepth.x = outPos.z;
-#endif
-	outDepth.y = outPos.w;
+	// depth info for the fragment.
+    outDepth.x = outPos.z;
+    outDepth.y = outPos.w;
 }
 
 
 // Shadow caster fragment program for high-precision single-channel textures	
 void casterFP(
-	float2 depth			: TEXCOORD0,
-	out float4 result		: COLOR)
+	float2 depth			: TEXCOORD0,	
+	out float4 result		: COLOR,
+	uniform float4 pssmSplitPoints
+	)
 	
 {
-#if LINEAR_RANGE
-	float finalDepth = depth.x;
-#else
+	
 	float finalDepth = depth.x / depth.y;
-#endif
+
 	// just smear across all components 
 	// therefore this one needs high individual channel precision
 	result = float4(finalDepth, finalDepth, finalDepth, 1);
 }
 
-
-	
-void receiverVP(
-	float4 position		: POSITION,
-	float4 normal		: NORMAL,
-
-	out float4 outPos			: POSITION,
-	out float4 outColour		: COLOR,
-	out float4 outShadowUV		: TEXCOORD0,
-
-	uniform float4x4 world,
-	uniform float4x4 worldIT,
-	uniform float4x4 worldViewProj,
-	uniform float4x4 texViewProj,
-	uniform float4 lightPosition,
-	uniform float4 lightColour,
-	uniform float4 shadowDepthRange
-	)
-{
-	float4 worldPos = mul(world, position);
-	outPos = mul(worldViewProj, position);
-
-	float3 worldNorm = mul(worldIT, normal).xyz;
-
-	// calculate lighting (simple vertex lighting)
-	float3 lightDir = normalize(
-		lightPosition.xyz -  (worldPos.xyz * lightPosition.w));
-
-	outColour = lightColour * max(dot(lightDir, worldNorm), 0.0);
-
-	// calculate shadow map coords
-	outShadowUV = mul(texViewProj, worldPos);
-#if LINEAR_RANGE
-	// adjust by fixed depth bias, rescale into range
-	outShadowUV.z = (outShadowUV.z - shadowDepthRange.x) * shadowDepthRange.w;
-#endif
-	
-
-
-	
-}
-
-void receiverFP(
-	float4 position			: POSITION,
-	float4 shadowUV			: TEXCOORD0,
-	float4 vertexColour		: COLOR,
-
-	uniform sampler2D shadowMap : register(s0),
-	uniform float inverseShadowmapSize,
-	uniform float fixedDepthBias,
-	uniform float gradientClamp,
-	uniform float gradientScaleBias,
-	uniform float shadowFuzzyWidth,
-	
-	out float4 result		: COLOR)
-{
-	// point on shadowmap
-#if LINEAR_RANGE
-	shadowUV.xy = shadowUV.xy / shadowUV.w;
-#else
-	shadowUV = shadowUV / shadowUV.w;
-#endif
-	float centerdepth = tex2D(shadowMap, shadowUV.xy).x;
-    
-    // gradient calculation
-  	float pixeloffset = inverseShadowmapSize;
-    float4 depths = float4(
-    	tex2D(shadowMap, shadowUV.xy + float2(-pixeloffset, 0)).x,
-    	tex2D(shadowMap, shadowUV.xy + float2(+pixeloffset, 0)).x,
-    	tex2D(shadowMap, shadowUV.xy + float2(0, -pixeloffset)).x,
-    	tex2D(shadowMap, shadowUV.xy + float2(0, +pixeloffset)).x);
-
-	float2 differences = abs( depths.yw - depths.xz );
-	float gradient = min(gradientClamp, max(differences.x, differences.y));
-	float gradientFactor = gradient * gradientScaleBias;
-
-	// visibility function
-	float depthAdjust = gradientFactor + (fixedDepthBias * centerdepth);
-	float finalCenterDepth = centerdepth + depthAdjust;
-
-	// shadowUV.z contains lightspace position of current object
-
-#if FUZZY_TEST
-	// fuzzy test - introduces some ghosting in result and doesn't appear to be needed?
-	//float visibility = saturate(1 + delta_z / (gradient * shadowFuzzyWidth));
-	float visibility = saturate(1 + (finalCenterDepth - shadowUV.z) * shadowFuzzyWidth * shadowUV.w);
-
-	result = vertexColour * visibility;
-#else
-	// hard test
-#if PCF
-	// use depths from prev, calculate diff
-	depths += depthAdjust.xxxx;
-	float final = (finalCenterDepth > shadowUV.z) ? 1.0f : 0.0f;
-	final += (depths.x > shadowUV.z) ? 1.0f : 0.0f;
-	final += (depths.y > shadowUV.z) ? 1.0f : 0.0f;
-	final += (depths.z > shadowUV.z) ? 1.0f : 0.0f;
-	final += (depths.w > shadowUV.z) ? 1.0f : 0.0f;
-	
-	final *= 0.2f;
-
-	result = float4(vertexColour.xyz * final, 1);
-	
-#else
-	result = (finalCenterDepth > shadowUV.z) ? vertexColour : float4(0,0,0,1);
-#endif
-
-#endif
-   
-
-	
-}
 
 
 
@@ -169,45 +44,85 @@ float3 expand(float3 v)
 }
 
 
+float test(sampler2D shadowMap, float4 shadowMapPos)
+{	
+		shadowMapPos = shadowMapPos / shadowMapPos.w;
+		float2 uv = shadowMapPos.xy;		
+		return (shadowMapPos.z - tex2D(shadowMap, uv.xy).r);
+		
+}
+
+
+
+float shadowPCF(sampler2D shadowMap, float4 shadowMapPos, float2 offset)
+{
+	//return 1.0;
+		shadowMapPos = shadowMapPos / shadowMapPos.w;
+		float2 uv = shadowMapPos.xy;
+		float3 o = float3(offset, -offset.x) * 0.3f;
+	   
+		// Note: We using 2x2 PCF. Good enough and is alot faster.
+		float c =       (shadowMapPos.z <= tex2D(shadowMap, uv.xy - o.xy).r) ? 1 : 0; // top left
+		c +=            (shadowMapPos.z <= tex2D(shadowMap, uv.xy + o.xy).r) ? 1 : 0; // bottom right
+		c +=            (shadowMapPos.z <= tex2D(shadowMap, uv.xy + o.zy).r) ? 1 : 0; // bottom left
+		c +=            (shadowMapPos.z <= tex2D(shadowMap, uv.xy - o.zy).r) ? 1 : 0; // top right
+		
+	   // c += 2.5;
+		  
+		return (c) / 4;
+}
+
 /* Normal mapping plus depth shadowmapping receiver programs
 */
-void normalMapShadowReceiverVp(float4 position	: POSITION,
+void normalMapShadowReceiverVp(
+             float4 position    : POSITION,
 			 float3 normal		: NORMAL,
 			 float2 uv			: TEXCOORD0,
 			 float3 tangent     : TANGENT0,
 			 
 			 // outputs
 			 out float4 outPos    	 : POSITION,
-			 out int    outDirectional : TEXCOORD3,
+			
 			 out float4 outShadowUV	 : TEXCOORD0,
-			 out float2 oUv	 		 : TEXCOORD1,
-			 out float3 oTSLightDir  : TEXCOORD2,
-			 out float    lightDist : TEXCOORD4,
-			 out float    attenuationDist : TEXCOORD5,
+			 out float3 oUv	 		 : TEXCOORD1,
+			 out float3 oTSLightDir  : TEXCOORD2,			 
+			 out float3 oLightData   : TEXCOORD3, // outDirectional, lightDist, attenuationDist
+			
+			 out float4 oLightPosition0   : TEXCOORD4,
+			 out float4 oLightPosition1   : TEXCOORD5,
+			 out float4 oLightPosition2   : TEXCOORD6,
+			 out float4 outPosition 	  : TEXCOORD7,
 			 // parameters
 			 uniform float4 lightPosition, // object space
 			 uniform float4x4 world,
 			 uniform float4x4 worldViewProj,
 			 uniform float4x4 texViewProj,
-			 uniform float4 lightAttenuation
+			 uniform float4 lightAttenuation,
+			 
+			 uniform float4x4 texWorldViewProjMatrix0,
+			 uniform float4x4 texWorldViewProjMatrix1,
+			 uniform float4x4 texWorldViewProjMatrix2
+			 
+			 
 			 )
 {
-
-  if(lightPosition.w <= 0.5)
-  {
-     outDirectional = 1;
-  } else
-  { 
-     outDirectional = 0;
-  }
   
-  attenuationDist = lightAttenuation[0];
-
-  float xdist = abs(lightPosition.x - position.x);
+  
+  float lightDist = distance(lightPosition, position);
+  /*float xdist = abs(lightPosition.x - position.x);
   float ydist = abs(lightPosition.y - position.y);
   float zdist = abs(lightPosition.z - position.z);
-  lightDist =  sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
+  float lightDist =  sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
+  */
   
+  if(lightPosition.w <= 0.5)
+  {
+     oLightData = float3(1, lightDist, lightAttenuation[0]);
+  } else
+  { 
+     oLightData = float3(0, lightDist, lightAttenuation[0]);
+  }
+   
 	float4 worldPos = mul(world, position);
 	outPos = mul(worldViewProj, position);
 
@@ -219,7 +134,7 @@ void normalMapShadowReceiverVp(float4 position	: POSITION,
 #endif
 	
 	// pass the main uvs straight through unchanged
-	oUv = uv;
+	oUv = float3(uv, outPos.z);
 
 	// calculate tangent space light vector
 	// Get object space light direction
@@ -237,152 +152,142 @@ void normalMapShadowReceiverVp(float4 position	: POSITION,
 	
 	// Transform the light vector according to this matrix
 	oTSLightDir = mul(rotation, lightDir);
-
+	
+	
+	oLightPosition0 = mul(texWorldViewProjMatrix0, position);
+    oLightPosition1 = mul(texWorldViewProjMatrix1, position);
+    oLightPosition2 = mul(texWorldViewProjMatrix2, position);
+    
+    
 	
 }
 
 
 void normalMapShadowReceiverFp(
 			  float4 shadowUV	: TEXCOORD0,
-			  float2 uv			: TEXCOORD1,
-			  float3 TSlightDir : TEXCOORD2,
-			  int    isDirectional : TEXCOORD3,		
-			  float    lightDist : TEXCOORD4,
-			  float    attenuationDist : TEXCOORD5,
-
+			  float3 uv			: TEXCOORD1,
+			  float3 TSlightDir : TEXCOORD2,			  
+			  float3 lightData  : TEXCOORD3,
+			 					  
+			 //PSSM
+			 float4 LightPosition0   : TEXCOORD4,
+			 float4 LightPosition1   : TEXCOORD5,
+			 float4 LightPosition2   : TEXCOORD6,
+             float3  outPosition     : TEXCOORD7,
 			  out float4 result	: COLOR,
 
 			  uniform float4 lightColour,
-			//  uniform float4 shadowDepthRange, 
-			//  uniform int   lightCastsShadows,
-			  uniform float inverseShadowmapSize,
 			  uniform float fixedDepthBias,
-			  uniform float gradientClamp,
-			  uniform float gradientScaleBias,
+					  
+			  //PSSM
+			  uniform float4 invShadowMapSize0,
+			  uniform float4 invShadowMapSize1,
+			  uniform float4 invShadowMapSize2,
+			  uniform float4 shadow_scene_depth_range,
+			  uniform float4 pssmSplitPoints,
 			  
-			    
-			  uniform float shadowFuzzyWidth,
-			
+			  //Standard		  
+			 
+			  //PSSM
+			  uniform sampler2D shadowMap0 : register(s0),
+			  uniform sampler2D shadowMap1 : register(s1),
+			  uniform sampler2D shadowMap2 : register(s2),   
 			  
-			  uniform sampler2D   shadowMap : register(s0),
-			  uniform sampler2D   normalMap : register(s1),
-			  uniform samplerCUBE normalCubeMap : register(s2))
+			 
+			  uniform sampler2D   normalMap : register(s3),
+			  uniform samplerCUBE normalCubeMap : register(s4))
 {
 
-
-  
-  float3 lightVec;
+ 
+    float3 lightVec;
 	float3 bumpVec;
 	float4 vertexColour;
 	
-	if(isDirectional == 0)
-  {
-      if(lightDist > attenuationDist)
-      {
-        result = float4(0,0,0,1);
-        return;
-      }
-      
-      // retrieve normalised light vector, expand from range-compressed
-      lightVec = expand(texCUBE(normalCubeMap, TSlightDir).xyz);
+	if(lightData[0] < 0.01) //  isDirectional  = lightData[0]
+	{
+		if(lightData[1] > lightData[2]) // lightDist > attenuationDist
+		{
+			result = float4(0,0,0,1);
+			return;
+		}
 
-      // get bump map vector, again expand from range-compressed
-      bumpVec = expand(tex2D(normalMap, uv).xyz);
+		// retrieve normalised light vector, expand from range-compressed
+		lightVec = expand(texCUBE(normalCubeMap, TSlightDir).xyz);
 
+		// get bump map vector, again expand from range-compressed
+		bumpVec = expand(tex2D(normalMap, uv).xyz);
 
-      // Calculate dot product
-      vertexColour = lightColour * dot(bumpVec, lightVec);
-      
-      
-      result = vertexColour;
-      result *= (attenuationDist - lightDist) / attenuationDist;
-      return;
+		// Calculate dot product
+		vertexColour = lightColour * dot(bumpVec, lightVec);
+
+		result = vertexColour;
+		result *= (lightData[2] - lightData[1]) / lightData[2];
+		return;
+
+	}
   
-  }
-  
- 
- // retrieve normalised light vector, expand from range-compressed
-  lightVec = expand(texCUBE(normalCubeMap, TSlightDir).xyz);
+ 	// retrieve normalised light vector, expand from range-compressed
+	lightVec = expand(texCUBE(normalCubeMap, TSlightDir).xyz);
 
-  // get bump map vector, again expand from range-compressed
-  bumpVec = expand(tex2D(normalMap, uv).xyz);
+	// get bump map vector, again expand from range-compressed
+	bumpVec = expand(tex2D(normalMap, uv).xyz);
 
 
-  // Calculate dot product
-  vertexColour = lightColour * dot(bumpVec, lightVec);
+	// Calculate dot product
+	vertexColour = lightColour * dot(bumpVec, lightVec);
     
+  
+	//Shadowing
+	float shadowing = 1.0f;
+	float ScreenDepth = uv.z;
+		
+	/*if (test(shadowMap0, LightPosition0) > 0.3)
+	{
+	    result = float4(1,1,0,1);	
+	    return; 
+	}*/
 	
-
-
-	// point on shadowmap
-#if LINEAR_RANGE
-	shadowUV.xy = shadowUV.xy / shadowUV.w;
-#else
-	shadowUV = shadowUV / shadowUV.w;
-#endif
-
-  // shadowUV.z contains lightspace position of current object
-  if(shadowUV.z > 1.0f) 
-  {    
-     result = vertexColour;
-     return; // this is a fix for focused shadow camera setup
-  }
-  
-  
-	float centerdepth = tex2D(shadowMap, shadowUV.xy).x;
-    
-    // gradient calculation
-  	float pixeloffset = inverseShadowmapSize;
-    float4 depths = float4(
-    	tex2D(shadowMap, shadowUV.xy + float2(-pixeloffset, 0)).x,
-    	tex2D(shadowMap, shadowUV.xy + float2(+pixeloffset, 0)).x,
-    	tex2D(shadowMap, shadowUV.xy + float2(0, -pixeloffset)).x,
-    	tex2D(shadowMap, shadowUV.xy + float2(0, +pixeloffset)).x);
-
-	float2 differences = abs( depths.yw - depths.xz );
-	float gradient = min(gradientClamp, max(differences.x, differences.y));
-	float gradientFactor = gradient * gradientScaleBias;
-
-	// visibility function
-	float depthAdjust = gradientFactor + (fixedDepthBias * centerdepth);
-	float finalCenterDepth = centerdepth + depthAdjust;
-
+	// poza obszarem cienia
+	if ( ScreenDepth  >  pssmSplitPoints.w)
+	{   
+	    // result = float4(1,1,0,1);	
+		 result = vertexColour;		
+		 return; // this is a fix for focused shadow camera setup
+	}
 	
-  
-  
-#if FUZZY_TEST
-	// fuzzy test - introduces some ghosting in result and doesn't appear to be needed?
-	//float visibility = saturate(1 + delta_z / (gradient * shadowFuzzyWidth));
-	float visibility = saturate(1 + (finalCenterDepth - shadowUV.z) * shadowFuzzyWidth * shadowUV.w);
-
-	result = vertexColour * visibility;
-#else
-	// hard test
-#if PCF
-	// use depths from prev, calculate diff
-	depths += depthAdjust.xxxx;
-	float final = (finalCenterDepth > shadowUV.z) ? 1.0f : 0.0f;
+	float adjust = 0.9975; // testing 		
+	if (ScreenDepth <= pssmSplitPoints.y)
+	{
+		LightPosition0.z *=adjust;
+		shadowing = shadowPCF(shadowMap0, LightPosition0, invShadowMapSize0.xy );
+		 //result = float4(1,0,0,1);	
+		// return;
+	}
+	else if (ScreenDepth <= pssmSplitPoints.z)
+	{
+		LightPosition1.z *=adjust;
+	    shadowing = shadowPCF(shadowMap1, LightPosition1, invShadowMapSize1.xy );
+	    // result = float4(0,1,0,1);	
+	    // return;
+	}
+	else
+	{
+		LightPosition2.z *=adjust;	
+	    shadowing = shadowPCF(shadowMap2, LightPosition2, invShadowMapSize2.xy);
+	   // result = float4(0,0,1,1);		
+		//return; 
+	}
 	
-	final += (depths.x > shadowUV.z) ? 1.0f : 0.0f;
-	final += (depths.y > shadowUV.z) ? 1.0f : 0.0f;
-	final += (depths.z > shadowUV.z) ? 1.0f : 0.0f;
-	final += (depths.w > shadowUV.z) ? 1.0f : 0.0f;
-	final *= 0.35f;
-	
-
-	result = float4(vertexColour.xyz * final, 1);
-	
-#else
-	result = (finalCenterDepth > shadowUV.z) ? vertexColour : float4(0,0,0,1);
-#endif
-  
-  
- 
-  
- 
-#endif
-
-
+	/*float fogFar = 1000;
+	float4 fogColour = float4(1,1,1,1);
+    float dist = distance(float3(0,0,0), camera_pos);
+    if(dist > fogFar) dist = fogFar;
+    float fog = 1 - ((fogFar - dist) / fogFar);
+    fog = 1.0;*/
+         
+  //  (depth-fogstart)/(fogend-fogstart)
+	result = float4(vertexColour.xyz * shadowing , 1);
+	//result = lerp(result, fogColour, fog);
 	
 }
 

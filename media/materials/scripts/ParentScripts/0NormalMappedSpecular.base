@@ -38,24 +38,37 @@ material NormalMappedSpecularBase
 			vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
 			{
 			}
-			shadow_receiver_vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
-			{
-			}
+			
 
 			// Fragment program
 			fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
 			{
 			}
-			shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
+						
+
+			texture_unit shadow_tex0
 			{
+				content_type shadow
+				tex_address_mode clamp
 			}
+			texture_unit shadow_tex1
+			{
+				content_type shadow
+				tex_address_mode clamp
+			}
+			texture_unit shadow_tex2
+			{
+				content_type shadow
+				tex_address_mode clamp
+			}
+
 
 			// shadowmap texture will be bound by code
 
 			// Base bump map
 			texture_unit
 			{
-			  texture_alias NormalMap
+			  	texture_alias NormalMap
 				texture dummy.bmp
 				colour_op replace
 			}
@@ -85,7 +98,7 @@ material NormalMappedSpecularBase
 
 			texture_unit
 			{
-			  texture_alias DiffuseMap
+			    texture_alias DiffuseMap
 				texture dummy.bmp
 			}
 			
@@ -102,7 +115,7 @@ material NormalMappedSpecular : NormalMappedSpecularBase
 		pass lighting
 		{
 			// override just receiver program 
-			shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
+			fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
 			{
 			}
 			
@@ -160,17 +173,32 @@ material IslandBase
 			vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
 			{
 			}
-			shadow_receiver_vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
-			{
-			}
+			
 
 			// Fragment program
 			fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
 			{
 			}
-			shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFP
+
+
+			texture_unit shadow_tex0
 			{
+				content_type shadow
+				tex_address_mode clamp
 			}
+			texture_unit shadow_tex1
+			{
+				content_type shadow
+				tex_address_mode clamp
+			}
+			texture_unit shadow_tex2
+			{
+				content_type shadow
+				tex_address_mode clamp
+			}
+			
+
+
 
 			// shadowmap texture will be bound by code
 
@@ -208,9 +236,9 @@ material IslandBase
 			texture_unit
 			{
 			   texture_alias DiffuseMap
-				 texture sand.jpg
-         // Scale the texture so, that it looks nice
-         scale 0.3 0.3
+		           texture sand.jpg
+         		   // Scale the texture so, that it looks nice
+         		   scale 0.3 0.3
 			}
 			
 		}

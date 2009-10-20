@@ -510,28 +510,61 @@ material Ocean2_HLSL
     }
     
      pass lighting
-     {
-          scene_blend add		
-        	ambient 0 0 0 
-        	
-        			// Vertex program reference
-          //vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
-          //{
-         //}
-          shadow_receiver_vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
-          {
-          }
-
-          // Fragment program
-          //fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
-         // {
-         // }
-          shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
-          {
-          }
-			
+     { 
           // do this for each light
           iteration once_per_light
+          scene_blend add		
+          ambient 0 0 0 
+        	
+          // Vertex program reference
+           vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
+           {
+           }
+         // shadow_receiver_vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
+        //  {
+        //  }
+
+          // Fragment program
+            fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
+            {
+            }
+        //  shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
+         // {
+        //  }
+        
+			texture_unit shadow_tex0
+			{
+				content_type shadow
+				tex_address_mode clamp
+			}
+			texture_unit shadow_tex1
+			{
+				content_type shadow
+				tex_address_mode clamp
+			}
+			texture_unit shadow_tex2
+			{
+				content_type shadow
+				tex_address_mode clamp
+			}
+			
+			// todo: OPTIMIZE
+			// Base bump map
+			texture_unit
+			{			   
+				texture dummy.bmp
+				colour_op replace
+			}
+			
+			// Normalisation cube map
+			texture_unit
+			{
+				cubic_texture nm.png combinedUVW
+				tex_coord_set 1
+				tex_address_mode clamp
+			}
+			
+         
     }
         
 		pass Decal

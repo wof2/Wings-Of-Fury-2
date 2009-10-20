@@ -1741,7 +1741,7 @@ namespace Wof.View
         public void InitOceanSurface()
         {
             // OCEAN 
-            
+           
             // minimap
             if (FrameWork.DisplayMinimap)
             {
@@ -1893,25 +1893,26 @@ namespace Wof.View
             // fog
             if (level.DayTime == DayTime.Foggy)
             {
-                sceneMgr.SetFog(FogMode.FOG_EXP, new ColourValue(0.8f, 0.8f, 0.8f), 0.002f, 0, 0);
+                sceneMgr.SetFog(FogMode.FOG_LINEAR, new ColourValue(0.8f, 0.8f, 0.8f), 0.00f, 480, 1800);
             }
             else
             {
               //  sceneMgr.SetFog(FogMode.FOG_LINEAR, new ColourValue(0.9f, 0.9f, 0.9f), 0.0f, 100, 20000);
-                sceneMgr.SetFog(FogMode.FOG_EXP, new ColourValue(0.9f, 0.9f, 0.9f), 0.001f, 0, 0);
+                sceneMgr.SetFog(FogMode.FOG_LINEAR, new ColourValue(0.9f, 0.9f, 0.9f), 0.000f, 300, 3600);
             }
-
+        
             Mogre.Plane skyPlane;
             skyPlane.normal = Vector3.UNIT_Z;
             skyPlane.d = oceanSize/2.0f;
 
 
-         //   sceneMgr.SetSkyPlane(true, skyPlane, material, oceanSize/110.0f, 1, true, 0.5f, 10, 10);
-            sceneMgr.SetSkyBox(true, material, 10000, true);
-     
+          //  sceneMgr.SetSkyPlane(true, skyPlane, material, oceanSize/110.0f, 1, true, 0.5f, 10, 10);
+          
+            sceneMgr.SetSkyBox(true, material, 3000, true);
+            sceneMgr.AmbientLight = ambient;
          //   sceneMgr.SetFog(FogMode.FOG_NONE);
 
-            sceneMgr.AmbientLight = ambient;
+          
 		
             // mewy
             if (!EngineConfig.LowDetails)

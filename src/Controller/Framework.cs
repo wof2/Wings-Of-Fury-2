@@ -59,7 +59,6 @@ using FSLOgreCS;
 using Microsoft.DirectX.DirectSound;
 using Mogre;
 using MOIS;
-using OIS;
 using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
 using Wof.View.Effects;
@@ -68,12 +67,13 @@ using FontManager = Mogre.FontManager;
 using InputManager = MOIS.InputManager;
 using JoyStick = MOIS.JoyStick;
 using Keyboard = MOIS.Keyboard;
-using Math = Mogre.Math;
 using Mouse = MOIS.Mouse;
 using Plane = Wof.Model.Level.Planes.Plane;
 using Timer=Mogre.Timer;
 using Type = MOIS.Type;
 using Vector3 = Mogre.Vector3;
+
+
 
 namespace Wof.Controller
 {
@@ -213,6 +213,7 @@ namespace Wof.Controller
             MessageBox.Show(ex.Message + "\r\n" + "Stack trace: "+ex.StackTrace, "Wings of Fury 2 - Runtime error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
+       
         public virtual void Go()
         {
             if (!Setup())
@@ -500,48 +501,10 @@ namespace Wof.Controller
             // Get the SceneManager, in this case a generic one
             sceneMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "SceneMgr");
 
-            if (EngineConfig.ShadowsQuality > 0)
-            {            	
-            	sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE; 
-            	FocusedShadowCameraSetup cam = new FocusedShadowCameraSetup();                       	
-            	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(cam));
-            	
-            //sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new DefaultShadowCameraSetup()));
-           	//  LiSPSMShadowCameraSetup cam = new LiSPSMShadowCameraSetup();
-            //	cam.OptimalAdjustFactor = 3.0f;
-            //	sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new LiSPSMShadowCameraSetup()));
-            	//sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(new  PSSMShadowCameraSetup()));
-            	
-        
-              
-            	sceneMgr.SetShadowTextureCasterMaterial("Ogre/DepthShadowmap/Caster/Float");
-         	//	sceneMgr.SetShadowTextureReceiverMaterial("Ogre/DepthShadowmap/Receiver/Float");
-		
-				sceneMgr.ShadowTextureSelfShadow = (true);	
-			    sceneMgr.ShadowFarDistance = 140;
-				switch(EngineConfig.ShadowsQuality)
-				{
-					case EngineConfig.ShadowsQualityTypes.Low:
-						 sceneMgr.SetShadowTextureSettings(512, 1);
-						 sceneMgr.ShadowFarDistance *= 0.8f;
-					break;
-					
-					case EngineConfig.ShadowsQualityTypes.Medium:
-						 sceneMgr.SetShadowTextureSettings(1024, 1);
-					break;
-					
-					case EngineConfig.ShadowsQualityTypes.High:
-						 sceneMgr.SetShadowTextureSettings(1024, 1);
-						 sceneMgr.ShadowFarDistance *= 1.3f;
-					break;					
-						
-				}				
-				
-            }
-
-
             minimapMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "MinimapMgr");
             overlayMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "OverlayMgr");
+
+           
         }
 
 
@@ -587,8 +550,8 @@ namespace Wof.Controller
             // Create the camera
             camera = sceneMgr.CreateCamera("mainCamera");
 
-            camera.NearClipDistance = 1.0f;
-            //camera.FarClipDistance = 500.0f;
+            camera.NearClipDistance = 5.0f;
+            camera.FarClipDistance = 8600.0f;
 
 
             if (displayMinimap)
@@ -597,9 +560,80 @@ namespace Wof.Controller
             }
             CreateMinimapNoseCamera();
             CreateOverlayCamera();
+
+            SetupShadows(camera);
         }
 
-       
+
+        protected virtual void SetupShadows(Camera camera)
+        {
+            if(EngineConfig.ShadowsQuality > 0)
+            {
+               
+                int i = 0;
+                sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED;
+                sceneMgr.ShadowFarDistance = 140;
+               
+                sceneMgr.ShadowTextureSelfShadow = (true);
+
+                sceneMgr.SetShadowTextureCasterMaterial("Ogre/DepthShadowmap/Caster/Float");
+                sceneMgr.SetShadowTextureCountPerLightType(Light.LightTypes.LT_DIRECTIONAL, 3);
+
+                sceneMgr.ShadowTextureCount = 3;
+                sceneMgr.SetShadowTextureConfig(0, 512, 512, PixelFormat.PF_X8R8G8B8);
+                sceneMgr.SetShadowTextureConfig(1, 1024, 1024, PixelFormat.PF_X8R8G8B8);
+                sceneMgr.SetShadowTextureConfig(2, 256, 256, PixelFormat.PF_X8R8G8B8);
+                PSSMShadowCameraSetup pssm = new PSSMShadowCameraSetup();
+
+                pssm.CalculateSplitPoints(3, camera.NearClipDistance, sceneMgr.ShadowFarDistance, 0.00001f);
+
+                pssm.SetOptimalAdjustFactor(0, 6);
+                pssm.SetOptimalAdjustFactor(1, 6.5f);
+                pssm.SetOptimalAdjustFactor(2, 3f);
+                pssm.SplitPadding = 5.7f;
+
+                //pssm.UseSimpleOptimalAdjust = true;
+
+                //pssm.CameraLightDirectionThreshold = 0;
+               //    sceneMgr.ShadowDirectionalLightExtrusionDistance= (1000);
+                //sceneMgr.ShadowDirLightTextureOffset =0.1f;
+
+                PSSMShadowCameraSetup.Const_SplitPointList splitPoints = pssm.GetSplitPoints();
+                sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(pssm));
+
+                IEnumerator<float> pointsEnu = splitPoints.GetEnumerator();
+                Vector4 splitPointsVect = new Vector4();
+
+                while (pointsEnu.MoveNext())
+                {
+                    splitPointsVect[i] = pointsEnu.Current;
+                    i++;
+                }
+                
+
+                SetSplitPointsForMaterial("Carrier", splitPointsVect);
+                SetSplitPointsForMaterial("CarrierPanels", splitPointsVect);
+                SetSplitPointsForMaterial("CarrierLane", splitPointsVect);
+                SetSplitPointsForMaterial("A6M/Body", splitPointsVect);
+                SetSplitPointsForMaterial("P47/Body", splitPointsVect);
+                SetSplitPointsForMaterial("Island", splitPointsVect);
+                SetSplitPointsForMaterial("Steel", splitPointsVect);
+
+                SetSplitPointsForMaterial("Ocean2_HLSL", splitPointsVect);
+            }
+
+           
+
+
+        }
+
+
+        private void SetSplitPointsForMaterial(string name, Vector4 splitPointsVect)
+        {
+            
+            MaterialPtr mat = MaterialManager.Singleton.GetByName(name);
+            mat.GetTechnique(0).GetPass("lighting").GetFragmentProgramParameters().SetNamedConstant("pssmSplitPoints", splitPointsVect);
+        }
 
        
        
@@ -616,6 +650,7 @@ namespace Wof.Controller
 
         private void RenderSystem_EventOccurred(string eventName, Const_NameValuePairList parameters)
         {
+        
             if (eventName.Equals("DeviceLost"))
                 window.WindowMovedOrResized();
         }
@@ -1124,7 +1159,7 @@ namespace Wof.Controller
                 sceneMgr.DestroyAllInstancedGeometry();
                 sceneMgr.DestroyAllMovableObjects();
                 sceneMgr.ClearScene();
-                sceneMgr.DestroyAllCameras();
+               // sceneMgr.DestroyAllCameras();
                 sceneMgr.Dispose();
                 Root.Singleton.DestroySceneManager(sceneMgr);
                 sceneMgr = null;
