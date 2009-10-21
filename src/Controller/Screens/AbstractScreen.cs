@@ -560,6 +560,16 @@ namespace Wof.Controller.Screens
         public virtual void MouseReceived(String button)
         {
         }
+        public void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        {
+            if (EngineConfig.UseHydrax)
+            {
+                HydraxManager.Singleton.Update(evt);
+                //       HydraxManager.Singleton.TranslateSurface(new Vector3(0, 0, -20.0f * evt.timeSinceLastFrame));
+
+            }
+
+        }
 
         public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
@@ -909,12 +919,7 @@ namespace Wof.Controller.Screens
 
         public virtual void FrameStarted(FrameEvent evt)
         {
-            if (EngineConfig.UseHydrax)
-            {
-                HydraxManager.Singleton.Update(evt);
-       //       HydraxManager.Singleton.TranslateSurface(new Vector3(0, 0, -20.0f * evt.timeSinceLastFrame));
-                
-            }
+            
             EffectsManager.Singleton.UpdateTimeAndAnimateAll(evt.timeSinceLastFrame);
             
             foreach(SceneNode cloud in cloudNodes)

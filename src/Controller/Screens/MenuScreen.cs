@@ -59,6 +59,7 @@ namespace Wof.Controller.Screens
         void CleanUp(Boolean justMenu);
         void OnUpdateModel(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick);
         void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick);
+        void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick);
         
         /// <summary>
         /// Zwraca bazow¹ wielkoœæ czcionki u¿ytej na screenie w pikselach

@@ -46,12 +46,11 @@
  * 
  */
 
-using CaelumSharp;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using MHydrax;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
@@ -1581,6 +1580,10 @@ namespace Wof.View
                 ViewHelper.DetachQuadrangles(sceneMgr, q);
             }
         }
+        public void OnFrameEnded(FrameEvent evt)
+        {
+          
+        }
 
         /// <summary>
         /// 
@@ -1908,28 +1911,11 @@ namespace Wof.View
             skyPlane.normal = Vector3.UNIT_Z;
             skyPlane.d = oceanSize/2.0f;
 
-         //   sceneMgr.SetSkyBox(true, material, 3000, true);
+            sceneMgr.SetSkyBox(true, material, 3000, true);
             sceneMgr.AmbientLight = ambient;
           //  sceneMgr.SetFog(FogMode.FOG_NONE);
-            
-            
-            
-           
-            CaelumSystem cs = new CaelumSharp.CaelumSystem(framework.Root, sceneMgr, CaelumSystem.CaelumComponent.None);
-            CaelumScript.Singleton.Initialise();
-            
-            CaelumScript.Singleton.LoadCaelumSystemFromScript(cs, "CloudFadeScriptTest");
-            
-            
-			cs.AttachViewport(this.framework.Viewport);
-			cs.ManageSceneFog = false;
-			cs.ManageAmbientLight= false;
-			
-			framework.Window.PreViewportUpdate += cs.PreViewportUpdate;
-			framework.Root.FrameStarted += cs.FrameStarted;
 
           
-		
             // mewy
             if (!EngineConfig.LowDetails)
             {

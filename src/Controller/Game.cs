@@ -134,6 +134,15 @@ namespace Wof.Controller
 
         }
 
+        public override bool FrameEnded(FrameEvent evt)
+        {
+            if (currentScreen != null)
+            {
+                currentScreen.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoystick);
+            }
+            return true;
+        }
+
         /// <summary>
         /// Handler zdarzenia FrameStarted: animacja
         /// </summary>
