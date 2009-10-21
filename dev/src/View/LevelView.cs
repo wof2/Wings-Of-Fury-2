@@ -46,16 +46,19 @@
  * 
  */
 
+using CaelumSharp;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using MHydrax;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
 using Wof.Model.Configuration;
 using Wof.Model.Level;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.Infantry;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
@@ -63,16 +66,13 @@ using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
-using Wof.Model.Level.Infantry;
 using Wof.Model.Level.Weapon;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;
 using Wof.View.TileViews;
 using Wof.View.VertexAnimation;
-using Math=Mogre.Math;
-using Plane=Wof.Model.Level.Planes.Plane;
-
-using MHydrax;
+using Math = Mogre.Math;
+using Plane = Wof.Model.Level.Planes.Plane;
 
 namespace Wof.View
 {
@@ -1814,6 +1814,9 @@ namespace Wof.View
         {
             // Set the material
             ColourValue ambient = new ColourValue(0.5f, 0.5f, 0.5f);
+            
+            
+           
 
             // zmienne odbicie w wodzie
             string texture = "morning.jpg";
@@ -1905,12 +1908,25 @@ namespace Wof.View
             skyPlane.normal = Vector3.UNIT_Z;
             skyPlane.d = oceanSize/2.0f;
 
-
-          //  sceneMgr.SetSkyPlane(true, skyPlane, material, oceanSize/110.0f, 1, true, 0.5f, 10, 10);
-          
-            sceneMgr.SetSkyBox(true, material, 3000, true);
+         //   sceneMgr.SetSkyBox(true, material, 3000, true);
             sceneMgr.AmbientLight = ambient;
-         //   sceneMgr.SetFog(FogMode.FOG_NONE);
+          //  sceneMgr.SetFog(FogMode.FOG_NONE);
+            
+            
+            
+           
+            CaelumSystem cs = new CaelumSharp.CaelumSystem(framework.Root, sceneMgr, CaelumSystem.CaelumComponent.None);
+            CaelumScript.Singleton.Initialise();
+            
+            CaelumScript.Singleton.LoadCaelumSystemFromScript(cs, "CloudFadeScriptTest");
+            
+            
+			cs.AttachViewport(this.framework.Viewport);
+			cs.ManageSceneFog = false;
+			cs.ManageAmbientLight= false;
+			
+			framework.Window.PreViewportUpdate += cs.PreViewportUpdate;
+			framework.Root.FrameStarted += cs.FrameStarted;
 
           
 		
