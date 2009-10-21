@@ -112,6 +112,10 @@ namespace Wof.Controller
         private BackgroundWorker modelWorker = new BackgroundWorker();
 
         protected Root root;
+        
+		public Root Root {
+			get { return root; }
+		}
         protected Camera camera, minimapCamera, minimapNoseCamera, overlayCamera;
 
         public Camera Camera
@@ -551,7 +555,7 @@ namespace Wof.Controller
             camera = sceneMgr.CreateCamera("mainCamera");
 
             camera.NearClipDistance = 5.0f;
-            camera.FarClipDistance = 8600.0f;
+        //    camera.FarClipDistance = 8600.0f;
 
 
             if (displayMinimap)
