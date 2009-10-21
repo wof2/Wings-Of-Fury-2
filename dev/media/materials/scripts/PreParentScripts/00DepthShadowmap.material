@@ -12,7 +12,7 @@ vertex_program Ogre/DepthShadowmap/CasterVP_HLSL hlsl
     default_params
     {
         param_named_auto worldViewProj worldviewproj_matrix
-		//param_named_auto texelOffsets texel_offsets
+		 //   param_named_auto texelOffsets texel_offsets
 		//param_named_auto depthRange scene_depth_range
     }
 }

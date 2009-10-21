@@ -4,7 +4,7 @@ void casterVP(
 		
 	out float2 outDepth		: TEXCOORD0,
 	out float4 outPos		: POSITION,
-
+  uniform float4 texelOffsets,
 	uniform float4x4 worldViewProj,	
 	uniform float4 depthRange
 	)
@@ -109,11 +109,6 @@ void normalMapShadowReceiverVp(
   
   
   float lightDist = distance(lightPosition, position);
-  /*float xdist = abs(lightPosition.x - position.x);
-  float ydist = abs(lightPosition.y - position.y);
-  float zdist = abs(lightPosition.z - position.z);
-  float lightDist =  sqrt(xdist*xdist + ydist*ydist + zdist*zdist);
-  */
   
   if(lightPosition.w <= 0.5)
   {
@@ -128,11 +123,7 @@ void normalMapShadowReceiverVp(
 
 	// calculate shadow map coords
 	outShadowUV = mul(texViewProj, worldPos);
-#if LINEAR_RANGE
-	// adjust by fixed depth bias, rescale into range
-	outShadowUV.z = (outShadowUV.z - shadowDepthRange.x) * shadowDepthRange.w;
-#endif
-	
+
 	// pass the main uvs straight through unchanged
 	oUv = float3(uv, outPos.z);
 
@@ -155,8 +146,8 @@ void normalMapShadowReceiverVp(
 	
 	
 	oLightPosition0 = mul(texWorldViewProjMatrix0, position);
-    oLightPosition1 = mul(texWorldViewProjMatrix1, position);
-    oLightPosition2 = mul(texWorldViewProjMatrix2, position);
+  oLightPosition1 = mul(texWorldViewProjMatrix1, position);
+  oLightPosition2 = mul(texWorldViewProjMatrix2, position);
     
     
 	
@@ -232,27 +223,31 @@ void normalMapShadowReceiverFp(
 	// get bump map vector, again expand from range-compressed
 	bumpVec = expand(tex2D(normalMap, uv).xyz);
 
-
-	// Calculate dot product
+  shadowUV = shadowUV / shadowUV.w;
+  
+  // Calculate dot product
 	vertexColour = lightColour * dot(bumpVec, lightVec);
+	
+	 // shadowUV.z contains lightspace position of current object
+  if(shadowUV.z > 1.0f) 
+  {    
+     result = vertexColour;
+     return; // this is a fix for focused shadow camera setup
+  }
     
   
 	//Shadowing
 	float shadowing = 1.0f;
 	float ScreenDepth = uv.z;
 		
-	/*if (test(shadowMap0, LightPosition0) > 0.3)
-	{
-	    result = float4(1,1,0,1);	
-	    return; 
-	}*/
+	
 	
 	// poza obszarem cienia
 	if ( ScreenDepth  >  pssmSplitPoints.w)
 	{   
 	    // result = float4(1,1,0,1);	
 		 result = vertexColour;		
-		 return; // this is a fix for focused shadow camera setup
+		 return; 
 	}
 	
 	float adjust = 0.9975; // testing 		
@@ -278,16 +273,8 @@ void normalMapShadowReceiverFp(
 		//return; 
 	}
 	
-	/*float fogFar = 1000;
-	float4 fogColour = float4(1,1,1,1);
-    float dist = distance(float3(0,0,0), camera_pos);
-    if(dist > fogFar) dist = fogFar;
-    float fog = 1 - ((fogFar - dist) / fogFar);
-    fog = 1.0;*/
-         
-  //  (depth-fogstart)/(fogend-fogstart)
 	result = float4(vertexColour.xyz * shadowing , 1);
-	//result = lerp(result, fogColour, fog);
+	
 	
 }
 

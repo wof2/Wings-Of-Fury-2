@@ -104,6 +104,28 @@ material NormalMappedSpecularBase
 			
 		}
 	}
+	
+	
+	
+	technique Simple
+  {
+	
+    pass decal
+    {
+      ambient 0.888235 0.888235 0.888235 
+      diffuse 0.888235 0.888235 0.888235 
+      specular 0 0 0 10
+      emissive 0 0 0 
+      
+      texture_unit 
+      {
+        texture_alias DiffuseMap
+              texture dummy.bmp			
+      }
+    }
+
+
+  }
 }
 
 
@@ -287,4 +309,26 @@ material IslandBase
 		
 		
 	}
+	
+	
+	
+	technique Simple
+  {
+	
+    pass decal
+    {
+      ambient 0.888235 0.888235 0.888235 
+      diffuse 0.888235 0.888235 0.888235 
+      specular 0 0 0 10
+      emissive 0 0 0 
+      
+      texture_unit 
+      {
+        texture_alias DiffuseMap
+              texture dummy.bmp			
+      }
+    }
+
+
+  }
 }

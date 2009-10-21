@@ -567,12 +567,31 @@ namespace Wof.Controller
 
         protected virtual void SetupShadows(Camera camera)
         {
+        	       	
+        	
             if(EngineConfig.ShadowsQuality > 0)
             {
+            	
+            	ushort baseSize = 512;
+	        	switch(EngineConfig.ShadowsQuality)
+	        	{
+	        		case EngineConfig.ShadowsQualityTypes.Low:
+	        			baseSize = 256;
+	        			sceneMgr.ShadowFarDistance = 160;
+	        			break;
+	        		case EngineConfig.ShadowsQualityTypes.Medium:
+	        			baseSize = 512;
+	        			sceneMgr.ShadowFarDistance = 180;
+	        			break;
+	        		case EngineConfig.ShadowsQualityTypes.High:
+	        			baseSize = 1024;
+	        			sceneMgr.ShadowFarDistance = 240;
+	        			break;
+	        	}
                
                 int i = 0;
                 sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED;
-                sceneMgr.ShadowFarDistance = 140;
+                
                
                 sceneMgr.ShadowTextureSelfShadow = (true);
 
@@ -580,9 +599,9 @@ namespace Wof.Controller
                 sceneMgr.SetShadowTextureCountPerLightType(Light.LightTypes.LT_DIRECTIONAL, 3);
 
                 sceneMgr.ShadowTextureCount = 3;
-                sceneMgr.SetShadowTextureConfig(0, 512, 512, PixelFormat.PF_X8R8G8B8);
-                sceneMgr.SetShadowTextureConfig(1, 1024, 1024, PixelFormat.PF_X8R8G8B8);
-                sceneMgr.SetShadowTextureConfig(2, 256, 256, PixelFormat.PF_X8R8G8B8);
+                sceneMgr.SetShadowTextureConfig(0, baseSize    , baseSize    , PixelFormat.PF_FLOAT32_R);
+                sceneMgr.SetShadowTextureConfig(1, (ushort)(baseSize * 2), (ushort)(baseSize * 2), PixelFormat.PF_FLOAT32_R);
+                sceneMgr.SetShadowTextureConfig(2, (ushort)(baseSize / 2), (ushort)(baseSize / 2), PixelFormat.PF_FLOAT32_R);
                 PSSMShadowCameraSetup pssm = new PSSMShadowCameraSetup();
 
                 pssm.CalculateSplitPoints(3, camera.NearClipDistance, sceneMgr.ShadowFarDistance, 0.00001f);
@@ -630,9 +649,16 @@ namespace Wof.Controller
 
         private void SetSplitPointsForMaterial(string name, Vector4 splitPointsVect)
         {
-            
-            MaterialPtr mat = MaterialManager.Singleton.GetByName(name);
-            mat.GetTechnique(0).GetPass("lighting").GetFragmentProgramParameters().SetNamedConstant("pssmSplitPoints", splitPointsVect);
+            try
+            { 
+            	MaterialPtr mat = MaterialManager.Singleton.GetByName(name);
+            	mat.GetTechnique(0).GetPass("lighting").GetFragmentProgramParameters().SetNamedConstant("pssmSplitPoints", splitPointsVect);            	
+            }
+            catch(Exception)
+            {
+            	
+            }
+           
         }
 
        
