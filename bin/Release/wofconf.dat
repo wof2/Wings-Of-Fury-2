@@ -1,7 +1,7 @@
 false
 true
 FSL_SS_DIRECTSOUND
-100
+30
 40
 false
 false
@@ -9,8 +9,8 @@ pl-PL
 Easy
 true
 true
-true
-Medium
+false
+Low
 False
 true
 false

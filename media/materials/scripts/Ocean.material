@@ -520,17 +520,13 @@ material Ocean2_HLSL
            vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
            {
            }
-         // shadow_receiver_vertex_program_ref Ogre/DepthShadowmap/NormalMapReceiverVP
-        //  {
-        //  }
+     
 
           // Fragment program
             fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
             {
             }
-        //  shadow_receiver_fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
-         // {
-        //  }
+      
         
 			texture_unit shadow_tex0
 			{
@@ -552,7 +548,7 @@ material Ocean2_HLSL
 			// Base bump map
 			texture_unit
 			{			   
-				texture dummy.bmp
+				texture morning2_normal.jpg
 				colour_op replace
 			}
 			
