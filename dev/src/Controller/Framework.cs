@@ -555,7 +555,7 @@ namespace Wof.Controller
             camera = sceneMgr.CreateCamera("mainCamera");
 
             camera.NearClipDistance = 5.0f;
-        //    camera.FarClipDistance = 8600.0f;
+            camera.FarClipDistance = 8600.0f;
 
 
             if (displayMinimap)
@@ -603,12 +603,12 @@ namespace Wof.Controller
                 sceneMgr.SetShadowTextureCountPerLightType(Light.LightTypes.LT_DIRECTIONAL, 3);
 
                 sceneMgr.ShadowTextureCount = 3;
-                sceneMgr.SetShadowTextureConfig(0, baseSize    , baseSize    , PixelFormat.PF_FLOAT32_R);
+                sceneMgr.SetShadowTextureConfig(0, baseSize, baseSize, PixelFormat.PF_FLOAT32_R);
                 sceneMgr.SetShadowTextureConfig(1, (ushort)(baseSize * 2), (ushort)(baseSize * 2), PixelFormat.PF_FLOAT32_R);
                 sceneMgr.SetShadowTextureConfig(2, (ushort)(baseSize / 2), (ushort)(baseSize / 2), PixelFormat.PF_FLOAT32_R);
                 PSSMShadowCameraSetup pssm = new PSSMShadowCameraSetup();
 
-                pssm.CalculateSplitPoints(3, camera.NearClipDistance, sceneMgr.ShadowFarDistance, 0.00001f);
+                pssm.CalculateSplitPoints(3, camera.NearClipDistance, sceneMgr.ShadowFarDistance, 0.05f);
 
                 pssm.SetOptimalAdjustFactor(0, 6);
                 pssm.SetOptimalAdjustFactor(1, 6.5f);
@@ -672,7 +672,7 @@ namespace Wof.Controller
         {
             modelWorker.DoWork += LoopModelWorker;
             root.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
-          
+            root.FrameEnded += FrameEnded;
             root.RenderSystem.EventOccurred +=
                 new RenderSystem.Listener.EventOccurredHandler(RenderSystem_EventOccurred);
             SoundManager3D.Instance.CreateFrameListener(root);
@@ -718,6 +718,12 @@ namespace Wof.Controller
         public virtual void ModelFrameStarted(FrameEvent evt)
         {
             OnUpdateModel(evt);
+        }
+
+        public virtual bool FrameEnded(FrameEvent evt)
+        {
+
+            return false;
         }
 
         public virtual bool FrameStarted(FrameEvent evt)

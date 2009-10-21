@@ -1121,7 +1121,18 @@ namespace Wof.Controller.Screens
                 // mouseState = null;
             }
         }
-       
+
+
+        public void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        {
+            if(levelView != null)
+            {
+                levelView.OnFrameEnded(evt);
+            }
+
+        }
+
+
         public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
         	
