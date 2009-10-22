@@ -2558,6 +2558,7 @@ namespace Wof.Model.Level.Planes
             {
                 case GlideType.destroyed:
                         tempMV.Y -= gravitationalAcceleration * scaleFactor;
+                        movementVector = tempMV;
                     break;
 
                 case GlideType.heightLimit:
@@ -3070,6 +3071,7 @@ namespace Wof.Model.Level.Planes
         {
             if (wreckTimeElapsed > wreckTime) //koniec czasu
             {
+            	wreckTimeElapsed = 0;
             	// czyscimy atraktory
             	this.attractorTarget.ClearAttractors();
             	

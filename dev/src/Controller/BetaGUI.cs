@@ -300,7 +300,7 @@ namespace BetaGUI
 
         ////////////////////////////////////////////////////////////////////////////
         // Adam Witczak
-        public static float C_RESPONSE_DELAY = 0.24f;
+        public static float C_RESPONSE_DELAY = 0.10f;
 
 
         private static Timer keyDelay = new Timer();
