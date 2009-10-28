@@ -580,16 +580,16 @@ namespace Wof.Controller
 	        	switch(EngineConfig.ShadowsQuality)
 	        	{
 	        		case EngineConfig.ShadowsQualityTypes.Low:
-	        			baseSize = 256;
+	        			baseSize = 128;
 	        			sceneMgr.ShadowFarDistance = 160;
 	        			break;
 	        		case EngineConfig.ShadowsQualityTypes.Medium:
-	        			baseSize = 512;
-	        			sceneMgr.ShadowFarDistance = 180;
+	        			baseSize = 256;
+	        			sceneMgr.ShadowFarDistance = 170;
 	        			break;
 	        		case EngineConfig.ShadowsQualityTypes.High:
-	        			baseSize = 1024;
-	        			sceneMgr.ShadowFarDistance = 240;
+	        			baseSize = 512;
+	        			sceneMgr.ShadowFarDistance = 200;
 	        			break;
 	        	}
                
@@ -600,19 +600,18 @@ namespace Wof.Controller
                 sceneMgr.ShadowTextureSelfShadow = (true);
 
                 sceneMgr.SetShadowTextureCasterMaterial("Ogre/DepthShadowmap/Caster/Float");
-                sceneMgr.SetShadowTextureCountPerLightType(Light.LightTypes.LT_DIRECTIONAL, 3);
-
-                sceneMgr.ShadowTextureCount = 3;
-                sceneMgr.SetShadowTextureConfig(0, baseSize, baseSize, PixelFormat.PF_FLOAT32_R);
-                sceneMgr.SetShadowTextureConfig(1, (ushort)(baseSize * 2), (ushort)(baseSize * 2), PixelFormat.PF_FLOAT32_R);
-                sceneMgr.SetShadowTextureConfig(2, (ushort)(baseSize / 2), (ushort)(baseSize / 2), PixelFormat.PF_FLOAT32_R);
+                sceneMgr.SetShadowTextureCountPerLightType(Light.LightTypes.LT_DIRECTIONAL, 2);
+             sceneMgr.ShadowTextureCount = 2;
+                sceneMgr.SetShadowTextureConfig(0, (ushort)(baseSize * 2), (ushort)(baseSize * 2), PixelFormat.PF_FLOAT32_R);
+                sceneMgr.SetShadowTextureConfig(1, (ushort)(baseSize ), (ushort)(baseSize), PixelFormat.PF_FLOAT32_R);
+               // sceneMgr.SetShadowTextureConfig(2, (ushort)(baseSize / 2), (ushort)(baseSize / 2), PixelFormat.PF_FLOAT32_R);
                 PSSMShadowCameraSetup pssm = new PSSMShadowCameraSetup();
 
-                pssm.CalculateSplitPoints(3, camera.NearClipDistance, sceneMgr.ShadowFarDistance, 0.05f);
+                pssm.CalculateSplitPoints(2, camera.NearClipDistance, sceneMgr.ShadowFarDistance, 0.5f);
 
                 pssm.SetOptimalAdjustFactor(0, 6);
                 pssm.SetOptimalAdjustFactor(1, 6.5f);
-                pssm.SetOptimalAdjustFactor(2, 3f);
+                //pssm.SetOptimalAdjustFactor(2, 3f);
                 pssm.SplitPadding = 5.7f;
 
                 //pssm.UseSimpleOptimalAdjust = true;
@@ -625,7 +624,7 @@ namespace Wof.Controller
                 sceneMgr.SetShadowCameraSetup(new ShadowCameraSetupPtr(pssm));
 
                 IEnumerator<float> pointsEnu = splitPoints.GetEnumerator();
-                Vector4 splitPointsVect = new Vector4();
+                Vector3 splitPointsVect = new Vector3();
 
                 while (pointsEnu.MoveNext())
                 {
@@ -651,7 +650,7 @@ namespace Wof.Controller
         }
 
 
-        private void SetSplitPointsForMaterial(string name, Vector4 splitPointsVect)
+        private void SetSplitPointsForMaterial(string name, Vector3 splitPointsVect)
         {
             try
             { 
@@ -814,7 +813,7 @@ namespace Wof.Controller
                         {
                             if (inputKeyboard.IsKeyDown(KeyCode.KC_PGUP))
                             {
-                                cameraZoom += 1.2f;
+                                cameraZoom += 1.3f;
                             }
                             else
                             {
@@ -823,14 +822,14 @@ namespace Wof.Controller
                         }
                     }
 
-                    // ZOOM IN
+                    // ZOOM IN                    
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_PGDOWN) || mouseState.Z.rel < 0)
                     {
                         if (cameraZoom > -25)
                         {
                             if (inputKeyboard.IsKeyDown(KeyCode.KC_PGDOWN))
                             {
-                                cameraZoom -= 1.2f;
+                                cameraZoom -= 1.3f;
                                 
                             }
                             else

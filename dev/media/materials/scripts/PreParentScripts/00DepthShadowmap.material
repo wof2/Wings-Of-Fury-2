@@ -50,7 +50,7 @@ vertex_program Ogre/DepthShadowmap/NormalMapReceiverVP_HLSL hlsl
 		param_named_auto lightPosition light_position_object_space 0
 		param_named_auto texWorldViewProjMatrix0	texture_worldviewproj_matrix 0
 		param_named_auto texWorldViewProjMatrix1	texture_worldviewproj_matrix 1
-		param_named_auto texWorldViewProjMatrix2	texture_worldviewproj_matrix 2
+	//	param_named_auto texWorldViewProjMatrix2	texture_worldviewproj_matrix 2
 		param_named_auto lightAttenuation		light_attenuation 0
 		
     }
@@ -71,7 +71,7 @@ fragment_program Ogre/DepthShadowmap/NormalMapReceiverFP_HLSL hlsl
 			
 		param_named_auto invShadowMapSize0	inverse_texture_size 0
 		param_named_auto invShadowMapSize1	inverse_texture_size 1
-		param_named_auto invShadowMapSize2	inverse_texture_size 2
+		//param_named_auto invShadowMapSize2	inverse_texture_size 2
 		param_named_auto shadow_scene_depth_range      	shadow_scene_depth_range 0
 	
     }
@@ -91,7 +91,7 @@ fragment_program Ogre/DepthShadowmap/NormalMapReceiverFPPCF_HLSL hlsl
 				
 		param_named_auto invShadowMapSize0	inverse_texture_size 0
 		param_named_auto invShadowMapSize1	inverse_texture_size 1
-		param_named_auto invShadowMapSize2	inverse_texture_size 2
+		//param_named_auto invShadowMapSize2	inverse_texture_size 2
 		param_named_auto shadow_scene_depth_range      	shadow_scene_depth_range      0
 		 
 		
