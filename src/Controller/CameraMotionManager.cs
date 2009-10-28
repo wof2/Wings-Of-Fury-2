@@ -142,7 +142,7 @@ namespace Wof.Controller
             speedFactor = speed; // wsp. szybkosci
 
             //altFactor*=altFactor * altFactor;
-            if (playerPlane.Position.Y < 30) altFactor /= (30 - (float) playerPlane.Position.Y)*0.1f;
+            if (playerPlane.Position.Y < 30) altFactor /= (30 - (float) playerPlane.Position.Y)*0.15f;
             if (altFactor > 250) altFactor = 250;
             zoomFactor = speedFactor*0.1f + altFactor*0.53f + (-manualZoom+ minCamDistance - c.Position.z);
             
