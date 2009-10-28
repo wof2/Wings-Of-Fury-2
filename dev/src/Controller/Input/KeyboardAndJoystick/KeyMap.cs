@@ -205,6 +205,8 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             sb.AppendLine("_back:" + _back);
             sb.AppendLine("_gear:" + _gear);
             sb.AppendLine("_camera:" + _camera);
+            sb.AppendLine("_zoomIn:" + _zoomIn);
+            sb.AppendLine("_zoomOut:" + _zoomOut);
             sb.AppendLine("_engine:" + _engine);
             sb.AppendLine("_spin:" + _spin);
            
@@ -246,6 +248,8 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 k._back = GetKeyCode("_back", "KC_ESCAPE");
                 k._gear = GetKeyCode("_gear", "KC_G");
                 k._camera = GetKeyCode("_camera", "KC_C");
+                k._zoomIn = GetKeyCode("_zoomIn", "KC_PGUP");
+                k._zoomOut = GetKeyCode("_zoomOut", "KC_PGDOWN");
                 k._engine = GetKeyCode("_engine", "KC_E");
         		
                 try
@@ -298,6 +302,9 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 WriteString("_back", _back.ToString());        		
                 WriteString("_gear", _gear.ToString());
                 WriteString("_camera", _camera.ToString());
+                WriteString("_zoomIn", _zoomIn.ToString());
+                WriteString("_zoomOut", _zoomOut.ToString());
+                
                 WriteString("_engine", _engine.ToString());
                 WriteString("_spin", _spin.ToString());
 
@@ -535,6 +542,30 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             get { return _camera; }
             set { _camera = value; }
         }
+        
+         
+        private KeyCode _zoomIn;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zoom in.
+        /// </summary>
+        public KeyCode ZoomIn
+        {
+            get { return _zoomIn; }
+            set { _zoomIn = value; }
+        }
+        
+        private KeyCode _zoomOut;
+
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zoom out.
+        /// </summary>
+        public KeyCode ZoomOut
+        {
+            get { return _zoomOut; }
+            set { _zoomOut = value; }
+        }
+        
         
         
         private KeyCode _engine;

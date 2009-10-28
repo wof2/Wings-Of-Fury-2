@@ -807,11 +807,11 @@ namespace Wof.Controller
                 {
 
                     // ZOOM IN
-                    if (inputKeyboard.IsKeyDown(KeyCode.KC_PGUP) || mouseState.Z.rel > 0)
+                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.ZoomIn) || mouseState.Z.rel > 0)
                     {
                         if (cameraZoom < 25)
                         {
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_PGUP))
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.ZoomIn))
                             {
                                 cameraZoom += 1.3f;
                             }
@@ -822,12 +822,13 @@ namespace Wof.Controller
                         }
                     }
 
+                    
                     // ZOOM IN                    
-                    if (inputKeyboard.IsKeyDown(KeyCode.KC_PGDOWN) || mouseState.Z.rel < 0)
+                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.ZoomOut) || mouseState.Z.rel < 0)
                     {
                         if (cameraZoom > -25)
                         {
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_PGDOWN))
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.ZoomOut))
                             {
                                 cameraZoom -= 1.3f;
                                 
