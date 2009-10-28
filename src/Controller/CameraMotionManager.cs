@@ -94,8 +94,8 @@ namespace Wof.Controller
             float halfMaxHeight = (float) GameConsts.UserPlane.MaxHeight/2.0f;
 
             float realHalfMaxHeight = halfMaxHeight*0.95f;
-            //float camAlt = c._getDerivedPosition().y + c.Position.y;
-            float camAlt = c.RealPosition.y;
+            float camAlt = c.RealPosition.y + c.Position.y;
+           // float camAlt = c.RealPosition.y;
 
             float minCamAlt = 4.0f;
 

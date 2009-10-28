@@ -21,7 +21,7 @@ void casterVP(
 void casterFP(
 	float2 depth			: TEXCOORD0,	
 	out float4 result		: COLOR,
-	uniform float4 pssmSplitPoints
+	uniform float3 pssmSplitPoints
 	)
 	
 {
@@ -90,7 +90,7 @@ void normalMapShadowReceiverVp(
 			
 			 out float4 oLightPosition0   : TEXCOORD4,
 			 out float4 oLightPosition1   : TEXCOORD5,
-			 out float4 oLightPosition2   : TEXCOORD6,
+		//	 out float4 oLightPosition2   : TEXCOORD6,
 			 out float4 outPosition 	  : TEXCOORD7,
 			 // parameters
 			 uniform float4 lightPosition, // object space
@@ -100,8 +100,8 @@ void normalMapShadowReceiverVp(
 			 uniform float4 lightAttenuation,
 			 
 			 uniform float4x4 texWorldViewProjMatrix0,
-			 uniform float4x4 texWorldViewProjMatrix1,
-			 uniform float4x4 texWorldViewProjMatrix2
+			 uniform float4x4 texWorldViewProjMatrix1
+			// uniform float4x4 texWorldViewProjMatrix2
 			 
 			 
 			 )
@@ -147,7 +147,7 @@ void normalMapShadowReceiverVp(
 	
 	oLightPosition0 = mul(texWorldViewProjMatrix0, position);
   oLightPosition1 = mul(texWorldViewProjMatrix1, position);
-  oLightPosition2 = mul(texWorldViewProjMatrix2, position);
+ // oLightPosition2 = mul(texWorldViewProjMatrix2, position);
     
     
 	
@@ -163,7 +163,7 @@ void normalMapShadowReceiverFp(
 			 //PSSM
 			 float4 LightPosition0   : TEXCOORD4,
 			 float4 LightPosition1   : TEXCOORD5,
-			 float4 LightPosition2   : TEXCOORD6,
+			// float4 LightPosition2   : TEXCOORD6,
              float3  outPosition     : TEXCOORD7,
 			  out float4 result	: COLOR,
 
@@ -173,20 +173,20 @@ void normalMapShadowReceiverFp(
 			  //PSSM
 			  uniform float4 invShadowMapSize0,
 			  uniform float4 invShadowMapSize1,
-			  uniform float4 invShadowMapSize2,
+			 // uniform float4 invShadowMapSize2,
 			  uniform float4 shadow_scene_depth_range,
-			  uniform float4 pssmSplitPoints,
+			  uniform float3 pssmSplitPoints,
 			  
 			  //Standard		  
 			 
 			  //PSSM
 			  uniform sampler2D shadowMap0 : register(s0),
 			  uniform sampler2D shadowMap1 : register(s1),
-			  uniform sampler2D shadowMap2 : register(s2),   
+			 // uniform sampler2D shadowMap2 : register(s2),   
 			  
 			 
-			  uniform sampler2D   normalMap : register(s3),
-			  uniform samplerCUBE normalCubeMap : register(s4))
+			  uniform sampler2D   normalMap : register(s2),
+			  uniform samplerCUBE normalCubeMap : register(s3))
 {
 
  
@@ -243,7 +243,7 @@ void normalMapShadowReceiverFp(
 	
 	
 	// poza obszarem cienia
-	if ( ScreenDepth  >  pssmSplitPoints.w)
+	if ( ScreenDepth  >  pssmSplitPoints.z)
 	{   
 	    // result = float4(1,1,0,1);	
 		 result = vertexColour;		
@@ -267,8 +267,8 @@ void normalMapShadowReceiverFp(
 	}
 	else
 	{
-		LightPosition2.z *=adjust;	
-	    shadowing = shadowPCF(shadowMap2, LightPosition2, invShadowMapSize2.xy);
+		//LightPosition2.z *=adjust;	
+	 //   shadowing = shadowPCF(shadowMap2, LightPosition2, invShadowMapSize2.xy);
 	   // result = float4(0,0,1,1);		
 		//return; 
 	}

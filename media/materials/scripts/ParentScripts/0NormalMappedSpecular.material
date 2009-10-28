@@ -56,11 +56,7 @@ material NormalMappedSpecularBase
 				content_type shadow
 				tex_address_mode clamp
 			}
-			texture_unit shadow_tex2
-			{
-				content_type shadow
-				tex_address_mode clamp
-			}
+		
 
 
 			// shadowmap texture will be bound by code
@@ -213,13 +209,7 @@ material IslandBase
 				content_type shadow
 				tex_address_mode clamp
 			}
-			texture_unit shadow_tex2
-			{
-				content_type shadow
-				tex_address_mode clamp
-			}
-			
-
+		
 
 
 			// shadowmap texture will be bound by code
