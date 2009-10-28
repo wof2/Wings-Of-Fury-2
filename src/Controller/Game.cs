@@ -185,7 +185,10 @@ namespace Wof.Controller
 
         private static void Main(string[] args)
         {
-           
+         
+        	//  MessageBox.Show("Params"+string.Join(",",args));
+     
+        	
             if (args != null && args.Length > 0)
             {
                 for (int i = 0; i < args.Length; i++)
@@ -196,10 +199,15 @@ namespace Wof.Controller
                         EngineConfig.AttachCameraToPlayerPlane = false;
                         EngineConfig.ManualCamera = true;
                     }
+                    else if (args[i].Equals("-SkipIntro"))
+                    {
+                        EngineConfig.ShowIntro = false;                        
+                    } 
                     else if (args[i].Equals("-DebugInfo"))
                     {
                         EngineConfig.DebugInfo = true;
-                    } else if (args[i].Equals("-DebugStart"))
+                    }                    
+                    else if (args[i].Equals("-DebugStart"))
                     {
                         EngineConfig.DebugStart = true;
                         if(i + 1 < args.Length )
@@ -227,7 +235,7 @@ namespace Wof.Controller
             } 
 
             StartWOFApplication();	            
-            SoundManager3D.Instance.Dispose();
+          
 	        if (getGame().afterExit != null) getGame().afterExit();
             
            
@@ -243,24 +251,25 @@ namespace Wof.Controller
             {
                 bool firstInstance;
                 Mutex mutex = new Mutex(false, @"Wings_Of_Fury", out firstInstance);
-                if (firstInstance)
+             //   if (firstInstance)
                 {
                     StartFirstInstance();
                 }
-                else
+           //     else
                 {
-                    SetFocusToPreviousInstance();
-                }
+                   
+                }  
+                SoundManager3D.Instance.Dispose();
                 mutex.Close();
               
             }
             catch (Exception exc)
             {
-             
+             	
 	            try{
+            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, exc.Message + " " + exc.StackTrace);
 	                getGame().window.Destroy();
-	                ShowWofException(exc);
-	                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, exc.Message + " " + exc.StackTrace);
+	                ShowWofException(exc);	                
 	                Debug.WriteLine(exc.ToString());
 	            }
             	catch
@@ -327,15 +336,26 @@ namespace Wof.Controller
             }
             if (shouldReload)
             {
-                string filename = Process.GetCurrentProcess().MainModule.FileName;
+               /* string filename = Process.GetCurrentProcess().MainModule.FileName;
                 int index = filename.IndexOf("bin");
                 string dir = filename.Substring(0, index);
                 filename = dir + "Wof.exe";
-
-                ShellExecute(0, "open", filename, "", dir, 1);
-  
-                /*Process.Start(
-                    Process.GetCurrentProcess().MainModule.FileName);*/
+                */				
+               // ShellExecute(0, "open", filename, param, dir, 1);
+               
+  				string param="-SkipIntro"; // nie bedziemy meczyc intro jesli ktos chce tylko zmienic rozdzielczosc
+                ProcessStartInfo startInfo = new ProcessStartInfo();
+		        startInfo.CreateNoWindow = false;
+		        startInfo.UseShellExecute = false;
+		        startInfo.FileName = Process.GetCurrentProcess().MainModule.FileName;
+		        startInfo.WindowStyle = ProcessWindowStyle.Normal;
+		        startInfo.Arguments = param;
+				Process exeProcess = Process.Start(startInfo);
+				
+				//User32.SetForegroundWindow(exeProcess.Handle);
+				//SetFocusToPreviousInstance();
+				game.Hide();
+			
             }
         }
 

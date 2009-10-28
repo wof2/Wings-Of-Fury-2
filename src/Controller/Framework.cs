@@ -224,6 +224,9 @@ namespace Wof.Controller
                 return;
             modelWorker.WorkerSupportsCancellation = true;
             modelWorker.RunWorkerAsync();
+            this.BringToFront();
+            this.Activate();
+            
             root.StartRendering();
             
             // clean up
@@ -253,7 +256,7 @@ namespace Wof.Controller
             HighLevelGpuProgramManager.Singleton.UnloadAll();
             window.RemoveAllListeners();
             window.RemoveAllViewports(); 
-            Root.Singleton.RenderSystem.DestroyRenderWindow(window.Name);
+          //  Root.Singleton.RenderSystem.DestroyRenderWindow(window.Name);
          
             window.Dispose();
             window = null;
@@ -382,7 +385,10 @@ namespace Wof.Controller
             {
                 splash.Close();
                 splash.Dispose();
-                if (carryOn) window.SetVisible(true);
+                if (carryOn) 
+                {
+                	window.SetVisible(true);                	
+                }
             }
             return true;
         }
@@ -489,10 +495,9 @@ namespace Wof.Controller
     
           	
             window = root.Initialise(true, "Wings Of Fury 2");
-           
+        
             windowHeight = window.Height;
-            windowWidth = window.Width;
-            
+            windowWidth = window.Width;           
             Resize += new EventHandler(OgreForm_Resize);
             root.SaveConfig();
             return true;

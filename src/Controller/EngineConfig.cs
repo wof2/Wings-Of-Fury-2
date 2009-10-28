@@ -281,7 +281,12 @@ namespace Wof.Controller
 					
                     try
 					{
-                    	ShowIntro = "true".Equals(configOptions[9]);
+                    	if(ShowIntro)
+                    	{
+                    		// intro mo¿na tylko wy³aczyæ. Chodzi o to zeby zapobiec w³¹czeniu intra jeœli uruchomiono program z -SkipIntro
+                    		ShowIntro = "true".Equals(configOptions[9]);
+                    	}
+                    	
                     }
                     catch(Exception)
                     {
