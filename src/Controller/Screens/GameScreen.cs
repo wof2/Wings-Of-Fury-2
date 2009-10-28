@@ -2474,7 +2474,7 @@ namespace Wof.Controller.Screens
             {
 
                 if(!changingAmmo)
-                {
+                {                	
                     DisplayChangeAmmoScreen();
                    
                     SoundManager.Instance.HaltEngineSound();
@@ -2482,17 +2482,11 @@ namespace Wof.Controller.Screens
                     levelView.OnStartHangaring(-1, true);
                     changingAmmo = true;
                 }
-               
-
-                
-
-
-
 
                 //DisplayNextLevelScreen();
                 //DisplayGameoverScreen();
             }
-            else
+            else if(!isInNextLevelMenu)
             {
                 OnReadyLevelEnd();
                 isGamePaused = true;

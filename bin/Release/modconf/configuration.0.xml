@@ -28,8 +28,8 @@
   -->
   <UserPlane 
     oilLoss="0.05"
-    moveStep="11"
-    maxSpeed="65"
+    moveStep="5"
+    maxSpeed="60"
     petrolLoss="1"
     bombCount="30"
     rocketCount="30"
