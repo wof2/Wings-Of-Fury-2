@@ -15,6 +15,10 @@ material CarrierPanels: NormalMappedSpecular
  
 }
 
+material Carrier/Panels : CarrierPanels
+{
+
+}
 
 material CarrierLane : NormalMappedSpecular
 {
@@ -22,6 +26,12 @@ material CarrierLane : NormalMappedSpecular
   set_texture_alias DiffuseMap lane.dds
 
 }
+
+material Carrier/Lane : CarrierLane
+{
+
+}
+
 
 material Carrier/Lane_low : NormalMappedSpecular
 {

@@ -1732,7 +1732,7 @@ namespace Wof.Model.Level.Planes
                             }
                             else if (CanFastWheeling)
                             {
-                                float addSpeed = scaleFactor*GameConsts.UserPlane.MoveStep*0.75f; // todo: przeniesc 0.75 do sta³ej
+                                float addSpeed = scaleFactor*GameConsts.UserPlane.MoveStep;
                                 float oldSpeed = movementVector.EuclidesLength;
                                 float newSpeed = movementVector.EuclidesLength + addSpeed;
 

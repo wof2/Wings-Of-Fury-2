@@ -562,7 +562,7 @@ namespace Wof.View
             for (int i = 0; i < arrestingWires.Count; i++)
             {
                 diff = p.RearWheelInnerNode._getDerivedPosition().x - arrestingWires[i]._getDerivedPosition().x;
-                if (Math.Abs(diff) < 0.1f && diff > 0 && !activeArrestingWires.Contains(arrestingWires[i]))
+                if (Math.Abs(diff) < 0.5f && diff > 0 && !activeArrestingWires.Contains(arrestingWires[i]))
                 {
                     activeArrestingWires.Add(arrestingWires[i]);
                 }
