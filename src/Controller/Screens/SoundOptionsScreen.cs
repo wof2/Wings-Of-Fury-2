@@ -59,6 +59,7 @@ namespace Wof.Controller.Screens
     internal class SoundOptionsScreen : AbstractOptionsScreen, BetaGUIListener
     {
         private static Hashtable soundSystems = null;
+      
         
 		public static Hashtable SoundSystems {
 			get 

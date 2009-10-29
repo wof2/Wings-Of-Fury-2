@@ -56,11 +56,14 @@ using Wof.Languages;
 namespace Wof.Controller.Screens
 {
     internal class ControlsOptionsScreen : AbstractOptionsScreen, BetaGUIListener
-    {
+    { 
+    
         public ControlsOptionsScreen(GameEventListener gameEventListener,
                                      SceneManager sceneMgr, Viewport viewport, Camera camera, Root root) :
                                          base(gameEventListener, sceneMgr, viewport, camera, root)
         {
+    		C_MAX_OPTIONS = 3;
+    		showRestartRequiredMessage = false;
         }
 
         protected override string getTitle()
@@ -96,11 +99,15 @@ namespace Wof.Controller.Screens
             base.LayoutOptions(availableOptions, window, cc);
             string info1 = LanguageResources.GetString(LanguageKey.KeyboardInfo1);
             string info2 = LanguageResources.GetString(LanguageKey.KeyboardInfo2);
+           
+            AbstractOptionsScreen.AddControlsInfoToGui(guiWindow, mGui, viewport.ActualWidth / 6, (int)(GetTextVSpacing() * 6), 0, viewport.ActualWidth, GetTextVSpacing(),  GetFontSize());
+            
+            
             guiWindow.createStaticText(
-               new Vector4(viewport.ActualWidth / 6, C_MAX_OPTIONS * GetTextVSpacing() + 9 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+               new Vector4(viewport.ActualWidth / 6, C_MAX_OPTIONS * GetTextVSpacing() + 18 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                info1);
             guiWindow.createStaticText(
-               new Vector4(viewport.ActualWidth / 6, C_MAX_OPTIONS * GetTextVSpacing() + 10 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+               new Vector4(viewport.ActualWidth / 6, C_MAX_OPTIONS * GetTextVSpacing() + 19 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                info2);
         }
     }
