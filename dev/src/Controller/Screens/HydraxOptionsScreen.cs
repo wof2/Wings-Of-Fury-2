@@ -60,6 +60,7 @@ namespace Wof.Controller.Screens
                                   SceneManager sceneMgr, Viewport viewport, Camera camera, Root root) :
                                       base(gameEventListener, sceneMgr, viewport, camera, root)
         {
+    		showRestartRequiredMessage = false;
         }
 
         protected override string getTitle()

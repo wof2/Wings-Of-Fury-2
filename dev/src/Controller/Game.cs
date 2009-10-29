@@ -701,7 +701,7 @@ namespace Wof.Controller
             initScreenAfter(currentScreen);
 
             SoundManager.Instance.PlayMainTheme();
-            currentScreen = new CreditsScreen(this, sceneMgr, viewport, camera, true, 35);
+            currentScreen = new CreditsScreen(this, sceneMgr, viewport, camera, true, 65);
 
             if (ss != null)
             {

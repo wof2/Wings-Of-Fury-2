@@ -85,8 +85,8 @@ namespace Wof.Controller.Screens
                                   SceneManager sceneMgr, Viewport viewport, Camera camera, Root root) :
                                       base(gameEventListener, sceneMgr, viewport, camera, root)
         {
-        	
-           soundSystems = SoundSystems; // init
+            showRestartRequiredMessage = false;
+            soundSystems = SoundSystems; // init
         }
 
         protected override string getTitle()
