@@ -81,6 +81,13 @@ namespace Wof.Controller.Screens
         }
         protected List<PlaneView> planeViews;
         
+        public List<SceneNode> CloudNodes
+        {
+            get { return cloudNodes; }
+            set { cloudNodes = value; }
+        }
+        protected List<SceneNode> cloudNodes;
+        
 
         public uint MousePosX
         {
@@ -96,11 +103,13 @@ namespace Wof.Controller.Screens
         }
         protected uint mousePosY;
 
-        public ScreenState(List<PlaneView> planeViews, uint mousePosX, uint mousePosY)
+        public ScreenState(List<PlaneView> planeViews, List<SceneNode> cloudNodes, uint mousePosX, uint mousePosY)
         {
             this.planeViews = planeViews;
+            this.cloudNodes = cloudNodes;
             this.mousePosX = mousePosX;
             this.mousePosY = mousePosY;
+            
         }
 
     }
@@ -171,6 +180,15 @@ namespace Wof.Controller.Screens
             get { return planeViews; }
             set { planeViews = value; }
         }
+        
+        
+        protected List<SceneNode> cloudNodes;
+        
+         public List<SceneNode> CloudNodes
+        {
+            get { return cloudNodes; }
+            set { cloudNodes = value; }
+        }
 
 
         protected Button[] buttons = null; // przyciski na ekranie
@@ -188,7 +206,7 @@ namespace Wof.Controller.Screens
         protected int backButtonIndex = -1; // indeks przycisku 'powrót'.
         
         
-        protected List<SceneNode> cloudNodes;
+      
 
         public uint MousePosX
         {
@@ -278,7 +296,7 @@ namespace Wof.Controller.Screens
         /// <returns></returns>
         public ScreenState GetScreenState()
         {
-            return new ScreenState(planeViews, mousePosX, mousePosY);
+            return new ScreenState(planeViews, cloudNodes, mousePosX, mousePosY);
         }
         /// <summary>
         /// Wymusza nowy stan screena: samoloty oraz po³o¿enie myszki
@@ -287,6 +305,7 @@ namespace Wof.Controller.Screens
         public void SetScreenState(ScreenState ss)
         {
             planeViews = ss.PlaneViews;
+            cloudNodes = ss.CloudNodes;
             mousePosX = ss.MousePosX;
             mousePosY = ss.MousePosY;
         }
@@ -396,9 +415,6 @@ namespace Wof.Controller.Screens
 
         public virtual void CreateScene()
         {
-          
-
-
             if (planeViews == null || planeViews.Count == 0)
             {
                 // add planes
@@ -535,6 +551,12 @@ namespace Wof.Controller.Screens
             		planeViews.Clear();
             		planeViews = null;
             	}
+            	if(cloudNodes != null)
+            	{
+            		cloudNodes.Clear();
+            		cloudNodes = null;
+            	}
+            	
                 FrameWork.DestroyScenes();
                 camera = null;
                 
@@ -921,9 +943,11 @@ namespace Wof.Controller.Screens
         {
             
             EffectsManager.Singleton.UpdateTimeAndAnimateAll(evt.timeSinceLastFrame);
-            
+          //  Console.WriteLine("-");
             foreach(SceneNode cloud in cloudNodes)
             {
+            	
+            	                  
             	if(cloud.Position.z < -2000)
             	{            		
             		cloud.SetPosition(cloud.Position.x, cloud.Position.y, 500);

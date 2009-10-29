@@ -119,6 +119,7 @@ namespace Wof.Controller.Screens
                              SceneManager sceneMgr, Viewport viewport, Camera camera, bool startFromBottom, float speed) :
                                  base(gameEventListener, sceneMgr, viewport, camera, startFromBottom, speed)
         {
+        	
         
         }
 
@@ -128,9 +129,9 @@ namespace Wof.Controller.Screens
         }
 
         protected override List<Button> buildButtons()
-        {
+        {        	
             List<Button> ret = new List<Button>();
-            ret.Add(guiWindow.createButton(new Vector4(20, 32.5f*GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+            ret.Add(guiWindow.createButton(new Vector4(20, 37.5f*GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                                            "bgui.button", LanguageResources.GetString(LanguageKey.OK), cc));
             return ret;
         }
