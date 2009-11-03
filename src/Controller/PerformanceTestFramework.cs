@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mogre;
 using Wof.Languages;
+using Math=Mogre.Math;
 
 namespace Wof.Controller
 {
@@ -16,7 +17,7 @@ namespace Wof.Controller
     public class PerformanceTestFramework : FrameWork
     {
 
-        private float testRunningTime = 2.0f;
+        private float testRunningTime = 2f;
         public enum GraphicsQuality
         {
             VeryLow, Low, Medium, UpperMedium, High, VeryHigh, Superb
@@ -32,6 +33,8 @@ namespace Wof.Controller
 	    private string fullScreen;
 	    private string videoMode;
 
+        private string antialiasing;
+
 	    public string FullScreen
 	    {
 	        get { return fullScreen; }
@@ -41,6 +44,11 @@ namespace Wof.Controller
 	    {
 	        get { return videoMode; }
 	    }
+
+        public string Antialiasing
+        {
+            get { return antialiasing; }
+        }
 
 	    public bool HasResults
 	    {
@@ -55,28 +63,29 @@ namespace Wof.Controller
 
         public GraphicsQuality EstimateQualitySettingsAndWriteEngineConfig()
 		{
+            
+
             hasResults = true;
 		    float fps = GetAverageFPS();
             EngineConfig.LoadEngineConfig();
             fullScreen = "Yes";
 		    GraphicsQuality quality;
-          //  String vertexProgramVer = root.RenderSystem.Capabilities.MaxVertexProgramVersion.Replace("vs","").Replace("_", "");
-            String vertexProgramVer = "vs_3_0"; // naprawic
-            uint vpv;
-            if(uint.TryParse(vertexProgramVer, out vpv))
-            {
-                vpv /= 10; // wersja podawana jest w postaci np. vs_3_0 -> 30 -> 30 / 10 = 3;
-            }
-            else
-            {
-                vpv = 0;
-            }
+            bool hiEndVS = root.RenderSystem.Capabilities.IsShaderProfileSupported("vs_3_0");
+           
+            List<String> videoOptions= GetVideoModes(root, true, 800, 600);
+            int maxVO = videoOptions.Count - 1;
 
+
+            List<String> aaOptions = GetAntialiasingModes(root);
+            int maxAA = aaOptions.Count - 1;
+            
+            
             if(fps < 50)
             {
                 // very low
                 quality= GraphicsQuality.VeryLow;
-                videoMode = "800 x 600 @ 32-bit colour";
+                videoMode = videoOptions[0];
+                antialiasing = aaOptions[0];
                 EngineConfig.UseHydrax = false;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.None;
                 EngineConfig.LowDetails = true;
@@ -86,7 +95,8 @@ namespace Wof.Controller
             {
                 // low
                 quality = GraphicsQuality.Low;
-                videoMode = "800 x 600 @ 32-bit colour";
+                videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.10f)];
+                antialiasing = aaOptions[0];
                 EngineConfig.UseHydrax = false;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.None;
                 EngineConfig.LowDetails = false;
@@ -97,7 +107,8 @@ namespace Wof.Controller
             {
                 // medium
                 quality = GraphicsQuality.Medium;
-                videoMode = "1024 x 768 @ 32-bit colour";
+                videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.20f)];
+                antialiasing = aaOptions[0];
                 EngineConfig.UseHydrax = false;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Low;
                 EngineConfig.LowDetails = false;
@@ -108,30 +119,33 @@ namespace Wof.Controller
             {
                 // medium - better
                 quality = GraphicsQuality.UpperMedium;
-                videoMode = "1280 x 1024 @ 32-bit colour";
+                videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.40f)];
+                antialiasing = aaOptions[(int)System.Math.Floor(maxAA * 0.50f)];
                 EngineConfig.UseHydrax = false;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Low;
                 EngineConfig.LowDetails = false;
                 EngineConfig.BloomEnabled = false;
             }
             else
-            if (fps < 800)
+            if (fps < 750)
             {
                 // high
                 quality = GraphicsQuality.High;
-                videoMode = "1280 x 1024 @ 32-bit colour";
-                EngineConfig.UseHydrax = vpv > 2;
+                videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.75f)];
+                antialiasing = aaOptions[(int)System.Math.Floor(maxAA * 0.75f)];
+                EngineConfig.UseHydrax = hiEndVS;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Low;
                 EngineConfig.LowDetails = false;
                 EngineConfig.BloomEnabled = false;
             }
             else
-            if (fps < 1000)
+            if (fps < 900)
             {
                 // higher
                 quality = GraphicsQuality.VeryHigh;
-                videoMode = "1280 x 1024 @ 32-bit colour";
-                EngineConfig.UseHydrax = vpv > 2;
+                videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.85f)];
+                antialiasing = aaOptions[(int)System.Math.Floor(maxAA * 0.85f)];
+                EngineConfig.UseHydrax = hiEndVS;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Medium;
                 EngineConfig.LowDetails = false;
                 EngineConfig.BloomEnabled = true;
@@ -140,8 +154,9 @@ namespace Wof.Controller
             {
                 // hi-end
                 quality = GraphicsQuality.Superb;
-                videoMode = "1280 x 1024 @ 32-bit colour";
-                EngineConfig.UseHydrax = vpv > 2;
+                videoMode = videoOptions[maxVO];
+                antialiasing = aaOptions[maxAA];
+                EngineConfig.UseHydrax = hiEndVS;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.High;
                 EngineConfig.LowDetails = false;
                 EngineConfig.BloomEnabled = true;
@@ -182,7 +197,7 @@ namespace Wof.Controller
 
                 d3dxSystem.SetConfigOption("Full Screen", fullScreen);
                 d3dxSystem.SetConfigOption("Video Mode", videoMode);
-             //   d3dxSystem.SetConfigOption("VSync", "No");
+                d3dxSystem.SetConfigOption("VSync", "No");
 		        window = root.Initialise(true, "Wings Of Fury 2 - test");
                 
             

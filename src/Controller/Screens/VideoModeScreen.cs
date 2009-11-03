@@ -55,6 +55,7 @@ namespace Wof.Controller.Screens
 {
     internal class VideoModeScreen : AbstractOptionsScreen
     {
+
         public const String C_VIDEO_MODE = "Video Mode";
 
         public VideoModeScreen(GameEventListener gameEventListener,
@@ -71,7 +72,7 @@ namespace Wof.Controller.Screens
 
         protected override List<String> GetAvailableOptions(Root root)
         {
-            List<String> availableOptions = GetVideoOptions(root);
+            List<String> availableOptions = FrameWork.GetVideoModes(root);
             return FilterPossibleOptions(availableOptions);
         }
 
@@ -93,32 +94,8 @@ namespace Wof.Controller.Screens
                     .currentValue.Equals(option);
         }
 
-        private List<String> GetVideoOptions(Root root)
-        {
-            List<String> availableModes = new List<String>();
-
-            ConfigOption_NativePtr videoModeOption;
-
-            // staram sie znalezc opcje konfiguracyjna Video Mode
-            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
-            foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
-            {
-                if (m.Value.name.Equals(C_VIDEO_MODE))
-                {
-                    videoModeOption = m.Value;
-                    break;
-                }
-            }
-
-            // nie ma takiej mozliwosci, zebym nie znalazl
-            // konwertuje wektor na liste
-            foreach (String s in videoModeOption.possibleValues)
-            {
-                availableModes.Add(s);
-            }
-
-            return availableModes;
-        }
+       
+        
 
         private List<String> FilterPossibleOptions(List<String> available)
         {

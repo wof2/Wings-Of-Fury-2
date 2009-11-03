@@ -73,6 +73,8 @@ namespace Wof.Controller
 
 
         public static readonly String C_ENGINE_CONFIG = "wofconf.dat";
+        public static readonly String C_OGRE_CFG = "ogre.cfg";
+
 
 
         public static readonly bool UseLastHardwareSettings = false;

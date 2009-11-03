@@ -88,7 +88,13 @@ namespace Wof.Controller
             get { return currentScreen;  }
         }
 
-        protected static Boolean shouldReload = false;
+        public static bool ShouldReload
+        {
+            get { return shouldReload; }
+            set { shouldReload = value; }
+        }
+
+        private static Boolean shouldReload = false;
         private DelegateVoidVoid afterExit = null;
 
         [DllImport("shell32.dll")]
@@ -226,7 +232,7 @@ namespace Wof.Controller
                         
                 }
             }
-            bool firstRun = !File.Exists(EngineConfig.C_ENGINE_CONFIG);
+            bool firstRun = !File.Exists(EngineConfig.C_ENGINE_CONFIG) || !File.Exists(EngineConfig.C_OGRE_CFG);
           
             // przeprowadz test wydajnosci
             if(firstRun)
@@ -334,6 +340,12 @@ namespace Wof.Controller
                 else
                     throw;
             }
+            catch(RootInitializationException)
+            {
+                // i tak bêdzie reload
+                shouldReload = true;
+            }
+
             if (shouldReload)
             {
                /* string filename = Process.GetCurrentProcess().MainModule.FileName;

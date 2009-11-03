@@ -56,6 +56,7 @@ namespace Wof.Controller.Screens
 {
     internal class AntialiasingOptionsScreen : AbstractOptionsScreen//, BetaGUIListener
     {
+
         public const String C_ANTIALIASING = "Anti aliasing";
 
         public AntialiasingOptionsScreen(GameEventListener gameEventListener,
@@ -66,29 +67,7 @@ namespace Wof.Controller.Screens
 
         protected override List<String> GetAvailableOptions(Root root)
         {
-            List<String> availableModes = new List<String>();
-
-            ConfigOption_NativePtr videoModeOption;
-
-            // staram sie znalezc opcje konfiguracyjna Video Mode
-            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
-            foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
-            {
-                if (m.Value.name.Equals(C_ANTIALIASING))
-                {
-                    videoModeOption = m.Value;
-                    break;
-                }
-            }
-
-            // nie ma takiej mozliwosci, zebym nie znalazl
-            // konwertuje wektor na liste
-            foreach (String s in videoModeOption.possibleValues)
-            {
-                availableModes.Add(s);
-            }
-
-            return availableModes;
+            return FrameWork.GetAntialiasingModes(root);
         }
 
         protected override String getTitle()
