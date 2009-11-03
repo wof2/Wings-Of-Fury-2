@@ -52,6 +52,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -83,6 +84,12 @@ namespace Wof.Controller
     /// </summary>
     public abstract class FrameWork : Form
     {
+
+
+        public const String C_VIDEO_MODE = "Video Mode";
+        public const String C_ANTIALIASING = "Anti aliasing";
+
+        
 
         public float CameraZoom
         {
@@ -300,7 +307,12 @@ namespace Wof.Controller
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.SetupingResources)));
                 SetupResources();
+
+               
                 carryOn = Configure();
+                
+                
+                
 
                 ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
                 if (map.ContainsKey("Rendering Device"))
@@ -424,7 +436,97 @@ namespace Wof.Controller
         {
             //   window.WindowMovedOrResized( );
         }
-        
+
+        public static List<String> GetAntialiasingModes(Root root)
+        {
+            List<String> availableModes = new List<String>();
+
+            ConfigOption_NativePtr videoModeOption;
+
+            // staram sie znalezc opcje konfiguracyjna Video Mode
+            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+            foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
+            {
+                if (m.Value.name.Equals(C_ANTIALIASING))
+                {
+                    videoModeOption = m.Value;
+                    break;
+                }
+            }
+
+            // nie ma takiej mozliwosci, zebym nie znalazl
+            // konwertuje wektor na liste
+            foreach (String s in videoModeOption.possibleValues)
+            {
+                availableModes.Add(s);
+            }
+
+            return availableModes;
+        }
+
+        public static List<String> GetVideoModes(Root root, bool only32Bit, int minXResolution, int minYResolution)
+        {
+            List<String> availableModes = new List<String>();
+
+            ConfigOption_NativePtr videoModeOption;
+
+            // staram sie znalezc opcje konfiguracyjna Video Mode
+            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+            foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
+            {
+                if (m.Value.name.Equals(C_VIDEO_MODE))
+                {
+                    videoModeOption = m.Value;
+                    break;
+                }
+            }
+
+            // nie ma takiej mozliwosci, zebym nie znalazl
+            // konwertuje wektor na liste
+            foreach (String s in videoModeOption.possibleValues)
+            {
+                bool add = true;
+                if (only32Bit)
+                {
+                    if(!s.Contains("32-bit")) add = false;
+                }
+
+                if (minXResolution > 0 || minYResolution > 0)
+                {
+                    try
+                    {
+                        Match match = Regex.Match(s, "([0-9]+) x ([0-9]+).*");
+
+                        int xRes = int.Parse(match.Groups[1].Value);
+                        int yRes = int.Parse(match.Groups[2].Value);
+
+                        if (xRes < minXResolution || yRes < minYResolution)
+                        {
+                            add = false;
+                        }
+                    }
+                    catch
+                    {
+                    }
+                   
+                }
+
+                if(add)
+                {
+                    availableModes.Add(s);
+                }
+                
+
+                
+            }
+
+            return availableModes;
+        }
+
+        public static List<String> GetVideoModes(Root root)
+        {
+            return GetVideoModes(root, false, 0,0);
+        }
       
 
 
@@ -443,11 +545,13 @@ namespace Wof.Controller
                     window = root.Initialise(true, "Wings Of Fury 2");
                 
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unable to initialize requested display device. Deleting ogre.cfg (have you change your graphics card? Please try to run game again)");
-                    File.Delete("ogre.cfg");
-                    throw;
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unable to initialize requested display device. Deleting " + EngineConfig.C_OGRE_CFG  + " (have you change your graphics card? TRYING TO RECREATE " + EngineConfig.C_OGRE_CFG + ")");
+                    File.Delete(EngineConfig.C_OGRE_CFG);
+                    MessageBox.Show(
+                        "Unable to initialize requested display device (have you change your graphics card?). The game will now restarting trying to auto detect new settings", "Wings of Fury 2 - warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    throw new RootInitializationException("Error while initializing Root", ex);
                 }
              
                 windowHeight = window.Height;
@@ -479,17 +583,19 @@ namespace Wof.Controller
      
             string fullScreen = "Yes";
             string videoMode = "800 x 600 @ 32-bit colour";
+            string antialiasing = null ;
 
             if (performanceTestFramework != null && performanceTestFramework.HasResults)
             {
                 fullScreen = performanceTestFramework.FullScreen;
                 videoMode = performanceTestFramework.VideoMode;
+                antialiasing = performanceTestFramework.Antialiasing;
             }
             
             d3dxSystem.SetConfigOption("Full Screen", fullScreen);
             d3dxSystem.SetConfigOption("Video Mode", videoMode);
-           
-
+            if(antialiasing != null) d3dxSystem.SetConfigOption("Anti aliasing", antialiasing);
+            
           
             
     
@@ -727,7 +833,7 @@ namespace Wof.Controller
         public virtual bool FrameEnded(FrameEvent evt)
         {
 
-            return false;
+            return true;
         }
 
         public virtual bool FrameStarted(FrameEvent evt)

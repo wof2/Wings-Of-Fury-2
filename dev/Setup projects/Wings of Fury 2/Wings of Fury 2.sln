@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Wings of Fury 2", "Wings of Fury 2\Wings of Fury 2.vdproj", "{6C1896BA-6E02-43EB-B88F-453CE3BE7084}"
 EndProject
 Global
