@@ -554,6 +554,7 @@ namespace Wof.Controller.Screens
             MaterialPtr overlayMaterial = MaterialManager.Singleton.GetByName("SplashScreen");
 
             OverlayElement loadingText = OverlayManager.Singleton.GetOverlayElement("Wof/LoadingScreenText");
+            
             if (n >= 0)
             {
                 TextureManager.Singleton.Load(baseName + n + lang + ".jpg", "General").Load(false); // preload
@@ -574,6 +575,8 @@ namespace Wof.Controller.Screens
 
             texture = Level.GetMissionTypeTextureFile(CurrentLevel.MissionType);
             missionTypeMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(texture);
+            
+            OverlayManager.Singleton.GetOverlayElement("Wof/LoadingScreenMissionType").Show();
 
             loadingOverlay.Show();
 
@@ -863,6 +866,11 @@ namespace Wof.Controller.Screens
                             int timeInterval = (int) Math.Round(evt.timeSinceLastFrame*1000);
                             if (isFirstFrame)
                             {
+                            	if(currentLevel.UserPlane.IsEngineWorking) 
+				                {  
+									OnTurnOnEngine(false);				                	
+				                }
+            	
                                 // w pierwszej klatce chcemy wyzerowaæ czas
                                 timeInterval = 0;
                                 isFirstFrame = false;
@@ -877,8 +885,8 @@ namespace Wof.Controller.Screens
                                 // sprawdzam, czy to juz ten moment
                                 currentLevel.OnCheckVictoryConditions();
                             }
-
-                            SoundManager.Instance.SetEngineFrequency((int) currentLevel.UserPlane.AirscrewSpeed*7);
+							
+                            
                         }
                     }
                 }
@@ -892,18 +900,13 @@ namespace Wof.Controller.Screens
                 if (!isGamePaused && !changingAmmo)
                 {
                     ControlEnemyEngineSounds();
+                    
                 }
+                
             }
             else
             {
-                if (loading == false)
-                {
-                    if(currentLevel.UserPlane.IsEngineWorking) 
-                    { 
-                    	 OnTurnOnEngine(false);
-                    }
-                    
-                }
+            	
             }
         }
 
