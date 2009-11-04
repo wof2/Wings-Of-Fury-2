@@ -16,7 +16,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
-    <StartArguments>-DebugInfo -FreeLook -DebuhgStart 1 -SkipIntrko</StartArguments>
+    <StartArguments>-DebugInfo -FreeLook -DebugStart 4 -SkipIntrko</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <StartArguments>-DebugInfo -FreeLook -DebugStart 1</StartArguments>

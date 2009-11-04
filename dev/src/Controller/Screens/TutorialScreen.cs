@@ -70,7 +70,7 @@ namespace Wof.Controller.Screens
             tutorialOverlay = OverlayManager.Singleton.GetByName("Wof/Loading");
             string lang = "_" + LanguageManager.ActualLanguageCode;
             int n = 0;
-
+ 			OverlayManager.Singleton.GetOverlayElement("Wof/LoadingScreenMissionType").Hide();
             while (
                 ResourceGroupManager.Singleton.ResourceExists(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME,
                                                               C_SCREEN_NAME + n + lang + ".jpg"))
@@ -124,7 +124,12 @@ namespace Wof.Controller.Screens
             
             overlayMaterial = null;
             OverlayManager.Singleton.GetOverlayElement("Wof/LoadingScreenText").Caption = "";
+            
+           
             tutorialOverlay.Show();
+            
+            
+            
         }
 
         private void GotoStartScreen()
