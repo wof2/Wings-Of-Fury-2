@@ -711,8 +711,9 @@ namespace Wof.Controller
                 sceneMgr.ShadowTextureSelfShadow = (true);
 
                 sceneMgr.SetShadowTextureCasterMaterial("Ogre/DepthShadowmap/Caster/Float");
+                sceneMgr.ShadowTextureCount = 2;
                 sceneMgr.SetShadowTextureCountPerLightType(Light.LightTypes.LT_DIRECTIONAL, 2);
-             sceneMgr.ShadowTextureCount = 2;
+      
                 sceneMgr.SetShadowTextureConfig(0, (ushort)(baseSize * 2), (ushort)(baseSize * 2), PixelFormat.PF_FLOAT32_R);
                 sceneMgr.SetShadowTextureConfig(1, (ushort)(baseSize ), (ushort)(baseSize), PixelFormat.PF_FLOAT32_R);
                // sceneMgr.SetShadowTextureConfig(2, (ushort)(baseSize / 2), (ushort)(baseSize / 2), PixelFormat.PF_FLOAT32_R);
@@ -766,11 +767,13 @@ namespace Wof.Controller
             try
             { 
             	MaterialPtr mat = MaterialManager.Singleton.GetByName(name);
+              mat.Load();
+
             	mat.GetTechnique(0).GetPass("lighting").GetFragmentProgramParameters().SetNamedConstant("pssmSplitPoints", splitPointsVect);            	
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-            	
+            	Console.WriteLine(ex);
             }
            
         }

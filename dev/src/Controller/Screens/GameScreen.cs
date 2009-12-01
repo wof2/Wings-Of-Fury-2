@@ -76,6 +76,7 @@ using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 using Wof.View;
+using Wof.View.Effects;
 using Button = BetaGUI.Button;
 using FontManager = Wof.Languages.FontManager;
 using Math = System.Math;
@@ -1143,229 +1144,236 @@ namespace Wof.Controller.Screens
         	{
         		StartLoading();
         	}
-			
-			
-            lock (loadingLock)
+            try
             {
-                if (nextFrameGotoNextLevel)
+              
+                lock (loadingLock)
                 {
-                    isGamePaused = true;
-                    nextFrameGotoNextLevel = false;
-                    SoundManager.Instance.HaltEngineSound();
-                    SoundManager.Instance.HaltGunFireSound();
-                    SoundManager.Instance.HaltWaterBubblesSound();
-                    levelView.OnStopPlayingEnemyPlaneEngineSounds();
-                    SoundManager.Instance.HaltOceanSound();
-                    increaseScore(this.lives * C_LIFE_LEFT_SCORE);
-
-                    // synchronizuj z levelview
-                   
-                    levelView.Destroy();
-                    levelView = null;
-                    if (mGui != null)
+                    if (nextFrameGotoNextLevel)
                     {
-                        mGui.killGUI();
-                        mGui = null;
-                    }
-                    if (mGuiHint != null)
-                    {
-                        mGuiHint.killGUI();
-                        mGuiHint = null;
-                    }
-                    if (missionTypeGui != null)
-                    {
-                        missionTypeGui.killGUI();
-                        missionTypeGui = null;
-                    }
+                        isGamePaused = true;
+                        nextFrameGotoNextLevel = false;
+                        SoundManager.Instance.HaltEngineSound();
+                        SoundManager.Instance.HaltGunFireSound();
+                        SoundManager.Instance.HaltWaterBubblesSound();
+                        levelView.OnStopPlayingEnemyPlaneEngineSounds();
+                        SoundManager.Instance.HaltOceanSound();
+                        increaseScore(this.lives * C_LIFE_LEFT_SCORE);
 
-                    gameEventListener.GotoNextLevel();
-                    
-                }
-
-
-                if (!loading && loadingOverlay == null)
-                {
-
-                    inputMouse.Capture();
-                    inputKeyboard.Capture();
-                    if (inputJoystick != null) inputJoystick.Capture();
-                    Vector2 joyVector = FrameWork.GetJoystickVector(inputJoystick);
-
-                    UpdateMenusGui(inputMouse, inputKeyboard, inputJoystick);
-
-
-                   
-                    if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)) && Button.CanChangeSelectedButton(3.5f) &&
-                       !changingAmmo)
-                    {
-                        if (!isGamePaused)
+                        // synchronizuj z levelview
+                       
+                        levelView.Destroy();
+                        levelView = null;
+                        if (mGui != null)
                         {
-                            DisplayPauseScreen();
-                            SoundManager.Instance.HaltEngineSound();
-                            SoundManager.Instance.HaltWaterBubblesSound();
-                            SoundManager.Instance.HaltOceanSound();
+                            mGui.killGUI();
+                            mGui = null;
                         }
-                        else
+                        if (mGuiHint != null)
                         {
-                            ClearPauseScreen();
-                            SoundManager.Instance.LoopOceanSound();
-                            if (mayPlaySound)
-                            {
-                                SoundManager.Instance.LoopEngineSound();
-                            }
+                            mGuiHint.killGUI();
+                            mGuiHint = null;
                         }
-                        Button.ResetButtonTimer();
-                    }
-
-                   
-                    if (levelView != null && levelView.IsHangaringFinished())
-                    {
-                        levelView.OnHangaringFinished();
-                    }
-
-                  
-                    if (!isGamePaused)
-                    {
-                        if (!changingAmmo)
+                        if (missionTypeGui != null)
                         {
+                            missionTypeGui.killGUI();
+                            missionTypeGui = null;
+                        }
 
-                            // przyczep / odczep kamere
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_V) && EngineConfig.FreeLook &&
-                                Button.CanChangeSelectedButton(3.0f))
+                        gameEventListener.GotoNextLevel();
+                        
+                    }
+
+
+                    if (!loading && loadingOverlay == null)
+                    {
+
+                        inputMouse.Capture();
+                        inputKeyboard.Capture();
+                        if (inputJoystick != null) inputJoystick.Capture();
+                        Vector2 joyVector = FrameWork.GetJoystickVector(inputJoystick);
+
+                        UpdateMenusGui(inputMouse, inputKeyboard, inputJoystick);
+
+
+                       
+                        if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)) && Button.CanChangeSelectedButton(3.5f) &&
+                           !changingAmmo)
+                        {
+                            if (!isGamePaused)
                             {
-                                EngineConfig.ManualCamera = !EngineConfig.ManualCamera;
-                                if (!EngineConfig.ManualCamera) levelView.OnResetCamera();
-                                Button.ResetButtonTimer();
-                            }
-
-
-                            // zmiana kamery
-                            if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam1)) && Button.CanChangeSelectedButton(2.0f))
-                            {
-                                SwitchCamera(0);
-                            }
-
-                            if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam2)) && Button.CanChangeSelectedButton(2.0f))
-                            {
-                                SwitchCamera(1);
-                            }
-
-                            if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam3)) && Button.CanChangeSelectedButton(2.0f))
-                            {
-                                SwitchCamera(2);
-                            }
-
-                            if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam4)) && Button.CanChangeSelectedButton(2.0f))
-                            {
-                                SwitchCamera(3);
-                            }
-
-                            if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam5)) && Button.CanChangeSelectedButton(2.0f))
-                            {
-                                SwitchCamera(4);
-                            }
-
-                            if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam6)) && Button.CanChangeSelectedButton(2.0f))
-                            {
-                                SwitchCamera(5);
-                            }
-
-                            if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Camera) ||
-                                 FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickCamera)) &&
-                                Button.CanChangeSelectedButton(1.0f))
-                            {
-                                SwitchCamera();
-                            }
-
-                            // screenshots
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_SYSRQ) && Button.CanChangeSelectedButton())
-                            {
-                                string[] temp = Directory.GetFiles(Environment.CurrentDirectory, "screenshot*.jpg");
-                                string fileName = string.Format("screenshot{0}.jpg", temp.Length + 1);
-                                framework.TakeScreenshot(fileName);
-                                gameMessages.AppendMessage(String.Format("{0} '{1}'",
-                                                                         LanguageResources.GetString(
-                                                                             LanguageKey.ScreenshotWrittenTo),
-                                                                         fileName));
-                                Button.ResetButtonTimer();
-                            }
-
-                            if (levelView.CurrentCameraHolderIndex == 0)
-                            {
-                                framework.HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt,
-                                                            framework.Camera,
-                                                            framework.MinimapCamera, currentLevel.UserPlane);
+                                DisplayPauseScreen();
+                                SoundManager.Instance.HaltEngineSound();
+                                SoundManager.Instance.HaltWaterBubblesSound();
+                                SoundManager.Instance.HaltOceanSound();
                             }
                             else
                             {
-                                framework.HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt, null,
-                                                            framework.MinimapCamera, currentLevel.UserPlane);
+                                ClearPauseScreen();
+                                SoundManager.Instance.LoopOceanSound();
+                                if (mayPlaySound)
+                                {
+                                    SoundManager.Instance.LoopEngineSound();
+                                }
+                            }
+                            Button.ResetButtonTimer();
+                        }
+
+                       
+                        if (levelView != null && levelView.IsHangaringFinished())
+                        {
+                            levelView.OnHangaringFinished();
+                        }
+
+                      
+                        if (!isGamePaused)
+                        {
+                            if (!changingAmmo)
+                            {
+
+                                // przyczep / odczep kamere
+                                if (inputKeyboard.IsKeyDown(KeyCode.KC_V) && EngineConfig.FreeLook &&
+                                    Button.CanChangeSelectedButton(3.0f))
+                                {
+                                    EngineConfig.ManualCamera = !EngineConfig.ManualCamera;
+                                    if (!EngineConfig.ManualCamera) levelView.OnResetCamera();
+                                    Button.ResetButtonTimer();
+                                }
+
+
+                                // zmiana kamery
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam1)) && Button.CanChangeSelectedButton(2.0f))
+                                {
+                                    SwitchCamera(0);
+                                }
+
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam2)) && Button.CanChangeSelectedButton(2.0f))
+                                {
+                                    SwitchCamera(1);
+                                }
+
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam3)) && Button.CanChangeSelectedButton(2.0f))
+                                {
+                                    SwitchCamera(2);
+                                }
+
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam4)) && Button.CanChangeSelectedButton(2.0f))
+                                {
+                                    SwitchCamera(3);
+                                }
+
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam5)) && Button.CanChangeSelectedButton(2.0f))
+                                {
+                                    SwitchCamera(4);
+                                }
+
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam6)) && Button.CanChangeSelectedButton(2.0f))
+                                {
+                                    SwitchCamera(5);
+                                }
+
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Camera) ||
+                                     FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickCamera)) &&
+                                    Button.CanChangeSelectedButton(1.0f))
+                                {
+                                    SwitchCamera();
+                                }
+
+                                // screenshots
+                                if (inputKeyboard.IsKeyDown(KeyCode.KC_SYSRQ) && Button.CanChangeSelectedButton())
+                                {
+                                    string[] temp = Directory.GetFiles(Environment.CurrentDirectory, "screenshot*.jpg");
+                                    string fileName = string.Format("screenshot{0}.jpg", temp.Length + 1);
+                                    framework.TakeScreenshot(fileName);
+                                    gameMessages.AppendMessage(String.Format("{0} '{1}'",
+                                                                             LanguageResources.GetString(
+                                                                                 LanguageKey.ScreenshotWrittenTo),
+                                                                             fileName));
+                                    Button.ResetButtonTimer();
+                                }
+
+                                if (levelView.CurrentCameraHolderIndex == 0)
+                                {
+                                    framework.HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt,
+                                                                framework.Camera,
+                                                                framework.MinimapCamera, currentLevel.UserPlane);
+                                }
+                                else
+                                {
+                                    framework.HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt, null,
+                                                                framework.MinimapCamera, currentLevel.UserPlane);
+                                }
+
+                            }
+                           
+                            levelView.OnFrameStarted(evt);
+                            delayedControllerFacade.DoJobs();
+
+                            // odswiez raz na jakis czas
+                            // TODO: timer
+                            if (!changingAmmo && Mogre.Math.RangeRandom(0, 1) > 0.8f)
+                            {
+                                UpdateHints(false);
+                            }
+                        }
+                        if (indicatorControl.WasDisplayed == false)
+                        {
+                            indicatorControl.DisplayIndicator();
+                        }
+                        else
+                        {
+                            indicatorControl.UpdateGUI(evt.timeSinceLastFrame);
+                            gameMessages.UpdateControl();
+                        }
+
+                        ControlGunFireSound();
+
+                    }
+                    else if (loading == false)
+                    {
+                        isFirstFrame = true;
+                        TimeSpan diff = DateTime.Now.Subtract(loadingStart);
+                        if (EngineConfig.DebugStart || diff.TotalMilliseconds > EngineConfig.C_LOADING_DELAY)
+                        {
+                            levelView.BuildCameraHolders();
+                            if (!EngineConfig.FreeLook)
+                            {
+                                levelView.OnResetCamera();
                             }
 
+                            if (EngineConfig.MinimapNoseCamera)
+                            {
+                                framework.MinimapViewport.Camera = framework.MinimapNoseCamera;
+                                levelView.FindPlaneView(currentLevel.UserPlane).InnerNode.AttachObject(
+                                    framework.MinimapNoseCamera);
+                            }
+
+                            //         levelView.InitOceanSurface();
+
+                            levelView.SetVisible(true);
+
+                            if (EngineConfig.UseHardwareTexturePreloader && preloadingOverlay != null)
+                            {
+                                preloadingOverlay.Hide();
+                                preloadingOverlay.Dispose();
+                                preloadingOverlay = null;
+                            }
+
+                            loadingOverlay.Hide();
+                            loadingOverlay.Dispose();
+                            loadingOverlay = null;
+
+                            FreeSplashScreens();
+                            SoundManager.Instance.LoopOceanSound();
+
                         }
-                       
-                        levelView.OnFrameStarted(evt);
-                        delayedControllerFacade.DoJobs();
-
-                        // odswiez raz na jakis czas
-                        // TODO: timer
-                        if (!changingAmmo && Mogre.Math.RangeRandom(0, 1) > 0.8f)
-                        {
-                            UpdateHints(false);
-                        }
-                    }
-                    if (indicatorControl.WasDisplayed == false)
-                    {
-                        indicatorControl.DisplayIndicator();
-                    }
-                    else
-                    {
-                        indicatorControl.UpdateGUI(evt.timeSinceLastFrame);
-                        gameMessages.UpdateControl();
-                    }
-
-                    ControlGunFireSound();
-
-                }
-                else if (loading == false)
-                {
-                    isFirstFrame = true;
-                    TimeSpan diff = DateTime.Now.Subtract(loadingStart);
-                    if (EngineConfig.DebugStart || diff.TotalMilliseconds > EngineConfig.C_LOADING_DELAY)
-                    {
-                        levelView.BuildCameraHolders();
-                        if (!EngineConfig.FreeLook)
-                        {
-                            levelView.OnResetCamera();
-                        }
-
-                        if (EngineConfig.MinimapNoseCamera)
-                        {
-                            framework.MinimapViewport.Camera = framework.MinimapNoseCamera;
-                            levelView.FindPlaneView(currentLevel.UserPlane).InnerNode.AttachObject(
-                                framework.MinimapNoseCamera);
-                        }
-
-                        //         levelView.InitOceanSurface();
-
-                        levelView.SetVisible(true);
-
-                        if (EngineConfig.UseHardwareTexturePreloader && preloadingOverlay != null)
-                        {
-                            preloadingOverlay.Hide();
-                            preloadingOverlay.Dispose();
-                            preloadingOverlay = null;
-                        }
-
-                        loadingOverlay.Hide();
-                        loadingOverlay.Dispose();
-                        loadingOverlay = null;
-
-                        FreeSplashScreens();
-                        SoundManager.Instance.LoopOceanSound();
-
                     }
                 }
+            }
+            finally
+            {
+               
+
             }
 
         }

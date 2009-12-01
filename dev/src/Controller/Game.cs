@@ -60,6 +60,7 @@ using MOIS;
 using Wof.Controller.Screens;
 using Wof.Model.Configuration;
 using Wof.View;
+using Wof.View.Effects;
 
 namespace Wof.Controller
 {
@@ -162,7 +163,9 @@ namespace Wof.Controller
 
             if (currentScreen != null)
             {
+                if(HydraxManager.Singleton.USE_UPDATER_THREAD)  Monitor.Enter(HydraxManager.Singleton);
                 currentScreen.OnHandleViewUpdate(evt, inputMouse, inputKeyboard, inputJoystick);
+                if (HydraxManager.Singleton.USE_UPDATER_THREAD) Monitor.Exit(HydraxManager.Singleton);
             }
 
             if (window.IsClosed)
