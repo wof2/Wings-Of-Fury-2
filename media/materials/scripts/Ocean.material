@@ -2,7 +2,7 @@ vertex_program HLSL/OceanVS hlsl
 {
 	source oceanHLSL_Cg.vert
 	entry_point main
-	target vs_1_1
+	target vs_3_0
 
 
 	default_params
@@ -18,7 +18,7 @@ fragment_program HLSL/OceanFS hlsl
 {
 	source oceanHLSL_Cg.frag
 	entry_point main
-	target ps_2_0
+	target ps_3_0
 
 }
 
@@ -267,7 +267,7 @@ vertex_program HLSL/Ocean2VS hlsl
 {
 	source Ocean2HLSL_Cg.vert
 	entry_point main
-	target vs_1_1
+	target vs_3_0
 
 
 	default_params
@@ -281,7 +281,7 @@ fragment_program HLSL/Ocean2FS hlsl
 {
 	source Ocean2HLSL_Cg.frag
 	entry_point main
-	target ps_2_0
+	target ps_3_0
 
 }
 

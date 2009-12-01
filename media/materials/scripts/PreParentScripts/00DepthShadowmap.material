@@ -1,7 +1,7 @@
 
 // ***-- Begin HLSL section --**
 
-vertex_program Ogre/DepthShadowmap/CasterVP_HLSL hlsl
+vertex_program Ogre/DepthShadowmap/CasterVP hlsl
 {
     source DepthShadowmap.hlsl
     entry_point casterVP
@@ -18,7 +18,7 @@ vertex_program Ogre/DepthShadowmap/CasterVP_HLSL hlsl
 }
 
 
-fragment_program Ogre/DepthShadowmap/CasterFP_HLSL hlsl
+fragment_program Ogre/DepthShadowmap/CasterFP hlsl
 {
     source DepthShadowmap.hlsl
     entry_point casterFP
@@ -34,7 +34,7 @@ fragment_program Ogre/DepthShadowmap/CasterFP_HLSL hlsl
 
 
 
-vertex_program Ogre/DepthShadowmap/NormalMapReceiverVP_HLSL hlsl
+vertex_program Ogre/DepthShadowmap/NormalMapReceiverVP hlsl
 {
     source DepthShadowmap.hlsl
     entry_point normalMapShadowReceiverVp
@@ -56,43 +56,43 @@ vertex_program Ogre/DepthShadowmap/NormalMapReceiverVP_HLSL hlsl
     }
 }
 
-fragment_program Ogre/DepthShadowmap/NormalMapReceiverFP_HLSL hlsl
+fragment_program Ogre/DepthShadowmap/NormalMapReceiverFP hlsl
 {
     source DepthShadowmap.hlsl
     entry_point normalMapShadowReceiverFp
 	//target ps_2_0
-	target ps_3_0
+	target ps_2_0
 	preprocessor_defines LINEAR_RANGE=0,FUZZY_TEST=0,PCF=1
 
 	default_params
     {
 		param_named_auto lightColour light_diffuse_colour 0       
-		param_named fixedDepthBias float 0.012
+		//param_named fixedDepthBias float 0.012
 			
 		param_named_auto invShadowMapSize0	inverse_texture_size 0
 		param_named_auto invShadowMapSize1	inverse_texture_size 1
 		//param_named_auto invShadowMapSize2	inverse_texture_size 2
-		param_named_auto shadow_scene_depth_range      	shadow_scene_depth_range 0
+		//param_named_auto shadow_scene_depth_range      	shadow_scene_depth_range 0
 	
     }
 }
-fragment_program Ogre/DepthShadowmap/NormalMapReceiverFPPCF_HLSL hlsl
+fragment_program Ogre/DepthShadowmap/NormalMapReceiverFPPCF hlsl
 {
     source DepthShadowmap.hlsl
     entry_point normalMapShadowReceiverFp
 	//target ps_2_0
-	target ps_3_0
+	target ps_2_0
 	preprocessor_defines LINEAR_RANGE=0,FUZZY_TEST=0,PCF=1
 
 	default_params
     {
 		param_named_auto lightColour light_diffuse_colour 0       
-		param_named fixedDepthBias float 0.012
+		//param_named fixedDepthBias float 0.012
 				
 		param_named_auto invShadowMapSize0	inverse_texture_size 0
 		param_named_auto invShadowMapSize1	inverse_texture_size 1
 		//param_named_auto invShadowMapSize2	inverse_texture_size 2
-		param_named_auto shadow_scene_depth_range      	shadow_scene_depth_range      0
+		//param_named_auto shadow_scene_depth_range      	shadow_scene_depth_range      0
 		 
 		
     }
@@ -102,121 +102,7 @@ fragment_program Ogre/DepthShadowmap/NormalMapReceiverFPPCF_HLSL hlsl
 
 // **-- End HLSL Section --**
 
-// **-- Begin GLSL Section --**
-vertex_program Ogre/DepthShadowmap/CasterVP_GLSL glsl
-{
-    source DepthShadowmapCasterVp.glsl
 
-	preprocessor_defines LINEAR_RANGE=0
-
-    default_params
-    {
-        param_named_auto worldViewProj worldviewproj_matrix
-		param_named_auto texelOffsets texel_offsets
-		//param_named_auto depthRange scene_depth_range
-    }
-}
-
-
-fragment_program Ogre/DepthShadowmap/CasterFP_GLSL glsl
-{
-    source DepthShadowmapCasterFp.glsl
-
-	preprocessor_defines LINEAR_RANGE=0
-
-    default_params
-    {
-    }
-}
-
-
-
-vertex_program Ogre/DepthShadowmap/NormalMapReceiverVP_GLSL glsl
-{
-    source DepthShadowmapNormalMapReceiverVp.glsl
-
-	preprocessor_defines LINEAR_RANGE=0
-
-    default_params
-    {
-        param_named_auto world world_matrix
-		param_named_auto worldViewProj worldviewproj_matrix
-		param_named_auto texViewProj texture_viewproj_matrix
-		param_named_auto lightPosition light_position_object_space 0
-		//param_named_auto shadowDepthRange shadow_scene_depth_range 0
-    }
-}
-
-fragment_program Ogre/DepthShadowmap/NormalMapReceiverFP_GLSL glsl
-{
-    source DepthShadowmapNormalMapReceiverFp.glsl
-
-	preprocessor_defines LINEAR_RANGE=0,FUZZY_TEST=0,PCF=1
-
-	default_params
-    {
-		param_named_auto lightColour light_diffuse_colour 0
-        param_named inverseShadowmapSize float 0.0009765625
-		param_named fixedDepthBias float 0.012
-		param_named gradientClamp float 0.01
-		param_named gradientScaleBias float 0.014
-		//param_named shadowFuzzyWidth float 1
-
-		param_named shadowMap int 0
-		param_named normalMap int 1
-    }
-}
-fragment_program Ogre/DepthShadowmap/NormalMapReceiverFPPCF_GLSL glsl
-{
-    source DepthShadowmapNormalMapReceiverFp.glsl
-
-	preprocessor_defines LINEAR_RANGE=0,FUZZY_TEST=0,PCF=1
-
-	default_params
-    {
-		param_named_auto lightColour light_diffuse_colour 0
-        param_named inverseShadowmapSize float 0.0009765625
-		param_named fixedDepthBias float 0.012
-		param_named gradientClamp float 0.01
-		param_named gradientScaleBias float 0.014
-		//param_named shadowFuzzyWidth float 1
-
-		param_named shadowMap int 0
-		param_named normalMap int 1
-    }
-}
-
-// **-- End GLSL Section --**
-
-// **-- Begin Unified Section --**
-vertex_program Ogre/DepthShadowmap/CasterVP unified
-{
-	delegate Ogre/DepthShadowmap/CasterVP_GLSL
-	delegate Ogre/DepthShadowmap/CasterVP_HLSL
-}
-fragment_program Ogre/DepthShadowmap/CasterFP unified
-{
-	delegate Ogre/DepthShadowmap/CasterFP_GLSL
-	delegate Ogre/DepthShadowmap/CasterFP_HLSL
-}
-
-vertex_program Ogre/DepthShadowmap/NormalMapReceiverVP unified
-{
-	delegate Ogre/DepthShadowmap/NormalMapReceiverVP_HLSL
-	delegate Ogre/DepthShadowmap/NormalMapReceiverVP_GLSL
-}
-fragment_program Ogre/DepthShadowmap/NormalMapReceiverFP unified
-{
-	delegate Ogre/DepthShadowmap/NormalMapReceiverFP_HLSL
-	delegate Ogre/DepthShadowmap/NormalMapReceiverFP_GLSL
-}
-fragment_program Ogre/DepthShadowmap/NormalMapReceiverFPPCF unified
-{
-	delegate Ogre/DepthShadowmap/NormalMapReceiverFPPCF_HLSL
-	delegate Ogre/DepthShadowmap/NormalMapReceiverFPPCF_GLSL
-}
-
-// **-- End Unified Section --**
 
 
 

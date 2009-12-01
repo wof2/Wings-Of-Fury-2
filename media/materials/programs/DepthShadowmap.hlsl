@@ -44,15 +44,6 @@ float3 expand(float3 v)
 }
 
 
-float test(sampler2D shadowMap, float4 shadowMapPos)
-{	
-		shadowMapPos = shadowMapPos / shadowMapPos.w;
-		float2 uv = shadowMapPos.xy;		
-		return (shadowMapPos.z - tex2D(shadowMap, uv.xy).r);
-		
-}
-
-
 
 float shadowPCF(sampler2D shadowMap, float4 shadowMapPos, float2 offset)
 {
@@ -193,7 +184,7 @@ void normalMapShadowReceiverFp(
     float3 lightVec;
 	float3 bumpVec;
 	float4 vertexColour;
-	
+/*	
 	if(lightData[0] < 0.01) //  isDirectional  = lightData[0]
 	{
 		if(lightData[1] > lightData[2]) // lightDist > attenuationDist
@@ -217,6 +208,7 @@ void normalMapShadowReceiverFp(
 
 	}
   
+  */
  	// retrieve normalised light vector, expand from range-compressed
 	lightVec = expand(texCUBE(normalCubeMap, TSlightDir).xyz);
 
@@ -239,9 +231,7 @@ void normalMapShadowReceiverFp(
 	//Shadowing
 	float shadowing = 1.0f;
 	float ScreenDepth = uv.z;
-		
-	
-	
+			
 	// poza obszarem cienia
 	if ( ScreenDepth  >  pssmSplitPoints.z)
 	{   
@@ -271,8 +261,7 @@ void normalMapShadowReceiverFp(
 	 //   shadowing = shadowPCF(shadowMap2, LightPosition2, invShadowMapSize2.xy);
 	   // result = float4(0,0,1,1);		
 		//return; 
-	}
-	
+	}	
 	result = float4(vertexColour.xyz * shadowing , 1);
 	
 	

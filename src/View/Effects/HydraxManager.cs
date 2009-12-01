@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using MHydrax;
 using Mogre;
+using Timer=Mogre.Timer;
 
 namespace Wof.View.Effects
 {
@@ -11,10 +13,18 @@ namespace Wof.View.Effects
     /// </summary>
     public class HydraxManager
     {
+
+        public readonly int ASYNC_FRAME_TIME = 30; // w millisekundach
+        public readonly bool USE_UPDATER_THREAD = false;
+        private bool stopUpdater = false; 
+
+
         protected MHydrax.MHydrax hydrax = null;
         private static readonly HydraxManager singleton = new HydraxManager();
 
+      
 
+        private Thread updater;
         /// <summary>
         /// Które materia³y maja byc dolaczone do hydrax depth techniques
         /// </summary>
@@ -119,7 +129,100 @@ namespace Wof.View.Effects
         /// <param name="evt"></param>
         public void Update(FrameEvent evt)
         {
-             if(hydrax != null && hydrax.IsCreated)  hydrax.Update(evt.timeSinceLastFrame);
+
+
+            if (USE_UPDATER_THREAD)
+            {
+                if(updater != null && !updater.IsAlive)
+                {
+                    // staly FPS
+                    updater.Start(ASYNC_FRAME_TIME);
+                }
+            }
+            else
+            {
+                Update(evt.timeSinceLastFrame);
+                /*
+                if (hydrax != null && hydrax.IsCreated)
+                {
+                    hydrax.Update(evt.timeSinceLastFrame);
+                } */
+            }
+
+             
+        }
+
+        private float timeSinceUpdate = 1000;
+
+        public void Update(float timeSinceLastFrame)
+        {
+            float updateEvery = 0.05f; // 20fps
+
+            if (hydrax != null && hydrax.IsCreated)
+            {
+                timeSinceUpdate += timeSinceLastFrame;
+                if (timeSinceUpdate > updateEvery)
+                {
+                    hydrax.Update(timeSinceLastFrame);
+                    timeSinceUpdate = 0;
+                }
+                
+            }
+           
+
+        }
+
+
+        public void UpdateLoop(object frameTotalTime)
+        {
+            int frameTime = (int)frameTotalTime;
+           // 20 ms -> 50 fps
+            Timer timer = new Timer();
+            timer.Reset();
+            uint start, end;
+            start = timer.Milliseconds;
+            float timeSinceLastFrame;
+            while(updater.IsAlive)
+            {
+                Monitor.Enter(HydraxManager.Singleton);
+                try
+                {
+                    if (stopUpdater)
+                    {
+                        return;
+                    }
+                }
+                finally
+                {
+                    Monitor.Exit(HydraxManager.Singleton); 
+                }
+             
+               
+               
+                int sleepTime = 50;
+                if (hydrax != null && hydrax.IsCreated)
+                {
+                    timeSinceLastFrame = (timer.Milliseconds - start) / 1000.0f; // w sekundach                       
+                    start = timer.Milliseconds;
+
+                    Monitor.Enter(HydraxManager.Singleton);
+                    hydrax.Update(timeSinceLastFrame);
+                    Monitor.Exit(HydraxManager.Singleton); 
+                   
+
+                    end = timer.Milliseconds;
+
+                    int duration = (int)(end - start);
+
+                    sleepTime = frameTime - duration;
+                    if (sleepTime < 0) sleepTime = 1;
+
+                   
+
+                }
+                Thread.Sleep(sleepTime);
+            }
+            
         }
 
         public MHydrax.MHydrax GetHydrax()
@@ -144,31 +247,39 @@ namespace Wof.View.Effects
         /// <param name="viewport"></param>
         public void CreateHydrax(string cfgFileName, SceneManager sceneMgr, Camera camera, Viewport viewport)
         {
-        	if(hydrax != null)
-        	{
-        		hydrax.Dispose();
-        		hydrax = null;
-        	}
+            
+            if (hydrax != null)
+            {
+                hydrax.Dispose();
+                hydrax = null;
+            }
+            if (USE_UPDATER_THREAD)
+            {
+                stopUpdater = false;
+                updater = new Thread(UpdateLoop);
+            }
+
+
             hydrax = new MHydrax.MHydrax(sceneMgr, camera, viewport);
 
-            MProjectedGrid module = new MProjectedGrid(// Hydrax parent pointer
-                                                hydrax,
+            MProjectedGrid module = new MProjectedGrid( // Hydrax parent pointer
+                hydrax,
                 // Noise module
-                                                new MHydrax.MPerlin(),
+                new MHydrax.MPerlin(),
                 // Base plane
-                                                new Mogre.Plane(new Vector3(0, 1, 0), new Vector3(0, 0, 0)),
+                new Mogre.Plane(new Vector3(0, 1, 0), new Vector3(0, 0, 0)),
                 // Normal mode
-                                                MMaterialManager.MNormalMode.NM_VERTEX,
+                MMaterialManager.MNormalMode.NM_VERTEX,
                 // Projected grid options
-                                                new MProjectedGrid.MOptions(164, 35, 50, false, false, true, 3.75f));
+                new MProjectedGrid.MOptions(164, 35, 50, false, false, true, 3.75f));
 
-          
+
             hydrax.SetModule(module);
             hydrax.LoadCfg(cfgFileName);
             hydrax.Create();
-     
+           
 
-       //    MaterialPtr m = hydrax.MaterialManager.GetMaterial(MMaterialManager.MMaterialType.MAT_UNDERWATER_COMPOSITOR);
+            //    MaterialPtr m = hydrax.MaterialManager.GetMaterial(MMaterialManager.MMaterialType.MAT_UNDERWATER_COMPOSITOR);
        //    m.GetBestTechnique().GetPass(0).GetTextureUnitState(1).SetTextureName("UnderwaterDistortion_none.png");
        //     m = null;
           //   hydrax.MaterialManager.RemoveCompositor();
@@ -183,10 +294,22 @@ namespace Wof.View.Effects
         {
             if(hydrax != null)
             {
-            	if(hydrax.IsCreated)
+                if (USE_UPDATER_THREAD)
+                {
+                    Monitor.Enter(HydraxManager.Singleton); 
+                    stopUpdater = true;
+                    Monitor.Exit(HydraxManager.Singleton); 
+                    updater.Join();
+
+                    Monitor.Enter(HydraxManager.Singleton); 
+                    stopUpdater = false;
+                    Monitor.Exit(HydraxManager.Singleton); 
+                }
+
+                if(hydrax.IsCreated)
             	{
             		//hydrax.Visible = false;
-            		//hydrax.Update(0);
+            		//hydrax.UpdateLoop(0);
             	}
                 hydrax.Dispose();
                 hydrax = null;
