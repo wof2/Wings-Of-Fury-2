@@ -50,6 +50,21 @@ material MessageBarIcon
     }
 }
 
+material AdMaterial
+{
+	technique
+	{
+		pass
+		{			
+			texture_unit
+			{
+				texture Intro1.jpg
+			}						
+			
+		}      
+
+	}
+}
 
 material IntroScreen1
 {
@@ -67,7 +82,7 @@ material IntroScreen1
 	}
 }
 
-material IntroScreen2
+material IntroScreen3
 {
 	technique
 	{
@@ -76,9 +91,28 @@ material IntroScreen2
 
 			texture_unit
 			{
-				texture Intro2.jpg
+				texture Intro3.jpg
 			}
 			
 		}
 	}
 }
+
+
+material IntroScreen4
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture Intro4.jpg
+			}
+			
+		}
+	}
+}
+
+

@@ -435,7 +435,7 @@ namespace Wof.Controller.Screens
                 }
             }
             
-            if(cloudNodes.Count == 0)
+            if(cloudNodes == null || cloudNodes.Count == 0)
             {
             	cloudNodes = new List<SceneNode>();           
 	            for(int i = 0; i < 16; i++)
