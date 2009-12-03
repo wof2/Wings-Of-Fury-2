@@ -47,6 +47,10 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.RegularExpressions;
+using AdManaged;
 using Mogre;
 using Wof.Languages;
 using Wof.View.Effects;
@@ -59,7 +63,9 @@ namespace Wof.Controller.Screens
     /// </summary>
     internal class IntroScreen : AbstractScreen
     {
-        public static readonly String C_MATERIAL_NAME = "IntroScreen";
+       
+
+        public const String C_TEXTURE_NAME = "IntroScreen";
         private readonly Overlay overlay;
 
         private int currentScreen;
@@ -70,14 +76,45 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Czas animacji (w sek) zwi¹zanych z poszczególnymi screenami
         /// </summary>
-        private float[] screenTimes = { 3.0f, 2.0f };
+        private float[] screenTimes = { 3.0f, 3.0f, 2.5f, 2.0f };
       
         /// <summary>
         /// Minimalny czas (w sek) przez jaki screen musi byæ na ekranie
         /// </summary>
-        private float[] screenMinTimes = { 1.0f, 1.0f };
+        private float[] screenMinTimes = { 2.5f, 2.5f, 1.0f, 1.0f };
+
+
+        string currentMaterialName; 
+      
 
         private Pair<uint, uint> textureDimensions;
+
+
+
+        /// <summary>
+        /// Czy screen jest reklam¹
+        /// </summary>
+        private bool[] isScreenAnAd = { true, true, false, false };
+
+
+        public const string C_AD_ZONE = "pregame";
+        public const string C_AD_MATERIAL = "AdMaterial";
+
+       
+       
+        private int getFirstNonAdIndex()
+        {
+            int i = 1;
+            foreach (bool b in isScreenAnAd)
+            {
+                if(!b)
+                {
+                    return i;
+                }
+                i++;
+            }
+            return i;
+        }
 
         public IntroScreen(GameEventListener gameEventListener,
                               SceneManager sceneMgr, Viewport viewport, Camera camera)
@@ -85,39 +122,41 @@ namespace Wof.Controller.Screens
                                   base(gameEventListener, sceneMgr, viewport, camera)
         {
 
-           
             currentScreen = 1;
-            textureDimensions = new Pair<uint, uint>(1280,1024); // default
+          //  textureDimensions = new Pair<uint, uint>(1280,1024); // default
 
             overlay = OverlayManager.Singleton.GetByName("Wof/Intro");
          
            
             
-            int n = 1;
-
+            //int n = 1;
+            int firstN = getFirstNonAdIndex();
+            int n = firstN;
+           
             while (
-                MaterialManager.Singleton.ResourceExists(C_MATERIAL_NAME + n))
+                MaterialManager.Singleton.ResourceExists(C_TEXTURE_NAME + n))
             {
                 // preload
-                MaterialManager.Singleton.GetByName(C_MATERIAL_NAME + n).Load();
-                if(n==1)
-                {
-                    textureDimensions = ((MaterialPtr)MaterialManager.Singleton.GetByName(C_MATERIAL_NAME + 1)).GetTechnique(0).GetPass(0).
-                    GetTextureUnitState(0).GetTextureDimensions(); 
-                }
+                MaterialManager.Singleton.GetByName(C_TEXTURE_NAME + n).Load();
                 n++;
             }
-            
-            maxScreens = n - 1;
-            
-            // skaluj overlay tak aby tekstury nie zmienia³y swoich proporcji
-            if(maxScreens > 0)
-            {
-                float prop = 1.0f /  ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * viewport.ActualWidth / viewport.ActualHeight));
-                overlay.SetScale(1.0f, prop);
 
+            maxScreens = screenTimes.Length;// n - 1;
+           /* if(maxScreens > 0)
+            {
+                float prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * viewport.ActualWidth / viewport.ActualHeight));
+                overlay.SetScale(1.0f, prop);
             }
+          */
+
+            
+           
         }
+
+       
+
+
+        
 
 
         public override void CreateScene()
@@ -132,6 +171,11 @@ namespace Wof.Controller.Screens
         public override void FrameStarted(FrameEvent evt)
         {
             base.FrameStarted(evt);
+
+            if(AdManager.Singleton.HasCurrentAd)
+            {
+                AdManager.Singleton.Work();
+            }
 
             // jeœli screen jest wystarczaj¹co d³ugo na ekranie - przewijamy
             TimeSpan diff = DateTime.Now.Subtract(lastChange);
@@ -153,19 +197,104 @@ namespace Wof.Controller.Screens
 
         protected override void CreateGUI()
         {
-            initScreen(currentScreen);
+            if (!initScreen(currentScreen))
+            {
+                // nie udalo sie?
+                NextScreen();
+            }
+           
             overlay.Show();
         }
 
 
-        private void initScreen(int i)
+        private bool initScreen(int i)
         {
-            if(i == 1)
+            MaterialPtr overlayMaterial = null;
+            TextureUnitState unit;
+            animation = null;
+            currentMaterialName = null;
+            AdManager.Singleton.ClearCurrentAd(); // ustawia na null
+            if (isScreenAnAd[i - 1]) // poczatkowo i = 1
+            {
+                // pobierz i ustaw na bie¿ac¹
+                AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_ZONE);
+                      
+                if (status == AdManager.AdStatus.OK)
+                {
+                    // pobieranie OK.
+                    currentMaterialName = C_AD_MATERIAL;
+                    string path = AdManager.Singleton.CurrentAd.path;
+                    try
+                    {
+                        TextureManager.Singleton.Load(path, "Ads");
+                    }
+                    catch (Exception ex)
+                    { 
+                        // nie mo¿na zdekodowaæ obrazka? pobieranie jednak sie nie udalo?
+                        if(OgreException.IsThrown)
+                        {
+                            try
+                            {
+                                File.Delete(path);
+                            }
+                            catch
+                            {
+                            }
+                        }
+                      
+                        return false;
+                    }
+                    overlayMaterial = MaterialManager.Singleton.GetByName(currentMaterialName);
+                    overlayMaterial.Load();
+                    unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
+
+                    unit.SetTextureName(path);
+                    AdManager.Singleton.RegisterImpression();
+
+                    //   int count;
+                    //   count = adAction.Get_Ad_Impression_Counter(currentAd.id);
+                    //    Console.WriteLine("Pobrañ: " + count);
+                  
+                }else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                currentMaterialName = C_TEXTURE_NAME + currentScreen;
+                overlayMaterial = MaterialManager.Singleton.GetByName(currentMaterialName);
+                unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
+            }
+
+            if(i == 3)
             {
                 SoundManager3D.Instance.PlayAmbient("sounds/raven.wav", EngineConfig.SoundVolume, false, false);
             }
-            MaterialPtr overlayMaterial = MaterialManager.Singleton.GetByName(C_MATERIAL_NAME + currentScreen);
-            TextureUnitState unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
+
+
+            textureDimensions = unit.GetTextureDimensions();
+
+            // skaluj overlay tak aby tekstury nie zmienia³y swoich proporcji
+            float scale = 1.0f;
+
+            if(isScreenAnAd[currentScreen - 1])
+            {
+                // reklamy maja zachowac oryginalna rozdzielczosc 
+                if (textureDimensions.first > viewport.ActualWidth)
+                {
+                    scale = 1.0f * viewport.ActualWidth / textureDimensions.first; // jesli mialoby wyjsc za ekran
+                }
+                else
+                {
+                    scale = 1.0f * textureDimensions.first / viewport.ActualWidth; // jesli mialoby wyjsc za ekran
+                }
+           
+            }
+            
+            float prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * viewport.ActualWidth / viewport.ActualHeight));
+            overlay.SetScale(scale, scale *prop);
+
 
           
             animation =
@@ -176,27 +305,36 @@ namespace Wof.Controller.Screens
             animation.Enabled = true;
             animation.Looped = true;
             OverlayContainer container = overlay.GetChild("Wof/IntroScreen");
-            container.MaterialName = C_MATERIAL_NAME + currentScreen;
+            container.MaterialName = currentMaterialName;
 
             EffectsManager.Singleton.AddCustomEffect(animation);
             lastChange = DateTime.Now;
+            return true;
         }
         
       
 
         private void NextScreen()
         {
-            TimeSpan diff = DateTime.Now.Subtract(lastChange);
-            if (diff.TotalSeconds < screenMinTimes[currentButton])
-            {
-                return;
-            }
+           
             lastChange = DateTime.Now;
             currentScreen++;
             if (currentScreen > 1)
             {
-                MaterialManager.Singleton.Unload(C_MATERIAL_NAME + (currentScreen - 1));
-                EffectsManager.Singleton.RemoveAnimation(animation);
+                if(currentMaterialName != null && animation != null)
+                {
+                    if(AdManager.Singleton.HasCurrentAd)
+                    {
+                        AdManager.Singleton.CloseAd();
+                        AdManager.Singleton.Work(); // wyslij, na wszelki wypadek
+                        
+                    }
+                   
+                  
+                    MaterialManager.Singleton.Unload(currentMaterialName);
+                    EffectsManager.Singleton.RemoveAnimation(animation); 
+                }
+               
             }
             
             if (currentScreen > maxScreens)
@@ -205,9 +343,17 @@ namespace Wof.Controller.Screens
                 return;
             }
 
-            initScreen(currentScreen);
+            if(!initScreen(currentScreen))
+            {
+                // nie udalo sie?
+                NextScreen();
+            }
+            else
+            {
+                overlay.Show();
+            }
 
-            overlay.Show();
+           
         }
 
         private void GotoStartScreen()
@@ -220,20 +366,32 @@ namespace Wof.Controller.Screens
 
         public override void MouseReceived(string button)
         {
-            NextScreen();
+            if (CanChangeScreen()) NextScreen();
         }
 
      
+        private bool CanChangeScreen()
+        {
+            TimeSpan diff = DateTime.Now.Subtract(lastChange);
+            if (diff.TotalSeconds > screenMinTimes[currentScreen - 1])
+            {
+                return true;
+            }
+            return false;
+        }
+
         public override void KeyReceived(string key)
         {
-            if ("ESC".Equals(key))
+            if ("ESC".Equals(key) && !isScreenAnAd[currentScreen - 1])
             {
                 GotoStartScreen();
                 
             }
             else
             {
-                NextScreen();
+                if(CanChangeScreen()) NextScreen();
+               
+                
             }
         }
     }
