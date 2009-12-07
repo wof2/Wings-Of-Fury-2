@@ -16,6 +16,64 @@ material SplashScreen
 	}
 }
 
+material SplashScreenBg
+{
+	technique
+	{
+		pass
+		{			
+			depth_write off
+			//scene_blend alpha_blend 
+			// wartosc podmieniana dynamicznie
+			texture_unit 
+			{
+				texture SplashBg.jpg
+				//alpha_op_ex modulate src_texture src_manual 0.2 0.2
+			}
+		}
+	}
+}
+
+material LoadingAdBg
+{
+	technique
+	{
+		pass
+		{			
+			depth_write off		
+			ambient 1 1 1
+			diffuse 1 1 1 	
+			texture_unit 
+			{
+				texture LoadingAdBg.png
+				
+			}
+			
+		}
+		
+	}
+}
+
+
+material LoadingAdLogo
+{
+	technique
+	{
+		pass
+		{			
+			scene_blend alpha_blend
+			texture_unit 
+			{
+				texture wof2.png
+				
+			}
+			
+		}
+		
+	}
+}
+
+
 
 material MissionType
 {

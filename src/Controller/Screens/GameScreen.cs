@@ -54,11 +54,12 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
-
+using AdManaged;
 using BetaGUI;
 using Microsoft.DirectX.DirectSound;
 using Mogre;
 using MOIS;
+using Wof.Controller.AdAction;
 using Wof.Controller.EffectBars;
 using Wof.Controller.Indicators;
 using Wof.Controller.Input.KeyboardAndJoystick;
@@ -67,6 +68,7 @@ using Wof.Misc;
 using Wof.Model.Configuration;
 using Wof.Model.Exceptions;
 using Wof.Model.Level;
+using Wof.Model.Level.Common;
 using Wof.Model.Level.Effects;
 using Wof.Model.Level.Infantry;
 using Wof.Model.Level.LevelTiles;
@@ -88,6 +90,8 @@ namespace Wof.Controller.Screens
 {
     internal class GameScreen : MenuScreen, IController, BetaGUIListener
     {
+        private const float C_AD_PROBABILITY = 0.5f;
+
         private const String C_LEVEL_FOLDER = "levels";
         private const String C_LEVEL_PREFIX = "level-";
         private const String C_LEVEL_POSTFIX = ".dat";
@@ -107,7 +111,13 @@ namespace Wof.Controller.Screens
 
         public const float C_RESPONSE_DELAY = 0.16f;
 
+        public const string C_AD_ZONE = "pregame";
+
+
         private int lastFireTick = 0;
+
+
+        private bool showingLoadingAds = false;
 
         /// <summary>
         /// Indeks aktualnie zaznaczonej broni (w menu wyboru broni)
@@ -255,7 +265,8 @@ namespace Wof.Controller.Screens
 
         private Boolean loading;
         private DateTime loadingStart;
-        
+        protected bool isFirstLoadingFrame;
+
       
 
         // zmienna okresla, czy w dalszym ciagu nalezy odtwarzac 
@@ -281,8 +292,8 @@ namespace Wof.Controller.Screens
         protected bool isFirstFrame;
 
         private DelayedControllerFacade delayedControllerFacade;
-                                        
-       
+      
+
         public GameScreen(GameEventListener gameEventListener,
                           FrameWork framework, Device directSound, int lives, int levelNo)
         {
@@ -540,6 +551,8 @@ namespace Wof.Controller.Screens
             baseName = "Tutorial";
             string lang = "_" + LanguageManager.ActualLanguageCode;
             int n = FreeSplashScreens();
+
+           
             if (n >= 0)
             {
                 n = (new Random().Next(0, n));
@@ -550,19 +563,90 @@ namespace Wof.Controller.Screens
                                                 "Error: No tutorial screens available for language:" +
                                                 LanguageManager.ActualLanguageName);
             }
+            showingLoadingAds = Mogre.Math.RangeRandom(0, 1) > (1 - C_AD_PROBABILITY);
 
-            loadingOverlay = OverlayManager.Singleton.GetByName("Wof/Loading");
-            MaterialPtr overlayMaterial = MaterialManager.Singleton.GetByName("SplashScreen");
 
-            OverlayElement loadingText = OverlayManager.Singleton.GetOverlayElement("Wof/LoadingScreenText");
+          
+
+            string overlayAdScreenSplashName = "Wof/LoadingAdScreenSplash";
+            string overlayAdScreenLogoName = "Wof/LoadingAdScreenLogo";
+          
+           
+          
+            String imageName = null;
             
-            if (n >= 0)
+            if (showingLoadingAds)
             {
-                TextureManager.Singleton.Load(baseName + n + lang + ".jpg", "General").Load(false); // preload
+                AdManager.Singleton.ClearCurrentAd(); // ustawia na null
+                // pobierz i ustaw na bie¿ac¹
+                AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_ZONE, AdManager.C_AD_DOWNLOAD_TIMEOUT, AdSizeUtils.GetSizesGreaterEqual(512, 512));
 
+                if (status == AdManager.AdStatus.OK)
+                {
+                    imageName = AdManager.Singleton.LoadAdTexture(); // jesli sie nie uda bedzie null
+                }
+
+                
+            }
+            
+
+            // jesli nie ma byc reklamy lub jesli nie udalo sie zaladowac reklamy
+            if(imageName == null)
+            {
+                showingLoadingAds = false;
+                if(n >= 0)
+                {
+                    imageName = baseName + n + lang + ".jpg";
+                    TextureManager.Singleton.Load(imageName, "General").Load(false); // preload
+                }
+
+            }
+
+            string overlayName = "Wof/Loading";
+            string overlayLoadingScreenTextName = "Wof/LoadingScreenText";
+            string overlayLoadingScreenMissionTypeName = "Wof/LoadingScreenMissionType";
+
+            if(showingLoadingAds)
+            {
+                overlayName = "Wof/LoadingAd";
+                overlayLoadingScreenTextName = "Wof/LoadingAdScreenText";
+                overlayLoadingScreenMissionTypeName = "Wof/LoadingAdScreenMissionType";
+            }
+
+            loadingOverlay = OverlayManager.Singleton.GetByName(overlayName);
+            MaterialPtr overlayMaterial = MaterialManager.Singleton.GetByName("SplashScreen");
+            OverlayElement loadingText = OverlayManager.Singleton.GetOverlayElement(overlayLoadingScreenTextName);
+
+            if (imageName != null)
+            {
                 overlayMaterial.Load();
-                overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(baseName + n + lang +
-                                                                                                   ".jpg");
+                overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(imageName);
+
+                if (showingLoadingAds)
+                {
+
+                    TextureUnitState unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
+                    OverlayElement adSurface = OverlayManager.Singleton.GetOverlayElement(overlayAdScreenSplashName);
+                    const float adSurfaceWidth = 1.0f;
+                    const float adSurfaceHeight = 0.95f;
+
+                    adSurface.Width = adSurfaceWidth; adSurface.Height = adSurfaceHeight;
+
+                    PointD scale = AdSizeUtils.ScaleAdToDisplay(unit.GetTextureDimensions(), new PointD(adSurface.Width * viewport.ActualWidth, adSurface.Height * viewport.ActualHeight));
+
+
+
+                    adSurface.SetDimensions(0.8f * adSurface.Width * scale.X, 0.8f * adSurface.Height * scale.Y);
+                    float xShift = (1 - adSurface.Width) / 2.0f;
+                    float yShift = (1 - adSurface.Height) / 2.0f;
+                    adSurface.SetPosition(xShift, yShift);
+
+                    AdManager.Singleton.RegisterImpression();
+
+                    OverlayManager.Singleton.GetOverlayElement(overlayAdScreenLogoName).Show();
+                }
+
+
                 overlayMaterial = null;
                 loadingText.Caption = LanguageResources.GetString(LanguageKey.Level) + ": " + levelNo + ", " + LanguageResources.GetString(LanguageKey.MissionType) + ": " + LanguageResources.GetString(CurrentLevel.MissionType.ToString());
                 loadingText.SetParameter("font_name", FontManager.CurrentFont);
@@ -572,36 +656,23 @@ namespace Wof.Controller.Screens
 
             MaterialPtr missionTypeMaterial = MaterialManager.Singleton.GetByName("MissionType");
             missionTypeMaterial.Load();
-            string texture;
-
-            texture = Level.GetMissionTypeTextureFile(CurrentLevel.MissionType);
+            string texture = Level.GetMissionTypeTextureFile(CurrentLevel.MissionType);
             missionTypeMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(texture);
+
+            OverlayManager.Singleton.GetOverlayElement(overlayLoadingScreenMissionTypeName).Show();
             
-            OverlayManager.Singleton.GetOverlayElement("Wof/LoadingScreenMissionType").Show();
+
 
             loadingOverlay.Show();
 
             ViewEffectsManager.Singleton.Load();
 
+
+            isFirstLoadingFrame = true;
             
-            // preloader tekstur
-            if(EngineConfig.UseHardwareTexturePreloader)
-            {
-	            MaterialPtr preloadingMaterial = ViewHelper.BuildPreloaderMaterial(EngineConfig.HardwareTexturePreloaderTextureLimit);             
-	            if(preloadingMaterial != null)
-	            {
-		            preloadingOverlay = OverlayManager.Singleton.GetByName("Wof/Preloader");  
-		            OverlayElement preloaderScreen = OverlayManager.Singleton.GetOverlayElement("Wof/PreloaderScreen");
-		            preloaderScreen.MaterialName =  preloadingMaterial.Name;
-		            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Presenting hardware preloader overlay.");
-		            preloadingOverlay.Show();
-	            }            
-            }
-            
-           
        
 
-            Console.WriteLine("Starting loading thread...");
+            //Console.WriteLine("Starting loading thread...");
             // start loading
             //loaderThread = new Thread(StartLoading);
             //loaderThread.Start();
@@ -1139,13 +1210,34 @@ namespace Wof.Controller.Screens
 
         public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
-        	
-        	if(levelView == null)
-        	{
-        		StartLoading();
-        	}
+
+            if (levelView == null && !isFirstLoadingFrame)
+            {
+                StartLoading();
+
+            }
+
+            if(isFirstLoadingFrame)
+            {
+                isFirstLoadingFrame = false;
+                // preloader tekstur
+                if (EngineConfig.UseHardwareTexturePreloader)
+                {
+                    MaterialPtr preloadingMaterial = ViewHelper.BuildPreloaderMaterial(EngineConfig.HardwareTexturePreloaderTextureLimit);
+                    if (preloadingMaterial != null)
+                    {
+                        preloadingOverlay = OverlayManager.Singleton.GetByName("Wof/Preloader");
+                        OverlayElement preloaderScreen = OverlayManager.Singleton.GetOverlayElement("Wof/PreloaderScreen");
+                        preloaderScreen.MaterialName = preloadingMaterial.Name;
+                        LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Presenting hardware preloader overlay.");
+                        preloadingOverlay.Show();
+                    }
+                }
+            }
+
             try
             {
+
               
                 lock (loadingLock)
                 {
@@ -1329,7 +1421,7 @@ namespace Wof.Controller.Screens
                         ControlGunFireSound();
 
                     }
-                    else if (loading == false)
+                    else if (loading == false && levelView != null)
                     {
                         isFirstFrame = true;
                         TimeSpan diff = DateTime.Now.Subtract(loadingStart);
@@ -1354,6 +1446,10 @@ namespace Wof.Controller.Screens
 
                             if (EngineConfig.UseHardwareTexturePreloader && preloadingOverlay != null)
                             {
+                                if(showingLoadingAds)
+                                {
+                                    AdManager.Singleton.CloseAd();
+                                }
                                 preloadingOverlay.Hide();
                                 preloadingOverlay.Dispose();
                                 preloadingOverlay = null;

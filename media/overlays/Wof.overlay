@@ -9,7 +9,8 @@ Wof/Loading
 		top 0
 		width 1
 		height 1
-		material SplashScreen
+		material SplashScreenBg
+
 
         	element TextArea(Wof/LoadingScreenText)
 		{
@@ -33,12 +34,93 @@ Wof/Loading
              	material MissionType
         	}
     
+		container Panel(Wof/LoadingScreenSplash)
+        	{
+             	left 0.0
+             	top 0.0
+             	width 1.0
+             	height 1.0
+             	material SplashScreen
+        	}
+
+	}
+}
 
 
+
+Wof/LoadingAd
+{
+	zorder 500
+	// Stats block
+	container BorderPanel(Wof/LoadingAdScreen)
+	{
+		metrics_mode relative		
+		left 0 
+		top 0
+		width 1
+		height 1
+		material LoadingAdBg
+
+
+		element Panel(Wof/LoadingAdScreenBg)
+		{
+			metrics_mode relative
+			left 0.0
+			top 0.0
+			width 1
+			height 0.05
+			material SplashScreenBg	
+		}
+
+
+        	element TextArea(Wof/LoadingAdScreenText)
+		{
+			metrics_mode relative
+			left 0.03
+			top 0.01
+			width 0.2
+			height 0.03
+			font_name BlueHighway
+			char_height 0.03
+			colour 0 0.1 0			
+		}
 		
+
+       	container Panel(Wof/LoadingAdScreenLogo)
+        	{
+			metrics_mode relative
+             	left 0.70
+             	top 0.011
+             	width 0.24
+             	height 0.028
+             	material LoadingAdLogo
+        	}
+
+		container Panel(Wof/LoadingAdScreenMissionType)
+        	{
+             	left 0.95
+             	top 0.005
+             	width 0.04
+             	height 0.04
+             	material MissionType
+        	}
+
+
+		container Panel(Wof/LoadingAdScreenSplash)
+        	{
+             	left 0.0
+             	top 0.05
+             	width 1.0
+             	height 0.95
+             	material SplashScreen
+        	}
+
+    
 		
 	}
 }
+
+
 
 
 Wof/MessageBar
