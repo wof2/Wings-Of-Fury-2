@@ -160,7 +160,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Splash.resx</DependentUpon>
     </Compile>
-    <Compile Include="src\Controller\AdManager.cs" />
+    <Compile Include="src\Controller\AdAction\AdManager.cs" />
+    <Compile Include="src\Controller\AdAction\AdSizes.cs" />
     <Compile Include="src\Controller\DelayedControllerFacade.cs" />
     <Compile Include="src\Controller\EffectBars\AltitudeBar.cs" />
     <Compile Include="src\Controller\EffectBars\BulletTimeBar.cs" />

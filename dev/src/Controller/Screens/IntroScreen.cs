@@ -52,7 +52,9 @@ using System.IO;
 using System.Text.RegularExpressions;
 using AdManaged;
 using Mogre;
+using Wof.Controller.AdAction;
 using Wof.Languages;
+using Wof.Model.Level.Common;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;
 
@@ -81,7 +83,7 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Minimalny czas (w sek) przez jaki screen musi byæ na ekranie
         /// </summary>
-        private float[] screenMinTimes = { 2.5f, 2.5f, 1.0f, 1.0f };
+        private float[] screenMinTimes = { 0.5f, 0.5f, 1.0f, 1.0f };
 
 
         string currentMaterialName; 
@@ -223,27 +225,12 @@ namespace Wof.Controller.Screens
                 {
                     // pobieranie OK.
                     currentMaterialName = C_AD_MATERIAL;
-                    string path = AdManager.Singleton.CurrentAd.path;
-                    try
+                    string path = AdManager.Singleton.LoadAdTexture();
+                    if(path == null)
                     {
-                        TextureManager.Singleton.Load(path, "Ads");
+                       return false;
                     }
-                    catch (Exception ex)
-                    { 
-                        // nie mo¿na zdekodowaæ obrazka? pobieranie jednak sie nie udalo?
-                        if(OgreException.IsThrown)
-                        {
-                            try
-                            {
-                                File.Delete(path);
-                            }
-                            catch
-                            {
-                            }
-                        }
-                      
-                        return false;
-                    }
+                  
                     overlayMaterial = MaterialManager.Singleton.GetByName(currentMaterialName);
                     overlayMaterial.Load();
                     unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
@@ -272,28 +259,21 @@ namespace Wof.Controller.Screens
                 SoundManager3D.Instance.PlayAmbient("sounds/raven.wav", EngineConfig.SoundVolume, false, false);
             }
 
-
             textureDimensions = unit.GetTextureDimensions();
-
+            PointD scale = new PointD(1,1);
             // skaluj overlay tak aby tekstury nie zmienia³y swoich proporcji
-            float scale = 1.0f;
-
+            float prop = 1.0f;
             if(isScreenAnAd[currentScreen - 1])
             {
                 // reklamy maja zachowac oryginalna rozdzielczosc 
-                if (textureDimensions.first > viewport.ActualWidth)
-                {
-                    scale = 1.0f * viewport.ActualWidth / textureDimensions.first; // jesli mialoby wyjsc za ekran
-                }
-                else
-                {
-                    scale = 1.0f * textureDimensions.first / viewport.ActualWidth; // jesli mialoby wyjsc za ekran
-                }
-           
+                scale = AdSizeUtils.ScaleAdToDisplay(textureDimensions, new PointD(viewport.ActualWidth, viewport.ActualHeight));
             }
-            
-            float prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * viewport.ActualWidth / viewport.ActualHeight));
-            overlay.SetScale(scale, scale *prop);
+            else
+            {
+                prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * viewport.ActualWidth / viewport.ActualHeight));
+            }
+            overlay.SetScale(scale.X, scale.Y * prop);
+           
 
 
           

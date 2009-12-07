@@ -607,42 +607,51 @@ namespace Wof.Controller.Screens
             }
             if (!EngineConfig.DisplayMinimap) return;
 
-            ammoContainer.Hide();
-            livesContainer.Hide();
-            scoreContainer.Hide();
-            hiscoreContainer.Hide();
-            infoContainer.Hide();
+            try
+            {
+                ammoContainer.Hide();
+                livesContainer.Hide();
+                scoreContainer.Hide();
+                hiscoreContainer.Hide();
+                infoContainer.Hide();
 
-            OverlayManager.Singleton.DestroyOverlayElement(ammoElement);
-            OverlayManager.Singleton.DestroyOverlayElement(livesElement);
-            OverlayManager.Singleton.DestroyOverlayElement(scoreElement);
-            OverlayManager.Singleton.DestroyOverlayElement(hiscoreElement);
-            OverlayManager.Singleton.DestroyOverlayElement(infoElement);
+                OverlayManager.Singleton.DestroyOverlayElement(ammoElement);
+                OverlayManager.Singleton.DestroyOverlayElement(livesElement);
+                OverlayManager.Singleton.DestroyOverlayElement(scoreElement);
+                OverlayManager.Singleton.DestroyOverlayElement(hiscoreElement);
+                OverlayManager.Singleton.DestroyOverlayElement(infoElement);
 
-            ammoContainer.Dispose();
-            livesContainer.Dispose();
-            hiscoreContainer.Dispose();
-            scoreContainer.Dispose();
-            infoContainer.Dispose();
+                ammoContainer.Dispose();
+                livesContainer.Dispose();
+                hiscoreContainer.Dispose();
+                scoreContainer.Dispose();
+                infoContainer.Dispose();
 
-            // sceneMgr.DestroyAllEntities();
+                // sceneMgr.DestroyAllEntities();
 
-            hudNode.Dispose();
-            hudNode = null;
-            fuelArrowNode.Dispose();
-            fuelArrowNode = null;
-            oilArrowNode.Dispose();
-            oilArrowNode = null;
+                hudNode.Dispose();
+                hudNode = null;
+                fuelArrowNode.Dispose();
+                fuelArrowNode = null;
+                oilArrowNode.Dispose();
+                oilArrowNode = null;
 
-            /*
-            ammoElement.Hide();
-            ammoElement.Dispose();
-            livesElement.Hide();
-            livesElement.Dispose();
-            scoreElement.Hide();
-            scoreElement.Dispose();
-            hiscoreElement.Hide();
-            hiscoreElement.Dispose();*/
+                /*
+                ammoElement.Hide();
+                ammoElement.Dispose();
+                livesElement.Hide();
+                livesElement.Dispose();
+                scoreElement.Hide();
+                scoreElement.Dispose();
+                hiscoreElement.Hide();
+                hiscoreElement.Dispose();*/
+            }
+            catch (Exception ex)
+            {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while cleaning up indicator control: " + ex.StackTrace);   
+             
+            }
+           
         }
     }
 }
