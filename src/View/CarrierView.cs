@@ -50,6 +50,7 @@ using System;
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
+using Wof.Controller.AdAction;
 using Wof.Misc;
 using Wof.Model.Level;
 using Wof.Model.Level.Carriers;
@@ -74,10 +75,14 @@ namespace Wof.View
 
         private static int hangarDepth = 3;
 
+
+        //private AdManager.Ad ad;
+
         protected Entity carrierAerial1;
         protected Entity carrierAerial2;
         protected Entity carrierHangar;
-
+        protected Entity adEntity;
+        
 
         protected bool isHangaringPlane = false;
         protected PlaneView hangarPlane;
@@ -89,6 +94,8 @@ namespace Wof.View
         protected SceneNode carrierAerial1Node;
         protected SceneNode carrierAerial2Node;
         protected SceneNode carrierHangarNode;
+        protected SceneNode adNode;
+        
       
         private ConstRotateNodeAnimation aerialAnimation1;
         private ConstRotateNodeAnimation aerialAnimation2;
@@ -368,9 +375,11 @@ namespace Wof.View
             EffectsManager.Singleton.RectangularEffect(sceneMgr, mainNode, name + "lWaterTrailNode", EffectsManager.EffectType.WATERTRAIL, new Vector3(-4.6f, -5.6f, -41.0f - 47.5f), new Vector2(17,12), new Quaternion(new Radian(new Degree(90)), Vector3.NEGATIVE_UNIT_Y), true);
           
             EffectsManager.Singleton.RectangularEffect(sceneMgr, mainNode,  name + "rWaterTrailNode", EffectsManager.EffectType.WATERTRAIL, new Vector3(4.6f, -5.6f, -41.0f - 47.5f), new Vector2(17,12), new Quaternion(new Radian(new Degree(90)), Vector3.NEGATIVE_UNIT_Y), true);
-                
-          
-           
+
+            adEntity = sceneMgr.CreateEntity(name + "AdEntity", "TwoSidedPlane.mesh");
+            adNode = mainNode.CreateChildSceneNode(name + "AdNode", new Vector3(0.0f, 9.1f, 5.7f - 47.8f));
+            adNode.AttachObject(adEntity);
+            adNode.SetVisible(false);
 
             float adjust = LevelView.TileWidth*1.7f;
 
@@ -667,7 +676,43 @@ namespace Wof.View
             this.hangaringDirection = hangaringDirection;
         }
 
+        /*
+        public void ShowAd()
+        {
+            if(ad != null)
+            {
+                string orgMaterialName = "AdMaterial";
+                string materialName = orgMaterialName + ad.id;
+                MaterialPtr ptr =  ViewHelper.CloneMaterial(orgMaterialName, materialName);
+                TextureUnitState unit = ptr.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
+                unit.SetTextureName(ad.path);
 
+                adEntity.SetMaterialName(materialName);
+                adNode.SetVisible(true);
+
+                AdManager.Singleton.RegisterImpression();
+               
+            }
+           
+          
+        }
+       
+        public void ClearAd()
+        {
+            MaterialManager.Singleton.Unload(adEntity.GetMesh().GetSubMesh(0).MaterialName);
+            adNode.SetVisible(false);
+            AdManager.Singleton.CloseAd();
+            AdManager.Singleton.Work();
+
+        }
+       
+        public void RegisterAd(AdManager.Ad ad)
+        {
+            AdManager.Singleton.CurrentAd = ad;
+            this.ad = ad;
+
+        }
+        */
 
         public void updateTime(float timeSinceLastFrameUpdate)
         {

@@ -79,17 +79,8 @@ namespace Wof.Controller.AdAction
             get { return adAction; }
         }
 
-        public void ClearCurrentAd()
-        {
-            currentAd = null;
-            currentZone = null;
-        }
-
-        public Ad CurrentAd
-        {
-            get { return currentAd; }
-          //  set { currentAd = value; }
-        }
+       
+       
 
         public bool HasCurrentAd
         {
@@ -148,10 +139,11 @@ namespace Wof.Controller.AdAction
        
 
 
-        public void RegisterImpression(int i)
+        public void RegisterImpression(Ad ad)
         {
-            adAction.Add(i);
+            adAction.Add(ad.id);
         }
+/*
         /// <summary>
         /// Zlicza wyświetlenie dla bieżącej reklamy
         /// </summary>
@@ -164,7 +156,7 @@ namespace Wof.Controller.AdAction
         {
             return LoadAdTexture(currentAd);
         }
-
+*/
         /// <summary>
         /// Wczytuje daną reklamę z dysku i ładuje do TextureManagera. W przypadku błędu zwraca null
         /// </summary>
@@ -199,18 +191,18 @@ namespace Wof.Controller.AdAction
         }
 
 
-        public AdStatus GetAd(string zone)
+        public AdStatus GetAd(string zone, out Ad outAd)
         {
-            return GetAd(zone, C_AD_DOWNLOAD_TIMEOUT, AdDownloaded);
+            return GetAd(zone, C_AD_DOWNLOAD_TIMEOUT, AdDownloaded, out outAd);
         }
 
-        public AdStatus GetAd(string zone, int downloadMsTimeout, AdDownloaded adDownloadedCallback)
+        public AdStatus GetAd(string zone, int downloadMsTimeout, AdDownloaded adDownloadedCallback, out Ad outAd)
         {
-            return GetAd(zone, C_AD_DOWNLOAD_TIMEOUT, null, AdDownloaded);
+            return GetAd(zone, C_AD_DOWNLOAD_TIMEOUT, null, AdDownloaded, out outAd);
         }
-        public AdStatus GetAd(string zone, int downloadMsTimeout, IAdSize[] allowedSizes)
+        public AdStatus GetAd(string zone, int downloadMsTimeout, IAdSize[] allowedSizes, out Ad outAd)
         {
-            return GetAd(zone, C_AD_DOWNLOAD_TIMEOUT, allowedSizes, AdDownloaded);
+            return GetAd(zone, C_AD_DOWNLOAD_TIMEOUT, allowedSizes, AdDownloaded, out outAd);
         }
 
         
@@ -223,8 +215,9 @@ namespace Wof.Controller.AdAction
         /// <param name="allowedSizes">Jesli null to nie ma ograniczenia wielkosci</param>
         /// <param name="adDownloadedCallback"></param>
         /// <returns></returns>
-        public AdStatus GetAd(string zone, int downloadMsTimeout, IAdSize[] allowedSizes, AdManaged.AdDownloaded adDownloadedCallback)
+        public AdStatus GetAd(string zone, int downloadMsTimeout, IAdSize[] allowedSizes, AdManaged.AdDownloaded adDownloadedCallback, out Ad outAd)
         {
+            outAd = null;
             AdList[] adl;
             try
             {
@@ -337,13 +330,14 @@ namespace Wof.Controller.AdAction
                                                {
                                                    return ad.id.Equals(id1);
                                                });
+                outAd = currentAd;
 
                 return AdStatus.OK;
             }
             return AdStatus.NO_ADS;
         }
 
-
+        /*
         public void CloseAd()
         {
             if(HasCurrentAd)
@@ -352,11 +346,11 @@ namespace Wof.Controller.AdAction
                 ClearCurrentAd();
             }
             
-        }
+        }*/
 
-        public void CloseAd(int id)
+        public void CloseAd(Ad ad)
         {
-            adAction.Close_Ad(id);
+            adAction.Close_Ad(ad.id);
         }
     }
 }

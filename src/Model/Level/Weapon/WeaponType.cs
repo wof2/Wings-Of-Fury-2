@@ -72,6 +72,11 @@ namespace Wof.Model.Level.Weapon
         /// <summary>
         /// Torpeda.
         /// </summary>
-        Torpedo
+        Torpedo,
+
+        /// <summary>
+        /// Brak broni (czasem potrzebne)
+        /// </summary>
+        None
     }
 }

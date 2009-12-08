@@ -101,6 +101,7 @@ namespace Wof.Controller.Screens
 
         public const string C_AD_ZONE = "pregame";
         public const string C_AD_MATERIAL = "AdMaterial";
+        private AdManager.Ad currentAd = null;
 
        
        
@@ -211,21 +212,21 @@ namespace Wof.Controller.Screens
 
         private bool initScreen(int i)
         {
+            
             MaterialPtr overlayMaterial = null;
             TextureUnitState unit;
             animation = null;
             currentMaterialName = null;
-            AdManager.Singleton.ClearCurrentAd(); // ustawia na null
             if (isScreenAnAd[i - 1]) // poczatkowo i = 1
             {
                 // pobierz i ustaw na bie¿ac¹
-                AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_ZONE);
+                AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_ZONE, out currentAd);
                       
                 if (status == AdManager.AdStatus.OK)
                 {
                     // pobieranie OK.
                     currentMaterialName = C_AD_MATERIAL;
-                    string path = AdManager.Singleton.LoadAdTexture();
+                    string path = AdManager.Singleton.LoadAdTexture(currentAd);
                     if(path == null)
                     {
                        return false;
@@ -236,7 +237,7 @@ namespace Wof.Controller.Screens
                     unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
 
                     unit.SetTextureName(path);
-                    AdManager.Singleton.RegisterImpression();
+                    AdManager.Singleton.RegisterImpression(currentAd);
 
                     //   int count;
                     //   count = adAction.Get_Ad_Impression_Counter(currentAd.id);
@@ -266,7 +267,7 @@ namespace Wof.Controller.Screens
             if(isScreenAnAd[currentScreen - 1])
             {
                 // reklamy maja zachowac oryginalna rozdzielczosc 
-                scale = AdSizeUtils.ScaleAdToDisplay(textureDimensions, new PointD(viewport.ActualWidth, viewport.ActualHeight));
+                scale = AdSizeUtils.ScaleAdToDisplay(textureDimensions, new PointD(viewport.ActualWidth, viewport.ActualHeight), true);
             }
             else
             {
@@ -305,7 +306,7 @@ namespace Wof.Controller.Screens
                 {
                     if(AdManager.Singleton.HasCurrentAd)
                     {
-                        AdManager.Singleton.CloseAd();
+                        AdManager.Singleton.CloseAd(currentAd);
                         AdManager.Singleton.Work(); // wyslij, na wszelki wypadek
                         
                     }

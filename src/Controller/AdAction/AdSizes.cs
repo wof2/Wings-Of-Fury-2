@@ -8,24 +8,55 @@ namespace Wof.Controller.AdAction
 
     public class AdSizeUtils
     {
+        
 
-        public static PointD ScaleAdToDisplay(Pair<uint, uint> textureDimensions, PointD targetSize)
+        public static PointD ScaleAdToDisplay(Pair<uint, uint> textureDimensions, PointD targetSize, bool recalcRatio)
         {
+           
             float scale;
-            // reklamy maja zachowac oryginalna rozdzielczosc 
+            // reklamy musza zmiescic siê na targetSize
             if (textureDimensions.first > targetSize.X)
             {
                 scale = 1.0f * targetSize.X / textureDimensions.first; // jesli mialoby wyjsc za ekran
             }
             else
             {
-                scale = 1.0f * textureDimensions.first / targetSize.X; // jesli mialoby wyjsc za ekran
+                scale = 1.0f * textureDimensions.first / targetSize.X; 
             }
-           
 
-            float prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * targetSize.X / targetSize.Y));
+            if(textureDimensions.second * scale > targetSize.Y)
+            {
+                // jesli mimo skalowania w osi X dalej nie miescimy siê w osi Y nalezy przeprowadzic skalowanie w Y (wtedy zmiescimy sie w obu osiach)
+                if (textureDimensions.second > targetSize.Y)
+                {
+                    scale = 1.0f * targetSize.Y / textureDimensions.second; // jesli mialoby wyjsc za ekran
+                }
+              //  return new PointD(scale * prop, scale);
+            }
+            else
+            {
+              
+            }
+            // proporcja ma takze by zachowana
+            float prop;
+            if (recalcRatio)
+            {
+                prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * targetSize.X / targetSize.Y));
+ 
+            }
+            else
+            {
+                prop = 1.0f;
+            }
+            
+
             return new PointD(scale, scale * prop);
+          
+            
         }
+
+
+      
 
 
         /// <summary>

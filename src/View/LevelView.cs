@@ -53,6 +53,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Mogre;
 using Wof.Controller;
+using Wof.Controller.AdAction;
 using Wof.Misc;
 using Wof.Model.Configuration;
 using Wof.Model.Level;
@@ -82,6 +83,13 @@ namespace Wof.View
     
     internal class LevelView
     {
+        /*
+        private AdManager.Ad ad = null;
+        public AdManager.Ad Ad
+        {
+            get { return ad; }
+        }
+        */
 
         private int cameraIndexBeforeHangaring;
         public int CurrentCameraHolderIndex
@@ -768,6 +776,9 @@ namespace Wof.View
 
             p.Smash(); // vertex animation
         }
+
+
+
 
         public void OnPlaneCrashed(Plane plane, TileKind tileKind)
         {
@@ -1591,6 +1602,7 @@ namespace Wof.View
         /// <param name="evt"></param>
         public void OnFrameStarted(FrameEvent evt)
         {
+            
             if (EngineConfig.UseHydrax)
             {
                 HydraxManager.Singleton.Update(evt);
@@ -2228,5 +2240,17 @@ namespace Wof.View
             currentCameraHolderIndex = -1;
             OnChangeCamera();
         }
+
+
+        
+        /*
+        public void OnRegisterAd(AdManager.Ad ad)
+        {
+          
+            carrierView.RegisterAd(ad);           
+            this.ad = ad;           
+             carrierView.ShowAd();
+            
+        }*/
     }
 }
