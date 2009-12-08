@@ -2175,6 +2175,8 @@ namespace Wof.View
 
         public int OnChangeCamera(SceneNode holder)
         {
+
+            HydraxManager.Singleton.ForceUpdate(); // jako ze hydrax nie updateuje sie zawsze, nalezy wymusic odswiezenie
             int lastIndex = currentCameraHolderIndex;
       
             framework.Camera.Position = Vector3.ZERO;
