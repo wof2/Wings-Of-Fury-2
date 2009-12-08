@@ -90,7 +90,13 @@ namespace Wof.Controller.Screens
 {
     internal class GameScreen : MenuScreen, IController, BetaGUIListener
     {
-        private const float C_AD_PROBABILITY = 0.5f;
+        private const float C_LOADING_AD_PROBABILITY = 0.9999f;
+        private const float C_CHANGING_AMMO_AD_PROBABILITY = 0.65f;
+        private const float C_CHANGING_AMMO_AD_MIN_TIME = 5.3f;
+        private float changingAmmoTime = 0;
+        private bool showingChangingAmmoAds = false;
+
+        private WeaponType? changeAmmoToWhenCanClearRestoreAmmunitionScreen = null;
 
         private const String C_LEVEL_FOLDER = "levels";
         private const String C_LEVEL_PREFIX = "level-";
@@ -111,13 +117,17 @@ namespace Wof.Controller.Screens
 
         public const float C_RESPONSE_DELAY = 0.16f;
 
-        public const string C_AD_ZONE = "pregame";
+        public const string C_AD_LOADING_ZONE = "pregame";
+        public const string C_AD_GAME_ZONE = "ingame";
 
 
         private int lastFireTick = 0;
 
 
         private bool showingLoadingAds = false;
+        private AdManager.Ad loadingAd;
+        private AdManager.Ad changingAmmoAd;
+        private bool changingAmmoAdTried = false;
 
         /// <summary>
         /// Indeks aktualnie zaznaczonej broni (w menu wyboru broni)
@@ -313,6 +323,9 @@ namespace Wof.Controller.Screens
             this.levelNo = levelNo;
             mayPlaySound = false;
             changingAmmo = false;
+            changingAmmoTime = 0;
+            showingChangingAmmoAds = false;
+            changeAmmoToWhenCanClearRestoreAmmunitionScreen = null;
             loadingLock = new object();
             score = 0;
             if(GameConsts.Game.LivesCheat) 
@@ -563,7 +576,7 @@ namespace Wof.Controller.Screens
                                                 "Error: No tutorial screens available for language:" +
                                                 LanguageManager.ActualLanguageName);
             }
-            showingLoadingAds = Mogre.Math.RangeRandom(0, 1) > (1 - C_AD_PROBABILITY);
+            showingLoadingAds = Mogre.Math.RangeRandom(0, 1) > (1 - C_LOADING_AD_PROBABILITY);
 
 
           
@@ -577,13 +590,17 @@ namespace Wof.Controller.Screens
             
             if (showingLoadingAds)
             {
-                AdManager.Singleton.ClearCurrentAd(); // ustawia na null
                 // pobierz i ustaw na bie¿ac¹
-                AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_ZONE, AdManager.C_AD_DOWNLOAD_TIMEOUT, AdSizeUtils.GetSizesGreaterEqual(512, 512));
+                 
+                AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_LOADING_ZONE, AdManager.C_AD_DOWNLOAD_TIMEOUT, AdSizeUtils.GetSizesGreaterEqual(512, 512), out loadingAd);
 
                 if (status == AdManager.AdStatus.OK)
                 {
-                    imageName = AdManager.Singleton.LoadAdTexture(); // jesli sie nie uda bedzie null
+                    imageName = AdManager.Singleton.LoadAdTexture(loadingAd); // jesli sie nie uda bedzie null
+                }
+                else
+                {
+                    loadingAd = null;
                 }
 
                 
@@ -632,7 +649,7 @@ namespace Wof.Controller.Screens
 
                     adSurface.Width = adSurfaceWidth; adSurface.Height = adSurfaceHeight;
 
-                    PointD scale = AdSizeUtils.ScaleAdToDisplay(unit.GetTextureDimensions(), new PointD(adSurface.Width * viewport.ActualWidth, adSurface.Height * viewport.ActualHeight));
+                    PointD scale = AdSizeUtils.ScaleAdToDisplay(unit.GetTextureDimensions(), new PointD(adSurface.Width * viewport.ActualWidth, adSurface.Height * viewport.ActualHeight), true);
 
 
 
@@ -641,7 +658,7 @@ namespace Wof.Controller.Screens
                     float yShift = (1 - adSurface.Height) / 2.0f;
                     adSurface.SetPosition(xShift, yShift);
 
-                    AdManager.Singleton.RegisterImpression();
+                    AdManager.Singleton.RegisterImpression(loadingAd);
 
                     OverlayManager.Singleton.GetOverlayElement(overlayAdScreenLogoName).Show();
                 }
@@ -1076,6 +1093,7 @@ namespace Wof.Controller.Screens
                     Button.TryToPressButton(nextLevelButton);
 
                 }
+               
 
                 // zmiana amunicji za pomoc¹ klawiatury                       
                 if (changingAmmo && (Button.CanChangeSelectedButton(1.5f))) // mozna nacisnac guzik 
@@ -1160,37 +1178,62 @@ namespace Wof.Controller.Screens
 
                     if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || inputKeyboard.IsKeyDown(KeyCode.KC_B) || inputKeyboard.IsKeyDown(KeyCode.KC_R) || inputKeyboard.IsKeyDown(KeyCode.KC_T) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter))
                     {
+
+                        Button buttonToPress = null;
+                        WeaponType type = WeaponType.None;
                         switch (ammoSelectedIndex)
                         {
                             case 0:
                                 // bomby
-                                bombsButton.callback.LS.onButtonPress(bombsButton);
-                                ammoSelectedIndex = ammoSelectedIndexCount;
+                                buttonToPress = bombsButton;
+                                type = WeaponType.Bomb;
+                               
                                 break;
 
                             case 1:
                                 // rakiety
-                                rocketsButton.callback.LS.onButtonPress(rocketsButton);
-                                ammoSelectedIndex = ammoSelectedIndexCount;
+                                buttonToPress = rocketsButton;
+                                type = WeaponType.Rocket;
                                 break;
 
                             case 2:
                                 // torpedy
-                                torpedoesButton.callback.LS.onButtonPress(torpedoesButton);
-                                ammoSelectedIndex = ammoSelectedIndexCount;
+                                buttonToPress = torpedoesButton;
+                                type = WeaponType.Torpedo;
                                 break;
 
                         }
+                        if(CanClearRestoreAmmunitionScreen)
+                        {
+                            if(buttonToPress != null)
+                            {
+                                onButtonPress(buttonToPress);
+                                ammoSelectedIndex = ammoSelectedIndexCount;
+
+                            }
+                        }
+                        else
+                        {
+                            changeAmmoToWhenCanClearRestoreAmmunitionScreen = type;
+                        }
+                        
                     }
-
-
 
                     if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape))
                     {
-                        ClearRestoreAmmunitionScreen();
-                        Button.ResetButtonTimer();
-                        ammoSelectedIndex = ammoSelectedIndexCount;
-                    }
+                        if (CanClearRestoreAmmunitionScreen)
+                        {
+                            ClearRestoreAmmunitionScreen();
+                            Button.ResetButtonTimer();
+                            ammoSelectedIndex = ammoSelectedIndexCount;
+                        }
+                        else
+                        {
+                            changeAmmoToWhenCanClearRestoreAmmunitionScreen = WeaponType.None;
+                        }
+                    } 
+                   
+                   
                 }
 
                 // mouseState = null;
@@ -1207,6 +1250,7 @@ namespace Wof.Controller.Screens
 
         }
 
+    
 
         public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
@@ -1215,6 +1259,11 @@ namespace Wof.Controller.Screens
             {
                 StartLoading();
 
+            }
+
+            if(AdManager.Singleton.HasCurrentAd)
+            {
+                AdManager.Singleton.Work();
             }
 
             if(isFirstLoadingFrame)
@@ -1277,6 +1326,7 @@ namespace Wof.Controller.Screens
                     }
 
 
+
                     if (!loading && loadingOverlay == null)
                     {
 
@@ -1284,6 +1334,14 @@ namespace Wof.Controller.Screens
                         inputKeyboard.Capture();
                         if (inputJoystick != null) inputJoystick.Capture();
                         Vector2 joyVector = FrameWork.GetJoystickVector(inputJoystick);
+
+                        if(changingAmmo)
+                        {
+                            changingAmmoTime += evt.timeSinceLastFrame;
+                            // jesli zmieniamy amunicje i screen moze zostac zamkniety ORAZ user juz w cos klikn¹³ nalezy teraz akcje ktora wybral user i wreszcie zamknac screen zmiany amunicji
+                            DelayedChangeAmmoAndCloseScreen();
+                           
+                        }
 
                         UpdateMenusGui(inputMouse, inputKeyboard, inputJoystick);
 
@@ -1314,6 +1372,7 @@ namespace Wof.Controller.Screens
                        
                         if (levelView != null && levelView.IsHangaringFinished())
                         {
+
                             levelView.OnHangaringFinished();
                         }
 
@@ -1334,39 +1393,39 @@ namespace Wof.Controller.Screens
 
 
                                 // zmiana kamery
-                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam1)) && Button.CanChangeSelectedButton(2.0f))
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam1)) && Button.CanChangeSelectedButton(2.5f))
                                 {
                                     SwitchCamera(0);
                                 }
 
-                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam2)) && Button.CanChangeSelectedButton(2.0f))
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam2)) && Button.CanChangeSelectedButton(2.5f))
                                 {
                                     SwitchCamera(1);
                                 }
 
-                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam3)) && Button.CanChangeSelectedButton(2.0f))
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam3)) && Button.CanChangeSelectedButton(2.5f))
                                 {
                                     SwitchCamera(2);
                                 }
 
-                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam4)) && Button.CanChangeSelectedButton(2.0f))
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam4)) && Button.CanChangeSelectedButton(2.5f))
                                 {
                                     SwitchCamera(3);
                                 }
 
-                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam5)) && Button.CanChangeSelectedButton(2.0f))
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam5)) && Button.CanChangeSelectedButton(2.5f))
                                 {
                                     SwitchCamera(4);
                                 }
 
-                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam6)) && Button.CanChangeSelectedButton(2.0f))
+                                if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam6)) && Button.CanChangeSelectedButton(2.5f))
                                 {
                                     SwitchCamera(5);
                                 }
 
                                 if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Camera) ||
                                      FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickCamera)) &&
-                                    Button.CanChangeSelectedButton(1.0f))
+                                    Button.CanChangeSelectedButton(2.5f))
                                 {
                                     SwitchCamera();
                                 }
@@ -1425,6 +1484,31 @@ namespace Wof.Controller.Screens
                     {
                         isFirstFrame = true;
                         TimeSpan diff = DateTime.Now.Subtract(loadingStart);
+
+
+
+                        // reklama w czasie gry
+                        if (changingAmmoAd == null && !changingAmmoAdTried)
+                        {
+                            changingAmmoAdTried = true;
+                            // pobierz i ustaw na bie¿ac¹
+                            AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_GAME_ZONE, AdManager.C_AD_DOWNLOAD_TIMEOUT, new IAdSize[] { new Billboard_1024x128(), new Billboard_1024x256() }, out changingAmmoAd);
+
+                            if (status == AdManager.AdStatus.OK)
+                            {
+                                if (AdManager.Singleton.LoadAdTexture(changingAmmoAd) == null)
+                                {
+                                    changingAmmoAd = null;
+                                    //levelView.OnRegisterAd(AdManager.Singleton.CurrentAd);
+                                }
+
+                            }
+                            
+                        }
+                       
+
+
+
                         if (EngineConfig.DebugStart || diff.TotalMilliseconds > EngineConfig.C_LOADING_DELAY)
                         {
                             levelView.BuildCameraHolders();
@@ -1448,7 +1532,7 @@ namespace Wof.Controller.Screens
                             {
                                 if(showingLoadingAds)
                                 {
-                                    AdManager.Singleton.CloseAd();
+                                    AdManager.Singleton.CloseAd(loadingAd);
                                 }
                                 preloadingOverlay.Hide();
                                 preloadingOverlay.Dispose();
@@ -1474,6 +1558,7 @@ namespace Wof.Controller.Screens
 
         }
 
+     
 
 
         private void SwitchCamera()
@@ -1710,21 +1795,34 @@ namespace Wof.Controller.Screens
             if (referer == rocketsButton)
             {
                 // zmieniam bron na rakiety
-                currentLevel.OnRestoreAmmunition(WeaponType.Rocket);
-                ClearRestoreAmmunitionScreen();
-                SoundManager.Instance.PlayReloadSound();
-                indicatorControl.ChangeAmmoType(WeaponType.Rocket);
-
+                if (CanClearRestoreAmmunitionScreen)
+                {
+                    currentLevel.OnRestoreAmmunition(WeaponType.Rocket);
+                    ClearRestoreAmmunitionScreen();
+                    SoundManager.Instance.PlayReloadSound();
+                    indicatorControl.ChangeAmmoType(WeaponType.Rocket);
+                }
+                else
+                {
+                    changeAmmoToWhenCanClearRestoreAmmunitionScreen = WeaponType.Rocket;
+                }
                 return;
             }
 
             if (referer == torpedoesButton)
             {
                 // zmieniam bron na torpedy
-                currentLevel.OnRestoreAmmunition(WeaponType.Torpedo);
-                ClearRestoreAmmunitionScreen();
-                SoundManager.Instance.PlayReloadSound();
-                indicatorControl.ChangeAmmoType(WeaponType.Torpedo);
+                if (CanClearRestoreAmmunitionScreen)
+                {
+                    currentLevel.OnRestoreAmmunition(WeaponType.Torpedo);
+                    ClearRestoreAmmunitionScreen();
+                    SoundManager.Instance.PlayReloadSound();
+                    indicatorControl.ChangeAmmoType(WeaponType.Torpedo);
+                }
+                else
+                {
+                    changeAmmoToWhenCanClearRestoreAmmunitionScreen = WeaponType.Torpedo;
+                }
 
                 return;
             }
@@ -1732,10 +1830,18 @@ namespace Wof.Controller.Screens
             if (referer == bombsButton)
             {
                 // zmieniam bron na bomby
-                currentLevel.OnRestoreAmmunition(WeaponType.Bomb);
-                ClearRestoreAmmunitionScreen();
-                SoundManager.Instance.PlayReloadSound();
-                indicatorControl.ChangeAmmoType(WeaponType.Bomb);
+                if (CanClearRestoreAmmunitionScreen)
+                {
+                    currentLevel.OnRestoreAmmunition(WeaponType.Bomb);
+                    ClearRestoreAmmunitionScreen();
+                    SoundManager.Instance.PlayReloadSound();
+                    indicatorControl.ChangeAmmoType(WeaponType.Bomb);
+                }
+                else
+                {
+                    changeAmmoToWhenCanClearRestoreAmmunitionScreen = WeaponType.Bomb;
+                }
+
                 return;
             }
         }
@@ -1744,6 +1850,10 @@ namespace Wof.Controller.Screens
         
 
        
+        private void DelayedPressButton()
+        {
+            
+        }
         
         
         private void DisplayPauseScreen()
@@ -1966,6 +2076,36 @@ namespace Wof.Controller.Screens
             isInGameOverMenu = true;
         }
 
+        /// <summary>
+        /// Metoda ma na celu zmiane broni jesli user wybral bron ale ekran zmiany broni nie zamknal siê z uwagi min. okres wyœwietlania reklamy
+        /// </summary>
+        private void DelayedChangeAmmoAndCloseScreen()
+        {
+            if (CanClearRestoreAmmunitionScreen &&
+                changeAmmoToWhenCanClearRestoreAmmunitionScreen != null)
+            {
+
+                WeaponType wt = changeAmmoToWhenCanClearRestoreAmmunitionScreen.GetValueOrDefault();
+                switch (wt)
+                {
+                    case WeaponType.None:
+                        ClearRestoreAmmunitionScreen();
+                        ammoSelectedIndex = ammoSelectedIndexCount;
+                        break;
+                    case WeaponType.Bomb:
+                        onButtonPress(bombsButton);
+                        break;
+                    case WeaponType.Rocket:
+                        onButtonPress(rocketsButton);
+                        break;
+                    case WeaponType.Torpedo:
+                        onButtonPress(torpedoesButton);
+                        break;
+                }
+                changeAmmoToWhenCanClearRestoreAmmunitionScreen = null;
+            }
+        }
+
         private void DisplayChangeAmmoScreen()
         {
             try
@@ -1996,9 +2136,47 @@ namespace Wof.Controller.Screens
                                                                    viewport.ActualWidth / 2, GetTextVSpacing()),
                                                        "bgui.button",
                                                        LanguageResources.GetString(LanguageKey.Torpedoes), cc);
-
+                
+                
+               
 
                 guiWindow.show();
+                if (changingAmmoAd != null)
+                {
+                    showingChangingAmmoAds = Mogre.Math.RangeRandom(0, 1) > (1 - C_CHANGING_AMMO_AD_PROBABILITY);
+                }
+                else
+                {
+                    showingChangingAmmoAds = false;
+                }
+
+                if (showingChangingAmmoAds)
+                {
+
+
+                    OverlayContainer adContainer = guiWindow.createStaticImage(new Vector2(0,0),
+                                                changingAmmoAd.path);
+
+                    TexturePtr adTexture = TextureManager.Singleton.GetByName(changingAmmoAd.path);
+                    
+                    Mogre.Pair<uint, uint> pair = new Mogre.Pair<uint, uint>(adTexture.SrcWidth, adTexture.SrcHeight);
+                    float targetWidth = guiWindow.w;
+                    float targetHeight = guiWindow.h - GetTextVSpacing() - torpedoesButton.y;
+
+                    PointD adSurface = new PointD(targetWidth, targetHeight);
+
+                    PointD scale = AdSizeUtils.ScaleAdToDisplay(pair, adSurface, false);
+
+                    adContainer.SetDimensions(0.9f * adContainer.Width * scale.X, 0.9f * adContainer.Height * scale.Y);
+
+                    float xPos = (adSurface.X - adContainer.Width) / 2.0f;
+                    float yPos = guiWindow.h - 0.9f * adSurface.Y; //(adSurface.Y - adContainer.Height) / 2.0f;
+                    adContainer.SetPosition(xPos, yPos);
+
+
+                }
+
+
             }
             catch (Exception ex)
             {
@@ -2007,10 +2185,32 @@ namespace Wof.Controller.Screens
             }
        
         }
+        
+        private bool CanClearRestoreAmmunitionScreen
+        {
+            get { return !showingChangingAmmoAds || changingAmmoTime > C_CHANGING_AMMO_AD_MIN_TIME; }
+        }
 
         private void ClearRestoreAmmunitionScreen()
         {
+
+            if (showingChangingAmmoAds)
+            {
+                // todo: czas
+                //if()
+                {
+                    AdManager.Singleton.RegisterImpression(changingAmmoAd);
+                    AdManager.Singleton.CloseAd(changingAmmoAd);
+
+                }
+                AdManager.Singleton.Work();
+                showingChangingAmmoAds = false;
+                changingAmmoAd = null;
+                changingAmmoAdTried = false;
+            }
+
             changingAmmo = false;
+            changingAmmoTime = 0;
             mGui.killGUI();
             mGui = null;
             SoundManager.Instance.LoopOceanSound();
