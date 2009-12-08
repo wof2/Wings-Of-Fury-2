@@ -132,7 +132,7 @@ material IntroScreen1
 		{			
 			texture_unit
 			{
-				texture Intro1.jpg
+				texture Intro2.jpg
 			}						
 			
 		}      

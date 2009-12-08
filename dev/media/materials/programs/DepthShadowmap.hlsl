@@ -47,20 +47,22 @@ float3 expand(float3 v)
 
 float shadowPCF(sampler2D shadowMap, float4 shadowMapPos, float2 offset)
 {
-	//return 1.0;
+		float adjust = 0.9975; // testing 
+		shadowMapPos.z *= adjust;
+		
 		shadowMapPos = shadowMapPos / shadowMapPos.w;
 		float2 uv = shadowMapPos.xy;
 		float3 o = float3(offset, -offset.x) * 0.3f;
 	   
 		// Note: We using 2x2 PCF. Good enough and is alot faster.
-		float c =       (shadowMapPos.z <= tex2D(shadowMap, uv.xy - o.xy).r) ? 1 : 0; // top left
-		c +=            (shadowMapPos.z <= tex2D(shadowMap, uv.xy + o.xy).r) ? 1 : 0; // bottom right
-		c +=            (shadowMapPos.z <= tex2D(shadowMap, uv.xy + o.zy).r) ? 1 : 0; // bottom left
-		c +=            (shadowMapPos.z <= tex2D(shadowMap, uv.xy - o.zy).r) ? 1 : 0; // top right
+		float c =       (shadowMapPos.z <= tex2D(shadowMap, uv.xy - o.xy).r) ? 0.25 : 0; // top left
+		c +=            (shadowMapPos.z <= tex2D(shadowMap, uv.xy + o.xy).r) ? 0.25 : 0; // bottom right
+		c +=            (shadowMapPos.z <= tex2D(shadowMap, uv.xy + o.zy).r) ? 0.25 : 0; // bottom left
+		c +=            (shadowMapPos.z <= tex2D(shadowMap, uv.xy - o.zy).r) ? 0.25 : 0; // top right
 		
 	   // c += 2.5;
 		  
-		return (c) / 4;
+		return (c);
 }
 
 /* Normal mapping plus depth shadowmapping receiver programs
@@ -77,7 +79,7 @@ void normalMapShadowReceiverVp(
 			 out float4 outShadowUV	 : TEXCOORD0,
 			 out float3 oUv	 		 : TEXCOORD1,
 			 out float3 oTSLightDir  : TEXCOORD2,			 
-			 out float3 oLightData   : TEXCOORD3, // outDirectional, lightDist, attenuationDist
+			 out float oRenderMethod   : TEXCOORD3,
 			
 			 out float4 oLightPosition0   : TEXCOORD4,
 			 out float4 oLightPosition1   : TEXCOORD5,
@@ -98,16 +100,23 @@ void normalMapShadowReceiverVp(
 			 )
 {
   
-  
+  oRenderMethod = -1; // ALL (normal + shadow)
   float lightDist = distance(lightPosition, position);
   
-  if(lightPosition.w <= 0.5)
-  {
-     oLightData = float3(1, lightDist, lightAttenuation[0]);
-  } else
+  if(lightPosition.w > 0.5)
   { 
-     oLightData = float3(0, lightDist, lightAttenuation[0]);
+     // non-directional light ???
+     if(lightDist > lightAttenuation[0]) // lightDist > attenuationDist
+	 {
+		// none
+		oRenderMethod = 0; // nothing in this pass
+	 } else
+	 {
+		oRenderMethod = (lightAttenuation[0] - lightDist) / lightAttenuation[0]; // no shadow but distance dependent + normal
+	 }
+     
   }
+  
    
 	float4 worldPos = mul(world, position);
 	outPos = mul(worldViewProj, position);
@@ -149,7 +158,7 @@ void normalMapShadowReceiverFp(
 			  float4 shadowUV	: TEXCOORD0,
 			  float3 uv			: TEXCOORD1,
 			  float3 TSlightDir : TEXCOORD2,			  
-			  float3 lightData  : TEXCOORD3,
+			  float renderMethod  : TEXCOORD3,
 			 					  
 			 //PSSM
 			 float4 LightPosition0   : TEXCOORD4,
@@ -183,86 +192,166 @@ void normalMapShadowReceiverFp(
  
     float3 lightVec;
 	float3 bumpVec;
-	float4 vertexColour;
-/*	
-	if(lightData[0] < 0.01) //  isDirectional  = lightData[0]
-	{
-		if(lightData[1] > lightData[2]) // lightDist > attenuationDist
-		{
-			result = float4(0,0,0,1);
-			return;
-		}
-
-		// retrieve normalised light vector, expand from range-compressed
-		lightVec = expand(texCUBE(normalCubeMap, TSlightDir).xyz);
-
-		// get bump map vector, again expand from range-compressed
-		bumpVec = expand(tex2D(normalMap, uv).xyz);
-
-		// Calculate dot product
-		vertexColour = lightColour * dot(bumpVec, lightVec);
-
-		result = vertexColour;
-		result *= (lightData[2] - lightData[1]) / lightData[2];
-		return;
-
-	}
-  
-  */
+	float4 vertexColour;	
+	
+	
+	//  oRenderMethod <  0  // ALL (normal + shadow)
+    //  oRenderMethod == 0  // nothing in this pass
+    //  oRenderMethod >  0  // no shadow but distance dependent  + normal
+    if(renderMethod == 0)
+    {
+		result = float4(0,0,0,1);
+	    return;
+    }
+  	
  	// retrieve normalised light vector, expand from range-compressed
 	lightVec = expand(texCUBE(normalCubeMap, TSlightDir).xyz);
 
 	// get bump map vector, again expand from range-compressed
 	bumpVec = expand(tex2D(normalMap, uv).xyz);
 
-  shadowUV = shadowUV / shadowUV.w;
-  
   // Calculate dot product
-	vertexColour = lightColour * dot(bumpVec, lightVec);
+    vertexColour = lightColour * dot(bumpVec, lightVec); 
+		
+	if(renderMethod > 0) // no shadow but distance dependent + normal
+	{		
+		result = renderMethod * vertexColour; // in this case renderMethod also holds the power [0-1]
+		//result = float4(1,1,0,0);
+		return;
+	}
 	
-	 // shadowUV.z contains lightspace position of current object
-  if(shadowUV.z > 1.0f) 
-  {    
-     result = vertexColour;
-     return; // this is a fix for focused shadow camera setup
-  }
-    
-  
+	// this leaves only "renderMethod < 0" which is full normal + shadow rendering
+	
 	//Shadowing
 	float shadowing = 1.0f;
 	float ScreenDepth = uv.z;
 			
-	// poza obszarem cienia
+	// poza obszarem cienia	
+	/*
 	if ( ScreenDepth  >  pssmSplitPoints.z)
 	{   
 	    // result = float4(1,1,0,1);	
 		 result = vertexColour;		
 		 return; 
+	}*/
+	
+	shadowUV /= shadowUV.w;
+	
+	 // shadowUV.z contains lightspace position of current object
+	
+	if(shadowUV.z > 1.0f) 
+	{    
+		result = vertexColour;
+		return; // this is a fix for focused shadow camera setup
 	}
 	
-	float adjust = 0.9975; // testing 		
+  
+	
+	
+		
 	if (ScreenDepth <= pssmSplitPoints.y)
-	{
-		LightPosition0.z *=adjust;
+	{		
 		shadowing = shadowPCF(shadowMap0, LightPosition0, invShadowMapSize0.xy );
 		 //result = float4(1,0,0,1);	
 		// return;
 	}
 	else if (ScreenDepth <= pssmSplitPoints.z)
-	{
-		LightPosition1.z *=adjust;
+	{		
 	    shadowing = shadowPCF(shadowMap1, LightPosition1, invShadowMapSize1.xy );
 	    // result = float4(0,1,0,1);	
 	    // return;
 	}
-	else
-	{
-		//LightPosition2.z *=adjust;	
-	 //   shadowing = shadowPCF(shadowMap2, LightPosition2, invShadowMapSize2.xy);
-	   // result = float4(0,0,1,1);		
-		//return; 
-	}	
-	result = float4(vertexColour.xyz * shadowing , 1);
+	
+	
+	result = float4(vertexColour.xyz * shadowing, 1);
+	
+	
+}
+
+
+
+
+void shadowReceiverFp(             
+			  float4 shadowUV	: TEXCOORD0,
+			  float3 uv			: TEXCOORD1,
+			  float3 TSlightDir : TEXCOORD2,			  
+			  float renderMethod  : TEXCOORD3,
+			 					  
+			 //PSSM
+			 float4 LightPosition0   : TEXCOORD4,
+			 float4 LightPosition1   : TEXCOORD5,		
+             float3  outPosition     : TEXCOORD7,
+			  out float4 result	: COLOR,
+
+			  uniform float4 lightColour,
+			  uniform float fixedDepthBias,
+					  
+			  //PSSM
+			  uniform float4 invShadowMapSize0,
+			  uniform float4 invShadowMapSize1,		
+			  uniform float4 shadow_scene_depth_range,
+			  uniform float3 pssmSplitPoints,
+			  
+			  //Standard		  
+			 
+			  //PSSM
+			  uniform sampler2D shadowMap0 : register(s0),
+			  uniform sampler2D shadowMap1 : register(s1)	
+			  )		
+			 
+{
+
+ 
+	float4 vertexColour;	
+	
+	
+	//  oRenderMethod <  0  // ALL (normal + shadow)
+    //  oRenderMethod == 0  // nothing in this pass
+    //  oRenderMethod >  0  // no shadow but distance dependent  + normal
+    if(renderMethod == 0)
+    {
+		result = float4(0,0,0,1);
+	    return;
+    }
+  
+  // Calculate dot product   
+	//float3 N = normalize(normal);
+	//float3 L = normalize(lightPosition - position.xyz);
+	  
+    vertexColour = lightColour; //* max(dot(N, L) , 0);  
+		
+	if(renderMethod > 0) // no shadow but distance dependent + normal
+	{		
+		result = renderMethod * vertexColour; // in this case renderMethod also holds the power [0-1]
+		//result = float4(1,1,0,0);
+		return;
+	}
+	
+	// this leaves only "renderMethod < 0" which is full normal + shadow rendering
+	
+	//Shadowing
+	float shadowing = 1.0f;
+	float ScreenDepth = uv.z;
+			
+	shadowUV /= shadowUV.w;
+	
+    // shadowUV.z contains lightspace position of current object	
+	if(shadowUV.z > 1.0f) 
+	{    
+		result = vertexColour;
+		return; // this is a fix for focused shadow camera setup
+	}
+			
+	if (ScreenDepth <= pssmSplitPoints.y)
+	{		
+		shadowing = shadowPCF(shadowMap0, LightPosition0, invShadowMapSize0.xy );	
+	}
+	else if (ScreenDepth <= pssmSplitPoints.z)
+	{		
+	    shadowing = shadowPCF(shadowMap1, LightPosition1, invShadowMapSize1.xy );	   
+	}
+	
+	result = float4(vertexColour.xyz * shadowing, 1);
 	
 	
 }

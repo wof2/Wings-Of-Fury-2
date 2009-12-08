@@ -523,7 +523,7 @@ material Ocean2_HLSL
      
 
           // Fragment program
-            fragment_program_ref Ogre/DepthShadowmap/NormalMapReceiverFPPCF
+            fragment_program_ref Ogre/DepthShadowmap/ReceiverFPPCF
             {
             }
       
@@ -537,28 +537,7 @@ material Ocean2_HLSL
 			{
 				content_type shadow
 				tex_address_mode clamp
-			}
-			texture_unit shadow_tex2
-			{
-				content_type shadow
-				tex_address_mode clamp
-			}
-			
-			// todo: OPTIMIZE
-			// Base bump map
-			texture_unit
-			{			   
-				texture morning2_normal.jpg
-				colour_op replace
-			}
-			
-			// Normalisation cube map
-			texture_unit
-			{
-				cubic_texture nm.png combinedUVW
-				tex_coord_set 1
-				tex_address_mode clamp
-			}
+			}		
 			
          
     }

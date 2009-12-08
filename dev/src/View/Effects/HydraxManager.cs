@@ -153,6 +153,12 @@ namespace Wof.View.Effects
         }
 
         private float timeSinceUpdate = 1000;
+        private bool forceUpdate = false;
+
+        public void ForceUpdate()
+        {
+            forceUpdate = true;
+        }
 
         public void Update(float timeSinceLastFrame)
         {
@@ -161,10 +167,11 @@ namespace Wof.View.Effects
             if (hydrax != null && hydrax.IsCreated)
             {
                 timeSinceUpdate += timeSinceLastFrame;
-                if (timeSinceUpdate > updateEvery)
+                if (forceUpdate || timeSinceUpdate > updateEvery)
                 {
-                    hydrax.Update(timeSinceLastFrame);
+                    hydrax.Update(timeSinceUpdate);
                     timeSinceUpdate = 0;
+                    forceUpdate = false;
                 }
                 
             }
