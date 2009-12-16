@@ -229,6 +229,9 @@ namespace Wof.Controller
         {
             if (!Setup())
                 return;
+
+          
+
             modelWorker.WorkerSupportsCancellation = true;
             modelWorker.RunWorkerAsync();
             this.BringToFront();
@@ -407,9 +410,21 @@ namespace Wof.Controller
 
         private void SetupEngineConfig()
         {
-
             EngineConfig.LoadEngineConfig();
             SoundManager.Instance.SoundDisabled = !EngineConfig.SoundEnabled;
+
+            switch (EngineConfig.Difficulty)
+            {
+                case EngineConfig.DifficultyLevel.Easy:
+                    Game.SetModelSettingsFromFile(0);
+                    break;
+                case EngineConfig.DifficultyLevel.Medium:
+                    Game.SetModelSettingsFromFile(1);
+                    break;
+                case EngineConfig.DifficultyLevel.Hard:
+                    Game.SetModelSettingsFromFile(2);
+                    break;
+            }
         }
 
         protected void InitDirectSound(IntPtr handle)

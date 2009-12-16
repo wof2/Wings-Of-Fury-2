@@ -65,6 +65,7 @@ using Wof.Model.Level.Weapon;
 using Wof.Model.Level.XmlParser;
 using Wof.Statistics;
 
+
 namespace Wof.Model.Level
 {   
     /// <summary>
@@ -351,7 +352,6 @@ namespace Wof.Model.Level
 		            
                  
             info.MissionType = MissionType;
-         
             userPlane = new Plane(this, false, info);
             userPlane.RegisterWeaponEvent += userPlane_RegisterWeaponEvent;
             

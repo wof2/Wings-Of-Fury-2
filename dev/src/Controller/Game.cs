@@ -374,7 +374,7 @@ namespace Wof.Controller
             }
         }
 
-        private static void SetModelSettingsFromFile(int index)
+        public static void SetModelSettingsFromFile(int index)
         {
             string[] configFiles = ConfigurationManager.GetAvailableConfigurationFiles();
             if (configFiles != null && configFiles.Length > 0)

@@ -83,7 +83,7 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Minimalny czas (w sek) przez jaki screen musi byæ na ekranie
         /// </summary>
-        private float[] screenMinTimes = { 0.5f, 0.5f, 1.0f, 1.0f };
+        private float[] screenMinTimes = { 2.1f, 2.1f, 1.0f, 1.0f };
 
 
         string currentMaterialName; 
