@@ -1538,13 +1538,13 @@ namespace Wof.Controller.Screens
 
                             if (EngineConfig.UseHardwareTexturePreloader && preloadingOverlay != null)
                             {
-                                if(showingLoadingAds)
-                                {
-                                    AdManager.Singleton.CloseAd(loadingAd);
-                                }
                                 preloadingOverlay.Hide();
                                 preloadingOverlay.Dispose();
                                 preloadingOverlay = null;
+                            }
+                            if(showingLoadingAds)
+                            {
+                                AdManager.Singleton.CloseAd(loadingAd);
                             }
 
                             loadingOverlay.Hide();

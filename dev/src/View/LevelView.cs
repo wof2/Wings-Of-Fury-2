@@ -1826,7 +1826,7 @@ namespace Wof.View
             }
             
             // ocean jest uniesiony z poziomu shadera (aby dzia³a³y cienie), teraz trzeba go opuscic
-            sceneMgr.RootSceneNode.CreateChildSceneNode("OceanNode", new Vector3(0,-0.28f,0)).AttachObject(ocean2);
+            sceneMgr.RootSceneNode.CreateChildSceneNode("OceanNode", new Vector3(0,0,0)).AttachObject(ocean2);
             
             //sceneMgr.RootSceneNode.AttachObject( ocean2);
             // OCEAN
@@ -1894,25 +1894,33 @@ namespace Wof.View
             	m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_NoShadows");
             }
             m.Load(false);
-            Pass p = m.GetBestTechnique().GetPass("Decal");
-            TextureUnitState tu = null;
-            if(p!= null)
+            try
             {
-            	 tu = p.GetTextureUnitState("Reflection");
+	            Pass p = m.GetBestTechnique().GetPass("Decal");
+	            TextureUnitState tu = null;
+	            if(p!= null)
+	            {
+	            	 tu = p.GetTextureUnitState("Reflection");
+	            }
+	           
+	            
+	            if (tu != null)
+	            {
+	                tu.SetCubicTextureName(texture, true);
+	            }
+	            if (p.HasFragmentProgram)
+	            {
+	                GpuProgramParametersSharedPtr param = p.GetVertexProgramParameters();
+	                param.SetNamedConstant("bumpSpeed", new Vector3(0.02f, -0.03f, 0));
+	                p.SetVertexProgramParameters(param);
+	              
+	            }
             }
-           
+            catch(Exception ex)
+            {
+            	
+            }
             
-            if (tu != null)
-            {
-                tu.SetCubicTextureName(texture, true);
-            }
-            if (p.HasFragmentProgram)
-            {
-                GpuProgramParametersSharedPtr param = p.GetVertexProgramParameters();
-                param.SetNamedConstant("bumpSpeed", new Vector3(0.02f, -0.03f, 0));
-                p.SetVertexProgramParameters(param);
-              
-            }
             m = null;
 
             // fog

@@ -734,7 +734,7 @@ namespace Wof.Controller
                // sceneMgr.SetShadowTextureConfig(2, (ushort)(baseSize / 2), (ushort)(baseSize / 2), PixelFormat.PF_FLOAT32_R);
                 PSSMShadowCameraSetup pssm = new PSSMShadowCameraSetup();
 
-                pssm.CalculateSplitPoints(2, camera.NearClipDistance, sceneMgr.ShadowFarDistance, 0.5f);
+                pssm.CalculateSplitPoints(2, camera.NearClipDistance, sceneMgr.ShadowFarDistance, 0.01f);
 
                 pssm.SetOptimalAdjustFactor(0, 6);
                 pssm.SetOptimalAdjustFactor(1, 6.5f);
