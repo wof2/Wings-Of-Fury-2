@@ -22,6 +22,7 @@ Comments:
 struct a2v {
 	float4 Position : POSITION;   // in object space
 	float2 TexCoord : TEXCOORD0;
+	float4 fWaveBreak : COLOR; // <<<< Edited here
 };
 
 struct v2f {
@@ -59,17 +60,18 @@ v2f main(a2v IN,
 {
 	v2f OUT;
 
-	#define NWAVES 2
+ 	#define NWAVES 2
 	Wave wave[NWAVES] = {
 		{ 1.0, 1.0, 0.5, float2(-1, 0) },
 		{ 2.0, 0.5, 1.7, float2(-0.7, 0.7) }
 	};
 
-    wave[0].freq = waveFreq;
-    wave[0].amp = waveAmp;
 
-    wave[1].freq = waveFreq * 3.0;
-    wave[1].amp = waveAmp * 0.33;
+    wave[0].freq = waveFreq * IN.fWaveBreak.r; // <<<< Edited here
+    wave[0].amp = waveAmp * IN.fWaveBreak.r; // <<<< Edited here
+
+    wave[1].freq = waveFreq * 3.0 * IN.fWaveBreak.r; // <<<< Edited here
+    wave[1].amp = waveAmp * 0.33 * IN.fWaveBreak.r; // <<<< Edited here
 
     float4 P = IN.Position;
 
@@ -88,7 +90,8 @@ v2f main(a2v IN,
 		ddx -= deriv * wave[i].dir.x;
 		ddy -= deriv * wave[i].dir.y;
 	}
-P.y += 0.26f;
+
+
 	// compute the 3x3 tranform from tangent space to object space
 	// first rows are the tangent and binormal scaled by the bump scale
 
@@ -97,17 +100,12 @@ P.y += 0.26f;
 	OUT.rotMatrix3.xyz = normalize(float3(ddx, 1, ddy)); // Normal
 
 	OUT.Position = mul(WorldViewProj, P);
-//OUT.Position.y +=2.0;
-
 
 	// calculate texture coordinates for normal map lookup
-	// dodany bumpSpeed2 zamiast bumpSpeed
-	float2 bumpSpeed2 = float2(0.0, -1.5);
 	OUT.bumpCoord0.xy = IN.TexCoord*textureScale + time * bumpSpeed;
 	OUT.bumpCoord1.xy = IN.TexCoord*textureScale * 2.0 + time * bumpSpeed * 4.0;
 	OUT.bumpCoord2.xy = IN.TexCoord*textureScale * 4.0 + time * bumpSpeed * 8.0;
-
+ 
 	OUT.eyeVector = P.xyz - eyePosition; // eye position in vertex space
-	
 	return OUT;
 }
