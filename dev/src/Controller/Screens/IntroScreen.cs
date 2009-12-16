@@ -54,9 +54,11 @@ using AdManaged;
 using Mogre;
 using Wof.Controller.AdAction;
 using Wof.Languages;
+using Wof.Misc;
 using Wof.Model.Level.Common;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;
+using FontManager=Mogre.FontManager;
 
 namespace Wof.Controller.Screens
 {
@@ -145,13 +147,15 @@ namespace Wof.Controller.Screens
             }
 
             maxScreens = screenTimes.Length;// n - 1;
-           /* if(maxScreens > 0)
-            {
-                float prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * viewport.ActualWidth / viewport.ActualHeight));
-                overlay.SetScale(1.0f, prop);
-            }
-          */
 
+            OverlayElement text2 = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText2");
+            text2.SetParameter("font_name", Languages.FontManager.CurrentFont);
+            ViewHelper.AlignTextAreaHorzCenter(text2, viewport);
+         
+
+            OverlayElement text = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText1");
+            text.SetParameter("font_name", Wof.Languages.FontManager.CurrentFont);
+            ViewHelper.AlignTextAreaHorzRight(text, viewport, 0.05f);
             
            
         }
@@ -231,7 +235,10 @@ namespace Wof.Controller.Screens
                     {
                        return false;
                     }
+                    OverlayManager.Singleton.GetByName("Wof/AdText").Show();
+                    
                   
+
                     overlayMaterial = MaterialManager.Singleton.GetByName(currentMaterialName);
                     overlayMaterial.Load();
                     unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);

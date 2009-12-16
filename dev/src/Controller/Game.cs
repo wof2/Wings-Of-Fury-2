@@ -681,6 +681,30 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
+        public void GotoQuitScreen()
+        {
+            if(currentScreen is AbstractScreen)
+            {
+                (currentScreen as AbstractScreen).ForceRebuild = true;
+            }
+            
+            Boolean justMenu = IsMenuScreen(currentScreen);
+            ScreenState ss = null;
+            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
+            {
+                ss = (currentScreen as AbstractScreen).GetScreenState();
+            }
+            initScreenAfter(currentScreen);
+           
+            currentScreen = new QuitScreen(this, sceneMgr, viewport, camera);
+            if (ss != null)
+            {
+                ((AbstractScreen)currentScreen).SetScreenState(ss);
+            }
+            currentScreen.DisplayGUI(justMenu);
+            
+        }
+
 
         public void GotoEndingScreen(int highscore)
         {
@@ -909,7 +933,7 @@ namespace Wof.Controller
 
   		
   		
-        public void GotoLODOptionsScreen()
+        public void GotoLodOptionsScreen()
         {
             Boolean justMenu = IsMenuScreen(currentScreen);
 
@@ -1099,7 +1123,7 @@ namespace Wof.Controller
             if ((screen is EndingScreen)) return true;
             if ((screen is GameScreen)) return true;
             if ((screen is IntroScreen)) return true;
-            if ((screen is AbstractOptionsScreen) && (screen as AbstractOptionsScreen).ForceRebuild) return true;
+            if ((screen is AbstractScreen) && (screen as AbstractScreen).ForceRebuild) return true;
             return false;
         }
 

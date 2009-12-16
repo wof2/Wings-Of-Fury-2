@@ -313,6 +313,48 @@ namespace Wof.Misc
 
             return m;
         }
+        public static void AlignTextAreaHorzCenter(OverlayElement textArea, Viewport viewport)
+        {
+            string fontName = textArea.GetParameter("font_name");
+
+            Font font = (Font)(FontManager.Singleton.GetByName(fontName).Target);
+            Vector2 dim = ViewHelper.GetTextDimensions(textArea.Caption, font, viewport);
+
+            textArea.SetPosition((1 - dim.x) / 2.0f, textArea.Top);
+
+        }
+
+        public static void AlignTextAreaHorzRight(OverlayElement textArea, Viewport viewport, float rMargin)
+        {
+            string fontName = textArea.GetParameter("font_name");
+            Font font = (Font)(FontManager.Singleton.GetByName(fontName).Target);
+            Vector2 dim = ViewHelper.GetTextDimensions(textArea.Caption, font, viewport);
+
+            textArea.SetPosition((1 - dim.x) - rMargin, textArea.Top);
+
+        }
+
+        public static Vector2 GetTextDimensions(String text, Font font, Viewport viewport)
+        {
+            
+	        float charHeight = Mogre.StringConverter.ParseReal(font.GetParameter("size"));
+
+	        Vector2 result = new Vector2(0, 0);
+
+	        for(int i = 0; i < text.Length; i++)
+	        {
+                if (text[i] == 0x0020)
+			        result.x += font.GetGlyphAspectRatio(0x0030);
+		        else
+			        result.x += font.GetGlyphAspectRatio(text[i]);
+	        }
+
+            result.x = (result.x*charHeight)/(float) viewport.ActualWidth;
+            result.y = charHeight / (float)viewport.ActualHeight;
+
+	        return result;
+        }
+
         /*
         public static Vector3 GetVerticalRayIntersection(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition)
         {

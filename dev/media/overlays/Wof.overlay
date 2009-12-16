@@ -12,14 +12,13 @@ Wof/Loading
 		material SplashScreenBg
 
 
-        	element TextArea(Wof/LoadingScreenText)
+        element TextArea(Wof/LoadingScreenText)
 		{
 			metrics_mode relative
 			left 0.03
 			top 0.51
 			width 0.2
-			height 0.025
-			font_name BlueHighway
+			height 0.025		
 			char_height 0.025
 			colour 0 0.1 0			
 		}
@@ -73,14 +72,13 @@ Wof/LoadingAd
 		}
 
 
-        	element TextArea(Wof/LoadingAdScreenText)
+        element TextArea(Wof/LoadingAdScreenText)
 		{
 			metrics_mode relative
 			left 0.03
 			top 0.01
 			width 0.2
-			height 0.03
-			font_name BlueHighway
+			height 0.03			
 			char_height 0.03
 			colour 0 0.1 0			
 		}
@@ -173,8 +171,58 @@ Wof/Intro
 		material IntroScreen1
 		
 	}
+	
+	
 }
 
+Wof/AdText
+{
+	zorder 501
+	container BorderPanel(Wof/AdTextScreen)
+	{
+		element TextArea(Wof/AdTextScreenText1)
+		{		
+			metrics_mode relative			
+			top 0.95
+			width 1.0
+			height 0.035			
+			char_height 0.035
+			colour 0.8 0.8 0.8	
+			caption Reklamy dostarcza PlayAds
+		}
+		
+		element TextArea(Wof/AdTextScreenText2)
+		{			
+			metrics_mode relative			
+			top 0.05
+			width 1.0
+			height 0.035			
+			char_height 0.035
+			colour 0.8 0.8 0.8	
+			caption Reklama
+		}
+	
+	}
+}
+
+Wof/Quit
+{
+	zorder 500
+	// Stats block
+	container BorderPanel(Wof/QuitScreen)
+	{
+		metrics_mode relative		
+		left 0 
+		top 0
+		width 1
+		height 1
+		material IntroScreen1
+		
+		
+		
+		
+	}
+}
 
 
 
