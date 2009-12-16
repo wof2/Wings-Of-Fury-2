@@ -19,7 +19,8 @@ namespace FSLOgreCS
         	base.Update();
             if(this.IsPlaying())
             {
-                FreeSL.fslUpdate();
+            
+             //   FreeSL.fslUpdate();
                 //FreeSL.fslSleep(0.01f);
             }
         }

@@ -1200,8 +1200,15 @@ namespace Wof.View
 
         public void OnFireGun(Plane plane)
         {
+
             PlaneView p = FindPlaneView(plane);
             if (p == null) return;
+            if(p is EnemyPlaneView)
+            {
+               (p as EnemyPlaneView).PlayGunSound();
+            }
+            
+
             Quaternion orient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y); 
             orient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
           //  orient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);

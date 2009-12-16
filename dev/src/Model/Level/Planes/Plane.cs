@@ -2598,7 +2598,7 @@ namespace Wof.Model.Level.Planes
                         }
 						
                         // spowolnij obrotu UP/DOWN przekazane przez gracza (ociê¿a³y samolot)
-                        if(rotateValue > 0)
+                        if(rotateValue >= 0)
                         {
                             rotateValue -= 2.5f * scaleFactor; // wytraæ jedn¹ jednostkê (radian) obrotu w 1 sek.
                             rotateValue = System.Math.Max(0, rotateValue);
@@ -2620,11 +2620,30 @@ namespace Wof.Model.Level.Planes
                     break;
 
                 case GlideType.glider:
-                        tempMV.Y -= gravitationalAcceleration * scaleFactor / 8;
-                        tempMV.Y -= 0.2f * ClimbingAngle / Math.PI * gravitationalAcceleration * scaleFactor;
+                        float val = 0;
+                        if (rotateValue >= 0)
+                        {
+                            rotateValue -= 2.5f * scaleFactor; // wytraæ jedn¹ jednostkê (radian) obrotu w 1 sek.
+                            rotateValue = System.Math.Max(0, rotateValue);
+                        }
+                        else
+                        {
+                            rotateValue += 2.5f * scaleFactor; // wytraæ jedn¹ jednostkê (radian) obrotu w 1 sek.
+                            rotateValue = System.Math.Min(0, rotateValue);
+                        }
+                        val += gravitationalAcceleration * scaleFactor / 5;
+                        if(ClimbingAngle > 0)
+                        {
+                            val += 0.4f * ClimbingAngle / Math.PI * gravitationalAcceleration * scaleFactor;
+                        }
+                       
+                        tempMV.Y -= val;
+                      
+                       
 
                         // spowalniamy
                         if (ClimbingAngle > 0) tempMV.X -= 0.10f * tempMV.X * scaleFactor * ClimbingAngle / Math.PI;
+                        
                     break;
             }
            

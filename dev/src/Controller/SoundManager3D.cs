@@ -24,7 +24,10 @@ namespace Wof.Controller
         public static readonly string C_ENEMY_WARCRY2 = "sounds/banzai2.wav";
         public static readonly string C_PLANE_PASS = "sounds/plane_pass.wav"; 
         public static readonly string C_SHIP_SINKING = "sounds/ship_sinking.ogg"; 
-        public static readonly string C_SHIP_SINKING_2 = "sounds/ship_sinking2.ogg"; 
+        public static readonly string C_SHIP_SINKING_2 = "sounds/ship_sinking2.ogg";
+        public static readonly string C_GUN = "sounds/machinegun.wav"; 
+
+        
        
 
         private FreeSL.FSL_SOUND_SYSTEM soundSystem;
@@ -75,16 +78,19 @@ namespace Wof.Controller
         
 		public static void SetSoundVolume(uint volume)
         {
-            foreach (FSLSoundObject soundObject in SoundManager3D.Instance.SoundObjectVector)
-		    {
-		        if(soundObject is FSLSoundEntity)
-		        {
-                    soundObject.SetGain(soundObject.GetBaseGain() * volume / 100.0f);
-		        }
-		    }
-
+           
            // FreeSL.fslSetVolume(volume / 100.0f);
         	EngineConfig.SoundVolume = (int)volume;
+            foreach (FSLSoundObject soundObject in SoundManager3D.Instance.SoundObjectVector)
+            {
+                if (soundObject is FSLSoundEntity)
+                {
+                    soundObject.ApplyGain();
+                }
+            }
+
+
+
             EngineConfig.SaveEngineConfig();
         }
 
@@ -153,7 +159,8 @@ namespace Wof.Controller
                 }
 
                 ambientSound = CreateAmbientSound(sound, sound + "_Ambient", loop, streaming);
-                ambientSound.SetGain(1.0f * volume / 100);
+                ambientSound.SetBaseGain(volume / 100.0f);
+                ambientSound.ApplyGain();
                 //Create Ambient sound  
                 if (!preloadOnly)
                 {
@@ -164,9 +171,7 @@ namespace Wof.Controller
             {
                 if (ambientSound!=null)
                 {
-                 
-              
-                    ambientSound.SetGain(1.0f * volume / 100);
+                    ambientSound.SetBaseGain(1.0f * volume / 100);
                    
                     if (!ambientSound.IsPlaying() && !preloadOnly)
                     {

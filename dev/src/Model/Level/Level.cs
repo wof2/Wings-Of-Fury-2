@@ -357,7 +357,7 @@ namespace Wof.Model.Level
             
             ModelEffectsManager.Instance.Reset(userPlane);
             
-           // SetFlyDirectionHint();
+           // CalculateFlyDirectionHint();
             //dodane przez Emila
             //this.enemyPlane = new EnemyPlane(this, new PointD(100, 40), Direction.Right);
             //this.enemyPlane = new EnemyPlane(this);
@@ -807,6 +807,7 @@ namespace Wof.Model.Level
                     }
                 }
                 //zolnierze nie zyja. konczymy poziom
+                onReadyLevelEndLaunched = true;
                 controller.OnReadyLevelEnd();
             }
             //sprawdzam genera³ów.
@@ -824,6 +825,7 @@ namespace Wof.Model.Level
                 }
 
                 //genera³owie nie zyja. konczymy poziom
+                onReadyLevelEndLaunched = true;
                 controller.OnReadyLevelEnd();
             }
         }
@@ -1255,155 +1257,178 @@ namespace Wof.Model.Level
         /// instalacji obronnych na planszy.
         /// <returns>Czy hint siê zmieni³ w stosunku do poprzedniego sprawdzenia</returns>
         /// </summary>
-        public bool SetFlyDirectionHint()
+        public bool CalculateFlyDirectionHint()
         {
         	FlyDirectionHint old = flyDirectionHint;
         	bool left = false, right = false;
         	int planeIndex = Mathematics.PositionToIndex(this.userPlane.Position.X);
-        	
-        	
-        	switch(this.MissionType)
-        	{
-        		case MissionType.BombingRun:     			
-        			
-        			if (enemyInstallationTiles != null)
-		            {		              
-		                // bunkry z zolniezami
-		                for (int i = 0; i < enemyInstallationTiles.Count ; i++)
-		                {		                	
-		                	LevelTile et = enemyInstallationTiles[i];		                	
-		                	if ( 
-		                	    !left &&
-		                	    et.TileIndex < planeIndex &&
-		                	    et is BunkerTile &&
-		                	    ((BunkerTile)et).SoldierCount > 0)
-		                    {
-		                        left = true;		                    
-		                    }
-		                	
-		                	if ( 
-		                	    !right &&
-		                	    et.TileIndex > planeIndex &&
-		                	    et is BunkerTile &&
-		                	    ((BunkerTile)et).SoldierCount > 0)
-		                    {
-		                        right = true;		                    
-		                    }		                	
-		                }
-        			}
-		                
-	                // zolnierze wolnobiegajacy	                
-	                if(!left || !right)
-	                {
-		                for (int i = 0; i < soldierList.Count; i++)
-		                {
-		                	if(soldierList[i].IsAlive)
-		                	{
-		                		int sIndex = Mathematics.PositionToIndex(soldierList[i].XPosition);
-		                		if(sIndex < planeIndex)
-		                		{
-		                			left = true;
-		                		} else		                		
-		                		{
-		                			right = true;
-		                		}
-		                	}
-		                }
-	                }
-        			break;
-        			
-        			
-        			
-                case MissionType.Naval:
-                    if (enemyInstallationTiles != null )
-                    {    
-                        LevelTile tile;
-                        for (int i = 0; i < enemyInstallationTiles.Count; i++)
+
+            if (onReadyLevelEndLaunched)
+            {
+               int index = aircraftTiles[aircraftTiles.Count - 1].TileIndex;
+               if (index < planeIndex)
+               {
+                   left = true;
+               }
+               if (index > planeIndex)
+               {
+                   right = true;
+               }
+            }
+            else
+            {
+
+
+                switch (this.MissionType)
+                {
+
+
+                    case MissionType.BombingRun:
+
+                        if (enemyInstallationTiles != null)
                         {
-                            tile = enemyInstallationTiles[i];
-                            if (tile is ShipBunkerTile && !((ShipBunkerTile)tile).IsSunkDown && !((ShipBunkerTile)tile).IsSinking)
+                            // bunkry z zolniezami
+                            for (int i = 0; i < enemyInstallationTiles.Count; i++)
                             {
-	                            if(tile.TileIndex < planeIndex)                            
-	                            {
-	                                left = true;	                                
-	                            } else
-	                            {
-	                            	right = true;
-	                            }
+                                LevelTile et = enemyInstallationTiles[i];
+                                if (
+                                    !left &&
+                                    et.TileIndex < planeIndex &&
+                                    et is BunkerTile &&
+                                    ((BunkerTile) et).SoldierCount > 0)
+                                {
+                                    left = true;
+                                }
+
+                                if (
+                                    !right &&
+                                    et.TileIndex > planeIndex &&
+                                    et is BunkerTile &&
+                                    ((BunkerTile) et).SoldierCount > 0)
+                                {
+                                    right = true;
+                                }
                             }
                         }
-                    }
-                    break;
-                    
-        		case MissionType.Assassination:
-	                if (enemyInstallationTiles != null)
-		            {		              
-		                // bunkry z generalami
-		                for (int i = 0; i < enemyInstallationTiles.Count ; i++)
-		                {		                	
-		                	LevelTile et = enemyInstallationTiles[i];		                	
-		                	if ( 
-		                	    !left &&
-		                	    et.TileIndex < planeIndex &&
-		                	    et is EnemyInstallationTile &&
-		                	    ((EnemyInstallationTile)et).GeneralCount > 0)
-		                    {
-		                        left = true;		                    
-		                    }		                	
-		                
-		                	if ( 
-		                	    !right &&
-		                	    et.TileIndex > planeIndex &&
-		                	    et is EnemyInstallationTile &&
-		                	    ((EnemyInstallationTile)et).GeneralCount > 0)
-		                    {
-		                        right = true;		                    
-		                    }		                	
-		                }
-        			}
-		                
-	                // generalowie wolnobiegajacy	                
-	                if(!left || !right)
-	                {
-		                for (int i = 0; i < generalList.Count; i++)
-		                {
-		                	if(generalList[i].IsAlive)
-		                	{
-		                		int sIndex = Mathematics.PositionToIndex(generalList[i].XPosition);
-		                		if(sIndex < planeIndex)
-		                		{
-		                			left = true;
-		                		} else		                		
-		                		{
-		                			right = true;
-		                		}
-		                	}
-		                }
-	                }
-        			break;
-        			
-        			
-        		case MissionType.Dogfight: 
-        		    for (int i = 0; i < enemyPlanes.Count; i++)
-		            {
-        		    	Plane ep = enemyPlanes[i];
-        		    	if(ep.PlaneState == PlaneState.Intact || ep.PlaneState == PlaneState.Damaged)
-        		    	{
-        		    		int epIndex = Mathematics.PositionToIndex(ep.Position.X);
-	                		if(epIndex < planeIndex)
-	                		{
-	                			left = true;
-	                		} else		                		
-	                		{
-	                			right = true;
-	                		}
-        		    	}
-        			 	
-        		    }
-        			break;
-        	}
-        	
-        	  
+
+                        // zolnierze wolnobiegajacy	                
+                        if (!left || !right)
+                        {
+                            for (int i = 0; i < soldierList.Count; i++)
+                            {
+                                if (soldierList[i].IsAlive)
+                                {
+                                    int sIndex = Mathematics.PositionToIndex(soldierList[i].XPosition);
+                                    if (sIndex < planeIndex)
+                                    {
+                                        left = true;
+                                    }
+                                    else
+                                    {
+                                        right = true;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+
+
+
+                    case MissionType.Naval:
+                        if (enemyInstallationTiles != null)
+                        {
+                            LevelTile tile;
+                            for (int i = 0; i < enemyInstallationTiles.Count; i++)
+                            {
+                                tile = enemyInstallationTiles[i];
+                                if (tile is ShipBunkerTile && !((ShipBunkerTile) tile).IsSunkDown &&
+                                    !((ShipBunkerTile) tile).IsSinking)
+                                {
+                                    if (tile.TileIndex < planeIndex)
+                                    {
+                                        left = true;
+                                    }
+                                    else
+                                    {
+                                        right = true;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+
+                    case MissionType.Assassination:
+                        if (enemyInstallationTiles != null)
+                        {
+                            // bunkry z generalami
+                            for (int i = 0; i < enemyInstallationTiles.Count; i++)
+                            {
+                                LevelTile et = enemyInstallationTiles[i];
+                                if (
+                                    !left &&
+                                    et.TileIndex < planeIndex &&
+                                    et is EnemyInstallationTile &&
+                                    ((EnemyInstallationTile) et).GeneralCount > 0)
+                                {
+                                    left = true;
+                                }
+
+                                if (
+                                    !right &&
+                                    et.TileIndex > planeIndex &&
+                                    et is EnemyInstallationTile &&
+                                    ((EnemyInstallationTile) et).GeneralCount > 0)
+                                {
+                                    right = true;
+                                }
+                            }
+                        }
+
+                        // generalowie wolnobiegajacy	                
+                        if (!left || !right)
+                        {
+                            for (int i = 0; i < generalList.Count; i++)
+                            {
+                                if (generalList[i].IsAlive)
+                                {
+                                    int sIndex = Mathematics.PositionToIndex(generalList[i].XPosition);
+                                    if (sIndex < planeIndex)
+                                    {
+                                        left = true;
+                                    }
+                                    else
+                                    {
+                                        right = true;
+                                    }
+                                }
+                            }
+                        }
+                        break;
+
+
+                    case MissionType.Dogfight:
+                        for (int i = 0; i < enemyPlanes.Count; i++)
+                        {
+                            Plane ep = enemyPlanes[i];
+                            if (ep.PlaneState == PlaneState.Intact || ep.PlaneState == PlaneState.Damaged)
+                            {
+                                int epIndex = Mathematics.PositionToIndex(ep.Position.X);
+                                if (epIndex < planeIndex)
+                                {
+                                    left = true;
+                                }
+                                else
+                                {
+                                    right = true;
+                                }
+                            }
+
+                        }
+                        break;
+                }
+
+            }
+
             if (left && right)
                 flyDirectionHint = FlyDirectionHint.Both;
             else if (left)
@@ -1527,7 +1552,7 @@ namespace Wof.Model.Level
         /// Zwraca liste czesci lotniskowca.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public List<AircraftCarrierTile> AircraftTile
+        public List<AircraftCarrierTile> AircraftTiles
         {
             get { return aircraftTiles; }
         }
