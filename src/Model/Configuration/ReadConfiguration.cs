@@ -55,6 +55,7 @@ using System.Text;
 using System.Xml;
 using Wof.Controller;
 using Wof.Model.Exceptions;
+using Mogre;
 
 namespace Wof.Model.Configuration
 {
@@ -89,18 +90,6 @@ namespace Wof.Model.Configuration
         #endregion
 
         #region Constructors
-
-        /// <summary>
-        /// Wczytuje konfiguracje z podanego strumienia.
-        /// </summary>
-        /// <param name="stream">Strumien danych zawierajacy konfiguracje elementow gry</param>
-        public ReadConfiguration(Stream stream)
-        {
-            if (stream == null)
-                throw new ArgumentNullException("stream", "Strumien nie moze byc null-em!");
-            Init();
-            ReadFile(XmlReader.Create(stream, GetSettings()));
-        }
 
         /// <summary>
         /// Wczytuje konfiguracje z podanego pliku.

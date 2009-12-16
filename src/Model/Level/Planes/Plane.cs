@@ -1574,7 +1574,7 @@ namespace Wof.Model.Level.Planes
         {
             //Console.WriteLine(Speed);
             float scaleFactor = time/timeUnit;
-            
+           
             // atraktory
             // TODO: czy to nie koliduje z innymi rzeczami
             bounds.Move(this.AttractorTarget.GetAttractorsMeanForce());
@@ -2774,7 +2774,7 @@ namespace Wof.Model.Level.Planes
                 level.Controller.OnTouchDown();
             }
 
-            //ZMIANA KONTA NA ZEROWY
+            //ZMIANA KATA NA ZEROWY
             if (landingState == LandingState.InitWheeling)
                 InitLandingWheeling(time, timeUnit);
 
@@ -3013,10 +3013,14 @@ namespace Wof.Model.Level.Planes
             {
                 if (!isFallingFromCarrier && !IsGearAboveCarrier)
                 {
+                    
+                   // Console.WriteLine("speed:  " + maxFastWheelingSpeed + " =  " + GameConsts.UserPlane.RangeFastWheelingMaxSpeed + " * " + GameConsts.UserPlane.MaxSpeed);
+            
                     if (HasSpeedToStart)
-                    {
+                    {                   
                         if (IsPlaneNotAboveCarrier)
                         {
+                            
                             if (direction == Direction.Right)
                             {
                                 level.Controller.OnPlaneWrongDirectionStart();
@@ -3025,7 +3029,7 @@ namespace Wof.Model.Level.Planes
                             } else
                             {
                                 this.isJustAfterTakeOff = true;
-                            }
+                            }                          
                             locationState = LocationState.Air;
                             level.Controller.OnTakeOff();
                         }

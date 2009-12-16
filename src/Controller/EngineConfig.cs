@@ -67,7 +67,7 @@ namespace Wof.Controller
         public static readonly String C_WOF_VERSION = "3.00";
 
         public static readonly bool C_IS_INTERNAL_TEST = true;
-        public static readonly String C_IS_INTERNAL_TEST_INFO = "!!! Interal test version !!! ";
+        public static readonly String C_IS_INTERNAL_TEST_INFO = "!!! Internal test version !!! ";
 
 
         /// <summary>
@@ -378,11 +378,17 @@ namespace Wof.Controller
                 {
                     SaveEngineConfig();
                 }
+
+              
+
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
+
+
+
         }
 
         public static void SaveEngineConfig()
