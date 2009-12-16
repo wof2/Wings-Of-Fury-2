@@ -96,12 +96,7 @@ namespace Wof.Controller.Screens
         private Button prevButton;
         
        
-        protected bool forceRebuild = false;
-
-        public bool ForceRebuild
-        {
-            get { return forceRebuild; }
-        }	
+     
 
         protected Root root;
 

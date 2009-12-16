@@ -480,6 +480,7 @@
     <Compile Include="src\Controller\RootInitializationException.cs" />
     <Compile Include="src\Controller\Screens\BloodOptionsScreen.cs" />
     <Compile Include="src\Controller\Screens\HydraxOptionsScreen.cs" />
+    <Compile Include="src\Controller\Screens\QuitScreen.cs" />
     <Compile Include="src\Controller\Screens\ShadowsOptionsScreen.cs" />
     <Compile Include="src\Controller\SoundManager3D.cs" />
     <Compile Include="src\Controller\BetaGUI.cs">

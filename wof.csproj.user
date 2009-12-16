@@ -18,7 +18,7 @@
     <StartArguments>-DebugInfo -FreeLook -DebugStart 4 -SkipIntrko</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <StartArguments>-DebjugInfo -FreekLook -DebughStart 1</StartArguments>
+    <StartArguments>-DebjugInfo -FreekLook -DebugStgart 1</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <StartArguments>-DebugInfo -FreeLook -DebugdguStafrt 0</StartArguments>

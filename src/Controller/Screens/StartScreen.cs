@@ -57,7 +57,8 @@ namespace Wof.Controller.Screens
     internal class StartScreen : AbstractScreen, BetaGUIListener
     {
         private Window guiWindow;
-      
+
+        private const float C_QUIT_AD_PROBABILITY = 0.65f;
 
         public StartScreen(GameEventListener gameEventListener,
                            SceneManager sceneMgr, Viewport viewport, Camera camera) :
@@ -164,7 +165,16 @@ namespace Wof.Controller.Screens
                 }
                 else if (referer == buttons[backButtonIndex])
                 {
-                    gameEventListener.ExitGame();
+                    if(Mogre.Math.RangeRandom(0, 1) > (1 - C_QUIT_AD_PROBABILITY))
+                    {
+                        gameEventListener.GotoQuitScreen();
+                    }
+                    else
+                    {
+                        gameEventListener.ExitGame();
+                    }
+             
+                   
                 }
             }
         }

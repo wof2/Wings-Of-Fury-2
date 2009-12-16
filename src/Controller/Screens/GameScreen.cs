@@ -1266,7 +1266,9 @@ namespace Wof.Controller.Screens
 
             if (levelView == null && !isFirstLoadingFrame)
             {
+               // Thread.Sleep(10000);
                 StartLoading();
+              
 
             }
 
@@ -1288,6 +1290,7 @@ namespace Wof.Controller.Screens
                         OverlayElement preloaderScreen = OverlayManager.Singleton.GetOverlayElement("Wof/PreloaderScreen");
                         preloaderScreen.MaterialName = preloadingMaterial.Name;
                         LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Presenting hardware preloader overlay.");
+                        preloaderScreen.Show();
                         preloadingOverlay.Show();
                     }
                 }

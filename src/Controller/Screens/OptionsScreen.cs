@@ -148,7 +148,7 @@ namespace Wof.Controller.Screens
                 }
                 else if (referer == buttons[7])
                 {
-                    gameEventListener.GotoLODOptionsScreen();
+                    gameEventListener.GotoLodOptionsScreen();
                 }
                 else if (referer == buttons[8])
                 {

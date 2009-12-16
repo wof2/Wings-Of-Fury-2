@@ -66,7 +66,7 @@ namespace Wof.Controller
         void GotoBloomOptionsScreen();
         void GotoHydraxOptionsScreen();
         void GotoBloodOptionsScreen();
-        void GotoLODOptionsScreen();
+        void GotoLodOptionsScreen();
         void GotoShadowsOptionsScreen();
         void GotoControlsOptionsScreen();
         void GotoSoundOptionsScreen();
@@ -75,6 +75,7 @@ namespace Wof.Controller
         void GotoLoadGameScreen();
         void GotoDifficultyOptionsScreen();
         void GotoDonateScreen();
+        void GotoQuitScreen();
 
         void MinimizeWindow();
         void MaximizeWindow();

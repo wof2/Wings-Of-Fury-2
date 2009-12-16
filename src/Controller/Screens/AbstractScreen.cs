@@ -126,7 +126,14 @@ namespace Wof.Controller.Screens
            this.fontSize = fontSize;
         }
 
-       
+
+        protected bool forceRebuild = false;
+
+        public bool ForceRebuild
+        {
+            get { return forceRebuild; }
+            set { forceRebuild = value; }
+        }	
 
         public uint GetFontSize()
         {
