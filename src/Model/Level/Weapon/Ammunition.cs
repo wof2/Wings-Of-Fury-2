@@ -237,9 +237,9 @@ namespace Wof.Model.Level.Weapon
         {
             if (Center.Y < 6)
             {
-                if (refToLevel.AircraftTile != null && refToLevel.AircraftTile.Count > 0)
+                if (refToLevel.AircraftTiles != null && refToLevel.AircraftTiles.Count > 0)
                 {
-                    foreach (AircraftCarrierTile tile in refToLevel.AircraftTile)
+                    foreach (AircraftCarrierTile tile in refToLevel.AircraftTiles)
                     {
                         if (tile.HitBound != null)
                         {

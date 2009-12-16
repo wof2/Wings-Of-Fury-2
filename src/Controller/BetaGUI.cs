@@ -126,7 +126,10 @@ namespace BetaGUI
         {
             
             if (mMP != null)
+            {
+                if(!mMP.IsVisible) mMP.Show();
                 mMP.SetPosition(x, y);
+            }
 
             if (mXW != null)
             {
@@ -274,7 +277,7 @@ namespace BetaGUI
             mMP = createOverlay("bg.mp", new Vector2(0, 0), d, m, "", false);
             mMPo.Add2D(mMP);
             mMPo.Show();
-            mMP.Show();
+            mMP.Hide();
             return mMP;
         }
     } // class GUI

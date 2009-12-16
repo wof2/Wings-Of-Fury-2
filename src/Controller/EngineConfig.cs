@@ -66,6 +66,10 @@ namespace Wof.Controller
         /// </summary>
         public static readonly String C_WOF_VERSION = "3.00";
 
+        public static readonly bool C_IS_INTERNAL_TEST = true;
+        public static readonly String C_IS_INTERNAL_TEST_INFO = "!!! Interal test version !!! ";
+
+
         /// <summary>
         /// Czy bie¿¹ca kompilacja jest demem?
         /// </summary>
@@ -125,7 +129,7 @@ namespace Wof.Controller
  		
  		public static int HardwareTexturePreloaderTextureLimit = 128;
         
- 		public static bool AudioStreaming = false;
+ 		public static bool AudioStreaming;
  		
         public static string Language = "en-GB";
       

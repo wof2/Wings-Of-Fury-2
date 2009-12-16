@@ -90,9 +90,9 @@ namespace Wof.Controller.Screens
 {
     internal class GameScreen : MenuScreen, IController, BetaGUIListener
     {
-        private const float C_LOADING_AD_PROBABILITY = 0.9999f;
+        private const float C_LOADING_AD_PROBABILITY = 0.8f;
         private const float C_CHANGING_AMMO_AD_PROBABILITY = 0.65f;
-        private const float C_CHANGING_AMMO_AD_MIN_TIME = 5.3f;
+        private const float C_CHANGING_AMMO_AD_MIN_TIME = 2.3f;
         private float changingAmmoTime = 0;
         private bool showingChangingAmmoAds = false;
 
@@ -355,17 +355,13 @@ namespace Wof.Controller.Screens
         
         private void UpdateHints(bool forceRefresh)
         {
-            if (readyForLevelEnd && hintWindow != null)
+           
+        	
+        	if(!currentLevel.CalculateFlyDirectionHint() && !forceRefresh)
         	{
-        		hintWindow.hide();
         		return;
         	}
         	
-        	if(!currentLevel.SetFlyDirectionHint() && !forceRefresh)
-        	{
-        		return;
-        	}
-        	        	
         	// Game hints
         	if(mGuiHint == null)
         	{
@@ -382,23 +378,34 @@ namespace Wof.Controller.Screens
         	
             string hintLeftFilename = "hint_left.png";
             string hintRightFilename = "hint_right.png";
-            switch(this.currentLevel.MissionType)
+            if (readyForLevelEnd)
             {
-            	case MissionType.Assassination:
-            			hintLeftFilename = "hint_left_assasination.png";
-            			hintRightFilename = "hint_right_assasination.png";
-            		break;
-            		
-            	case MissionType.Naval:
-            			hintLeftFilename = "hint_left_naval.png";
-            			hintRightFilename = "hint_right_naval.png";
-            		break;
-            		
-            	case MissionType.Dogfight:
-            			hintLeftFilename = "hint_left_dogfight.png";
-            			hintRightFilename = "hint_right_dogfight.png";
-            		break;
+                hintLeftFilename = "hint_left_landing.png";
+                hintRightFilename = "hint_right_landing.png";
             }
+            else
+            {
+                switch (this.currentLevel.MissionType)
+                {
+                    case MissionType.Assassination:
+                        hintLeftFilename = "hint_left_assasination.png";
+                        hintRightFilename = "hint_right_assasination.png";
+                        break;
+
+                    case MissionType.Naval:
+                        hintLeftFilename = "hint_left_naval.png";
+                        hintRightFilename = "hint_right_naval.png";
+                        break;
+
+                    case MissionType.Dogfight:
+                        hintLeftFilename = "hint_left_dogfight.png";
+                        hintRightFilename = "hint_right_dogfight.png";
+                        break;
+                }
+            }
+           
+
+           
            
             if(currentLevel.FlyDirectionHint == FlyDirectionHint.Left || currentLevel.FlyDirectionHint == FlyDirectionHint.Both)
             {
@@ -699,11 +706,13 @@ namespace Wof.Controller.Screens
     
         public void CleanUp(Boolean justMenu)
         {
+            SoundManager3D.Instance.UpdaterRunning = false;
             if(this.levelView != null)
             {
                 levelView.Destroy();
                 levelView = null;
             }
+
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
             ViewEffectsManager.Singleton.Clear();
             FrameWork.DestroyScenes();
@@ -751,7 +760,7 @@ namespace Wof.Controller.Screens
 
             indicatorControl.ClearGUI();
             gameMessages.DestroyMessageContainer();
-
+            SoundManager3D.Instance.UpdaterRunning = true;
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUpEnd");
         }
 
@@ -988,7 +997,7 @@ namespace Wof.Controller.Screens
 
                 if (!isGamePaused && !changingAmmo)
                 {
-                    ControlEnemyEngineSounds();
+                    ControlPlaneEngineSounds();
                     
                 }
                 
@@ -1340,7 +1349,6 @@ namespace Wof.Controller.Screens
                             changingAmmoTime += evt.timeSinceLastFrame;
                             // jesli zmieniamy amunicje i screen moze zostac zamkniety ORAZ user juz w cos klikn¹³ nalezy teraz akcje ktora wybral user i wreszcie zamknac screen zmiany amunicji
                             DelayedChangeAmmoAndCloseScreen();
-                           
                         }
 
                         UpdateMenusGui(inputMouse, inputKeyboard, inputJoystick);
@@ -1544,6 +1552,7 @@ namespace Wof.Controller.Screens
                             loadingOverlay = null;
 
                             FreeSplashScreens();
+                            SoundManager3D.Instance.UpdaterRunning = true;
                             SoundManager.Instance.LoopOceanSound();
 
                         }
@@ -1639,9 +1648,16 @@ namespace Wof.Controller.Screens
             prevOilTooLow = false;
         }
 
-        private void ControlEnemyEngineSounds()
+        private void ControlPlaneEngineSounds()
         {
             float distance;
+
+            if(currentLevel.UserPlane != null)
+            {
+                SoundManager.Instance.SetEngineFrequency((int)currentLevel.UserPlane.AirscrewSpeed * 7);  
+            }
+           
+
             foreach (EnemyPlane ep in currentLevel.EnemyPlanes)
             {
                 distance = currentLevel.UserPlane.XDistanceToPlane(ep);
@@ -1787,6 +1803,10 @@ namespace Wof.Controller.Screens
             }
             if (referer == nextLevelButton)
             {
+                if (hintWindow != null)
+                {
+                    hintWindow.hide();
+                }
                 nextFrameGotoNextLevel = true;
                 isInNextLevelMenu = false;
             }
@@ -2706,13 +2726,14 @@ namespace Wof.Controller.Screens
             {
 
                 if(!changingAmmo)
-                {                	
+                {
+                    changingAmmo = true;            	
                     DisplayChangeAmmoScreen();
                    
                     SoundManager.Instance.HaltEngineSound();
                     SoundManager.Instance.HaltOceanSound();
                     levelView.OnStartHangaring(-1, true);
-                    changingAmmo = true;
+                    
                 }
 
                 //DisplayNextLevelScreen();

@@ -62,8 +62,12 @@ namespace FSLOgreCS
 
         private FSLSoundObject AddSound(FSLSoundObject sound)
         {
-            SoundObjectVector.Add(sound);
-            return sound;
+            lock(this)
+            {
+                SoundObjectVector.Add(sound);
+                return sound;
+            }
+           
         }
 
         #endregion
@@ -74,23 +78,28 @@ namespace FSLOgreCS
         }
         public bool InitializeSound(Camera listener, FreeSL.FSL_SOUND_SYSTEM soundSystem)
         {
-            _listener = new FSLListener(listener);
-            if (_initSound)
+            lock(this)
+            {
+                _listener = new FSLListener(listener);
+                if (_initSound)
+                    return true;
+
+                if (!FreeSL.fslInit(soundSystem)) //Change if desire
+                    return false;
+
+                _initSound = true;
+
+                FreeSL.ErrorCallbackDelegate ErrorDelegate = new FreeSL.ErrorCallbackDelegate(ErrorCallback);
+                GCHandle AllocatedDelegate = GCHandle.Alloc(ErrorDelegate);
+                FreeSL.fslSetErrorCallback(ErrorDelegate);
+                updaterThread = new Thread(new ThreadStart((UpdateSoundObjects)));
+
+                updaterThread.Start();
+
                 return true;
-
-            if (!FreeSL.fslInit(soundSystem)) //Change if desire
-                return false;
-
-            _initSound = true;
-
-            FreeSL.ErrorCallbackDelegate ErrorDelegate = new FreeSL.ErrorCallbackDelegate(ErrorCallback);
-            GCHandle AllocatedDelegate = GCHandle.Alloc(ErrorDelegate);
-            FreeSL.fslSetErrorCallback(ErrorDelegate);
-            updaterThread = new Thread(new ThreadStart((UpdateSoundObjects)));
-
-            updaterThread.Start();
-
-            return true;
+                
+            }
+           
         }
 
         public void SetUserPlane(Wof.Model.Level.Planes.Plane plane)
@@ -100,9 +109,13 @@ namespace FSLOgreCS
 
         public void ShutDown()
         {
+            lock(this)
+            {
+                FreeSL.fslShutDown();
+                _initSound = false;
+            }
            // this.updaterThread = new Thread(new ThreadStart(UpdateSoundObjects));
-            FreeSL.fslShutDown();
-            _initSound = false;
+           
         }
 
         public float Volume
@@ -122,28 +135,33 @@ namespace FSLOgreCS
 
         public void RemoveSound(string name)
         {
-            FSLSoundObject sound = GetSound(name);
-            if (sound == null)
-                return;
-            else
+            lock (this)
             {
-                SoundObjectVector.Remove(sound); // zmiana
-                sound.Destroy();
-                sound = null;
+                FSLSoundObject sound = GetSound(name);
+                if (sound == null)
+                    return;
+                else
+                {
+                    SoundObjectVector.Remove(sound); // zmiana
+                    sound.Destroy();
+                    sound = null;
+                }
             }
-               
+
         }
 
         public FSLSoundObject GetSound(string name)
         {
-            if (SoundObjectVector.Count == 0)
-                return null;
-
-            for (int i = 0; i < SoundObjectVector.Count; i++)
+            lock (this)
             {
-                if (SoundObjectVector[i].Name == name) return SoundObjectVector[i];
-            }  
-           
+                if (SoundObjectVector.Count == 0)
+                    return null;
+
+                for (int i = 0; i < SoundObjectVector.Count; i++)
+                {
+                    if (SoundObjectVector[i].Name == name) return SoundObjectVector[i];
+                }
+            }
             return null;
         }
 
@@ -177,9 +195,9 @@ namespace FSLOgreCS
                                     if (SoundObjectVector[i] != null) SoundObjectVector[i].Update();
                                 }
                             }
-                            catch
+                            catch(Exception e)
                             {
-
+                                Console.WriteLine(e);
 
                             }
 
@@ -220,24 +238,37 @@ namespace FSLOgreCS
 
         public FSLSoundObject CreateAmbientSound(string soundFile, string name, bool loop, bool streaming)
         {
-            return AddSound(new FSLAmbientSound(soundFile, name, loop, streaming));
+            lock (this)
+            {
+                return AddSound(new FSLAmbientSound(soundFile, name, loop, streaming));
+            }
         }
 
         public FSLSoundObject CreateSoundEntity(string soundFile, SceneNode renderable, string name, bool loop,
                                                 bool streaming)
         {
-            return AddSound(new FSLSoundEntity(soundFile, renderable, name, loop, streaming));
+             lock(this)
+             {
+                 return AddSound(new FSLSoundEntity(soundFile, renderable, name, loop, streaming));
+             }
         }
 
         public FSLSoundObject CreateAmbientSound(string package, string soundFile, string name, bool loop)
         {
-            return AddSound(new FSLAmbientSound(package, soundFile, name, loop));
+            lock (this)
+            {
+                return AddSound(new FSLAmbientSound(package, soundFile, name, loop));
+            }
         }
 
         public FSLSoundObject CreateSoundEntity(string package, string soundFile, SceneNode renderable, string name,
                                                 bool loop)
         {
-            return AddSound(new FSLSoundEntity(package, soundFile, renderable, name, loop));
+            lock(this)
+            {
+                return AddSound(new FSLSoundEntity(package, soundFile, renderable, name, loop));
+            }
+            
         }
 
         public bool FrameStarted(FrameEvent evt)

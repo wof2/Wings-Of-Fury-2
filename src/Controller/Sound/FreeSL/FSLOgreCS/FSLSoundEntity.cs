@@ -35,10 +35,8 @@ namespace FSLOgreCS
                                        _renderable._getDerivedPosition().z);
         }
         
-        public new void Play()
+        public override void Play()
         {
-        	// dzwieki powinny miec ustawiona lokalna glosnosc (niezalezna od muzyki) przed rozpoczeciem pierwszego odtworzenia
-        	SetGain(GetBaseGain() * EngineConfig.SoundVolume / 100.0f);
         	base.Play();
         }
 

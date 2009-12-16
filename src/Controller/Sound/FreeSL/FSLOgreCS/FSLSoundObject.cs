@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using Wof.Controller;
 
@@ -14,6 +15,7 @@ namespace FSLOgreCS
         protected bool _loop;
         
         protected bool _shouldBePlaying = false;
+        protected bool _playing = false;
 
         protected string _soundFile;
 
@@ -30,7 +32,15 @@ namespace FSLOgreCS
             _withSound = false;
             _name = name;
             _loop = loop;
-            SetSound(soundFile, loop, streaming);
+            try
+            {
+                SetSound(soundFile, loop, streaming);
+            }
+            catch(Exception ex)
+            {
+                
+            }
+            
         }
 
         public FSLSoundObject(string package, string soundFile, string name, bool loop)
@@ -93,24 +103,29 @@ namespace FSLOgreCS
             set { _name = value; }
         }
 
-        public void Play()
+        public virtual void Play()
         {
-            _shouldBePlaying = true;
+            // dzwieki powinny miec ustawiona lokalna glosnosc (niezalezna od muzyki) przed rozpoczeciem pierwszego odtworzenia
+            SetGain(GetBaseGain() * EngineConfig.SoundVolume / 100.0f);
             FreeSL.fslSoundPlay(_sound);
+            _shouldBePlaying = true;
+            _playing = true;
+          
         }
 
         public void Stop()
         {
             _shouldBePlaying = false;
             FreeSL.fslSoundStop(_sound);
+            _playing = false;
         }
 
         public bool IsPlaying()
         {
-            return FreeSL.fslSoundIsPlaying(_sound);
+            //return FreeSL.fslSoundIsPlaying(_sound);
 
             // uwagi na bugi w streamingu w FreeSL trzeba zrobic workaround...
-            /*
+            
             if(FreeSL.fslSoundIsPlaying(_sound))
             {
                 // nie wierzymy freeslowi
@@ -122,12 +137,13 @@ namespace FSLOgreCS
                 _playing = false;
                 return false;
             }
-            */
+            
          
         }
 
         public void Pause()
         {
+           
             FreeSL.fslSoundPause(_sound);
         }
 
@@ -140,12 +156,12 @@ namespace FSLOgreCS
         {
             FreeSL.fslSoundSetLooping(_sound, loop);
         }
-
+        /*
         public bool IsLooping()
         {
             return FreeSL.fslSoundIsLooping(_sound);
         }
-        
+        */
 
         public float GetBaseGain()
         {
@@ -157,9 +173,14 @@ namespace FSLOgreCS
             SetGain(baseGain * EngineConfig.SoundVolume / 100.0f);
         }
 
-        public void SetGain(float gain)
+        private void SetGain(float gain)
         {
             FreeSL.fslSoundSetGain(_sound, gain);
+        }
+
+        public void ApplyGain()
+        {
+            SetGain(_baseGain * EngineConfig.SoundVolume / 100.0f);
         }
 
         public virtual void Update()
@@ -169,9 +190,9 @@ namespace FSLOgreCS
         		if(_loop && _shouldBePlaying && !IsPlaying())
 	        	{
 	        		this.SetSound(_soundFile, _loop, _streaming);
-	        		
+                    SetGain(GetBaseGain() * EngineConfig.SoundVolume / 100.0f);
 	        		Play();
-	        		
+                    
 	        	}
         	}
         	

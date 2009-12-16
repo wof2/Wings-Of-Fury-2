@@ -371,7 +371,11 @@ namespace Wof.Controller.Screens
                     }
 
                 }
-
+                if(EngineConfig.C_IS_INTERNAL_TEST) 
+                {
+                     infoElement.Caption = EngineConfig.C_IS_INTERNAL_TEST_INFO + infoElement.Caption;
+                }
+               
                 Plane p = gameScreen.CurrentLevel.UserPlane;
 
                 float var, oil, fuel;

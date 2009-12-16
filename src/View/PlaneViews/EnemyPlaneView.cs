@@ -65,6 +65,8 @@ namespace Wof.View
         protected FSLSoundObject engineSound = null;
         protected FSLSoundObject warCrySound = null;
         protected FSLSoundObject warCrySound2 = null;
+        protected FSLSoundObject gunSound = null;
+        
         protected Random random;
 
         public EnemyPlaneView(Plane plane, SceneManager sceneMgr, SceneNode parentNode)
@@ -114,8 +116,32 @@ namespace Wof.View
                 warCrySound2.Destroy();
                 warCrySound2 = null;
             }
+
+            if (gunSound != null)
+            {
+                SoundManager3D.Instance.RemoveSound(gunSound.Name);
+                gunSound.Destroy();
+                gunSound = null;
+            }
+
+            
         }
 
+        public void PlayGunSound()
+        {
+           
+            if (EngineConfig.SoundEnabled && !gunSound.IsPlaying())
+            {
+                gunSound.SetBaseGain(1.0f);
+                gunSound.Play();
+                //SoundManager3D.Instance.UpdateSoundObjects();
+            }
+        }
+
+        public void StopGunSound()
+        {
+            if (EngineConfig.SoundEnabled) gunSound.Stop();
+        }
 
         public void PlayWarcry()
         {
@@ -194,6 +220,7 @@ namespace Wof.View
 
                 warCrySound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_ENEMY_WARCRY, this.planeNode, false, false);
                 warCrySound2 = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_ENEMY_WARCRY2, this.planeNode, false, false);
+                gunSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_GUN, this.planeNode, false, false);
             }
 
 
