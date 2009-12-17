@@ -127,7 +127,7 @@ namespace Wof.Controller
 
  		public static bool UseHardwareTexturePreloader = true; // czy wysylac do karty graficznej tesktury przed rozpoczeciem gry
  		
- 		public static int HardwareTexturePreloaderTextureLimit = 128;
+ 		public static int HardwareTexturePreloaderTextureLimit;
         
  		public static bool AudioStreaming;
  		
@@ -371,7 +371,16 @@ namespace Wof.Controller
                         Gore = false;
                     }
                     
-										
+                    try
+					{
+                        HardwareTexturePreloaderTextureLimit = int.Parse(configOptions[16]);
+                    }
+                    catch(Exception)
+                    {
+                        HardwareTexturePreloaderTextureLimit = 64;
+                    }
+                    
+								
                     
                 }
                 else
@@ -393,7 +402,7 @@ namespace Wof.Controller
 
         public static void SaveEngineConfig()
         {
-            String[] configuration = new String[16];
+            String[] configuration = new String[17];
             configuration[0] = BloomEnabled ? "true" : "false";
             configuration[1] = SoundEnabled ? "true" : "false";
             configuration[2] = SoundSystem.ToString();
@@ -410,6 +419,8 @@ namespace Wof.Controller
             configuration[13] = AudioStreaming.ToString();
             configuration[14] = UseHardwareTexturePreloader ? "true" : "false";
             configuration[15] = Gore ? "true" : "false";
+            configuration[16] = HardwareTexturePreloaderTextureLimit.ToString();
+             
             ExplosionLights = !LowDetails;
             BodiesStay = !LowDetails;
          
