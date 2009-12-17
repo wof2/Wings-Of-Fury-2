@@ -261,32 +261,40 @@ namespace Wof.Misc
             {
             	return null;
             }
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Building hardware preloader material.");
+                      
+            int freeMB = ((int)TextureManager.Singleton.MemoryUsage / (1024 * 1024));
+            
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Building hardware preloader material. Free system memory: " + freeMB);
             
           	t = mptr.GetBestTechnique();     
             ResourceManager.ResourceMapIterator i = TextureManager.Singleton.GetResourceIterator();       
             int j = 0;
             int k = 0;
-            while(j <  System.Math.Ceiling(maxTextures / 2.0f) && i.MoveNext())
+            int total = 0;
+            while(i.MoveNext())
             {
-            	j++;            
-            	pass = t.CreatePass();
-            	TexturePtr texture = (TexturePtr)(i.Current);
-            	pass.CreateTextureUnitState(texture.Name);
-            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Material will be preloaded - " + texture.Name);
-            	k++;
-            	if(i.MoveNext())
-            	{
-            		k++;
-            		texture = (TexturePtr)(i.Current);
-            		pass.CreateTextureUnitState(texture.Name);
-            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Material will be preloaded - " + texture.Name);
-            	}
-    
-            	pass.SetSceneBlending(SceneBlendFactor.SBF_ZERO, SceneBlendFactor.SBF_ONE);
+            	if(j <  System.Math.Ceiling(maxTextures / 2.0f)) {
+	            	j++;            
+	            	pass = t.CreatePass();
+	            	TexturePtr texture = (TexturePtr)(i.Current);
+	            	
+	            	pass.CreateTextureUnitState(texture.Name);
+	            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Material will be preloaded ("+k+") - " + texture.Name);
+	            	k++; 
+	            	if(i.MoveNext())
+	            	{            		
+	            		texture = (TexturePtr)(i.Current);
+	            		pass.CreateTextureUnitState(texture.Name);
+	            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Material will be preloaded ("+k+") - " + texture.Name);
+	            		k++; total ++;
+	            	}    			
+	            	pass.SetSceneBlending(SceneBlendFactor.SBF_ZERO, SceneBlendFactor.SBF_ONE);
+            	} 
+            	total ++;
             	
             }
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Total materials to be hardware preloaded: " + k);
+           
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Total materials to be hardware preloaded: " + k + "/"+ total);
            		
             mptr.Load();
             mptr.Compile();

@@ -1,7 +1,7 @@
 false
 true
 FSL_SS_DIRECTSOUND
-0
+40
 10
 false
 false
@@ -14,3 +14,4 @@ Low
 False
 true
 true
+256
