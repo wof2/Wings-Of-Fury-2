@@ -119,6 +119,8 @@ namespace Wof.Controller.Screens
 
         public const string C_AD_LOADING_ZONE = "pregame";
         public const string C_AD_GAME_ZONE = "ingame";
+        
+        private int changingAmmoAdId = 0;
 
 
         private int lastFireTick = 0;
@@ -594,13 +596,12 @@ namespace Wof.Controller.Screens
            
           
             String imageName = null;
-            
+            AdManager.AdStatus status;
             if (showingLoadingAds)
             {
                 // pobierz i ustaw na bie¿ac¹
                  
-                AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_LOADING_ZONE, AdManager.C_AD_DOWNLOAD_TIMEOUT, AdSizeUtils.GetSizesGreaterEqual(512, 512), out loadingAd);
-
+                status = AdManager.Singleton.GetAd(C_AD_LOADING_ZONE, 1.0f, out loadingAd);
                 if (status == AdManager.AdStatus.OK)
                 {
                     imageName = AdManager.Singleton.LoadAdTexture(loadingAd); // jesli sie nie uda bedzie null
@@ -609,9 +610,16 @@ namespace Wof.Controller.Screens
                 {
                     loadingAd = null;
                 }
+                
+              
 
                 
             }
+            
+            // zlec zaladowanie reklamy ingame
+            status = AdManager.Singleton.GetAdAsync(C_AD_GAME_ZONE, 0.25f, out changingAmmoAdId);
+
+              
             
 
             // jesli nie ma byc reklamy lub jesli nie udalo sie zaladowac reklamy
@@ -1272,10 +1280,9 @@ namespace Wof.Controller.Screens
 
             }
 
-            if(AdManager.Singleton.HasCurrentAd)
-            {
-                AdManager.Singleton.Work();
-            }
+           
+            AdManager.Singleton.Work();
+            
 
             if(isFirstLoadingFrame)
             {
@@ -1504,16 +1511,19 @@ namespace Wof.Controller.Screens
                         {
                             changingAmmoAdTried = true;
                             // pobierz i ustaw na bie¿ac¹
-                            AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_GAME_ZONE, AdManager.C_AD_DOWNLOAD_TIMEOUT, new IAdSize[] { new Billboard_1024x128(), new Billboard_1024x256() }, out changingAmmoAd);
-
-                            if (status == AdManager.AdStatus.OK)
+                            if(changingAmmoAdId > 0)
                             {
-                                if (AdManager.Singleton.LoadAdTexture(changingAmmoAd) == null)
-                                {
-                                    changingAmmoAd = null;
-                                    //levelView.OnRegisterAd(AdManager.Singleton.CurrentAd);
-                                }
-
+	                            AdManager.AdStatus status = AdManager.Singleton.GatherAsyncResult(changingAmmoAdId, AdManager.C_AD_DOWNLOAD_TIMEOUT, out changingAmmoAd);	            
+	                           // AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_GAME_ZONE, 0.25f, out changingAmmoAd);
+	                            if (status == AdManager.AdStatus.OK)
+	                            {
+	                                if (AdManager.Singleton.LoadAdTexture(changingAmmoAd) == null)
+	                                {
+	                                    changingAmmoAd = null;
+	                                    //levelView.OnRegisterAd(AdManager.Singleton.CurrentAd);
+	                                }
+	
+	                            }
                             }
                             
                         }

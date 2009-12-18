@@ -179,46 +179,7 @@ namespace Wof.View
             }
         }
 
-        //Deprecated
-        protected void initOnScene()
-        {
-            ammunitionModel = sceneMgr.CreateEntity("Rocket" + ammunitionID.ToString(), "Rocket.mesh");
-            ammunitionNode =
-                sceneMgr.RootSceneNode.CreateChildSceneNode("Rocket" + ammunitionID.ToString(), new Vector3(0, 0, 0));
-
-            Vector3 oVector = new Vector3(0, 0, -1);
-          
-            innerNode =
-                ammunitionNode.CreateChildSceneNode("RocketInner" + ammunitionID.ToString(), new Vector3(0, 0, 0));
-            innerNode.AttachObject(ammunitionModel);
-
-            rocketAnimation = new ConstRotateNodeAnimation(innerNode, 75, oVector, "ConstRot");
-            rocketAnimation.Enabled = true;
-            rocketAnimation.Looped = true;
-
-            if (ammunition.Direction == Direction.Right)
-            {
-                ammunitionNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
-            }
-            else
-            {
-                ammunitionNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
-            }
-
-            ammunitionNode.Orientation *= new Quaternion((float) ammunition.Angle, Vector3.UNIT_X);
-
-
-            if (FrameWork.DisplayMinimap)
-            {
-                minimapItem =
-                    new MinimapItem(ammunitionNode, FrameWork.MinimapMgr, "Cube.mesh", ColourValue.White,
-                                    ammunitionModel);
-                minimapItem.ScaleOverride = new Vector2(4, 2);
-                minimapItem.Refresh();
-            }
-
-            refreshPosition();
-        }
+     
 
         public override void updateTime(float timeSinceLastFrameUpdate)
         {

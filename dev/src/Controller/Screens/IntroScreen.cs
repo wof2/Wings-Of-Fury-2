@@ -104,7 +104,7 @@ namespace Wof.Controller.Screens
         public const string C_AD_ZONE = "pregame";
         public const string C_AD_MATERIAL = "AdMaterial";
         private AdManager.Ad currentAd = null;
-
+		Queue<int> adIds = new Queue<int>();
        
        
         private int getFirstNonAdIndex()
@@ -148,15 +148,9 @@ namespace Wof.Controller.Screens
 
             maxScreens = screenTimes.Length;// n - 1;
 
-            OverlayElement text2 = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText2");
-            text2.SetParameter("font_name", Languages.FontManager.CurrentFont);
-            ViewHelper.AlignTextAreaHorzCenter(text2, viewport);
-         
-
-            OverlayElement text = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText1");
-            text.SetParameter("font_name", Wof.Languages.FontManager.CurrentFont);
-            ViewHelper.AlignTextAreaHorzRight(text, viewport, 0.05f);
+           
             
+            initAdScreens();
            
         }
 
@@ -179,11 +173,7 @@ namespace Wof.Controller.Screens
         {
             base.FrameStarted(evt);
 
-            if(AdManager.Singleton.HasCurrentAd)
-            {
-                AdManager.Singleton.Work();
-            }
-
+            AdManager.Singleton.Work();
             // jeœli screen jest wystarczaj¹co d³ugo na ekranie - przewijamy
             TimeSpan diff = DateTime.Now.Subtract(lastChange);
             if (diff.TotalSeconds > screenTimes[currentButton])
@@ -214,6 +204,48 @@ namespace Wof.Controller.Screens
         }
 
 
+        private void initAdScreens() 
+        {
+  			/*      	
+        	int i = 1;
+        	foreach(bool ad in isScreenAnAd)         	
+        	{
+        		if(ad) 
+        		{
+        			int id = 0;
+        			// pobierz i ustaw na bie¿ac¹
+                	AdManager.AdStatus status = AdManager.Singleton.GetAdAsync(C_AD_ZONE, 1.0f, out id);
+                	if (status == AdManager.AdStatus.OK)
+	                {
+	                	adIds.Enqueue(id);	              
+	        		}
+        			i++;
+        		}
+        	}
+        	*/
+        }
+        
+        private void showAdText() 
+        { 
+            OverlayElement text = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText1");
+            text.SetParameter("font_name", Wof.Languages.FontManager.CurrentFont);
+            ViewHelper.AlignTextAreaHorzRight(text, viewport, 0.1f);
+            text.Show();
+            
+            OverlayElement text2 = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText2");
+            text2.SetParameter("font_name", Languages.FontManager.CurrentFont);
+            ViewHelper.AlignTextAreaHorzCenter(text2, viewport);  
+            text2.Show();
+        	
+        }
+        
+        private void hideAdText() 
+        {
+        	OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText1").Hide();
+        	OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText2").Hide();
+        	
+        }
+        	
         private bool initScreen(int i)
         {
             
@@ -223,9 +255,12 @@ namespace Wof.Controller.Screens
             currentMaterialName = null;
             if (isScreenAnAd[i - 1]) // poczatkowo i = 1
             {
-                // pobierz i ustaw na bie¿ac¹
-                AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_ZONE, out currentAd);
-                      
+            	showAdText();
+	            	
+            	//if(adIds.Count == 0) return false;
+            	AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_ZONE, 1.0f, out currentAd);
+               
+            	//AdManager.AdStatus status = AdManager.Singleton.GatherAsyncResult(adIds.Dequeue(), AdManager.C_AD_DOWNLOAD_TIMEOUT, out currentAd);
                 if (status == AdManager.AdStatus.OK)
                 {
                     // pobieranie OK.
@@ -254,9 +289,11 @@ namespace Wof.Controller.Screens
                 {
                     return false;
                 }
+            	
             }
             else
             {
+            	hideAdText();
                 currentMaterialName = C_TEXTURE_NAME + currentScreen;
                 overlayMaterial = MaterialManager.Singleton.GetByName(currentMaterialName);
                 unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
@@ -311,13 +348,10 @@ namespace Wof.Controller.Screens
             {
                 if(currentMaterialName != null && animation != null)
                 {
-                    if(AdManager.Singleton.HasCurrentAd)
-                    {
-                        AdManager.Singleton.CloseAd(currentAd);
-                        AdManager.Singleton.Work(); // wyslij, na wszelki wypadek
-                        
-                    }
                    
+                    AdManager.Singleton.CloseAd(currentAd);
+                    AdManager.Singleton.Work(); // wyslij, na wszelki wypadek
+                 
                   
                     MaterialManager.Singleton.Unload(currentMaterialName);
                     EffectsManager.Singleton.RemoveAnimation(animation); 
