@@ -193,6 +193,10 @@ namespace Wof.View
 
             ammunitionNode.SetVisible(true, false);
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene) explosionFlash.Visible = false;
+            
+            ammunitionNode._update(true, false); // inaczej bounding box zajmuje cala przestrzen zawarta miedzy starym polozeniem pocisku (-100000, -1000 costam) a nowym. Niszczy to cienie
+            
+            
         }
         public virtual void DestroyExplosionFlash()
         {
