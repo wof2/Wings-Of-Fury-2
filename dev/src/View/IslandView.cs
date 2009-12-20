@@ -143,18 +143,28 @@ namespace Wof.View
                     islandMeshName = "IslandRound.mesh";
                     initNonCollisionTreesCircle(staticNode, 15.0f, 1.4f);
                     break;
-                
-                case 7: //4
-                    //LAGUNA
-                    islandMeshName = "Laguna.mesh";
-                    break;
-
+           
                 case 6: //6
                     //ISLAND2
                     islandMeshName = "Island2.mesh";
                     initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
                     initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
                     break;
+                case 7: //7
+                    //LAGUNA
+                    islandMeshName = "Laguna.mesh";
+                    break;
+
+                case 8: //8
+                    // DOUBLE LAGUNA
+                    islandMeshName = "DoubleLaguna.mesh";
+                    initNonCollisionTreesDiamond(staticNode, -5.5f, 0.0f, maxX * 0.1f, maxX, 0.6f);
+                    initNonCollisionTreesDiamond(staticNode, -1.5f, 30.0f, maxX * 0.00f, maxX * 0.15f, 0.6f);
+                   
+                    initNonCollisionTreesDiamond(staticNode, -1.5f, 30.0f, maxX * 0.85f, maxX * 1.00f, 0.6f);
+                   
+                    break;
+
                 case 9: //9
                     //ISLAND3
                     islandMeshName = "Island3.mesh";

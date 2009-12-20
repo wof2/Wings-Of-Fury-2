@@ -89,13 +89,13 @@ namespace Wof.View.TileViews
                 case 2:
                     //5 wysepek
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, 7, framework, parentNode);
                     backgroundViews.Add(cmv);
 
                     cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, 8, framework, parentNode);
                     backgroundViews.Add(cmv);
 
                     cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
@@ -126,7 +126,7 @@ namespace Wof.View.TileViews
                     cmv = new CarrierView(this.LevelTile.TileIndex, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, 8, framework, parentNode);
                     backgroundViews.Add(cmv);
 
                     cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
@@ -142,7 +142,7 @@ namespace Wof.View.TileViews
                     cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, 8, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
 
