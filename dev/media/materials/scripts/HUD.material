@@ -155,7 +155,7 @@ material Panels/Screw
 
 			texture_unit 
 			{
-				texture RustedMetal.jpg
+				texture RustedMetal.dds
 			}
 		}
 	}
@@ -175,7 +175,7 @@ material Panels/Steel
 
 			texture_unit 
 			{
-				texture steel.jpg
+				texture steel.dds
 			}
 		}
 	}

@@ -22,21 +22,7 @@ material Examples/EnvMappedRustySteel
 	}
 }
 
-material Examples/DarkMaterial
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.1 0.1 0.1
 
-			texture_unit
-			{
-				texture BeachStones.jpg
-			}
-		}
-	}
-}
 material Examples/SpaceSkyBox
 {
 	technique
@@ -275,37 +261,7 @@ material Examples/EveningSkyBox
 	}
 }
 
-material Examples/CloudySky
-{
-	technique
-	{
-		pass
-		{
-			lighting off
-			depth_write off
 
-			texture_unit
-			{
-				texture clouds.jpg
-				scroll_anim 0.15 0
-			}
-		}
-	}
-}
-material Examples/RustySteel
-{
-	technique
-	{
-		pass
-		{
-
-			texture_unit
-			{
-				texture RustySteel.jpg
-			}
-		}
-	}
-}
 material Examples/Chrome
 {
 	technique
@@ -339,107 +295,7 @@ material Examples/SpaceSkyPlane
 	}
 }
 
-material Examples/TextureEffect2
-{
-	technique
-	{
-		pass
-		{
 
-			texture_unit
-			{
-				texture Water02.jpg
-				scroll_anim 0.5 0
-			}
-		}
-	}
-}
-material Examples/TextureEffect3
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.7 0.7 0.7
-			cull_hardware none
-			cull_software none
-
-			texture_unit
-			{
-				texture Water01.jpg
-				scroll_anim -0.25 0.1
-			}
-
-			texture_unit
-			{
-				texture Water01.jpg
-				colour_op_ex add src_texture src_current
-				colour_op_multipass_fallback one one
-				scroll_anim -0.1 0.25
-			}
-		}
-	}
-}
-material Examples/TextureEffect4
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.3 0.3 0.3
-			scene_blend colour_blend
-			cull_hardware none
-			cull_software none
-
-			texture_unit
-			{
-				texture Water02.jpg
-				scroll_anim 0.01 0.01
-			}
-		}
-	}
-}
-material Examples/BumpyMetal
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.75 0.75 0.75
-			cull_hardware none
-			cull_software none
-
-			texture_unit
-			{
-				texture BumpyMetal.jpg
-			}
-		}
-	}
-}
-material Examples/TransparentTest
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.2 0.2 0.2
-			scene_blend add
-			depth_write off
-
-			texture_unit
-			{
-				texture Water01.jpg
-				scroll_anim 0.25 0
-			}
-
-			texture_unit
-			{
-				texture Water01.jpg
-				wave_xform scroll_y sine 0 0.1 0 0.5
-			}
-		}
-	}
-}
 material Examples/Flare
 {
 	technique
@@ -457,23 +313,7 @@ material Examples/Flare
 		}
 	}
 }
-material Examples/Flare2
-{
-	technique
-	{
-		pass
-		{
-			lighting off
-			scene_blend add
-			depth_write off
 
-			texture_unit
-			{
-				texture flaretrail.png
-			}
-		}
-	}
-}
 material Examples/FlarePointSprite
 {
 	technique
@@ -496,54 +336,6 @@ material Examples/FlarePointSprite
 	}
 }
 
-material Examples/Droplet
-{
-	technique
-	{
-		pass
-		{
-			scene_blend colour_blend
-			depth_write off
-
-			texture_unit
-			{
-				texture basic_droplet.png
-			}
-		}
-	}
-}
-
-material Examples/Rocky
-{
-	technique
-	{
-		pass
-		{
-			ambient 0.2 0.2 0.2
-
-			texture_unit
-			{
-				texture egyptrockyfull.jpg
-			}
-		}
-	}
-}
-
-
-material 2 - Default
-{
-	technique
-	{
-		pass
-		{
-
-			texture_unit
-			{
-				texture MtlPlat2.jpg
-			}
-		}
-	}
-}
 
 
 vertex_program Examples/GrassWaverVp cg

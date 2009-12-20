@@ -673,12 +673,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private bool isMaxHeightRotate;
 
-        /// <summary>
-        /// Oznacza prêdkoœæ przed rozpoczêciem rotacji,
-        /// gdy samolot znajdzie sie na maksymalnej wysokosci.
-        /// </summary>
-        private float speedBeforeMaxHeightRotation;
-
+       
         /// <summary>
         /// Wartoœæ o jak¹ nale¿y obróciæ samolot w danej chwili.
         /// (Odpowiednik movementVector)
@@ -1465,8 +1460,7 @@ namespace Wof.Model.Level.Planes
             isLanding = false;
             isAfterFlyingDown = false;
             isMaxHeightRotate = false;
-            speedBeforeMaxHeightRotation = 0;
-
+           
             //dodane przez Emila
             rotateValue = 0;
 

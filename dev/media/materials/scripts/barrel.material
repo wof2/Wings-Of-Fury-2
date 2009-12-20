@@ -11,7 +11,7 @@ material Barrel
 
 			texture_unit 
 			{
-				texture oldwood.jpg
+				texture oldwood.dds
 			}
 		}
 	}
