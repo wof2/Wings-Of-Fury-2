@@ -2,15 +2,15 @@ import * from "0NormalMappedSpecular.material"
 
 material Steel : NormalMappedSpecular
 {
-  set_texture_alias NormalMap steel_normal.jpg
-  set_texture_alias DiffuseMap steel.jpg
+  set_texture_alias NormalMap steel_normal.dds
+  set_texture_alias DiffuseMap steel.dds
 
 }
 
 material Steel2 : NormalMappedSpecular
 {
-  set_texture_alias NormalMap steel2_normal.jpg
-  set_texture_alias DiffuseMap steel2.jpg
+  set_texture_alias NormalMap steel2_normal.dds
+  set_texture_alias DiffuseMap steel2.dds
 
 }
 
@@ -18,8 +18,8 @@ material Steel2 : NormalMappedSpecular
 
 material GreenSteel : NormalMappedSpecular
 {
-  set_texture_alias NormalMap green_steel_normal.jpg
-  set_texture_alias DiffuseMap green_steel.jpg
+  set_texture_alias NormalMap green_steel_normal.dds
+  set_texture_alias DiffuseMap green_steel.dds
 
 }
 

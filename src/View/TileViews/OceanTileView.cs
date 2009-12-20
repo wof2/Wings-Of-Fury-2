@@ -47,10 +47,13 @@
  */
 
 using System;
+using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
 using Wof.Model.Level.LevelTiles;
+using Wof.View.Effects;
+using Wof.View.VertexAnimation;
 using Math=System.Math;
 
 namespace Wof.View.TileViews
@@ -58,11 +61,13 @@ namespace Wof.View.TileViews
     /// <summary>
     /// Nie wiem dlaczego ale moze reprezentowac równiez endislandtileview
     /// </summary>
-    internal class OceanTileView : TileView
+    internal class OceanTileView : TileView, Animable
     {
+        SceneNode[] floatingNodes;
         public OceanTileView(LevelTile levelTile, FrameWork framework)
             : base(levelTile, framework)
         {
+            floatingNodes = new SceneNode[0];
         }
 
         /// <summary>
@@ -98,30 +103,42 @@ namespace Wof.View.TileViews
         /// </summary>
         /// <param name="position"></param>
         /// <param name="barrelCount">Iloœæ beczek. Max = 4</param>
-        protected void initBarrel(Vector3 position, int barrelCount)
+        protected void initBarrels(Vector3 position, int barrelCount)
         {
-            SceneNode barrelNode;
-            Entity barrel;
+            List<SceneNode> floatingNodesL = new List<SceneNode>();
+            floatingNodes = new SceneNode[barrelCount];
+            Entity entity;
             barrelCount = Math.Min(barrelCount, 4);
             for (int i = 0; i < barrelCount; i++)
             {
-                barrelNode =
-                    installationNode.CreateChildSceneNode("BarrelNode" + LevelView.PropCounter.ToString(), position);
-                barrel = sceneMgr.CreateEntity("Barrel" + LevelView.PropCounter.ToString(), "Barrel.mesh");
-                barrelNode.AttachObject(barrel);
+                floatingNodesL.Insert(i, installationNode.CreateChildSceneNode("BarrelNode" + LevelView.PropCounter.ToString(), position));
+                entity = sceneMgr.CreateEntity("Barrel" + LevelView.PropCounter.ToString(), "Barrel.mesh");
+                floatingNodesL[i].AttachObject(entity);
 
                 if (barrelCount == 4)
                 {
-                    if (i == 1) barrelNode.Translate(-0.5f, -0.05f, 1.3f);
-                    else if (i == 2) barrelNode.Translate(1.6f, -0.05f, -0.1f);
-                    else if (i == 3) barrelNode.Translate(0.7f, -0.05f, -1.0f);
+                    if (i == 1) floatingNodesL[i].Translate(-0.5f, -0.05f, 1.3f);
+                    else if (i == 2) floatingNodesL[i].Translate(1.6f, -0.05f, -0.1f);
+                    else if (i == 3) floatingNodesL[i].Translate(0.7f, -0.05f, -1.0f);
                 }
                 else
                 {
-                    if (i == 1) barrelNode.Translate(0.3f, -0.05f, 0.5f);
-                    else if (i == 2) barrelNode.Translate(-0.5f, -0.05f, -1.0f);
+                    if (i == 1) floatingNodesL[i].Translate(0.3f, -0.05f, 2.5f);
+                    else if (i == 2) floatingNodesL[i].Translate(-0.5f, -0.05f, -2.0f);
+                   
                 }
+                floatingNodesL[i].Pitch(new Radian(Mogre.Math.RangeRandom(-Mogre.Math.HALF_PI, Mogre.Math.HALF_PI)));
+                floatingNodesL[i].SetScale(Mogre.Math.RangeRandom(1.2f, 1.5f), Mogre.Math.RangeRandom(1.2f, 1.5f), Mogre.Math.RangeRandom(1.2f, 1.5f));
             }
+
+            SceneNode planks = installationNode.CreateChildSceneNode("PlanksNode" + LevelView.PropCounter.ToString(), position + new Vector3(0,0,5));
+            planks.SetScale(2, 2, 2);
+            entity = sceneMgr.CreateEntity("Planks" + LevelView.PropCounter.ToString(), "Planks.mesh");
+            planks.AttachObject(entity);
+
+            floatingNodesL.Add(planks);
+
+            floatingNodes = floatingNodesL.ToArray();
         }
 
 
@@ -176,8 +193,32 @@ namespace Wof.View.TileViews
                     case 4:
                         initBigRocks(new Vector3(0, 0, Mogre.Math.RangeRandom(-100, 100)));
                         break;
+
+                    case 5:
+                        initBarrels(new Vector3(0, 0, Mogre.Math.RangeRandom(-3, 3)), 2);
+                        break;
                 }
             }
+        }
+
+        public void updateTime(float timeSinceLastFrame)
+        {
+            if(EngineConfig.UseHydrax)
+            {
+                // animuj beczki
+                foreach (SceneNode node in floatingNodes)
+                {
+                    
+                    Vector3 worldPos = node._getDerivedPosition();
+                    float newY = HydraxManager.Singleton.GetHydrax().GetHeight(worldPos);
+
+                    float diff = (newY - worldPos.y);
+                    node.Translate(0,diff,0);
+                  
+                }
+               
+            }
+           
         }
     }
 }

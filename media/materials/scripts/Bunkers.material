@@ -2,8 +2,8 @@ import * from "0NormalMappedSpecular.material"
 
 material Concrete: NormalMappedSpecular
 {
-  set_texture_alias NormalMap concrete_normal.jpg
-  set_texture_alias DiffuseMap concrete.jpg
+  set_texture_alias NormalMap concrete_normal.dds
+  set_texture_alias DiffuseMap concrete.dds
 
 }
 
@@ -11,8 +11,8 @@ material Concrete: NormalMappedSpecular
 
 material Concrete2: NormalMappedSpecular
 {
-  set_texture_alias NormalMap concrete2_normal.jpg
-  set_texture_alias DiffuseMap concrete2.jpg
+  set_texture_alias NormalMap concrete2_normal.dds
+  set_texture_alias DiffuseMap concrete2.dds
 
 }
 
@@ -30,7 +30,7 @@ material Wood
 
 			texture_unit 
 			{
-				texture oldwood2.jpg
+				texture oldwood2.dds
 			}
 		}
 	}
@@ -51,7 +51,7 @@ material ConcreteX
 
 			texture_unit 
 			{
-				texture oldwood2.jpg
+				texture oldwood2.dds
 			}
 		}
 	}

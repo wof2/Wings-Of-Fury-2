@@ -3,9 +3,9 @@ import * from "0NormalMappedSpecular.material"
 
 material Island: IslandBase
 {
-  set_texture_alias NormalMap sand_normal.jpg
-  set_texture_alias DiffuseMap sand.jpg
-  set_texture_alias DiffuseMap2 sand2.jpg
+  set_texture_alias NormalMap sand_normal.dds
+  set_texture_alias DiffuseMap sand.dds
+  set_texture_alias DiffuseMap2 sand2.dds
   set_texture_alias AlphaMap island_alpha.png
 
 }
@@ -28,7 +28,7 @@ material Islandold
             texture_unit
             {
                 // We use the grass texture as the base. other textures are blended over it
-                texture sand.jpg
+                texture sand.dds
                 // Scale the texture so, that it looks nice
                 scale 0.3 0.3
                 // Only blend colour
@@ -62,7 +62,7 @@ material Islandold
             // detail texture
             texture_unit
             {
-                texture sand2.jpg
+                texture sand2.dds
                 scale 0.2 0.2
                 // alpha blend colour with colour from last pass
                 colour_op_ex blend_diffuse_alpha src_texture src_current
@@ -119,7 +119,7 @@ material Islandold
 			iteration once 
 			texture_unit
 			{
-				texture sand.jpg 2d unlimited  
+				texture sand.dds 2d unlimited  
 				binding_type fragment
 				tex_coord_set 0
 				tex_address_mode wrap wrap wrap
@@ -289,54 +289,4 @@ fragment_program Island/FP hlsl
    source Island.hlsl
    entry_point main_fp
    target ps_2_0
-}
-
-material Islandold2
-{
-   technique
-   {
-      pass
-      {
-         // Vertex program reference
-         vertex_program_ref Island/VP
-         {
-            param_named_auto uLightPosition light_position_object_space 0
-            param_named_auto uEyePosition camera_position_object_space
-            param_named_auto uWorldViewProj worldviewproj_matrix
-            
-            param_named uTexturesScale float 16
-         }
-
-         // Fragment program
-         fragment_program_ref Island/FP
-         {
-            param_named_auto uLightDiffuse light_diffuse_colour 0
-            param_named_auto uLightSpecular light_specular_colour 0
-            // Parallax Height scale and bias
-            param_named uScaleBias float4 0.04 -0.02 1 0
-         }
-
-         texture_unit
-         {
-            texture Sand.tga
-            tex_coord_set 0
-         }
-         texture_unit
-         {
-            texture Sand.png
-            tex_coord_set 1
-         }
-
-         texture_unit
-         {
-            texture SandGrass.tga
-            tex_coord_set 2
-         }
-         texture_unit
-         {
-            texture SandGrass.png
-            tex_coord_set 3
-         }
-      }
-   }
 }

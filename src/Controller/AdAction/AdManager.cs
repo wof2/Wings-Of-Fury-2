@@ -30,8 +30,7 @@ namespace Wof.Controller.AdAction
 
         private List<Ad> ads = new List<Ad>();
         private Dictionary<int, bool> downloadingAds = new Dictionary<int, bool>();
-        private Ad currentAd = null;
-
+     
         private CommercialAdAction adAction;
         private static readonly AdManager singleton = new AdManager();
 
@@ -149,6 +148,13 @@ namespace Wof.Controller.AdAction
             string path = ad.path;
             try
             {
+                Image s = new Image();
+                
+             //   Image k = s.Load("FE55EF898AF9D8FE122A83882B98C32D.gif", "General");
+           //     Image k = s.Load("1.gif", "General");
+
+             //   TextureManager.Singleton.Load("../../media/FE55EF898AF9D8FE122A83882B98C32D.gif", "Ads");
+
                 TextureManager.Singleton.Load(path, "Ads");
                 return path;
             }

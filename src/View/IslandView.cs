@@ -134,7 +134,7 @@ namespace Wof.View
             {
                 case 5: //5
                     //ISLAND1
-                    islandMeshName = "Island1.mesh";
+                    islandMeshName = "Island1a.mesh";
                     initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
                     initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
                     break;
@@ -142,6 +142,11 @@ namespace Wof.View
                     //ISLAND ROUND
                     islandMeshName = "IslandRound.mesh";
                     initNonCollisionTreesCircle(staticNode, 15.0f, 1.4f);
+                    break;
+                
+                case 7: //4
+                    //LAGUNA
+                    islandMeshName = "Laguna.mesh";
                     break;
 
                 case 6: //6
@@ -270,7 +275,7 @@ namespace Wof.View
                 if (count != 42)
                 {
                     float X = (islandCounter%5*250) - 650;
-                    float Z = Math.RangeRandom(-4, 0)*50;
+                    float Z = Math.RangeRandom(-4, 0)*70;
                     staticNode.Translate(new Vector3(-250 + Z, 0, UnitConverter.LogicToWorldUnits(firstTileIndex) + X));
                     staticNode.SetDirection(Vector3.UNIT_X);
                     angle = Math.RangeRandom(0, 2*Math.PI);

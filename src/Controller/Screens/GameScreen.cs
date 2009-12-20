@@ -291,7 +291,7 @@ namespace Wof.Controller.Screens
         private Boolean mayPlaySound;
 
         private readonly object loadingLock;
-        private Thread loaderThread;
+       // private Thread loaderThread;
         private Overlay loadingOverlay;
         private Overlay preloadingOverlay;
       

@@ -2,16 +2,16 @@ import * from "0NormalMappedSpecular.material"
 
 material Carrier : NormalMappedSpecular
 {
-  set_texture_alias NormalMap carrier_normal.jpg
-  set_texture_alias DiffuseMap carrier.jpg
+  set_texture_alias NormalMap carrier_normal.dds
+  set_texture_alias DiffuseMap carrier.dds
 
 }
 
 
 material CarrierPanels: NormalMappedSpecular
 {
-  set_texture_alias NormalMap metalPanels_normal.jpg
-  set_texture_alias DiffuseMap metalPanels.jpg
+  set_texture_alias NormalMap metal_panels_normal.dds
+  set_texture_alias DiffuseMap metal_panels.dds
  
 }
 

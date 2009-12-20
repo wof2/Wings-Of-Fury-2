@@ -1631,13 +1631,13 @@ namespace Wof.View
             if (p != null) UpdatePlaneView(p, evt.timeSinceLastFrame);
 
             // tileviews
-            VertexAnimable va;
+            Animable va;
             count = tileViews.Count;
             for (int i = 0; i < count; i++)
             {
-                if (tileViews[i] is VertexAnimable)
+                if (tileViews[i] is Animable)
                 {
-                    va = tileViews[i] as VertexAnimable;
+                    va = tileViews[i] as Animable;
                     va.updateTime(evt.timeSinceLastFrame);
                 }
             }

@@ -135,7 +135,8 @@ namespace Wof.View.TileViews
                     cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new IslandView(this.LevelTile.TileIndex, 7, framework, parentNode);
+                    cmv.MainNode.SetScale(2,2,2);
                     backgroundViews.Add(cmv);
 
                     cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
@@ -144,6 +145,21 @@ namespace Wof.View.TileViews
                     cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
+
+                case 6:
+                    //3 wysepki w tym laguna
+
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    backgroundViews.Add(cmv);
+
+                    cmv = new IslandView(this.LevelTile.TileIndex, 7, framework, parentNode);
+                    cmv.MainNode.SetScale(2, 2, 2);
+                    backgroundViews.Add(cmv);
+
+                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    backgroundViews.Add(cmv);
+                    break;
+
             }
         }
     }

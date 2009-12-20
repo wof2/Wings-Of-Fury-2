@@ -48,9 +48,13 @@
 
 namespace Wof.View.VertexAnimation
 {
-    internal interface VertexAnimable
+    internal interface Animable
     {
         void updateTime(float timeSinceLastFrame);
+    }
+
+    internal interface VertexAnimable : Animable
+    {
         void rewind();
         void enableAnimation();
         void disableAnimation();

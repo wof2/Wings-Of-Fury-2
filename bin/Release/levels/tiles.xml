@@ -33,6 +33,8 @@
   
   <tile name="ocean" y-start="0.1" y-end="0.1" variation="4"/>  <!-- duze skaly na oceanie oddalone -->
  
+  <tile name="ocean" y-start="0.1" y-end="0.1" variation="5"/>  <!-- beczki -->
+ 
   
   <!-- Enemy Installations  -->
 
@@ -278,7 +280,9 @@
   <tile name="island-begin" y-start="0.0" y-end="1.5" variation="3" /> <!-- 3 wysepki    -->
   <tile name="island-begin" y-start="0.0" y-end="1.5" variation="4" /> <!-- Duza wyspa   -->
   <tile name="island-begin" y-start="0.0" y-end="1.5" variation="5" /> <!-- 3 wysepki + lotniskowiec -->
-  
+  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="6" /> <!-- 3 wysepki w tym laguna -->
+   
+    
   <tile name="island-begin" y-start="0.0" y-end="8.0" variation="10"/>
   
   <tile name="island-end" y-start="1.5" y-end="0.0"/>

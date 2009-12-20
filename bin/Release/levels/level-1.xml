@@ -31,6 +31,25 @@
    
   <ocean width="22"/>
   
+  
+  <island-begin variation="6"/>
+  	<concrete-bunker num-soldiers="3"/>
+  	<concrete-bunker num-soldiers="3"/>
+  	<barrack num-soldiers="2"/>
+  <island-end/>
+  <ocean width="3" variation="0"/>
+  <ocean width="1" variation="5"/>
+  <ocean width="3" variation="0"/>
+  
+   <island-begin/>
+  	<terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+  <island-end/>
+  
+  
   <ocean width="1" variation="1"/>
   <ocean width="22"/>
   

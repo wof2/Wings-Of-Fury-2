@@ -10,7 +10,7 @@ material Soldier
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture soldier.jpg 
+                texture soldier.dds 
             }
         }
     }
@@ -27,7 +27,7 @@ material General
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture general.jpg 
+                texture general.dds 
             }
         }
     }
@@ -44,7 +44,7 @@ material Seaman
             emissive 0.0 0.0 0.0
             texture_unit
             {
-                texture seaman.jpg 
+                texture seaman.dds
             }
         }
     }
