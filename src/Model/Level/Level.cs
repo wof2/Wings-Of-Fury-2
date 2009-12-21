@@ -706,7 +706,7 @@ namespace Wof.Model.Level
                         if ((Environment.TickCount - userPlane.LastFireTick) >= GameConsts.Bomb.FireInterval)
                         {
                             if (userPlane.Weapon.IsBombAvailable)
-                                userPlane.Weapon.Fire(userPlane.RelativeAngle, WeaponType.Bomb);
+                                userPlane.Weapon.Fire(WeaponType.Bomb);
                             userPlane.LastFireTick = Environment.TickCount;
                         }
                     }
@@ -718,7 +718,7 @@ namespace Wof.Model.Level
                         if ((Environment.TickCount - userPlane.LastFireTick) >= GameConsts.Rocket.FireInterval)
                         {
                             if (userPlane.Weapon.IsRocketAvailable)
-                                userPlane.Weapon.Fire(userPlane.RelativeAngle, WeaponType.Rocket);
+                                userPlane.Weapon.Fire(WeaponType.Rocket);
                             userPlane.LastFireTick = Environment.TickCount;
                         }
                     }
@@ -729,7 +729,7 @@ namespace Wof.Model.Level
                         if ((Environment.TickCount - userPlane.LastFireTick) >= GameConsts.Torpedo.FireInterval)
                         {
                             if (userPlane.Weapon.IsTorpedoAvailable)
-                                userPlane.Weapon.Fire(userPlane.RelativeAngle, WeaponType.Torpedo);
+                                userPlane.Weapon.Fire(WeaponType.Torpedo);
                             userPlane.LastFireTick = Environment.TickCount;
                         }
                     }
@@ -749,7 +749,7 @@ namespace Wof.Model.Level
             if (userPlane.LocationState == LocationState.Air &&
                 userPlane.PlaneState != PlaneState.Destroyed && userPlane.PlaneState != PlaneState.Crashed)
             {
-                userPlane.Weapon.Fire(userPlane.RelativeAngle, WeaponType.Gun);
+                userPlane.Weapon.FireAtAngle(userPlane.RelativeAngle, WeaponType.Gun);
                 return true;
             }
         	return false;
@@ -1024,7 +1024,18 @@ namespace Wof.Model.Level
                 }
             }
         }
-
+        
+ 		/// <summary>
+        /// Rejestruje nowy pocisk na planszy.
+        /// </summary>
+        /// <param name="ammunition">Pocisk do zarejestrowania.</param>
+        /// <author>Michal Ziober.</author>
+        public void solder_RegisterWeaponEvent(Ammunition ammunition)
+        {
+            if(ammunition!=null) ammunitionList.Add(ammunition);
+         
+        }
+        
         /// <summary>
         /// Rejestruje nowy pocisk na planszy.
         /// </summary>

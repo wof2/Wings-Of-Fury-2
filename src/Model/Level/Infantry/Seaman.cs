@@ -14,8 +14,8 @@ namespace Wof.Model.Level.Infantry
         /// <param name="level">Referencja do obiektu planszy.</param>
         /// <author>Kamil S³awiñski</author>
         /// <param name="offset"></param>
-        public Seaman(float posX, Direction direct, Level level, float offset)
-            : base(posX,direct,level,offset)
+        public Seaman(float posX, Direction direct, Level level, float offset, bool holdsBazooka)
+            : base(posX,direct,level,offset, holdsBazooka)
         {
 
         }

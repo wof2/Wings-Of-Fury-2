@@ -758,6 +758,7 @@
     <Compile Include="src\Model\Level\Weapon\Gun.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\Model\Level\Weapon\IAmmunitionOwner.cs" />
     <Compile Include="src\Model\Level\Weapon\MissileState.cs">
       <SubType>Code</SubType>
     </Compile>

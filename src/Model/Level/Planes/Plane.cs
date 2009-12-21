@@ -138,7 +138,7 @@ namespace Wof.Model.Level.Planes
     /// <summary>
     /// Klasa opisujaca dzialanie samolotu.
     /// </summary>
-    public class Plane : IRenderableQuadrangles
+    public class Plane : IRenderableQuadrangles, IAmmunitionOwner
     {
         #region Constants
 

@@ -58,6 +58,8 @@ using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
 
 namespace Wof.Model.Level.Weapon
 {
+	
+
     /// <summary>
     /// Delegat dodaje nowy pocisk(Bomba, Rakieta), do modelu.
     /// </summary>
@@ -149,7 +151,7 @@ namespace Wof.Model.Level.Weapon
         /// <summary>
         /// Wlasciciel broni.
         /// </summary>
-        private Plane ammunitionOwner;
+        private IAmmunitionOwner ammunitionOwner;
 
         /// <summary>
         /// Licznik uplynietego czasu od ostatniego wystrzalu.
@@ -173,7 +175,7 @@ namespace Wof.Model.Level.Weapon
         /// <param name="rocketCount">Maksymalna liczba rakiet.</param>
         /// <param name="bombCount">Maksymalna liczba bomb.</param>
         /// <param name="torpedoCount">Maksymalna liczba torped.</param>
-        public WeaponManager(LevelRef refLevel, Plane owner, int rocketCount, int bombCount, int torpedoCount)
+        public WeaponManager(LevelRef refLevel, IAmmunitionOwner owner, int rocketCount, int bombCount, int torpedoCount)
         {
             refToLevel = refLevel;
             lastFireTick = Environment.TickCount;
@@ -193,7 +195,7 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <param name="refLevel">Referncja do planszy.</param>
         /// <param name="owner">Wlasciciel broni.</param>
-        public WeaponManager(LevelRef refLevel, Plane owner)
+        public WeaponManager(LevelRef refLevel, IAmmunitionOwner owner)
             : this(refLevel,
                    owner,
                    owner is EnemyPlane ? GameConsts.EnemyPlane.RocketCount : GameConsts.UserPlane.RocketCount,
@@ -335,6 +337,12 @@ namespace Wof.Model.Level.Weapon
         /// <param name="angle"></param>
         private void EnemyPlaneFire(float angle)
         {
+        	if(!(ammunitionOwner is Plane))
+        	{
+        		return;
+        	}
+        	Plane plane = ammunitionOwner as Plane;
+        	
             refToLevel.Controller.OnFireGun(ammunitionOwner);
 
             if (Environment.TickCount - lastFireTick >= Gun.FireInterval)
@@ -343,7 +351,7 @@ namespace Wof.Model.Level.Weapon
                 {
                     //sprawdzam czy wrogi samolot nie trafil w samolot gracza.
                     if ((Math.Abs(ammunitionOwner.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
-                        Gun.CanHitPlane(ammunitionOwner, refToLevel.UserPlane))
+                        Gun.CanHitPlane(plane, refToLevel.UserPlane))
                     {
                         //ubytek paliwa.
                         refToLevel.UserPlane.Hit(true);
@@ -431,27 +439,18 @@ namespace Wof.Model.Level.Weapon
                 }
             }
         }
-
-        /// <summary>
-        /// Wystrzeliwuje rakiete.
-        /// </summary>
-        private void RocketFire()
-        {
-            Rocket rocket = null;
+        public void RocketFire(float fireAngle, PointD movementVector)
+		{
+        	Rocket rocket = null;
             PointD position = null;
-            float realAngle = 0;
-
+       
             //startowa pozycja rakiety
             position = new PointD(ammunitionOwner.Center.X, ammunitionOwner.Center.Y);
 
-            //kat nachylenia w zaleznosci od ustawienia samolotu.
-            realAngle = ammunitionOwner.Bounds.IsObverse
-                            ? -ammunitionOwner.RelativeAngle
-                            : ammunitionOwner.RelativeAngle;
 
             //nowa rakieta
-            rocket = new Rocket(position, (PointD) ammunitionOwner.MovementVector.Clone(),
-                                refToLevel, realAngle, ammunitionOwner);
+            rocket = new Rocket(position, movementVector,
+                                refToLevel, fireAngle, ammunitionOwner);
 
             
             //zwieksza liczbe uzytych rakiet
@@ -461,6 +460,24 @@ namespace Wof.Model.Level.Weapon
             rocketCount--;
             RegisterWeaponToModelEvent(rocket);
             refToLevel.Controller.OnRegisterRocket(rocket);
+        	
+        }
+		public void RocketFire(float fireAngle)
+		{
+			RocketFire(fireAngle, (PointD) ammunitionOwner.MovementVector.Clone());
+		 	
+		}
+		
+        /// <summary>
+        /// Wystrzeliwuje rakiete.
+        /// </summary>
+        public void RocketFire()
+        {
+        	  //kat nachylenia w zaleznosci od ustawienia samolotu.
+            float realAngle = ammunitionOwner.Bounds.IsObverse
+                            ? -ammunitionOwner.RelativeAngle
+                            : ammunitionOwner.RelativeAngle;
+            RocketFire(realAngle);
 
         }
 
@@ -495,6 +512,7 @@ namespace Wof.Model.Level.Weapon
             refToLevel.Controller.OnRegisterTorpedo(torpedo);
 
         }
+    
         /// <summary>
         /// Zrzuca bombe.
         /// </summary>
@@ -517,10 +535,10 @@ namespace Wof.Model.Level.Weapon
         #region Public Methods
 
         /// <summary>
-        /// Samolot otwiera ogien.
+        /// obiekt otwiera ogien.
         /// </summary>
         /// <param name="planeAngle">Kat nachylenia samolotu.</param>
-        public void Fire(float planeAngle, WeaponType weaponType)
+        public void FireAtAngle(float fireAngle, WeaponType weaponType)
         {
             switch (weaponType)
             {
@@ -528,7 +546,28 @@ namespace Wof.Model.Level.Weapon
                     BombFire();
                     break;
                 case WeaponType.Gun:
-                    GunFire(planeAngle);
+                    GunFire(fireAngle);
+                    break;
+                case WeaponType.Rocket:
+                    RocketFire(fireAngle);
+                    break;
+                case WeaponType.Torpedo:
+                    TorpedoFire();
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+        public void Fire(WeaponType weaponType)
+        {
+            switch (weaponType)
+            {
+                case WeaponType.Bomb:
+                    BombFire();
+                    break;
+                case WeaponType.Gun:
+                    GunFire(0);
                     break;
                 case WeaponType.Rocket:
                     RocketFire();

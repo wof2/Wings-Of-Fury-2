@@ -53,6 +53,7 @@ using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
+using Wof.Model.Level.Weapon;
 
 namespace Wof.Model.Level.Infantry
 {
@@ -61,9 +62,15 @@ namespace Wof.Model.Level.Infantry
     /// zolnierza na planszy.
     /// </summary>
     /// <author>Michal Ziober</author>
-    public class Soldier : IMove
+    public class Soldier : IMove, IAmmunitionOwner
     {
         #region Const
+        
+        /// <summary>
+        /// Zasieg ogniowy
+        /// </summary>
+        /// <author>Adam Witczak</author>
+        public const int FireDistance = 90;
 
         /// <summary>
         /// Przedzial czasu od ostatniego przesuniecia.
@@ -104,6 +111,12 @@ namespace Wof.Model.Level.Infantry
         #endregion
 
         #region Fields
+        
+        /// <summary>
+        /// Obiekt zarzadzajacy bronia 
+        /// </summary>
+        /// <author></author>
+        protected WeaponManager weaponManager;
 
         /// <summary>
         /// Pozycja X na planszy.
@@ -129,7 +142,7 @@ namespace Wof.Model.Level.Infantry
         /// Kierunek poruszania.
         /// </summary>
         protected Direction direction;
-
+       
         /// <summary>
         /// Czy zolnierz jest zywy.
         /// </summary>
@@ -144,7 +157,9 @@ namespace Wof.Model.Level.Infantry
         /// Referencja do planszy.
         /// </summary>
         protected readonly Level refToLevel;
-
+        
+        
+        
         /// <summary>
         /// Licznik czasu, pod czas ktorego zolnierz nie moze
         /// zostac zabity.
@@ -166,6 +181,9 @@ namespace Wof.Model.Level.Infantry
         /// Czy zolnierz moze zostac zabity.
         /// </summary>
         protected bool canDie;
+        
+        
+      
 
         protected bool leftBornTile = false;
 
@@ -177,9 +195,22 @@ namespace Wof.Model.Level.Infantry
             GENERAL,
             SEAMAN
         }
+        
+        /// <summary>
+        /// Wysokoœæ
+        /// </summary>
+        private const float height = 1.0f;
+
+        /// <summary>
+        /// Szerokoœæ 
+        /// </summary>
+        private const float width = 0.5f;
 
         #endregion
 
+        private bool holdsBazooka;
+        
+		
         #region Public Constructor
 
         /// <summary>
@@ -188,9 +219,10 @@ namespace Wof.Model.Level.Infantry
         /// <param name="posX">Pozycja startowa zolnierza (mierzona w tilesIndex.</param>
         /// <param name="direct">Kierunek w ktorym sie porusza.(Prawo,Lewo)</param>
         /// <param name="level">Referencja do obiektu planszy.</param>
+        /// <param name="holdsBazooka">Czy moze strzelac</param> 
         /// <author>Michal Ziober</author>
         /// <param name="offset"></param>
-        public Soldier(float posX, Direction direct, Level level, float offset)//, SoldierType type)
+        public Soldier(float posX, Direction direct, Level level, float offset, bool holdsBazooka)//, SoldierType type)
         {
             //przy starcie jest zywy.
             _soldierStatus = SoldierStatus.IsAlive;
@@ -203,12 +235,40 @@ namespace Wof.Model.Level.Infantry
             canDie = false;
             canReEnter = false;
             protectedTime = 0;
-            //this.type = type;
+            
+            weaponManager = new WeaponManager(level, this, 1, 0 ,0);
+            
+            weaponManager.RegisterWeaponToModelEvent += level.solder_RegisterWeaponEvent;            
+            this.holdsBazooka = holdsBazooka;
+            if(holdsBazooka)
+            {
+            	weaponManager.SelectWeapon = WeaponType.Rocket;            	
+            }
+            else
+            {
+            	weaponManager.SelectWeapon = WeaponType.None;            	
+            }
+       
         }
 
         #endregion
 
         #region Properties
+        
+          protected bool ShouldFire
+        {
+          	get { return holdsBazooka && Weapon.RocketCount > 0 && (Position - refToLevel.UserPlane.Position).EuclidesLength < FireDistance && true; }
+        	
+        }
+        public bool HoldsBazooka 
+        {
+			get { return holdsBazooka; }
+		}
+        
+        public WeaponManager Weapon
+        {
+            get { return weaponManager; }
+        }
 
         /// <summary>
         /// Ustawia lub pobiera predkosc zolnierza.
@@ -444,7 +504,21 @@ namespace Wof.Model.Level.Infantry
                     }
                     else ChangeLocation(time);
                 }
-                else ChangeLocation(time);
+                else
+                {
+                	if(ShouldFire && canDie)
+                	{
+                	
+                		PointD dir = refToLevel.UserPlane.Position - Position;
+                		dir.Normalise();
+                		
+                		Weapon.RocketFire(dir.Angle, GameConsts.Rocket.BaseSpeed * 0.5f * dir);
+                	} else
+                	{
+                		ChangeLocation(time);
+                	}
+                	
+                }
 
 
                 //sprawdza czy ulynal czas bezsmiertelnosci
@@ -468,5 +542,36 @@ namespace Wof.Model.Level.Infantry
 
 
         #endregion
+    	
+		public PointD Center {
+			get {
+				return Position;
+			}
+		}
+    	
+		public Quadrangle Bounds {
+			get {
+				return new Quadrangle(new PointD(xPos, yPos), width, height);;
+			}
+		}
+    	
+		public float RelativeAngle {
+			get {
+        		return 0;
+        		
+			}
+		}
+    	
+		public PointD MovementVector {
+			get {
+        		return new PointD((int)Direction * speed,0);
+			}
+		}
+    	
+		public bool IsEnemy {
+			get {
+				return true;
+			}
+		}
     }
 }

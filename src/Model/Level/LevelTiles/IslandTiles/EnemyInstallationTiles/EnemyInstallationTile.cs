@@ -213,13 +213,14 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             }
 
             newSoldier = null;
-
+			bool holdsBazooka;
             for (int i = 0; i < soldiersCount; i++)
             {
+            	holdsBazooka = rand.Next(0,10) > 5;
                 //Soldier.SoldierType stype = Soldier.SoldierType.SOLDIER;
                 if (this is ShipBunkerTile)
                 {
-                    newSoldier = new Seaman(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9));
+                    newSoldier = new Seaman(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9), holdsBazooka);
                     // stype = Soldier.SoldierType.SEAMAN;
                 }
                 else
@@ -229,7 +230,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                     {
                         stype = Soldier.SoldierType.GENERAL;
                     }*/
-                    newSoldier = new Soldier(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9));
+                    newSoldier = new Soldier(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9), holdsBazooka);
                 }
                 //newSoldier = new Soldier(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9), stype);
                 newSoldier.Speed = rand.Next(GameConsts.Soldier.MinSpeed, GameConsts.Soldier.MaxSpeed);

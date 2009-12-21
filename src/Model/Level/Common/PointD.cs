@@ -217,6 +217,17 @@ namespace Wof.Model.Level.Common
         {
             return new PointD(p.X*d, p.Y*d);
         }
+        
+         /// <summary>
+        /// Dzielenia przez liczbe.
+        /// </summary>
+        /// <param name="d">Liczba, przez ktora zostanie podzielony punkt.</param>
+        /// <param name="p">Punkt.</param>
+        /// <returns>Iloczyn punktu i liczby.</returns>
+        public static PointD operator /(PointD p, float d)
+        {
+            return new PointD(p.X/d, p.Y/d);
+        }
 
         #endregion
 
@@ -330,6 +341,13 @@ namespace Wof.Model.Level.Common
             //tworzê wektor o kierunku zgodnym z danym punktem i d³ugoœci¹ lenght
             PointD addVector = new PointD(Math.Cos(Angle)*length, Math.Sin(Angle)*length);
             Move(addVector);
+        }
+        
+        public void Normalise()
+        {
+        	PointD p = new PointD( this / EuclidesLength);
+        	this.X = p.X;
+        	this.Y = p.Y;
         }
 
         /// <summary>

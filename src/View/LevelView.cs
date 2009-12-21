@@ -1198,8 +1198,10 @@ namespace Wof.View
             }
         }
 
-        public void OnFireGun(Plane plane)
+        public void OnFireGun(IAmmunitionOwner obj)
         {
+        	if(!(obj is Plane)) return;
+        	Plane plane = (Plane)obj;
 
             PlaneView p = FindPlaneView(plane);
             if (p == null) return;

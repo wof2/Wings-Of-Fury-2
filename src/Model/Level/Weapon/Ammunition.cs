@@ -108,7 +108,7 @@ namespace Wof.Model.Level.Weapon
         /// Wlasciciel broni.
         /// </summary>
         /// <author>Michal Ziober</author>
-        protected Plane ammunitionOwner;
+        protected IAmmunitionOwner ammunitionOwner;
 
         #endregion
 
@@ -123,7 +123,7 @@ namespace Wof.Model.Level.Weapon
         /// <param name="angle">Kat nachylenia.</param>
         /// <param name="owner">Wlasciciel broni.</param>
         /// <author>Michal Ziober</author>
-        public Ammunition(PointD planeSpeed, Level level, float angle, Plane owner)
+        public Ammunition(PointD planeSpeed, Level level, float angle, IAmmunitionOwner owner)
         {
             //referencja na obiekt Level
             refToLevel = level;
@@ -172,7 +172,7 @@ namespace Wof.Model.Level.Weapon
         }
 
         /// <summary>
-        /// Zwraca srodek prostokata opisujacego bombe.
+        /// Zwraca srodek prostokata opisujacego amunicje.
         /// </summary>
         /// <author>Michal Ziober</author>
         public PointD Center
@@ -208,7 +208,7 @@ namespace Wof.Model.Level.Weapon
         /// Zwraca wlasciciela broni.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public Plane Owner
+        public IAmmunitionOwner Owner
         {
             get { return ammunitionOwner; }
         }

@@ -333,7 +333,7 @@ namespace Wof.Controller
         /// </summary>
         /// <param name="plane">Samolot, ktory otworzyl ogien.</param>
         /// <author>Michal Ziober.</author>
-        public void OnFireGun(Plane plane)
+        public void OnFireGun(IAmmunitionOwner plane)
         {
             AddJob(MethodBase.GetCurrentMethod().Name, new object[] { plane });
         }

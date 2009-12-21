@@ -298,7 +298,19 @@ namespace Wof.View.Effects
                Console.WriteLine(p[k]);
            }*/
         }
-
+        
+        
+        public void PreloadMesh(string meshName)
+        {
+         	PreloadMesh(meshName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+        	
+        }
+         
+  		public void PreloadMesh(string meshName, string group)
+        {
+        	MeshManager.Singleton.Load(meshName, group);          
+        }
+  
         public bool EffectExists(string name)
         {
             return effects.ContainsKey(name);
