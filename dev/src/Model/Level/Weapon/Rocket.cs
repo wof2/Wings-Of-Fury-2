@@ -52,6 +52,7 @@ using System.Diagnostics;
 
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.Infantry;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
@@ -117,14 +118,14 @@ namespace Wof.Model.Level.Weapon
         /// Jesli dystans bedzie wiekszy rakieta bedzie odrejestrowana.
         /// </summary>
         /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const int MaxDistanceToPlane = 600;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const int MaxDistanceToOwner = 600;
 
         /// <summary>
         /// Maksymalny dopuszczalny pionowy dystans 
         /// pomiedzy rakieta a samolotem rodzicem.
         /// </summary>
         /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const int MaxHeightDistanceToPlane = 200;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const int MaxHeightDistanceToOwner = 200;
 
         /// <summary>
         /// Przesuniecie pionowe rakiety wzgledem samolotu
@@ -180,13 +181,13 @@ namespace Wof.Model.Level.Weapon
         /// <param name="angle">Kat nachylenia.</param>
         /// <param name="owner">Wlasciciel amunicji.</param>
         /// <author>Michal Ziober</author>
-        public Rocket(float x, float y, PointD planeSpeed, Level level, float angle, Plane owner)
-            : base(planeSpeed, level, angle, owner)
+        public Rocket(float x, float y, PointD initialSpeed, Level level, float angle, IAmmunitionOwner owner)
+            : base(initialSpeed, level, angle, owner)
         {
             timeCounter = 0;
 
             //prostokat opisujacy obiekt.
-            if (planeSpeed.X >= 0)
+            if (initialSpeed.X >= 0)
                 boundRectangle = new Quadrangle(new PointD(x - WidthShift, y - HeightShift), RocketWidth, RocketHeight);
             else
                 boundRectangle = new Quadrangle(new PointD(x + WidthShift, y - HeightShift), RocketWidth, RocketHeight);
@@ -197,21 +198,21 @@ namespace Wof.Model.Level.Weapon
 
 
             //kierunek ruchu podczas lotu z silnikiem.
-            float speedX = planeSpeed.X >= 0 ? GameConsts.Rocket.BaseSpeed : -GameConsts.Rocket.BaseSpeed;
+            float speedX = initialSpeed.X >= 0 ? GameConsts.Rocket.BaseSpeed : -GameConsts.Rocket.BaseSpeed;
 
             //wektor ruchu podczas spadania.
-            moveVector = new PointD(planeSpeed.X, yDropSpeed);
+            moveVector = new PointD(initialSpeed.X, yDropSpeed);
             
             //weektor ruchu podczas pracy silnika.
-            if (planeSpeed.X >= 0)
+            if (initialSpeed.X >= 0)
             {
-                flyVector = new PointD(planeSpeed.X * 0.7f * GameConsts.Rocket.BaseSpeed, planeSpeed.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
+                flyVector = new PointD(initialSpeed.X * 0.7f * GameConsts.Rocket.BaseSpeed, initialSpeed.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
             } else
             {
-                flyVector = new PointD(planeSpeed.X * 0.7f * GameConsts.Rocket.BaseSpeed, planeSpeed.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
+                flyVector = new PointD(initialSpeed.X * 0.7f * GameConsts.Rocket.BaseSpeed, initialSpeed.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
             }
 
-            initPlaneSpeed = planeSpeed;
+            initPlaneSpeed = initialSpeed;
             
            
            
@@ -227,7 +228,7 @@ namespace Wof.Model.Level.Weapon
         /// <param name="angle">Kat nachylenia.</param>
         /// <param name="owner">Wlasciciel rakiety.</param>
         /// <author>Michal Ziober</author>
-        public Rocket(PointD position, PointD planeSpeed, Level level, float angle, Plane owner)
+        public Rocket(PointD position, PointD planeSpeed, Level level, float angle, IAmmunitionOwner owner)
             : this(position.X, position.Y, planeSpeed, level, angle, owner)
         {
         }
@@ -251,8 +252,10 @@ namespace Wof.Model.Level.Weapon
             if (!Unregister())
             {
                 //jesli jest to rakieta samolotu gracza.
-                if (!(ammunitionOwner is EnemyPlane))
+                if (!ammunitionOwner.IsEnemy)
+                {
                     CheckCollisionWithPlanes(); //sprawdzam zderzenie z wrogim samolotem.
+                }
                 else
                 {
                     //kolizje z samolotami na lotniskowcu
@@ -264,7 +267,10 @@ namespace Wof.Model.Level.Weapon
                 }
 
                 //obsluga zderzenia z ziemia.
-                CheckCollisionWithGround();
+                if(!(ammunitionOwner is Soldier)) 
+                {
+                	CheckCollisionWithGround();
+                }
 
                 //sprawdzam kolizje z lotniskowce.
                 CheckCollisionWithCarrier(this);
@@ -515,30 +521,20 @@ namespace Wof.Model.Level.Weapon
         /// <author>Michal Ziober</author>
         private bool Unregister()
         {
-            if (!(ammunitionOwner is EnemyPlane))
+        	//&&
+           //      flyVector.Y > 0
+           
+            if ((System.Math.Abs(Center.X - ammunitionOwner.Center.X) > MaxDistanceToOwner) ||
+                ((System.Math.Abs(Center.Y - ammunitionOwner.Center.Y) > MaxHeightDistanceToOwner)))
             {
-                if ((System.Math.Abs(Center.X - refToLevel.UserPlane.Center.X) > MaxDistanceToPlane) ||
-                    ((System.Math.Abs(Center.Y - refToLevel.UserPlane.Center.Y) > MaxHeightDistanceToPlane) &&
-                     flyVector.Y > 0))
-                {
-                    refToLevel.Controller.OnUnregisterRocket(this);
-                    state = MissileState.Destroyed;
-                    return true;
-                }
-                else
-                    return false;
+                refToLevel.Controller.OnUnregisterRocket(this);
+                state = MissileState.Destroyed;
+                return true;
             }
             else
-            {
-                if (System.Math.Abs(refToLevel.UserPlane.Center.X - Center.X) > MaxDistanceToPlane)
-                {
-                    refToLevel.Controller.OnUnregisterRocket(this);
-                    state = MissileState.Destroyed;
-                    return true;
-                }
-                else
-                    return false;
-            }
+                return false;
+           
+           
         }
 
         #endregion

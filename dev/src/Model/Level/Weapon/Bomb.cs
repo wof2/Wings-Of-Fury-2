@@ -101,7 +101,7 @@ namespace Wof.Model.Level.Weapon
         /// <param name="planeSpeed">Wektor ruchu.</param>
         /// <param name="level">Referencja do obiektu Level.</param>
         /// <author>Michal Ziober</author>
-        public Bomb(float x, float y, PointD planeSpeed, Level level, float angle, Plane owner)
+        public Bomb(float x, float y, PointD planeSpeed, Level level, float angle, IAmmunitionOwner owner)
             : base(planeSpeed, level, angle, owner)
         {
             //prostokat opisujacy obiekt.
@@ -117,7 +117,7 @@ namespace Wof.Model.Level.Weapon
         /// <param name="position">Pozycja startowa amunicji.</param>
         /// <param name="planeSpeed">Wektor ruchu.</param>
         /// <author>Michal Ziober</author>
-        public Bomb(PointD position, PointD planeSpeed, Level level, float angle, Plane owner)
+        public Bomb(PointD position, PointD planeSpeed, Level level, float angle, IAmmunitionOwner owner)
             : this(position.X, position.Y, planeSpeed, level, angle, owner)
         {
         }

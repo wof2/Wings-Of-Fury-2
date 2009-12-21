@@ -61,6 +61,8 @@ namespace Wof.View
     /// </summary>
     public class EnemyPlaneView : PlaneView
     {
+    	
+    	
         private static int enemyPlaneCounter = 1;
         protected FSLSoundObject engineSound = null;
         protected FSLSoundObject warCrySound = null;
@@ -83,7 +85,11 @@ namespace Wof.View
                           new Vector2(2.0f, 2.0f));
             }
         }
-
+        
+        public static string GetMeshName()
+        {
+        	return "A6M.mesh";
+        }
 
         /*public void Dispose()
         {
@@ -223,8 +229,9 @@ namespace Wof.View
                 gunSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_GUN, this.planeNode, false, false);
             }
 
-
-            planeEntity = sceneMgr.CreateEntity(name + "_Body", "A6M.mesh");
+            //Entity e = sceneMgr.CreateEntity("");
+            
+            planeEntity = sceneMgr.CreateEntity(name + "_Body", GetMeshName());
             //  planeEntity.SetMaterialName("P47/Body");
             innerNode.AttachObject(planeEntity);
             outerNode.Scale(new Vector3(0.4f, 0.4f, 0.4f));

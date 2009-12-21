@@ -254,7 +254,7 @@ namespace Wof.Controller
         /// </summary>
         /// <param name="plane">Samolot, ktory otworzyl ogien.</param>
         /// <author>Michal Ziober.</author>
-        void OnFireGun(Plane plane);
+        void OnFireGun(IAmmunitionOwner plane);
 
         /// <summary>
         /// Jesli dzialko trafi w jakas czesc planszy.

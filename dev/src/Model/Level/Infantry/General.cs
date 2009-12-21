@@ -22,7 +22,7 @@ namespace Wof.Model.Level.Infantry
         /// <author>Kamil S³awiñski</author>
         /// <param name="offset"></param>
         public General(float posX, Direction direct, Level level, float offset)
-            : base(posX,direct,level,offset)
+            : base(posX,direct,level,offset, false)
         {
 
         }

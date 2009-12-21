@@ -443,6 +443,11 @@ namespace Wof.Controller.Screens
 
 
                     LogManager.Singleton.LogMessage("About to register enemy planes", LogMessageLevel.LML_CRITICAL);
+                    if(currentLevel.EnemyPlanesLeft > 0)
+                    {
+                    	EffectsManager.Singleton.PreloadMesh(EnemyPlaneView.GetMeshName());
+                    }
+                    
                     if (currentLevel.EnemyPlanes.Count > 0) //warunek dodany przez Emila
                         OnRegisterPlane(currentLevel.EnemyPlanes[currentLevel.EnemyPlanes.Count - 1]);
 
@@ -451,6 +456,9 @@ namespace Wof.Controller.Screens
                     {
                         OnRegisterPlane(sp);
                     }
+                    
+                    
+                    
                     LogManager.Singleton.LogMessage("Finished loading level.", LogMessageLevel.LML_CRITICAL);
                    
                     UpdateHints(true);
@@ -2649,7 +2657,7 @@ namespace Wof.Controller.Screens
         }
 
 
-        public void OnFireGun(Plane plane)
+        public void OnFireGun(IAmmunitionOwner plane)
         {
             if (Environment.TickCount - lastFireTick >= Gun.FireInterval)
             {

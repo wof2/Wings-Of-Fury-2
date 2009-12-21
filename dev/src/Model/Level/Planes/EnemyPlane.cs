@@ -48,11 +48,13 @@
 
 using System;
 using System.Diagnostics;
+using Wof.Controller;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
-using Wof.Model.Level.Weapon;
 using Wof.Model.Level.LevelTiles.Watercraft;
+using Wof.Model.Level.Weapon;
+
 namespace Wof.Model.Level.Planes
 {
     public enum AttackObject
@@ -461,7 +463,7 @@ namespace Wof.Model.Level.Planes
                     AvoidUserPlaneCrash(scaleFactor);
                 else
                 {
-                    if (IsAfterPlanesOnCarrier) //jeœli ju¿ min¹³ cel, to zwiêkszam pu³ap
+                    if (ArePlanesOnCarrierBehind) //jeœli ju¿ min¹³ cel, to zwiêkszam pu³ap
                     {
                         if (RelativeAngle < maxAngle)
                             RotateUp(scaleFactor*rotateStep);
@@ -503,7 +505,7 @@ namespace Wof.Model.Level.Planes
             if (timeToNextRocket <= 0)
             {
                 timeToNextRocket = GameConsts.EnemyPlane.NextRocketInterval;
-                weaponManager.Fire(Angle, WeaponType.Rocket);
+                weaponManager.Fire(WeaponType.Rocket);
             }
         }
 
@@ -567,7 +569,7 @@ namespace Wof.Model.Level.Planes
                     level.Controller.OnWarCry(this);
                     warCryTimer = 0;
                 }
-                weaponManager.Fire(Angle, WeaponType.Gun);
+                weaponManager.FireAtAngle(Angle, WeaponType.Gun);
             }
                
         }
@@ -578,15 +580,29 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private void AttackStoragePlanes()
         {
+        	// na easy samolot wroga nie atakuje storage planes
+        	if(EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Easy)
+        	{
+        		return;
+        	}
+        	
+        	if(EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Medium && Mogre.Math.RangeRandom(0.0f, 1.0f) > 0.99f)
+        	{
+        		return; // na medium, czasem atak nie jest wykonywany
+        	}
+        	
+        	// na hardzie atak jest zawsze
+        	
             if (warCryTimer > warCryTimerMin)
             {
                 level.Controller.OnWarCry(this);
                 warCryTimer = 0;
             }
-            // zmiana by Adam. Samolot moze zaatakowac nawet jesli samolot gracza jest na lotniskowcu, ale szansa jest niewielka
-            // || Mogre.Math.RangeRandom(0.0f, 1.0f) > 0.99f
-            // wycowalem
-            if (!level.UserPlane.IsOnAircraftCarrier)
+            
+            
+            // atakuj nawet jesli samolot gracza jest na lotniskowcu ale tylko na hardzie i nie zawsze
+            if ((EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Hard && Mogre.Math.RangeRandom(0.0f, 1.0f) > 0.95f) || 
+                !level.UserPlane.IsOnAircraftCarrier)
                 FireRocket();
         }
 
@@ -643,7 +659,7 @@ namespace Wof.Model.Level.Planes
                 }
                 else //atakuje samoloty na lotniskowcu
                 {
-                    if (!IsAfterPlanesOnCarrier ||
+                    if (!ArePlanesOnCarrierBehind ||
                         ShouldSteerUp ||
                         (Math.Abs(Center.X - PlanesOnAircraftPos.X) < distanceFromStoragePlanes))
                         return false;
@@ -700,7 +716,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Sprawdza czy samolot znajduje siê za samolotami na lotniskowcu
         /// </summary>
-        private bool IsAfterPlanesOnCarrier
+        private bool ArePlanesOnCarrierBehind
         {
             get
             {
@@ -787,9 +803,10 @@ namespace Wof.Model.Level.Planes
             get
             {
                 for (int i = 0; i < level.StoragePlanes.Count; i++)
-                    if (Math.Abs(level.StoragePlanes[i].Center.X - Center.X) <
-                        GameConsts.EnemyPlane.AttackStoragePlaneDistance &&
-                        level.StoragePlanes[i].PlaneState == PlaneState.Intact &&
+                    if (
+                	    level.StoragePlanes[i].PlaneState == PlaneState.Intact &&
+                		Math.Abs(level.StoragePlanes[i].Center.X - Center.X) <
+                        GameConsts.EnemyPlane.AttackStoragePlaneDistance &&                        
                         Rocket.CanHitEnemyPlane(this, level.StoragePlanes[i]))
                         return true;
                 return false;
