@@ -66,13 +66,19 @@ namespace Wof.Controller
                         KeyValuePair<String, object[]> jobInfo = job.Value;
                         controller.GetType().GetMethod(jobInfo.Key).Invoke(controller, jobInfo.Value);
                     }
-                    jobs.Clear();
-                    lastId = 0;
+                  
                 }
                 catch (Exception ex)
                 {
 
                     ex.ToString();
+                   
+                }
+                finally
+                {
+                    // czyscimy nawet w wypadku wyjatku dla zapewnienia ciaglosci przetwarzania
+                    jobs.Clear();
+                    lastId = 0;
                 }
                 
             }
@@ -134,6 +140,16 @@ namespace Wof.Controller
         public void OnSoldierBeginDeath(Soldier soldier, bool gun, bool scream)
         {
             AddJob(MethodBase.GetCurrentMethod().Name, new object[] { soldier, gun, scream });
+        }
+
+        public void OnSoldierPrepareToFire(Soldier soldier, float maxTime)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { soldier, maxTime });
+        }
+
+        public void OnSoldierEndPrepareToFire(Soldier soldier)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { soldier });
         }
 
         /// <summary>
@@ -333,7 +349,7 @@ namespace Wof.Controller
         /// </summary>
         /// <param name="plane">Samolot, ktory otworzyl ogien.</param>
         /// <author>Michal Ziober.</author>
-        public void OnFireGun(IAmmunitionOwner plane)
+        public void OnFireGun(IObject2D plane)
         {
             AddJob(MethodBase.GetCurrentMethod().Name, new object[] { plane });
         }

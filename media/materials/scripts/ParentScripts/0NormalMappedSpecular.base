@@ -248,7 +248,7 @@ material IslandBase
 			texture_unit
 			{
 			   texture_alias DiffuseMap
-		           texture sand.jpg
+		           texture sand.dds
          		   // Scale the texture so, that it looks nice
          		   scale 0.3 0.3
 			}
@@ -288,7 +288,7 @@ material IslandBase
         texture_unit
         {
              texture_alias DiffuseMap2
-            texture sand2.jpg
+            texture sand2.dds
             scale 0.2 0.2
             // alpha blend colour with colour from last pass
             colour_op_ex blend_diffuse_alpha src_texture src_current

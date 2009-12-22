@@ -114,20 +114,6 @@ namespace Wof.Model.Level.Weapon
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const int DropSpeed = -70;
 
         /// <summary>
-        /// Maksymalny dopuszczalny dystans pomiedzy samolotem rodzicem a rakieta.
-        /// Jesli dystans bedzie wiekszy rakieta bedzie odrejestrowana.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const int MaxDistanceToOwner = 600;
-
-        /// <summary>
-        /// Maksymalny dopuszczalny pionowy dystans 
-        /// pomiedzy rakieta a samolotem rodzicem.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const int MaxHeightDistanceToOwner = 200;
-
-        /// <summary>
         /// Przesuniecie pionowe rakiety wzgledem samolotu
         /// przy starcie.
         /// </summary>
@@ -164,6 +150,32 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <author>Adam Witczak</author>
         private PointD initPlaneSpeed;
+
+
+        /// <summary>
+        /// Okresla kat (w radianach) o jaki pocisk obroci sie w osi Z (czyli "podkreci" sie w gore lub dol ekranu ) w czasie sekundy lotu
+        /// </summary>
+        private float zRotationPerSecond = 0;
+
+
+
+
+        /// <summary>
+        /// Maksymalny dopuszczalny dystans pomiedzy samolotem rodzicem a rakieta.
+        /// Jesli dystans bedzie wiekszy rakieta bedzie odrejestrowana.
+        /// </summary>
+        /// <author>Michal Ziober</author>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private float maxDistanceToOwner = 600;
+
+        /// <summary>
+        /// Maksymalny dopuszczalny pionowy dystans 
+        /// pomiedzy rakieta a samolotem rodzicem.
+        /// </summary>
+        /// <author>Michal Ziober</author>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private float maxHeightDistanceToOwner = 200;
+
         
 
         #endregion
@@ -176,18 +188,18 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <param name="x">Wspolrzedna x.</param>
         /// <param name="y">Wspolrzedna y.</param>
-        /// <param name="planeSpeed">Wektor ruchu.</param>
+        /// <param name="initialVelocity">Wektor ruchu.</param>
         /// <param name="level">Referencja do obiektu planszy.</param>
         /// <param name="angle">Kat nachylenia.</param>
         /// <param name="owner">Wlasciciel amunicji.</param>
         /// <author>Michal Ziober</author>
-        public Rocket(float x, float y, PointD initialSpeed, Level level, float angle, IAmmunitionOwner owner)
-            : base(initialSpeed, level, angle, owner)
+        public Rocket(float x, float y, PointD initialVelocity, Level level, float angle, IObject2D owner)
+            : base(initialVelocity, level, angle, owner)
         {
             timeCounter = 0;
 
             //prostokat opisujacy obiekt.
-            if (initialSpeed.X >= 0)
+            if (initialVelocity.X >= 0)
                 boundRectangle = new Quadrangle(new PointD(x - WidthShift, y - HeightShift), RocketWidth, RocketHeight);
             else
                 boundRectangle = new Quadrangle(new PointD(x + WidthShift, y - HeightShift), RocketWidth, RocketHeight);
@@ -198,21 +210,21 @@ namespace Wof.Model.Level.Weapon
 
 
             //kierunek ruchu podczas lotu z silnikiem.
-            float speedX = initialSpeed.X >= 0 ? GameConsts.Rocket.BaseSpeed : -GameConsts.Rocket.BaseSpeed;
+            float speedX = initialVelocity.X >= 0 ? GameConsts.Rocket.BaseSpeed : -GameConsts.Rocket.BaseSpeed;
 
             //wektor ruchu podczas spadania.
-            moveVector = new PointD(initialSpeed.X, yDropSpeed);
+            moveVector = new PointD(initialVelocity.X, yDropSpeed);
             
             //weektor ruchu podczas pracy silnika.
-            if (initialSpeed.X >= 0)
+            if (initialVelocity.X >= 0)
             {
-                flyVector = new PointD(initialSpeed.X * 0.7f * GameConsts.Rocket.BaseSpeed, initialSpeed.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
+                flyVector = new PointD(initialVelocity.X * 0.7f * GameConsts.Rocket.BaseSpeed, initialVelocity.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
             } else
             {
-                flyVector = new PointD(initialSpeed.X * 0.7f * GameConsts.Rocket.BaseSpeed, initialSpeed.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
+                flyVector = new PointD(initialVelocity.X * 0.7f * GameConsts.Rocket.BaseSpeed, initialVelocity.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
             }
 
-            initPlaneSpeed = initialSpeed;
+            initPlaneSpeed = initialVelocity;
             
            
            
@@ -223,14 +235,36 @@ namespace Wof.Model.Level.Weapon
         /// nowa rakiete na planszy.
         /// </summary>
         /// <param name="position">Pozycja rakiety.</param>
-        /// <param name="planeSpeed">Wektor ruchu.</param>
+        /// <param name="initialVelocity">Wektor ruchu.</param>
         /// <param name="level">Referencja do obiektu planszy.</param>
         /// <param name="angle">Kat nachylenia.</param>
         /// <param name="owner">Wlasciciel rakiety.</param>
         /// <author>Michal Ziober</author>
-        public Rocket(PointD position, PointD planeSpeed, Level level, float angle, IAmmunitionOwner owner)
-            : this(position.X, position.Y, planeSpeed, level, angle, owner)
+        public Rocket(PointD position, PointD initialVelocity, Level level, float angle, IObject2D owner)
+            : this(position.X, position.Y, initialVelocity, level, angle, owner)
         {
+        }
+
+        /// <summary>
+        /// Maksymalny dopuszczalny dystans pomiedzy samolotem rodzicem a rakieta.
+        /// Jesli dystans bedzie wiekszy rakieta bedzie odrejestrowana.
+        /// </summary>
+        /// <author>Michal Ziober</author>
+        public float MaxDistanceToOwner
+        {
+            get { return maxDistanceToOwner; }
+            set { maxDistanceToOwner = value; }
+        }
+
+        /// <summary>
+        /// Maksymalny dopuszczalny pionowy dystans 
+        /// pomiedzy rakieta a samolotem rodzicem.
+        /// </summary>
+        /// <author>Michal Ziober</author>
+        public float MaxHeightDistanceToOwner
+        {
+            get { return maxHeightDistanceToOwner; }
+            set { maxHeightDistanceToOwner = value; }
         }
 
         #endregion
@@ -245,16 +279,17 @@ namespace Wof.Model.Level.Weapon
         /// <author>Michal Ziober</author>
         public override void Move(int time)
         {
+            base.Move(time);
             //zmienia pozycje.
             ChangePosition(time);
 
             //jesli nie zostala odrejstrowana.
-            if (!Unregister())
+            if (!OutOfFuel())
             {
                 //jesli jest to rakieta samolotu gracza.
                 if (!ammunitionOwner.IsEnemy)
                 {
-                    CheckCollisionWithPlanes(); //sprawdzam zderzenie z wrogim samolotem.
+                    CheckCollisionWithEnemyPlanes(); //sprawdzam zderzenie z wrogim samolotem.
                 }
                 else
                 {
@@ -320,6 +355,12 @@ namespace Wof.Model.Level.Weapon
             }
         }
 
+        
+
+        public void SetZRotationPerSecond(float f)
+        {
+            zRotationPerSecond = f;
+        }
 
         /// <summary> 
         /// Zmienia pozycje rakiety.
@@ -329,6 +370,7 @@ namespace Wof.Model.Level.Weapon
         private void ChangePosition(int time)
         {
             float coefficient = Mathematics.GetMoveFactor(time, MoveInterval);
+
             timeCounter += time;
             if (timeCounter <= dropTime) //swobodne spadanie
             {
@@ -350,6 +392,12 @@ namespace Wof.Model.Level.Weapon
                     flyVector.Y *= 0.995f;
                 }
 
+                float angle = zRotationPerSecond * coefficient;
+                //  boundRectangle.Rotate(angle);
+                //  moveVector.Rotate(PointD.ZERO, angle);
+                relativeAngle += angle * (int)Direction;
+                flyVector.Rotate(PointD.ZERO, angle);
+
                 PointD vector = new PointD(flyVector.X * coefficient, flyVector.Y * coefficient);
                 boundRectangle.Move(vector);
             }
@@ -360,7 +408,7 @@ namespace Wof.Model.Level.Weapon
         /// oraz obsluguje zderzania z nimi.
         /// </summary>
         /// <author>Michal Ziober</author>
-        private void CheckCollisionWithPlanes()
+        private void CheckCollisionWithEnemyPlanes()
         {
             if (refToLevel.EnemyPlanes.Count > 0)
             {
@@ -392,13 +440,29 @@ namespace Wof.Model.Level.Weapon
         /// <author>Michal Ziober</author>
         private void CheckCollisionWithUserPlane()
         {
-            if (refToLevel.UserPlane != null)
+            Plane p = refToLevel.UserPlane;
+            if (p != null)
             {
-                if (boundRectangle.Intersects(refToLevel.UserPlane.Bounds))
+                if (boundRectangle.Intersects(p.Bounds))
                 {
-                    //odrejestruje samolot gracza.
-                    refToLevel.Controller.OnPlaneDestroyed(refToLevel.UserPlane);
-                    refToLevel.UserPlane.Destroy();
+                   
+                   
+                    if(Owner is Soldier)
+                    {
+                        p.Hit(p.MaxOil * 0.1f, 0); // trafienie przez bazooke
+                    }
+                    else
+                    {
+                        p.Hit(p.MaxOil * 0.5f, 0); 
+                      //  if(p.Oil <= 0)
+                      //  {
+                            // trafienie przez rakiete samolotowa
+                           // refToLevel.Controller.OnPlaneDestroyed(p); //odrejestruje samolot gracza.
+                           // p.Destroy();
+                      //  }
+                      
+                    }
+
 
                     //odrejestruje rakiete.
                     refToLevel.Controller.OnUnregisterRocket(this);
@@ -495,22 +559,17 @@ namespace Wof.Model.Level.Weapon
                 //zabija zolnierzy, ktorzy sa w zasiegu.
                 refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 1, true);
 
-                //niszcze bombe
+                //niszcze rakiete
                 state = MissileState.Destroyed;
             }
         }
 
-        /// <summary>
-        /// Sprawdza jak oddzialywuje rakieta na pole o zadanym indeksie.
-        /// </summary>
-        /// <param name="index">Indeks pola z ktorym zderzyla sie bomba.</param>
-        /// <returns>Jesli dany obiekt da sie zniszczyc za pomoca rakiety zwroci true,
-        /// false w przeciwnym przypadku.</returns>
-        /// <author>Michal Ziober</author>
-        /*private bool CanBeDestroyed(int index)
+     
+        public void Destroy()
         {
-            return !(refToLevel.LevelTiles[index] is EnemyInstallationTile) && !(refToLevel.LevelTiles[index] is BarrelTile);
-        }*/
+            refToLevel.Controller.OnUnregisterRocket(this);
+            state = MissileState.Destroyed;
+        }
 
         /// <summary>
         /// Funkcja sprawdza czy mozna odrejestrowac rakiete. Jesli mozna
@@ -519,7 +578,7 @@ namespace Wof.Model.Level.Weapon
         /// <returns>Jesli rakieta zostanie odrejestrowana, zwroci true,
         /// false w przeciwnym przupadku.</returns>
         /// <author>Michal Ziober</author>
-        private bool Unregister()
+        private bool OutOfFuel()
         {
         	//&&
            //      flyVector.Y > 0
@@ -527,8 +586,7 @@ namespace Wof.Model.Level.Weapon
             if ((System.Math.Abs(Center.X - ammunitionOwner.Center.X) > MaxDistanceToOwner) ||
                 ((System.Math.Abs(Center.Y - ammunitionOwner.Center.Y) > MaxHeightDistanceToOwner)))
             {
-                refToLevel.Controller.OnUnregisterRocket(this);
-                state = MissileState.Destroyed;
+                Destroy();
                 return true;
             }
             else
@@ -606,5 +664,7 @@ namespace Wof.Model.Level.Weapon
         }
 
         #endregion
+
+     
     }
 }

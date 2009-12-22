@@ -151,7 +151,7 @@ namespace Wof.Model.Level.Weapon
         /// <summary>
         /// Wlasciciel broni.
         /// </summary>
-        private IAmmunitionOwner ammunitionOwner;
+        private IObject2D ammunitionOwner;
 
         /// <summary>
         /// Licznik uplynietego czasu od ostatniego wystrzalu.
@@ -175,7 +175,7 @@ namespace Wof.Model.Level.Weapon
         /// <param name="rocketCount">Maksymalna liczba rakiet.</param>
         /// <param name="bombCount">Maksymalna liczba bomb.</param>
         /// <param name="torpedoCount">Maksymalna liczba torped.</param>
-        public WeaponManager(LevelRef refLevel, IAmmunitionOwner owner, int rocketCount, int bombCount, int torpedoCount)
+        public WeaponManager(LevelRef refLevel, IObject2D owner, int rocketCount, int bombCount, int torpedoCount)
         {
             refToLevel = refLevel;
             lastFireTick = Environment.TickCount;
@@ -195,7 +195,7 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <param name="refLevel">Referncja do planszy.</param>
         /// <param name="owner">Wlasciciel broni.</param>
-        public WeaponManager(LevelRef refLevel, IAmmunitionOwner owner)
+        public WeaponManager(LevelRef refLevel, IObject2D owner)
             : this(refLevel,
                    owner,
                    owner is EnemyPlane ? GameConsts.EnemyPlane.RocketCount : GameConsts.UserPlane.RocketCount,
@@ -351,7 +351,7 @@ namespace Wof.Model.Level.Weapon
                 {
                     //sprawdzam czy wrogi samolot nie trafil w samolot gracza.
                     if ((Math.Abs(ammunitionOwner.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
-                        Gun.CanHitPlane(plane, refToLevel.UserPlane))
+                        Gun.CanHitObject(plane, refToLevel.UserPlane))
                     {
                         //ubytek paliwa.
                         refToLevel.UserPlane.Hit(true);
@@ -377,37 +377,68 @@ namespace Wof.Model.Level.Weapon
 
             if (Environment.TickCount - lastFireTick >= Gun.FireInterval)
             {
-                if (refToLevel.UserPlane != null && refToLevel.EnemyPlanes.Count > 0)
-                {
-                    //sprawdzam czy samolot gracza nie trafi³ w wrogi samolot.
-                    foreach (EnemyPlane ep in refToLevel.EnemyPlanes)
-                    {
-                        if ((Math.Abs(ep.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
-                            Gun.CanHitPlane(refToLevel.UserPlane, ep))
-                        {
-                            //ubytek paliwa.
-                            ep.Hit(true);
 
-                            //komunikat do controllera.
-                            refToLevel.Controller.OnGunHitPlane(ep);
+                CheckEnemyPlaneHits();
 
-                            return;
-                        }
-                    }
-                }
+                // trafienia w lecace rakiety
+                CheckRocketHits(); 
 
                 //trafi w ziemie.
-                GunHitsGround();
+                CheckGroundHits();
 
                 //ustawiam nowy czas
                 lastFireTick = Environment.TickCount;
             }
         }
+        private void CheckEnemyPlaneHits()
+        {
+            if (refToLevel.UserPlane != null && refToLevel.EnemyPlanes.Count > 0)
+            {
+                //sprawdzam czy samolot gracza nie trafi³ w wrogi samolot.
+                foreach (EnemyPlane ep in refToLevel.EnemyPlanes)
+                {
+                    if ((Math.Abs(ep.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
+                        Gun.CanHitObject(refToLevel.UserPlane, ep))
+                    {
+                        //ubytek paliwa.
+                        ep.Hit(true);
+
+                        //komunikat do controllera.
+                        refToLevel.Controller.OnGunHitPlane(ep);
+
+                        return;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sprawdza i przeprowadza akcje zwiazane z trafieniem z dzialka w lecaca rekiete wroga
+        /// </summary>
+        private void CheckRocketHits()
+        {
+              if (refToLevel.UserPlane != null)
+              {
+                  foreach (Ammunition ammo in refToLevel.AmmunitionList)
+                  {
+                      if(ammo is Rocket)
+                      {
+                          if (/*ammo.Owner.IsEnemy &&*/ (Math.Abs(ammo.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
+                              Gun.CanHitObject(refToLevel.UserPlane, ammo, 10))
+                          {
+                              (ammo as Rocket).Destroy();
+                              return;
+                          }
+                      }
+
+                  }
+              }
+        }
 
         /// <summary>
         /// Obsluga trafienia w ziemie.
         /// </summary>
-        private void GunHitsGround()
+        private void CheckGroundHits()
         {
             if (ammunitionOwner.RelativeAngle < 0)
             {
@@ -439,7 +470,7 @@ namespace Wof.Model.Level.Weapon
                 }
             }
         }
-        public void RocketFire(float fireAngle, PointD movementVector)
+        public Rocket RocketFire(float fireAngle, PointD movementVector, float zRotationPerSec)
 		{
         	Rocket rocket = null;
             PointD position = null;
@@ -452,7 +483,8 @@ namespace Wof.Model.Level.Weapon
             rocket = new Rocket(position, movementVector,
                                 refToLevel, fireAngle, ammunitionOwner);
 
-            
+            rocket.SetZRotationPerSecond(zRotationPerSec);
+
             //zwieksza liczbe uzytych rakiet
             if (!this.ammunitionOwner.IsEnemy)
                 this.refToLevel.Statistics.RocketCount++;
@@ -460,24 +492,25 @@ namespace Wof.Model.Level.Weapon
             rocketCount--;
             RegisterWeaponToModelEvent(rocket);
             refToLevel.Controller.OnRegisterRocket(rocket);
+            return rocket;
         	
         }
-		public void RocketFire(float fireAngle)
+        public Rocket RocketFire(float fireAngle)
 		{
-			RocketFire(fireAngle, (PointD) ammunitionOwner.MovementVector.Clone());
+			return RocketFire(fireAngle, (PointD) ammunitionOwner.MovementVector.Clone(), 0);
 		 	
 		}
 		
         /// <summary>
         /// Wystrzeliwuje rakiete.
         /// </summary>
-        public void RocketFire()
+        public Rocket RocketFire()
         {
         	  //kat nachylenia w zaleznosci od ustawienia samolotu.
             float realAngle = ammunitionOwner.Bounds.IsObverse
                             ? -ammunitionOwner.RelativeAngle
                             : ammunitionOwner.RelativeAngle;
-            RocketFire(realAngle);
+            return RocketFire(realAngle);
 
         }
 

@@ -77,15 +77,21 @@ namespace Wof.View
         protected SceneManager sceneMgr;
         protected FrameWork framework;
 
-        // SOLDIERS
+        // SOLDIER
         protected SceneNode soldierNode;
         protected Entity soldierModel;
+
+      
+        protected Entity weapon;
 
         //protected SceneNode parentNode;
         protected AnimationState animationState;
         protected AnimationState runAnimationState;
         protected AnimationState die1AnimationState;
         protected AnimationState die2AnimationState;
+        protected AnimationState prepareToFireAnimationState;
+
+      
     
         protected static Stack<SoldierView> soldierAvailablePool;
         protected static Dictionary<Soldier, SoldierView> soldierUsedPool;
@@ -146,6 +152,7 @@ namespace Wof.View
 
         public static SoldierView GetInstance(Soldier soldier)
         {
+            if(soldierAvailablePool.Count == 0) return null;
             SoldierView sv = soldierAvailablePool.Pop();
             sv.soldier = soldier;
             sv.postInitOnScene();
@@ -223,6 +230,7 @@ namespace Wof.View
             runAnimationState = soldierModel.GetAnimationState("run");
             die1AnimationState = soldierModel.GetAnimationState("die1");
             die2AnimationState = soldierModel.GetAnimationState("die2");
+            prepareToFireAnimationState = soldierModel.GetAnimationState("prepareToFire");
 
             soldierNode.SetVisible(false);
            
@@ -239,7 +247,6 @@ namespace Wof.View
                 minimapItem.Hide();
             }
             
-            
         }
         
       
@@ -252,16 +259,11 @@ namespace Wof.View
             q *= new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Z);
             EffectsManager.Singleton.RectangularEffect(sceneMgr, soldierNode, soldierNode.Name + "Arrow", EffectsManager.EffectType.HINT_ARROW, new Vector3(0, soldierModel.BoundingBox.Size.y + arrowSize, 0), new Vector2(arrowSize, arrowSize), q, true);
 
-
-           
-           
         }
         
         public void hideArrow()
         {
-
             EffectsManager.Singleton.NoSprite(sceneMgr, soldierNode, EffectsManager.EffectType.HINT_ARROW, soldierNode.Name + "Arrow");
-        	
         }
 
         protected virtual void postInitOnScene()
@@ -269,7 +271,6 @@ namespace Wof.View
         	// dopiero teraz wiemy jaki to ¿o³nierz
         	if (Soldier is General)
             {
-            	 
                 soldierModel.SetMaterialName("General");
             }
             else if (Soldier is Seaman)
@@ -281,6 +282,18 @@ namespace Wof.View
             	// na razie zwykli zolnierze tez sa seaman
              	soldierModel.SetMaterialName("Seaman");
             }
+
+            if(soldier.HasBazooka)
+            {
+                Quaternion q = new Quaternion(new Radian(new Degree(90)), Vector3.NEGATIVE_UNIT_X);
+                if (!sceneMgr.HasEntity(this.soldierID + "Bazooka"))
+                {
+                    weapon = sceneMgr.CreateEntity(this.soldierID + "Bazooka", "Bazooka.mesh");
+                    soldierModel.AttachObjectToBone("Bip01 R Hand", weapon, q, new Vector3(0.07f, 0, 0));
+                }
+               
+            }
+
             Run();
             refreshPosition();
             soldierNode.SetVisible(true);
@@ -322,17 +335,7 @@ namespace Wof.View
             }
         }
 
-        public void Run()
-        {
-            die1AnimationState.Enabled = false;
-            die2AnimationState.Enabled = false;
-
-            runAnimationState.Enabled = true;
-            runAnimationState.Loop = true;
-
-            animationState = runAnimationState;
-            animationState.TimePosition = 0;
-        }
+      
 
         private void Bleed()
         {
@@ -360,9 +363,36 @@ namespace Wof.View
         }
 
 
+        public void Run()
+        {
+            die1AnimationState.Enabled = false;
+            die2AnimationState.Enabled = false;
+
+            runAnimationState.Enabled = true;
+            runAnimationState.Loop = true;
+
+            animationState = runAnimationState;
+            animationState.TimePosition = 0;
+        }
+
+        public void PrepareToFire()
+        {
+            runAnimationState.Enabled = false;
+            die1AnimationState.Enabled = false;
+            die2AnimationState.Enabled = false;
+
+            prepareToFireAnimationState.Enabled = true;
+            prepareToFireAnimationState.Loop = false;
+            animationState = prepareToFireAnimationState;
+            animationState.TimePosition = 0;
+        }
+
+
+
         public void DieFromGun(bool blood)
         {
             runAnimationState.Enabled = false;
+            prepareToFireAnimationState.Enabled = false;
 
             die1AnimationState.Enabled = true;
             die1AnimationState.Loop = false;
@@ -384,11 +414,12 @@ namespace Wof.View
                 Bleed();
             }
         }
-
+        
         public void DieFromExplosion(bool blood)
         {
         	
             runAnimationState.Enabled = false;
+            prepareToFireAnimationState.Enabled = false;
 
             die2AnimationState.Enabled = true;
             die2AnimationState.Loop = false;
@@ -439,6 +470,11 @@ namespace Wof.View
             {
                 timeSinceLastFrame *= (soldier.Speed/5.0f);
                 ; // na razie w osobnym ifie
+            }
+            else if (animationState.AnimationName.StartsWith("prepareToFire"))
+            {
+                timeSinceLastFrame *= (soldier.Speed/2.0f);
+               
             }
             animationState.AddTime(timeSinceLastFrame);
             

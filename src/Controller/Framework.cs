@@ -562,7 +562,7 @@ namespace Wof.Controller
                 }
                 catch (Exception ex)
                 {
-                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unable to initialize requested display device. Deleting " + EngineConfig.C_OGRE_CFG  + " (have you change your graphics card? TRYING TO RECREATE " + EngineConfig.C_OGRE_CFG + ")");
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unable to initialize requested display device. Deleting " + EngineConfig.C_OGRE_CFG  + " (have you changed your graphics card? TRYING TO RECREATE " + EngineConfig.C_OGRE_CFG + ")");
                     File.Delete(EngineConfig.C_OGRE_CFG);
                     MessageBox.Show(
                         "Unable to initialize requested display device (have you change your graphics card?). The game will now restarting trying to auto detect new settings", "Wings of Fury 2 - warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);

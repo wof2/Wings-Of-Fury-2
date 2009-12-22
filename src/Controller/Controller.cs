@@ -102,6 +102,23 @@ namespace Wof.Controller
         /// <author>Michal Ziober</author>
         void OnSoldierBeginDeath(Soldier soldier, bool gun, bool scream);
 
+
+        /// <summary>
+        /// Zglasza ze zolnierz zaczyna sie przygotowywac do strzalu
+        /// </summary>
+        /// <param name="soldier"></param>
+        /// <param name="maxTime"></param>
+        void OnSoldierPrepareToFire(Soldier soldier, float maxTime);
+
+        /// <summary>
+        /// Zglasza ze zolnierz wlasnie odpalil pocisk i moze wracac do poprzedniego stanu
+        /// </summary>
+        /// <param name="soldier"></param>
+        void OnSoldierEndPrepareToFire(Soldier soldier);
+
+
+
+
         /// <summary>
         /// Funkcja zglasza o zatrzymaniu pracy silnika.
         /// </summary>
@@ -254,7 +271,7 @@ namespace Wof.Controller
         /// </summary>
         /// <param name="plane">Samolot, ktory otworzyl ogien.</param>
         /// <author>Michal Ziober.</author>
-        void OnFireGun(IAmmunitionOwner plane);
+        void OnFireGun(IObject2D plane);
 
         /// <summary>
         /// Jesli dzialko trafi w jakas czesc planszy.

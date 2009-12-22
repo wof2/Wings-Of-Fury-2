@@ -64,7 +64,7 @@ namespace Wof.View
         protected static Dictionary<Ammunition, RocketView> rocketUsedPool;
 
         
-
+       
         public static void InitPool(int poolSize, FrameWork framework)
         {
             rocketAvailablePool = new Stack<RocketView>(poolSize);

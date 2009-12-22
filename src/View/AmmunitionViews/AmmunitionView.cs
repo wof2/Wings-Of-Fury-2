@@ -115,6 +115,17 @@ namespace Wof.View
         {
             if (ammunition != null)
             {
+                if (ammunition.Direction == Direction.Right)
+                {
+                    ammunitionNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
+                }
+                else
+                {
+                    ammunitionNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
+                }
+
+                ammunitionNode.Orientation *= new Quaternion((Radian)ammunition.Angle, Vector3.UNIT_X);
+
                 Vector2 v = UnitConverter.LogicToWorldUnits(ammunition.Center);
 
                 ammunitionNode.SetPosition((float) (v.x), (float) (v.y), 0);
@@ -175,16 +186,7 @@ namespace Wof.View
         	  	explosionFlash.SpecularColour = new ColourValue(0.3f, 0.3f, 0.3f);
         	  	
             }
-            if (ammunition.Direction == Direction.Right)
-            {
-                ammunitionNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
-            }
-            else
-            {
-                ammunitionNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
-            }
-
-            ammunitionNode.Orientation *= new Quaternion((Radian)ammunition.Angle, Vector3.UNIT_X);
+           
             if (FrameWork.DisplayMinimap)
             {
                 minimapItem.Show();

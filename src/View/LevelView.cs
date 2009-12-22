@@ -493,6 +493,10 @@ namespace Wof.View
         public void OnRegisterSoldier(Soldier soldier, MissionType missionType)
         {
             SoldierView	sv = SoldierView.GetInstance(soldier);
+            if(sv == null)
+            {
+                return; // blad, pula jest pusta!
+            }
             
             // strzalka nad glowna genera³a
             if(missionType == MissionType.Assassination)
@@ -523,6 +527,23 @@ namespace Wof.View
                 soldierViews.Remove(soldierView);
                 SoldierView.FreeInstance(soldier, true);
             }
+        }
+
+
+        public void OnSoldierPrepareToFire(Soldier soldier, float time)
+        {
+            int index = FindSoldierViewIndex(soldier);
+            if (index == -1) return;
+            SoldierView soldierView = soldierViews[index];
+            soldierView.PrepareToFire();
+        }
+
+        public void OnSoldierEndPrepareToFire(Soldier soldier)
+        {
+            int index = FindSoldierViewIndex(soldier);
+            if (index == -1) return;
+            SoldierView soldierView = soldierViews[index];
+            soldierView.Run();
         }
 
         public void OnKillSoldier(Soldier soldier, Boolean dieFromExplosion, bool scream)
@@ -1198,7 +1219,7 @@ namespace Wof.View
             }
         }
 
-        public void OnFireGun(IAmmunitionOwner obj)
+        public void OnFireGun(IObject2D obj)
         {
         	if(!(obj is Plane)) return;
         	Plane plane = (Plane)obj;
@@ -1749,7 +1770,7 @@ namespace Wof.View
             BombView.InitPool(100, framework);
             RocketView.InitPool(80, framework);
             TorpedoView.InitPool(10, framework);
-            SoldierView.InitPool(70, framework);
+            SoldierView.InitPool(80, framework);
 
             InitSplashPool(350);
             // Quaternion q = new Quaternion();
@@ -2262,14 +2283,8 @@ namespace Wof.View
 
 
         
-        /*
-        public void OnRegisterAd(AdManager.Ad ad)
-        {
-          
-            carrierView.RegisterAd(ad);           
-            this.ad = ad;           
-             carrierView.ShowAd();
-            
-        }*/
+     
+
+        
     }
 }

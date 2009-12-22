@@ -112,17 +112,7 @@ namespace Wof.Model.Level.Weapon
 
         #region Private Method
 
-        /// <summary>
-        /// Konwertuje kat podany w radianach na kat podany w stopniach.
-        /// </summary>
-        /// <param name="radian">Stopnie w radianach.</param>
-        /// <returns>Zwraca kat podany w stopniach.</returns>
-        /// <author>Michal Ziober</author>
-        private static float GetDegreesFromRadian(float radian)
-        {
-            return (radian*180)/Math.PI;
-        }
-
+      
         #endregion
 
         #region Public Method
@@ -185,42 +175,42 @@ namespace Wof.Model.Level.Weapon
             }
             return null;
         }
-        public static bool CanHitPlane(Plane plane, Plane enemyPlane)
+        public static bool CanHitObject(IObject2D owner, IObject2D target)
         {
-            return CanHitPlane(plane, enemyPlane, 0);
+            return CanHitObject(owner, target, 0);
         }
 
         /// <summary>
         /// Funkcja sprawdza czy samolot bedzie mogl trafic dzialkiem w inny obiekt.
         /// </summary>
-        /// <param name="plane">Samolot strzelajacy.</param>
-        /// <param name="enemyPlane">Samolot do ktorego strzelaja.</param>
+        /// <param name="owner">Samolot strzelajacy.</param>
+        /// <param name="target">Samolot do ktorego strzelaja.</param>
         /// <param name="tolerance">Tolerancja. 0 - oznacza pewne trafienie.</param>
         /// <returns>Zwraca true jesli moze trafic wrogi samolot; false - w przeciwnym
         /// przypadku.</returns>
         /// <author>Michal Ziober</author>
-        public static bool CanHitPlane(Plane plane, Plane enemyPlane, float tolerance)
+        public static bool CanHitObject(IObject2D owner, IObject2D target, float tolerance)
         {
-            if (plane.Direction == Direction.Right && plane.Center.X > enemyPlane.Center.X)
+            if (owner.Direction == Direction.Right && owner.Center.X > target.Center.X)
                 return false;
 
-            if (plane.Direction == Direction.Left && plane.Center.X < enemyPlane.Center.X)
+            if (owner.Direction == Direction.Left && owner.Center.X < target.Center.X)
                 return false;
 
-            if (System.Math.Abs(plane.Center.X - enemyPlane.Center.X) < 10 &&
-                System.Math.Abs(plane.Center.Y - enemyPlane.Center.Y) > 10)
+            if (System.Math.Abs(owner.Center.X - target.Center.X) < 10 &&
+                System.Math.Abs(owner.Center.Y - target.Center.Y) > 10)
                 return false;
 
-            Quadrangle planeBound = plane.Bounds;
-            Quadrangle enemyBound = enemyPlane.Bounds;
-            Line lineA = new Line(planeBound.Peaks[1], planeBound.Peaks[2]);
-            for (int i = 0; i < enemyBound.Peaks.Count - 1; i++)
+            Quadrangle ownerBound = owner.Bounds;
+            Quadrangle targetBound = target.Bounds;
+            Line lineA = new Line(ownerBound.Peaks[1], ownerBound.Peaks[2]);
+            for (int i = 0; i < targetBound.Peaks.Count - 1; i++)
             {
 
-                PointD start = enemyBound.Peaks[i];
+                PointD start = targetBound.Peaks[i];
                 start += new PointD(Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f), Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f));
                 
-                PointD finish = enemyBound.Peaks[i + 1];
+                PointD finish = targetBound.Peaks[i + 1];
                 finish += new PointD(Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f), Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f));
 
                 Line lineB = new Line(start, finish);
@@ -228,7 +218,7 @@ namespace Wof.Model.Level.Weapon
                 PointD cut = lineA.Intersect(lineB);
                 if (cut == null)
                     continue;
-                if (InEnemyRange(cut, planeBound.Center, enemyBound.Center))
+                if (InEnemyRange(cut, ownerBound.Center, targetBound.Center))
                     return true;
             }
 
