@@ -154,7 +154,10 @@ namespace Wof.Controller.AdAction
            //     Image k = s.Load("1.gif", "General");
 
              //   TextureManager.Singleton.Load("../../media/FE55EF898AF9D8FE122A83882B98C32D.gif", "Ads");
-
+                if(path.EndsWith(".gif"))
+                {
+                    throw new Exception("nie ma obslugi gif");
+                }
                 TextureManager.Singleton.Load(path, "Ads");
                 return path;
             }

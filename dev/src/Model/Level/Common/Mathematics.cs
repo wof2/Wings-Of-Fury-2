@@ -60,6 +60,8 @@ namespace Wof.Model.Level.Common
     {
         #region Const
 
+        private static readonly Random random = new Random();
+
         /// <summary>
         /// Maksymalny czas pomiedzy odswierzeniami.
         /// </summary>
@@ -76,6 +78,12 @@ namespace Wof.Model.Level.Common
         #endregion
 
         #region Public Method
+
+
+        public static float RangeRandom(float min, float max)
+        {
+            return ((max - min)*(float)random.NextDouble()) + min;
+        }
 
         /// <summary>
         /// Funkcja zwraca wezel o najmniejszej wspolrzednej(X lub Y).

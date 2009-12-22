@@ -438,6 +438,8 @@ namespace Wof.Controller.Screens
                     SoundManager.Instance.PreloadRandomIngameMusic();
                     levelView.OnRegisterLevel(currentLevel);
                    
+                    EffectsManager.Singleton.PreloadMesh("Bazooka.mesh");
+
                     LogManager.Singleton.LogMessage("About to register player plane", LogMessageLevel.LML_CRITICAL);
                     OnRegisterPlane(currentLevel.UserPlane);
 
@@ -2348,6 +2350,17 @@ namespace Wof.Controller.Screens
            // currentLevel.OnCheckVictoryConditions();
         }
 
+        public void OnSoldierPrepareToFire(Soldier soldier, float maxTime)
+        {
+            levelView.OnSoldierPrepareToFire(soldier, maxTime);
+            
+        }
+
+        public void OnSoldierEndPrepareToFire(Soldier soldier)
+        {
+            levelView.OnSoldierEndPrepareToFire(soldier);
+        }
+
         public void OnRegisterPlane(Plane plane)
         {
             levelView.OnRegisterPlane(plane);
@@ -2657,7 +2670,7 @@ namespace Wof.Controller.Screens
         }
 
 
-        public void OnFireGun(IAmmunitionOwner plane)
+        public void OnFireGun(IObject2D plane)
         {
             if (Environment.TickCount - lastFireTick >= Gun.FireInterval)
             {

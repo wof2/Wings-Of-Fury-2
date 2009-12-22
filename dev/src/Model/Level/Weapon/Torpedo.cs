@@ -164,7 +164,7 @@ namespace Wof.Model.Level.Weapon
         /// <param name="angle"></param>
         /// <param name="owner"></param>
         /// <author>Michal Ziober</author>
-        public Torpedo(float x, float y, PointD planeSpeed, Level level, float angle, IAmmunitionOwner owner)
+        public Torpedo(float x, float y, PointD planeSpeed, Level level, float angle, IObject2D owner)
             : base(planeSpeed, level, angle, owner)
         {
             dropAngle = owner.RelativeAngle;
@@ -181,7 +181,7 @@ namespace Wof.Model.Level.Weapon
         /// <param name="position">Pozycja startowa amunicji.</param>
         /// <param name="planeSpeed">Wektor ruchu.</param>
         /// <author>Michal Ziober</author>
-        public Torpedo(PointD position, PointD planeSpeed, Level level, float angle, IAmmunitionOwner owner)
+        public Torpedo(PointD position, PointD planeSpeed, Level level, float angle, IObject2D owner)
             : this(position.X, position.Y, planeSpeed, level, angle, owner)
         { }
 
@@ -197,6 +197,7 @@ namespace Wof.Model.Level.Weapon
         /// <author>Michal Ziober</author>
         public override void Move(int time)
         {
+            base.Move(time);
 
             //    if (!Unregister())
             {

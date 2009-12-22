@@ -58,7 +58,7 @@ using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
 
 namespace Wof.Model.Level.Weapon
 {
-	public interface IAmmunitionOwner
+	public interface IObject2D
 	{
 		PointD Center
 	        {

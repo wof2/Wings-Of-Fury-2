@@ -73,8 +73,13 @@ namespace Wof.Model.Level.Common
 
         #endregion
 
+        public static PointD ZERO
+        {
+            get { return new PointD(0, 0); }
+        }
         #region Public Constructors
 
+        
         /// <summary>
         /// Konstruktor bezparametrowy.
         /// </summary>
