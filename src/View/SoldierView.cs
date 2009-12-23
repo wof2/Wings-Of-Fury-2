@@ -91,8 +91,10 @@ namespace Wof.View
         protected AnimationState die2AnimationState;
         protected AnimationState prepareToFireAnimationState;
 
+
       
-    
+       
+     
         protected static Stack<SoldierView> soldierAvailablePool;
         protected static Dictionary<Soldier, SoldierView> soldierUsedPool;
 
@@ -100,6 +102,7 @@ namespace Wof.View
 
         protected MinimapItem minimapItem = null;
         private FSLSoundEntity dieSound = null;
+        protected FSLSoundObject prepareToFireSound = null;
    
         public MinimapItem MinimapItem
         {
@@ -113,7 +116,15 @@ namespace Wof.View
         {
             if (dieSound != null)
             {
-                 SoundManager3D.Instance.RemoveSound(dieSound.Name); 
+                 SoundManager3D.Instance.RemoveSound(dieSound.Name);
+                 dieSound.Destroy();
+                 dieSound = null; 
+            }
+            if(prepareToFireSound != null)
+            {
+                SoundManager3D.Instance.RemoveSound(prepareToFireSound.Name);
+                prepareToFireSound.Destroy();
+                prepareToFireSound = null; 
             }
         
             GC.SuppressFinalize(this);
@@ -191,7 +202,7 @@ namespace Wof.View
             }
         }
 
-      
+     
      
 
         protected void preInitOnScene()
@@ -221,6 +232,9 @@ namespace Wof.View
                     dieSound.SetBaseGain(3.0f);
                 }
                 dieSound.SetReferenceDistance(60); // make it a bit louder but dissapear faster
+
+              //  prepareToFireSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_MISSILE_LOCK, soldierNode, true, false);
+   
             
             }
 
@@ -246,24 +260,38 @@ namespace Wof.View
                 minimapItem.Refresh();
                 minimapItem.Hide();
             }
+
+
+            
+      
+    
             
         }
         
       
         
-        public void showArrow()
+        public void showArrow(EffectsManager.EffectType type)
         {
-            float arrowSize = 2.5f;
+            float arrowWidth = 2.5f;
+            float arrowHeight = 2.5f;
+            switch (type)
+            {
+                case EffectsManager.EffectType.MISSILE_LOCK_ARROW:
+                    arrowWidth = 2.5f;
+                    arrowHeight = 5.0f;
+                    break;
+            }
+           
             Quaternion q = new Quaternion();
             q.FromAngleAxis(new Radian(new Degree(90)), Vector3.UNIT_X );
             q *= new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Z);
-            EffectsManager.Singleton.RectangularEffect(sceneMgr, soldierNode, soldierNode.Name + "Arrow", EffectsManager.EffectType.HINT_ARROW, new Vector3(0, soldierModel.BoundingBox.Size.y + arrowSize, 0), new Vector2(arrowSize, arrowSize), q, true);
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, soldierNode, soldierNode.Name + "Arrow", type, new Vector3(0, soldierModel.BoundingBox.Size.y + arrowHeight, 0), new Vector2(arrowWidth, arrowHeight), q, true);
 
         }
-        
-        public void hideArrow()
+
+        public void hideArrow(EffectsManager.EffectType type)
         {
-            EffectsManager.Singleton.NoSprite(sceneMgr, soldierNode, EffectsManager.EffectType.HINT_ARROW, soldierNode.Name + "Arrow");
+            EffectsManager.Singleton.NoSprite(sceneMgr, soldierNode, type, soldierNode.Name + "Arrow");
         }
 
         protected virtual void postInitOnScene()
@@ -365,8 +393,17 @@ namespace Wof.View
 
         public void Run()
         {
+           /* if(prepareToFireSound.IsPlaying())
+            {
+                prepareToFireSound.Stop();
+            }*/
+
+            hideArrow(EffectsManager.EffectType.MISSILE_LOCK_ARROW);
+
+         //   soldierNode.SetScale(1, 1, 1);
             die1AnimationState.Enabled = false;
             die2AnimationState.Enabled = false;
+            prepareToFireAnimationState.Enabled = false;
 
             runAnimationState.Enabled = true;
             runAnimationState.Loop = true;
@@ -377,6 +414,10 @@ namespace Wof.View
 
         public void PrepareToFire()
         {
+            showArrow(EffectsManager.EffectType.MISSILE_LOCK_ARROW);
+          //  prepareToFireSound.Play();
+
+         //   soldierNode.Scale(1,10,1);
             runAnimationState.Enabled = false;
             die1AnimationState.Enabled = false;
             die2AnimationState.Enabled = false;
@@ -406,7 +447,8 @@ namespace Wof.View
                 minimapItem.Hide();
             }
 
-            hideArrow();
+            hideArrow(EffectsManager.EffectType.HINT_ARROW);
+            hideArrow(EffectsManager.EffectType.MISSILE_LOCK_ARROW);
 
             //  BLOOD
             if (blood && EngineConfig.Gore)
@@ -428,7 +470,9 @@ namespace Wof.View
             animationState = die2AnimationState;
             animationState.TimePosition = 0;
 
-            hideArrow();
+            hideArrow(EffectsManager.EffectType.HINT_ARROW);
+            hideArrow(EffectsManager.EffectType.MISSILE_LOCK_ARROW);
+
             //  BLOOD
             if (blood && EngineConfig.Gore)
             {

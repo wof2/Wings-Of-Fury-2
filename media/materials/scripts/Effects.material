@@ -275,6 +275,21 @@ material Effects/HintArrow : ABEffect
    }
 }
 
+material Effects/MissileLockArrow : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+             	anim_texture MissileLockArrow.png 7 0
+          }
+       }
+   }
+}
+
+
 material Effects/PalmTop1 : ABEffect
 {
    technique Diffuse

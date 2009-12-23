@@ -99,6 +99,9 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// </summary>
         protected int soldiersCount;
 
+
+        protected int maxInfantryCount;
+
         /// <summary>
         /// Liczba generalow w danej instalacji.
         /// </summary>
@@ -125,7 +128,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             Initializing();
             soldiersCount = soldierNum;
             generalsCount = generalNum;
-
+            maxInfantryCount = generalsCount + soldiersCount;
             IncrementIntactInstallationCount();
         }
 
@@ -293,6 +296,11 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         public static int Count
         {
             get { return installationsCount; }
+        }
+
+        public int MaxInfantryCount
+        {
+            get { return maxInfantryCount; }
         }
 
         #endregion
