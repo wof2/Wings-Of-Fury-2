@@ -501,7 +501,7 @@ namespace Wof.View
             // strzalka nad glowna genera³a
             if(missionType == MissionType.Assassination)
             {
-            	if(soldier is General) sv.showArrow();
+                if (soldier is General) sv.showArrow(EffectsManager.EffectType.HINT_ARROW);
             }
             soldierViews.Add(sv);
         }
@@ -529,7 +529,7 @@ namespace Wof.View
             }
         }
 
-
+    
         public void OnSoldierPrepareToFire(Soldier soldier, float time)
         {
             int index = FindSoldierViewIndex(soldier);
@@ -540,6 +540,8 @@ namespace Wof.View
 
         public void OnSoldierEndPrepareToFire(Soldier soldier)
         {
+         
+           
             int index = FindSoldierViewIndex(soldier);
             if (index == -1) return;
             SoldierView soldierView = soldierViews[index];

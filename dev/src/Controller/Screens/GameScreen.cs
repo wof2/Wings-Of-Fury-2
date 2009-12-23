@@ -2353,7 +2353,6 @@ namespace Wof.Controller.Screens
         public void OnSoldierPrepareToFire(Soldier soldier, float maxTime)
         {
             levelView.OnSoldierPrepareToFire(soldier, maxTime);
-            
         }
 
         public void OnSoldierEndPrepareToFire(Soldier soldier)

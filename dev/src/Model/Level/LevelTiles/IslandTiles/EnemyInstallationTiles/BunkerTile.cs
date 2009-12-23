@@ -367,6 +367,11 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             get { return System.Environment.TickCount - RecoveryTime > destroyTime; }
         }
 
+        public bool CanAddSoldier
+        {
+            get { return (soldiersCount + generalsCount) < maxInfantryCount; }
+        }
+
 
         #endregion
     }
