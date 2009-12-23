@@ -142,11 +142,12 @@ namespace Wof.View.TileViews
             	ColourValue col = ColourValue.Red;
             	if(isConcrete)
             	{
-            		col = new ColourValue(0,0,0.7f);
+                    col = new ColourValue(0, 0, 1);
             	}
+                
                 minimapItem =
                     new MinimapItem(gunPlaceNode, FrameWork.MinimapMgr, "Cube.mesh", col, installationEntity);
-                minimapItem.ScaleOverride = new Vector2(0, 15); // stala wysokosc dziala, niezale¿na od bounding box
+                minimapItem.ScaleOverride = new Vector2(0, 13); // stala wysokosc dziala, niezale¿na od bounding box
                 minimapItem.Refresh();
             }
 
@@ -196,7 +197,12 @@ namespace Wof.View.TileViews
 
             if (FrameWork.DisplayMinimap)
             {
-                minimapItem.Colour = ColourValue.Red;
+                ColourValue col = ColourValue.Red;
+                if (isConcrete)
+                {
+                    col = new ColourValue(0, 0, 1);
+                }
+                minimapItem.Colour = col;
                 minimapItem.Refresh();
             }
         }

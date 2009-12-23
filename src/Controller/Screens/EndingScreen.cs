@@ -105,6 +105,7 @@ namespace Wof.Controller.Screens
                                     "Winnow Driscoll",
                                     "Detlef Spengler",
                                     "Mr. B.",
+                                    "Chompson",
                                     String.Empty,
                                     "The Winner of the first dogfight competition",
                                     "Jack Flushell",

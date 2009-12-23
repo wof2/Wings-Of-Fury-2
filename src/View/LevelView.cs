@@ -1796,10 +1796,10 @@ namespace Wof.View
                 Entity mOcean = sceneMgr.CreateEntity("MinimapOcean", "TwoSidedPlane.mesh");
                 mOcean.SetMaterialName("Minimap/Ocean");
                 mOcean.CastShadows = false;
-                mOcean.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_BACKGROUND;
+                mOcean.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_1;
                 mOceanNode.AttachObject(mOcean);
                 mOceanNode.Position = new Vector3(0, -10, 0);
-                mOceanNode.SetScale(oceanSize, 0, 5);
+                mOceanNode.SetScale(oceanSize, 1, 5);
                 mOceanNode.Pitch(new Degree(90));
             }
 
@@ -1861,9 +1861,17 @@ namespace Wof.View
         {
             // Set the material
             ColourValue ambient = new ColourValue(0.5f, 0.5f, 0.5f);
-            
-            
-           
+
+            Mogre.Plane skyPlane;
+            skyPlane.normal = Vector3.UNIT_Z;
+            skyPlane.d = 210;
+
+            if (FrameWork.DisplayMinimap)
+            {
+                minimapMgr.SetSkyPlane(true, skyPlane, "MiniMap/Sky", 10.0f, 7 );
+
+            }
+
 
             // zmienne odbicie w wodzie
             string texture = "morning.jpg";
@@ -1959,9 +1967,7 @@ namespace Wof.View
                 sceneMgr.SetFog(FogMode.FOG_LINEAR, new ColourValue(0.9f, 0.9f, 0.9f), 0.000f, 300, 3600);
             }
         
-            Mogre.Plane skyPlane;
-            skyPlane.normal = Vector3.UNIT_Z;
-            skyPlane.d = oceanSize/2.0f;
+          
 
             sceneMgr.SetSkyBox(true, material, 3000, true);
             sceneMgr.AmbientLight = ambient;
