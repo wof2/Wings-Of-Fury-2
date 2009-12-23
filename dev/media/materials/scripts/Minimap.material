@@ -1,19 +1,90 @@
 material Minimap/Ocean
-{
-	
+{	
     technique
-    {
-	
+    {	
         pass
         {
-		lighting off
-		texture_unit
-       		{
-         		colour_op_ex source1 src_manual src_current 0 0.51 1.0
-       		}
-           
-	}
+			lighting off
+			texture_unit
+			{
+				texture mini_ocean.png
+				scale 0.001 1.0
+				wave_xform scroll_x inverse_sawtooth 1.0 0.2 0.0 5.0
+			//	colour_op_ex source1 src_manual src_current 0 0.51 1.0
+			}
+			   
+		}
     }
+}
 
+material Minimap/Island
+{	
+    technique
+    {	
+        pass
+        {
+			lighting off
+			texture_unit
+			{
+				texture sand.dds
+				scale 1.0 1.0	
+			}
+			   
+		}
+    }
+}
 
+material Minimap/UserPlane
+{	
+    technique
+    {	
+        pass
+        {
+			lighting off
+			texture_unit
+			{
+				texture user_plane.png
+				scale 1.0 1.0	
+			}
+			   
+		}
+    }
+}
+
+material MiniMap/Sky : NoFog
+{
+	technique
+	{
+		pass
+		{
+			scene_blend add		
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				wave_xform scroll_x inverse_sawtooth 0.0 0.05 0.0 1.0
+				texture sky.png
+				//alpha_op_ex source1 src_manual src_current 0.6
+			}
+		}
+		pass
+		{
+			scene_blend add		
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+			    scroll 0 0.0 
+			    scale 1.0 0.5
+			    rotate 180
+				wave_xform scroll_x inverse_sawtooth 0.0 0.03 0.5 1.0
+				texture sky2.png
+				//alpha_op_ex source1 src_manual src_current 0.6
+			}
+		}
+		
+		
+	}
 }
