@@ -27,9 +27,9 @@ namespace wingitor
             set { levelView = value; }
         }
 
-        public override void Dispose()
+        public override void Destroy()
         {
-            base.Dispose();
+            base.Destroy();
             if (levelView != null) levelView.Destroy();
         }
 

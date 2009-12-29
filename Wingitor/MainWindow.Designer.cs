@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using wingitor;
+using Menu=wingitor.Menu;
 
 namespace Wingitor
 {
@@ -31,7 +32,6 @@ namespace Wingitor
         /// </summary>
         private void InitializeComponent()
         {
-            this.renderPanel = new wingitor.EditorRenderPanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,22 +39,12 @@ namespace Wingitor
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.menu = new wingitor.Menu();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.renderPanel.SuspendLayout();
+           // this.editorRenderPanel = new EditorRenderPanel();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // renderPanel
-            // 
-            this.renderPanel.Controls.Add(this.splitter1);
-            this.renderPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.renderPanel.Location = new System.Drawing.Point(184, 24);
-            this.renderPanel.Name = "renderPanel";
-            this.renderPanel.Size = new System.Drawing.Size(800, 675);
-            this.renderPanel.TabIndex = 0;
             // 
             // menuStrip1
             // 
@@ -76,6 +66,7 @@ namespace Wingitor
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
+            this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
             // loadToolStripMenuItem
             // 
@@ -103,33 +94,21 @@ namespace Wingitor
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.groupBox1);
-            this.panel2.Controls.Add(this.groupBox2);
+            this.panel2.Controls.Add(this.menu);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 24);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(184, 675);
+            this.panel2.Size = new System.Drawing.Size(345, 675);
             this.panel2.TabIndex = 0;
             // 
-            // groupBox2
+            // menu
             // 
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox2.Location = new System.Drawing.Point(0, 0);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(184, 100);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "groupBox2";
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Location = new System.Drawing.Point(0, 100);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(184, 100);
-            this.groupBox1.TabIndex = 0;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.menu.Dock = System.Windows.Forms.DockStyle.Left;
+            this.menu.Location = new System.Drawing.Point(0, 0);
+            this.menu.Name = "menu";
+            this.menu.Size = new System.Drawing.Size(345, 900);
+            this.menu.TabIndex = 2;
+            this.menu.Load += new System.EventHandler(this.userControl11_Load);
             // 
             // splitter1
             // 
@@ -139,19 +118,31 @@ namespace Wingitor
             this.splitter1.TabIndex = 0;
             this.splitter1.TabStop = false;
             // 
+            // button1
+            // 
+           
+        /*    this.editorRenderPanel.Controls.Add(this.splitter1);
+            this.editorRenderPanel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.editorRenderPanel.Location = new System.Drawing.Point(184, 24);
+            this.editorRenderPanel.Name = "editorRenderPanel";
+            this.editorRenderPanel.Size = new System.Drawing.Size(855, 675);
+            this.editorRenderPanel.TabIndex = 0;
+     */
+        
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 699);
+            this.ClientSize = new System.Drawing.Size(1200, 950);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.renderPanel);
+          //  this.Controls.Add(this.editorRenderPanel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
-            this.renderPanel.ResumeLayout(false);
+          //  this.editorRenderPanel.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -162,7 +153,7 @@ namespace Wingitor
 
         #endregion
 
-        private EditorRenderPanel renderPanel;
+     
         private MenuStrip menuStrip1;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem loadToolStripMenuItem;
@@ -170,9 +161,9 @@ namespace Wingitor
         private ToolStripMenuItem quitToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
         private Panel panel2;
-        private GroupBox groupBox2;
-        private GroupBox groupBox1;
         private Splitter splitter1;
+        private Menu menu;
+       // private EditorRenderPanel editorRenderPanel;
 
 
     }
