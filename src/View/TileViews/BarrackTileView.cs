@@ -13,7 +13,7 @@ namespace Wof.View.TileViews
 {
     public class BarrackTileView : EnemyInstallationTileView
     {
-        public BarrackTileView(LevelTile levelTile, FrameWork framework) : base(levelTile, framework)
+        public BarrackTileView(LevelTile levelTile, IFrameWork framework) : base(levelTile, framework)
         {
         }
         
@@ -35,10 +35,10 @@ namespace Wof.View.TileViews
                 InitLightFlare(new ColourValue(1f, 1f, 0.9f), new Vector3(0, 1.9f, -2.6f), new Vector2(1.5f, 1.5f));
             }
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem =
-                    new MinimapItem(installationNode, FrameWork.MinimapMgr, "Cube.mesh", new ColourValue(0, 0.8f, 0),
+                    new MinimapItem(installationNode, framework.MinimapMgr, "Cube.mesh", new ColourValue(0, 0.8f, 0),
                                     installationEntity);
                 minimapItem.ScaleOverride = new Vector2(0, 13); // stala wysokosc bunkra, niezale¿na od bounding box
                 minimapItem.Refresh();
@@ -96,7 +96,7 @@ namespace Wof.View.TileViews
             base.Destroy();
             ViewHelper.ReplaceMaterial(installationEntity, "Wood", "DestroyedWood");
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 //Kolor szary
                 minimapItem.Colour = new ColourValue(0.752f, 0.752f, 0.752f);

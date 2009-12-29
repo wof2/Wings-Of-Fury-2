@@ -65,7 +65,7 @@ namespace Wof.View
 
         
        
-        public static void InitPool(int poolSize, FrameWork framework)
+        public static void InitPool(int poolSize, IFrameWork framework)
         {
             rocketAvailablePool = new Stack<RocketView>(poolSize);
             rocketUsedPool = new Dictionary<Ammunition, RocketView>(poolSize);
@@ -114,7 +114,7 @@ namespace Wof.View
         private ConstRotateNodeAnimation rocketAnimation;
         private SceneNode innerNode;
 
-        protected RocketView(FrameWork framework)
+        protected RocketView(IFrameWork framework)
             : base(framework)
         {
             preInitOnScene();
@@ -140,10 +140,10 @@ namespace Wof.View
             rocketAnimation.Enabled = true;
             rocketAnimation.Looped = true;
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem =
-                    new MinimapItem(ammunitionNode, FrameWork.MinimapMgr, "Cube.mesh", ColourValue.White,
+                    new MinimapItem(ammunitionNode, framework.MinimapMgr, "Cube.mesh", ColourValue.White,
                                     ammunitionModel);
                 minimapItem.ScaleOverride = new Vector2(4, 2);
                 minimapItem.Refresh();
@@ -173,7 +173,7 @@ namespace Wof.View
             innerNode.SetVisible(false, false);
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene) explosionFlash.Visible = false;
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem.Hide();
             }
@@ -195,7 +195,7 @@ namespace Wof.View
 
         public void Dispose()
         {
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem.Dispose();
                 minimapItem = null;

@@ -167,14 +167,14 @@ namespace Wof.View
 
         // protected float lastH;
 
-        public CarrierView(int tileIndex, FrameWork framework, SceneNode parentNode)
+        public CarrierView(int tileIndex, IFrameWork framework, SceneNode parentNode)
             : base(tileIndex, framework, parentNode, "Carrier" + (++carrierCounter))
         {
             initOnScene();
         }
 
 
-        public CarrierView(List<TileView> tileViews, FrameWork framework, SceneNode parentNode)
+        public CarrierView(List<TileView> tileViews, IFrameWork framework, SceneNode parentNode)
             : base(tileViews, framework, parentNode, "Carrier" + (++carrierCounter))
         {
             
@@ -398,10 +398,10 @@ namespace Wof.View
                 mainNode.Translate(new Vector3(UnitConverter.LogicToWorldUnits(firstTileIndex), 5, -1.0f));
                 mainNode.SetDirection(Vector3.UNIT_X);
               //  mainNode.Roll(-Math.HALF_PI / 6.0f);
-                if (FrameWork.DisplayMinimap)
+                if (EngineConfig.DisplayMinimap)
                 {
                     minimapItem =
-                        new MinimapItem(mainNode, FrameWork.MinimapMgr, "CarrierMinimap.mesh",
+                        new MinimapItem(mainNode, framework.MinimapMgr, "CarrierMinimap.mesh",
                                         new ColourValue(0.162f, 0.362f, 0.59f), compositeModel);
                     minimapItem.ScaleOverride = new Vector2(0, 15); // stala wysokosc, niezale¿na od bounding box
                     minimapItem.Refresh();
@@ -433,11 +433,11 @@ namespace Wof.View
 
         public void InitStoragePlaneOnCarrier(StoragePlane plane)
         {
-            PlaneView planeView = new P47PlaneView(plane, sceneMgr, sceneMgr.RootSceneNode, "StoragePlane");
+            PlaneView planeView = new P47PlaneView(plane, framework, sceneMgr.RootSceneNode, "StoragePlane");
             storagePlanes.Add(planeView);
             int index = storagePlanes.Count;
 
-            if (FrameWork.DisplayMinimap) planeView.MinimapItem.Hide();
+            if (EngineConfig.DisplayMinimap) planeView.MinimapItem.Hide();
             SceneNode p47Node = planeView.OuterNode;
 
             if (index == 1)

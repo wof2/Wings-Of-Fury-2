@@ -113,13 +113,13 @@ namespace Wof.Controller.Screens
 
 
 
-        public IndicatorControl(Viewport viewport,
+        public IndicatorControl(SceneManager overlayMgr, Viewport viewport,
                                 Viewport minimapViewport, GameScreen gameScreen)
         {
             this.minimapViewport = minimapViewport;
             this.viewport = viewport;
             this.gameScreen = gameScreen;
-            sceneMgr = FrameWork.OverlayMgr;
+            sceneMgr = overlayMgr;
             random = new Random();
 
             wasDisplayed = false;

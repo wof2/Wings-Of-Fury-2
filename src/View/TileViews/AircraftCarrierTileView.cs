@@ -5,7 +5,7 @@ namespace Wof.View.TileViews
 {
     public class AircraftCarrierTileView : TileView
     {
-        public AircraftCarrierTileView(LevelTile levelTile, FrameWork framework)
+        public AircraftCarrierTileView(LevelTile levelTile, IFrameWork framework)
             : base(levelTile, framework)
         {
         }

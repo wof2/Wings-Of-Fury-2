@@ -60,7 +60,7 @@ namespace Wof.View
         protected static Stack<BombView> bombAvailablePool;
         protected static Dictionary<Ammunition, BombView> bombUsedPool;
 
-        public static void InitPool(int poolSize, FrameWork framework)
+        public static void InitPool(int poolSize, IFrameWork framework)
         {
             bombAvailablePool = new Stack<BombView>(poolSize);
             bombUsedPool = new Dictionary<Ammunition, BombView>(poolSize);
@@ -110,7 +110,7 @@ namespace Wof.View
         protected AnimationState animationState;
 
         //Deprecated
-        public BombView(Ammunition bomb, FrameWork framework)
+        public BombView(Ammunition bomb, IFrameWork framework)
             : base(bomb, framework)
         {
             initOnScene();
@@ -118,7 +118,7 @@ namespace Wof.View
             refreshPosition();
         }
 
-        protected BombView(FrameWork framework)
+        protected BombView(IFrameWork framework)
             : base(framework)
         {
             preInitOnScene();
@@ -143,10 +143,10 @@ namespace Wof.View
             ammunitionNode.SetVisible(false);
             base.preInitOnScene();
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem =
-                    new MinimapItem(ammunitionNode, FrameWork.MinimapMgr, "Cube.mesh", ColourValue.White,
+                    new MinimapItem(ammunitionNode, framework.MinimapMgr, "Cube.mesh", ColourValue.White,
                                     ammunitionModel);
                 minimapItem.ScaleOverride = new Vector2(2, 4);
                 minimapItem.Refresh();
@@ -182,10 +182,10 @@ namespace Wof.View
             ammunitionNode.Orientation *= new Quaternion((float) ammunition.Angle, Vector3.UNIT_X);
 
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem =
-                    new MinimapItem(ammunitionNode, FrameWork.MinimapMgr, "Cube.mesh", ColourValue.White,
+                    new MinimapItem(ammunitionNode, framework.MinimapMgr, "Cube.mesh", ColourValue.White,
                                     ammunitionModel);
                 minimapItem.ScaleOverride = new Vector2(2, 4);
                 minimapItem.Refresh();
@@ -218,7 +218,7 @@ namespace Wof.View
 
         public void Dispose()
         {
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem.Dispose();
                 minimapItem = null;

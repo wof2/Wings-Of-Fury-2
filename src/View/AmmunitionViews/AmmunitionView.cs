@@ -68,7 +68,7 @@ namespace Wof.View
         }
 
         protected SceneManager sceneMgr;
-        protected FrameWork framework;
+        protected IFrameWork framework;
 
         protected Entity ammunitionModel;
         protected Light explosionFlash;
@@ -96,18 +96,18 @@ namespace Wof.View
 
         #endregion
 
-        public AmmunitionView(Ammunition ammunition, FrameWork framework)
+        public AmmunitionView(Ammunition ammunition, IFrameWork framework)
         {
             this.ammunition = ammunition;
             this.framework = framework;
-            sceneMgr = FrameWork.SceneMgr;
+            sceneMgr = framework.SceneMgr;
             ammunitionID = ammunitionCounter++;
         }
 
-        protected AmmunitionView(FrameWork framework)
+        protected AmmunitionView(IFrameWork framework)
         {
             this.framework = framework;
-            sceneMgr = FrameWork.SceneMgr;
+            sceneMgr = framework.SceneMgr;
             ammunitionID = ammunitionCounter++;
         }
 
@@ -187,7 +187,7 @@ namespace Wof.View
         	  	
             }
            
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem.Show();
             }
@@ -221,7 +221,7 @@ namespace Wof.View
             	
             ammunitionNode.SetVisible(false);
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem.Hide();
             }

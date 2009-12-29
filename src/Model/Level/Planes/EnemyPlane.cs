@@ -64,7 +64,7 @@ namespace Wof.Model.Level.Planes
         None
     }
 
-    internal class EnemyPlane : Plane
+    public class EnemyPlane : Plane
     {
         #region Constants
 

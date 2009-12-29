@@ -232,21 +232,23 @@ namespace Wof.Controller.Screens
         protected Boolean initialized;
         protected FSLSoundObject clickSound;
         protected FSLSoundObject cheatSound;
-    
+
+        protected IFrameWork framework;
         /// <summary>
         /// Czy w poprzedniej klatce wszystkie przyciski by³y puszczone
         /// </summary>
         private bool wereAllKeysReleased = false; 
 
         public AbstractScreen(GameEventListener gameEventListener,
-                              SceneManager sceneMgr, Viewport viewport, Camera camera) : this(gameEventListener, sceneMgr, viewport, camera, 0)
+                              IFrameWork framework, Viewport viewport, Camera camera)
+            : this(gameEventListener, framework, viewport, camera, 0)
         {
-           
 
+            
         }
 
         public AbstractScreen(GameEventListener gameEventListener,
-                              SceneManager sceneMgr, Viewport viewport, Camera camera, uint fontSize)
+                              IFrameWork framework, Viewport viewport, Camera camera, uint fontSize)
         {
             clickSound = SoundManager3D.Instance.GetSound("menuClick");
             if (clickSound == null || !clickSound.HasSound()) clickSound = SoundManager3D.Instance.CreateAmbientSound(SoundManager3D.C_MENU_CLICK, "menuClick", false, false); // destroyed together with SoundManager3D singleton
@@ -254,10 +256,10 @@ namespace Wof.Controller.Screens
             cheatSound = SoundManager3D.Instance.GetSound("cheatSound");
             if (cheatSound == null || !cheatSound.HasSound()) cheatSound = SoundManager3D.Instance.CreateAmbientSound(SoundManager3D.C_MENU_CHEAT, "cheatSound", false, false); // destroyed together with SoundManager3D singleton
 
-
+            this.framework = framework;
 
             this.gameEventListener = gameEventListener;
-            this.sceneMgr = sceneMgr;
+            this.sceneMgr = framework.SceneMgr;
             this.viewport = viewport;
             this.camera = camera;
             initialized = false;
@@ -428,7 +430,7 @@ namespace Wof.Controller.Screens
                 planeViews = new List<PlaneView>();
                 for (int i = 0; i < planesInitialPositions.Count; i++)
                 {
-                    P47PlaneView p = new P47PlaneView(null, sceneMgr, sceneMgr.RootSceneNode, "Plane");
+                    P47PlaneView p = new P47PlaneView(null,  framework, sceneMgr.RootSceneNode, "Plane");
                     p.PlaneNode.Translate(planesInitialPositions[i]);
                    
                     p.AnimationMgr.SetGearsVisible(false);
@@ -564,7 +566,7 @@ namespace Wof.Controller.Screens
             		cloudNodes = null;
             	}
             	
-                FrameWork.DestroyScenes();
+                FrameWorkStaticHelper.DestroyScenes(framework);
                 camera = null;
                 
 
@@ -839,7 +841,7 @@ namespace Wof.Controller.Screens
                         mGui.injectKey("z", screenx, screeny);
                         KeyReceived("z");
                     }
-                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)))
+                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)))
                     {
                         KeyReceived("ESC");
                         if (tryToPressBackButton()) return;
@@ -850,7 +852,7 @@ namespace Wof.Controller.Screens
                     }
 
 
-                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter)))
+                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter)))
                     {
                         KeyReceived("ENTER");
                         wasEnterKeyPressed = true;
@@ -861,7 +863,7 @@ namespace Wof.Controller.Screens
                         wasEnterKeyPressed = false;
                     }
 
-                    Vector2 joyVector = FrameWork.GetJoystickVector(inputJoystick);
+                    Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick);
 
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_UP))
                     {
@@ -974,7 +976,7 @@ namespace Wof.Controller.Screens
 
         private void receiveKeys(Keyboard inputKeyboard, JoyStick joystick)
         {
-            Vector2 joyVector = FrameWork.GetJoystickVector(joystick);
+            Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(joystick);
             if(joyVector != Vector2.ZERO)
             {
                 //Console.WriteLine(joyVector);
@@ -1035,7 +1037,7 @@ namespace Wof.Controller.Screens
             }
            */
 
-            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWork.GetJoystickButton(joystick, KeyMap.Instance.JoystickEnter)) 
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(joystick, KeyMap.Instance.JoystickEnter)) 
             {
             	
                 wasEnterKeyPressed = true;
@@ -1193,7 +1195,7 @@ namespace Wof.Controller.Screens
             {
                 KeyReceived("z");
             }
-            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWork.GetJoystickButton(joystick, KeyMap.Instance.JoystickEscape)) 
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(joystick, KeyMap.Instance.JoystickEscape)) 
             {
                 KeyReceived("ESC");
             }

@@ -75,7 +75,7 @@ namespace Wof.View
         }
 
         protected SceneManager sceneMgr;
-        protected FrameWork framework;
+        protected IFrameWork framework;
 
         // SOLDIER
         protected SceneNode soldierNode;
@@ -131,7 +131,7 @@ namespace Wof.View
 
         }
 
-        public static void InitPool(int poolSize, FrameWork framework)
+        public static void InitPool(int poolSize, IFrameWork framework)
         {
             soldierAvailablePool = new Stack<SoldierView>(poolSize);
             soldierUsedPool = new Dictionary<Soldier, SoldierView>(poolSize);
@@ -178,7 +178,7 @@ namespace Wof.View
 
             sv.StopBlood();
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 if (sv.minimapItem != null)
                 {
@@ -248,12 +248,12 @@ namespace Wof.View
 
             soldierNode.SetVisible(false);
            
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 if (minimapItem == null)
                 {
                     minimapItem =
-                    new MinimapItem(soldierNode, FrameWork.MinimapMgr, "Cube.mesh", new ColourValue(0.97f, 1.0f, 0.66f),
+                    new MinimapItem(soldierNode, framework.MinimapMgr, "Cube.mesh", new ColourValue(0.97f, 1.0f, 0.66f),
                                     soldierModel);
                     minimapItem.ScaleOverride = new Vector2(4, 7); // stala wysokosc bunkra, niezale¿na od bounding box 
                 }
@@ -325,17 +325,17 @@ namespace Wof.View
             Run();
             refreshPosition();
             soldierNode.SetVisible(true);
-            if (FrameWork.DisplayMinimap && minimapItem != null)
+            if (EngineConfig.DisplayMinimap && minimapItem != null)
             {
                 minimapItem.Show();
             }
         }
 
 
-        public SoldierView(FrameWork framework)
+        public SoldierView(IFrameWork framework)
         {
             this.framework = framework;
-            sceneMgr = FrameWork.SceneMgr;
+            sceneMgr = framework.SceneMgr;
             soldierID = soldierCounter++;
 
             preInitOnScene();
@@ -357,7 +357,7 @@ namespace Wof.View
                 soldierNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
             }
 
-            if (FrameWork.DisplayMinimap && minimapItem != null && minimapItem.IsVisible)
+            if (EngineConfig.DisplayMinimap && minimapItem != null && minimapItem.IsVisible)
             {
                 minimapItem.Refresh();
             }
@@ -442,7 +442,7 @@ namespace Wof.View
             animationState.TimePosition = 0;
            
             
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem.Hide();
             }
@@ -479,7 +479,7 @@ namespace Wof.View
                 Bleed();
             }
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem.Hide();
             }
@@ -494,7 +494,7 @@ namespace Wof.View
         public void updateTime(float timeSinceLastFrame)
         {
         	
-        	if (soldier.IsAlive && FrameWork.DisplayMinimap)
+        	if (soldier.IsAlive && EngineConfig.DisplayMinimap)
             {
                 if (((DateTime.Now.Millisecond/100.0f)%100) > 7)
                 {

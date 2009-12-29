@@ -68,8 +68,8 @@ namespace Wof.Controller.Screens
         #region GameScreen Members
 
         public HighscoresScreen(GameEventListener gameEventListener,
-                                SceneManager sceneMgr, Viewport viewport, Camera camera) :
-                                    base(gameEventListener, sceneMgr, viewport, camera)
+                                 IFrameWork framework, Viewport viewport, Camera camera) :
+                                    base(gameEventListener, framework, viewport, camera)
         {
             fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
             LoadHighscoresList();

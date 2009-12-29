@@ -68,7 +68,7 @@ namespace Wof.View.TileViews
         protected List<Entity> barrels;
 
 
-        public BarrelTileView(LevelTile levelTile, FrameWork framework)
+        public BarrelTileView(LevelTile levelTile, IFrameWork framework)
             : base(levelTile, framework)
         {
             //   states = new List<AnimationState>();

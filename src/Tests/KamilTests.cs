@@ -72,13 +72,13 @@ namespace Wof.Tests
             {
                 // Check if it's an Ogre Exception
                 if (OgreException.IsThrown)
-                    KamilTestView.ShowOgreException();
+                    FrameWorkStaticHelper.ShowOgreException();
                 else
                     throw;
             }
         }
 
-        public class KamilTestView : FrameWork
+        public class KamilTestView : FrameWorkForm
         {
             private LevelView lvlView = null;
             private Level lvl;
@@ -87,13 +87,13 @@ namespace Wof.Tests
             /// Tworzy i umiejscawia kamerê na scenie
             /// </summary>
             /// 
-            public override void CreateCamera()
+            protected override void CreateCamera()
             {
                 camera = sceneMgr.CreateCamera("MainCamera");
                 camera.NearClipDistance = 1;
                 camera.Position = new Vector3(0, 20, 70);
 
-                if (displayMinimap)
+                if (EngineConfig.DisplayMinimap)
                 {
                     CreateMinimapCamera();
                 }
@@ -141,12 +141,12 @@ namespace Wof.Tests
                 //lvlView.OnRegisterSoldier(soldier);// , lvl.LevelTiles[112]);
             }
 
-            public override void ModelFrameStarted(FrameEvent evt)
+            protected override void ModelFrameStarted(FrameEvent evt)
             {
                 
             }
 
-            public override bool FrameStarted(FrameEvent evt)
+            protected override bool FrameStarted(FrameEvent evt)
             {
                 if (window.IsClosed)
                     return false;

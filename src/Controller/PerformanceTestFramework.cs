@@ -14,7 +14,7 @@ namespace Wof.Controller
     /// <summary>
     /// Description of PerformanceTestFramework.
     /// </summary>
-    public class PerformanceTestFramework : FrameWork
+    public class PerformanceTestFramework : FrameWorkForm
     {
 
         private float testRunningTime = 2f;
@@ -72,11 +72,11 @@ namespace Wof.Controller
 		    GraphicsQuality quality;
             bool hiEndVS = root.RenderSystem.Capabilities.IsShaderProfileSupported("vs_3_0");
            
-            List<String> videoOptions= GetVideoModes(root, true, 800, 600);
+            List<String> videoOptions= FrameWorkStaticHelper.GetVideoModes(root, true, 800, 600);
             int maxVO = videoOptions.Count - 1;
 
 
-            List<String> aaOptions = GetAntialiasingModes(root);
+            List<String> aaOptions = FrameWorkStaticHelper.GetAntialiasingModes(root);
             int maxAA = aaOptions.Count - 1;
             
             
@@ -168,7 +168,7 @@ namespace Wof.Controller
 		}
 
 
-		public override bool Configure()
+        protected override bool Configure()
 		{
 			    RenderSystemList renderSystems = root.GetAvailableRenderers();
                 IEnumerator<RenderSystem> enumerator = renderSystems.GetEnumerator();
@@ -216,16 +216,16 @@ namespace Wof.Controller
             // Get the SceneManager, in this case a generic one
             sceneMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "SceneMgr");
 	    }
-		
-		public override void CreateCamera()
+
+        protected override void CreateCamera()
         {
             // Create the camera
             camera = sceneMgr.CreateCamera("mainCamera");
             camera.NearClipDistance = 1.0f;
 		}
 
-        
-        public override void CreateViewports()
+
+        protected override void CreateViewports()
         {
             // zwolnij zasoby
             if (viewport != null && CompositorManager.Singleton.HasCompositorChain(viewport)) CompositorManager.Singleton.RemoveCompositorChain(viewport);            
@@ -282,12 +282,12 @@ namespace Wof.Controller
             }
         }
 
-        public override void ModelFrameStarted(FrameEvent evt)
+        protected override void ModelFrameStarted(FrameEvent evt)
         {
             
         }
 
-        public override bool FrameStarted(FrameEvent evt)
+        protected override bool FrameStarted(FrameEvent evt)
         {
         	time += evt.timeSinceLastFrame;
         	bool ret = base.FrameStarted(evt);
@@ -310,7 +310,7 @@ namespace Wof.Controller
         }
         
         
-		public override bool Setup()
+		protected override bool Setup()
         {  
             bool carryOn = false;        
             try

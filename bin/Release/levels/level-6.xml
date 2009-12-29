@@ -2,7 +2,7 @@
 <level dayTime="night" enemyPlanes="3" timeToFirstEnemyPlane="60000" timeToNextEnemyPlane="30000">
   <ocean width="125"/>
 
-  <island-begin variation="5"/>
+  <island-begin mesh="Island6" variation="5"/>
   <concrete-bunker num-soldiers="3" variation="0"/>
   <terrain variation="0"/>
   <terrain variation="1"/>

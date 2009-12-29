@@ -59,9 +59,9 @@ namespace Wof.Controller.Screens
         public const String C_VIDEO_MODE = "Video Mode";
 
         public VideoModeScreen(GameEventListener gameEventListener,
-                               SceneManager sceneMgr, Viewport viewport, Camera camera, Root root)
+                                IFrameWork framework, Viewport viewport, Camera camera, Root root)
             :
-                base(gameEventListener, sceneMgr, viewport, camera, root)
+                base(gameEventListener, framework, viewport, camera, root)
         {
         }
 
@@ -72,7 +72,7 @@ namespace Wof.Controller.Screens
 
         protected override List<String> GetAvailableOptions(Root root)
         {
-            List<String> availableOptions = FrameWork.GetVideoModes(root);
+            List<String> availableOptions = FrameWorkStaticHelper.GetVideoModes(root);
             return FilterPossibleOptions(availableOptions);
         }
 

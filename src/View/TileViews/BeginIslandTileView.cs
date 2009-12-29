@@ -58,12 +58,15 @@ namespace Wof.View.TileViews
     {
         protected List<CompositeModelView> backgroundViews = new List<CompositeModelView>();
 
+       
+
+
         public List<CompositeModelView> BackgroundViews
         {
             get { return backgroundViews; }
         }
 
-        public BeginIslandTileView(LevelTile levelTile, FrameWork framework)
+        public BeginIslandTileView(LevelTile levelTile, IFrameWork framework)
             : base(levelTile, framework)
         {
         }
@@ -89,36 +92,36 @@ namespace Wof.View.TileViews
                 case 2:
                     //5 wysepek
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, 7, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_LAGUNA, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, 8, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_DLAGUNA, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
                 case 3:
                     //3 wysepki
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
                 case 4:
                     //Duza wyspa
-                    cmv = new IslandView(this.LevelTile.TileIndex, 42, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_6, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
                 case 5:
@@ -126,37 +129,37 @@ namespace Wof.View.TileViews
                     cmv = new CarrierView(this.LevelTile.TileIndex, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, 8, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_DLAGUNA, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, 7, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_LAGUNA, framework, parentNode);
                     cmv.MainNode.SetScale(2,2,2);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, 8, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_DLAGUNA, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
 
                 case 6:
                     //3 wysepki w tym laguna
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, 7, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_LAGUNA, framework, parentNode);
                     cmv.MainNode.SetScale(2, 2, 2);
                     backgroundViews.Add(cmv);
 
-                    cmv = new IslandView(this.LevelTile.TileIndex, -6, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
 

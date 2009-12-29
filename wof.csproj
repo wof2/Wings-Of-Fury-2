@@ -492,6 +492,11 @@
     <Compile Include="src\Controller\DelayedControllerFacade.cs" />
     <Compile Include="src\Controller\EffectBars\AltitudeBar.cs" />
     <Compile Include="src\Controller\EffectBars\BulletTimeBar.cs" />
+    <Compile Include="src\Controller\FrameWorkForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Controller\FrameWorkStaticHelper.cs" />
+    <Compile Include="src\Controller\IFrameWork.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyCodeConflictException.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyMap.cs" />
     <Compile Include="src\Controller\PerformanceTestFramework.cs">
@@ -513,9 +518,6 @@
     <Compile Include="src\Controller\Crypto.cs" />
     <Compile Include="src\Controller\EngineConfig.cs">
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="src\Controller\Framework.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\Controller\Game.cs">
       <SubType>Form</SubType>
@@ -861,6 +863,7 @@
     <Compile Include="src\View\AmmunitionViews\BombView.cs" />
     <Compile Include="src\View\AmmunitionViews\TorpedoView.cs" />
     <Compile Include="src\View\AmmunitionViews\RocketView.cs" />
+    <Compile Include="src\View\BackGroundDummyIslandView.cs" />
     <Compile Include="src\View\CameraHolder.cs" />
     <Compile Include="src\View\CarrierView.cs" />
     <Compile Include="src\View\CompositeModelView.cs">

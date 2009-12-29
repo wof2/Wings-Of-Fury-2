@@ -45,17 +45,12 @@
  * 
  * 
  */
-
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Globalization;
 using System.IO;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-
 using FSLOgreCS;
 using Microsoft.DirectX.DirectSound;
 using Mogre;
@@ -63,18 +58,11 @@ using MOIS;
 using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
 using Wof.View.Effects;
-using Exception = System.Exception;
-using FontManager = Mogre.FontManager;
-using InputManager = MOIS.InputManager;
-using JoyStick = MOIS.JoyStick;
-using Keyboard = MOIS.Keyboard;
-using Mouse = MOIS.Mouse;
-using Plane = Wof.Model.Level.Planes.Plane;
+using FontManager=Mogre.FontManager;
+using Plane=Wof.Model.Level.Planes.Plane;
 using Timer=Mogre.Timer;
-using Type = MOIS.Type;
-using Vector3 = Mogre.Vector3;
-
-
+using Type=MOIS.Type;
+using Vector3=Mogre.Vector3;
 
 namespace Wof.Controller
 {
@@ -82,9 +70,8 @@ namespace Wof.Controller
     /// Framework zapewniaj¹cy podstawow¹ funkcjonalnoœæ silnika
     /// <author>Adam Witczak</author>
     /// </summary>
-    public abstract class FrameWork : Form
+    public abstract class FrameWorkForm : Form, IFrameWork
     {
-
 
         public const String C_VIDEO_MODE = "Video Mode";
         public const String C_ANTIALIASING = "Anti aliasing";
@@ -104,25 +91,15 @@ namespace Wof.Controller
 
         private PerformanceTestFramework performanceTestFramework;
 
-        protected static bool displayMinimap = true;
-
-        public static bool DisplayMinimap
-        {
-            get { return displayMinimap; }
-        }
-
-        public void SetDisplayMinimap(bool enabled)
-        {
-            displayMinimap = enabled;
-        }
+    
 
         private BackgroundWorker modelWorker = new BackgroundWorker();
 
         protected Root root;
         
-		public Root Root {
-			get { return root; }
-		}
+        public Root Root {
+            get { return root; }
+        }
         protected Camera camera, minimapCamera, minimapNoseCamera, overlayCamera;
 
         public Camera Camera
@@ -164,19 +141,27 @@ namespace Wof.Controller
 
         protected static SceneManager sceneMgr, minimapMgr, overlayMgr;
 
-        public static SceneManager SceneMgr
+       
+
+        public SceneManager SceneMgr
         {
-            get { return sceneMgr; }
+            get { return sceneMgr;}
+            set { sceneMgr = value; }
         }
 
-        public static SceneManager MinimapMgr
+      
+        public SceneManager MinimapMgr
         {
             get { return minimapMgr; }
+            set { minimapMgr = value; }
         }
 
-        public static SceneManager OverlayMgr
+       
+
+        public SceneManager OverlayMgr
         {
             get { return overlayMgr; }
+            set { overlayMgr = value; }
         }
 
         protected RenderWindow window;
@@ -188,7 +173,7 @@ namespace Wof.Controller
         protected uint windowWidth;
         protected uint windowHeight;
 
-        protected Overlay debugOverlay;
+    
         protected InputManager inputManager;
         protected Keyboard inputKeyboard;
         protected JoyStick inputJoystick;
@@ -212,19 +197,6 @@ namespace Wof.Controller
         protected Device directSound;
 
 
-        public static void ShowOgreException()
-        {
-            if (OgreException.IsThrown)
-                MessageBox.Show(OgreException.LastException.FullDescription, "Wings of Fury 2 - Engine error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-        public static void ShowWofException(Exception ex)
-        {
-            MessageBox.Show(ex.Message + "\r\n" + "Stack trace: "+ex.StackTrace, "Wings of Fury 2 - Runtime error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
-
-       
         public virtual void Go()
         {
             if (!Setup())
@@ -236,8 +208,12 @@ namespace Wof.Controller
             modelWorker.RunWorkerAsync();
             this.BringToFront();
             this.Activate();
+
+            while (root != null && root.RenderOneFrame())
+                Application.DoEvents();
+
             
-            root.StartRendering();
+            //  root.StartRendering();
             
             // clean up
             modelWorker.CancelAsync();
@@ -255,7 +231,7 @@ namespace Wof.Controller
             {
                 EffectsManager.Singleton.Clear();
             }
-            DestroyScenes();
+            FrameWorkStaticHelper.DestroyScenes(this);
             TextureManager.Singleton.UnloadAll();
             MaterialManager.Singleton.UnloadAll();
             CompositorManager.Singleton.RemoveAll();
@@ -266,7 +242,7 @@ namespace Wof.Controller
             HighLevelGpuProgramManager.Singleton.UnloadAll();
             window.RemoveAllListeners();
             window.RemoveAllViewports(); 
-          //  Root.Singleton.RenderSystem.DestroyRenderWindow(window.Name);
+            //  Root.Singleton.RenderSystem.DestroyRenderWindow(window.Name);
          
             window.Dispose();
             window = null;
@@ -279,6 +255,7 @@ namespace Wof.Controller
         
             //Console.ReadLine();
         }
+
        
 
 
@@ -287,7 +264,7 @@ namespace Wof.Controller
             this.performanceTestFramework = performanceTestFramework;
         }
        
-        public virtual bool Setup()
+        protected virtual bool Setup()
         {
            
             Splash splash = new Splash();
@@ -304,7 +281,7 @@ namespace Wof.Controller
                 root = new Root();
               
                 //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
-               // LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
+                // LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
                 LogManager.Singleton.LogMessage("Starting Wings of Fury 2 ver. " + EngineConfig.C_WOF_VERSION);
 
 
@@ -351,7 +328,7 @@ namespace Wof.Controller
                 LoadResources();
               
                 splash.Increment(
-                  String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingGameObjects)));
+                    String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingGameObjects)));
 
                 if (!EngineConfig.DebugStart)
                 {
@@ -377,23 +354,24 @@ namespace Wof.Controller
                 if (!EngineConfig.DebugStart)
                 {
                     // Jesli jest debugstart to nie ma jeszcze kamery wiec nie moge zrobic sound system. Zrobi sie samo przy StartGame()
-                    if (!CreateSoundSystem(camera, EngineConfig.SoundSystem))
+                    if (!FrameWorkStaticHelper.CreateSoundSystem(camera, EngineConfig.SoundSystem))
                         EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
                 }
             
 
 
-            // Create the scene
+                // Create the scene
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingScene)));
                 CreateScene();
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.AddingCompositors)));
-               // AddCompositors();
+                // AddCompositors();
                 // SetCompositorEnabled(CompositorTypes.OLDMOVIE, true);
 
                 CreateFrameListener();
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingInput)));
+             
                 CreateInput();
             }
             finally
@@ -402,7 +380,7 @@ namespace Wof.Controller
                 splash.Dispose();
                 if (carryOn) 
                 {
-                	window.SetVisible(true);                	
+                    window.SetVisible(true);                	
                 }
             }
             return true;
@@ -452,103 +430,11 @@ namespace Wof.Controller
             //   window.WindowMovedOrResized( );
         }
 
-        public static List<String> GetAntialiasingModes(Root root)
-        {
-            List<String> availableModes = new List<String>();
-
-            ConfigOption_NativePtr videoModeOption;
-
-            // staram sie znalezc opcje konfiguracyjna Video Mode
-            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
-            foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
-            {
-                if (m.Value.name.Equals(C_ANTIALIASING))
-                {
-                    videoModeOption = m.Value;
-                    break;
-                }
-            }
-
-            // nie ma takiej mozliwosci, zebym nie znalazl
-            // konwertuje wektor na liste
-            foreach (String s in videoModeOption.possibleValues)
-            {
-                availableModes.Add(s);
-            }
-
-            return availableModes;
-        }
-
-        public static List<String> GetVideoModes(Root root, bool only32Bit, int minXResolution, int minYResolution)
-        {
-            List<String> availableModes = new List<String>();
-
-            ConfigOption_NativePtr videoModeOption;
-
-            // staram sie znalezc opcje konfiguracyjna Video Mode
-            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
-            foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
-            {
-                if (m.Value.name.Equals(C_VIDEO_MODE))
-                {
-                    videoModeOption = m.Value;
-                    break;
-                }
-            }
-
-            // nie ma takiej mozliwosci, zebym nie znalazl
-            // konwertuje wektor na liste
-            foreach (String s in videoModeOption.possibleValues)
-            {
-                bool add = true;
-                if (only32Bit)
-                {
-                    if(!s.Contains("32-bit")) add = false;
-                }
-
-                if (minXResolution > 0 || minYResolution > 0)
-                {
-                    try
-                    {
-                        Match match = Regex.Match(s, "([0-9]+) x ([0-9]+).*");
-
-                        int xRes = int.Parse(match.Groups[1].Value);
-                        int yRes = int.Parse(match.Groups[2].Value);
-
-                        if (xRes < minXResolution || yRes < minYResolution)
-                        {
-                            add = false;
-                        }
-                    }
-                    catch
-                    {
-                    }
-                   
-                }
-
-                if(add)
-                {
-                    availableModes.Add(s);
-                }
-                
-
-                
-            }
-
-            return availableModes;
-        }
-
-        public static List<String> GetVideoModes(Root root)
-        {
-            return GetVideoModes(root, false, 0,0);
-        }
-      
-
 
         /// <summary>
         /// Configures the application - returns false if the user chooses to abandon configuration.
         /// </summary>
-        public virtual bool Configure()
+        protected virtual bool Configure()
         {
             if (root.RestoreConfig())
             {
@@ -670,12 +556,7 @@ namespace Wof.Controller
             overlayCamera.FarClipDistance = 100.0f;
         }
 
-        protected static bool CreateSoundSystem(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)
-        {
-            return SoundManager3D.Instance.InitializeSound(camera, ss);
-        }
-
-        public virtual void CreateCamera()
+        protected virtual void CreateCamera()
         {
             // Create the camera
             camera = sceneMgr.CreateCamera("mainCamera");
@@ -684,7 +565,7 @@ namespace Wof.Controller
             camera.FarClipDistance = 8600.0f;
 
 
-            if (displayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 CreateMinimapCamera();
             }
@@ -702,22 +583,22 @@ namespace Wof.Controller
             if(EngineConfig.ShadowsQuality > 0)
             {
             	
-            	ushort baseSize = 512;
-	        	switch(EngineConfig.ShadowsQuality)
-	        	{
-	        		case EngineConfig.ShadowsQualityTypes.Low:
-	        			baseSize = 128;
-	        			sceneMgr.ShadowFarDistance = 160;
-	        			break;
-	        		case EngineConfig.ShadowsQualityTypes.Medium:
-	        			baseSize = 256;
-	        			sceneMgr.ShadowFarDistance = 170;
-	        			break;
-	        		case EngineConfig.ShadowsQualityTypes.High:
-	        			baseSize = 512;
-	        			sceneMgr.ShadowFarDistance = 200;
-	        			break;
-	        	}
+                ushort baseSize = 512;
+                switch(EngineConfig.ShadowsQuality)
+                {
+                    case EngineConfig.ShadowsQualityTypes.Low:
+                        baseSize = 128;
+                        sceneMgr.ShadowFarDistance = 160;
+                        break;
+                    case EngineConfig.ShadowsQualityTypes.Medium:
+                        baseSize = 256;
+                        sceneMgr.ShadowFarDistance = 170;
+                        break;
+                    case EngineConfig.ShadowsQualityTypes.High:
+                        baseSize = 512;
+                        sceneMgr.ShadowFarDistance = 200;
+                        break;
+                }
                
                 int i = 0;
                 sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED;
@@ -731,7 +612,7 @@ namespace Wof.Controller
       
                 sceneMgr.SetShadowTextureConfig(0, (ushort)(baseSize * 2), (ushort)(baseSize * 2), PixelFormat.PF_FLOAT32_R);
                 sceneMgr.SetShadowTextureConfig(1, (ushort)(baseSize ), (ushort)(baseSize), PixelFormat.PF_FLOAT32_R);
-               // sceneMgr.SetShadowTextureConfig(2, (ushort)(baseSize / 2), (ushort)(baseSize / 2), PixelFormat.PF_FLOAT32_R);
+                // sceneMgr.SetShadowTextureConfig(2, (ushort)(baseSize / 2), (ushort)(baseSize / 2), PixelFormat.PF_FLOAT32_R);
                 PSSMShadowCameraSetup pssm = new PSSMShadowCameraSetup();
 
                 pssm.CalculateSplitPoints(2, camera.NearClipDistance, sceneMgr.ShadowFarDistance, 0.01f);
@@ -744,7 +625,7 @@ namespace Wof.Controller
                 //pssm.UseSimpleOptimalAdjust = true;
 
                 //pssm.CameraLightDirectionThreshold = 0;
-               //    sceneMgr.ShadowDirectionalLightExtrusionDistance= (1000);
+                //    sceneMgr.ShadowDirectionalLightExtrusionDistance= (1000);
                 //sceneMgr.ShadowDirLightTextureOffset =0.1f;
 
                 PSSMShadowCameraSetup.Const_SplitPointList splitPoints = pssm.GetSplitPoints();
@@ -781,14 +662,14 @@ namespace Wof.Controller
         {
             try
             { 
-            	MaterialPtr mat = MaterialManager.Singleton.GetByName(name);
-              mat.Load();
+                MaterialPtr mat = MaterialManager.Singleton.GetByName(name);
+                mat.Load();
 
-            	mat.GetTechnique(0).GetPass("lighting").GetFragmentProgramParameters().SetNamedConstant("pssmSplitPoints", splitPointsVect);            	
+                mat.GetTechnique(0).GetPass("lighting").GetFragmentProgramParameters().SetNamedConstant("pssmSplitPoints", splitPointsVect);            	
             }
             catch(Exception ex)
             {
-            	//Console.WriteLine(ex);
+                //Console.WriteLine(ex);
             }
            
         }
@@ -796,7 +677,7 @@ namespace Wof.Controller
        
        
 
-        public virtual void CreateFrameListener()
+        protected virtual void CreateFrameListener()
         {
             modelWorker.DoWork += LoopModelWorker;
             root.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
@@ -813,9 +694,9 @@ namespace Wof.Controller
                 window.WindowMovedOrResized();
         }
 
-       
 
-        public virtual void LoopModelWorker(object sender, EventArgs args)
+
+        protected virtual void LoopModelWorker(object sender, EventArgs args)
         {
             int frameTime = 20; // 20 ms -> 50 fps
             
@@ -843,18 +724,18 @@ namespace Wof.Controller
 
 
 
-        public virtual void ModelFrameStarted(FrameEvent evt)
+        protected virtual void ModelFrameStarted(FrameEvent evt)
         {
             OnUpdateModel(evt);
         }
 
-        public virtual bool FrameEnded(FrameEvent evt)
+        protected virtual bool FrameEnded(FrameEvent evt)
         {
 
             return true;
         }
 
-        public virtual bool FrameStarted(FrameEvent evt)
+        protected virtual bool FrameStarted(FrameEvent evt)
         {
             if (window.IsClosed)
                 return false;
@@ -972,7 +853,7 @@ namespace Wof.Controller
                   
 
                     // ZOOM OUT
-                  /*  if (camera.Position.z < 60 && mouseState.Z.rel < 0 && cameraZoom < 10)
+                    /*  if (camera.Position.z < 60 && mouseState.Z.rel < 0 && cameraZoom < 10)
                     {
                         cameraZoom -= mouseState.Z.rel * .02f;
                     }*/
@@ -1004,7 +885,7 @@ namespace Wof.Controller
             inputKeyboard.Capture();
             if(inputJoystick != null) inputJoystick.Capture();
 
-            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)) 
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)) 
             {
                 // stop rendering loop
                 shutDown = true;
@@ -1031,7 +912,7 @@ namespace Wof.Controller
 
             if (inputJoystick !=null)
             {
-                Vector2 joyVector = GetJoystickVector(inputJoystick);
+                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick);
                 if (joyVector.x != 0) camera.Yaw(-joyVector.x * scaleRotate);
                 if (joyVector.y != 0) camera.Pitch(joyVector.y * scaleRotate);
             }
@@ -1229,126 +1110,10 @@ namespace Wof.Controller
             inputMouse = (Mouse) inputManager.CreateInputObject(Type.OISMouse, UseBufferedInput);
         }
 
-        public static bool GetJoystickButton(JoyStick j, int button)
-        {
-            if(j!=null)
-            {
-                if ((int)button - 1 < j.JoyStickState.ButtonCount)// indexed from 0
-                {
-                    try
-                    {
-                        return j.JoyStickState.GetButton((int)button - 1); 
-                    }
-                    catch (Exception ex)
-                    {
-                        LogManager.Singleton.LogMessage("Unable to read joystick button state (" + button +"), please check your joystick and Keymap.ini file");
-                        return false;
-                    }
-                  
-                }
-            }
-            return false;
-        }
-
-        public static Vector2 GetJoystickVector(JoyStick j)
-        {
-            if(j!=null)
-            {
-                if(j.JoyStickState.VectorCount > 0)
-                {
-                    MOIS.Vector3 v = j.JoyStickState.GetVector(0);
-                    return new Vector2(v.x, v.y);
-                } else 
-                {
-                   
-                    int num = j.JoyStickState.AxisCount;
-                    if(num >= 2)
-                    {
-                        int axisCount = j.JoyStickState.AxisCount;
-
-                        if (KeyMap.Instance.JoystickVerticalAxisNo > axisCount - 1)
-                        {
-                            throw new Exception("JoystickVerticalAxisNo is greater than number of axes. Please change it in your KeyMap.ini");
-                        }
-
-                        if (KeyMap.Instance.JoystickHorizontalAxisNo > axisCount - 1)
-                        {
-                            throw new Exception("JoystickHorizontalAxisNo is greater than number of axes. Please change it in your KeyMap.ini");
-                        }
-
-
-                        Axis_NativePtr axisV = j.JoyStickState.GetAxis(KeyMap.Instance.JoystickVerticalAxisNo);
-                        Axis_NativePtr axisH = j.JoyStickState.GetAxis(KeyMap.Instance.JoystickHorizontalAxisNo);
-                     
-
-                        double v = (1.0 * axisV.abs / JoyStick.MAX_AXIS);
-                        double h = (1.0 * axisH.abs / JoyStick.MAX_AXIS);
-
-                       // Console.WriteLine(h + " " + v);
-                     
-                      
-                        if (System.Math.Abs(v) < KeyMap.Instance.JoystickDeadZone) v = 0;
-                        else if (v > 1) v = 1;
-                        else if (v < -1) v = -1;
-
-                        if (System.Math.Abs(h) < KeyMap.Instance.JoystickDeadZone) h = 0;
-                        else if (h > 1) h = 1;
-                        else if (h < -1) h = -1;
-                     
-                      
-                        return new Vector2((float)h, (float)-v);
-                    } else
-                    {
-                        // no joys and no POVs 
-                        return Vector2.ZERO;
-                    }
-                }
-            } else
-            {
-                return Vector2.ZERO;
-            }
-
-        }
-
 
         public abstract void CreateScene(); // pure virtual - this has to be overridden
 
-        public static void DestroyScenes()
-        {
-
-            if (sceneMgr != null)
-            {
-                sceneMgr.DestroyAllBillboardSets();
-                sceneMgr.DestroyAllEntities();
-                sceneMgr.DestroyAllManualObjects();
-                sceneMgr.DestroyAllInstancedGeometry();
-                sceneMgr.DestroyAllMovableObjects();
-                sceneMgr.ClearScene();
-               // sceneMgr.DestroyAllCameras();
-                sceneMgr.Dispose();
-                Root.Singleton.DestroySceneManager(sceneMgr);
-                sceneMgr = null;
-            }
-            if (minimapMgr != null)
-            {
-                minimapMgr.DestroyAllCameras();
-                minimapMgr.DestroyAllEntities();
-                minimapMgr.DestroyAllEntities();
-                minimapMgr.ClearScene();
-                Root.Singleton.DestroySceneManager(minimapMgr);
-                minimapMgr = null;
-            }
-
-            if (overlayMgr != null)
-            {
-                overlayMgr.DestroyAllCameras();
-                overlayMgr.ClearScene();
-                Root.Singleton.DestroySceneManager(overlayMgr);
-                overlayMgr = null;
-            }
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-        } // Optional to override this
+        // Optional to override this
 
 
         public void CreateMinimapViewport(int zOrder, float left, float top, float width, float height)
@@ -1368,7 +1133,7 @@ namespace Wof.Controller
             minimapNoseCamera.AspectRatio = 14.0f/4.0f;
 
             minimapViewport.OverlaysEnabled = false;
-         //   Overlay debugo = OverlayManager.Singleton.GetByName("Wof/Debug");
+            //   Overlay debugo = OverlayManager.Singleton.GetByName("Wof/Debug");
         }
 
         public void CreateMainViewport(int zOrder, float left, float top, float width, float height)
@@ -1406,14 +1171,14 @@ namespace Wof.Controller
             overlayViewport.OverlaysEnabled = true;
         }
 
-        public virtual void CreateViewports()
+        protected virtual void CreateViewports()
         {
             // zwolnij zasoby
             if (viewport != null && CompositorManager.Singleton.HasCompositorChain(viewport)) CompositorManager.Singleton.RemoveCompositorChain(viewport);
             
             window.RemoveAllViewports();
 
-            if (displayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 CreateMainViewport(1, 0, 0, 1.0f, 1 - minimapHeight);
                 float left = 0;
@@ -1430,13 +1195,13 @@ namespace Wof.Controller
             // 
         }
 
-        public virtual void SetupResources()
+        public static void SetupResources()
         {
-        	SetupResources("resources.cfg");
+            SetupResources("resources.cfg");
         }
         
         /// Method which will define the source of resources (other than current folder)
-        public virtual void SetupResources(string cfgFilename)
+        public static void SetupResources(string cfgFilename)
         {
             // Load resource paths from config file
             ConfigFile cf = new ConfigFile();
@@ -1462,13 +1227,13 @@ namespace Wof.Controller
         }
 
         /// Optional override method where you can create resource listeners (e.g. for loading screens)
-        public virtual void CreateResourceListener()
+        protected virtual void CreateResourceListener()
         {
         }
 
         /// Optional override method where you can perform resource group loading
         /// Must at least do ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
-        public virtual void LoadResources()
+        public static void LoadResources()
         {
             // Initialise, parse scripts etc
             ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
@@ -1617,14 +1382,14 @@ namespace Wof.Controller
             }
 
             
-           // CompositorManager.Singleton.RemoveCompositor(viewport, "Bloom");
+            // CompositorManager.Singleton.RemoveCompositor(viewport, "Bloom");
             instance = CompositorManager.Singleton.AddCompositor(viewport, "Bloom");
             if (instance != null)
             {
                 CompositorManager.Singleton.SetCompositorEnabled(viewport, "Bloom", false);
             }
           
-           // CompositorManager.Singleton.RemoveCompositor(viewport, "B&W");
+            // CompositorManager.Singleton.RemoveCompositor(viewport, "B&W");
            
             instance = CompositorManager.Singleton.AddCompositor(viewport, "B&W");
             if (instance != null)
@@ -1639,7 +1404,7 @@ namespace Wof.Controller
                 CompositorManager.Singleton.SetCompositorEnabled(viewport, "Gaussian Blur", false);
             }
             
-           /* instance = CompositorManager.Singleton.AddCompositor(viewport, "Motion Blur");
+            /* instance = CompositorManager.Singleton.AddCompositor(viewport, "Motion Blur");
             if (instance != null)
             {
                 CompositorManager.Singleton.SetCompositorEnabled(viewport, "Motion Blur", false);

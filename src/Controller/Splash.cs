@@ -54,7 +54,7 @@ namespace Wof.Controller
     /// Splash screen window
     /// <author>Adam Witczak</author>
     /// </summary>
-    internal partial class Splash : Form
+    public partial class Splash : Form
     {
         #region Constructor
 

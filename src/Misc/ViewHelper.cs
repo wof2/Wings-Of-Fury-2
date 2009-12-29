@@ -62,6 +62,8 @@ namespace Wof.Misc
     /// </summary>
     public class ViewHelper
     {
+
+        public const string C_MESH_EXT = ".mesh";
         private static Hashtable helperQuandrangles = new Hashtable();
 
         public static void RefreshBoundingQuandrangles()

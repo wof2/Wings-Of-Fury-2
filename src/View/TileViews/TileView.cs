@@ -62,7 +62,7 @@ namespace Wof.View.TileViews
         //Uzywane do nadawania unikalnych nazw w Ogre
         protected int tileID;
 
-        protected FrameWork framework;
+        protected IFrameWork framework;
         protected SceneManager sceneMgr;
 
         protected SceneNode parentNode;
@@ -78,11 +78,11 @@ namespace Wof.View.TileViews
         }
 
 
-        public TileView(LevelTile levelTile, FrameWork framework)
+        public TileView(LevelTile levelTile, IFrameWork framework)
         {
             this.levelTile = levelTile;
             this.framework = framework;
-            sceneMgr = FrameWork.SceneMgr;
+            sceneMgr = framework.SceneMgr;
             tileID = tileCounter++;
         }
 

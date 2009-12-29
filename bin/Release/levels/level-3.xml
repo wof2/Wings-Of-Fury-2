@@ -14,7 +14,7 @@
   <ocean width="20"/>
   
   <!-- high island: Island12u -->
-  <island-begin variation="10" traversable="false"/>
+  <island-begin variation="10" mesh="Island12u" traversable="false"/>
   <terrain variation="14" traversable="false"/>
   <terrain variation="15" traversable="false"/>
   <barrels variation="0" />

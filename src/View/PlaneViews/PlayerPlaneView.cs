@@ -61,8 +61,8 @@ namespace Wof.View
         /// Samolot gracza w widoku
         /// <author>Adam Witczak,Kamil S³awiñski</author>
         /// </summary> 
-        public PlayerPlaneView(Plane plane, SceneManager sceneMgr, SceneNode parentNode)
-            : base(plane, sceneMgr, parentNode, "PlayerPlane")
+        public PlayerPlaneView(Plane plane, IFrameWork frameWork, SceneNode parentNode)
+            : base(plane, frameWork, parentNode, "PlayerPlane")
         {
             if (LevelView.IsNightScene)
             {

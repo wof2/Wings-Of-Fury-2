@@ -15,7 +15,7 @@
   <ship-end width="1" />
   
   <ocean width="19"/>
-  <island-begin variation="0"/>
+  <island-begin mesh="Island4" variation="0"/>
   <concrete-bunker num-soldiers="3"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
@@ -46,7 +46,7 @@
   <ocean width="11"/>
   
   <!-- high island: Island12u -->
-  <island-begin variation="1"/>
+  <island-begin mesh="Island12u" variation="1"/>
   <terrain variation="1"/>
   <concrete-bunker num-soldiers="3" variation="2"/>
   <terrain variation="1"/>
@@ -96,7 +96,7 @@
 
 
   <!-- lane island: Island18u -->
-  <island-begin variation="3"/>  
+  <island-begin mesh="Island18u" variation="3"/>  
   <concrete-bunker num-soldiers="3"/>
   <terrain variation="2"/>
   <terrain variation="1"/>

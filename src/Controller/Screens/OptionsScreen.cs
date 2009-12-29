@@ -62,8 +62,8 @@ namespace Wof.Controller.Screens
         public static Boolean shutdownRequired = false;
 
         public OptionsScreen(GameEventListener gameEventListener,
-                             SceneManager sceneMgr, Viewport viewport, Camera camera) :
-                                 base(gameEventListener, sceneMgr, viewport, camera)
+                            IFrameWork framework, Viewport viewport, Camera camera) :
+                                 base(gameEventListener, framework, viewport, camera)
         {
             this.fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
         }

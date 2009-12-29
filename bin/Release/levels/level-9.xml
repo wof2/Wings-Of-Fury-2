@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <level dayTime="foggy" missionType="assassination" enemyPlanes="0">
-
+  
   <ocean width="100"/>
-  <island-begin variation="3"/>
+  
+  <island-begin mesh="Island4" variation="3"/>
   <concrete-bunker num-soldiers="2" variation="0"/>
   <terrain variation="0"/>
   <fortress-bunker variation="0" num-generals="1"/>
@@ -26,7 +27,7 @@
   
   <ocean width="24"/>
   
-  <island-begin variation="2"/>
+  <island-begin mesh="Island4" variation="2"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <concrete-bunker num-soldiers="7"/>

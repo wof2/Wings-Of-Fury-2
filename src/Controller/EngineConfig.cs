@@ -212,6 +212,13 @@ namespace Wof.Controller
         public static readonly float C_FONT_SIZE = 0.035f;
 
 
+        protected static bool displayMinimap = true;
+
+      
+        public static void SetDisplayMinimap(bool enabled)
+        {
+            EngineConfig.DisplayMinimap = enabled;
+        }
         public static void LoadEngineConfig()
         {
             try

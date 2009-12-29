@@ -117,8 +117,8 @@ namespace Wof.Controller.Screens
         /// <param name="startFromBottom"></param>
         /// <param name="speed"></param>
         public CreditsScreen(GameEventListener gameEventListener,
-                             SceneManager sceneMgr, Viewport viewport, Camera camera, bool startFromBottom, float speed) :
-                                 base(gameEventListener, sceneMgr, viewport, camera, startFromBottom, speed)
+                              IFrameWork framework, Viewport viewport, Camera camera, bool startFromBottom, float speed) :
+                                 base(gameEventListener, framework, viewport, camera, startFromBottom, speed)
         {
         	
         
