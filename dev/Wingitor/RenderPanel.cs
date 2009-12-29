@@ -174,7 +174,7 @@ namespace wingitor
              } 
              lock (this)
              {
-                 Dispose();
+                 Destroy();
              }
 
          }
@@ -185,7 +185,7 @@ namespace wingitor
             lastMousePos = mousePos;
         }
 
-        public virtual void Dispose()
+        public virtual void Destroy()
         {
             FrameWorkStaticHelper.DestroyScenes(this);
             try

@@ -17,13 +17,13 @@ namespace Wingitor
         {
             InitializeComponent();
 
-            if(!renderPanel.Setup())
+            /*if(!editorRenderPanel.Setup())
             {
                 return;
             }
-            renderThread = new Thread(renderPanel.Go);
+            renderThread = new Thread(editorRenderPanel.Go);
             renderThread.Start();
-           
+           */
 
         }
 
@@ -31,7 +31,7 @@ namespace Wingitor
         {
             try
             {
-                renderPanel.Dispose();
+               // editorRenderPanel.Destroy();
                 renderThread.Join();
 
             }
@@ -39,6 +39,16 @@ namespace Wingitor
             {
             }
            
+        }
+
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void userControl11_Load(object sender, EventArgs e)
+        {
+
         }
 
        
