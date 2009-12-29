@@ -7,15 +7,15 @@
   <ocean width="19"/>
   <ocean width="1" variation="4"/>
   <ocean width="19"/>
-  <island-begin variation="1"/>
+  
+  <island-begin  mesh="Island4" variation="1"/>
   <concrete-bunker num-soldiers="3"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <barrack num-soldiers="5" />
   <barrack num-soldiers="6" variation="1"/>
-  <wooden-bunker num-soldiers="3"/>
-  
+  <wooden-bunker num-soldiers="3"/>  
   <terrain variation="1"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
@@ -26,7 +26,7 @@
   <ocean width="1" variation="3"/>
   <ocean width="10"/>
   <!-- high island: Island12u -->
-  <island-begin variation="10" traversable="false"/>
+  <island-begin  mesh="Island12u" variation="10" traversable="false"/>
   <terrain variation="14" traversable="false"/>
   <terrain variation="15" traversable="false"/>
   <barrels variation="0" />
@@ -64,8 +64,7 @@
   
   <ocean width="1" variation="4"/>
   <ocean width="24"/>
-
-  <island-begin variation="2"/>
+  <island-begin  mesh="Island4" variation="2"/>
   <terrain variation="1"/>
   <wooden-bunker num-soldiers="3"/>
   <terrain variation="2"/> 
@@ -87,7 +86,7 @@
 
 
   <!-- lane island: Island18u -->
-  <island-begin variation="3"/>  
+  <island-begin mesh="Island18u" variation="3"/>  
   <wooden-bunker num-soldiers="3"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
@@ -109,7 +108,7 @@
 
   <ocean width="21"/>
   
-  <island-begin variation="2"/>
+  <island-begin mesh="Island4" variation="2"/>
   <terrain variation="1"/>
   <wooden-bunker num-soldiers="3"/>
   <terrain variation="2"/>

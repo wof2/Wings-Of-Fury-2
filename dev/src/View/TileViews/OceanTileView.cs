@@ -64,7 +64,7 @@ namespace Wof.View.TileViews
     internal class OceanTileView : TileView, Animable
     {
         SceneNode[] floatingNodes;
-        public OceanTileView(LevelTile levelTile, FrameWork framework)
+        public OceanTileView(LevelTile levelTile, IFrameWork framework)
             : base(levelTile, framework)
         {
             floatingNodes = new SceneNode[0];

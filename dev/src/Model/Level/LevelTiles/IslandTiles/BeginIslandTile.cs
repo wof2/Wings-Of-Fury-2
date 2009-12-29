@@ -57,19 +57,29 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
     {
         #region Public Constructor
 
+        private string meshName;
+
         /// <summary>
         /// Konstruktor trzyparametrowy.
         /// </summary>
         /// <param name="yBegin">Wysokosc poczatku elementu.</param>
         /// <param name="yEnd">Wysokosc konca elementu.</param>
+        /// <param name="viewXShift"></param>
         /// <param name="hitBound">Prostakat opisujacy czesc pola, ktora
         /// jest podatna na trafienia.</param>
+        /// <param name="mesh">nazwa siatki przypisanej do wyspy</param>
         /// <param name="variation">Wariant pola.</param>
-        public BeginIslandTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int variation)
+        public BeginIslandTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int variation, string mesh)
             : base(yBegin, yEnd, viewXShift, hitBound, variation, null, false)
         {
+            meshName = mesh;
         }
 
         #endregion
+
+        public string MeshName
+        {
+            get { return meshName; }
+        }
     }
 }

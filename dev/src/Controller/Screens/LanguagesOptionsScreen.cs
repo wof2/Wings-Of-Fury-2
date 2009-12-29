@@ -56,8 +56,8 @@ namespace Wof.Controller.Screens
     internal class LanguagesOptionsScreen : AbstractOptionsScreen
     {
         public LanguagesOptionsScreen(GameEventListener gameEventListener,
-                                      SceneManager sceneMgr, Viewport viewport, Camera camera, Root root) :
-                                          base(gameEventListener, sceneMgr, viewport, camera, root)
+                                      IFrameWork framework, Viewport viewport, Camera camera, Root root) :
+                                          base(gameEventListener, framework, viewport, camera, root)
         {
     		showRestartRequiredMessage = false;
         }

@@ -5,7 +5,7 @@
   <ocean width="100"/>
   
    
-  <island-begin variation="3"/>
+  <island-begin mesh="Island4" variation="3"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <wooden-bunker num-soldiers="3"/>
@@ -32,7 +32,7 @@
   <ocean width="22"/>
   
    <!-- island1 -->
-  <island-begin variation="6"/>
+  <island-begin mesh="Island1" variation="6"/>
   	<concrete-bunker num-soldiers="3"/>
   	<concrete-bunker num-soldiers="3"/>
   	<barrack num-soldiers="2"/>
@@ -42,7 +42,7 @@
   <ocean width="3" variation="0"/>
   
   <!-- laguna -->
-   <island-begin/>
+   <island-begin mesh="Laguna"/>
   	<terrain variation="0"/>
     <terrain variation="0"/>
     <terrain variation="0"/>
@@ -55,7 +55,7 @@
   <ocean width="22"/>
   
   <!-- double laguna -->
-  <island-begin/>
+  <island-begin mesh="DoubleLaguna"/>
     <concrete-bunker num-soldiers="3"/>
   	<terrain variation="0"/>
     <terrain variation="0"/>
@@ -66,7 +66,7 @@
   
   <ocean width="22"/>
   <!-- ISLAND4 -->
-  <island-begin variation="3"/>
+  <island-begin mesh="Island4" variation="3"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
   <terrain variation="0"/>

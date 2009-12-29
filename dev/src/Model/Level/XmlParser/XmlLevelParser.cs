@@ -683,6 +683,7 @@ namespace Wof.Model.Level.XmlParser
 
         private bool ReadIslandBegin(XmlReader reader)
         {
+            string mesh = null;
             int variation = 0;
             if (reader.HasAttributes)
             {
@@ -700,14 +701,22 @@ namespace Wof.Model.Level.XmlParser
                             return false;
                         }
                     }
+
+                    if (reader.Name.Equals(Attributes.Mesh))
+                    {
+                        mesh = reader.Value;
+                    }
+
                 }
             }
+
+            if (mesh == null) return false;
             if (variation < 0) variation = 0;
             TilesNode node = GetTilesForID(TilesNode.GenerateID(Nodes.IslandBegin, variation));
             if (node != null)
             {
                 if (node.IsValidYEnd && node.IsValidYStart)
-                    levelTiles.Add(new BeginIslandTile(node.YStart, node.YEnd, node.ViewXShift, node.HitRectangle, variation));
+                    levelTiles.Add(new BeginIslandTile(node.YStart, node.YEnd, node.ViewXShift, node.HitRectangle, variation, mesh));
                 else return false;
                 return true;
             }

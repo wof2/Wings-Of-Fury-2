@@ -84,8 +84,8 @@ namespace Wof.View
             get { return (Math.Abs(Plane.RotateValue) >= 2.0); }
         }
 
-        public P47PlaneView(Plane plane, SceneManager sceneMgr, SceneNode parentNode, String baseName)
-            : base(plane, sceneMgr, parentNode, baseName + "_" + planeCounter.ToString())
+        public P47PlaneView(Plane plane, IFrameWork frameWork, SceneNode parentNode, String baseName)
+            : base(plane, frameWork, parentNode, baseName + "_" + planeCounter.ToString())
         {
             planeCounter++;
             lWingNode = innerNode.CreateChildSceneNode(name + "LWingNode", new Vector3(-8.8f, 0.0f, -1.5f));
@@ -353,10 +353,10 @@ namespace Wof.View
             // vertex animation
             animationState = PlaneEntity.GetAnimationState("manual");
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem =
-                    new MinimapItem(outerNode, FrameWork.MinimapMgr, "Cube.mesh", new ColourValue(0, 0.9f, 0),
+                    new MinimapItem(outerNode, this.frameWork.MinimapMgr, "Cube.mesh", new ColourValue(0, 0.9f, 0),
                                     planeEntity);
                 minimapItem.ScaleOverride = new Vector2(0, 5);
                 minimapItem.MinimapNode.Translate(0, 0, 10.0f);

@@ -62,7 +62,7 @@ namespace Wof.View.TileViews
         protected List<AnimationState> animableElements;
 
 
-        public MiddleIslandTileView(LevelTile levelTile, FrameWork framework)
+        public MiddleIslandTileView(LevelTile levelTile, IFrameWork framework)
             : base(levelTile, framework)
         {
             animableElements = new List<AnimationState>();

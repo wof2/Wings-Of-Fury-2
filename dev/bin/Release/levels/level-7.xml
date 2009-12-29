@@ -3,7 +3,7 @@
 <level dayTime="dawn" enemyPlanes="4" timeToFirstEnemyPlane="10000" timeToNextEnemyPlane="45000">
   <ocean width="125"/>
 
-  <island-begin variation="1"/>
+  <island-begin mesh="Island5" variation="1"/>
   <terrain variation="0"/>
   <concrete-bunker num-soldiers="3" variation="0"/>
   <terrain variation="1"/>
@@ -39,7 +39,7 @@
 
   <ocean width="60"/>
 
-  <island-begin variation="2"/>
+  <island-begin mesh="Island4" variation="2"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
@@ -55,7 +55,7 @@
 
   <ocean width="40"/>
   
-  <island-begin variation="2"/>
+  <island-begin mesh="Island2" variation="2"/>
   <concrete-bunker num-soldiers="5" variation="3" />
   <terrain variation="0"/>
   <terrain variation="0"/>

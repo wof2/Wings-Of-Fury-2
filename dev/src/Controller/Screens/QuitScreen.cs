@@ -118,9 +118,9 @@ namespace Wof.Controller.Screens
         }
 
         public QuitScreen(GameEventListener gameEventListener,
-                              SceneManager sceneMgr, Viewport viewport, Camera camera)
+                               IFrameWork framework, Viewport viewport, Camera camera)
             :
-                                  base(gameEventListener, sceneMgr, viewport, camera)
+                                  base(gameEventListener, framework, viewport, camera)
         {
 
             currentScreen = 1;

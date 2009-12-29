@@ -60,8 +60,8 @@ namespace Wof.Controller.Screens
 
 
         public VSyncOptionsScreen(GameEventListener gameEventListener,
-                                  SceneManager sceneMgr, Viewport viewport, Camera camera, Root root) :
-                                      base(gameEventListener, sceneMgr, viewport, camera, root)
+                                   IFrameWork framework, Viewport viewport, Camera camera, Root root) :
+                                      base(gameEventListener, framework, viewport, camera, root)
         {
         }
 

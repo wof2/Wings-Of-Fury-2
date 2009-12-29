@@ -63,7 +63,7 @@ namespace Wof.Controller
         public static void ManageMini(Camera minimapC, Plane playerPlane, FrameEvent evt)
         {
             // ruch kamery na minimapy
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 Vector2 v = UnitConverter.LogicToWorldUnits(playerPlane.Position);
                 Vector3 minimapCamPos = minimapC.Position;

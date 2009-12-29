@@ -71,8 +71,9 @@ namespace Wof.View
         
         protected Random random;
 
-        public EnemyPlaneView(Plane plane, SceneManager sceneMgr, SceneNode parentNode)
-            : base(plane, sceneMgr, parentNode, "EnemyPlane" + enemyPlaneCounter.ToString())
+   
+        public EnemyPlaneView(Plane plane, IFrameWork frameWork, SceneNode parentNode)
+            : base(plane, frameWork, parentNode, "EnemyPlane" + enemyPlaneCounter.ToString())
         {
             //nazwa musi byc unikalnym stringiem
             enemyPlaneCounter++;
@@ -261,10 +262,10 @@ namespace Wof.View
             // vertex animation
             animationState = PlaneEntity.GetAnimationState("manual");
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem =
-                    new MinimapItem(outerNode, FrameWork.MinimapMgr, "Cube.mesh", ColourValue.Red, planeEntity);
+                    new MinimapItem(outerNode, frameWork.MinimapMgr, "Cube.mesh", ColourValue.Red, planeEntity);
             }
 
            

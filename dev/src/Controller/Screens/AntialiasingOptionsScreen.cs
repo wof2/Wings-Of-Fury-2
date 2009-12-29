@@ -60,14 +60,14 @@ namespace Wof.Controller.Screens
         public const String C_ANTIALIASING = "Anti aliasing";
 
         public AntialiasingOptionsScreen(GameEventListener gameEventListener,
-                                         SceneManager sceneMgr, Viewport viewport, Camera camera, Root root) :
-                                             base(gameEventListener, sceneMgr, viewport, camera, root)
+                                         IFrameWork framework, Viewport viewport, Camera camera, Root root) :
+                                             base(gameEventListener, framework, viewport, camera, root)
         {
         }
 
         protected override List<String> GetAvailableOptions(Root root)
         {
-            return FrameWork.GetAntialiasingModes(root);
+            return FrameWorkStaticHelper.GetAntialiasingModes(root);
         }
 
         protected override String getTitle()

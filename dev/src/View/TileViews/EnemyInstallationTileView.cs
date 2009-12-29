@@ -77,7 +77,7 @@ namespace Wof.View.TileViews
             get { return gunNode; }
         }
 
-        public EnemyInstallationTileView(LevelTile levelTile, FrameWork framework)
+        public EnemyInstallationTileView(LevelTile levelTile, IFrameWork framework)
             : base(levelTile, framework)
         {
         }

@@ -63,7 +63,7 @@ namespace Wof.View.TileViews
         protected List<AnimationState> animableElements;
 
 
-        public EndShipTileView(LevelTile levelTile, FrameWork framework)
+        public EndShipTileView(LevelTile levelTile, IFrameWork framework)
             : base(levelTile, framework)
         {
             animableElements = new List<AnimationState>();

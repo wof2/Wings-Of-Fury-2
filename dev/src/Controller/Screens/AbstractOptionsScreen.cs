@@ -101,8 +101,8 @@ namespace Wof.Controller.Screens
         protected Root root;
 
         public AbstractOptionsScreen(GameEventListener gameEventListener,
-                                     SceneManager sceneMgr, Viewport viewport, Camera camera, Root root) :
-                                         base(gameEventListener, sceneMgr, viewport, camera)
+                                     IFrameWork framework, Viewport viewport, Camera camera, Root root) :
+            base(gameEventListener, framework, viewport, camera)
         {
             this.root = root;
             this.fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka w opcjach

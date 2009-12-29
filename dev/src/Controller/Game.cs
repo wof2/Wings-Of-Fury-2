@@ -68,7 +68,7 @@ namespace Wof.Controller
     /// Klasa odpowiedzialna za start aplikacji, przechodzenie miêdzy screenami menu i implementuj¹ca Framework.
     /// <author>Jakub Tê¿yki, Adam Witczak, Micha³ Ziober</author>
     /// </summary>
-    internal class Game : FrameWork, GameEventListener
+    internal class Game : FrameWorkForm, GameEventListener
     {
         /// <summary>
         /// Nazwa gry: Wings of Fury 2
@@ -118,12 +118,12 @@ namespace Wof.Controller
                 {
                     if (EngineConfig.ShowIntro)
                     {
-                        currentScreen = new IntroScreen(this, sceneMgr, viewport, camera);
+                        currentScreen = new IntroScreen(this, this, viewport, camera);
                     }
                     else
                     {
                         SoundManager.Instance.PlayMainTheme();
-                        currentScreen = new StartScreen(this, sceneMgr, viewport, camera);
+                        currentScreen = new StartScreen(this, this, viewport, camera);
                     }  
                 }
              
@@ -141,7 +141,7 @@ namespace Wof.Controller
 
         }
 
-        public override bool FrameEnded(FrameEvent evt)
+        protected override bool FrameEnded(FrameEvent evt)
         {
             if (currentScreen != null)
             {
@@ -155,7 +155,7 @@ namespace Wof.Controller
         /// </summary>
         /// <param name="evt"></param>
         /// <returns></returns>
-        public override bool FrameStarted(FrameEvent evt)
+        protected override bool FrameStarted(FrameEvent evt)
         {
 
         	evt.timeSinceLastFrame *= EngineConfig.CurrentGameSpeedMultiplier;
@@ -176,7 +176,7 @@ namespace Wof.Controller
             return !shutDown;
         }
 
-        public override void ModelFrameStarted(FrameEvent evt)
+        protected override void ModelFrameStarted(FrameEvent evt)
         {
             evt.timeSinceLastFrame *= EngineConfig.CurrentGameSpeedMultiplier;
             OnUpdateModel(evt);
@@ -278,7 +278,7 @@ namespace Wof.Controller
 	            try{
             		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, exc.Message + " " + exc.StackTrace);
 	                getGame().window.Destroy();
-	                ShowWofException(exc);	                
+	                FrameWorkStaticHelper.ShowWofException(exc);	                
 	                Debug.WriteLine(exc.ToString());
 	            }
             	catch
@@ -310,7 +310,7 @@ namespace Wof.Controller
             {
                 // Check if it's an Ogre Exception
                 if (OgreException.IsThrown)
-                    ShowOgreException();
+                    FrameWorkStaticHelper.ShowOgreException();
                 else
                     throw;
             }
@@ -332,14 +332,14 @@ namespace Wof.Controller
                 {
                     game.InjectPerformanceTestResults(performanceTest);
                 }
-                game.SetDisplayMinimap(false);
+                EngineConfig.SetDisplayMinimap(false);
                 game.Go();
             }
             catch (SEHException)
             {
                 // Check if it's an Ogre Exception
                 if (OgreException.IsThrown)
-                    ShowOgreException();
+                    FrameWorkStaticHelper.ShowOgreException();
                 else
                     throw;
             }
@@ -462,7 +462,7 @@ namespace Wof.Controller
 
             if (EngineConfig.DisplayMinimap)
             {
-                SetDisplayMinimap(true);
+                EngineConfig.SetDisplayMinimap(true);
             }
             ChooseSceneManager();
             CreateCamera();
@@ -472,7 +472,7 @@ namespace Wof.Controller
        
 
            
-            if (!CreateSoundSystem(camera, EngineConfig.SoundSystem))
+            if (!FrameWorkStaticHelper.CreateSoundSystem(camera, EngineConfig.SoundSystem))
                 EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
 
 
@@ -498,12 +498,12 @@ namespace Wof.Controller
 
                 if (EngineConfig.DisplayMinimap)
                 {
-                    SetDisplayMinimap(true);
+                    EngineConfig.SetDisplayMinimap(true);
                 }
 
                 ChooseSceneManager();
                 CreateCamera();
-                if (!CreateSoundSystem(camera, EngineConfig.SoundSystem))
+                if (!FrameWorkStaticHelper.CreateSoundSystem(camera, EngineConfig.SoundSystem))
                     EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
 
                 CreateViewports();
@@ -539,7 +539,7 @@ namespace Wof.Controller
         /// </summary>
         private void initScreenAfter(MenuScreen screen)
         {
-            SetDisplayMinimap(false);
+            EngineConfig.SetDisplayMinimap(false);
 
             Boolean justMenu = IsMenuScreen(screen);
             screen.CleanUp(justMenu);
@@ -548,7 +548,7 @@ namespace Wof.Controller
             {
                 ChooseSceneManager();
                 CreateCamera();
-                if (!CreateSoundSystem(camera, EngineConfig.SoundSystem))
+                if (!FrameWorkStaticHelper.CreateSoundSystem(camera, EngineConfig.SoundSystem))
                     EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
                 
                 CreateViewports();
@@ -581,8 +581,8 @@ namespace Wof.Controller
             {
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
-          
-            currentScreen = new StartScreen(this, sceneMgr, viewport, camera);
+
+            currentScreen = new StartScreen(this, this, viewport, camera);
          
 
             if (ss != null)
@@ -611,7 +611,7 @@ namespace Wof.Controller
 
             SoundManager.Instance.PlayMainTheme();
 
-            currentScreen = new LoadGameScreen(this, sceneMgr, viewport, camera);
+            currentScreen = new LoadGameScreen(this, this, viewport, camera);
             if (ss != null)
             {
                 ((AbstractScreen)currentScreen).SetScreenState(ss);
@@ -629,8 +629,8 @@ namespace Wof.Controller
             }
             initScreenAfter(currentScreen);
             SoundManager.Instance.PlayMainTheme();
-          
-            currentScreen = new HighscoresScreen(this, sceneMgr, viewport, camera);
+
+            currentScreen = new HighscoresScreen(this, this, viewport, camera);
             if (ss != null)
             {
                 ((AbstractScreen)currentScreen).SetScreenState(ss);
@@ -651,7 +651,7 @@ namespace Wof.Controller
             initScreenAfter(currentScreen);
            
             SoundManager.Instance.PlayMainTheme();
-            currentScreen = new ScoreEnterScreen(this, sceneMgr, viewport, camera, score);
+            currentScreen = new ScoreEnterScreen(this, this, viewport, camera, score);
 
             if (ss != null)
             {
@@ -673,7 +673,7 @@ namespace Wof.Controller
             initScreenAfter(currentScreen);
             SoundManager.Instance.PlayMainTheme();
 
-            currentScreen = new DonateScreen(this, sceneMgr, viewport, camera);
+            currentScreen = new DonateScreen(this, this, viewport, camera);
             if (ss != null)
             {
                 ((AbstractScreen)currentScreen).SetScreenState(ss);
@@ -695,8 +695,8 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-           
-            currentScreen = new QuitScreen(this, sceneMgr, viewport, camera);
+
+            currentScreen = new QuitScreen(this, this, viewport, camera);
             if (ss != null)
             {
                 ((AbstractScreen)currentScreen).SetScreenState(ss);
@@ -718,7 +718,7 @@ namespace Wof.Controller
             initScreenAfter(currentScreen);
             SoundManager.Instance.PlayMainTheme();
 
-            currentScreen = new EndingScreen(this, sceneMgr, viewport, camera, true, 25, highscore);
+            currentScreen = new EndingScreen(this, this, viewport, camera, true, 25, highscore);
 
             if (ss != null)
             {
@@ -740,7 +740,7 @@ namespace Wof.Controller
             initScreenAfter(currentScreen);
 
             SoundManager.Instance.PlayMainTheme();
-            currentScreen = new CreditsScreen(this, sceneMgr, viewport, camera, true, 65);
+            currentScreen = new CreditsScreen(this, this, viewport, camera, true, 65);
 
             if (ss != null)
             {
@@ -761,7 +761,7 @@ namespace Wof.Controller
             }
             initScreenAfter(currentScreen);
 
-            currentScreen = new OptionsScreen(this, sceneMgr, viewport, camera);
+            currentScreen = new OptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -781,7 +781,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new TutorialScreen(this, sceneMgr, viewport, camera);
+            currentScreen = new TutorialScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -801,7 +801,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new VideoModeScreen(this, sceneMgr, viewport, camera, root);
+            currentScreen = new VideoModeScreen(this, this, viewport, camera, root);
 
             if (ss != null)
             {
@@ -821,7 +821,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new AntialiasingOptionsScreen(this, sceneMgr, viewport, camera, root);
+            currentScreen = new AntialiasingOptionsScreen(this, this, viewport, camera, root);
 
             if (ss != null)
             {
@@ -841,7 +841,7 @@ namespace Wof.Controller
             }
 
             initScreenAfter(currentScreen);
-            currentScreen = new VSyncOptionsScreen(this, sceneMgr, viewport, camera, root);
+            currentScreen = new VSyncOptionsScreen(this, this, viewport, camera, root);
 
             if (ss != null)
             {
@@ -861,7 +861,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new DifficultyScreen(this, sceneMgr, viewport, camera, root);
+            currentScreen = new DifficultyScreen(this, this, viewport, camera, root);
 
             if (ss != null)
             {
@@ -881,7 +881,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new BloomOptionsScreen(this, sceneMgr, viewport, camera, root);
+            currentScreen = new BloomOptionsScreen(this, this, viewport, camera, root);
 
             if (ss != null)
             {
@@ -901,7 +901,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new HydraxOptionsScreen(this, sceneMgr, viewport, camera, root);
+            currentScreen = new HydraxOptionsScreen(this, this, viewport, camera, root);
 
             if (ss != null)
             {
@@ -921,7 +921,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new BloodOptionsScreen(this, sceneMgr, viewport, camera, root);
+            currentScreen = new BloodOptionsScreen(this, this, viewport, camera, root);
 
             if (ss != null)
             {
@@ -943,7 +943,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new LODOptionsScreen(this, sceneMgr, viewport, camera, root);
+            currentScreen = new LODOptionsScreen(this, this, viewport, camera, root);
 
             if (ss != null)
             {
@@ -963,7 +963,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new ShadowsOptionsScreen(this, sceneMgr, viewport, camera, root);
+            currentScreen = new ShadowsOptionsScreen(this, this, viewport, camera, root);
 
             if (ss != null)
             {
@@ -984,7 +984,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new ControlsOptionsScreen(this, sceneMgr, viewport, camera, root);
+            currentScreen = new ControlsOptionsScreen(this, this, viewport, camera, root);
 
             if (ss != null)
             {
@@ -1003,7 +1003,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new LanguagesOptionsScreen(this, sceneMgr, viewport, camera, root);
+            currentScreen = new LanguagesOptionsScreen(this, this, viewport, camera, root);
 
             if (ss != null)
             {
@@ -1023,7 +1023,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new SoundOptionsScreen(this, sceneMgr, viewport, camera, root);
+            currentScreen = new SoundOptionsScreen(this, this, viewport, camera, root);
 
             if(ss!=null)
             {

@@ -70,6 +70,8 @@ namespace Wof.View
     public abstract class PlaneView : VertexAnimable, CameraHolder, WaterTrailGenerator
     {
 
+        protected IFrameWork frameWork;
+
         /// <summary>
         /// Node trzymaj¹cy wizualizacjê torpedy
         /// </summary>
@@ -376,9 +378,10 @@ namespace Wof.View
             ra.MaxAngle = Math.Abs(ra.MaxAngle);
         }
 
-        public PlaneView(Plane plane, SceneManager sceneMgr, SceneNode parentNode, String name)
+        public PlaneView(Plane plane, IFrameWork frameWork, SceneNode parentNode, String name)
         {
-            this.sceneMgr = sceneMgr;
+            this.frameWork = frameWork;
+            this.sceneMgr = frameWork.SceneMgr;
             this.plane = plane;
             this.parentNode = parentNode;
             this.name = name;

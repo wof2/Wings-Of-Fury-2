@@ -88,18 +88,18 @@ namespace Wof.View
         }
 
         protected Entity compositeModel;
-        protected FrameWork framework;
+        protected IFrameWork framework;
         protected SceneManager sceneMgr;
 
         protected Boolean backgroundDummy = false;
 
-        public CompositeModelView(List<TileView> tileViews, FrameWork framework, SceneNode parentNode, String name)
+        public CompositeModelView(List<TileView> tileViews, IFrameWork framework, SceneNode parentNode, String name)
         {
             firstTileIndex = tileViews[0].LevelTile.TileIndex;
             this.tileViews = tileViews;
             this.framework = framework;
             this.parentNode = parentNode;
-            sceneMgr = FrameWork.SceneMgr;
+            sceneMgr = framework.SceneMgr;
             this.name = name;
 
             mainNode = parentNode.CreateChildSceneNode(name);
@@ -113,17 +113,17 @@ namespace Wof.View
         /// <param name="framework"></param>
         /// <param name="parentNode"></param>
         /// <param name="name"></param>
-        public CompositeModelView(int tileIndex, FrameWork framework, SceneNode parentNode, String name)
+        public CompositeModelView(int tileIndex, IFrameWork framework, SceneNode parentNode, String name)
         {
             firstTileIndex = tileIndex;
             this.framework = framework;
             this.parentNode = parentNode;
-            sceneMgr = FrameWork.SceneMgr;
+            sceneMgr = framework.SceneMgr;
             this.name = name;
 
             mainNode = parentNode.CreateChildSceneNode(name);
 
-            if (tileViews == null) backgroundDummy = true;
+            if (tileViews == null || this is BackGroundDummyIslandView) backgroundDummy = true;
         }
 
 

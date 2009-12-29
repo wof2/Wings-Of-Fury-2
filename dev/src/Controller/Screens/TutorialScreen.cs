@@ -62,8 +62,8 @@ namespace Wof.Controller.Screens
         private DateTime lastChange;
 
         public TutorialScreen(GameEventListener gameEventListener,
-                              SceneManager sceneMgr, Viewport viewport, Camera camera) :
-                                  base(gameEventListener, sceneMgr, viewport, camera)
+                              IFrameWork framework, Viewport viewport, Camera camera) :
+                                  base(gameEventListener, framework, viewport, camera)
         {
             screen = 0;
             lastChange = DateTime.Now;

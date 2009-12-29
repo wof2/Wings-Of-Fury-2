@@ -59,7 +59,7 @@ namespace Wof.View.TileViews
     {
 
 
-        public BeginShipTileView(LevelTile levelTile, FrameWork framework)
+        public BeginShipTileView(LevelTile levelTile, IFrameWork framework)
             : base(levelTile, framework)
         {
         }

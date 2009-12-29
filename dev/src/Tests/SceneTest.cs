@@ -69,7 +69,7 @@ namespace Wof.Tests
             {
                 // Check if it's an Ogre Exception 
                 if (OgreException.IsThrown)
-                    SceneTest.ShowOgreException();
+                    FrameWorkStaticHelper.ShowOgreException();
                 else
                     throw;
             }
@@ -81,7 +81,7 @@ namespace Wof.Tests
     /// <author>Adam Witczak</author>
     /// 
     /// </summary>
-    public class SceneTest : FrameWork
+    public class SceneTest : FrameWorkForm
     {
         protected float time = 0;
 
@@ -123,7 +123,7 @@ namespace Wof.Tests
         /// <summary>
         /// Tworzy i umiejscawia kamerê na scenie
         /// </summary>
-        public override void CreateCamera()
+        protected override void CreateCamera()
         {
             EngineConfig.ManualCamera = true;
 
@@ -136,9 +136,9 @@ namespace Wof.Tests
             CreateOverlayCamera();
         }
 
-        
 
-        public override void CreateFrameListener()
+
+        protected override void CreateFrameListener()
         {
             root.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
             SetCompositorEnabled(CompositorTypes.OLDMOVIE, false);
@@ -565,7 +565,7 @@ namespace Wof.Tests
         }
 
 
-        public override void ModelFrameStarted(FrameEvent evt)
+        protected override void ModelFrameStarted(FrameEvent evt)
         {
             
         }
@@ -575,7 +575,7 @@ namespace Wof.Tests
         /// </summary>
         /// <param name="evt"></param>
         /// <returns></returns>
-        public override bool FrameStarted(FrameEvent evt)
+        protected override bool FrameStarted(FrameEvent evt)
         {
         	
             time += evt.timeSinceLastFrame;

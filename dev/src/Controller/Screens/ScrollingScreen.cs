@@ -49,8 +49,8 @@ namespace Wof.Controller.Screens
         protected Callback cc;
         protected Window guiWindow;
 
-        public ScrollingScreen(GameEventListener gameEventListener, SceneManager sceneMgr, Viewport viewport,
-                               Camera camera, bool startFromBottom, float speed) : base(gameEventListener, sceneMgr, viewport, camera)
+        public ScrollingScreen(GameEventListener gameEventListener, IFrameWork framework, Viewport viewport,
+                               Camera camera, bool startFromBottom, float speed) : base(gameEventListener, framework, viewport, camera)
         {
             messages = new List<PositionedMessage>();
             messageOverlays = new List<OverlayContainer>();

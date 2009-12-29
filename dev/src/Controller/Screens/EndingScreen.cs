@@ -128,8 +128,8 @@ namespace Wof.Controller.Screens
         /// <param name="speed"></param>
         /// <param name="highscore">Jesli=-1 pokazuje statyczny przewijany credits screen. Po kliknieciu OK przechodzi do ekranu glownego</param>
         public EndingScreen(GameEventListener gameEventListener,
-                             SceneManager sceneMgr, Viewport viewport, Camera camera, bool startFromBottom, float speed, int highscore) :
-                                 base(gameEventListener, sceneMgr, viewport, camera, startFromBottom, speed)
+                              IFrameWork framework, Viewport viewport, Camera camera, bool startFromBottom, float speed, int highscore) :
+                                 base(gameEventListener, framework, viewport, camera, startFromBottom, speed)
         {
             this.highscore = highscore;
            
@@ -174,7 +174,7 @@ namespace Wof.Controller.Screens
             planeViews = new List<PlaneView>();
             for (int i = 0; i < 2; i++)
             {
-                PlaneView p = new EnemyPlaneView(null, sceneMgr, sceneMgr.RootSceneNode);
+                PlaneView p = new EnemyPlaneView(null, framework, sceneMgr.RootSceneNode);
 
                 if (i == 0)
                 {

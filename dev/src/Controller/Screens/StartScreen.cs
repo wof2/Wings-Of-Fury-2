@@ -61,8 +61,8 @@ namespace Wof.Controller.Screens
         private const float C_QUIT_AD_PROBABILITY = 0.65f;
 
         public StartScreen(GameEventListener gameEventListener,
-                           SceneManager sceneMgr, Viewport viewport, Camera camera) :
-                               base(gameEventListener, sceneMgr, viewport, camera)
+                            IFrameWork framework, Viewport viewport, Camera camera) :
+                               base(gameEventListener, framework, viewport, camera)
         {
             this.fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie startowym
         }

@@ -80,8 +80,7 @@ namespace Wof.View
     /// Klasa reprezentuj¹ca poziom gry w warstwie View
     /// <author>Adam Witczak, Kamil S³awiñski</author>
     /// </summary>
-    
-    internal class LevelView
+    public class LevelView
     {
         /*
         private AdManager.Ad ad = null;
@@ -287,7 +286,7 @@ namespace Wof.View
 
         private PlayerPlaneView playerPlaneView = null;
 
-        public FrameWork framework;
+        public IFrameWork framework;
         protected SceneManager sceneMgr, minimapMgr;
 
         public SceneManager SceneMgr
@@ -309,7 +308,7 @@ namespace Wof.View
             if (visible)
             {
                 sceneMgr.VisibilityMask = defaultVisibilityMask;
-                if (FrameWork.DisplayMinimap)
+                if (EngineConfig.DisplayMinimap)
                 {
                     minimapMgr.VisibilityMask = defaultVisibilityMask;
                 }
@@ -317,24 +316,24 @@ namespace Wof.View
             else
             {
                 sceneMgr.VisibilityMask = 0;
-                if (FrameWork.DisplayMinimap)
+                if (EngineConfig.DisplayMinimap)
                 {
                     minimapMgr.VisibilityMask = 0;
                 }
             }
         }
 
-        public LevelView(FrameWork framework, IController controller)
+        public LevelView(IFrameWork framework, IController controller)
         {
             isNightScene = false;
 
             this.framework = framework;
             this.controller = controller;
 
-            sceneMgr = FrameWork.SceneMgr;
-            minimapMgr = FrameWork.MinimapMgr;
+            sceneMgr = framework.SceneMgr;
+            minimapMgr = framework.MinimapMgr;
 
-            defaultVisibilityMask = minimapMgr.VisibilityMask;
+            defaultVisibilityMask = sceneMgr.VisibilityMask;
             // ukryj cala scene na czas ladowania
 
             SetVisible(false);
@@ -386,11 +385,11 @@ namespace Wof.View
             
         }
 
-        public void OnRegisterTile(LevelTile levelTile)
+        protected void OnRegisterTile(LevelTile levelTile)
         {
             if (EngineConfig.DisplayBoundingQuadrangles && !(levelTile is OceanTile))
             {
-                OnRegisterBoundingQuadrangle(levelTile);
+                OnRegisterBoundingQuadrangle(levelTile, sceneMgr);
             }
 
             if (levelTile is OceanTile)
@@ -636,7 +635,7 @@ namespace Wof.View
         {
             if (EngineConfig.DisplayBoundingQuadrangles)
             {
-                OnRegisterBoundingQuadrangle(plane);
+                OnRegisterBoundingQuadrangle(plane, sceneMgr);
             }
 
             if (plane is StoragePlane)
@@ -654,11 +653,11 @@ namespace Wof.View
             {
                 if (plane.IsEnemy)
                 {
-                    planeViews.Add(new EnemyPlaneView(plane, sceneMgr, sceneMgr.RootSceneNode));
+                    planeViews.Add(new EnemyPlaneView(plane, framework, sceneMgr.RootSceneNode));
                 }
                 else
                 {
-                    playerPlaneView = new PlayerPlaneView(plane, sceneMgr, sceneMgr.RootSceneNode);
+                    playerPlaneView = new PlayerPlaneView(plane, framework, sceneMgr.RootSceneNode);
                 }
             }
         }
@@ -1596,7 +1595,7 @@ namespace Wof.View
 
             if (EngineConfig.DisplayBoundingQuadrangles)
             {
-                OnRegisterBoundingQuadrangle(playerPlaneView.Plane);
+                OnRegisterBoundingQuadrangle(playerPlaneView.Plane, sceneMgr);
             }
         }
 
@@ -1604,11 +1603,11 @@ namespace Wof.View
         /// Rejestruje czworokat ktory rysowany jest w view (HELPER)
         /// </summary>
         /// <param name="q">obiekt implementuj¹cy IRenderableQuadrangles</param>
-        public static void OnRegisterBoundingQuadrangle(IRenderableQuadrangles q)
+        public static void OnRegisterBoundingQuadrangle(IRenderableQuadrangles q, SceneManager sceneMgr)
         {
             if (EngineConfig.DisplayBoundingQuadrangles)
             {
-                ViewHelper.AttachQuadrangles(FrameWork.SceneMgr, q);
+                ViewHelper.AttachQuadrangles(sceneMgr, q);
             }
         }
 
@@ -1790,7 +1789,7 @@ namespace Wof.View
             // OCEAN 
            
             // minimap
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 SceneNode mOceanNode = minimapMgr.RootSceneNode.CreateChildSceneNode("MinimapOceanNode");
                 Entity mOcean = sceneMgr.CreateEntity("MinimapOcean", "TwoSidedPlane.mesh");
@@ -1866,7 +1865,7 @@ namespace Wof.View
             skyPlane.normal = Vector3.UNIT_Z;
             skyPlane.d = 210;
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapMgr.SetSkyPlane(true, skyPlane, "MiniMap/Sky", 10.0f, 7 );
 

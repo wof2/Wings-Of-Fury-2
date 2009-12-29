@@ -20,7 +20,7 @@
   
   <ocean width="2"/>
 
-  <island-begin variation="3"/>
+  <island-begin mesh="Island6" variation="3"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>

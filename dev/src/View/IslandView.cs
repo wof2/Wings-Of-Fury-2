@@ -54,6 +54,7 @@ using Wof.Misc;
 using Wof.View.Effects;
 using Math=Mogre.Math;
 using Wof.View.TileViews;
+using Wof.Model.Level.LevelTiles.IslandTiles;
 
 namespace Wof.View
 {
@@ -69,7 +70,11 @@ namespace Wof.View
             get { return staticNode; }
         }
 
-        private int count;
+
+        protected string meshName;
+
+
+        protected int count;
 
         #region Minimap representation
 
@@ -82,6 +87,8 @@ namespace Wof.View
 
         #endregion
 
+
+        
         /// <summary>
         /// Konstruktor dla wysp na pierwszym planie / biora udzial w grze
         /// </summary>
@@ -89,7 +96,7 @@ namespace Wof.View
         /// <param name="framework">Standardowy framework Ogre'a</param>
         /// <param name="parentNode">SceneNode który bêdzie zawiera³ w sobie Node'a wyspy</param>
         /// <author>Kamil S³awiñski</author>
-        public IslandView(List<TileView> tileViews, FrameWork framework, SceneNode parentNode)
+        public IslandView(List<TileView> tileViews, IFrameWork framework, SceneNode parentNode)
             : base(tileViews, framework, parentNode, "Island" + (++islandCounter))
         {
             parkedPlanes =  new List<PlaneView>();
@@ -104,24 +111,24 @@ namespace Wof.View
         /// <param name="framework">Standardowy framework Ogre'a</param>
         /// <param name="parentNode">SceneNode który bêdzie zawiera³ w sobie Node'a wyspy</param>
         /// <author>Kamil S³awiñski</author>
-        public IslandView(int indexTile, int length, FrameWork framework, SceneNode parentNode)
+        public IslandView(int indexTile, IFrameWork framework, SceneNode parentNode)
             : base(indexTile, framework, parentNode, "Island" + (++islandCounter))
         {
             parkedPlanes = new List<PlaneView>();
-            count = length;
+            //count = length;
             initOnScene();
         }
 
         protected override void initOnScene()
         {
-            String islandMeshName; //Nazwa modelu  
+          
 
             float margin;
             staticNode = sceneMgr.CreateSceneNode(mainNode.Name + "Static");
 
             if (!backgroundDummy)
             {
-                count = tileViews.Count;
+                count =  tileViews.Count;
                 margin = 4.5f;
             }
             else
@@ -129,35 +136,45 @@ namespace Wof.View
                 margin = 0.3f;
             }
             float maxX = -((Math.Abs(count) - 1) * LevelView.TileWidth);
-
-            switch (count)
+            BeginIslandTile tile;
+            if(tileViews != null && tileViews.Count > 0 && tileViews[0].LevelTile is BeginIslandTile)
             {
-                case 5: //5
+                tile = (tileViews[0].LevelTile as BeginIslandTile);
+                meshName = tile.MeshName;
+            }
+
+          
+           
+            string meshFilename;
+            switch (meshName)
+            {
+                case "Island1": //5
                     //ISLAND1
-                    islandMeshName = "Island1a.mesh";
                     initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
                     initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
                     break;
-                case -6: //4
+
+                case "Island1a": //5
+                    //ISLAND1
+                    initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
+                    initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
+                    break;
+                case "IslandRound.mesh": //4
                     //ISLAND ROUND
-                    islandMeshName = "IslandRound.mesh";
                     initNonCollisionTreesCircle(staticNode, 15.0f, 1.4f);
                     break;
-           
-                case 6: //6
+
+                case "Island2": //6
                     //ISLAND2
-                    islandMeshName = "Island2.mesh";
                     initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
                     initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
                     break;
-                case 7: //7
+                case "Laguna": //7
                     //LAGUNA
-                    islandMeshName = "Laguna.mesh";
                     break;
 
-                case 8: //8
+                case "DoubleLaguna": //8
                     // DOUBLE LAGUNA
-                    islandMeshName = "DoubleLaguna.mesh";
                     initNonCollisionTreesDiamond(staticNode, -5.5f, 0.0f, maxX * 0.1f, maxX, 0.6f);
                     initNonCollisionTreesDiamond(staticNode, -1.5f, 30.0f, maxX * 0.00f, maxX * 0.15f, 0.6f);
                    
@@ -165,41 +182,36 @@ namespace Wof.View
                    
                     break;
 
-                case 9: //9
+                case "Island3": //9
                     //ISLAND3
-                    islandMeshName = "Island3.mesh";
                     initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
                     initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
                     break;
-                case 12: //12
+                case "Island12u": //12
                     //ISLAND12u
-                    islandMeshName = "Island12u.mesh";
-                
                     initNonCollisionTreesDiamond(staticNode, margin, 5, maxX / 4.0f, maxX / 2.0f, 0.5f);
                     initNonCollisionTreesDiamond(staticNode, -margin, -5, maxX / 4.0f, maxX / 2.0f, 0.5f);
                     break;
 
-                case 13: //13
+                case "Island4": //13
                     //ISLAND4
-                    islandMeshName = "Island4.mesh";
                     initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
                     initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
                     break;
 
-                case 18: //18
+                case "Island18u": //18
                     //ISLAND18u
-                    islandMeshName = "Island18u.mesh";
                     initNonCollisionTreesDiamond(staticNode, 10, 14, maxX / 2.5f, maxX, 0.5f);
                     initNonCollisionTreesDiamond(staticNode, -11, -13, maxX / 2.5f, maxX, 0.5f);
 
                     // zwolnic pamiec
-                    EnemyPlaneView epv = new EnemyPlaneView(null, sceneMgr, staticNode);
+                    EnemyPlaneView epv = new EnemyPlaneView(null, framework, staticNode);
                     epv.PlaneNode.SetPosition(-3, 0.8f, -18 - 90);
                     epv.PlaneNode.Yaw(new Radian(new Degree(60)));
                     epv.MinimapItem.Hide();
                     parkedPlanes.Add(epv);
-                    
-                    EnemyPlaneView epv2 = new EnemyPlaneView(null, sceneMgr, staticNode);
+
+                    EnemyPlaneView epv2 = new EnemyPlaneView(null, framework, staticNode);
                     epv2.PlaneNode.SetPosition(-3, 0.8f, -25 - 90);
                     epv2.PlaneNode.Yaw(new Radian(new Degree(62)));
                     epv2.MinimapItem.Hide();
@@ -209,18 +221,9 @@ namespace Wof.View
                     break;
 
 
-                case 24:
+                case "Island5": //24
                     //ISLAND5
-                    if (EngineConfig.LowDetails)
-                    {
-                        islandMeshName = "Island5_low.mesh";
-                    }
-                    else
-                    {
-                        islandMeshName = "Island5.mesh";
-                    }
-
-
+                   
                     if (backgroundDummy)
                     {
                         initNonCollisionTreesDiamond(staticNode, 1, 15, 0.7f);
@@ -232,18 +235,9 @@ namespace Wof.View
                         initNonCollisionTreesDiamond(staticNode, -margin, -15, 0.7f);
                     }
                     break;
-                case 42:
-                    //ISLAND6
-                    if (EngineConfig.LowDetails)
-                    {
-                        islandMeshName = "Island6_low.mesh";
-                    }
-                    else
-                    {
-                        islandMeshName = "Island6.mesh";
-                       
-                    }
 
+                case "Island6": //42
+                    //ISLAND6
                     if (EngineConfig.LowDetails)
                     {
                         initNonCollisionTreesDiamond(staticNode, 4.5f, 33, 0.5f);
@@ -257,7 +251,17 @@ namespace Wof.View
                     return;
             }
 
-            compositeModel = sceneMgr.CreateEntity(name, islandMeshName);
+            if (EngineConfig.LowDetails && MeshManager.Singleton.ResourceExists(meshName + "_low" + ViewHelper.C_MESH_EXT))
+            {
+                meshFilename = "_low" + ViewHelper.C_MESH_EXT;
+            }
+            else
+            {
+                meshFilename = meshName + ViewHelper.C_MESH_EXT;
+            }
+
+
+            compositeModel = sceneMgr.CreateEntity(name, meshFilename);
             compositeModel.CastShadows = false;// EngineConfig.ShadowsQuality > 0;
           //  compositeModel.SetMaterialName("Carrier");
       //      compositeModel.SetMaterialName("Carrier/Panels");
@@ -282,7 +286,7 @@ namespace Wof.View
             {
                 float angle;
 
-                if (count != 42)
+                if (meshName.Equals("Island6"))
                 {
                     float X = (islandCounter%5*250) - 650;
                     float Z = Math.RangeRandom(-4, 0)*70;
@@ -326,17 +330,17 @@ namespace Wof.View
             {
                 for (int i = 0; i < count; i++)
                 {
-                    tileViews[i].initOnScene(staticNode, i + 1, tileViews.Count);
+                    tileViews[i].initOnScene(staticNode, i + 1, count);
                 }
 
                 // minimapa
-                if (FrameWork.DisplayMinimap)
+                if (EngineConfig.DisplayMinimap)
                 {
                     minimapItem =
-                        new MinimapItem(staticNode, FrameWork.MinimapMgr, "Cube.mesh",
+                        new MinimapItem(staticNode, framework.MinimapMgr, "Cube.mesh",
                                         new ColourValue(1, 0.9137f, 0.29f), compositeModel);
                     minimapItem.Entity.SetMaterialName("Minimap/Island");
-                    minimapItem.ScaleOverride = new Vector2(this.count * 10.0f, 3); // stala wysokosc wyspy, niezale¿na od bounding box
+                    minimapItem.ScaleOverride = new Vector2(count * 10.0f, 3); // stala wysokosc wyspy, niezale¿na od bounding box
                  //   minimapItem.MinimapNode.Translate(0,0,50);
                     minimapItem.Refresh();
                 }

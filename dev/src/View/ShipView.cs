@@ -98,7 +98,7 @@ namespace Wof.View
         /// <param name="framework">Standardowy framework Ogre'a</param>
         /// <param name="parentNode">SceneNode który bêdzie zawiera³ w sobie Node'a statku</param>
         /// <author>Adam Witczak</author>
-        public ShipView(List<TileView> tileViews, FrameWork framework, SceneNode parentNode)
+        public ShipView(List<TileView> tileViews, IFrameWork framework, SceneNode parentNode)
             : base(tileViews, framework, parentNode, "Ship" + (++shipCounter))
         {
             initOnScene();
@@ -317,10 +317,10 @@ namespace Wof.View
             dieSound.SetBaseGain(0.25f);
 
             // minimapa
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem =
-                    new MinimapItem(staticNode, FrameWork.MinimapMgr, "ShipMinimap.mesh",
+                    new MinimapItem(staticNode, framework.MinimapMgr, "ShipMinimap.mesh",
                                      new ColourValue(0.092f, 0.262f, 0.49f), compositeModel);
 
                 minimapItem.ScaleOverride = new Vector2(0, 15); // stala wysokosc, niezale¿na od bounding box

@@ -10,7 +10,7 @@
   <ocean width="40"/>
   
   <!-- lane island: Island18u -->
-  <island-begin variation="3"/>  
+  <island-begin mesh="Island18u" variation="3"/>  
   <wooden-bunker num-soldiers="3"/>
   <terrain variation="2"/>
   <terrain variation="1"/>

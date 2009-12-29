@@ -75,7 +75,7 @@ namespace Wof.View.TileViews
         protected Entity flakBarrel;
 
 
-        public ShipBunkerTileView(LevelTile levelTile, FrameWork framework)
+        public ShipBunkerTileView(LevelTile levelTile, IFrameWork framework)
             : base(levelTile, framework)
         {
             animationState = null;
@@ -111,10 +111,10 @@ namespace Wof.View.TileViews
             gunNode = installationNode.CreateChildSceneNode("ShipFlakBarrelNode" + nameSuffix, new Vector3(0.0f, 0.9f, 0.0f));
             gunNode.AttachObject(flakBarrel);
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem =
-                    new MinimapItem(installationNode, FrameWork.MinimapMgr, "Cube.mesh", ColourValue.Red, installationEntity);
+                    new MinimapItem(installationNode, framework.MinimapMgr, "Cube.mesh", ColourValue.Red, installationEntity);
                 minimapItem.MinimapObjectsDepth = 5.0f;
                 minimapItem.ScaleOverride = new Vector2(3, 10); // stala wysokosc dziala, niezale¿na od bounding box
                 minimapItem.Refresh();
@@ -169,7 +169,7 @@ namespace Wof.View.TileViews
             EffectsManager.Singleton.NoSmoke(sceneMgr, installationNode);
             EffectsManager.Singleton.HideSprite(sceneMgr, installationNode, EffectsManager.EffectType.FIRE, 0);
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 minimapItem.Colour = ColourValue.Red;
                 minimapItem.Refresh();
@@ -201,7 +201,7 @@ namespace Wof.View.TileViews
                 ViewHelper.ReplaceMaterial(installationEntity, "Wood", "DestroyedWood");
             }
 
-            if (FrameWork.DisplayMinimap)
+            if (EngineConfig.DisplayMinimap)
             {
                 //Kolor szary
                 minimapItem.Colour = new ColourValue(0.752f, 0.752f, 0.752f);
