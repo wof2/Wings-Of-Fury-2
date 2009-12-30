@@ -317,7 +317,7 @@ namespace Wof.Controller
             {               
                 root = new Root();
                 LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
-                LogManager.Singleton.LogMessage("Starting Wings of Fury 2 [performance test] ver. " + EngineConfig.C_WOF_VERSION);
+                LogManager.Singleton.LogMessage("Starting " + Game.Name + " [performance test] ver. " + EngineConfig.C_WOF_VERSION);
                 SetupResources("test_resources.cfg");
 
                 carryOn = Configure();

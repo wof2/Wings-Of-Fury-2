@@ -238,6 +238,10 @@ namespace Wof.Controller.Screens
         /// Czy w poprzedniej klatce wszystkie przyciski by³y puszczone
         /// </summary>
         private bool wereAllKeysReleased = false; 
+        
+        
+       
+        
 
         public AbstractScreen(GameEventListener gameEventListener,
                               IFrameWork framework, Viewport viewport, Camera camera)
@@ -496,6 +500,9 @@ namespace Wof.Controller.Screens
 
         protected virtual void CreateGUI()
         {
+        	
+        	
+    	
             int h = (int)GetTextVSpacing();
             mGui = new GUI(FontManager.CurrentFont, fontSize);
             createMouse();
@@ -601,10 +608,13 @@ namespace Wof.Controller.Screens
             }
 
         }
-
+ 
         public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
+        	
             screenTime += evt.timeSinceLastFrame;
+            
+          
             if (initialized)
             {
                 FrameStarted(evt);
@@ -625,10 +635,13 @@ namespace Wof.Controller.Screens
                         p.AnimationMgr.animateAll();
                     }
                 }
+				bool focus = (framework as FrameWorkForm).Focused;
 
-
-                inputMouse.Capture();
-                inputKeyboard.Capture();
+                if(focus)
+                {
+                	inputMouse.Capture();
+                	inputKeyboard.Capture();
+                } 
                 if (inputJoystick != null) inputJoystick.Capture();
 
                 receiveKeys(inputKeyboard, inputJoystick);
@@ -910,36 +923,38 @@ namespace Wof.Controller.Screens
 
 
                     int id = -1;
-
-                    if (mouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
+                    if(focus)
                     {
-                        wasLeftMousePressed = true;
-                    }
-                    else if (wasLeftMousePressed)
-                    {
-                        // w poprzedniej klatce uzytkownik
-                        // trzymal wcisniety przycisk myszki
-                        // a teraz go zwolnil
-                        id = mGui.injectMouse(screenx, screeny, true);
-                        wasLeftMousePressed = false;
-                    }
-                    else
-                    {
-                        id = mGui.injectMouse(screenx, screeny, false);
-
-                        // zaznacz te na ktore pokazuje klawiatura
-                        if (wasDownKeyPressed)
-                        {
-                            tryToChangeSelectedButton(currentButton + 1);
-                        }
-                        else if (wasUpKeyPressed)
-                        {
-                            tryToChangeSelectedButton(currentButton - 1);
-                        }
-                        else if (id != -1)
-                        {
-                            selectButton(id, true); currentButton = id;
-                        }
+	                    if (mouseState.ButtonDown(MOIS.MouseButtonID.MB_Left))
+	                    {
+	                        wasLeftMousePressed = true;
+	                    }
+	                    else if (wasLeftMousePressed)
+	                    {
+	                        // w poprzedniej klatce uzytkownik
+	                        // trzymal wcisniety przycisk myszki
+	                        // a teraz go zwolnil
+	                        id = mGui.injectMouse(screenx, screeny, true);
+	                        wasLeftMousePressed = false;
+	                    }
+	                    else
+	                    {
+	                        id = mGui.injectMouse(screenx, screeny, false);
+	
+	                        // zaznacz te na ktore pokazuje klawiatura
+	                        if (wasDownKeyPressed)
+	                        {
+	                            tryToChangeSelectedButton(currentButton + 1);
+	                        }
+	                        else if (wasUpKeyPressed)
+	                        {
+	                            tryToChangeSelectedButton(currentButton - 1);
+	                        }
+	                        else if (id != -1)
+	                        {
+	                            selectButton(id, true); currentButton = id;
+	                        }
+	                    }
                     }
                 }
             }

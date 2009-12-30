@@ -515,7 +515,7 @@ namespace wingitor
 
                 rs.SetConfigOption("Video Mode", Width + " x "+ Height + " @ 32-bit colour");
                 // Create Render Window
-                root.Initialise(false, "Main Ogre Window");
+                root.Initialise(false, "Wingitor RenderWindow");
                 NameValuePairList misc = new NameValuePairList();
                 misc["externalWindowHandle"] = Handle.ToString();
                 window = root.CreateRenderWindow("Wingitor RenderWindow", (uint)Width, (uint)Height, false, misc.ReadOnlyInstance);

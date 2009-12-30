@@ -47,10 +47,12 @@
  */
 
 using System;
+using System.Runtime.InteropServices;
 using BetaGUI;
 using Mogre;
+using System.Threading;
 using Wof.Languages;
-using FontManager=Wof.Languages.FontManager;
+using FontManager = Wof.Languages.FontManager;
 
 namespace Wof.Controller.Screens
 {
@@ -69,6 +71,9 @@ namespace Wof.Controller.Screens
 
         protected override void CreateGUI()
         {
+        	
+        	 
+                    
             base.CreateGUI();
             int h = (int)GetTextVSpacing();
             string gameName = "Wings of Fury 2";
@@ -122,12 +127,18 @@ namespace Wof.Controller.Screens
      
        
             guiWindow.show();
+        
+           
+
+     
+		
         }
 
         #region BetaGUIListener Members
 
         public void onButtonPress(Button referer)
         {
+        
             if (screenTime > C_RESPONSE_DELAY)
             {
                 PlayClickSound();
