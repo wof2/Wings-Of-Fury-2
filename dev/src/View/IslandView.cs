@@ -208,13 +208,20 @@ namespace Wof.View
                     EnemyPlaneView epv = new EnemyPlaneView(null, framework, staticNode);
                     epv.PlaneNode.SetPosition(-3, 0.8f, -18 - 90);
                     epv.PlaneNode.Yaw(new Radian(new Degree(60)));
-                    epv.MinimapItem.Hide();
+                    if(EngineConfig.DisplayMinimap)
+                    {
+                    	epv.MinimapItem.Hide();
+                    }
                     parkedPlanes.Add(epv);
 
                     EnemyPlaneView epv2 = new EnemyPlaneView(null, framework, staticNode);
                     epv2.PlaneNode.SetPosition(-3, 0.8f, -25 - 90);
                     epv2.PlaneNode.Yaw(new Radian(new Degree(62)));
-                    epv2.MinimapItem.Hide();
+                    if(EngineConfig.DisplayMinimap)
+                    {
+                    	epv2.MinimapItem.Hide();
+                    }
+                   
                     parkedPlanes.Add(epv2);
 
                     initLampPosts(staticNode, -7, maxX * 0.55f, maxX * 0.95f, 12, new Radian(new Degree(0)));

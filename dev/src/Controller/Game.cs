@@ -62,6 +62,12 @@ using Wof.Model.Configuration;
 using Wof.View;
 using Wof.View.Effects;
 
+using LONG = System.Int32;
+using LONG_PTR = System.IntPtr;
+using HWND = System.IntPtr;
+
+	    
+	    
 namespace Wof.Controller
 {
     /// <summary>
@@ -92,8 +98,11 @@ namespace Wof.Controller
         public static bool ShouldReload
         {
             get { return shouldReload; }
-            set { shouldReload = value; }
+            set { shouldReload = value; }           
+            
         }
+        
+         private Browser browser;
 
         private static Boolean shouldReload = false;
         private DelegateVoidVoid afterExit = null;
@@ -116,14 +125,18 @@ namespace Wof.Controller
 
                 } else
                 {
+                	
                     if (EngineConfig.ShowIntro)
                     {
                         currentScreen = new IntroScreen(this, this, viewport, camera);
+                        
                     }
                     else
                     {
                         SoundManager.Instance.PlayMainTheme();
+                          
                         currentScreen = new StartScreen(this, this, viewport, camera);
+                        ShowBrowser();    
                     }  
                 }
              
@@ -131,7 +144,7 @@ namespace Wof.Controller
      
             }
           
-            currentScreen.DisplayGUI(false);
+           currentScreen.DisplayGUI(false);
         }
 
        
@@ -146,6 +159,27 @@ namespace Wof.Controller
             if (currentScreen != null)
             {
                 currentScreen.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoystick);
+                if(browser != null && browser.Visible)
+                {
+                	
+                	if(!browser.Focused && browser.IsMouseOver(inputMouse.MouseState))
+                	{
+                		//browser.TopMost = true;
+                		//browser.Activate();
+                		browser.BringToFront();
+                		if(!browser.Focus())
+                		{
+                			
+                		}
+                		
+                		
+                	} else if(browser.Focused && !browser.MouseOver)
+                	{
+                		if(!Focused){
+                			Focus();
+                		}
+                	}
+                }
             }
             return true;
         }
@@ -192,9 +226,12 @@ namespace Wof.Controller
 
         #region Main Method
 
+        [STAThread]   
         private static void Main(string[] args)
         {
          
+        	Firewall.AddException();
+        	
         	//  MessageBox.Show("Params"+string.Join(",",args));
      
         	
@@ -258,6 +295,7 @@ namespace Wof.Controller
         {
             try
             {
+            	
                 bool firstInstance;
                 Mutex mutex = new Mutex(false, @"Wings_Of_Fury", out firstInstance);
              //   if (firstInstance)
@@ -318,6 +356,11 @@ namespace Wof.Controller
         }
         
         
+		public override void Go()
+		{
+			StartBrowser();
+			base.Go();
+		}
         /// <summary>
         /// Uruchamia pierwsza instancje na tym komputerze
         /// </summary>
@@ -333,6 +376,7 @@ namespace Wof.Controller
                     game.InjectPerformanceTestResults(performanceTest);
                 }
                 EngineConfig.SetDisplayMinimap(false);
+                
                 game.Go();
             }
             catch (SEHException)
@@ -441,6 +485,7 @@ namespace Wof.Controller
 
         public void StartGame(int levelNo)
         {
+        	HideBrowser();
             switch (EngineConfig.Difficulty)
             {
                 case EngineConfig.DifficultyLevel.Easy:
@@ -538,14 +583,16 @@ namespace Wof.Controller
         /// Jeœli przy przejœciu do tego screena potrzebna jest ponowna inicjalizacja kamery, scenemanager'a, viewportów, compositorów oraz dŸwiêku, metoda przeprowadzi j¹.
         /// </summary>
         private void initScreenAfter(MenuScreen screen)
-        {
+        {			
+            
             EngineConfig.SetDisplayMinimap(false);
 
             Boolean justMenu = IsMenuScreen(screen);
-            screen.CleanUp(justMenu);
+            if(screen != null)    screen.CleanUp(justMenu);
 
             if (!justMenu)
-            {
+            {  
+            	
                 ChooseSceneManager();
                 CreateCamera();
                 if (!FrameWorkStaticHelper.CreateSoundSystem(camera, EngineConfig.SoundSystem))
@@ -554,11 +601,90 @@ namespace Wof.Controller
                 CreateViewports();
                 AddCompositors();
              
+            } else
+            {
+            	           
+           	
+				
             }
         }
+        
+        public void StartBrowser()
+        { 
+        	browser = new Browser();
+	        browser.SetBounds(0,0, 300, 100);    
+        	HideBrowser();
+            
+	
+        }
+        
+        public void ShowBrowser()
+        {
+        	if(browser == null) StartBrowser();
+        	browser.TopMost = true;
+        	browser.Show();
+        }
+        public void HideBrowser()
+        {
+        	 if(browser == null) return;
+        	 browser.Hide();
+        }
+        public void DisposeBrowser()
+        {
+        	if(browser != null)
+        	{	            	
+            	browser.Close();
+        		browser.Dispose();
+        		browser = null;
+        	}
+        }
 
+        public void GotoIntroScreen()
+        {
+        	
+        	if (OptionsScreen.restartRequired)
+            {
+                OptionsScreen.restartRequired = false;
+                shouldReload = true;
+                shutDown = true;
+            }
+            if(OptionsScreen.shutdownRequired)
+            {
+            	OptionsScreen.shutdownRequired = false;
+            	shouldReload = false;
+            	shutDown = true;
+            }
+           
+            
+          
+            Boolean justMenu = IsMenuScreen(currentScreen);
+            initScreenAfter(currentScreen);
+
+            SoundManager.Instance.PlayMainTheme();
+            ScreenState ss = null;
+            if (currentScreen != null && currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
+            {
+                ss = (currentScreen as AbstractScreen).GetScreenState();
+            }
+
+            currentScreen = new IntroScreen(this, this, viewport, camera);
+         
+
+            if (ss != null)
+            {
+                ((AbstractScreen)currentScreen).SetScreenState(ss);
+            }
+            currentScreen.DisplayGUI(justMenu);
+            if (ss != null)
+            {
+                (currentScreen as AbstractScreen).MousePosX = ss.MousePosX;
+                (currentScreen as AbstractScreen).MousePosY = ss.MousePosY;
+            }
+        }
         public void GotoStartScreen()
         {
+        	
+        	
             if (OptionsScreen.restartRequired)
             {
                 OptionsScreen.restartRequired = false;
@@ -571,13 +697,18 @@ namespace Wof.Controller
             	shouldReload = false;
             	shutDown = true;
             }
+            if(!shutDown && !shouldReload)
+            {
+            	ShowBrowser();      
+            }
+            
           
             Boolean justMenu = IsMenuScreen(currentScreen);
             initScreenAfter(currentScreen);
 
             SoundManager.Instance.PlayMainTheme();
             ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
+            if (currentScreen != null && currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
@@ -1120,6 +1251,7 @@ namespace Wof.Controller
 
         private Boolean SceneNeedsRebuilding(MenuScreen screen)
         {
+        	if (screen ==  null) return true;
             if ((screen is EndingScreen)) return true;
             if ((screen is GameScreen)) return true;
             if ((screen is IntroScreen)) return true;
@@ -1169,7 +1301,138 @@ namespace Wof.Controller
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetLastActivePopup(IntPtr hWnd);
+        
+        
+	    [DllImport("user32.dll")]
+		public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+	   
+		[DllImport("user32.dll", SetLastError=true)]
+		public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+		
+		
+		
+		[DllImport("user32.dll", EntryPoint = "GetSystemMetrics")]
+	    public static extern int GetSystemMetrics(int which);
+	
+	    [DllImport("user32.dll")]
+	    public static extern void
+	        SetWindowPos(IntPtr hwnd, IntPtr hwndInsertAfter,
+	                     int X, int Y, int width, int height, uint flags);        
+	
+	    private const int SM_CXSCREEN = 0;
+	    private const int SM_CYSCREEN = 1;
+	    private static IntPtr HWND_TOP = IntPtr.Zero;
+	    private const int SWP_SHOWWINDOW = 64; // 0×0040
+	
+	    public static int ScreenX
+	    {
+	        get { return GetSystemMetrics(SM_CXSCREEN);}
+	    }
+	
+	    public static int ScreenY
+	    {
+	        get { return GetSystemMetrics(SM_CYSCREEN);}
+	    }
+	
+	    public static void SetWinFullScreen(IntPtr hwnd)
+	    {
+	        SetWindowPos(hwnd, HWND_TOP, 0, 0, ScreenX, ScreenY, SWP_SHOWWINDOW);
+	    }
+
+       
     }
+    
+    public abstract class WindowStyles
+    {
+        public static int WS_OVERLAPPED       = 0x00000000;       
+   		public static int WS_POPUP = unchecked((int)0x80000000);
+        public static int WS_CHILD        = 0x40000000;
+        public static int WS_MINIMIZE     = 0x20000000;
+        public static int WS_VISIBLE      = 0x10000000;
+        public static int WS_DISABLED     = 0x08000000;
+        public static int WS_CLIPSIBLINGS     = 0x04000000;
+        public static int WS_CLIPCHILDREN     = 0x02000000;
+        public static int WS_MAXIMIZE     = 0x01000000;
+        public static int WS_CAPTION      = 0x00C00000;     /* WS_BORDER | WS_DLGFRAME  */
+        public static int WS_BORDER       = 0x00800000;
+        public static int WS_DLGFRAME     = 0x00400000;
+        public static int WS_VSCROLL      = 0x00200000;
+        public static int WS_HSCROLL      = 0x00100000;
+        public static int WS_SYSMENU      = 0x00080000;
+        public static int WS_THICKFRAME       = 0x00040000;
+        public static int WS_GROUP        = 0x00020000;
+        public static int WS_TABSTOP      = 0x00010000;
+
+        public static int WS_MINIMIZEBOX      = 0x00020000;
+        public static int WS_MAXIMIZEBOX      = 0x00010000;
+
+        public static int WS_TILED        = WS_OVERLAPPED;
+        public static int WS_ICONIC       = WS_MINIMIZE;
+        public static int WS_SIZEBOX      = WS_THICKFRAME;
+        public static int WS_TILEDWINDOW      = WS_OVERLAPPEDWINDOW;
+
+        // Common Window Styles
+
+        public static int WS_OVERLAPPEDWINDOW =
+            ( WS_OVERLAPPED  |
+              WS_CAPTION     |
+              WS_SYSMENU     |
+              WS_THICKFRAME  |
+              WS_MINIMIZEBOX |
+              WS_MAXIMIZEBOX );
+
+        public static int WS_POPUPWINDOW =
+            ( WS_POPUP   |
+              WS_BORDER  |
+              WS_SYSMENU );
+
+        public static int WS_CHILDWINDOW = WS_CHILD;
+
+        //Extended Window Styles
+
+        public static int WS_EX_DLGMODALFRAME     = 0x00000001;
+        public static int WS_EX_NOPARENTNOTIFY    = 0x00000004;
+        public static int WS_EX_TOPMOST       = 0x00000008;
+        public static int WS_EX_ACCEPTFILES       = 0x00000010;
+        public static int WS_EX_TRANSPARENT       = 0x00000020;
+
+//#if(WINVER >= 0x0400)
+        public static int WS_EX_MDICHILD      = 0x00000040;
+        public static int WS_EX_TOOLWINDOW    = 0x00000080;
+        public static int WS_EX_WINDOWEDGE    = 0x00000100;
+        public static int WS_EX_CLIENTEDGE    = 0x00000200;
+        public static int WS_EX_CONTEXTHELP       = 0x00000400;
+
+        public static int WS_EX_RIGHT         = 0x00001000;
+        public static int WS_EX_LEFT          = 0x00000000;
+        public static int WS_EX_RTLREADING    = 0x00002000;
+        public static int WS_EX_LTRREADING    = 0x00000000;
+        public static int WS_EX_LEFTSCROLLBAR     = 0x00004000;
+        public static int WS_EX_RIGHTSCROLLBAR    = 0x00000000;
+
+        public static int WS_EX_CONTROLPARENT     = 0x00010000;
+        public static int WS_EX_STATICEDGE    = 0x00020000;
+        public static int WS_EX_APPWINDOW     = 0x00040000;
+
+        public static int WS_EX_OVERLAPPEDWINDOW  = (WS_EX_WINDOWEDGE | WS_EX_CLIENTEDGE);
+        public static int WS_EX_PALETTEWINDOW     = (WS_EX_WINDOWEDGE | WS_EX_TOOLWINDOW | WS_EX_TOPMOST);
+//#endif /* WINVER >= 0x0400 */
+
+//#if(_WIN32_WINNT >= 0x0500)
+        public static int WS_EX_LAYERED       = 0x00080000;
+//#endif /* _WIN32_WINNT >= 0x0500 */
+
+//#if(WINVER >= 0x0500)
+        public static int WS_EX_NOINHERITLAYOUT   = 0x00100000; // Disable inheritence of mirroring by children
+        public static int WS_EX_LAYOUTRTL     = 0x00400000; // Right to left mirroring
+//#endif /* WINVER >= 0x0500 */
+
+//#if(_WIN32_WINNT >= 0x0500)
+        public static int WS_EX_COMPOSITED    = 0x02000000;
+        public static int WS_EX_NOACTIVATE    = 0x08000000;
+//#endif /* _WIN32_WINNT >= 0x0500 */
+    }
+
 
     #endregion
 }

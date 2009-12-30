@@ -73,8 +73,7 @@ namespace Wof.Controller
     public abstract class FrameWorkForm : Form, IFrameWork
     {
 
-        public const String C_VIDEO_MODE = "Video Mode";
-        public const String C_ANTIALIASING = "Anti aliasing";
+    
 
         
 
@@ -178,6 +177,8 @@ namespace Wof.Controller
         protected Keyboard inputKeyboard;
         protected JoyStick inputJoystick;
         protected Mouse inputMouse;
+        
+	
 
         protected bool showDebugOverlay = true;
         protected float debugTextDelay = 0.0f;
@@ -199,6 +200,8 @@ namespace Wof.Controller
 
         public virtual void Go()
         {
+        	
+            
             if (!Setup())
                 return;
 
@@ -282,7 +285,7 @@ namespace Wof.Controller
               
                 //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
                 // LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
-                LogManager.Singleton.LogMessage("Starting Wings of Fury 2 ver. " + EngineConfig.C_WOF_VERSION);
+                LogManager.Singleton.LogMessage("Starting " +  Game.Name+ " ver. " + EngineConfig.C_WOF_VERSION);
 
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.SetupingResources)));
@@ -431,6 +434,7 @@ namespace Wof.Controller
         }
 
 
+        public int hwnd;
         /// <summary>
         /// Configures the application - returns false if the user chooses to abandon configuration.
         /// </summary>
@@ -443,8 +447,21 @@ namespace Wof.Controller
                 //ResourceBackgroundQueue.Singleton.InitialiseAllResourceGroups();
                 try
                 {
-                    window = root.Initialise(true, "Wings Of Fury 2");
-                
+                    root.Initialise(false, "Wings Of Fury 2");                    
+                    NameValuePairList misc = new NameValuePairList();
+	                misc["externalWindowHandle"] = Handle.ToString();
+	                Vector2 dim = FrameWorkStaticHelper.GetCurrentVideoMode(root);
+	                this.Width = (int)dim.x;
+	                this.Height = (int)dim.y;
+	                window = root.CreateRenderWindow("Wings Of Fury 2", (uint)dim.x, (uint)dim.y, false, misc.ReadOnlyInstance);
+	                hwnd = Handle.ToInt32();
+                    
+                   // window.GetCustomAttribute("WINDOW",out hwnd);
+                    
+                   
+                    
+                    window.SetDeactivateOnFocusChange(true);
+                    
                 }
                 catch (Exception ex)
                 {
@@ -458,6 +475,37 @@ namespace Wof.Controller
                 windowHeight = window.Height;
                 windowWidth = window.Width;
                 //window.SetVisible(false);
+                
+                	
+			//   User32.SetWindowLong(ptr, GWL_EXSTYLE,  (Int32)style);
+			
+			  
+				
+				if(hwnd !=0)
+				{
+		            IntPtr ptr = new IntPtr(hwnd);
+		            this.WindowState = FormWindowState.Maximized;
+            		this.FormBorderStyle = FormBorderStyle.None;
+
+		            User32.SetWinFullScreen(ptr);
+		            
+		            /*const int GWL_EXSTYLE = -20;
+		            const int GWL_STYLE = -16;
+		            
+		            //int style = User32.GetWindowLong(ptr, GWL_EXSTYLE);
+					//style = style  & ~WindowStyles.WS_EX_TOPMOST;
+					
+					User32.SetWindowLong(ptr, GWL_STYLE, WindowStyles.WS_POPUP | WindowStyles.WS_VISIBLE | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_CLIPCHILDREN);
+	        		//User32.SetWindowLong(ptr, GWL_EXSTYLE, style);
+	        		
+	        		
+					LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "AAAAA " +string.Format( "{0:X}", hwnd ));*/
+				}
+        
+            
+          // s.TopMost = true;
+           
+                
                 return true;
             }
 
@@ -1016,7 +1064,9 @@ namespace Wof.Controller
             {
                 debugTextDelay -= evt.timeSinceLastFrame;
             }
-            inputMouse.Capture();
+            if(Focused)  inputMouse.Capture();
+           
+            //inputMouse.MouseState.X
             HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt, camera, minimapCamera, null);
         }
 

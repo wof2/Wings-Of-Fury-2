@@ -12,6 +12,10 @@ namespace Wof.Controller
 {
     public class FrameWorkStaticHelper
     {
+    	
+    	public const String C_VIDEO_MODE = "Video Mode";
+        public const String C_ANTIALIASING = "Anti aliasing";
+        
         public static void ShowOgreException()
         {
             if (OgreException.IsThrown)
@@ -34,7 +38,7 @@ namespace Wof.Controller
             ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
             foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
             {
-                if (m.Value.name.Equals(FrameWorkForm.C_ANTIALIASING))
+                if (m.Value.name.Equals(FrameWorkStaticHelper.C_ANTIALIASING))
                 {
                     videoModeOption = m.Value;
                     break;
@@ -50,7 +54,27 @@ namespace Wof.Controller
 
             return availableModes;
         }
-
+        
+   		public static Vector2 GetCurrentVideoMode(Root root)
+        {
+   			ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+   	
+   			foreach(KeyValuePair<string, Mogre.ConfigOption_NativePtr> s in map)
+   			{
+   				if(s.Key.Equals(C_VIDEO_MODE))
+   				{
+   					string str =  s.Value.currentValue;
+   					Match match = Regex.Match(str, "([0-9]+) x ([0-9]+).*");
+                    int xRes = Int32.Parse(match.Groups[1].Value);
+                    int yRes = Int32.Parse(match.Groups[2].Value);
+                    return new Vector2(xRes, yRes);
+   				}
+   				
+   				
+   			}
+   			return Vector2.ZERO;
+  
+   		}
         public static List<String> GetVideoModes(Root root, bool only32Bit, int minXResolution, int minYResolution)
         {
             List<String> availableModes = new List<String>();
@@ -61,7 +85,7 @@ namespace Wof.Controller
             ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
             foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
             {
-                if (m.Value.name.Equals(FrameWorkForm.C_VIDEO_MODE))
+                if (m.Value.name.Equals(FrameWorkStaticHelper.C_VIDEO_MODE))
                 {
                     videoModeOption = m.Value;
                     break;

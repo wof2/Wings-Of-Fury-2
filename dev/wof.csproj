@@ -150,6 +150,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Splash.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\Controller\Browser.resx">
+      <DependentUpon>Browser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Tests\ModelTest\IntersectionTestForm.resx">
       <DependentUpon>IntersectionTestForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -489,9 +492,14 @@
     </Compile>
     <Compile Include="src\Controller\AdAction\AdManager.cs" />
     <Compile Include="src\Controller\AdAction\AdSizes.cs" />
+    <Compile Include="src\Controller\Browser.cs" />
+    <Compile Include="src\Controller\Browser.Designer.cs">
+      <DependentUpon>Browser.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Controller\DelayedControllerFacade.cs" />
     <Compile Include="src\Controller\EffectBars\AltitudeBar.cs" />
     <Compile Include="src\Controller\EffectBars\BulletTimeBar.cs" />
+    <Compile Include="src\Controller\Firewall.cs" />
     <Compile Include="src\Controller\FrameWorkForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1215,6 +1223,30 @@
       <ProductName>.NET Framework 3.5</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+    <COMReference Include="NATUPNPLib">
+      <Guid>{1C565858-F302-471E-B409-F180AA4ABEC6}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="NETCONLib">
+      <Guid>{43E734CA-043D-4A70-9A2C-A8F254063D91}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+    <COMReference Include="NetFwTypeLib">
+      <Guid>{58FBCF7C-E7A9-467C-80B3-FC65E8FCCA08}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\bik\" />

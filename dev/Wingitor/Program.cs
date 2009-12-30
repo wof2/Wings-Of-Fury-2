@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
+using wingitor;
+
 namespace Wingitor
 {
     static class Program
@@ -14,9 +16,10 @@ namespace Wingitor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            MainWindow mw = new MainWindow();
-            Application.Run(mw);
+          //  MainWindow mw = new MainWindow();
+           // Application.Run(mw);
            // mw.Go();
+           Application.Run(new Form1());
         }
     }
 }
