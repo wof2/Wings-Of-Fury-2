@@ -27,10 +27,11 @@ namespace wingitor
             set { levelView = value; }
         }
 
-        public override void Destroy()
+        protected override void Destroy()
         {
-            base.Destroy();
             if (levelView != null) levelView.Destroy();
+            base.Destroy();
+            
         }
 
        

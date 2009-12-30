@@ -116,12 +116,19 @@ namespace wingitor
            
         }
 
+        protected  static object locker = new object();
+    
 
-         protected void OgreForm_Resize(object sender, EventArgs e)
+        protected void OgreForm_Resize(object sender, EventArgs e)
          {
-             lock(this)
+             lock (locker)
              {
-             //    window.WindowMovedOrResized();
+                 window.Resize((uint)Width, (uint)Height);
+            
+                 /*if (window != null)
+                     window.WindowMovedOrResized();*/
+                // if (camera != null)
+                 
              }
             
          }
@@ -129,17 +136,13 @@ namespace wingitor
        
          protected void OgreForm_Disposed(object sender, EventArgs e)
          {
-             lock (this)
+             lock (locker)
              {
                  running = false;
                 
              }
          }
 
-
-     
-
-      
 
        
      
@@ -150,8 +153,9 @@ namespace wingitor
          
              while (!Disposing && root != null && running)
              {
-                 lock(this)
+                 lock (locker)
                  {
+                  
                      try
                      {
                          if (root.RenderOneFrame())
@@ -163,13 +167,13 @@ namespace wingitor
                              running = false;
                          }
                      }
-                     catch (Exception)
+                     catch (Exception ex)
                      {
                          running = false;
                      }
-                    
-                    
+
                  }
+                
 
              } 
              lock (this)
@@ -185,8 +189,9 @@ namespace wingitor
             lastMousePos = mousePos;
         }
 
-        public virtual void Destroy()
+        protected virtual void Destroy()
         {
+
             FrameWorkStaticHelper.DestroyScenes(this);
             try
             {
@@ -215,7 +220,7 @@ namespace wingitor
             camera = sceneMgr.CreateCamera("mainCamera");
             camera.NearClipDistance = 1.0f;
             camera.FarClipDistance = 8600.0f;
-
+            camera.AutoAspectRatio = false;
         }
 
         protected virtual void CreateFrameListeners()
@@ -580,7 +585,7 @@ namespace wingitor
            
 
           //  pl.Insert("WINDOW", windowHnd.ToString());
-            pl.Insert("WINDOW", Parent.Handle.ToString());
+            pl.Insert("WINDOW", Parent.Parent.Parent.Parent.Parent.Parent.Handle.ToString());
 
             inputManager = InputManager.CreateInputSystem(pl);
 
