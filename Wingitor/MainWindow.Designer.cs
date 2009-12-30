@@ -33,6 +33,8 @@ namespace Wingitor
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.openFileDialog = new OpenFileDialog();
+            this.saveFileDialog = new SaveFileDialog();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,9 +43,17 @@ namespace Wingitor
             this.panel2 = new System.Windows.Forms.Panel();
             this.menu = new wingitor.Menu();
             this.splitter1 = new System.Windows.Forms.Splitter();
-           // this.editorRenderPanel = new EditorRenderPanel();
+            this.editorRenderPanel = new EditorRenderPanel();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.menuStrip1.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -53,7 +63,7 @@ namespace Wingitor
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(984, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1200, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -73,18 +83,21 @@ namespace Wingitor
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.loadToolStripMenuItem.Text = "Load";
+            this.loadToolStripMenuItem.Click += load;
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += save;
             // 
             // quitToolStripMenuItem
             // 
             this.quitToolStripMenuItem.Name = "quitToolStripMenuItem";
             this.quitToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.quitToolStripMenuItem.Text = "Quit";
+            this.quitToolStripMenuItem.Click += quit;
             // 
             // aboutToolStripMenuItem
             // 
@@ -94,19 +107,19 @@ namespace Wingitor
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.menu);
+            this.panel2.Controls.Add(this.splitContainer1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 24);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(345, 675);
+            this.panel2.Size = new System.Drawing.Size(1200, 926);
             this.panel2.TabIndex = 0;
             // 
             // menu
             // 
-            this.menu.Dock = System.Windows.Forms.DockStyle.Left;
+            this.menu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(345, 900);
+            this.menu.Size = new System.Drawing.Size(400, 926);
             this.menu.TabIndex = 2;
             this.menu.Load += new System.EventHandler(this.userControl11_Load);
             // 
@@ -118,17 +131,59 @@ namespace Wingitor
             this.splitter1.TabIndex = 0;
             this.splitter1.TabStop = false;
             // 
-            // button1
+            // splitContainer1
             // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
            
-        /*    this.editorRenderPanel.Controls.Add(this.splitter1);
-            this.editorRenderPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.editorRenderPanel.Location = new System.Drawing.Point(184, 24);
+            this.editorRenderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+           // this.editorRenderPanel.Location = new System.Drawing.Point(184, 24);
             this.editorRenderPanel.Name = "editorRenderPanel";
-            this.editorRenderPanel.Size = new System.Drawing.Size(855, 675);
+         //   this.editorRenderPanel.Size = new System.Drawing.Size(855, 675);
             this.editorRenderPanel.TabIndex = 0;
-     */
-        
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.menu);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
+            this.splitContainer1.Panel2.Padding = new Padding(0,0,10,0);
+            this.splitContainer1.Size = new System.Drawing.Size(1200, 926);
+            this.splitContainer1.SplitterDistance = 400;
+            this.splitContainer1.TabIndex = 3;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.IsSplitterFixed = true;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.editorRenderPanel);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.listBox1);
+            this.splitContainer2.Size = new System.Drawing.Size(796, 926);
+            this.splitContainer2.SplitterDistance = 850;
+            this.splitContainer2.TabIndex = 0;
+            // 
+            // listBox1
+            // 
+            this.listBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(0, 0);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.ScrollAlwaysVisible = true;
+            this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.listBox1.Size = new System.Drawing.Size(796, 69);
+            this.listBox1.TabIndex = 0;
             // 
             // MainWindow
             // 
@@ -136,24 +191,26 @@ namespace Wingitor
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 950);
             this.Controls.Add(this.panel2);
-          //  this.Controls.Add(this.editorRenderPanel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
-          //  this.editorRenderPanel.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel2.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-     
+       
         private MenuStrip menuStrip1;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem loadToolStripMenuItem;
@@ -163,7 +220,12 @@ namespace Wingitor
         private Panel panel2;
         private Splitter splitter1;
         private Menu menu;
-       // private EditorRenderPanel editorRenderPanel;
+        private SplitContainer splitContainer1;
+        private SplitContainer splitContainer2;
+        private ListBox listBox1;
+        private EditorRenderPanel editorRenderPanel;
+        private OpenFileDialog openFileDialog;
+        private SaveFileDialog saveFileDialog;
 
 
     }

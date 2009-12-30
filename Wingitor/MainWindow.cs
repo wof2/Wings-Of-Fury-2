@@ -17,13 +17,13 @@ namespace Wingitor
         {
             InitializeComponent();
 
-            /*if(!editorRenderPanel.Setup())
+            if(!editorRenderPanel.Setup())
             {
                 return;
             }
             renderThread = new Thread(editorRenderPanel.Go);
             renderThread.Start();
-           */
+           
 
         }
 
@@ -31,7 +31,7 @@ namespace Wingitor
         {
             try
             {
-               // editorRenderPanel.Destroy();
+                editorRenderPanel.Running = false;
                 renderThread.Join();
 
             }
@@ -51,7 +51,21 @@ namespace Wingitor
 
         }
 
-       
+        private void quit(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void load(object sender, EventArgs e)
+        {
+           DialogResult result=  openFileDialog.ShowDialog();
+
+          
+        }
+        private void save(object sender, EventArgs e)
+        {
+            DialogResult result = saveFileDialog.ShowDialog();
+        }
      
 
        
