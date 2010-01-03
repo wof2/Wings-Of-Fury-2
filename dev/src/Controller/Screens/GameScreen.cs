@@ -1360,7 +1360,7 @@ namespace Wof.Controller.Screens
                     if (!loading && loadingOverlay == null)
                     {
 
-                        inputMouse.Capture();
+                       // inputMouse.Capture();
                         inputKeyboard.Capture();
                         if (inputJoystick != null) inputJoystick.Capture();
                         Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick);
