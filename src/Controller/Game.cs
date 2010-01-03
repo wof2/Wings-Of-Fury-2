@@ -49,6 +49,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -154,6 +155,11 @@ namespace Wof.Controller
 
         }
 
+        protected bool isActivated = false;
+
+       
+
+
         protected override bool FrameEnded(FrameEvent evt)
         {
             if (currentScreen != null)
@@ -161,24 +167,119 @@ namespace Wof.Controller
                 currentScreen.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoystick);
                 if(browser != null && browser.Visible)
                 {
-                	
-                	if(!browser.Focused && browser.IsMouseOver(inputMouse.MouseState))
-                	{
-                		//browser.TopMost = true;
-                		//browser.Activate();
-                		browser.BringToFront();
-                		if(!browser.Focus())
-                		{
-                			
-                		}
-                		
-                		
-                	} else if(browser.Focused && !browser.MouseOver)
-                	{
-                		if(!Focused){
-                			Focus();
-                		}
-                	}
+                   // if()
+                  //  BringToFront();
+                  //  Activate();
+
+              
+                  //  inputMouse.Capture();
+
+
+
+                    int screenx = (int)(currentScreen as AbstractScreen).MousePosScreen.X;
+                    int screeny = (int)(currentScreen as AbstractScreen).MousePosScreen.Y;
+
+                  //  Console.WriteLine(" gui: " + gscreenx + " " + gscreeny + "; " + " screen: " + screenx + " "+screeny);
+                       
+                   
+                    if (screenx >= 0 && screeny >= 0)
+                    {
+
+
+                        bool activateMain = false;
+                        if (browser.IsActivated)
+                        {
+                            // uzywamy wspolrzednych myszy z browsera
+                            if (!browser.IsMouseOver())
+                            {
+                                // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "!browser.IsMouseOver() - > activateMain");
+                                // mysz wyszla na zewnatrz browsera
+                                activateMain = true;
+
+                            }
+                        }
+                        else if (isActivated)
+                        {
+                            // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "else if(isActivated)");
+
+                            // okno glowne
+                            if (browser.IsMouseOver((uint)screenx, (uint)screeny))
+                            {
+                                activateMain = false;
+                            }
+                            else
+                            {
+                                //   LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "!browser.IsMouseOver(inputMouse.MouseState)");
+                                activateMain = true;
+                            }
+
+                        }
+                        else
+                        {
+                            // zadne nie jest aktywne?
+                            activateMain = true;
+                        }
+
+                      //  Console.WriteLine(activateMain);
+                      
+                        
+                        // faktyczna aktywacja
+                        if (!activateMain)
+                        {
+                            if (!browser.IsActivated)
+                            {
+                                isActivated = false;
+                                browser.IsActivated = true;
+                                browser.Activate();
+                                //Console.WriteLine("Browser");
+                            }
+
+                        }
+                        else
+                        {
+                            if (!isActivated)
+                            {
+                                Point newClientPos = new Point(-1,-1);
+                                if (browser.IsActivated)
+                                {
+                                    newClientPos = PointToClient(browser.PointToScreen(browser.MousePos));
+                               
+                                    
+                                    if (newClientPos.X < 0)
+                                    {
+                                        newClientPos.X = 0;
+                                    }
+                                    if (newClientPos.Y < 0)
+                                    {
+                                        newClientPos.Y = 0;
+                                    }
+                                 /*   (currentScreen as AbstractScreen).MousePosX =
+                                        (uint)(viewport.ActualWidth * (1.0f * newClientPos.X / ClientSize.Width) - this.Bounds.Left);
+                                    (currentScreen as AbstractScreen).MousePosY =
+                                        (uint)(viewport.ActualHeight * (1.0f * newClientPos.Y / ClientSize.Height) - this.Bounds.Top);
+                                    */
+
+                                   
+
+                                }
+
+                                isActivated = true;
+                                browser.IsActivated = false;
+                                //Console.WriteLine("Main");
+                               // BringToFront();
+                                Activate();
+                                if(newClientPos.X > 0)
+                                {
+                                   // (currentScreen as AbstractScreen).MousePosX = (uint)newClientPos.X;
+                                  //  (currentScreen as AbstractScreen).MousePosY = (uint)newClientPos.Y;
+                                }
+                                
+
+                             
+                            }
+
+                        }
+                    }
                 }
             }
             return true;
@@ -229,7 +330,8 @@ namespace Wof.Controller
         [STAThread]   
         private static void Main(string[] args)
         {
-         
+
+          
         	Firewall.AddException();
         	
         	//  MessageBox.Show("Params"+string.Join(",",args));
@@ -612,7 +714,7 @@ namespace Wof.Controller
         public void StartBrowser()
         { 
         	browser = new Browser();
-	        browser.SetBounds(0,0, 300, 100);    
+	        browser.SetBounds(100,100, 300, 300);    
         	HideBrowser();
             
 	
@@ -1339,6 +1441,13 @@ namespace Wof.Controller
 	        SetWindowPos(hwnd, HWND_TOP, 0, 0, ScreenX, ScreenY, SWP_SHOWWINDOW);
 	    }
 
+
+        [DllImport("user32.dll")]
+        public static extern bool GetCursorPos(ref Point lpPoint);
+
+
+        [DllImport("user32.dll")]
+        public static extern bool SetCursorPos(int X, int Y);
        
     }
     

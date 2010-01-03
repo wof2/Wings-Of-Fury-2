@@ -50,7 +50,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Drawing;
+using System.Windows.Forms;
 using BetaGUI;
 using FSLOgreCS;
 using MHydrax;
@@ -65,6 +66,8 @@ using FontManager = Wof.Languages.FontManager;
 using Math = Mogre.Math;
 using Vector3 = Mogre.Vector3;
 using Wof.View.NodeAnimation;
+using Button=BetaGUI.Button;
+using Timer=Mogre.Timer;
 
 namespace Wof.Controller.Screens
 {
@@ -92,7 +95,10 @@ namespace Wof.Controller.Screens
         public uint MousePosX
         {
             get { return mousePosX; }
-            set { mousePosX = value; }
+            set { 
+                
+                mousePosX = value;
+            }
         }
         protected uint mousePosX;
 
@@ -200,7 +206,7 @@ namespace Wof.Controller.Screens
 
         protected Button[] buttons = null; // przyciski na ekranie
 
-        protected uint mousePosX, mousePosY;
+       // protected uint mousePosX, mousePosY;
         protected Boolean wasLeftMousePressed;
 
         protected Boolean wasUpKeyPressed;
@@ -213,18 +219,78 @@ namespace Wof.Controller.Screens
         protected int backButtonIndex = -1; // indeks przycisku 'powrót'.
         
         
+
+        public Point MousePosScreen
+        {
+            get
+            {
+                return Control.MousePosition;
+            }
+        }
       
 
         public uint MousePosX
         {
-            get { return mousePosX; }
-            set { mousePosX = value; }
+            get
+            {
+                //  Point pos = new Point();
+              //    User32.GetCursorPos(ref pos);
+             //   (framework as Form).PointToScreen(System.Windows.Forms.mouseMouse.(this));
+             //     Console.WriteLine("pos: " + Control.MousePosition + ", " + pos);
+
+                int x =  (framework as Form).PointToClient(Cursor.Position).X;
+                if (x >= (framework as Form).ClientSize.Width)
+                {
+                    x = (framework as Form).ClientSize.Width - 1;
+                }
+                if (x < 0) x = 0;
+
+                return (uint)x;
+            //    Point pos = (framework as Form).PointToScreen(Cursor.Position);
+
+             
+               
+              //  return (uint)pos.X;
+                
+
+            }
+            set {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "SETTING MOUSE " + value + " " + MousePosY);
+                Cursor.Position = (framework as Form).PointToScreen(new Point((int)value, (int)MousePosY));
+
+               // User32.SetCursorPos((int)value, (int)MousePosY);
+              //  User32.SetCursorPos((int)value, (int)MousePosY);
+             
+                
+            }
         }
 
         public uint MousePosY
         {
-            get { return mousePosY; }
-            set { mousePosY = value; }
+            get {
+              
+              //  Point pos = (framework as Form).PointToScreen(Cursor.Position);
+              //  Point pos = new Point();
+               // User32.GetCursorPos(ref pos);
+
+                int y = (framework as Form).PointToClient(Cursor.Position).Y;
+                if (y >= (framework as Form).ClientSize.Height)
+                {
+                    y = (framework as Form).ClientSize.Height - 1;
+                }
+                if (y < 0) y = 0;
+
+                return (uint)y;
+             //   return (uint)pos.Y;
+            
+            }
+            set {
+                
+                Cursor.Position = (framework as Form).PointToScreen(new Point((int)MousePosX, (int)value));
+                // Cursor.Position = new Point((int)MousePosX, (int)value);
+               // User32.SetCursorPos((int)MousePosY, (int)value);
+               
+            }
         }
 
      
@@ -268,8 +334,8 @@ namespace Wof.Controller.Screens
             this.camera = camera;
             initialized = false;
             screenTime = 0;
-            mousePosX = (uint) viewport.ActualWidth/2;
-            mousePosY = (uint) viewport.ActualHeight/2;
+            MousePosX = (uint) viewport.ActualWidth/2;
+            MousePosY = (uint) viewport.ActualHeight/2;
             wasUpKeyPressed = false;
             wasDownKeyPressed = false;
             wasEnterKeyPressed = false;
@@ -309,7 +375,7 @@ namespace Wof.Controller.Screens
         /// <returns></returns>
         public ScreenState GetScreenState()
         {
-            return new ScreenState(planeViews, cloudNodes, mousePosX, mousePosY);
+            return new ScreenState(planeViews, cloudNodes, MousePosX, MousePosY);
         }
         /// <summary>
         /// Wymusza nowy stan screena: samoloty oraz po³o¿enie myszki
@@ -319,8 +385,8 @@ namespace Wof.Controller.Screens
         {
             planeViews = ss.PlaneViews;
             cloudNodes = ss.CloudNodes;
-            mousePosX = ss.MousePosX;
-            mousePosY = ss.MousePosY;
+            MousePosX = ss.MousePosX;
+            MousePosY = ss.MousePosY;
         }
 
         protected virtual void CreateSkybox()
@@ -636,10 +702,10 @@ namespace Wof.Controller.Screens
                     }
                 }
 				bool focus = (framework as FrameWorkForm).Focused;
-
+                focus = true;
                 if(focus)
                 {
-                	inputMouse.Capture();
+                	//inputMouse.Capture();
                 	inputKeyboard.Capture();
                 } 
                 if (inputJoystick != null) inputJoystick.Capture();
@@ -669,189 +735,189 @@ namespace Wof.Controller.Screens
                     uint screenx;
                     uint screeny;
 
-                    getMouseScreenCoordinates(mouseState, out screenx, out screeny);
+                  //  GetMouseScreenCoordinates(mouseState);
                     doCheating(inputKeyboard, inputJoystick);
 
 
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_BACK))
                     {
-                        //mGui.injectBackspace(screenx, screeny);
-                        mGui.injectKey("!b", screenx, screeny);
+                        //mGui.injectBackspace(MousePosX, MousePosY);
+                        mGui.injectKey("!b", MousePosX, MousePosY);
                         KeyReceived("!b");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_1))
                     {
-                        mGui.injectKey("1", screenx, screeny);
+                        mGui.injectKey("1", MousePosX, MousePosY);
                         KeyReceived("1");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_2))
                     {
-                        mGui.injectKey("2", screenx, screeny);
+                        mGui.injectKey("2", MousePosX, MousePosY);
                         KeyReceived("2");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_3))
                     {
-                        mGui.injectKey("3", screenx, screeny);
+                        mGui.injectKey("3", MousePosX, MousePosY);
                         KeyReceived("3");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_4))
                     {
-                        mGui.injectKey("4", screenx, screeny);
+                        mGui.injectKey("4", MousePosX, MousePosY);
                         KeyReceived("4");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_5))
                     {
-                        mGui.injectKey("5", screenx, screeny);
+                        mGui.injectKey("5", MousePosX, MousePosY);
                         KeyReceived("5");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_6))
                     {
-                        mGui.injectKey("6", screenx, screeny);
+                        mGui.injectKey("6", MousePosX, MousePosY);
                         KeyReceived("6");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_7))
                     {
-                        mGui.injectKey("7", screenx, screeny);
+                        mGui.injectKey("7", MousePosX, MousePosY);
                         KeyReceived("7");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_8))
                     {
-                        mGui.injectKey("8", screenx, screeny);
+                        mGui.injectKey("8", MousePosX, MousePosY);
                         KeyReceived("8");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_9))
                     {
-                        mGui.injectKey("9", screenx, screeny);
+                        mGui.injectKey("9", MousePosX, MousePosY);
                         KeyReceived("9");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_A))
                     {
-                        mGui.injectKey("a", screenx, screeny);
+                        mGui.injectKey("a", MousePosX, MousePosY);
                         KeyReceived("a");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_B))
                     {
-                        mGui.injectKey("b", screenx, screeny);
+                        mGui.injectKey("b", MousePosX, MousePosY);
                         KeyReceived("b");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_C))
                     {
-                        mGui.injectKey("c", screenx, screeny);
+                        mGui.injectKey("c", MousePosX, MousePosY);
                         KeyReceived("c");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_D))
                     {
-                        mGui.injectKey("d", screenx, screeny);
+                        mGui.injectKey("d", MousePosX, MousePosY);
                         KeyReceived("d");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_E))
                     {
-                        mGui.injectKey("e", screenx, screeny);
+                        mGui.injectKey("e", MousePosX, MousePosY);
                         KeyReceived("e");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_F))
                     {
-                        mGui.injectKey("f", screenx, screeny);
+                        mGui.injectKey("f", MousePosX, MousePosY);
                         KeyReceived("f");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_G))
                     {
-                        mGui.injectKey("g", screenx, screeny);
+                        mGui.injectKey("g", MousePosX, MousePosY);
                         KeyReceived("g");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_H))
                     {
-                        mGui.injectKey("h", screenx, screeny);
+                        mGui.injectKey("h", MousePosX, MousePosY);
                         KeyReceived("h");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_I))
                     {
-                        mGui.injectKey("i", screenx, screeny);
+                        mGui.injectKey("i", MousePosX, MousePosY);
                         KeyReceived("i");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_J))
                     {
-                        mGui.injectKey("j", screenx, screeny);
+                        mGui.injectKey("j", MousePosX, MousePosY);
                         KeyReceived("j");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_K))
                     {
-                        mGui.injectKey("k", screenx, screeny);
+                        mGui.injectKey("k", MousePosX, MousePosY);
                         KeyReceived("k");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_L))
                     {
-                        mGui.injectKey("l", screenx, screeny);
+                        mGui.injectKey("l", MousePosX, MousePosY);
                         KeyReceived("l");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_M))
                     {
-                        mGui.injectKey("m", screenx, screeny);
+                        mGui.injectKey("m", MousePosX, MousePosY);
                         KeyReceived("m");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_N))
                     {
-                        mGui.injectKey("n", screenx, screeny);
+                        mGui.injectKey("n", MousePosX, MousePosY);
                         KeyReceived("n");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_O))
                     {
-                        mGui.injectKey("o", screenx, screeny);
+                        mGui.injectKey("o", MousePosX, MousePosY);
                         KeyReceived("o");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_P))
                     {
-                        mGui.injectKey("p", screenx, screeny);
+                        mGui.injectKey("p", MousePosX, MousePosY);
                         KeyReceived("p");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_Q))
                     {
-                        mGui.injectKey("q", screenx, screeny);
+                        mGui.injectKey("q", MousePosX, MousePosY);
                         KeyReceived("q");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_R))
                     {
-                        mGui.injectKey("r", screenx, screeny);
+                        mGui.injectKey("r", MousePosX, MousePosY);
                         KeyReceived("r");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_S))
                     {
-                        mGui.injectKey("s", screenx, screeny);
+                        mGui.injectKey("s", MousePosX, MousePosY);
                         KeyReceived("s");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_T))
                     {
-                        mGui.injectKey("t", screenx, screeny);
+                        mGui.injectKey("t", MousePosX, MousePosY);
                         KeyReceived("t");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_U))
                     {
-                        mGui.injectKey("u", screenx, screeny);
+                        mGui.injectKey("u", MousePosX, MousePosY);
                         KeyReceived("u");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_V))
                     {
-                        mGui.injectKey("v", screenx, screeny);
+                        mGui.injectKey("v", MousePosX, MousePosY);
                         KeyReceived("v");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_W))
                     {
-                        mGui.injectKey("w", screenx, screeny);
+                        mGui.injectKey("w", MousePosX, MousePosY);
                         KeyReceived("w");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_X))
                     {
-                        mGui.injectKey("x", screenx, screeny);
+                        mGui.injectKey("x", MousePosX, MousePosY);
                         KeyReceived("x");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_Y))
                     {
-                        mGui.injectKey("y", screenx, screeny);
+                        mGui.injectKey("y", MousePosX, MousePosY);
                         KeyReceived("y");
                     }
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_Z))
                     {
-                        mGui.injectKey("z", screenx, screeny);
+                        mGui.injectKey("z", MousePosX, MousePosY);
                         KeyReceived("z");
                     }
                     if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)))
@@ -880,7 +946,7 @@ namespace Wof.Controller.Screens
 
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_UP))
                     {
-                        mGui.injectKey("up", screenx, screeny);
+                        mGui.injectKey("up", MousePosX, MousePosY);
                         KeyReceived("UP");
                         wasUpKeyPressed = true;
                     }
@@ -888,7 +954,7 @@ namespace Wof.Controller.Screens
                     {
                         if (joyVector.y > 0)
                         {
-                            mGui.injectKey("up", screenx, screeny);
+                            mGui.injectKey("up", MousePosX, MousePosY);
                             KeyReceived("UP");
                             wasUpKeyPressed = true;
                         }
@@ -901,7 +967,7 @@ namespace Wof.Controller.Screens
 
                     if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down))
                     {
-                        mGui.injectKey("down", screenx, screeny);
+                        mGui.injectKey("down", MousePosX, MousePosY);
                         KeyReceived("DOWN");
                         wasUpKeyPressed = true;
                     }
@@ -910,7 +976,7 @@ namespace Wof.Controller.Screens
 
                         if (joyVector.y < 0)
                         {
-                            mGui.injectKey("down", screenx, screeny);
+                            mGui.injectKey("down", MousePosX, MousePosY);
                             KeyReceived("DOWN");
                             wasDownKeyPressed = true;
                         }
@@ -934,12 +1000,13 @@ namespace Wof.Controller.Screens
 	                        // w poprzedniej klatce uzytkownik
 	                        // trzymal wcisniety przycisk myszki
 	                        // a teraz go zwolnil
-	                        id = mGui.injectMouse(screenx, screeny, true);
+	                        id = mGui.injectMouse(MousePosX, MousePosY, true);
 	                        wasLeftMousePressed = false;
 	                    }
 	                    else
 	                    {
-	                        id = mGui.injectMouse(screenx, screeny, false);
+                            Console.WriteLine(MousePosX + " " + MousePosY);
+	                        id = mGui.injectMouse(MousePosX, MousePosY, false);
 	
 	                        // zaznacz te na ktore pokazuje klawiatura
 	                        if (wasDownKeyPressed)
@@ -1327,16 +1394,20 @@ namespace Wof.Controller.Screens
 
         
      
-        private void getMouseScreenCoordinates(MouseState_NativePtr mouseState, out uint screenx, out uint screeny)
+        public void GetMouseScreenCoordinates(MouseState_NativePtr mouseState)
         {
-            mousePosX = (uint) (mousePosX + mouseState.X.rel*2);
-            mousePosY = (uint) (mousePosY + mouseState.Y.rel*2);
 
-            if ((int) mousePosX + (int) mouseState.X.rel*2 < 0)
+            MousePosX = (uint)mouseState.X.abs;
+            MousePosY = (uint)mouseState.Y.abs;
+            /*
+            mousePosX = (uint) (mousePosX + mouseState.X.rel);
+            mousePosY = (uint) (mousePosY + mouseState.Y.rel);
+
+            if ((int) mousePosX + (int) mouseState.X.rel < 0)
             {
                 mousePosX = 0;
             }
-            if ((int) mousePosY + (int) mouseState.Y.rel*2 < 0)
+            if ((int) mousePosY + (int) mouseState.Y.rel < 0)
             {
                 mousePosY = 0;
             }
@@ -1352,6 +1423,7 @@ namespace Wof.Controller.Screens
 
             screenx = mousePosX;
             screeny = mousePosY;
+             * */
         }
 
 

@@ -48,6 +48,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -209,8 +210,8 @@ namespace Wof.Controller
 
             modelWorker.WorkerSupportsCancellation = true;
             modelWorker.RunWorkerAsync();
-            this.BringToFront();
-            this.Activate();
+           // this.BringToFront();
+           // this.Activate();
 
             while (root != null && root.RenderOneFrame())
                 Application.DoEvents();
@@ -451,16 +452,17 @@ namespace Wof.Controller
                     NameValuePairList misc = new NameValuePairList();
 	                misc["externalWindowHandle"] = Handle.ToString();
 	                Vector2 dim = FrameWorkStaticHelper.GetCurrentVideoMode(root);
-	                this.Width = (int)dim.x;
-	                this.Height = (int)dim.y;
+
+                    this.ClientSize = new Size((int) dim.x, (int)dim.y);
+                    //this.ClientSize.Height = ;
 	                window = root.CreateRenderWindow("Wings Of Fury 2", (uint)dim.x, (uint)dim.y, false, misc.ReadOnlyInstance);
 	                hwnd = Handle.ToInt32();
                     
                    // window.GetCustomAttribute("WINDOW",out hwnd);
                     
                    
-                    
-                    window.SetDeactivateOnFocusChange(true);
+                    Show();
+                    //window.SetDeactivateOnFocusChange(true);
                     
                 }
                 catch (Exception ex)
@@ -484,10 +486,10 @@ namespace Wof.Controller
 				if(hwnd !=0)
 				{
 		            IntPtr ptr = new IntPtr(hwnd);
-		            this.WindowState = FormWindowState.Maximized;
-            		this.FormBorderStyle = FormBorderStyle.None;
+		          /*  this.WindowState = FormWindowState.Maximized;
+                	this.FormBorderStyle = FormBorderStyle.None;
 
-		            User32.SetWinFullScreen(ptr);
+		            User32.SetWinFullScreen(ptr);*/
 		            
 		            /*const int GWL_EXSTYLE = -20;
 		            const int GWL_STYLE = -16;
@@ -733,7 +735,11 @@ namespace Wof.Controller
             root.RenderSystem.EventOccurred +=
                 new RenderSystem.Listener.EventOccurredHandler(RenderSystem_EventOccurred);
             SoundManager3D.Instance.CreateFrameListener(root);
+
+         
+
         }
+       
 
         private void RenderSystem_EventOccurred(string eventName, Const_NameValuePairList parameters)
         {
@@ -1064,7 +1070,7 @@ namespace Wof.Controller
             {
                 debugTextDelay -= evt.timeSinceLastFrame;
             }
-            if(Focused)  inputMouse.Capture();
+       //     if(Focused)  inputMouse.Capture();
            
             //inputMouse.MouseState.X
             HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt, camera, minimapCamera, null);
@@ -1475,6 +1481,19 @@ namespace Wof.Controller
             {
                 CompositorManager.Singleton.SetCompositorEnabled(viewport, "Motion Blur", false);
             }
+        }
+
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // FrameWorkForm
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.Name = "FrameWorkForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.ResumeLayout(false);
+
         }
     }
 }
