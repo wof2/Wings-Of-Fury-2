@@ -219,24 +219,54 @@ namespace Wof.Controller.Screens
         protected int backButtonIndex = -1; // indeks przycisku 'powrót'.
         
         
+        private float XScale
+        {
+        	get { return 1.0f * viewport.ActualWidth / (framework as Form).Width;}
+        }
+        
+         private float YScale
+        {
+        	get { return 1.0f *viewport.ActualHeight / (framework as Form).Height;}
+        }
 
+         
         public Point MousePosScreen
         {
             get
             {
-                return Control.MousePosition;
+            	return Control.MousePosition;
             }
         }
+        
+        public void CenterMousePosition()
+        {
+        	SetMousePosition((uint)(viewport.ActualWidth * 0.5f), (uint)(viewport.ActualHeight * 0.5f));
+        }
+        public void SetMousePosition(ScreenState ss)
+        {
+        	SetMousePosition(ss.MousePosX, ss.MousePosY);
+        }
       
-
+        public void SetMousePosition(uint viewportX, uint viewportY)
+        {
+        	SetMousePosition(new Vector2(viewportX, viewportY));
+         	
+        }
+        public void SetMousePosition(Vector2 viewportPos)
+        {
+        	  Cursor.Position = (framework as Form).PointToScreen(new Point((int)( viewportPos.x / XScale), (int)( viewportPos.y / YScale)));  	  
+        
+        }
+       
+        
+		/// <summary>
+		/// Wsp. w pikselach viewportowych
+		/// </summary>
         public uint MousePosX
         {
             get
             {
-                //  Point pos = new Point();
-              //    User32.GetCursorPos(ref pos);
-             //   (framework as Form).PointToScreen(System.Windows.Forms.mouseMouse.(this));
-             //     Console.WriteLine("pos: " + Control.MousePosition + ", " + pos);
+         
 
                 int x =  (framework as Form).PointToClient(Cursor.Position).X;
                 if (x >= (framework as Form).ClientSize.Width)
@@ -245,33 +275,16 @@ namespace Wof.Controller.Screens
                 }
                 if (x < 0) x = 0;
 
-                return (uint)x;
-            //    Point pos = (framework as Form).PointToScreen(Cursor.Position);
-
-             
-               
-              //  return (uint)pos.X;
-                
-
+                return (uint)(x * XScale);
+      
             }
-            set {
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "SETTING MOUSE " + value + " " + MousePosY);
-                Cursor.Position = (framework as Form).PointToScreen(new Point((int)value, (int)MousePosY));
-
-               // User32.SetCursorPos((int)value, (int)MousePosY);
-              //  User32.SetCursorPos((int)value, (int)MousePosY);
-             
-                
-            }
+           
         }
 
         public uint MousePosY
         {
             get {
               
-              //  Point pos = (framework as Form).PointToScreen(Cursor.Position);
-              //  Point pos = new Point();
-               // User32.GetCursorPos(ref pos);
 
                 int y = (framework as Form).PointToClient(Cursor.Position).Y;
                 if (y >= (framework as Form).ClientSize.Height)
@@ -280,17 +293,10 @@ namespace Wof.Controller.Screens
                 }
                 if (y < 0) y = 0;
 
-                return (uint)y;
-             //   return (uint)pos.Y;
-            
+                return (uint)(y * YScale);
+         
             }
-            set {
-                
-                Cursor.Position = (framework as Form).PointToScreen(new Point((int)MousePosX, (int)value));
-                // Cursor.Position = new Point((int)MousePosX, (int)value);
-               // User32.SetCursorPos((int)MousePosY, (int)value);
-               
-            }
+           
         }
 
      
@@ -334,8 +340,7 @@ namespace Wof.Controller.Screens
             this.camera = camera;
             initialized = false;
             screenTime = 0;
-            MousePosX = (uint) viewport.ActualWidth/2;
-            MousePosY = (uint) viewport.ActualHeight/2;
+            CenterMousePosition();
             wasUpKeyPressed = false;
             wasDownKeyPressed = false;
             wasEnterKeyPressed = false;
@@ -385,8 +390,8 @@ namespace Wof.Controller.Screens
         {
             planeViews = ss.PlaneViews;
             cloudNodes = ss.CloudNodes;
-            MousePosX = ss.MousePosX;
-            MousePosY = ss.MousePosY;
+            SetMousePosition(ss);
+         
         }
 
         protected virtual void CreateSkybox()
@@ -705,7 +710,15 @@ namespace Wof.Controller.Screens
                 focus = true;
                 if(focus)
                 {
-                	//inputMouse.Capture();
+                	Point before = Cursor.Position;                  	
+                	inputMouse.Capture();                        	
+                	
+                	if(!Cursor.Position.Equals(before))
+                	{
+                		Cursor.Position = before;
+                		
+                	}
+                	
                 	inputKeyboard.Capture();
                 } 
                 if (inputJoystick != null) inputJoystick.Capture();
@@ -1005,7 +1018,7 @@ namespace Wof.Controller.Screens
 	                    }
 	                    else
 	                    {
-                            Console.WriteLine(MousePosX + " " + MousePosY);
+                         //   Console.WriteLine(MousePosX + " " + MousePosY);
 	                        id = mGui.injectMouse(MousePosX, MousePosY, false);
 	
 	                        // zaznacz te na ktore pokazuje klawiatura
@@ -1394,37 +1407,7 @@ namespace Wof.Controller.Screens
 
         
      
-        public void GetMouseScreenCoordinates(MouseState_NativePtr mouseState)
-        {
-
-            MousePosX = (uint)mouseState.X.abs;
-            MousePosY = (uint)mouseState.Y.abs;
-            /*
-            mousePosX = (uint) (mousePosX + mouseState.X.rel);
-            mousePosY = (uint) (mousePosY + mouseState.Y.rel);
-
-            if ((int) mousePosX + (int) mouseState.X.rel < 0)
-            {
-                mousePosX = 0;
-            }
-            if ((int) mousePosY + (int) mouseState.Y.rel < 0)
-            {
-                mousePosY = 0;
-            }
-
-            if (mousePosX > viewport.ActualWidth)
-            {
-                mousePosX = (uint) viewport.ActualWidth;
-            }
-            if (mousePosY > viewport.ActualHeight)
-            {
-                mousePosY = (uint) viewport.ActualHeight;
-            }
-
-            screenx = mousePosX;
-            screeny = mousePosY;
-             * */
-        }
+        
 
 
         protected Boolean tryToPressBackButton()

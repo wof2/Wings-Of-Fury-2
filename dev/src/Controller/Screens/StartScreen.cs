@@ -121,9 +121,8 @@ namespace Wof.Controller.Screens
          
             
             selectButton(0);
-
-            MousePosX = (uint)(guiWindow.x + buttons[0].x + (viewport.ActualWidth / 4));
-            MousePosY = (uint)(guiWindow.y + buttons[0].y + h / 2.0F); // polowa wysokosci przycisku
+            SetMousePosition((uint)(guiWindow.x + buttons[0].x + (viewport.ActualWidth / 4)), (uint)(guiWindow.y + buttons[0].y + h / 2.0F));
+             // polowa wysokosci przycisku
      
        
             guiWindow.show();
