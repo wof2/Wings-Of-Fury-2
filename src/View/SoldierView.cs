@@ -178,7 +178,7 @@ namespace Wof.View
 
             sv.StopBlood();
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 if (sv.minimapItem != null)
                 {
@@ -248,7 +248,7 @@ namespace Wof.View
 
             soldierNode.SetVisible(false);
            
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 if (minimapItem == null)
                 {
@@ -325,7 +325,7 @@ namespace Wof.View
             Run();
             refreshPosition();
             soldierNode.SetVisible(true);
-            if (EngineConfig.DisplayMinimap && minimapItem != null)
+            if (EngineConfig.DisplayingMinimap && minimapItem != null)
             {
                 minimapItem.Show();
             }
@@ -357,7 +357,7 @@ namespace Wof.View
                 soldierNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
             }
 
-            if (EngineConfig.DisplayMinimap && minimapItem != null && minimapItem.IsVisible)
+            if (EngineConfig.DisplayingMinimap && minimapItem != null && minimapItem.IsVisible)
             {
                 minimapItem.Refresh();
             }
@@ -442,7 +442,7 @@ namespace Wof.View
             animationState.TimePosition = 0;
            
             
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem.Hide();
             }
@@ -479,7 +479,7 @@ namespace Wof.View
                 Bleed();
             }
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem.Hide();
             }
@@ -494,7 +494,7 @@ namespace Wof.View
         public void updateTime(float timeSinceLastFrame)
         {
         	
-        	if (soldier.IsAlive && EngineConfig.DisplayMinimap)
+        	if (soldier.IsAlive && EngineConfig.DisplayingMinimap)
             {
                 if (((DateTime.Now.Millisecond/100.0f)%100) > 7)
                 {

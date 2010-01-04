@@ -308,7 +308,7 @@ namespace Wof.View
             if (visible)
             {
                 sceneMgr.VisibilityMask = defaultVisibilityMask;
-                if (EngineConfig.DisplayMinimap)
+                if (EngineConfig.DisplayingMinimap)
                 {
                     minimapMgr.VisibilityMask = defaultVisibilityMask;
                 }
@@ -316,7 +316,7 @@ namespace Wof.View
             else
             {
                 sceneMgr.VisibilityMask = 0;
-                if (EngineConfig.DisplayMinimap)
+                if (EngineConfig.DisplayingMinimap)
                 {
                     minimapMgr.VisibilityMask = 0;
                 }
@@ -1789,7 +1789,7 @@ namespace Wof.View
             // OCEAN 
            
             // minimap
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 SceneNode mOceanNode = minimapMgr.RootSceneNode.CreateChildSceneNode("MinimapOceanNode");
                 Entity mOcean = sceneMgr.CreateEntity("MinimapOcean", "TwoSidedPlane.mesh");
@@ -1865,7 +1865,7 @@ namespace Wof.View
             skyPlane.normal = Vector3.UNIT_Z;
             skyPlane.d = 210;
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapMgr.SetSkyPlane(true, skyPlane, "MiniMap/Sky", 10.0f, 7 );
 

@@ -262,7 +262,7 @@ namespace Wof.View
             // vertex animation
             animationState = PlaneEntity.GetAnimationState("manual");
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem =
                     new MinimapItem(outerNode, frameWork.MinimapMgr, "Cube.mesh", ColourValue.Red, planeEntity);

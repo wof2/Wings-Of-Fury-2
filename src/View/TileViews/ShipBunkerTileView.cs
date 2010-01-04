@@ -111,7 +111,7 @@ namespace Wof.View.TileViews
             gunNode = installationNode.CreateChildSceneNode("ShipFlakBarrelNode" + nameSuffix, new Vector3(0.0f, 0.9f, 0.0f));
             gunNode.AttachObject(flakBarrel);
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem =
                     new MinimapItem(installationNode, framework.MinimapMgr, "Cube.mesh", ColourValue.Red, installationEntity);
@@ -169,7 +169,7 @@ namespace Wof.View.TileViews
             EffectsManager.Singleton.NoSmoke(sceneMgr, installationNode);
             EffectsManager.Singleton.HideSprite(sceneMgr, installationNode, EffectsManager.EffectType.FIRE, 0);
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem.Colour = ColourValue.Red;
                 minimapItem.Refresh();
@@ -201,7 +201,7 @@ namespace Wof.View.TileViews
                 ViewHelper.ReplaceMaterial(installationEntity, "Wood", "DestroyedWood");
             }
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 //Kolor szary
                 minimapItem.Colour = new ColourValue(0.752f, 0.752f, 0.752f);

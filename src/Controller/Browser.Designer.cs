@@ -2,6 +2,8 @@
  * WiiMote - Zastosowanie zaawansowanych kontrolerów gier do stworzenia naturalnych
 interfejsów użytkownika.
 */
+using System.Windows.Forms;
+
 namespace Wof.Controller
 {
 	partial class Browser
@@ -50,9 +52,9 @@ namespace Wof.Controller
 			this.wofBrowser.Size = new System.Drawing.Size(300, 300);
 			this.wofBrowser.TabIndex = 1;
 			this.wofBrowser.TabStop = false;
-			this.wofBrowser.Url = new System.Uri("http://www.wingsoffury2.com", System.UriKind.Absolute);
 			this.wofBrowser.WebBrowserShortcutsEnabled = false;
 			this.wofBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
+        
 			// 
 			// Browser
 			// 
@@ -68,6 +70,7 @@ namespace Wof.Controller
 			this.Text = "Browser";
 			this.Activated += new System.EventHandler(this.Browser_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BrowserFormClosing);
+         
 			this.ResumeLayout(false);
         }
 		private System.Windows.Forms.WebBrowser wofBrowser;

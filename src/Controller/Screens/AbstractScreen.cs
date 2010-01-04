@@ -706,8 +706,8 @@ namespace Wof.Controller.Screens
                         p.AnimationMgr.animateAll();
                     }
                 }
-				bool focus = (framework as FrameWorkForm).Focused;
-                focus = true;
+			//	bool focus = (framework as FrameWorkForm).Focused;
+                bool focus = true;
                 if(focus)
                 {
                 	Point before = Cursor.Position;                  	

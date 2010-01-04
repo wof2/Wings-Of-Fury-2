@@ -35,7 +35,7 @@ namespace Wof.View.TileViews
                 InitLightFlare(new ColourValue(1f, 1f, 0.9f), new Vector3(0, 1.9f, -2.6f), new Vector2(1.5f, 1.5f));
             }
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem =
                     new MinimapItem(installationNode, framework.MinimapMgr, "Cube.mesh", new ColourValue(0, 0.8f, 0),
@@ -96,7 +96,7 @@ namespace Wof.View.TileViews
             base.Destroy();
             ViewHelper.ReplaceMaterial(installationEntity, "Wood", "DestroyedWood");
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 //Kolor szary
                 minimapItem.Colour = new ColourValue(0.752f, 0.752f, 0.752f);

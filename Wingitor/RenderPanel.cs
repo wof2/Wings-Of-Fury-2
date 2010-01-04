@@ -110,7 +110,7 @@ namespace wingitor
         public RenderPanel()
         {
             InitializeComponent();
-            EngineConfig.DisplayMinimap = false;
+            EngineConfig.DisplayingMinimap = false;
           
              //this.Size = new Size(800, 600);
            

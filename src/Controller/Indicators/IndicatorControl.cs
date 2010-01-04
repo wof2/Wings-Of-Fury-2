@@ -149,7 +149,7 @@ namespace Wof.Controller.Screens
 
         public void ChangeAmmoType(WeaponType weaponType)
         {
-            if(!EngineConfig.DisplayMinimap) return;
+            if(!EngineConfig.DisplayingMinimap) return;
 
             switch (weaponType)
             {
@@ -176,7 +176,7 @@ namespace Wof.Controller.Screens
         public void DisplayIndicator()
         {
             wasDisplayed = true;
-            if(!EngineConfig.DisplayMinimap) return;
+            if(!EngineConfig.DisplayingMinimap) return;
 
             hudOverlay = OverlayManager.Singleton.GetByName("Wof/HUD");
 
@@ -234,7 +234,7 @@ namespace Wof.Controller.Screens
 
         public void UpdateGUI(float timeSinceLastFrame)
         {
-            if (!EngineConfig.DisplayMinimap) return;
+            if (!EngineConfig.DisplayingMinimap) return;
             if (gameScreen != null && gameScreen.CurrentLevel != null && !closing)
             {
                 switch (gameScreen.CurrentLevel.UserPlane.Weapon.SelectWeapon)
@@ -609,7 +609,7 @@ namespace Wof.Controller.Screens
                 hudOverlay.Hide();
                 hudOverlay.Dispose();
             }
-            if (!EngineConfig.DisplayMinimap) return;
+            if (!EngineConfig.DisplayingMinimap) return;
 
             try
             {

@@ -347,7 +347,7 @@ namespace Wof.Controller
             	// Create the scene
        
                 CreateScene();
-                CreateFrameListener();
+                WireEventListeners();
 
                 
             }

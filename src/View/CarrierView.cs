@@ -398,7 +398,7 @@ namespace Wof.View
                 mainNode.Translate(new Vector3(UnitConverter.LogicToWorldUnits(firstTileIndex), 5, -1.0f));
                 mainNode.SetDirection(Vector3.UNIT_X);
               //  mainNode.Roll(-Math.HALF_PI / 6.0f);
-                if (EngineConfig.DisplayMinimap)
+                if (EngineConfig.DisplayingMinimap)
                 {
                     minimapItem =
                         new MinimapItem(mainNode, framework.MinimapMgr, "CarrierMinimap.mesh",
@@ -437,7 +437,7 @@ namespace Wof.View
             storagePlanes.Add(planeView);
             int index = storagePlanes.Count;
 
-            if (EngineConfig.DisplayMinimap) planeView.MinimapItem.Hide();
+            if (EngineConfig.DisplayingMinimap) planeView.MinimapItem.Hide();
             SceneNode p47Node = planeView.OuterNode;
 
             if (index == 1)

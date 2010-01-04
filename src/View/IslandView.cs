@@ -208,7 +208,7 @@ namespace Wof.View
                     EnemyPlaneView epv = new EnemyPlaneView(null, framework, staticNode);
                     epv.PlaneNode.SetPosition(-3, 0.8f, -18 - 90);
                     epv.PlaneNode.Yaw(new Radian(new Degree(60)));
-                    if(EngineConfig.DisplayMinimap)
+                    if(EngineConfig.DisplayingMinimap)
                     {
                     	epv.MinimapItem.Hide();
                     }
@@ -217,7 +217,7 @@ namespace Wof.View
                     EnemyPlaneView epv2 = new EnemyPlaneView(null, framework, staticNode);
                     epv2.PlaneNode.SetPosition(-3, 0.8f, -25 - 90);
                     epv2.PlaneNode.Yaw(new Radian(new Degree(62)));
-                    if(EngineConfig.DisplayMinimap)
+                    if(EngineConfig.DisplayingMinimap)
                     {
                     	epv2.MinimapItem.Hide();
                     }
@@ -341,7 +341,7 @@ namespace Wof.View
                 }
 
                 // minimapa
-                if (EngineConfig.DisplayMinimap)
+                if (EngineConfig.DisplayingMinimap)
                 {
                     minimapItem =
                         new MinimapItem(staticNode, framework.MinimapMgr, "Cube.mesh",

@@ -140,7 +140,7 @@ namespace Wof.View
             rocketAnimation.Enabled = true;
             rocketAnimation.Looped = true;
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem =
                     new MinimapItem(ammunitionNode, framework.MinimapMgr, "Cube.mesh", ColourValue.White,
@@ -173,7 +173,7 @@ namespace Wof.View
             innerNode.SetVisible(false, false);
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene) explosionFlash.Visible = false;
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem.Hide();
             }
@@ -195,7 +195,7 @@ namespace Wof.View
 
         public void Dispose()
         {
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem.Dispose();
                 minimapItem = null;
