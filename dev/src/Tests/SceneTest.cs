@@ -138,7 +138,7 @@ namespace Wof.Tests
 
 
 
-        protected override void CreateFrameListener()
+        protected override void WireEventListeners()
         {
             root.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
             SetCompositorEnabled(CompositorTypes.OLDMOVIE, false);

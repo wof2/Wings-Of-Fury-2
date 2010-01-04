@@ -79,7 +79,9 @@ namespace Wof.Controller
         public static readonly String C_ENGINE_CONFIG = "wofconf.dat";
         public static readonly String C_OGRE_CFG = "ogre.cfg";
 
-
+        public static readonly String C_WOF_HOME_PAGE = "http://www.wingsoffury2.com";
+        public static readonly String C_WOF_NEWS_PAGE = "http://www.wingsoffury2.com";
+    
 
         public static readonly bool UseLastHardwareSettings = false;
 
@@ -122,7 +124,21 @@ namespace Wof.Controller
         public static bool InverseKeys = false; // czy przyciski UP / DOWN s¹ zamienione? (nadpisywane przez wofconf.dat)
         public static bool SpinKeys = false; // Nie zapisywane do Wofconf.dat , czy trzeba chwilowo odwrócic przyciski podczas spinu
         public static bool ShowIntro = true; // czy ma byæ odgrywane intro? (nadpisywane przez wofconf.dat)
-        public static bool DisplayMinimap = true; // czy pokazywaæ minimape? (nadpisywane przez wofconf.dat)
+
+      
+
+        public static bool DisplayMinimap = true;
+
+
+        private static bool displayingMinimap;
+        public static bool DisplayingMinimap
+        {
+            set { displayingMinimap = value; }
+            get { return displayingMinimap; }
+        } // czy pokazywaæ minimape? (nadpisywane przez wofconf.dat)
+
+      
+
  		public static bool UseHydrax = true; // czy korzystaæ z zaawansowanej symulacji wody? (nadpisywane przez wofconf.dat)
 
  		public static bool UseHardwareTexturePreloader = true; // czy wysylac do karty graficznej tesktury przed rozpoczeciem gry
@@ -212,13 +228,13 @@ namespace Wof.Controller
         public static readonly float C_FONT_SIZE = 0.035f;
 
 
-        protected static bool displayMinimap = true;
+       
 
       
-        public static void SetDisplayMinimap(bool enabled)
+     /*   public static void SetDisplayMinimap(bool enabled)
         {
-            EngineConfig.DisplayMinimap = enabled;
-        }
+            EngineConfig.DisplayingMinimap = enabled;
+        }*/
         public static void LoadEngineConfig()
         {
             try
@@ -313,6 +329,7 @@ namespace Wof.Controller
                     {
                     	DisplayMinimap = true;
                     }
+                  //  DisplayingMinimap = DisplayMinimap;
 
 
                     try
@@ -420,7 +437,7 @@ namespace Wof.Controller
             configuration[7] = Settings.Default.Language;
             configuration[8] = Difficulty.ToString();
             configuration[9] = ShowIntro ? "true" : "false";
-            configuration[10] = DisplayMinimap ? "true" : "false";
+            configuration[10] = DisplayingMinimap ? "true" : "false";
             configuration[11] = UseHydrax ? "true" : "false";
             configuration[12] = ShadowsQuality.ToString();
             configuration[13] = AudioStreaming.ToString();

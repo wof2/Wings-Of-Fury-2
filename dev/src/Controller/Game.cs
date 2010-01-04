@@ -148,7 +148,31 @@ namespace Wof.Controller
            currentScreen.DisplayGUI(false);
         }
 
-       
+
+        protected override void WireEventListeners()
+        {
+
+            base.WireEventListeners();
+            this.Activated += new EventHandler(Game_Activated);
+            this.Closing += new System.ComponentModel.CancelEventHandler(Game_Closing);
+
+        }
+
+        void Game_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+           
+        }
+
+        void Game_Activated(object sender, EventArgs e)
+        {
+            // przegladarka reklam wraca na swoje miejsce
+            if(browser != null)
+            {
+                browser.ReturnToInitialState();
+                browser.IsActivated = false;
+            }
+            isActivated = true;
+        }
 
         public void OnFrameStarted(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
@@ -423,7 +447,7 @@ namespace Wof.Controller
                 {
                     game.InjectPerformanceTestResults(performanceTest);
                 }
-                EngineConfig.SetDisplayMinimap(false);
+                EngineConfig.DisplayingMinimap = false;
                 
                 game.Go();
             }
@@ -553,10 +577,8 @@ namespace Wof.Controller
                 currentScreen.CleanUp(false);
             }
 
-            if (EngineConfig.DisplayMinimap)
-            {
-                EngineConfig.SetDisplayMinimap(true);
-            }
+
+            EngineConfig.DisplayingMinimap = EngineConfig.DisplayMinimap; ;
             ChooseSceneManager();
             CreateCamera();
 
@@ -589,10 +611,8 @@ namespace Wof.Controller
                 MenuScreen screen = currentScreen;
                 screen.CleanUp(false);
 
-                if (EngineConfig.DisplayMinimap)
-                {
-                    EngineConfig.SetDisplayMinimap(true);
-                }
+                EngineConfig.DisplayingMinimap = EngineConfig.DisplayMinimap;
+                
 
                 ChooseSceneManager();
                 CreateCamera();
@@ -633,16 +653,16 @@ namespace Wof.Controller
         /// Jeœli przy przejœciu do tego screena potrzebna jest ponowna inicjalizacja kamery, scenemanager'a, viewportów, compositorów oraz dŸwiêku, metoda przeprowadzi j¹.
         /// </summary>
         private void initScreenAfter(MenuScreen screen)
-        {			
-            
-            EngineConfig.SetDisplayMinimap(false);
+        {
+
+            EngineConfig.DisplayingMinimap = false;
 
             Boolean justMenu = IsMenuScreen(screen);
             if(screen != null)    screen.CleanUp(justMenu);
-
+           
             if (!justMenu)
-            {  
-            	
+            {
+               
                 ChooseSceneManager();
                 CreateCamera();
                 if (!FrameWorkStaticHelper.CreateSoundSystem(camera, EngineConfig.SoundSystem))
@@ -653,8 +673,8 @@ namespace Wof.Controller
              
             } else
             {
-            	           
-           	
+
+            
 				
             }
         }
@@ -1268,7 +1288,7 @@ namespace Wof.Controller
         }
         public void GotoDonateWebPageDo()
         {
-            string url = "http://wingsoffury2.com/page/donate?v="+EngineConfig.C_WOF_VERSION+"_"+EngineConfig.C_IS_DEMO.ToString();
+            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/donate?v="+EngineConfig.C_WOF_VERSION+"_"+EngineConfig.C_IS_DEMO.ToString();
             try
             {
                 // launch default browser
@@ -1287,7 +1307,7 @@ namespace Wof.Controller
 
         public void GotoUpdateWebPageDo()
         {
-            string url = "http://wingsoffury2.com/update.php?v="+EngineConfig.C_WOF_VERSION+"&d="+EngineConfig.C_IS_DEMO.ToString();
+            string url = EngineConfig.C_WOF_HOME_PAGE + "/update.php?v="+EngineConfig.C_WOF_VERSION+"&d="+EngineConfig.C_IS_DEMO.ToString();
             try
             {
                 // launch default browser

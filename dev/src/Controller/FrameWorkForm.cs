@@ -372,7 +372,7 @@ namespace Wof.Controller
                 // AddCompositors();
                 // SetCompositorEnabled(CompositorTypes.OLDMOVIE, true);
 
-                CreateFrameListener();
+                WireEventListeners();
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingInput)));
              
@@ -615,7 +615,7 @@ namespace Wof.Controller
             camera.FarClipDistance = 8600.0f;
 
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 CreateMinimapCamera();
             }
@@ -727,7 +727,7 @@ namespace Wof.Controller
        
        
 
-        protected virtual void CreateFrameListener()
+        protected virtual void WireEventListeners()
         {
             modelWorker.DoWork += LoopModelWorker;
             root.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
@@ -735,8 +735,6 @@ namespace Wof.Controller
             root.RenderSystem.EventOccurred +=
                 new RenderSystem.Listener.EventOccurredHandler(RenderSystem_EventOccurred);
             SoundManager3D.Instance.CreateFrameListener(root);
-
-         
 
         }
        
@@ -1234,7 +1232,7 @@ namespace Wof.Controller
             
             window.RemoveAllViewports();
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 CreateMainViewport(1, 0, 0, 1.0f, 1 - minimapHeight);
                 float left = 0;

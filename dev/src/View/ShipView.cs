@@ -317,7 +317,7 @@ namespace Wof.View
             dieSound.SetBaseGain(0.25f);
 
             // minimapa
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem =
                     new MinimapItem(staticNode, framework.MinimapMgr, "ShipMinimap.mesh",

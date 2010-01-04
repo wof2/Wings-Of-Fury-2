@@ -187,7 +187,7 @@ namespace Wof.View
         	  	
             }
            
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem.Show();
             }
@@ -221,7 +221,7 @@ namespace Wof.View
             	
             ammunitionNode.SetVisible(false);
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem.Hide();
             }

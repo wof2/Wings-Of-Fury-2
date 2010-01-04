@@ -236,7 +236,7 @@ namespace Wof.View
 
         public void Show()
         {
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 isVisible = true;
                 minimapNode.SetVisible(true);
@@ -245,7 +245,7 @@ namespace Wof.View
 
         public void Hide()
         {
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 isVisible = false;
                 minimapNode.SetVisible(false);

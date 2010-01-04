@@ -143,7 +143,7 @@ namespace Wof.View
             ammunitionNode.SetVisible(false);
             base.preInitOnScene();
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem =
                     new MinimapItem(ammunitionNode, framework.MinimapMgr, "Cube.mesh", ColourValue.White,
@@ -182,7 +182,7 @@ namespace Wof.View
             ammunitionNode.Orientation *= new Quaternion((float) ammunition.Angle, Vector3.UNIT_X);
 
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem =
                     new MinimapItem(ammunitionNode, framework.MinimapMgr, "Cube.mesh", ColourValue.White,
@@ -218,7 +218,7 @@ namespace Wof.View
 
         public void Dispose()
         {
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem.Dispose();
                 minimapItem = null;

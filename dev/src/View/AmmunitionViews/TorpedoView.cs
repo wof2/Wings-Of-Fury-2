@@ -205,7 +205,7 @@ namespace Wof.View
             torpedoAnimation.Enabled = true;
             torpedoAnimation.Looped = true;
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem =
                     new MinimapItem(ammunitionNode, framework.MinimapMgr, "Cube.mesh", ColourValue.White,
@@ -235,7 +235,7 @@ namespace Wof.View
             innerNode.SetVisible(false, false);
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene) explosionFlash.Visible = false;
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem.Hide();
             }
@@ -270,7 +270,7 @@ namespace Wof.View
             ammunitionNode.Orientation *= new Quaternion((float) ammunition.Angle, Vector3.UNIT_X);
 
 
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem =
                     new MinimapItem(ammunitionNode, framework.MinimapMgr, "Cube.mesh", ColourValue.White,
@@ -292,7 +292,7 @@ namespace Wof.View
 
         public void Dispose()
         {
-            if (EngineConfig.DisplayMinimap)
+            if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem.Dispose();
                 minimapItem = null;

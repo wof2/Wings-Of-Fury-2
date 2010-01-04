@@ -93,7 +93,7 @@ namespace Wof.Tests
                 camera.NearClipDistance = 1;
                 camera.Position = new Vector3(0, 20, 70);
 
-                if (EngineConfig.DisplayMinimap)
+                if (EngineConfig.DisplayingMinimap)
                 {
                     CreateMinimapCamera();
                 }

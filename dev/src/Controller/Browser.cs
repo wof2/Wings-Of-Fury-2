@@ -71,9 +71,12 @@ namespace Wof.Controller
 		
 		public Browser(Form gameForm)
 		{
+          
             this.gameForm = gameForm;			
 			InitializeComponent();
+            this.wofBrowser.Url = new System.Uri(EngineConfig.C_WOF_HOME_PAGE, System.UriKind.Absolute);
 		}
+
 
 	    private void Document_MouseLeave(object sender, HtmlElementEventArgs e)
 	    {
@@ -94,22 +97,64 @@ namespace Wof.Controller
 	        mousePos = e.MousePosition;  
 	    }
 
+	    private bool eventsWired = false;
+
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
           //  LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "document loaded");
+            if(!wofBrowser.ReadyState.Equals(WebBrowserReadyState.Complete))
+            {
+                return;
+            }
+
+           
+            //  this.wofBrowser.
             this.wofBrowser.Document.MouseMove += new HtmlElementEventHandler(Document_MouseMove);
             this.wofBrowser.Document.MouseOver += new HtmlElementEventHandler(Document_MouseOver);
             this.wofBrowser.Document.MouseLeave += new HtmlElementEventHandler(Document_MouseLeave);
+            this.wofBrowser.Document.Click += new HtmlElementEventHandler(Document_Click);
+
+            this.wofBrowser.Navigating += wofBrowser_Navigating;
+            eventsWired = true;
            
-            this.wofBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WofBrowserNavigating);
         }
 
-        public new void Activate()
+        void wofBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            if (eventsWired)
+            {
+                this.wofBrowser.Navigating -= wofBrowser_Navigating;
+                eventsWired = false;
+            }
+           
+            if (!isFullScreen)
+            {
+                this.WindowState = FormWindowState.Maximized;
+                this.FormBorderStyle = FormBorderStyle.Fixed3D;
+                // this.Activate();
+            }
+
+            isFullScreen = true;
+        }
+
+        void Document_Click(object sender, HtmlElementEventArgs e)
+        {
+            
+        }
+
+        void element_Click(object sender, HtmlElementEventArgs e)
+        {
+           
+        }
+
+	   
+
+	    public new void Activate()
         {
         	canActivate = true;
         	base.Activate();  
         }
-       
+
         
         private void Browser_Activated(object sender, EventArgs e)
         {
@@ -127,25 +172,29 @@ namespace Wof.Controller
         }
 
 		
-		void WofBrowserNavigating(object sender, WebBrowserNavigatingEventArgs e)
-		{
-			
-			this.WindowState = FormWindowState.Maximized;
-            this.FormBorderStyle = FormBorderStyle.Fixed3D;
-            this.Activate();
-            isFullScreen = true;
-            
-			//e.Cancel = true;
-			
-			//wofBrowser.Navigate(e.Url, true);
-		}
+	
 		
+        public void ReturnToInitialState()
+        {
+            if(isFullScreen)
+            {
+                this.WindowState = FormWindowState.Normal;
+                this.FormBorderStyle = FormBorderStyle.None;
+                if (eventsWired)
+                {
+                    this.wofBrowser.Navigating -= wofBrowser_Navigating;
+                    eventsWired = false;
+                }
+                this.wofBrowser.Navigate(new Uri(EngineConfig.C_WOF_NEWS_PAGE, UriKind.Absolute));
+            }
+            isFullScreen = false;
+        }
 		void BrowserFormClosing(object sender, FormClosingEventArgs e)
 		{
-			this.WindowState = FormWindowState.Normal;
-			this.FormBorderStyle = FormBorderStyle.None;
+		    ReturnToInitialState();
 			e.Cancel = true;
-			isFullScreen = false;
+			
+
 		}
 	}
 }
