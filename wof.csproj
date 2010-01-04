@@ -154,10 +154,6 @@
       <DependentUpon>Browser.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="src\Controller\FrameWorkForm.resx">
-      <DependentUpon>FrameWorkForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="src\Tests\ModelTest\IntersectionTestForm.resx">
       <DependentUpon>IntersectionTestForm.cs</DependentUpon>
       <SubType>Designer</SubType>

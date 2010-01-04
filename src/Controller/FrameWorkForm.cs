@@ -486,7 +486,7 @@ namespace Wof.Controller
 				if(hwnd !=0)
 				{
 		            IntPtr ptr = new IntPtr(hwnd);
-		          /*  this.WindowState = FormWindowState.Maximized;
+		            /*this.WindowState = FormWindowState.Maximized;
                 	this.FormBorderStyle = FormBorderStyle.None;
 
 		            User32.SetWinFullScreen(ptr);*/

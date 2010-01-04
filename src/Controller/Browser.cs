@@ -15,33 +15,38 @@ namespace Wof.Controller
 	/// </summary>
 	public partial class Browser : Form
 	{
-	    private bool isActivated = false;
-		
+		protected bool canActivate = false;
+	    private bool isActivated = false;		
 		protected bool mouseOver = true;
 		
 		public bool MouseOver {
 			get { return mouseOver; }
 		}
-
 	    protected Point lastScreenPos = new Point(-1,-1);
+	    
+	    protected bool isFullScreen = false;
+	    
+		public bool IsFullScreen {
+			get { return isFullScreen; }
+		}
 
 	    public bool IsActivated
 	    {
-	        get { return isActivated; }
-	        set {
+	        get 
+	        { 
+	        	return isActivated;
+	        }
+	        set 
+	        {
                 if(value)
                 {
-                    mouseOver = true;
-                    //mousePos = new Point(0, 0); // mysz nad obszarem
+                    mouseOver = true;                   
                 }
                 else
                 {
-                    mouseOver = false;
-                   // mousePos = new Point(-1, -1); // mysz nad obszarem
-                }
-               
-                isActivated = value; 
-            
+                    mouseOver = false;        
+                }               
+                isActivated = value;            
             }
 	    }
 
@@ -51,87 +56,96 @@ namespace Wof.Controller
 	    }
 
 	    public bool IsMouseOver()
-        {
-           // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "browser: " + mousePos.X + " , " + mousePos.Y + ", over : " + Bounds.Contains(mousePos.X, mousePos.Y));
-            //	Console.WriteLine(mouse.X.abs + " "+ mouse.X.rel);
-	        return mouseOver;
-           // return this.webBrowser1.Bounds.Contains(MousePos.X, MousePos.Y);
-
+        {           
+	        return mouseOver;    
         }	
 
-	    public bool IsMouseOver(uint screenX, uint screenY)
-		{
-            Point screen = new Point((int)screenX, (int)screenY);
-            Point client = this.webBrowser1.PointToClient(screen);
-
-            lastScreenPos = screen;
-           // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "main: " + mouse.X.abs + " , " + mouse.Y.abs + ", over : " + Bounds.Contains(mouse.X.abs, mouse.Y.abs));
-			//Console.WriteLine(mouse.X.abs + " "+ mouse.X.rel);
-
-            return this.webBrowser1.Bounds.Contains(client);
-
-          
-			
+	    public bool IsMouseOver(Point screen)
+		{            
+            Point client = this.wofBrowser.PointToClient(screen);
+            lastScreenPos = screen;         
+            return this.wofBrowser.Bounds.Contains(client);
 		}		
 		
+	    private Form gameForm;
 		
-		public Browser()
+		public Browser(Form gameForm)
 		{
-           
-			//
-			// The InitializeComponent() call is required for Windows Forms designer support.
-			//
+            this.gameForm = gameForm;			
 			InitializeComponent();
-
-          
-			//
-			// TODO: Add constructor code after the InitializeComponent() call.
-			//
 		}
 
 	    private void Document_MouseLeave(object sender, HtmlElementEventArgs e)
 	    {
 	        LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "browser LEAVE");
-	        mouseOver = false;
-           // mousePos = new Point(-1,-1); // mysz poza obszarem
-           // Console.WriteLine("bbb");
+	        mouseOver = false;           
 	    }
 
 	    private void Document_MouseOver(object sender, HtmlElementEventArgs e)
 	    {
             mouseOver = true;
-	        mousePos = e.MousePosition;
-           // Console.WriteLine("aaa");
+	        mousePos = e.MousePosition;         
 	    }
 
         private Point mousePos = new Point(0, 0);
 
 	    void Document_MouseMove(object sender, HtmlElementEventArgs e)
         {
-           // e.MousePosition
-	        mousePos = e.MousePosition;
-            
-          
+	        mousePos = e.MousePosition;  
 	    }
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
           //  LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "document loaded");
-            this.webBrowser1.Document.MouseMove += new HtmlElementEventHandler(Document_MouseMove);
-            this.webBrowser1.Document.MouseOver += new HtmlElementEventHandler(Document_MouseOver);
-            this.webBrowser1.Document.MouseLeave += new HtmlElementEventHandler(Document_MouseLeave);
+            this.wofBrowser.Document.MouseMove += new HtmlElementEventHandler(Document_MouseMove);
+            this.wofBrowser.Document.MouseOver += new HtmlElementEventHandler(Document_MouseOver);
+            this.wofBrowser.Document.MouseLeave += new HtmlElementEventHandler(Document_MouseLeave);
+           
+            this.wofBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.WofBrowserNavigating);
         }
 
+        public new void Activate()
+        {
+        	canActivate = true;
+        	base.Activate();  
+        }
+       
+        
         private void Browser_Activated(object sender, EventArgs e)
         {
+        	if(!canActivate)
+        	{
+        		gameForm.Activate();
+        		return;
+        	}
            // Console.WriteLine(" !!!!!!!!!!!!!! ACTIVATED !!!!!!!!!!!!!!");
             if(lastScreenPos.X >= 0)
             {
                 Cursor.Position = lastScreenPos;
-            }
-               
-            
+            }     
+            canActivate = false;            
         }
 
+		
+		void WofBrowserNavigating(object sender, WebBrowserNavigatingEventArgs e)
+		{
+			
+			this.WindowState = FormWindowState.Maximized;
+            this.FormBorderStyle = FormBorderStyle.Fixed3D;
+            this.Activate();
+            isFullScreen = true;
+            
+			//e.Cancel = true;
+			
+			//wofBrowser.Navigate(e.Url, true);
+		}
+		
+		void BrowserFormClosing(object sender, FormClosingEventArgs e)
+		{
+			this.WindowState = FormWindowState.Normal;
+			this.FormBorderStyle = FormBorderStyle.None;
+			e.Cancel = true;
+			isFullScreen = false;
+		}
 	}
 }
