@@ -287,16 +287,18 @@ namespace Wof.Controller.Screens
                   
                 }else
                 {
+                	hideAdText();
                     return false;
                 }
             	
             }
             else
             {
-            	hideAdText();
+            	
                 currentMaterialName = C_TEXTURE_NAME + currentScreen;
                 overlayMaterial = MaterialManager.Singleton.GetByName(currentMaterialName);
                 unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
+                hideAdText();
             }
 
             if(i == 3)

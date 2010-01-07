@@ -72,11 +72,15 @@ namespace Wof.Controller.Screens
         {
           
             base.CreateGUI();
-            guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth/4,
-                                                      viewport.ActualHeight/4, viewport.ActualWidth/2,
-                                                      2*viewport.ActualHeight / 3.0f),
-                                          "bgui.window", (int) wt.NONE,
-                                          LanguageResources.GetString(LanguageKey.Options));
+            Vector2 m = GetMargin();
+            int h = (int)GetTextVSpacing();
+             
+            guiWindow = mGui.createWindow(new Vector4(m.x,
+                                                      m.y, viewport.ActualWidth/2,
+                                                      viewport.ActualHeight - m.y - h ),
+                                          			  "bgui.window", (int)wt.NONE, LanguageResources.GetString(LanguageKey.Options));
+            
+          
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
             initButtons(13, 12);

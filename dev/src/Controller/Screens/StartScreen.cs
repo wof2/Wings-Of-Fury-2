@@ -75,17 +75,20 @@ namespace Wof.Controller.Screens
         	 
                     
             base.CreateGUI();
+            Vector2 m = GetMargin();
             int h = (int)GetTextVSpacing();
-            string gameName = "Wings of Fury 2";
+            string gameName = EngineConfig.C_GAME_NAME;
             
             if(EngineConfig.C_IS_DEMO)
             {
                 gameName += " Demo";
             }
-            guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth/4,
-                                                      viewport.ActualHeight/4, viewport.ActualWidth/2,
-                                                      viewport.ActualHeight/2),
-                                          "bgui.window", (int)wt.NONE, gameName);
+           
+            
+            guiWindow = mGui.createWindow(new Vector4(m.x,
+                                                      m.y, viewport.ActualWidth/2,
+                                                      viewport.ActualHeight - m.y - h ),
+                                          			  "bgui.window", (int)wt.NONE, gameName);
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
             initButtons(9, 8);

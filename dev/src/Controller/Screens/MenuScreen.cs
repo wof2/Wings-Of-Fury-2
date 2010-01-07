@@ -50,6 +50,7 @@
 using System;
 using Mogre;
 using MOIS;
+using System.Windows.Forms;
 
 namespace Wof.Controller.Screens
 {
@@ -60,6 +61,11 @@ namespace Wof.Controller.Screens
         void OnUpdateModel(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick);
         void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick);
         void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick);
+        
+        Control GetContainer();
+        Vector2 GetMargin();
+        
+        Vector2 ViewportToScreen(Vector2 screen);
         
         /// <summary>
         /// Zwraca bazow¹ wielkoœæ czcionki u¿ytej na screenie w pikselach

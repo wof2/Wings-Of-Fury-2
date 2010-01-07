@@ -130,13 +130,14 @@ namespace Wof.Controller
                     if (EngineConfig.ShowIntro)
                     {
                         currentScreen = new IntroScreen(this, this, viewport, camera);
-                        
+                        StartBrowser();
                     }
                     else
                     {
                         SoundManager.Instance.PlayMainTheme();
                           
                         currentScreen = new StartScreen(this, this, viewport, camera);
+                        StartBrowser();
                         ShowBrowser();    
                     }  
                 }
@@ -191,7 +192,7 @@ namespace Wof.Controller
                 currentScreen.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoystick);
               
                 
-                if(browser != null && browser.Visible && !browser.IsFullScreen)
+                if(browser != null && browser.Visible && browser.IsInitialState)
                 {   
                 	
                     Point screenPos = (currentScreen as AbstractScreen).MousePosScreen;                   
@@ -301,8 +302,15 @@ namespace Wof.Controller
         private static void Main(string[] args)
         {
 
-          
-        	Firewall.AddException();
+        	try
+        	{
+        		Firewall.AddException();
+        	}
+        	catch(Exception ex)
+        	{
+        		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error while opening firewall for WOF: "+ ex.Message);
+        	}
+        	
         	
         	//  MessageBox.Show("Params"+string.Join(",",args));
      
@@ -429,9 +437,9 @@ namespace Wof.Controller
         
         
 		public override void Go()
-		{
-			StartBrowser();
+		{			
 			base.Go();
+			
 		}
         /// <summary>
         /// Uruchamia pierwsza instancje na tym komputerze
@@ -682,7 +690,12 @@ namespace Wof.Controller
         public void StartBrowser()
         { 
         	browser = new Browser(this);
-	        browser.SetBounds(100,100, 300, 300);    
+        	Vector2 m = currentScreen.GetMargin();
+        
+        	Vector2 point = currentScreen.ViewportToScreen(new Vector2(m.x + Viewport.ActualWidth * 0.51f, (int)(m.y)));
+        	Vector2 dim = currentScreen.ViewportToScreen(new Vector2(Viewport.ActualWidth * 0.48f, (int)(viewport.ActualHeight - m.y - currentScreen.GetTextVSpacing())));
+        	      
+        	browser.SetBounds((int) (point.x) , (int) (point.y), (int)dim.x, (int)dim.y);
         	HideBrowser();
             
 	
@@ -697,7 +710,7 @@ namespace Wof.Controller
         public void HideBrowser()
         {
         	 if(browser == null) return;
-        	 browser.Hide();
+        	 browser.Visible = false;
         }
         public void DisposeBrowser()
         {
@@ -726,17 +739,17 @@ namespace Wof.Controller
             	shutDown = true;
             }
            
-            
-          
-            Boolean justMenu = IsMenuScreen(currentScreen);
-            initScreenAfter(currentScreen);
-
-            SoundManager.Instance.PlayMainTheme();
             ScreenState ss = null;
             if (currentScreen != null && currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
+          
+            Boolean justMenu = IsMenuScreen(currentScreen);
+            initScreenAfter(currentScreen);
+
+            SoundManager.Instance.PlayMainTheme();
+           
 
             currentScreen = new IntroScreen(this, this, viewport, camera);
          
@@ -748,7 +761,7 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
             if (ss != null)
             {
-            	(currentScreen as AbstractScreen).SetMousePosition(ss.MousePosX,ss.MousePosY);
+            	(currentScreen as AbstractScreen).SetMousePosition(ss);
         
             }
         }
@@ -770,19 +783,21 @@ namespace Wof.Controller
             }
             if(!shutDown && !shouldReload)
             {
+            	if(browser == null) StartBrowser();
             	ShowBrowser();      
             }
             
-          
-            Boolean justMenu = IsMenuScreen(currentScreen);
-            initScreenAfter(currentScreen);
-
-            SoundManager.Instance.PlayMainTheme();
             ScreenState ss = null;
             if (currentScreen != null && currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
+          
+            Boolean justMenu = IsMenuScreen(currentScreen);
+            initScreenAfter(currentScreen);
+
+            SoundManager.Instance.PlayMainTheme();
+           
 
             currentScreen = new StartScreen(this, this, viewport, camera);
          
@@ -933,7 +948,7 @@ namespace Wof.Controller
         public void GotoCreditsScreen()
         {
             Boolean justMenu = IsMenuScreen(currentScreen);
-
+			HideBrowser();
             ScreenState ss = null;
             if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
@@ -955,7 +970,7 @@ namespace Wof.Controller
         public void GotoOptionsScreen()
         {
             Boolean justMenu = IsMenuScreen(currentScreen);
-
+ 			HideBrowser();
             ScreenState ss = null;
             if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
@@ -977,6 +992,7 @@ namespace Wof.Controller
         {
             Boolean justMenu = IsMenuScreen(currentScreen);
 
+            HideBrowser();
             ScreenState ss = null;
             if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
@@ -1238,17 +1254,19 @@ namespace Wof.Controller
 
         public void MinimizeWindow()
         {
-            window.SetVisible(false);
-            window.SetFullscreen(false, 0, 0);
-            window.Resize(0, 0);
-            window.Update(true);
+        	if(browser != null && browser.Visible) 
+        	{
+        	//	browser.IsInitialState = false;
+        		browser.Hide();
+        	}
+        	this.WindowState = FormWindowState.Minimized;
+           // window.SetVisible(false);
+         //   window.SetFullscreen(false, 0, 0);
+          //  window.Resize(0, 0);
+          //  window.Update(true);
         }
 
-        public void MaximizeWindow()
-        {
-            window.SetFullscreen(true, windowWidth, windowHeight);
-            window.SetVisible(true);
-        }
+   
 
 
        
@@ -1284,7 +1302,10 @@ namespace Wof.Controller
 
         public void GotoDonateWebPage()
         {
-            ExitGame(GotoDonateWebPageDo);
+        	MinimizeWindow();
+        	GotoDonateWebPageDo();
+        	
+          // ExitGame(GotoDonateWebPageDo);
         }
         public void GotoDonateWebPageDo()
         {
@@ -1301,7 +1322,10 @@ namespace Wof.Controller
 
         public void GotoUpdateWebPage()
         {
-            ExitGame(GotoUpdateWebPageDo);
+        	MinimizeWindow();
+        	GotoUpdateWebPageDo();
+        	
+           // ExitGame(GotoUpdateWebPageDo);
         }
 
 
