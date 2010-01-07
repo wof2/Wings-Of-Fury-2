@@ -77,8 +77,8 @@ namespace Wof.Controller
         void GotoDonateScreen();
         void GotoQuitScreen();
 
-        void MinimizeWindow();
-        void MaximizeWindow();
+       //void MinimizeWindow();
+        //void MaximizeWindow();
         void GotoDonateWebPage();
         void GotoUpdateWebPage();
     }

@@ -54,7 +54,7 @@ namespace Wof.Controller
 			this.wofBrowser.TabStop = false;
 			this.wofBrowser.WebBrowserShortcutsEnabled = false;
 			this.wofBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
-        
+			this.wofBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WofBrowserNavigated);
 			// 
 			// Browser
 			// 
@@ -62,15 +62,14 @@ namespace Wof.Controller
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(300, 300);
 			this.Controls.Add(this.wofBrowser);
+			this.DoubleBuffered = true;
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
 			this.Name = "Browser";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Text = "Browser";
 			this.Activated += new System.EventHandler(this.Browser_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BrowserFormClosing);
-         
 			this.ResumeLayout(false);
         }
 		private System.Windows.Forms.WebBrowser wofBrowser;

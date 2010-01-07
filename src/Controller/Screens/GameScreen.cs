@@ -177,6 +177,36 @@ namespace Wof.Controller.Screens
         {
             return (uint)(fontSize * 1.2f);
         }
+        
+        public Vector2 GetMargin()
+        {
+        	return new Vector2(viewport.ActualWidth * 0.01f, viewport.ActualHeight * 0.3f);
+        }
+        
+         /// <summary>
+        /// Pobiera kontrolke zawierajaca screen
+        /// </summary>
+        /// <returns></returns>
+        public Control GetContainer()
+        {
+        	return (framework as Control);
+        }
+        
+        private float XScale
+        {
+        	get { return 1.0f * viewport.ActualWidth / GetContainer().Width;}
+        }
+        
+        private float YScale
+        {
+        	get { return 1.0f * viewport.ActualHeight / GetContainer().Height;}
+        }
+        
+        public Vector2 ViewportToScreen(Vector2 screen)
+        {
+        	return new Vector2(screen.x / XScale, screen.y / YScale);
+         	
+        }
 
         // Obiekty kontroli GUI
         private GUI mGui;

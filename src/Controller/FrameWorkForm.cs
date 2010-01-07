@@ -448,14 +448,16 @@ namespace Wof.Controller
                 //ResourceBackgroundQueue.Singleton.InitialiseAllResourceGroups();
                 try
                 {
-                    root.Initialise(false, "Wings Of Fury 2");                    
+                    window = root.Initialise(false, EngineConfig.C_GAME_NAME);
+                    
+                  //  return true;
                     NameValuePairList misc = new NameValuePairList();
 	                misc["externalWindowHandle"] = Handle.ToString();
 	                Vector2 dim = FrameWorkStaticHelper.GetCurrentVideoMode(root);
 
                     this.ClientSize = new Size((int) dim.x, (int)dim.y);
                     //this.ClientSize.Height = ;
-	                window = root.CreateRenderWindow("Wings Of Fury 2", (uint)dim.x, (uint)dim.y, false, misc.ReadOnlyInstance);
+	                window = root.CreateRenderWindow(EngineConfig.C_GAME_NAME, (uint)dim.x, (uint)dim.y, false, misc.ReadOnlyInstance);
 	                hwnd = Handle.ToInt32();
                     
                    // window.GetCustomAttribute("WINDOW",out hwnd);
@@ -486,10 +488,10 @@ namespace Wof.Controller
 				if(hwnd !=0)
 				{
 		            IntPtr ptr = new IntPtr(hwnd);
-		            /*this.WindowState = FormWindowState.Maximized;
+		            this.WindowState = FormWindowState.Maximized;
                 	this.FormBorderStyle = FormBorderStyle.None;
 
-		            User32.SetWinFullScreen(ptr);*/
+		            User32.SetWinFullScreen(ptr);
 		            
 		            /*const int GWL_EXSTYLE = -20;
 		            const int GWL_STYLE = -16;
@@ -551,7 +553,7 @@ namespace Wof.Controller
             
     
           	
-            window = root.Initialise(true, "Wings Of Fury 2");
+            window = root.Initialise(true, EngineConfig.C_GAME_NAME);
         
             windowHeight = window.Height;
             windowWidth = window.Width;           
@@ -808,6 +810,8 @@ namespace Wof.Controller
             // set the scaling of camera motion
 
             MouseState_NativePtr mouseState = inputMouse.MouseState;
+            
+            //camera.Yaw(-evt.timeSinceLastFrame * 0.3f);
 
 
             if (EngineConfig.ManualCamera && camera != null)

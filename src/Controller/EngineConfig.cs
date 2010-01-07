@@ -69,7 +69,8 @@ namespace Wof.Controller
         public static readonly bool C_IS_INTERNAL_TEST = true;
         public static readonly String C_IS_INTERNAL_TEST_INFO = "!!! Internal test version !!! ";
 
-
+ 		public static readonly String C_GAME_NAME = "Wings Of Fury 2";
+ 		
         /// <summary>
         /// Czy bie¿¹ca kompilacja jest demem?
         /// </summary>
@@ -437,7 +438,7 @@ namespace Wof.Controller
             configuration[7] = Settings.Default.Language;
             configuration[8] = Difficulty.ToString();
             configuration[9] = ShowIntro ? "true" : "false";
-            configuration[10] = DisplayingMinimap ? "true" : "false";
+            configuration[10] = DisplayMinimap ? "true" : "false";
             configuration[11] = UseHydrax ? "true" : "false";
             configuration[12] = ShadowsQuality.ToString();
             configuration[13] = AudioStreaming.ToString();

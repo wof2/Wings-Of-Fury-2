@@ -2,11 +2,13 @@
  * WiiMote - Zastosowanie zaawansowanych kontrolerów gier do stworzenia naturalnych
 interfejsów użytkownika.
 */
-using Mogre;
-using MOIS;
 using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
+
+using Mogre;
+using MOIS;
 
 namespace Wof.Controller
 {
@@ -15,6 +17,9 @@ namespace Wof.Controller
 	/// </summary>
 	public partial class Browser : Form
 	{
+		private Point mousePos = new Point(0, 0);
+		private bool eventsWired = false;
+
 		protected bool canActivate = false;
 	    private bool isActivated = false;		
 		protected bool mouseOver = true;
@@ -24,10 +29,11 @@ namespace Wof.Controller
 		}
 	    protected Point lastScreenPos = new Point(-1,-1);
 	    
-	    protected bool isFullScreen = false;
+	    protected bool isInitialState = true;
 	    
-		public bool IsFullScreen {
-			get { return isFullScreen; }
+		
+	    public bool IsInitialState {
+			get { return isInitialState; }
 		}
 
 	    public bool IsActivated
@@ -70,8 +76,7 @@ namespace Wof.Controller
 	    private Form gameForm;
 		
 		public Browser(Form gameForm)
-		{
-          
+		{          
             this.gameForm = gameForm;			
 			InitializeComponent();
             this.wofBrowser.Url = new System.Uri(EngineConfig.C_WOF_HOME_PAGE, System.UriKind.Absolute);
@@ -90,23 +95,35 @@ namespace Wof.Controller
 	        mousePos = e.MousePosition;         
 	    }
 
-        private Point mousePos = new Point(0, 0);
+       
 
 	    void Document_MouseMove(object sender, HtmlElementEventArgs e)
         {
 	        mousePos = e.MousePosition;  
 	    }
 
-	    private bool eventsWired = false;
-
+	   
+	
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+        	
+        	switch(wofBrowser.Document.Url.LocalPath)
+        	{
+        		case  "/navcancl.htm":
+        			
+        		case "/dnserrordiagoff_webOC.htm":        			
+        			wofBrowser.DocumentText = File.ReadAllText("none.dat");
+        			return;
+        		break;                       			  	
+        	}
+        		
+   
+    
           //  LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "document loaded");
             if(!wofBrowser.ReadyState.Equals(WebBrowserReadyState.Complete))
             {
                 return;
             }
-
            
             //  this.wofBrowser.
             this.wofBrowser.Document.MouseMove += new HtmlElementEventHandler(Document_MouseMove);
@@ -127,14 +144,14 @@ namespace Wof.Controller
                 eventsWired = false;
             }
            
-            if (!isFullScreen)
+            if (isInitialState)
             {
                 this.WindowState = FormWindowState.Maximized;
                 this.FormBorderStyle = FormBorderStyle.Fixed3D;
                 // this.Activate();
             }
 
-            isFullScreen = true;
+            isInitialState = false;
         }
 
         void Document_Click(object sender, HtmlElementEventArgs e)
@@ -171,13 +188,19 @@ namespace Wof.Controller
             canActivate = false;            
         }
 
+        public new void Hide()
+        {
+        	isInitialState = false;
+        	base.Hide();
+        }
 		
 	
 		
         public void ReturnToInitialState()
         {
-            if(isFullScreen)
+            if(!isInitialState)
             {
+            	this.Visible = true;
                 this.WindowState = FormWindowState.Normal;
                 this.FormBorderStyle = FormBorderStyle.None;
                 if (eventsWired)
@@ -187,7 +210,7 @@ namespace Wof.Controller
                 }
                 this.wofBrowser.Navigate(new Uri(EngineConfig.C_WOF_NEWS_PAGE, UriKind.Absolute));
             }
-            isFullScreen = false;
+            isInitialState = true;
         }
 		void BrowserFormClosing(object sender, FormClosingEventArgs e)
 		{
@@ -195,6 +218,11 @@ namespace Wof.Controller
 			e.Cancel = true;
 			
 
+		}
+		
+		void WofBrowserNavigated(object sender, WebBrowserNavigatedEventArgs e)
+		{
+			
 		}
 	}
 }

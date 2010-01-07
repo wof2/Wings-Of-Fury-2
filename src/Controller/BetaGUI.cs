@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using Mogre;
+using System.Drawing;
 using Wof.Controller;
 
 namespace BetaGUI
@@ -121,7 +122,11 @@ namespace BetaGUI
             mMP = null;
             if (keyDelay != null) keyDelay.Dispose();
         }
-
+        
+	    public int injectMouse(Point p, bool LMB)        
+	    {
+	    	return injectMouse((uint)p.X, (uint)p.Y, LMB);
+	    }
         public int injectMouse(uint x, uint y, bool LMB)
         {
             
@@ -164,7 +169,11 @@ namespace BetaGUI
             oldMouseX = x; oldMouseY = y;
             return -1;
         }
-
+		public bool injectKey(String key, Point mousePos)
+        {
+			return injectKey(key, (uint)mousePos.X, (uint)mousePos.Y);
+	
+		}
         public bool injectKey(String key, uint x, uint y)
         {
             if (keyDelay == null)

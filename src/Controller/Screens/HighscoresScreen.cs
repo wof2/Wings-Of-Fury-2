@@ -78,12 +78,15 @@ namespace Wof.Controller.Screens
         protected override void CreateGUI()
         {
             base.CreateGUI();
-
-            guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth/4,
-                                                      viewport.ActualHeight/9, viewport.ActualWidth/2,
-                                                      7*viewport.ActualHeight/9),
-                                          "bgui.window", (int) wt.NONE,
-                                          LanguageResources.GetString(LanguageKey.HallOfFame));
+   			Vector2 m = GetMargin();
+            int h = (int)GetTextVSpacing();
+         
+            
+            guiWindow = mGui.createWindow(new Vector4(m.x,
+                                                      m.y, viewport.ActualWidth/2,
+                                                      viewport.ActualHeight - m.y - h ),
+                                          			  "bgui.window", (int)wt.NONE, LanguageResources.GetString(LanguageKey.HallOfFame));
+            
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
             float y = 0;

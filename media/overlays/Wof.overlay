@@ -185,8 +185,8 @@ Wof/AdText
 			metrics_mode relative			
 			top 0.95
 			width 1.0
-			height 0.035			
-			char_height 0.035
+			height 0.025			
+			char_height 0.025
 			colour 0.8 0.8 0.8	
 			caption Reklamy dostarcza PlayAds
 		}
