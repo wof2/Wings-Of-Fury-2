@@ -808,15 +808,15 @@ namespace Wof.Controller
             	shouldReload = false;
             	shutDown = true;
             }
-            if(!shutDown && !shouldReload)
-            {
-            	if(browser == null) StartBrowser();
-              
-            }
+          
             
             ScreenState ss = null;
             if (currentScreen != null && currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
+                if((browser == null && (currentScreen as AbstractScreen).Viewport != null))
+                { 
+                    StartBrowser();
+                }
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
           
@@ -827,7 +827,7 @@ namespace Wof.Controller
            
 
             currentScreen = new StartScreen(this, this, viewport, camera);
-         
+            if (browser == null) StartBrowser();
 
             if (ss != null)
             {
