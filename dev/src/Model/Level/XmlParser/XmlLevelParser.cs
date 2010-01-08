@@ -208,10 +208,14 @@ namespace Wof.Model.Level.XmlParser
 
              
 
-                int level = Int32.Parse(levelNumer);
+                int level;
+                if(Int32.TryParse(levelNumer, out level))
+                {
+                    if (!SHA1_Hash.ValidateLevel(level, contents))
+                        throw new Exception("Level is corrupted!");
+                }
 
-                if (!SHA1_Hash.ValidateLevel(level, contents))
-                    throw new Exception("Level is corrupted!");
+               
 
                 reader = XmlReader.Create(new StringReader(contents));
                 while (reader.Read())

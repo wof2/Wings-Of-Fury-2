@@ -83,12 +83,13 @@ namespace Wof.Controller.Screens
 
     internal abstract class AbstractOptionsScreen : AbstractScreen, BetaGUIListener
     {
-   		protected int C_MAX_OPTIONS = 12;
+   		
    		
    		protected bool showRestartRequiredMessage = true;
 
         private List<ButtonHolder> options;
-        private int currentScreen;
+
+     
 
         protected Window guiWindow;
         private Button exitButton;
@@ -216,9 +217,14 @@ namespace Wof.Controller.Screens
             mGui = new GUI(FontManager.CurrentFont, fontSize);
             createMouse();
 
-            guiWindow = mGui.createWindow(new Vector4(0,
-                                                      0, viewport.ActualWidth, viewport.ActualHeight),
-                                          "bgui.window", (int) wt.NONE, getTitle());
+            Vector2 m = GetMargin();
+            int h = (int)GetTextVSpacing();
+            guiWindow = mGui.createWindow(new Vector4(m.x,
+                                                      m.y, Viewport.ActualWidth / 2,
+                                                      Viewport.ActualHeight - m.y - h),
+                                                      "bgui.window", (int)wt.NONE, getTitle());
+
+
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
             List<String> availableOptions = GetAvailableOptions(root);
@@ -249,7 +255,7 @@ namespace Wof.Controller.Screens
                 else if (optionValue.StartsWith("__"))
                 {
                     guiWindow.createStaticText(
-                        new Vector4(viewport.ActualWidth / 6, (j + 2) * GetTextVSpacing(), 2 * viewport.ActualWidth / 3, GetTextVSpacing()),
+                        new Vector4(window.w / 6, (j + 2) * GetTextVSpacing(), 3 * window.w / 4, GetTextVSpacing()),
                         optionValue.Substring(2));
                     continue;
                 }
@@ -257,8 +263,8 @@ namespace Wof.Controller.Screens
 
                 Button button = guiWindow.createButton(
                     new Vector4(
-                        viewport.ActualWidth/6,
-                        (j + 2) * GetTextVSpacing(), 2 * viewport.ActualWidth / 3, GetTextVSpacing()),
+                        window.w / 6,
+                        (j + 2) * GetTextVSpacing(),  3 * window.w / 4, GetTextVSpacing()),
                         IsOptionSelected(optionValue) ? "bgui.selected.button" : "bgui.button",
                         optionValue, cc, j);
 
@@ -271,9 +277,9 @@ namespace Wof.Controller.Screens
                 prevButton = guiWindow.createButton
                     (
                     new Vector4(
-                        viewport.ActualWidth/6,
-                        (C_MAX_OPTIONS + 2) * GetTextVSpacing(), 
-                        viewport.ActualWidth / 3, 
+                        window.w / 6,
+                        (C_MAX_OPTIONS + 2) * GetTextVSpacing(),
+                        window.w / 3, 
                         GetTextVSpacing()),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.Previous),
@@ -292,9 +298,9 @@ namespace Wof.Controller.Screens
                 nextButton = guiWindow.createButton
                     (
                     new Vector4(
-                        viewport.ActualWidth/2,
+                        window.w / 2,
                         (C_MAX_OPTIONS + 2) * GetTextVSpacing(),
-                        viewport.ActualWidth / 3, 
+                        window.w / 3, 
                         GetTextVSpacing()),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.Next),
@@ -311,9 +317,9 @@ namespace Wof.Controller.Screens
             exitButton = guiWindow.createButton
                 (
                 new Vector4(
-                    viewport.ActualWidth/3,
+                    window.w / 3,
                     (C_MAX_OPTIONS + 3) * GetTextVSpacing(),
-                    viewport.ActualWidth/3,
+                    window.w / 3,
                     GetTextVSpacing()),
                 "bgui.button",
                 LanguageResources.GetString(LanguageKey.Back),
@@ -352,10 +358,10 @@ namespace Wof.Controller.Screens
             if(showRestartRequiredMessage)
             {
             	guiWindow.createStaticText(
-	                new Vector4(viewport.ActualWidth / 6, C_MAX_OPTIONS * GetTextVSpacing() + 5 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+                    new Vector4(GetMargin().x, C_MAX_OPTIONS * GetTextVSpacing() + 5 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
 	                LanguageResources.GetString(LanguageKey.ChangeOptionMessage1));
 	            guiWindow.createStaticText(
-	                new Vector4(viewport.ActualWidth / 6, C_MAX_OPTIONS * GetTextVSpacing() + 6 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+                    new Vector4(GetMargin().x, C_MAX_OPTIONS * GetTextVSpacing() + 6 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
 	                LanguageResources.GetString(LanguageKey.ChangeOptionMessage2));
             }
          

@@ -76,8 +76,8 @@ namespace Wof.Controller.Screens
             int h = (int)GetTextVSpacing();
              
             guiWindow = mGui.createWindow(new Vector4(m.x,
-                                                      m.y, viewport.ActualWidth/2,
-                                                      viewport.ActualHeight - m.y - h ),
+                                                      m.y, Viewport.ActualWidth/2,
+                                                      Viewport.ActualHeight - m.y - h ),
                                           			  "bgui.window", (int)wt.NONE, LanguageResources.GetString(LanguageKey.Options));
             
           
@@ -85,31 +85,31 @@ namespace Wof.Controller.Screens
 
             initButtons(13, 12);
             uint i = 0;
-            buttons[0] = guiWindow.createButton(new Vector4(0, 2 *  GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[0] = guiWindow.createButton(new Vector4(0, 2 *  GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.VideoMode), cc, i++);
-            buttons[1] = guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[1] = guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Antyaliasing), cc, i++);
-            buttons[2] = guiWindow.createButton(new Vector4(0, 4 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[2] = guiWindow.createButton(new Vector4(0, 4 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.VSync), cc, i++);
-            buttons[3] = guiWindow.createButton(new Vector4(0, 5 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[3] = guiWindow.createButton(new Vector4(0, 5 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Bloom), cc, i++);
-            buttons[4] = guiWindow.createButton(new Vector4(0, 6 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[4] = guiWindow.createButton(new Vector4(0, 6 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.HydraxWater), cc, i++);
-            buttons[5] = guiWindow.createButton(new Vector4(0, 7 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[5] = guiWindow.createButton(new Vector4(0, 7 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                     LanguageResources.GetString(LanguageKey.Blood), cc, i++);
-            buttons[6] = guiWindow.createButton(new Vector4(0, 8 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[6] = guiWindow.createButton(new Vector4(0, 8 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Difficulty), cc, i++);
-            buttons[7] = guiWindow.createButton(new Vector4(0, 9 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[7] = guiWindow.createButton(new Vector4(0, 9 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Details), cc, i++);
-            buttons[8] = guiWindow.createButton(new Vector4(0, 10 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[8] = guiWindow.createButton(new Vector4(0, 10 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Shadows), cc, i++);
-            buttons[9] = guiWindow.createButton(new Vector4(0, 11 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[9] = guiWindow.createButton(new Vector4(0, 11 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Controls), cc, i++);
-            buttons[10] = guiWindow.createButton(new Vector4(0, 12 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[10] = guiWindow.createButton(new Vector4(0, 12 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Languages), cc, i++);
-            buttons[11] = guiWindow.createButton(new Vector4(0, 13 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[11] = guiWindow.createButton(new Vector4(0, 13 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Sound), cc, i++);
-            buttons[12] = guiWindow.createButton(new Vector4(0, 15 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[12] = guiWindow.createButton(new Vector4(0, 15 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Back), cc, i);
             selectButton(12);
             guiWindow.show();

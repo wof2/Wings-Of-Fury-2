@@ -80,12 +80,12 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Czas animacji (w sek) zwi¹zanych z poszczególnymi screenami
         /// </summary>
-        private float[] screenTimes = { 3.0f, 3.0f, 2.5f, 2.0f };
-      
+        private float[] screenTimes = { 2.1f, 1.5f};//, 2.5f, 2.0f };
+
         /// <summary>
         /// Minimalny czas (w sek) przez jaki screen musi byæ na ekranie
         /// </summary>
-        private float[] screenMinTimes = { 2.1f, 2.1f, 1.0f, 1.0f };
+        private float[] screenMinTimes = {2.0f, 1.5f};// , 1.0f, 1.0f };
 
 
         string currentMaterialName; 
@@ -229,12 +229,12 @@ namespace Wof.Controller.Screens
         { 
             OverlayElement text = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText1");
             text.SetParameter("font_name", Wof.Languages.FontManager.CurrentFont);
-            ViewHelper.AlignTextAreaHorzRight(text, viewport, 0.1f);
+            ViewHelper.AlignTextAreaHorzRight(text, Viewport, 0.1f);
             text.Show();
             
             OverlayElement text2 = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText2");
             text2.SetParameter("font_name", Languages.FontManager.CurrentFont);
-            ViewHelper.AlignTextAreaHorzCenter(text2, viewport);  
+            ViewHelper.AlignTextAreaHorzCenter(text2, Viewport);  
             text2.Show();
         	
         }
@@ -313,11 +313,11 @@ namespace Wof.Controller.Screens
             if(isScreenAnAd[currentScreen - 1])
             {
                 // reklamy maja zachowac oryginalna rozdzielczosc 
-                scale = AdSizeUtils.ScaleAdToDisplay(textureDimensions, new PointD(viewport.ActualWidth, viewport.ActualHeight), true);
+                scale = AdSizeUtils.ScaleAdToDisplay(textureDimensions, new PointD(Viewport.ActualWidth, Viewport.ActualHeight), true);
             }
             else
             {
-                prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * viewport.ActualWidth / viewport.ActualHeight));
+                prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * Viewport.ActualWidth / Viewport.ActualHeight));
             }
             overlay.SetScale(scale.X, scale.Y * prop);
            
@@ -363,6 +363,7 @@ namespace Wof.Controller.Screens
             
             if (currentScreen > maxScreens)
             {
+                hideAdText();
                 GotoStartScreen();
                 return;
             }

@@ -300,10 +300,10 @@
     <value>Αναζητούμε κονδύλια για</value>
   </data>
   <data name="DonateMessagePart4">
-    <value>την περαιτέρω ανάπτυξη του παιχνιδίου</value>
+    <value>την περαιτέρω ανάπτυξη του παιχνιδίου.</value>
   </data>
   <data name="DonateMessagePart5">
-    <value>για παράδειγμα ενσωμάτωση ναυτικών μονάδων</value>
+    <value></value>
   </data>
   <data name="Sincerely">
     <value>Εν κατακλείδι</value>
@@ -535,6 +535,9 @@
   <data name="PressLeftUpToTakeOff">
     <value>Πάτησε '{0}','{1}' για να απογειώσεις</value>
   </data>
-  
-  
+
+  <data name="CustomLevels">
+    <value>Custom Levels</value>
+  </data>
+
 </root>

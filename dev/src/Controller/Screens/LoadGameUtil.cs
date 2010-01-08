@@ -56,16 +56,46 @@ namespace Wof.Controller.Screens
     public class LoadGameUtil
     {
 
+        public const string C_CUSTOM_LEVELS_DIR = "custom_levels/";
+
         public static List<uint> GetAllPossibleLevels()
         {
             List<uint> completedLevels = new List<uint>();
 
             int i = 0;
-            while (File.Exists(GameScreen.GetLevelName(++i)))
+            while (File.Exists(GameScreen.GetLevelFileName(++i)))
             {
                 completedLevels.Add((uint) i);
             }
             return completedLevels;
+        }
+
+
+        public static string GetCustomLevelName(string path)
+        {
+            string name = path.Substring(C_CUSTOM_LEVELS_DIR.Length);
+            if (name.Length > 20)
+            {
+                name = name.Substring(0, 20);
+            }
+            return name;
+        }
+
+        public static string[] GetCustomLevels()
+        {
+            try
+            {
+               
+                return Directory.GetFiles(C_CUSTOM_LEVELS_DIR, "*.dat");
+            }
+            catch (Exception)
+            {
+                
+                return new string[0];
+            }
+           
+
+
         }
 
         public static List<uint> GetCompletedLevels()

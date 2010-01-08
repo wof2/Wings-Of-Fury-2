@@ -77,7 +77,7 @@ namespace Wof.Controller.Screens
                                     LanguageResources.GetString(LanguageKey.Congratulations),
                                     LanguageResources.GetString(LanguageKey.YouWonTheGame),
                                     String.Empty,
-                                    Game.Name,
+                                    EngineConfig.C_GAME_NAME,
                                     String.Empty,
                                     String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.CoreTeam)),
                                     "Adam Witczak  Kamil Slawinski  Michal Ziober",
@@ -212,7 +212,7 @@ namespace Wof.Controller.Screens
         protected override List<Button> buildButtons()
         {
             List<Button> ret = new List<Button>();
-            ret.Add(guiWindow.createButton(new Vector4(20, 30*GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+            ret.Add(guiWindow.createButton(new Vector4(20, 30*GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
                                            "bgui.button", LanguageResources.GetString(LanguageKey.Quit), cc));
             return ret;
         }
@@ -227,10 +227,10 @@ namespace Wof.Controller.Screens
             {
                 if(i ==0)
                 {
-                    m = new PositionedMessage(20, GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing(), s, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
+                    m = new PositionedMessage(20, GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing(), s, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
                 } else
                 {
-                    m = new PositionedMessage(20, GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing(), s);
+                    m = new PositionedMessage(20, GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing(), s);
                 }
                 ret.Add(m);
                 i++;

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 using Mogre;
 using MOIS;
+using Wof.Controller.Screens;
 
 namespace Wof.Controller
 {
@@ -23,6 +24,11 @@ namespace Wof.Controller
 		protected bool canActivate = false;
 	    private bool isActivated = false;		
 		protected bool mouseOver = true;
+
+       
+        protected Vector2 origin;
+        protected Vector2 dimensions;
+
 		
 		public bool MouseOver {
 			get { return mouseOver; }
@@ -31,7 +37,7 @@ namespace Wof.Controller
 	    
 	    protected bool isInitialState = true;
 	    
-		
+	
 	    public bool IsInitialState {
 			get { return isInitialState; }
 		}
@@ -75,12 +81,38 @@ namespace Wof.Controller
 		
 	    private Form gameForm;
 		
-		public Browser(Form gameForm)
-		{          
+		public Browser(Form gameForm, AbstractScreen currentScreen)
+		{
+
+            Vector2 m = currentScreen.GetMargin();
+
+            origin = currentScreen.ViewportToScreen(new Vector2(m.x + currentScreen.Viewport.ActualWidth * 0.51f, (int)(m.y)));
+            dimensions = currentScreen.ViewportToScreen(new Vector2(currentScreen.Viewport.ActualWidth * 0.48f, (int)currentScreen.Viewport.ActualHeight - m.y - currentScreen.GetTextVSpacing()));
+
+
             this.gameForm = gameForm;			
 			InitializeComponent();
             this.wofBrowser.Url = new System.Uri(EngineConfig.C_WOF_HOME_PAGE, System.UriKind.Absolute);
 		}
+
+
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                // turn on WS_EX_TOOLWINDOW style bit
+                cp.ExStyle |= 0x80;
+                return cp;
+            }
+        }
+
+        public void SetPosition()
+        {
+          
+            SetBounds((int)(origin.x), (int)(origin.y), (int)dimensions.x, (int)dimensions.y);
+        }
+
 
 
 	    private void Document_MouseLeave(object sender, HtmlElementEventArgs e)
@@ -169,7 +201,8 @@ namespace Wof.Controller
 	    public new void Activate()
         {
         	canActivate = true;
-        	base.Activate();  
+        	base.Activate();
+	        base.Focus();
         }
 
         
@@ -200,9 +233,11 @@ namespace Wof.Controller
         {
             if(!isInitialState)
             {
+             
             	this.Visible = true;
                 this.WindowState = FormWindowState.Normal;
                 this.FormBorderStyle = FormBorderStyle.None;
+                SetPosition();
                 if (eventsWired)
                 {
                     this.wofBrowser.Navigating -= wofBrowser_Navigating;

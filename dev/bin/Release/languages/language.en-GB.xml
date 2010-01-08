@@ -307,7 +307,7 @@
   </data>
   <!-- here will goes "Wings of fury 2" - but it's translated already -->
   <data name="DonateMessagePart2">
-    <value>please consider donating.</value>
+    <value>please consider donating</value>
   </data>
   <data name="DonateMessagePart3">
     <value>via Paypal. We are looking for</value>
@@ -543,8 +543,13 @@
   <data name="PressLeftUpToTakeOff">
     <value>Press '{0}','{1}' to take off</value>
   </data>
-  
-  
+
+  <data name="CustomLevels">
+    <value>Custom Levels</value>
+  </data>
+
+
+
 </root>
 
 

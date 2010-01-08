@@ -75,7 +75,7 @@ namespace Wof.Controller.Screens
     /// <summary>
     /// Przechowuje informacje o aktualnie pokazywanych obiektach na scenie oraz o poprzednim po³o¿eniu myszki
     /// </summary>
-    class ScreenState
+    public class ScreenState
     {
         public List<PlaneView> PlaneViews
         {
@@ -133,8 +133,13 @@ namespace Wof.Controller.Screens
     /// Klasa odpowiadaj¹ca za wyœwietlanie screenów w menu
     /// <author>Adam Witczak, Jakub Tê¿ycki</author>
     /// </summary>
-    class AbstractScreen : MenuScreen
+    public class AbstractScreen : MenuScreen
     {
+
+        protected int C_MAX_OPTIONS = 12;
+        protected int currentScreen;
+
+
         protected uint fontSize;
        
         public void SetFontSize(uint fontSize)
@@ -325,7 +330,12 @@ namespace Wof.Controller.Screens
         	
         	
         }
-        
+
+        public Viewport Viewport
+        {
+            get { return viewport; }
+        }
+
         /*
 		/// <summary>
 		/// Wsp. w pikselach viewportowych
@@ -650,8 +660,14 @@ namespace Wof.Controller.Screens
             {
                 version += "d";
             }
+
+            if(EngineConfig.C_IS_INTERNAL_TEST)
+            {
+                version += "i";
+            }
+
             mGui.mFontSize = (uint)(fontSize * 0.7f);
-            Window infoWindow = mGui.createWindow(new Vector4(viewport.ActualWidth - 5 * h, viewport.ActualHeight - 1.33f * h, 4.33f * h, 0.83f * h), "bgui.window", (int)wt.NONE, version);
+            Window infoWindow = mGui.createWindow(new Vector4(viewport.ActualWidth - 5 * h, viewport.ActualHeight - 0.8f * h, 4.33f * h, 0.83f * h), "bgui.window", (int)wt.NONE, version);
             infoWindow.show();
 
 

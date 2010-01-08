@@ -86,45 +86,48 @@ namespace Wof.Controller.Screens
            
             
             guiWindow = mGui.createWindow(new Vector4(m.x,
-                                                      m.y, viewport.ActualWidth/2,
-                                                      viewport.ActualHeight - m.y - h ),
+                                                      m.y, Viewport.ActualWidth/2,
+                                                      Viewport.ActualHeight - m.y - h ),
                                           			  "bgui.window", (int)wt.NONE, gameName);
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
-            initButtons(9, 8);
+            initButtons(10, 9);
             uint i = 0;
 
         
 
-            buttons[0] = guiWindow.createButton(new Vector4(0, 2 * h, viewport.ActualWidth / 2, h),
+            buttons[0] = guiWindow.createButton(new Vector4(0, 2 * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.NewGame), cc, i++);
-            buttons[1] = guiWindow.createButton(new Vector4(0, 3 * h, viewport.ActualWidth / 2, h),
+            buttons[1] = guiWindow.createButton(new Vector4(0, 3 * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.CompletedLevels),
                                                 cc, i++);
-            buttons[2] = guiWindow.createButton(new Vector4(0, 4 * h, viewport.ActualWidth / 2, h),
+            buttons[2] = guiWindow.createButton(new Vector4(0, 4 * h, Viewport.ActualWidth / 2, h),
+                                              "bgui.button", LanguageResources.GetString(LanguageKey.CustomLevels),
+                                              cc, i++);
+            buttons[3] = guiWindow.createButton(new Vector4(0, 5 * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Highscores), cc,
                                                 i++);
-            buttons[3] = guiWindow.createButton(new Vector4(0, 5 * h, viewport.ActualWidth / 2, h),
+            buttons[4] = guiWindow.createButton(new Vector4(0, 6 * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Options), cc, i++);
-            buttons[4] = guiWindow.createButton(new Vector4(0, 6 * h, viewport.ActualWidth / 2, h),
+            buttons[5] = guiWindow.createButton(new Vector4(0, 7 * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Tutorial), cc,
                                                 i++);
-            buttons[5] = guiWindow.createButton(new Vector4(0, 7 * h, viewport.ActualWidth / 2, h),
+            buttons[6] = guiWindow.createButton(new Vector4(0, 8 * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Credits), cc, i++);
 
-            buttons[6] = guiWindow.createButton(new Vector4(0, 8 * h, viewport.ActualWidth / 2, h),
+            buttons[7] = guiWindow.createButton(new Vector4(0, 9 * h, Viewport.ActualWidth / 2, h),
                                                            "bgui.button", LanguageResources.GetString(LanguageKey.Donate), cc, i++);
 
-            buttons[7] = guiWindow.createButton(new Vector4(0, 9 * h, viewport.ActualWidth / 2, h),
+            buttons[8] = guiWindow.createButton(new Vector4(0, 10 * h, Viewport.ActualWidth / 2, h),
                                                            "bgui.button", LanguageResources.GetString(LanguageKey.CheckForUpdates), cc, i++);
 
-            buttons[8] = guiWindow.createButton(new Vector4(0, 11 * h, viewport.ActualWidth / 2, h),
+            buttons[9] = guiWindow.createButton(new Vector4(0, 12 * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Quit), cc, i);
 
          
             
             selectButton(0);
-            SetMousePosition((uint)(guiWindow.x + buttons[0].x + (viewport.ActualWidth / 4)), (uint)(guiWindow.y + buttons[0].y + h / 2.0F));
+            SetMousePosition((uint)(guiWindow.x + buttons[0].x + (Viewport.ActualWidth / 4)), (uint)(guiWindow.y + buttons[0].y + h / 2.0F));
              // polowa wysokosci przycisku
      
        
@@ -154,25 +157,29 @@ namespace Wof.Controller.Screens
                 }
                 else if (referer == buttons[2])
                 {
-                    gameEventListener.GotoHighscoresScreen();
+                    gameEventListener.GotoCustomLevelsScreen();
                 }
                 else if (referer == buttons[3])
                 {
-                    gameEventListener.GotoOptionsScreen();
+                    gameEventListener.GotoHighscoresScreen();
                 }
                 else if (referer == buttons[4])
                 {
-                    gameEventListener.GotoTutorialScreen();
+                    gameEventListener.GotoOptionsScreen();
                 }
                 else if (referer == buttons[5])
                 {
-                    gameEventListener.GotoCreditsScreen();
+                    gameEventListener.GotoTutorialScreen();
                 }
                 else if (referer == buttons[6])
                 {
-                    gameEventListener.GotoDonateScreen();
+                    gameEventListener.GotoCreditsScreen();
                 }
                 else if (referer == buttons[7])
+                {
+                    gameEventListener.GotoDonateScreen();
+                }
+                else if (referer == buttons[8])
                 {
                     gameEventListener.GotoUpdateWebPage();
                 }

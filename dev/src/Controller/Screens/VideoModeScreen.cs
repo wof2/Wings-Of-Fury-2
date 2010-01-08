@@ -72,7 +72,7 @@ namespace Wof.Controller.Screens
 
         protected override List<String> GetAvailableOptions(Root root)
         {
-            List<String> availableOptions = FrameWorkStaticHelper.GetVideoModes(root);
+            List<String> availableOptions = FrameWorkStaticHelper.GetVideoModes(root, true, 800, 600);
             return FilterPossibleOptions(availableOptions);
         }
 

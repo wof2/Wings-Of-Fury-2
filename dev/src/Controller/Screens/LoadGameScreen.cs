@@ -95,8 +95,8 @@ namespace Wof.Controller.Screens
          
             
             guiWindow = mGui.createWindow(new Vector4(m.x,
-                                                      m.y, viewport.ActualWidth/2,
-                                                      viewport.ActualHeight - m.y - h ),
+                                                      m.y, Viewport.ActualWidth/2,
+                                                      Viewport.ActualHeight - m.y - h ),
                                           			  "bgui.window", (int)wt.NONE, LanguageResources.GetString(LanguageKey.StartFrom));
             
        
@@ -108,20 +108,20 @@ namespace Wof.Controller.Screens
             {
                 // pole 'id' w button bedzie trzymac nr poziomu
                 buttons[i] =
-                    (guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing() + i * GetTextVSpacing(), viewport.ActualWidth / 2 - GetTextVSpacing(), GetTextVSpacing()), "bgui.button",
+                    (guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing() + i * GetTextVSpacing(), Viewport.ActualWidth / 2 - GetTextVSpacing(), GetTextVSpacing()), "bgui.button",
                                             String.Format("{0} ", LanguageResources.GetString(LanguageKey.Level)) +
                                             completedLevels[i], cc, completedLevels[i]));
                
                 // ikonka typu misji
-                string filename = Level.GetMissionTypeTextureFile(Level.GetMissionType(GameScreen.GetLevelName((int) completedLevels[i])));
+                string filename = Level.GetMissionTypeTextureFile(Level.GetMissionType(GameScreen.GetLevelFileName((int) completedLevels[i])));
                
                 if(filename != null)
                 {
-                	guiWindow.createStaticImage(new Vector4(viewport.ActualWidth / 2 - GetTextVSpacing(), 3 * GetTextVSpacing() + i * GetTextVSpacing(), GetTextVSpacing(), GetTextVSpacing()), filename, (ushort)(1000 + i));
+                	guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - GetTextVSpacing(), 3 * GetTextVSpacing() + i * GetTextVSpacing(), GetTextVSpacing(), GetTextVSpacing()), filename, (ushort)(1000 + i));
                 }
             }
             buttons[completedLevels.Count] =
-            	guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing() + (completedLevels.Count + 1) * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            	guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing() + (completedLevels.Count + 1) * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                        LanguageResources.GetString(LanguageKey.Back), cc);
 
   //          selectButton(0);
