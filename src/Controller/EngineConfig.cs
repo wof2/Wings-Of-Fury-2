@@ -81,7 +81,7 @@ namespace Wof.Controller
         public static readonly String C_OGRE_CFG = "ogre.cfg";
 
         public static readonly String C_WOF_HOME_PAGE = "http://www.wingsoffury2.com";
-        public static readonly String C_WOF_NEWS_PAGE = "http://www.wingsoffury2.com";
+        public static readonly String C_WOF_NEWS_PAGE = "http://www.wingsoffury2.com/news.php";
     
 
         public static readonly bool UseLastHardwareSettings = false;

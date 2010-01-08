@@ -224,6 +224,14 @@ namespace Wof.Controller.Screens
                                                       Viewport.ActualHeight - m.y - h),
                                                       "bgui.window", (int)wt.NONE, getTitle());
 
+            Window logoWindow = mGui.createWindow(new Vector4(h, h, 12.0f * h, 1.40f * h), "", (int)wt.NONE, "");
+            logoWindow.createStaticImage(new Vector4(0, 0, 12.0f * h, 1.40f * h), "wof2.png");
+            logoWindow.show();
+
+            Window ravenWindow = mGui.createWindow(new Vector4(viewport.ActualWidth - 9 * h, 0.8f * h, 8.0f * h, 4.27f * h), "", (int)wt.NONE, "");
+            ravenWindow.createStaticImage(new Vector4(0, 0, 8.0f * h, 4.27f * h), "ravenlore.png");
+            ravenWindow.show();
+
 
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 

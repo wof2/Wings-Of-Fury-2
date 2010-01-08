@@ -188,9 +188,9 @@ namespace Wof.Controller.Screens
             //float scale = viewportAspect / hudAspect;
 
 
-            hudNode.SetScale(0.01505f, 0.0150f, 0.01f);
+            hudNode.SetScale(0.01505f, 0.0155f, 0.01f);
             hudNode.AttachObject(hud);
-            hudNode.Position = new Vector3(-0.01f, -0.405f, -1f);
+            hudNode.Position = new Vector3(-0.01f, -0.408f, -1f);
             hudNode.GetMaterial().SetDepthCheckEnabled(false);
 
             // ARROW

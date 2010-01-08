@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Mogre;
 using MOIS;
 using Wof.Controller.Screens;
+using Wof.Languages;
 
 namespace Wof.Controller
 {
@@ -92,7 +93,7 @@ namespace Wof.Controller
 
             this.gameForm = gameForm;			
 			InitializeComponent();
-            this.wofBrowser.Url = new System.Uri(EngineConfig.C_WOF_HOME_PAGE, System.UriKind.Absolute);
+            this.wofBrowser.Url = new System.Uri(GetNewsUrl(), System.UriKind.Absolute);
 		}
 
 
@@ -228,6 +229,12 @@ namespace Wof.Controller
         }
 		
 	
+
+        private static string GetNewsUrl()
+        {
+            return EngineConfig.C_WOF_NEWS_PAGE + "?v=" + EngineConfig.C_WOF_VERSION + "&d=" +
+                   EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode;
+        }
 		
         public void ReturnToInitialState()
         {
@@ -243,7 +250,7 @@ namespace Wof.Controller
                     this.wofBrowser.Navigating -= wofBrowser_Navigating;
                     eventsWired = false;
                 }
-                this.wofBrowser.Navigate(new Uri(EngineConfig.C_WOF_NEWS_PAGE, UriKind.Absolute));
+                this.wofBrowser.Navigate(new Uri(GetNewsUrl(), UriKind.Absolute));
             }
             isInitialState = true;
         }
