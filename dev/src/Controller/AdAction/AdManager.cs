@@ -148,9 +148,9 @@ namespace Wof.Controller.AdAction
             string path = ad.path;
             try
             {
-                Image s = new Image();
-                
-             //   Image k = s.Load("FE55EF898AF9D8FE122A83882B98C32D.gif", "General");
+           //     Image s = new Image();
+
+           //       Image k = s.Load("7178C1654343ECCF358E8EEA0271100B.gif", "General");
            //     Image k = s.Load("1.gif", "General");
 
              //   TextureManager.Singleton.Load("../../media/FE55EF898AF9D8FE122A83882B98C32D.gif", "Ads");
