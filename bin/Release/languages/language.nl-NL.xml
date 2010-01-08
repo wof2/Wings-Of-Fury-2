@@ -317,7 +317,7 @@
     <value>voor verdere spel-</value>
   </data>
   <data name="DonateMessagePart5">
-    <value>ontwikkeling (inclusief zee-eenheden).</value>
+    <value>ontwikkeling.</value>
   </data>
   <!-- message displayed after pressing 'c' (change camera) key. -->
   <data name="CameraChanged">
@@ -542,7 +542,13 @@
   <data name="PressLeftUpToTakeOff">
     <value>Druk '{0}','{1}' om op te stijgen</value>
   </data>
-  
+
+
+  <data name="CustomLevels">
+    <value>Custom Levels</value>
+  </data>
+
+
 
 </root>
 

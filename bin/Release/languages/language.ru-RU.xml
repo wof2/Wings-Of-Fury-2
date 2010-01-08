@@ -298,10 +298,10 @@
     <value>Мы ищем средства для поддержки</value>
   </data>
   <data name="DonateMessagePart4">
-    <value>дальнейшего развития игры</value>
+    <value>дальнейшего развития игры.</value>
   </data>
   <data name="DonateMessagePart5">
-    <value>например: добавим военно-морские подразделения.</value>
+    <value>.</value>
   </data>
   <data name="CameraChanged">
     <value>Модификация камеры</value>
@@ -504,7 +504,11 @@
   <data name="PressLeftUpToTakeOff">
     <value>Нажмите "{0}","{1}", чтобы самолет взлетел</value>
   </data>
-  
-  
+
+
+  <data name="CustomLevels">
+    <value>Custom Levels</value>
+  </data>
+
 
 </root>

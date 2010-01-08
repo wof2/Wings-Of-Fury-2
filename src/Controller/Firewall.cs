@@ -58,7 +58,7 @@ namespace Wof.Controller
 		public static void AddException()
 		{
 			
-			AuthorizeApplication (Game.Name + " " + EngineConfig.C_WOF_VERSION, Application.ExecutablePath,  NET_FW_SCOPE_.NET_FW_SCOPE_ALL,
+			AuthorizeApplication (EngineConfig.C_GAME_NAME + " " + EngineConfig.C_WOF_VERSION, Application.ExecutablePath,  NET_FW_SCOPE_.NET_FW_SCOPE_ALL,
                 NET_FW_IP_VERSION_.NET_FW_IP_VERSION_ANY);
 		}
 	}

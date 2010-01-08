@@ -83,8 +83,8 @@ namespace Wof.Controller.Screens
          
             
             guiWindow = mGui.createWindow(new Vector4(m.x,
-                                                      m.y, viewport.ActualWidth/2,
-                                                      viewport.ActualHeight - m.y - h ),
+                                                      m.y, Viewport.ActualWidth/2,
+                                                      Viewport.ActualHeight - m.y - h ),
                                           			  "bgui.window", (int)wt.NONE, LanguageResources.GetString(LanguageKey.HallOfFame));
             
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
@@ -131,7 +131,7 @@ namespace Wof.Controller.Screens
             }
 
             initButtons(1, 0);
-            buttons[0] = guiWindow.createButton(new Vector4(0, 13 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[0] = guiWindow.createButton(new Vector4(0, 13 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.OK), cc, 0);
             selectButton(0);
             guiWindow.show();

@@ -299,10 +299,10 @@
     <value>Ми шукаємо кошти на підтримку</value>
   </data>
   <data name="DonateMessagePart4">
-    <value>подальшого розвитку гри</value>
+    <value>подальшого розвитку гри.</value>
   </data>
   <data name="DonateMessagePart5">
-    <value>наприклад: додамо військово-морські підрозділи.</value>
+    <value></value>
   </data>
   <data name="CameraChanged">
     <value>Модифікація камери</value>
@@ -521,7 +521,13 @@
     <value>Натисніть "{0}","{1}" щоб літак злетів</value>
   </data>
 
+  <data name="CustomLevels">
+    <value>Custom Levels</value>
+  </data>
+  
+  
 
+  
 
 
 </root>

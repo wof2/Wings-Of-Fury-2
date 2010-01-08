@@ -213,11 +213,11 @@ namespace Wof.Controller
            // this.BringToFront();
            // this.Activate();
 
-            while (root != null && root.RenderOneFrame())
-                Application.DoEvents();
+           // while (root != null && root.RenderOneFrame())
+          //      Application.DoEvents();
 
             
-            //  root.StartRendering();
+            root.StartRendering();
             
             // clean up
             modelWorker.CancelAsync();
@@ -286,7 +286,7 @@ namespace Wof.Controller
               
                 //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
                 // LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
-                LogManager.Singleton.LogMessage("Starting " +  Game.Name+ " ver. " + EngineConfig.C_WOF_VERSION);
+                LogManager.Singleton.LogMessage("Starting " + EngineConfig.C_GAME_NAME + " ver. " + EngineConfig.C_WOF_VERSION);
 
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.SetupingResources)));
@@ -448,31 +448,52 @@ namespace Wof.Controller
                 //ResourceBackgroundQueue.Singleton.InitialiseAllResourceGroups();
                 try
                 {
-                    window = root.Initialise(false, EngineConfig.C_GAME_NAME);
-                    
+                 
+                    root.Initialise(false, EngineConfig.C_GAME_NAME);
+
+                    this.FormBorderStyle = FormBorderStyle.None;
+                    ConfigFile config = new ConfigFile();
+                    config.LoadDirect(EngineConfig.C_OGRE_CFG);
+
+                   
                   //  return true;
                     NameValuePairList misc = new NameValuePairList();
 	                misc["externalWindowHandle"] = Handle.ToString();
-	                Vector2 dim = FrameWorkStaticHelper.GetCurrentVideoMode(root);
+                    misc["colourDepth"] = FrameWorkStaticHelper.GetCurrentColourDepth(root);
+                  misc["vsync"] = FrameWorkStaticHelper.GetCurrentVsync(root).ToString();
+                   int[] fsaa =  FrameWorkStaticHelper.GetCurrentFSAA(root);
+                   misc["FSAA"] = fsaa[0].ToString();
+                   misc["FSAAQuality"] = fsaa[1].ToString();
+                   /*
+                                    misc["useNVPerfHUD"] = FrameWorkStaticHelper.GetCurrentUseNVPerfHUD(root).ToString();*/
+		//	misc["gamma"] = StringConverter::toString(hwGamma);
 
+
+
+	                Vector2 dim = FrameWorkStaticHelper.GetCurrentVideoMode(root);
+                   // this.ClientSize
                     this.ClientSize = new Size((int) dim.x, (int)dim.y);
                     //this.ClientSize.Height = ;
-	                window = root.CreateRenderWindow(EngineConfig.C_GAME_NAME, (uint)dim.x, (uint)dim.y, false, misc.ReadOnlyInstance);
-	                hwnd = Handle.ToInt32();
+	                window = root.CreateRenderWindow(EngineConfig.C_GAME_NAME,0,0, false, misc.ReadOnlyInstance);
+                 
                     
                    // window.GetCustomAttribute("WINDOW",out hwnd);
                     
                    
                     Show();
+                    window.Resize((uint)dim.x, (uint)dim.y);
+                    hwnd = Handle.ToInt32();
+
                     //window.SetDeactivateOnFocusChange(true);
                     
                 }
                 catch (Exception ex)
                 {
                     LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unable to initialize requested display device. Deleting " + EngineConfig.C_OGRE_CFG  + " (have you changed your graphics card? TRYING TO RECREATE " + EngineConfig.C_OGRE_CFG + ")");
-                    File.Delete(EngineConfig.C_OGRE_CFG);
                     MessageBox.Show(
-                        "Unable to initialize requested display device (have you change your graphics card?). The game will now restarting trying to auto detect new settings", "Wings of Fury 2 - warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                      "Unable to initialize requested display device (have you changed your graphics card?). The game will now restarting trying to auto detect new settings", EngineConfig.C_GAME_NAME + " - warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    File.Delete(EngineConfig.C_OGRE_CFG);
+                 
                     throw new RootInitializationException("Error while initializing Root", ex);
                 }
              
@@ -489,7 +510,7 @@ namespace Wof.Controller
 				{
 		            IntPtr ptr = new IntPtr(hwnd);
 		            this.WindowState = FormWindowState.Maximized;
-                	this.FormBorderStyle = FormBorderStyle.None;
+                
 
 		            User32.SetWinFullScreen(ptr);
 		            

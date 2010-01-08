@@ -67,7 +67,7 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Wyswietlany tekst
         /// </summary>
-        private string[] names = {  Game.Name, 
+        private string[] names = {  EngineConfig.C_GAME_NAME, 
                                     String.Empty,
                                     String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.CoreTeam)),
                                     "Adam Witczak  Kamil Slawinski  Michal Ziober",
@@ -132,7 +132,7 @@ namespace Wof.Controller.Screens
         protected override List<Button> buildButtons()
         {        	
             List<Button> ret = new List<Button>();
-            ret.Add(guiWindow.createButton(new Vector4(20, 37.5f*GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+            ret.Add(guiWindow.createButton(new Vector4(20, 37.5f*GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
                                            "bgui.button", LanguageResources.GetString(LanguageKey.OK), cc));
             return ret;
         }
@@ -142,12 +142,12 @@ namespace Wof.Controller.Screens
             
             List<PositionedMessage> ret = new List<PositionedMessage>();
             ret.Add(
-            new PositionedMessage(20, 2*GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing(),
+            new PositionedMessage(20, 2*GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing(),
                                  LanguageResources.GetString(LanguageKey.Credits)));
 
             foreach (string s in names)
             {
-                ret.Add(new PositionedMessage(20, GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing(), s));
+                ret.Add(new PositionedMessage(20, GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing(), s));
             }
             return ret;
         }

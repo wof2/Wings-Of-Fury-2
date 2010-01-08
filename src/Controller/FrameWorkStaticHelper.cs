@@ -14,18 +14,20 @@ namespace Wof.Controller
     {
     	
     	public const String C_VIDEO_MODE = "Video Mode";
+        public const String C_VSYNC = "VSync";
         public const String C_ANTIALIASING = "Anti aliasing";
+        public const String C_USE_NV_PERFHUD = "Allow NVPerfHUD";
         
         public static void ShowOgreException()
         {
             if (OgreException.IsThrown)
-                MessageBox.Show(OgreException.LastException.FullDescription, "Wings of Fury 2 - Engine error",
+                MessageBox.Show(OgreException.LastException.FullDescription, EngineConfig.C_GAME_NAME + " - Engine error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public static void ShowWofException(Exception ex)
         {
-            MessageBox.Show(ex.Message + "\r\n" + "Stack trace: "+ex.StackTrace, "Wings of Fury 2 - Runtime error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(ex.Message + "\r\n" + "Stack trace: "+ex.StackTrace, EngineConfig.C_GAME_NAME + " - Runtime error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public static List<String> GetAntialiasingModes(Root root)
@@ -53,6 +55,95 @@ namespace Wof.Controller
             }
 
             return availableModes;
+        }
+
+        public static String GetCurrentColourDepth(Root root)
+        {
+            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+            root.RestoreConfig();
+            foreach (KeyValuePair<string, Mogre.ConfigOption_NativePtr> s in map)
+            {
+                if (s.Key.Equals(C_VIDEO_MODE))
+                {
+                    string str = s.Value.currentValue;
+                    Match match = Regex.Match(str, "@ (.*)-bit");
+                    return Int32.Parse(match.Groups[1].Value).ToString();
+                }
+
+
+            }
+            return "";
+
+        }
+
+        public static int GetCurrentUseNVPerfHUD(Root root)
+        {
+            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+
+            foreach (KeyValuePair<string, Mogre.ConfigOption_NativePtr> s in map)
+            {
+                if (s.Key.Equals(C_USE_NV_PERFHUD))
+                {
+                    string str = s.Value.currentValue;
+                    int ret = str.Equals("Yes") ? 1 : 0;
+                    return ret;
+                }
+
+
+            }
+            return 0;
+            
+        }
+
+        public static int[] GetCurrentFSAA(Root root)
+        {
+            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+
+            foreach (KeyValuePair<string, Mogre.ConfigOption_NativePtr> s in map)
+            {
+                if (s.Key.Equals(C_ANTIALIASING))
+                {
+                    string str = s.Value.currentValue;
+                    Match match = Regex.Match(str, "(.*) (.*)");
+                    string type;
+                    string quality;
+                  
+                    if (match.Groups[1].Value.Equals("NonMaskable"))
+                    {
+                        type = "1"; //D3DMULTISAMPLE_NONMASKABLE
+                        quality = (int.Parse(match.Groups[2].Value) - 1).ToString();
+                    }
+                    else
+                    {
+                        type = match.Groups[2].Value; // D3DMULTISAMPLE_X_SAMPLES 
+                        quality = "0";
+                    }
+
+                    return new int[] { int.Parse(type), int.Parse(quality) };
+                }
+
+
+            }
+            return new int[] { 0, 0 };
+            
+
+        }
+
+
+        public static int GetCurrentVsync(Root root)
+        {
+            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+
+            foreach (KeyValuePair<string, Mogre.ConfigOption_NativePtr> s in map)
+            {
+                if (s.Key.Equals(C_VSYNC))
+                {
+                    return s.Value.currentValue.Equals("Yes") ? 1 : 0;
+                   
+                }
+            }
+            return 0;
+
         }
         
    		public static Vector2 GetCurrentVideoMode(Root root)

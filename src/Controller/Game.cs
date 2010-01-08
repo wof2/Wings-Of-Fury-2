@@ -77,10 +77,7 @@ namespace Wof.Controller
     /// </summary>
     internal class Game : FrameWorkForm, GameEventListener
     {
-        /// <summary>
-        /// Nazwa gry: Wings of Fury 2
-        /// </summary>
-        public new const string Name = @"Wings of Fury 2";
+       
 
         public delegate void DelegateVoidVoid();
 
@@ -155,9 +152,12 @@ namespace Wof.Controller
 
             base.WireEventListeners();
             this.Activated += new EventHandler(Game_Activated);
+            this.Deactivate += new EventHandler(Game_Deactivate);
             this.Closing += new System.ComponentModel.CancelEventHandler(Game_Closing);
 
         }
+
+       
 
         void Game_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -174,6 +174,16 @@ namespace Wof.Controller
             }
             isActivated = true;
         }
+
+        private void Game_Deactivate(object sender, EventArgs e)
+        {
+           // isActivated = false;
+            /*if (browser != null && !browser.IsActivated)
+            {
+                browser.Hide();
+            }*/
+        }
+
 
         public void OnFrameStarted(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
@@ -264,6 +274,11 @@ namespace Wof.Controller
         protected override bool FrameStarted(FrameEvent evt)
         {
 
+            
+            if(IsDisposed)
+            {
+                return false;
+            }
         	evt.timeSinceLastFrame *= EngineConfig.CurrentGameSpeedMultiplier;
             time += evt.timeSinceLastFrame;
 
@@ -458,6 +473,11 @@ namespace Wof.Controller
                 EngineConfig.DisplayingMinimap = false;
                 
                 game.Go();
+
+                if(game.browser != null)
+                {
+                    game.DisposeBrowser();
+                }
             }
             catch (SEHException)
             {
@@ -563,7 +583,17 @@ namespace Wof.Controller
             StartGame(1);
         }
 
+
+        public void StartGame(string levelFile)
+        {
+            StartGame(0, levelFile);
+          
+        }
         public void StartGame(int levelNo)
+        {
+             StartGame(levelNo, null);
+        }
+        public void StartGame(int levelNo, string levelFile)
         {
         	HideBrowser();
             switch (EngineConfig.Difficulty)
@@ -600,9 +630,11 @@ namespace Wof.Controller
 
 
             SetCompositorEnabled(CompositorTypes.BLOOM, EngineConfig.BloomEnabled);
-            currentScreen = new GameScreen(this, this, directSound, 2, levelNo);
+            currentScreen = new GameScreen(this, this, directSound, 2, levelNo, levelFile);
             currentScreen.DisplayGUI(false);
         }
+
+      
 
         public void GotoNextLevel()
         {
@@ -612,7 +644,7 @@ namespace Wof.Controller
             int score = ((GameScreen) currentScreen).Score;
             int level = ((GameScreen) currentScreen).LevelNo;
           
-            if (File.Exists(GameScreen.GetLevelName(level + 1)))
+            if (File.Exists(GameScreen.GetLevelFileName(level + 1)))
             {
                 LoadGameUtil.NewLevelCompleted((uint) (level + 1));
 
@@ -632,7 +664,7 @@ namespace Wof.Controller
 
                 SetCompositorEnabled(CompositorTypes.BLOOM, EngineConfig.BloomEnabled);
 
-                currentScreen = new GameScreen(this, this, directSound, lives, level + 1);
+                currentScreen = new GameScreen(this, this, directSound, lives, level + 1, null);
                 ((GameScreen) currentScreen).Score = score;
 
                 currentScreen.DisplayGUI(false);
@@ -687,18 +719,13 @@ namespace Wof.Controller
             }
         }
         
+       
+
         public void StartBrowser()
         { 
-        	browser = new Browser(this);
-        	Vector2 m = currentScreen.GetMargin();
-        
-        	Vector2 point = currentScreen.ViewportToScreen(new Vector2(m.x + Viewport.ActualWidth * 0.51f, (int)(m.y)));
-        	Vector2 dim = currentScreen.ViewportToScreen(new Vector2(Viewport.ActualWidth * 0.48f, (int)(viewport.ActualHeight - m.y - currentScreen.GetTextVSpacing())));
-        	      
-        	browser.SetBounds((int) (point.x) , (int) (point.y), (int)dim.x, (int)dim.y);
+        	browser = new Browser(this, currentScreen as AbstractScreen);
+            browser.SetPosition();
         	HideBrowser();
-            
-	
         }
         
         public void ShowBrowser()
@@ -784,7 +811,7 @@ namespace Wof.Controller
             if(!shutDown && !shouldReload)
             {
             	if(browser == null) StartBrowser();
-            	ShowBrowser();      
+              
             }
             
             ScreenState ss = null;
@@ -811,6 +838,11 @@ namespace Wof.Controller
             {
             	(currentScreen as AbstractScreen).SetMousePosition(ss);             
             }
+
+            if (!shutDown && !shouldReload)
+            {
+                ShowBrowser();
+            }
         }
 
 
@@ -828,6 +860,27 @@ namespace Wof.Controller
             SoundManager.Instance.PlayMainTheme();
 
             currentScreen = new LoadGameScreen(this, this, viewport, camera);
+            if (ss != null)
+            {
+                ((AbstractScreen)currentScreen).SetScreenState(ss);
+            }
+            currentScreen.DisplayGUI(justMenu);
+        }
+
+        public void GotoCustomLevelsScreen()
+        {
+            Boolean justMenu = IsMenuScreen(currentScreen);
+
+            ScreenState ss = null;
+            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
+            {
+                ss = (currentScreen as AbstractScreen).GetScreenState();
+            }
+            initScreenAfter(currentScreen);
+
+            SoundManager.Instance.PlayMainTheme();
+
+            currentScreen = new CustomLevelsScreen(this, this, viewport, camera);
             if (ss != null)
             {
                 ((AbstractScreen)currentScreen).SetScreenState(ss);
@@ -970,7 +1023,7 @@ namespace Wof.Controller
         public void GotoOptionsScreen()
         {
             Boolean justMenu = IsMenuScreen(currentScreen);
- 			HideBrowser();
+ 		
             ScreenState ss = null;
             if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {

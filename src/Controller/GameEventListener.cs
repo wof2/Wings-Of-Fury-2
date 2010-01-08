@@ -48,10 +48,11 @@
 
 namespace Wof.Controller
 {
-    interface GameEventListener
+    public interface GameEventListener
     {
         void StartGame();
         void StartGame(int levelNo);
+        void StartGame(string levelFile);
         void ExitGame();
         void GotoStartScreen();
         void GotoNextLevel();
@@ -73,6 +74,7 @@ namespace Wof.Controller
         void GotoLanguagesOptionsScreen();
         void GotoTutorialScreen();
         void GotoLoadGameScreen();
+        void GotoCustomLevelsScreen();
         void GotoDifficultyOptionsScreen();
         void GotoDonateScreen();
         void GotoQuitScreen();

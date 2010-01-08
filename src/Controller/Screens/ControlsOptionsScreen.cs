@@ -62,6 +62,7 @@ namespace Wof.Controller.Screens
                                       IFrameWork framework, Viewport viewport, Camera camera, Root root) :
                                          base(gameEventListener, framework, viewport, camera, root)
         {
+            this.fontSize = (uint)(0.75f * fontSize); // mniejsza czcionka w opcjach
     		C_MAX_OPTIONS = 3;
     		showRestartRequiredMessage = false;
         }
@@ -96,18 +97,19 @@ namespace Wof.Controller.Screens
 
         protected override void LayoutOptions(List<String> availableOptions, Window window, Callback cc)
         {
+            
             base.LayoutOptions(availableOptions, window, cc);
             string info1 = LanguageResources.GetString(LanguageKey.KeyboardInfo1);
             string info2 = LanguageResources.GetString(LanguageKey.KeyboardInfo2);
-           
-            AbstractOptionsScreen.AddControlsInfoToGui(guiWindow, mGui, viewport.ActualWidth / 6, (int)(GetTextVSpacing() * 6), 0, viewport.ActualWidth, GetTextVSpacing(),  GetFontSize());
+
+            AbstractOptionsScreen.AddControlsInfoToGui(guiWindow, mGui, (int) (GetTextVSpacing()), (int)(GetTextVSpacing() * 6), 0, viewport.ActualWidth * 0.75f, GetTextVSpacing(), GetFontSize());
             
             
             guiWindow.createStaticText(
-               new Vector4(viewport.ActualWidth / 6, C_MAX_OPTIONS * GetTextVSpacing() + 18 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+               new Vector4(GetTextVSpacing(), C_MAX_OPTIONS * GetTextVSpacing() + 15 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
                info1);
             guiWindow.createStaticText(
-               new Vector4(viewport.ActualWidth / 6, C_MAX_OPTIONS * GetTextVSpacing() + 19 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+               new Vector4(GetTextVSpacing(), C_MAX_OPTIONS * GetTextVSpacing() + 16 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
                info2);
         }
     }

@@ -242,7 +242,15 @@ namespace Wof.Controller.Screens
         public int LevelNo
         {
             get { return levelNo; }
+        }  
+        
+        private string levelFile;
+
+        public string LevelFile
+        {
+            get { return levelFile; }
         }
+
 
         private LevelView levelView;
 
@@ -334,10 +342,11 @@ namespace Wof.Controller.Screens
         protected bool isFirstFrame;
 
         private DelayedControllerFacade delayedControllerFacade;
+
       
 
         public GameScreen(GameEventListener gameEventListener,
-                          IFrameWork framework, Device directSound, int lives, int levelNo)
+                          IFrameWork framework, Device directSound, int lives, int levelNo, string levelFile)
         {
         	
         	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Using keys from KeyMap.ini: \n" +  KeyMap.Instance.ToString()); // needed to init KeyMap instance
@@ -353,6 +362,7 @@ namespace Wof.Controller.Screens
             mousePosY = (uint) viewport.ActualHeight/2;
             this.framework = framework;
             this.levelNo = levelNo;
+            this.levelFile = levelFile;
             mayPlaySound = false;
             changingAmmo = false;
             changingAmmoTime = 0;
@@ -464,7 +474,7 @@ namespace Wof.Controller.Screens
                     LogManager.Singleton.LogMessage("About to load level view...", LogMessageLevel.LML_CRITICAL);
                     levelView = new LevelView(framework, this);
                 
-                    LogManager.Singleton.LogMessage("About to register level " + levelNo + " to view...", LogMessageLevel.LML_CRITICAL);
+                    LogManager.Singleton.LogMessage("About to register level " + levelNo +  " - " + LevelFile + " to view...", LogMessageLevel.LML_CRITICAL);
                     SoundManager.Instance.PreloadRandomIngameMusic();
                     levelView.OnRegisterLevel(currentLevel);
                    
@@ -570,7 +580,7 @@ namespace Wof.Controller.Screens
 
 
        
-        public static String GetLevelName(int levelNo)
+        public static String GetLevelFileName(int levelNo)
         {
             return C_LEVEL_FOLDER + "\\"
                    + C_LEVEL_PREFIX + levelNo + C_LEVEL_POSTFIX;
@@ -605,7 +615,11 @@ namespace Wof.Controller.Screens
             LogManager.Singleton.LogMessage("About to load model...", LogMessageLevel.LML_CRITICAL);
             
             delayedControllerFacade = new DelayedControllerFacade(this);
-            currentLevel = new Level(GetLevelName(levelNo), delayedControllerFacade, lives);
+            if(LevelFile == null)
+            {
+                levelFile = GetLevelFileName(levelNo);
+            }
+            currentLevel = new Level(LevelFile, delayedControllerFacade, lives);
 
             string baseName;
             //Console.WriteLine("LOADING WAITING GUI");        
@@ -720,7 +734,17 @@ namespace Wof.Controller.Screens
 
 
                 overlayMaterial = null;
-                loadingText.Caption = LanguageResources.GetString(LanguageKey.Level) + ": " + levelNo + ", " + LanguageResources.GetString(LanguageKey.MissionType) + ": " + LanguageResources.GetString(CurrentLevel.MissionType.ToString());
+                string caption;
+                if(levelNo == 0)
+                {
+                    caption = LoadGameUtil.GetCustomLevelName(LevelFile);
+                }
+                else
+                {
+                    caption = levelNo.ToString();
+                }
+
+                loadingText.Caption = LanguageResources.GetString(LanguageKey.Level) + ": " + caption + " " + LanguageResources.GetString(LanguageKey.MissionType) + ": " + LanguageResources.GetString(CurrentLevel.MissionType.ToString());
                 loadingText.SetParameter("font_name", FontManager.CurrentFont);
                 loadingText = null;
             }
@@ -1381,7 +1405,17 @@ namespace Wof.Controller.Screens
                             missionTypeGui = null;
                         }
 
-                        gameEventListener.GotoNextLevel();
+
+                        if(levelNo == 0)
+                        { 
+                            // level 0 to customowy poziom - koniec
+                            gameEventListener.GotoStartScreen();
+                        }
+                        else
+                        {
+                            gameEventListener.GotoNextLevel();
+                        }
+                        
                         
                     }
 
@@ -2265,6 +2299,7 @@ namespace Wof.Controller.Screens
             get { return !showingChangingAmmoAds || changingAmmoTime > C_CHANGING_AMMO_AD_MIN_TIME; }
         }
 
+      
         private void ClearRestoreAmmunitionScreen()
         {
 

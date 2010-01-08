@@ -68,7 +68,7 @@ namespace Wof.Controller.Screens
             string message = "";
            
            
-            guiWindow = mGui.createWindow(new Vector4(0, 0, viewport.ActualWidth, viewport.ActualHeight),
+            guiWindow = mGui.createWindow(new Vector4(0, 0, Viewport.ActualWidth, Viewport.ActualHeight),
                                           "bgui.window", (int)wt.NONE, message);
             cc = new Callback(this);
             List<Button> temp = buildButtons();
@@ -132,7 +132,7 @@ namespace Wof.Controller.Screens
            
             float newTop;
             float maxY = float.MinValue;
-            float step = (speed*evt.timeSinceLastFrame) * (viewport.ActualHeight / 1050.0f); // normalizacja do szybkosci scrollowania na ekranie 1680/1050
+            float step = (speed*evt.timeSinceLastFrame) * (Viewport.ActualHeight / 1050.0f); // normalizacja do szybkosci scrollowania na ekranie 1680/1050
 
 
             foreach(OverlayContainer o in messageOverlays)

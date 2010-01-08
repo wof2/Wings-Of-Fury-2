@@ -74,18 +74,18 @@ namespace Wof.Controller.Screens
         {
             mGui = new GUI(FontManager.CurrentFont, fontSize);
             createMouse(); 
-            guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth/4,
-                                                      viewport.ActualHeight/4, viewport.ActualWidth/2,
-                                                      viewport.ActualHeight/3),
+            guiWindow = mGui.createWindow(new Vector4(Viewport.ActualWidth/4,
+                                                      Viewport.ActualHeight/4, Viewport.ActualWidth/2,
+                                                      Viewport.ActualHeight/3),
                                           "bgui.window", (int) wt.NONE,
                                           String.Format("{0}!", LanguageResources.GetString(LanguageKey.Congratulations)));
             Callback cc = new Callback(this);
             initButtons(1, 0);
-            guiWindow.createStaticText(new Vector4(0, 2 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+            guiWindow.createStaticText(new Vector4(0, 2 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
                                        String.Format("{0}: ", LanguageResources.GetString(LanguageKey.EnterYourName)));
             nameInput =
-                guiWindow.createTextInput(new Vector4(0, 3 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.textinput", "aaa", 3);
-            buttons[0] = guiWindow.createButton(new Vector4(0, 4*GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+                guiWindow.createTextInput(new Vector4(0, 3 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.textinput", "aaa", 3);
+            buttons[0] = guiWindow.createButton(new Vector4(0, 4*GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.OK), cc);
             nameInput.activate(true);
             guiWindow.mATI = nameInput;

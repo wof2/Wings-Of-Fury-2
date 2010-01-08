@@ -162,6 +162,8 @@ namespace Wof.View.Effects
 
         public void Update(float timeSinceLastFrame)
         {
+            if (hydrax != null && hydrax.IsCreated) hydrax.Update(timeSinceLastFrame);
+            return;
             float updateEvery = 0.05f; // 20fps
 
                if(hydrax != null)

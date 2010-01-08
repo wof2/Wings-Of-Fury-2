@@ -299,10 +299,10 @@
     <value>projektu. Poszukujemy funduszy,</value>
   </data>
   <data name="DonateMessagePart4">
-    <value>które umożliwiłyby dalszy rozwój gry,</value>
+    <value>które umożliwiłyby dalszy rozwój gry.</value>
   </data>
   <data name="DonateMessagePart5">
-    <value>na przykład: dodanie nowych jednostek wodnych.</value>
+    <value></value>
   </data>
   
   <!-- message displayed after pressing 'c' (change camera) key. -->
@@ -504,7 +504,7 @@
   <data name="Tutorial0">
    <value>
      Mission types:
-     There are several missions types you can encounter throughout the game:
+     There are several mission types you can encounter throughout the game:
      Dogfight - shot down all enemy planes to complete the mission.
      Bombing run - eliminate all enemy soldiers.
 
@@ -527,7 +527,12 @@
   <data name="PressLeftUpToTakeOff">
     <value>Naciśnij '{0}','{1}' aby wystartować</value>
   </data>
- 
+
+  <data name="CustomLevels">
+    <value>Misje dodatkowe</value>
+  </data>
+
+
 
 
 </root>

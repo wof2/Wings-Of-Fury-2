@@ -76,12 +76,12 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Czas animacji (w sek) zwi¹zanych z poszczególnymi screenami
         /// </summary>
-        private float[] screenTimes = { 2.1f};
+        private float[] screenTimes = { 2.0f};
 
         /// <summary>
         /// Minimalny czas (w sek) przez jaki screen musi byæ na ekranie
         /// </summary>
-        private float[] screenMinTimes = { 2.1f};
+        private float[] screenMinTimes = { 0.5f};
 
 
         string currentMaterialName;
@@ -238,11 +238,11 @@ namespace Wof.Controller.Screens
             if (isScreenAnAd[currentScreen - 1])
             {
                 // reklamy maja zachowac oryginalna rozdzielczosc 
-                scale = AdSizeUtils.ScaleAdToDisplay(textureDimensions, new PointD(viewport.ActualWidth, viewport.ActualHeight), true);
+                scale = AdSizeUtils.ScaleAdToDisplay(textureDimensions, new PointD(Viewport.ActualWidth, Viewport.ActualHeight), true);
             }
             else
             {
-                prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * viewport.ActualWidth / viewport.ActualHeight));
+                prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * Viewport.ActualWidth / Viewport.ActualHeight));
             }
             overlay.SetScale(scale.X, scale.Y * prop);
 

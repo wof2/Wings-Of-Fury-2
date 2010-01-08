@@ -68,7 +68,7 @@ namespace Wof.Controller.Screens
         /// Wiadomosc
         /// </summary>
         private readonly string donateMessage = String.Format("{0}\r\n{1}\r\n{2}\r\n{3}\r\n{4}\r\n{5}",
-                                                String.Format(@"{0} {1}", LanguageResources.GetString(LanguageKey.DonateMessagePart1), Game.Name),
+                                                String.Format(@"{0} {1}", LanguageResources.GetString(LanguageKey.DonateMessagePart1), EngineConfig.C_GAME_NAME),
                                                 String.Format(@"{0}", LanguageResources.GetString(LanguageKey.DonateMessagePart2)),
                                                 LanguageResources.GetString(LanguageKey.DonateMessagePart3),
                                                 String.Format(@"{0}", LanguageResources.GetString(LanguageKey.DonateMessagePart4)),
@@ -93,26 +93,30 @@ namespace Wof.Controller.Screens
         {
             base.CreateGUI();
 
-            guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth/4,
-                                                      viewport.ActualHeight/9, viewport.ActualWidth/2,
-                                                      7*viewport.ActualHeight/9),
-                                          "bgui.window", (int) wt.NONE, 
-                                          LanguageResources.GetString(LanguageKey.Donate));
+            Vector2 m = GetMargin();
+            int h = (int)GetTextVSpacing();
+
             
+            guiWindow = mGui.createWindow(new Vector4(m.x,
+                                                      m.y, Viewport.ActualWidth / 2,
+                                                      Viewport.ActualHeight - m.y - h),
+                                                      "bgui.window", (int)wt.NONE, LanguageResources.GetString(LanguageKey.Donate));
+
+   
 
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
-         
-            guiWindow.createStaticText(new Vector4(5, 1.2f*GetTextVSpacing(), -10 + viewport.ActualWidth / 2, 3 * GetTextVSpacing()), donateMessage);
-            
+            mGui.mFontSize = smallFontSize;
+            guiWindow.createStaticText(new Vector4(5, 1.2f*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, 3 * GetTextVSpacing()), donateMessage);
+          
             mGui.mFontSize = fontSize;
             initButtons(2, 1);
 
-            buttons[0] = guiWindow.createButton(new Vector4(5, 6*GetTextVSpacing(), -10 + viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[0] = guiWindow.createButton(new Vector4(5, 6*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Donate), 
                                                 cc, 0);
 
 
-            buttons[1] = guiWindow.createButton(new Vector4(5, 13*GetTextVSpacing(), -10 + viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[1] = guiWindow.createButton(new Vector4(5, 13*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                LanguageResources.GetString(LanguageKey.OK), cc, 0);
             selectButton(0);
             guiWindow.show();

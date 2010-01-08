@@ -116,6 +116,8 @@ namespace Wof.Languages
         public const string Controls = @"Controls";
         public const string CoreTeam = @"CoreTeam";
         public const string CurrentFPS = @"CurrentFPS";
+        public const string CustomLevels = @"CustomLevels";
+        
 
         #endregion
 
