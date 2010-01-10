@@ -304,11 +304,11 @@ namespace Wof.Model.Level
 
             ammunitionList = new List<Ammunition>(10);
             aircraftTiles = new List<AircraftCarrierTile>(5);
-            enemyInstallationTiles = levelParser.Tiles.FindAll(Predicates.FindAllEnemyInstallationTiles());
+            enemyInstallationTiles = LevelParser.Tiles.FindAll(Predicates.FindAllEnemyInstallationTiles());
             UpdateSoldiersCount(enemyInstallationTiles);
-            bunkersList = levelParser.Tiles.FindAll(Predicates.GetAllBunkerTiles());
-            shipsList = levelParser.Tiles.FindAll(Predicates.GetAllShipTiles());
-            shipManagers = levelParser.ShipManagers;
+            bunkersList = LevelParser.Tiles.FindAll(Predicates.GetAllBunkerTiles());
+            shipsList = LevelParser.Tiles.FindAll(Predicates.GetAllShipTiles());
+            shipManagers = LevelParser.ShipManagers;
 
             mStatistics = new LevelStatistics();
 
@@ -366,16 +366,16 @@ namespace Wof.Model.Level
             enemyPlanes = new List<Plane>();
             if(MissionType != Model.Level.MissionType.Dogfight)
             {
-                timeToFirstEnemyPlane = levelParser.TimeToFirstEnemyPlane;
-                timeToNextEnemyPlane = levelParser.TimeToNextEnemyPlane;
+                timeToFirstEnemyPlane = LevelParser.TimeToFirstEnemyPlane;
+                timeToNextEnemyPlane = LevelParser.TimeToNextEnemyPlane;
             }
             else
             {
                 timeToFirstEnemyPlane = 0;
-                timeToNextEnemyPlane = levelParser.TimeToNextEnemyPlane * 0.5f;
+                timeToNextEnemyPlane = LevelParser.TimeToNextEnemyPlane * 0.5f;
             }
             
-            enemyPlanesLeft = enemyPlanesPoolCount = levelParser.EnemyPlanes;
+            enemyPlanesLeft = enemyPlanesPoolCount = LevelParser.EnemyPlanes;
 
             currentTimeToNextEnemy = timeToFirstEnemyPlane;
 
@@ -1612,7 +1612,7 @@ namespace Wof.Model.Level
         /// <author>Michal Ziober</author>
         public DayTime DayTime
         {
-            get { return levelParser.DayTime; }
+            get { return LevelParser.DayTime; }
         }
         
         /// <summary>
@@ -1621,7 +1621,7 @@ namespace Wof.Model.Level
         /// <author>Adam Witczak</author>
         public MissionType MissionType
         {
-            get { return levelParser.MissionType; }
+            get { return LevelParser.MissionType; }
         }
 
 
@@ -1632,7 +1632,7 @@ namespace Wof.Model.Level
         /// <author>Michal Ziober</author>
         public List<LevelTile> LevelTiles
         {
-            get { return levelParser.Tiles; }
+            get { return LevelParser.Tiles; }
         }
 
         /// <summary>
@@ -1657,6 +1657,14 @@ namespace Wof.Model.Level
             get { return lives; }
         }
 
+        /// <summary>
+        /// Dane zapisane w pliku xml.
+        /// </summary>
+        public XmlLevelParser LevelParser
+        {
+            get { return levelParser; }
+        }
+
         #endregion
 
         #endregion
@@ -1669,7 +1677,7 @@ namespace Wof.Model.Level
         /// <author>Michal Ziober</author>
         public void Dispose()
         {
-            levelParser.Dispose();
+            LevelParser.Dispose();
             if (ammunitionList != null)
             {
                 ammunitionList.Clear();

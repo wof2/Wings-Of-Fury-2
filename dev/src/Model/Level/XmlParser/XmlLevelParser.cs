@@ -65,7 +65,7 @@ using Wof.Model.Configuration;
 
 namespace Wof.Model.Level.XmlParser
 {
-    internal class XmlLevelParser : IDisposable
+    public class XmlLevelParser : IDisposable
     {
         #region Fields
 
@@ -216,6 +216,103 @@ namespace Wof.Model.Level.XmlParser
 
             return Model.Level.MissionType.BombingRun; // nie zdefiniowano
 
+        }
+
+
+        public static bool SaveLevel(Level level, String filename)
+        {
+            
+            try
+            {
+               
+                File.Create(filename);
+           
+                XmlDocument xml = new XmlDocument();
+             //   XmlNode xmlnode = xml.CreateNode(XmlNodeType.XmlDeclaration, "root", "");
+                XmlNode docNode = xml.CreateXmlDeclaration("1.0", "UTF-8", null);
+                xml.AppendChild(docNode);
+
+                XmlNode rootNode = xml.CreateElement("root");
+
+                XmlAttribute att = xml.CreateAttribute("dayTime");
+                att.Value = StringValueAttribute.GetStringValue(level.LevelParser.dayTime);
+                rootNode.Attributes.Append(att);
+
+                att = xml.CreateAttribute("enemyPlanes");
+                att.Value = level.LevelParser.enemyPlanes.ToString();
+                rootNode.Attributes.Append(att);
+
+                att = xml.CreateAttribute("missionType");
+                att.Value = StringValueAttribute.GetStringValue(level.LevelParser.missionType);
+                rootNode.Attributes.Append(att);
+                 
+                att = xml.CreateAttribute("timeToFirstEnemyPlane");
+                att.Value = level.LevelParser.timeToFirstEnemyPlane.ToString();
+                rootNode.Attributes.Append(att);
+
+                att = xml.CreateAttribute("timeToNextEnemyPlane");
+                att.Value = level.LevelParser.timeToNextEnemyPlane.ToString();
+                rootNode.Attributes.Append(att);
+
+                xml.AppendChild(rootNode);
+
+                foreach (var tile in level.LevelTiles)
+                {
+                    if (tile is OceanTile)
+                    {
+                        XmlElement ocean = xml.CreateElement("ocean");
+
+                        att = xml.CreateAttribute("variation");
+                        att.Value = tile.Variant.ToString();
+                        ocean.Attributes.Append(att);
+                        /*
+                        att = xml.CreateAttribute("variation");
+                        att.Value = (tile as OceanTile).
+                        ocean.Attributes.Append(att);
+                        */
+                        rootNode.AppendChild(ocean);
+
+                        //  (tile as OceanTile).
+                    }
+                    else if (tile is IslandTile)
+                    {
+
+                    }
+                    else if (tile is AircraftCarrierTile)
+                    {
+
+
+                    }
+                }
+                
+               // rootNode.AppendChild()
+                    
+               
+             //   XmlNode root = xmlDoc.DocumentElement;
+              /*  XmlElement childNode = xmlDoc.CreateElement("childNode");
+                XmlElement childNode2 = xmlDoc.CreateElement("SecondChildNode");
+                XmlText textNode = xmlDoc.CreateTextNode("hello");
+                textNode.Value = "hello, world";
+
+                root.AppendChild(childNode);
+                childNode.AppendChild(childNode2);
+                childNode2.SetAttribute("Name", "Value");
+                childNode2.AppendChild(textNode);
+
+                textNode.Value = "replacing hello world";
+                xmlDoc.Save(filename);*/
+            }
+            catch (Exception ex)
+            {
+                //WriteError(ex.ToString());
+            }
+
+
+
+        
+            
+
+            return true;
         }
 
         /// <summary>
