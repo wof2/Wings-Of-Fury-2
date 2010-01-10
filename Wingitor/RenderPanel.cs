@@ -518,7 +518,7 @@ namespace wingitor
                 root.Initialise(false, "Wingitor RenderWindow");
                 NameValuePairList misc = new NameValuePairList();
                 misc["externalWindowHandle"] = Handle.ToString();
-                window = root.CreateRenderWindow("Wingitor RenderWindow", (uint)Width, (uint)Height, false, misc.ReadOnlyInstance);
+                window = root.CreateRenderWindow("Wingitor RenderWindow", (uint)ClientSize.Width, (uint)ClientSize.Height, false, misc.ReadOnlyInstance);
      
                     
                 splash.Activate();
