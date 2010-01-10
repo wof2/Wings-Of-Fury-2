@@ -119,6 +119,9 @@ namespace Wof.Model.Level.XmlParser
 
         #region Public Constructor 
 
+
+       
+
         public XmlLevelParser(String path)
         {
             if (!File.Exists(path))
@@ -183,6 +186,37 @@ namespace Wof.Model.Level.XmlParser
         }
 
         #region Private Xml Services Methods
+
+
+
+        public static MissionType PeekMissionType(String path)
+        {
+            if (!File.Exists(path))
+                throw new LevelFileNotFoundException(Path.GetFileName(path));
+            XmlReader reader = null;
+            string contents = RijndaelSimple.Decrypt(File.ReadAllText(path));
+            reader = XmlReader.Create(new StringReader(contents));
+            while (reader.Read())
+            {
+                  if (reader.Name.Equals(Nodes.Level))
+                  {
+                      if (reader.HasAttributes)
+                      {
+                          for (int i = 0; i < reader.AttributeCount; i++)
+                          {
+
+                              reader.MoveToAttribute(i);
+                              if (reader.Name.Equals(Attributes.MissionType, StringComparison.InvariantCultureIgnoreCase))
+                                  return GetMissionTypeForName(reader.Value);
+                          }
+                      }
+                     
+                  }
+            }
+
+            return Model.Level.MissionType.BombingRun; // nie zdefiniowano
+
+        }
 
         /// <summary>
         /// Funkcja wczytujaca plik level-x.xml.
@@ -947,7 +981,7 @@ namespace Wof.Model.Level.XmlParser
         /// </summary>
         /// <param name="name">Nazwa typu misji</param>
         /// <returns>Pora dnia.</returns>
-        private MissionType GetMissionTypeForName(String name)
+        private static MissionType GetMissionTypeForName(String name)
         {
             if (name.Equals("BombingRun", StringComparison.InvariantCultureIgnoreCase))
                 return MissionType.BombingRun;

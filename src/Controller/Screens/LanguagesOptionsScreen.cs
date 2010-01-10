@@ -56,8 +56,8 @@ namespace Wof.Controller.Screens
     internal class LanguagesOptionsScreen : AbstractOptionsScreen
     {
         public LanguagesOptionsScreen(GameEventListener gameEventListener,
-                                      IFrameWork framework, Viewport viewport, Camera camera, Root root) :
-                                          base(gameEventListener, framework, viewport, camera, root)
+                                      IFrameWork framework, Viewport viewport, Camera camera) :
+                                          base(gameEventListener, framework, viewport, camera)
         {
     		showRestartRequiredMessage = false;
         }
@@ -67,7 +67,7 @@ namespace Wof.Controller.Screens
             return LanguageResources.GetString(LanguageKey.Languages);
         }
 
-        protected override List<string> GetAvailableOptions(Root root)
+        protected override List<string> GetAvailableOptions()
         {
             List<string> availableModes = new List<string>();
 

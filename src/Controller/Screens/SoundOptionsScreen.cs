@@ -82,8 +82,8 @@ namespace Wof.Controller.Screens
 		}
 
         public SoundOptionsScreen(GameEventListener gameEventListener,
-                                   IFrameWork framework, Viewport viewport, Camera camera, Root root) :
-                                      base(gameEventListener, framework, viewport, camera, root)
+                                   IFrameWork framework, Viewport viewport, Camera camera) :
+                                      base(gameEventListener, framework, viewport, camera)
         {
             showRestartRequiredMessage = false;
             soundSystems = SoundSystems; // init
@@ -95,7 +95,7 @@ namespace Wof.Controller.Screens
         }
 
 
-        protected override List<string> GetAvailableOptions(Root root)
+        protected override List<string> GetAvailableOptions()
         {
             List<String> availableModes = new List<String>();
 

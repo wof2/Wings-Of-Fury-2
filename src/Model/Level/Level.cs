@@ -277,7 +277,8 @@ namespace Wof.Model.Level
         {
         	if (String.IsNullOrEmpty(fileName))
                 throw new IOException("File name must be set !");
-        	return ReadEncodedXmlFile(fileName).MissionType;       	
+
+            return XmlLevelParser.PeekMissionType(fileName);       	
         	
         }
 

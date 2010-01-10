@@ -72,11 +72,11 @@ namespace Wof.Controller
 		    GraphicsQuality quality;
             bool hiEndVS = root.RenderSystem.Capabilities.IsShaderProfileSupported("vs_3_0");
            
-            List<String> videoOptions= FrameWorkStaticHelper.GetVideoModes(root, true, 800, 600);
+            List<String> videoOptions= FrameWorkStaticHelper.GetVideoModes(true, 800, 600);
             int maxVO = videoOptions.Count - 1;
 
 
-            List<String> aaOptions = FrameWorkStaticHelper.GetAntialiasingModes(root);
+            List<String> aaOptions = FrameWorkStaticHelper.GetAntialiasingModes();
             int maxAA = aaOptions.Count - 1;
             
             

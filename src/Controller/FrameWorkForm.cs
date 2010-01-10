@@ -459,9 +459,9 @@ namespace Wof.Controller
                   //  return true;
                     NameValuePairList misc = new NameValuePairList();
 	                misc["externalWindowHandle"] = Handle.ToString();
-                    misc["colourDepth"] = FrameWorkStaticHelper.GetCurrentColourDepth(root);
-                  misc["vsync"] = FrameWorkStaticHelper.GetCurrentVsync(root).ToString();
-                   int[] fsaa =  FrameWorkStaticHelper.GetCurrentFSAA(root);
+                    misc["colourDepth"] = FrameWorkStaticHelper.GetCurrentColourDepth();
+                  misc["vsync"] = FrameWorkStaticHelper.GetCurrentVsync().ToString();
+                   int[] fsaa =  FrameWorkStaticHelper.GetCurrentFSAA();
                    misc["FSAA"] = fsaa[0].ToString();
                    misc["FSAAQuality"] = fsaa[1].ToString();
                    /*
@@ -470,7 +470,7 @@ namespace Wof.Controller
 
 
 
-	                Vector2 dim = FrameWorkStaticHelper.GetCurrentVideoMode(root);
+	                Vector2 dim = FrameWorkStaticHelper.GetCurrentVideoMode();
                    // this.ClientSize
                     this.ClientSize = new Size((int) dim.x, (int)dim.y);
                     //this.ClientSize.Height = ;
