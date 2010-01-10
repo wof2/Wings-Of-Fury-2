@@ -30,14 +30,14 @@ namespace Wof.Controller
             MessageBox.Show(ex.Message + "\r\n" + "Stack trace: "+ex.StackTrace, EngineConfig.C_GAME_NAME + " - Runtime error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        public static List<String> GetAntialiasingModes(Root root)
+        public static List<String> GetAntialiasingModes()
         {
             List<String> availableModes = new List<String>();
 
             ConfigOption_NativePtr videoModeOption;
 
             // staram sie znalezc opcje konfiguracyjna Video Mode
-            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+            ConfigOptionMap map = Root.Singleton.RenderSystem.GetConfigOptions();
             foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
             {
                 if (m.Value.name.Equals(FrameWorkStaticHelper.C_ANTIALIASING))
@@ -57,10 +57,10 @@ namespace Wof.Controller
             return availableModes;
         }
 
-        public static String GetCurrentColourDepth(Root root)
+        public static String GetCurrentColourDepth()
         {
-            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
-            root.RestoreConfig();
+            ConfigOptionMap map = Root.Singleton.RenderSystem.GetConfigOptions();
+            Root.Singleton.RestoreConfig();
             foreach (KeyValuePair<string, Mogre.ConfigOption_NativePtr> s in map)
             {
                 if (s.Key.Equals(C_VIDEO_MODE))
@@ -76,9 +76,9 @@ namespace Wof.Controller
 
         }
 
-        public static int GetCurrentUseNVPerfHUD(Root root)
+        public static int GetCurrentUseNVPerfHUD()
         {
-            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+            ConfigOptionMap map = Root.Singleton.RenderSystem.GetConfigOptions();
 
             foreach (KeyValuePair<string, Mogre.ConfigOption_NativePtr> s in map)
             {
@@ -95,9 +95,9 @@ namespace Wof.Controller
             
         }
 
-        public static int[] GetCurrentFSAA(Root root)
+        public static int[] GetCurrentFSAA()
         {
-            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+            ConfigOptionMap map = Root.Singleton.RenderSystem.GetConfigOptions();
 
             foreach (KeyValuePair<string, Mogre.ConfigOption_NativePtr> s in map)
             {
@@ -130,9 +130,9 @@ namespace Wof.Controller
         }
 
 
-        public static int GetCurrentVsync(Root root)
+        public static int GetCurrentVsync()
         {
-            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+            ConfigOptionMap map = Root.Singleton.RenderSystem.GetConfigOptions();
 
             foreach (KeyValuePair<string, Mogre.ConfigOption_NativePtr> s in map)
             {
@@ -146,9 +146,9 @@ namespace Wof.Controller
 
         }
         
-   		public static Vector2 GetCurrentVideoMode(Root root)
+   		public static Vector2 GetCurrentVideoMode()
         {
-   			ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+            ConfigOptionMap map = Root.Singleton.RenderSystem.GetConfigOptions();
    	
    			foreach(KeyValuePair<string, Mogre.ConfigOption_NativePtr> s in map)
    			{
@@ -166,14 +166,14 @@ namespace Wof.Controller
    			return Vector2.ZERO;
   
    		}
-        public static List<String> GetVideoModes(Root root, bool only32Bit, int minXResolution, int minYResolution)
+        public static List<String> GetVideoModes(bool only32Bit, int minXResolution, int minYResolution)
         {
             List<String> availableModes = new List<String>();
 
             ConfigOption_NativePtr videoModeOption;
 
             // staram sie znalezc opcje konfiguracyjna Video Mode
-            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+            ConfigOptionMap map = Root.Singleton.RenderSystem.GetConfigOptions();
             foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
             {
                 if (m.Value.name.Equals(FrameWorkStaticHelper.C_VIDEO_MODE))
@@ -225,9 +225,9 @@ namespace Wof.Controller
             return availableModes;
         }
 
-        public static List<String> GetVideoModes(Root root)
+        public static List<String> GetVideoModes()
         {
-            return GetVideoModes(root, false, 0,0);
+            return GetVideoModes(false, 0,0);
         }
 
         public static bool CreateSoundSystem(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)

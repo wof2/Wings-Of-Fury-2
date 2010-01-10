@@ -57,8 +57,8 @@ namespace Wof.Controller.Screens
     internal class ShadowsOptionsScreen : AbstractOptionsScreen, BetaGUIListener
     {
         public ShadowsOptionsScreen(GameEventListener gameEventListener,
-                                      IFrameWork framework, Viewport viewport, Camera camera, Root root) :
-                                         base(gameEventListener, framework, viewport, camera, root)
+                                      IFrameWork framework, Viewport viewport, Camera camera) :
+                                         base(gameEventListener, framework, viewport, camera)
         {
         }
 
@@ -67,7 +67,7 @@ namespace Wof.Controller.Screens
             return LanguageResources.GetString(LanguageKey.Shadows);
         }
 
-        protected override List<string> GetAvailableOptions(Root root)
+        protected override List<string> GetAvailableOptions()
         {
             List<string> availableModes = new List<string>();
 

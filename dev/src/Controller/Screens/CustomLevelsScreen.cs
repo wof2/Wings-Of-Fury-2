@@ -50,7 +50,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.IO;
 using BetaGUI;
 using Mogre;
 using Wof.Languages;
@@ -60,102 +60,87 @@ using Wof.Model.Level;
 
 namespace Wof.Controller.Screens
 {
-    internal class CustomLevelsScreen : AbstractScreen, BetaGUIListener
+    internal class CustomLevelsScreen : AbstractOptionsScreen
     {
-     
-        private Window guiWindow;
-        private string[] levels;
 
-        #region GameScreen Members
+
+        #region CustomLevelsScreen Members
 
         public CustomLevelsScreen(GameEventListener gameEventListener,
                                IFrameWork framework, Viewport viewport, Camera camera) :
             base(gameEventListener, framework, viewport, camera)
         {
 
-            fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
-
-            levels = LoadGameUtil.GetCustomLevels();
+         //   fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
+            this.OnOptionCreated += new OptionCreated(CustomLevelsScreen_OnOptionCreated);
+            showRestartRequiredMessage = false;
+            autoGoBack = false;
            
 
         }
-
-        protected override void CreateGUI()
+        protected void CustomLevelsScreen_OnOptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page)
         {
+            string filename = Level.GetMissionTypeTextureFile(Level.GetMissionType(availableOptions.ToArray()[index]));
 
-            base.CreateGUI();
-
-            Vector2 m = GetMargin();
-            int h = (int)GetTextVSpacing();
-
-
-            guiWindow = mGui.createWindow(new Vector4(m.x,
-                                                      m.y, Viewport.ActualWidth / 2,
-                                                      Viewport.ActualHeight - m.y - h),
-                                                      "bgui.window", (int)wt.NONE, LanguageResources.GetString(LanguageKey.StartFrom));
-
-
-            Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
-
-            initButtons(levels.Length + 1, levels.Length);
-
-            for (int i = 0; i < levels.Length; i++)
+            if (filename != null)
             {
-                string name = LoadGameUtil.GetCustomLevelName(levels[i]);
 
-                // pole 'id' w button bedzie trzymac nr poziomu
-                buttons[i] =
-                    (guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing() + i * GetTextVSpacing(), Viewport.ActualWidth / 2 - GetTextVSpacing(), GetTextVSpacing()), "bgui.button",
-                                            String.Format("{0} ", LanguageResources.GetString(LanguageKey.Level)) +
-                                            name, cc, (uint)i));
-
-                // ikonka typu misji
-                string filename = Level.GetMissionTypeTextureFile(Level.GetMissionType(levels[i]));
-
-                if (filename != null)
-                {
-                    guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - GetTextVSpacing(), 3 * GetTextVSpacing() + i * GetTextVSpacing(), GetTextVSpacing(), GetTextVSpacing()), filename, (ushort)(1000 + i));
-                }
+                guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), filename, (ushort)(1000 + index));
             }
-            buttons[levels.Length] =
-                guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing() + (levels.Length + 1) * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
-                                       LanguageResources.GetString(LanguageKey.Back), cc);
+        }
 
-            //          selectButton(0);
+        protected override Vector4 GetOptionPos(uint index, Window window)
+        {
+            return new Vector4(0, 2 * GetTextVSpacing() + index*GetTextVSpacing(),
+                               Viewport.ActualWidth/2 - GetTextVSpacing(), GetTextVSpacing());
+          
+        }
 
-            guiWindow.show();
+      
+        
+        protected override void GoToBack(Button referer)
+        {
+            gameEventListener.GotoStartScreen();
+        }
+
+        protected override string getTitle()
+        {
+            return LanguageResources.GetString(LanguageKey.StartFrom);
+        }
+
+        protected override List<string> GetAvailableOptions()
+        {
+            return LoadGameUtil.GetCustomLevels();
+        }
+
+        protected override string GetOptionDisplayText(string option)
+        {
+            if (option.StartsWith("__"))
+            {
+                return option.Substring(2);
+            }
+            else
+            {
+                return LoadGameUtil.GetCustomLevelName(option);
+            }
+        }
+
+        protected override void ProcessOptionSelection(string selected)
+        {
+            if (File.Exists(selected))
+            {
+                gameEventListener.StartGame(selected);
+            }
+            
+        }
+
+        protected override bool IsOptionSelected(string option)
+        {
+            return false;
         }
 
         #endregion
 
-        #region BetaGUIListener Members
-
-        public void onButtonPress(Button referer)
-        {
-            if (screenTime > C_RESPONSE_DELAY)
-            {
-                if (referer == buttons[levels.Length]) // przycisk exit
-                {
-                    PlayClickSound();
-                    gameEventListener.GotoStartScreen();
-                }
-                else
-                {
-                    int i = 0;
-                    IEnumerator e = buttons.GetEnumerator();
-                    while (e.MoveNext())
-                    {
-                        if (referer == e.Current)
-                        {
-                            PlayClickSound();
-                            gameEventListener.StartGame( levels[(int)((Button)e.Current).id]);
-                        }
-                        i++;
-                    }
-                }
-            }
-        }
-
-        #endregion
+      
     }
 }

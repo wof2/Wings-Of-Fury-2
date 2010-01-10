@@ -59,9 +59,9 @@ namespace Wof.Controller.Screens
         public const String C_VIDEO_MODE = "Video Mode";
 
         public VideoModeScreen(GameEventListener gameEventListener,
-                                IFrameWork framework, Viewport viewport, Camera camera, Root root)
+                                IFrameWork framework, Viewport viewport, Camera camera)
             :
-                base(gameEventListener, framework, viewport, camera, root)
+                base(gameEventListener, framework, viewport, camera)
         {
         }
 
@@ -70,27 +70,27 @@ namespace Wof.Controller.Screens
             return LanguageResources.GetString(LanguageKey.ChooseVideoMode);
         }
 
-        protected override List<String> GetAvailableOptions(Root root)
+        protected override List<String> GetAvailableOptions()
         {
-            List<String> availableOptions = FrameWorkStaticHelper.GetVideoModes(root, true, 800, 600);
+            List<String> availableOptions = FrameWorkStaticHelper.GetVideoModes(true, 800, 600);
             return FilterPossibleOptions(availableOptions);
         }
 
         protected override void ProcessOptionSelection(String selected)
         {
-            if (!root.RenderSystem.GetConfigOptions()[C_VIDEO_MODE].currentValue.Equals(selected))
+            if (!Root.Singleton.RenderSystem.GetConfigOptions()[C_VIDEO_MODE].currentValue.Equals(selected))
             {
-                root.RenderSystem.SetConfigOption(C_VIDEO_MODE, selected);
+                Root.Singleton.RenderSystem.SetConfigOption(C_VIDEO_MODE, selected);
                 OptionsScreen.restartRequired = true;
             }
 
-            root.SaveConfig();
+            Root.Singleton.SaveConfig();
         }
 
         protected override bool IsOptionSelected(String option)
         {
             return
-                root.RenderSystem.GetConfigOptions()[C_VIDEO_MODE]
+                Root.Singleton.RenderSystem.GetConfigOptions()[C_VIDEO_MODE]
                     .currentValue.Equals(option);
         }
 

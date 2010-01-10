@@ -86,6 +86,7 @@ namespace Wof.Controller.Screens
    		
    		
    		protected bool showRestartRequiredMessage = true;
+        protected bool autoGoBack = true;
 
         private List<ButtonHolder> options;
 
@@ -97,15 +98,11 @@ namespace Wof.Controller.Screens
         private Button prevButton;
         
        
-     
-
-        protected Root root;
-
         public AbstractOptionsScreen(GameEventListener gameEventListener,
-                                     IFrameWork framework, Viewport viewport, Camera camera, Root root) :
+                                     IFrameWork framework, Viewport viewport, Camera camera) :
             base(gameEventListener, framework, viewport, camera)
         {
-            this.root = root;
+           
             this.fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka w opcjach
         }
 
@@ -116,6 +113,8 @@ namespace Wof.Controller.Screens
             createScreen();
         }
         
+        protected List<String> availableOptions;
+
         public static int AddControlsInfoToGui(Window guiWindow, GUI mGui, int left, int top, int initialTopSpacing, float width, float textVSpacing, uint fontSize)
         {
         	
@@ -235,10 +234,30 @@ namespace Wof.Controller.Screens
 
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
-            List<String> availableOptions = GetAvailableOptions(root);
+            availableOptions = GetAvailableOptions();
 
             LayoutOptions(availableOptions, guiWindow, cc);
             guiWindow.show();
+        }
+
+        protected virtual string GetOptionDisplayText(string option)
+        {
+             if (option.StartsWith("__"))
+             {
+                 return option.Substring(2);
+             }
+             else
+             {
+                 return option;
+             }
+        }
+
+
+     
+
+        protected virtual Vector4 GetOptionPos(uint index, Window window)
+        {
+            return new Vector4(window.w / 6, (index + 2) * GetTextVSpacing(), 3 * window.w / 4, GetTextVSpacing());
         }
 
         protected virtual void LayoutOptions(List<String> availableOptions, Window window, Callback cc)
@@ -255,28 +274,43 @@ namespace Wof.Controller.Screens
                  availableOptions.Count > j + C_MAX_OPTIONS*currentScreen;
                  j++)
             {
-                String optionValue = availableOptions[(int) j + C_MAX_OPTIONS*currentScreen];
-                if (optionValue == null)
+                String option = availableOptions[(int) j + C_MAX_OPTIONS*currentScreen];
+
+                Vector4 pos = GetOptionPos(j, window);
+
+
+                if (option == null)
                 {
                     continue;
                 }
-                else if (optionValue.StartsWith("__"))
+                else if (option.StartsWith("__"))
                 {
                     guiWindow.createStaticText(
-                        new Vector4(window.w / 6, (j + 2) * GetTextVSpacing(), 3 * window.w / 4, GetTextVSpacing()),
-                        optionValue.Substring(2));
+                        pos,
+                        GetOptionDisplayText(option));
+                    if (OnOptionCreated != null)
+                    {
+                        OnOptionCreated(pos, false, option, j, currentScreen);
+                    }
                     continue;
                 }
 
 
+              
+               
+                bool selected = IsOptionSelected(option);
                 Button button = guiWindow.createButton(
-                    new Vector4(
-                        window.w / 6,
-                        (j + 2) * GetTextVSpacing(),  3 * window.w / 4, GetTextVSpacing()),
-                        IsOptionSelected(optionValue) ? "bgui.selected.button" : "bgui.button",
-                        optionValue, cc, j);
+                        pos,
+                        selected ? "bgui.selected.button" : "bgui.button",
+                        GetOptionDisplayText(option), cc, j);
 
-                options.Add(new ButtonHolder(button, optionValue));
+                if(OnOptionCreated != null)
+                {
+                    OnOptionCreated(pos, selected, option, j, currentScreen);
+                }
+                
+
+                options.Add(new ButtonHolder(button, option));
             }
             uint totalOptions = (uint) options.Count;
 
@@ -286,7 +320,7 @@ namespace Wof.Controller.Screens
                     (
                     new Vector4(
                         window.w / 6,
-                        (C_MAX_OPTIONS + 2) * GetTextVSpacing(),
+                        (C_MAX_OPTIONS + 3) * GetTextVSpacing(),
                         window.w / 3, 
                         GetTextVSpacing()),
                     "bgui.button",
@@ -307,7 +341,7 @@ namespace Wof.Controller.Screens
                     (
                     new Vector4(
                         window.w / 2,
-                        (C_MAX_OPTIONS + 2) * GetTextVSpacing(),
+                        (C_MAX_OPTIONS + 3) * GetTextVSpacing(),
                         window.w / 3, 
                         GetTextVSpacing()),
                     "bgui.button",
@@ -326,7 +360,7 @@ namespace Wof.Controller.Screens
                 (
                 new Vector4(
                     window.w / 3,
-                    (C_MAX_OPTIONS + 3) * GetTextVSpacing(),
+                    (C_MAX_OPTIONS + 4) * GetTextVSpacing(),
                     window.w / 3,
                     GetTextVSpacing()),
                 "bgui.button",
@@ -377,13 +411,24 @@ namespace Wof.Controller.Screens
 
         protected abstract String getTitle();
 
-        protected abstract List<String> GetAvailableOptions(Root root);
+        protected abstract List<String> GetAvailableOptions();
 
         protected abstract void ProcessOptionSelection(String selected);
 
         protected abstract bool IsOptionSelected(String option);
 
+        public delegate void OptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page);
+
+        protected event OptionCreated OnOptionCreated;
+
+
         #region BetaGUIListener Members
+
+
+        protected virtual void GoToBack(Button referer)
+        {
+            gameEventListener.GotoOptionsScreen();
+        }
 
         public void onButtonPress(Button referer)
         {
@@ -416,11 +461,13 @@ namespace Wof.Controller.Screens
                         } 
                         PlayClickSound();
                         ProcessOptionSelection(holder.Value);
-                        break;
+                        if (autoGoBack) GoToBack(referer);
+                        return;
                     }
                 }
                 PlayClickSound();
-                gameEventListener.GotoOptionsScreen();
+                GoToBack(referer);
+               
             }
         }
 

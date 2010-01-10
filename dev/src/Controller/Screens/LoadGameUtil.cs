@@ -49,6 +49,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 
 namespace Wof.Controller.Screens
@@ -73,25 +74,26 @@ namespace Wof.Controller.Screens
 
         public static string GetCustomLevelName(string path)
         {
+            int maxLen = 30;
             string name = path.Substring(C_CUSTOM_LEVELS_DIR.Length);
-            if (name.Length > 20)
+            if (name.Length > maxLen)
             {
-                name = name.Substring(0, 20);
+                name = name.Substring(0, maxLen);
             }
             return name;
         }
 
-        public static string[] GetCustomLevels()
+        public static List<String> GetCustomLevels()
         {
             try
             {
                
-                return Directory.GetFiles(C_CUSTOM_LEVELS_DIR, "*.dat");
+                return new List<string>(Directory.GetFiles(C_CUSTOM_LEVELS_DIR, "*.dat"));
             }
             catch (Exception)
             {
                 
-                return new string[0];
+                return new List<string>();
             }
            
 

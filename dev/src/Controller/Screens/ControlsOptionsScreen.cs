@@ -58,9 +58,8 @@ namespace Wof.Controller.Screens
     internal class ControlsOptionsScreen : AbstractOptionsScreen, BetaGUIListener
     { 
     
-        public ControlsOptionsScreen(GameEventListener gameEventListener,
-                                      IFrameWork framework, Viewport viewport, Camera camera, Root root) :
-                                         base(gameEventListener, framework, viewport, camera, root)
+        public ControlsOptionsScreen(GameEventListener gameEventListener, IFrameWork framework, Viewport viewport, Camera camera) :
+                                         base(gameEventListener, framework, viewport, camera)
         {
             this.fontSize = (uint)(0.75f * fontSize); // mniejsza czcionka w opcjach
     		C_MAX_OPTIONS = 3;
@@ -72,7 +71,7 @@ namespace Wof.Controller.Screens
             return LanguageResources.GetString(LanguageKey.InverseKeys);
         }
 
-        protected override List<string> GetAvailableOptions(Root root)
+        protected override List<string> GetAvailableOptions()
         {
             List<string> availableModes = new List<string>();
 

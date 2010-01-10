@@ -59,9 +59,8 @@ namespace Wof.Controller.Screens
         public const String C_VSYNC = "VSync";
 
 
-        public VSyncOptionsScreen(GameEventListener gameEventListener,
-                                   IFrameWork framework, Viewport viewport, Camera camera, Root root) :
-                                      base(gameEventListener, framework, viewport, camera, root)
+        public VSyncOptionsScreen(GameEventListener gameEventListener, IFrameWork framework, Viewport viewport, Camera camera) :
+                                      base(gameEventListener, framework, viewport, camera)
         {
         }
 
@@ -70,14 +69,14 @@ namespace Wof.Controller.Screens
             return String.Format("{0}?", LanguageResources.GetString(LanguageKey.EnableVSync));
         }
 
-        protected override List<String> GetAvailableOptions(Root root)
+        protected override List<String> GetAvailableOptions()
         {
             List<String> availableModes = new List<String>();
 
             ConfigOption_NativePtr videoModeOption;
 
             // staram sie znalezc opcje konfiguracyjna Video Mode
-            ConfigOptionMap map = root.RenderSystem.GetConfigOptions();
+            ConfigOptionMap map = Root.Singleton.RenderSystem.GetConfigOptions();
             foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
             {
                 if (m.Value.name.Equals(C_VSYNC))
@@ -100,9 +99,9 @@ namespace Wof.Controller.Screens
 
         protected override bool IsOptionSelected(string option)
         {
-            
-           
-            string curr = root.RenderSystem.GetConfigOptions()[C_VSYNC].currentValue;
+
+
+            string curr = Root.Singleton.RenderSystem.GetConfigOptions()[C_VSYNC].currentValue;
             if(curr.Equals("Yes"))
             {
                 return LanguageResources.GetString(LanguageKey.Yes).Equals(option);
@@ -117,18 +116,19 @@ namespace Wof.Controller.Screens
 
         protected override void ProcessOptionSelection(string selected)
         {
-            if (!root.RenderSystem.GetConfigOptions()[C_VSYNC].currentValue.Equals(selected))
+
+            if (!Root.Singleton.RenderSystem.GetConfigOptions()[C_VSYNC].currentValue.Equals(selected))
             {
                 if (LanguageResources.GetString(LanguageKey.Yes).Equals(selected))
                 {
-                    root.RenderSystem.SetConfigOption(C_VSYNC, "Yes");
+                    Root.Singleton.RenderSystem.SetConfigOption(C_VSYNC, "Yes");
                 }else
                 {
-                    root.RenderSystem.SetConfigOption(C_VSYNC, "No"); 
+                    Root.Singleton.RenderSystem.SetConfigOption(C_VSYNC, "No"); 
                 }
                 OptionsScreen.restartRequired = true;
             }
-            root.SaveConfig();
+            Root.Singleton.SaveConfig();
         }
     }
 }

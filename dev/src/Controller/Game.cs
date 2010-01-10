@@ -1072,7 +1072,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new VideoModeScreen(this, this, viewport, camera, root);
+            currentScreen = new VideoModeScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -1092,7 +1092,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new AntialiasingOptionsScreen(this, this, viewport, camera, root);
+            currentScreen = new AntialiasingOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -1112,7 +1112,7 @@ namespace Wof.Controller
             }
 
             initScreenAfter(currentScreen);
-            currentScreen = new VSyncOptionsScreen(this, this, viewport, camera, root);
+            currentScreen = new VSyncOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -1132,7 +1132,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new DifficultyScreen(this, this, viewport, camera, root);
+            currentScreen = new DifficultyScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -1152,7 +1152,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new BloomOptionsScreen(this, this, viewport, camera, root);
+            currentScreen = new BloomOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -1172,7 +1172,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new HydraxOptionsScreen(this, this, viewport, camera, root);
+            currentScreen = new HydraxOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -1192,7 +1192,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new BloodOptionsScreen(this, this, viewport, camera, root);
+            currentScreen = new BloodOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -1214,7 +1214,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new LODOptionsScreen(this, this, viewport, camera, root);
+            currentScreen = new LODOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -1234,7 +1234,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new ShadowsOptionsScreen(this, this, viewport, camera, root);
+            currentScreen = new ShadowsOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -1255,7 +1255,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new ControlsOptionsScreen(this, this, viewport, camera, root);
+            currentScreen = new ControlsOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -1274,7 +1274,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new LanguagesOptionsScreen(this, this, viewport, camera, root);
+            currentScreen = new LanguagesOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
             {
@@ -1294,7 +1294,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new SoundOptionsScreen(this, this, viewport, camera, root);
+            currentScreen = new SoundOptionsScreen(this, this, viewport, camera);
 
             if(ss!=null)
             {

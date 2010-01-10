@@ -59,15 +59,14 @@ namespace Wof.Controller.Screens
 
         public const String C_ANTIALIASING = "Anti aliasing";
 
-        public AntialiasingOptionsScreen(GameEventListener gameEventListener,
-                                         IFrameWork framework, Viewport viewport, Camera camera, Root root) :
-                                             base(gameEventListener, framework, viewport, camera, root)
+        public AntialiasingOptionsScreen(GameEventListener gameEventListener, IFrameWork framework, Viewport viewport, Camera camera) :
+                                             base(gameEventListener, framework, viewport, camera)
         {
         }
 
-        protected override List<String> GetAvailableOptions(Root root)
+        protected override List<String> GetAvailableOptions()
         {
-            return FrameWorkStaticHelper.GetAntialiasingModes(root);
+            return FrameWorkStaticHelper.GetAntialiasingModes();
         }
 
         protected override String getTitle()
@@ -77,17 +76,17 @@ namespace Wof.Controller.Screens
 
         protected override void ProcessOptionSelection(string selected)
         {
-            if (!root.RenderSystem.GetConfigOptions()[C_ANTIALIASING].currentValue.Equals(selected))
+            if (!Root.Singleton.RenderSystem.GetConfigOptions()[C_ANTIALIASING].currentValue.Equals(selected))
             {
-                root.RenderSystem.SetConfigOption(C_ANTIALIASING, selected);
+                Root.Singleton.RenderSystem.SetConfigOption(C_ANTIALIASING, selected);
                 OptionsScreen.restartRequired = true;
             }
-            root.SaveConfig();
+            Root.Singleton.SaveConfig();
         }
 
         protected override bool IsOptionSelected(string option)
         {
-            return root.RenderSystem.GetConfigOptions()[C_ANTIALIASING].currentValue.Equals(option);
+            return Root.Singleton.RenderSystem.GetConfigOptions()[C_ANTIALIASING].currentValue.Equals(option);
         }
     }
 }

@@ -57,8 +57,8 @@ namespace Wof.Controller.Screens
     internal class HydraxOptionsScreen : AbstractOptionsScreen, BetaGUIListener
     {
         public HydraxOptionsScreen(GameEventListener gameEventListener,
-                                   IFrameWork framework, Viewport viewport, Camera camera, Root root) :
-                                      base(gameEventListener, framework, viewport, camera, root)
+                                   IFrameWork framework, Viewport viewport, Camera camera) :
+                                      base(gameEventListener, framework, viewport, camera)
         {
     		showRestartRequiredMessage = false;
         }
@@ -68,7 +68,7 @@ namespace Wof.Controller.Screens
             return String.Format("{0}?", LanguageResources.GetString(LanguageKey.HydraxWater));
         }
 
-        protected override List<string> GetAvailableOptions(Root root)
+        protected override List<string> GetAvailableOptions()
         {
             List<String> availableModes = new List<String>();
 

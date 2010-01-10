@@ -56,9 +56,8 @@ namespace Wof.Controller.Screens
 {
     internal class BloomOptionsScreen : AbstractOptionsScreen, BetaGUIListener
     {
-        public BloomOptionsScreen(GameEventListener gameEventListener,
-                                   IFrameWork framework, Viewport viewport, Camera camera, Root root) :
-                                      base(gameEventListener, framework, viewport, camera, root)
+        public BloomOptionsScreen(GameEventListener gameEventListener, IFrameWork framework, Viewport viewport, Camera camera) :
+                                      base(gameEventListener, framework, viewport, camera)
         {
         }
 
@@ -67,7 +66,7 @@ namespace Wof.Controller.Screens
             return String.Format("{0}?", LanguageResources.GetString(LanguageKey.EnableBloom));
         }
 
-        protected override List<string> GetAvailableOptions(Root root)
+        protected override List<string> GetAvailableOptions()
         {
             List<String> availableModes = new List<String>();
 
