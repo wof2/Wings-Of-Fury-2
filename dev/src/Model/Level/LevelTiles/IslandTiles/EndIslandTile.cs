@@ -47,6 +47,7 @@
  */
 
 using Wof.Model.Level.Common;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles
 {
@@ -70,5 +71,10 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
         }
 
         #endregion
+
+        public override string GetXMLName
+        {
+            get { return Nodes.IslandEnd; }
+        }
     }
 }

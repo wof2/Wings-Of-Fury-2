@@ -213,6 +213,11 @@ namespace Wof.Model.Level.LevelTiles
 
         #region Properties
 
+        public abstract string GetXMLName
+        {
+            get;
+        }
+
         /// <summary>
         /// Zwraca wysokosc poczatku elementu.
         /// </summary>

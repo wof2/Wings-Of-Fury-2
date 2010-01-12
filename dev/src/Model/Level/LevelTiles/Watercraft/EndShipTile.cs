@@ -46,8 +46,10 @@
  * 
  */
 
+using System;
 using System.Collections.Generic;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft
 {
@@ -62,6 +64,11 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         {
         }
         #endregion
+
+        public override string GetXMLName
+        {
+            get { return Nodes.ShipEnd; }
+        }
 
         public override int TileIndex
         {

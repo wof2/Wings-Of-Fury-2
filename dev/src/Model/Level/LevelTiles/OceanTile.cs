@@ -46,8 +46,10 @@
  * 
  */
 
+using System;
 using Wof.Model.Level.Common;
 using System.Collections.Generic;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles
 {
@@ -95,6 +97,11 @@ namespace Wof.Model.Level.LevelTiles
         #endregion
 
         #region Properties
+
+        public override string GetXMLName
+        {
+            get { return Nodes.Ocean; }
+        }
 
         /// <summary>
         /// Ustawia lub pobiera indeks oceanu.

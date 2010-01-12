@@ -50,6 +50,7 @@ using System.Collections.Generic;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft
 {
@@ -148,6 +149,11 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         #endregion
 
         #region Properties
+
+        public override string GetXMLName
+        {
+            get { return Nodes.ShipConcreteBunker; }
+        }
 
         /// <summary>
         /// Pobiera lub ustawia indeks obiektu.

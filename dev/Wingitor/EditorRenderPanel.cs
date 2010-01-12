@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Mogre;
+using Wingitor;
 using Wof.Controller;
 using Wof.Model.Level;
 using Wof.Model.Level.Infantry;
@@ -11,39 +12,70 @@ using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
+using Wof.Model.Level.XmlParser;
 using Wof.View;
+using Wof.View.Effects;
 using Plane=Wof.Model.Level.Planes.Plane;
 
 namespace wingitor
 {
-    class EditorRenderPanel : RenderPanel, IController
+    public class EditorRenderPanel : RenderPanel, IController
     {
         private LevelView levelView;
-        protected Level currentLevel;
+        private Level currentLevel;
 
+        protected string filename;
         public LevelView LevelView
         {
             get { return levelView; }
             set { levelView = value; }
         }
 
-        protected override void Destroy()
+        public Level CurrentLevel
         {
+            get { return currentLevel; }
+        }
+
+        
+
+        public override void Destroy()
+        {
+           
             if (levelView != null) levelView.Destroy();
             base.Destroy();
+
             
         }
 
-       
+        private MainWindow mainWindow;
+
+        public EditorRenderPanel(MainWindow window)
+            : base()
+        {
+            mainWindow = window;
+            this.filename = "levels/level-1.dat";
+        }
+
+        public EditorRenderPanel(string filename) : base()
+        {
+            this.filename = filename;
+           
+        }
+
+        private string levelToLoad;
 
         public override void CreateScene()
         {
-            currentLevel = new Level("levels/level-1.dat", this);
-            levelView = new LevelView(this, this);
-            levelView.OnRegisterLevel(currentLevel);
-            levelView.SetVisible(true);
+            if(filename != null)
+            {
+                currentLevel = new Level(filename, this);
+                levelView = new LevelView(this, this);
+                levelView.OnRegisterLevel(currentLevel);
+                levelView.SetVisible(true);
+            }
+            
         }
-
+       
         protected override void OnUpdateModel(FrameEvent evt)
         {
             if(currentLevel != null)
@@ -54,8 +86,49 @@ namespace wingitor
           
             base.OnUpdateModel(evt);
         }
+
+        private bool reloadLevel = false;
+        public void ReloadLevel(string filename)
+        {
+            levelToLoad = filename;
+            reloadLevel = true;
+        }
+        public void ReloadLevel()
+        {
+            levelToLoad = null;
+            reloadLevel = true;
+        }
+        public delegate void InvokeDelegate(XmlLevelParser parser);
+
         protected override bool FrameStarted(Mogre.FrameEvent evt)
         {
+
+            if (reloadLevel)
+            {
+                levelView.Destroy();
+                if (levelToLoad != null)
+                {
+                    currentLevel.Dispose();
+                }
+                SceneMgr.ClearScene();
+                EffectsManager.Singleton.Clear();
+                if (levelToLoad != null)
+                {
+                    filename = levelToLoad;
+                    currentLevel = new Level(filename, this);
+                }
+               
+                levelView = new LevelView(this, this);
+                levelView.OnRegisterLevel(currentLevel);
+                levelView.SetVisible(true);
+
+                reloadLevel = false;
+                levelToLoad = null;
+                mainWindow.BeginInvoke(new InvokeDelegate(mainWindow.OnLevelLoaded),(currentLevel.LevelParser));
+                
+            }
+
+
             if(base.FrameStarted(evt))
             {
                 if (levelView != null)

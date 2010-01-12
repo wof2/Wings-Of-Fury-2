@@ -46,8 +46,10 @@
  * 
  */
 
+using System;
 using System.Collections.Generic;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft
 {
@@ -56,8 +58,18 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
     /// </summary>
     public class MiddleShipTile : ShipTile
     {
+
         public MiddleShipTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int type, List<Quadrangle> collisionRectangles, bool traversable) : base(yBegin, yEnd, viewXShift, hitBound, type, collisionRectangles, traversable)
         {
         }
+
+        #region Overrides of LevelTile
+
+        public override string GetXMLName
+        {
+            get { return Nodes.ShipDeck; }
+        }
+
+        #endregion
     }
 }

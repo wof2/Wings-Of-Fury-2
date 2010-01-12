@@ -46,7 +46,9 @@
  * 
  */
 
+using System;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles
 {
@@ -81,5 +83,14 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
         {
             get { return meshName; }
         }
+
+        #region Overrides of IslandTile
+
+        public override string GetXMLName
+        {
+            get { return Nodes.IslandBegin; }
+        }
+
+        #endregion
     }
 }

@@ -7,12 +7,21 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Mogre;
+using wingitor;
+using Wof.Model.Level.LevelTiles;
+using Wof.Model.Level.XmlParser;
 
 namespace Wingitor
 {
     public partial class MainWindow  : Form
     {
         private Thread renderThread;
+
+        public EditorRenderPanel EditorRenderPanel
+        {
+            get { return editorRenderPanel; }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -23,6 +32,7 @@ namespace Wingitor
             }
             renderThread = new Thread(editorRenderPanel.Go);
             renderThread.Start();
+            this.menu.SetMainWindow(this);
            
 
         }
@@ -56,15 +66,51 @@ namespace Wingitor
             Close();
         }
 
+        public void OnLevelLoaded(XmlLevelParser parser)
+        {
+            this.menu.OnLevelLoaded(parser);
+        }
+
         private void load(object sender, EventArgs e)
         {
-           DialogResult result=  openFileDialog.ShowDialog();
+           DialogResult result = openFileDialog.ShowDialog();
+           if (result == DialogResult.OK)
+           {
+               try
+               {
+                   if (editorRenderPanel != null)
+                   {
+                       editorRenderPanel.ReloadLevel(openFileDialog.FileName);
+                   }
+                  
+               }
+               catch (Exception ex)
+               {
+                   MessageBox.Show(ex.Message, "Error while loading level");
+               }
+               
+           }
 
-          
         }
         private void save(object sender, EventArgs e)
         {
+            saveFileDialog.Filter = "WOF2 level file (*.dat)|*.dat";
+            saveFileDialog.DefaultExt = "dat";
             DialogResult result = saveFileDialog.ShowDialog();
+            if(result == DialogResult.OK)
+            {
+
+                try
+                {
+                    XmlLevelParser.SaveLevel(editorRenderPanel.CurrentLevel, saveFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error while saving level");   
+                }
+               
+                
+            }
         }
      
 
