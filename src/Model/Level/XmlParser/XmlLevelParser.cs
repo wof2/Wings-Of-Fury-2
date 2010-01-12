@@ -225,94 +225,129 @@ namespace Wof.Model.Level.XmlParser
             try
             {
                
-                File.Create(filename);
+                File.Create(filename).Close();
            
                 XmlDocument xml = new XmlDocument();
-             //   XmlNode xmlnode = xml.CreateNode(XmlNodeType.XmlDeclaration, "root", "");
                 XmlNode docNode = xml.CreateXmlDeclaration("1.0", "UTF-8", null);
                 xml.AppendChild(docNode);
 
-                XmlNode rootNode = xml.CreateElement("root");
+                XmlNode rootNode = xml.CreateElement(Nodes.Level);
 
-                XmlAttribute att = xml.CreateAttribute("dayTime");
+                XmlAttribute att = xml.CreateAttribute(Attributes.DayTime);
                 att.Value = StringValueAttribute.GetStringValue(level.LevelParser.dayTime);
                 rootNode.Attributes.Append(att);
 
-                att = xml.CreateAttribute("enemyPlanes");
+                att = xml.CreateAttribute(Attributes.EnemyPlanes);
                 att.Value = level.LevelParser.enemyPlanes.ToString();
                 rootNode.Attributes.Append(att);
 
-                att = xml.CreateAttribute("missionType");
+                att = xml.CreateAttribute(Attributes.MissionType);
                 att.Value = StringValueAttribute.GetStringValue(level.LevelParser.missionType);
                 rootNode.Attributes.Append(att);
-                 
-                att = xml.CreateAttribute("timeToFirstEnemyPlane");
+
+                att = xml.CreateAttribute(Attributes.TimeToFirstEnemyPlane);
                 att.Value = level.LevelParser.timeToFirstEnemyPlane.ToString();
                 rootNode.Attributes.Append(att);
 
-                att = xml.CreateAttribute("timeToNextEnemyPlane");
+                att = xml.CreateAttribute(Attributes.TimeToNextEnemyPlane);
                 att.Value = level.LevelParser.timeToNextEnemyPlane.ToString();
                 rootNode.Attributes.Append(att);
 
                 xml.AppendChild(rootNode);
 
+                XmlElement xmlTile = null;
                 foreach (var tile in level.LevelTiles)
                 {
+                    rootNode.AppendChild(xml.CreateWhitespace("\n"));
                     if (tile is OceanTile)
                     {
-                        XmlElement ocean = xml.CreateElement("ocean");
-
-                        att = xml.CreateAttribute("variation");
-                        att.Value = tile.Variant.ToString();
-                        ocean.Attributes.Append(att);
-                        /*
-                        att = xml.CreateAttribute("variation");
-                        att.Value = (tile as OceanTile).
-                        ocean.Attributes.Append(att);
-                        */
-                        rootNode.AppendChild(ocean);
-
-                        //  (tile as OceanTile).
+                      
+                        OceanTile oceanTile = tile as OceanTile;
+                        xmlTile = xml.CreateElement(oceanTile.GetXMLName);
+                        AppendAttribute(xml, xmlTile, Attributes.Variation, oceanTile.Variant);
+                        rootNode.AppendChild(xmlTile);
                     }
                     else if (tile is IslandTile)
                     {
+                       
+                        // island
+                        if (tile is BeginIslandTile)
+                        {
+                            BeginIslandTile t = tile as BeginIslandTile;
+                            xmlTile = xml.CreateElement(t.GetXMLName);
+                            AppendAttribute(xml, xmlTile, Attributes.Variation, t.Variant);
+                            AppendAttribute(xml, xmlTile, Attributes.Mesh, t.MeshName);
+                        }
+                        else if (tile is MiddleIslandTile || tile is EndIslandTile || tile is BarrelTile)
+                        {
+                            IslandTile t = tile as IslandTile;
+                            xmlTile = xml.CreateElement(t.GetXMLName);
+                            AppendAttribute(xml, xmlTile, Attributes.Variation, t.Variant);
+                        }
+                        else
 
+                        // instalacje
+                        if (tile is EnemyInstallationTile)
+                        {
+                            EnemyInstallationTile t = tile as EnemyInstallationTile;
+                            xmlTile = xml.CreateElement(t.GetXMLName);
+                            AppendAttribute(xml, xmlTile, Attributes.Variation, t.Variant);
+                            AppendAttribute(xml, xmlTile, Attributes.NumSoldiers, t.SoldierCount);
+                            AppendAttribute(xml, xmlTile, Attributes.Traversable, t.Traversable);
+                            AppendAttribute(xml, xmlTile, Attributes.NumGenerals, t.GeneralCount);
+                        }
+                       
                     }
                     else if (tile is AircraftCarrierTile)
                     {
-
-
+                        AircraftCarrierTile t = tile as AircraftCarrierTile;
+                        xmlTile = xml.CreateElement(t.GetXMLName);
+                        AppendAttribute(xml, xmlTile, Attributes.Variation, t.Variant);
                     }
-                }
-                
-               // rootNode.AppendChild()
+                    else if (tile is BeginShipTile)
+                    {
+                        BeginShipTile t = tile as BeginShipTile;
+                        xmlTile = xml.CreateElement(t.GetXMLName);
+                        AppendAttribute(xml, xmlTile, Attributes.Variation, t.Variant);
+                        AppendAttribute(xml, xmlTile, Attributes.Traversable, t.Traversable);
+                        AppendAttribute(xml, xmlTile, Attributes.Type, t.TypeOfEnemyShip);
+                    }
+                    else if (tile is ShipTile)
+                    {
+                        ShipTile t = tile as ShipTile;
+                        xmlTile = xml.CreateElement(t.GetXMLName);
+                        AppendAttribute(xml, xmlTile, Attributes.Variation, t.Variant);
+                        AppendAttribute(xml, xmlTile, Attributes.Traversable, t.Traversable);
+                    }
+
+                    if(xmlTile != null)
+                    {
+                        rootNode.AppendChild(xmlTile);
+                    } else
+                    {
+                        // nieznany tile
+                    }
                     
+                }
+                File.WriteAllText(filename.Replace(".dat", ".xml"), xml.InnerXml);
+
+                File.WriteAllText(filename, RijndaelSimple.Encrypt(xml.InnerXml));
                
-             //   XmlNode root = xmlDoc.DocumentElement;
-              /*  XmlElement childNode = xmlDoc.CreateElement("childNode");
-                XmlElement childNode2 = xmlDoc.CreateElement("SecondChildNode");
-                XmlText textNode = xmlDoc.CreateTextNode("hello");
-                textNode.Value = "hello, world";
-
-                root.AppendChild(childNode);
-                childNode.AppendChild(childNode2);
-                childNode2.SetAttribute("Name", "Value");
-                childNode2.AppendChild(textNode);
-
-                textNode.Value = "replacing hello world";
-                xmlDoc.Save(filename);*/
+              
             }
             catch (Exception ex)
             {
-                //WriteError(ex.ToString());
+                throw ex;
             }
 
-
-
-        
-            
-
             return true;
+        }
+
+        protected static void AppendAttribute(XmlDocument xml, XmlElement parent, string name, object value)
+        {
+            XmlAttribute att = xml.CreateAttribute(name);
+            att.Value = value.ToString();
+            parent.Attributes.Append(att);
         }
 
         /// <summary>
@@ -556,7 +591,7 @@ namespace Wof.Model.Level.XmlParser
         private bool ReadAircraftCarrierElement(XmlReader reader, String fullName)
         {
             int variation = 0;
-            int width = 0;
+            int width = 1;
             if (reader.HasAttributes)
             {
                 for (int i = 0; i < reader.AttributeCount; i++)
@@ -618,7 +653,7 @@ namespace Wof.Model.Level.XmlParser
 
         private bool ReadShipElement(XmlReader reader, String fullName)
         {
-            int width = -1;
+            int width = 1;
             int variation = 0;
             bool traversable = true;
             //domyslny typ statku
@@ -974,7 +1009,7 @@ namespace Wof.Model.Level.XmlParser
             // Check if the element has any attributes
             if (reader.HasAttributes)
             {
-                int width = 0;
+                int width = 1;
                 for (int i = 0; i < reader.AttributeCount; i++)
                 {
                     //wczytanie zmiennej Width
@@ -1003,6 +1038,7 @@ namespace Wof.Model.Level.XmlParser
                         }
                     }
                 }
+              
                 //dodanie elementow ocean do listy.
                 TilesNode tilesNode = GetTilesForID(TilesNode.GenerateID(Nodes.Ocean, variation));
                 if (tilesNode == null) return false;

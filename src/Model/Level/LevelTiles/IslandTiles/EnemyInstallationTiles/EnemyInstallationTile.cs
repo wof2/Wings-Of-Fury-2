@@ -52,6 +52,7 @@ using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Infantry;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 {
@@ -73,6 +74,9 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
     /// </summary>
     public abstract class EnemyInstallationTile : IslandTile, IDestroyable, IRefsToLevel
     {
+
+      
+
         #region Static Fields
 
         /// <summary>

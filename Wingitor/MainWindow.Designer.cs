@@ -43,7 +43,7 @@ namespace Wingitor
             this.panel2 = new System.Windows.Forms.Panel();
             this.menu = new wingitor.Menu();
             this.splitter1 = new System.Windows.Forms.Splitter();
-            this.editorRenderPanel = new EditorRenderPanel();
+            this.editorRenderPanel = new EditorRenderPanel(this);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.listBox1 = new System.Windows.Forms.ListBox();

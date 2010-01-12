@@ -17,7 +17,7 @@ using Vector3=Mogre.Vector3;
 
 namespace wingitor
 {
-    class RenderPanel : Panel, IFrameWork
+    public class RenderPanel : Panel, IFrameWork
     {
 
         public Camera Camera
@@ -189,7 +189,7 @@ namespace wingitor
             lastMousePos = mousePos;
         }
 
-        protected virtual void Destroy()
+        public virtual void Destroy()
         {
 
             FrameWorkStaticHelper.DestroyScenes(this);
@@ -203,6 +203,7 @@ namespace wingitor
                 
               //  throw;
             }
+           // this.Dispose();
            
         }
 
@@ -492,7 +493,7 @@ namespace wingitor
             Splash splash = new Splash();
             splash.Show();
             splash.SetStepsCount(10);
-            bool carryOn = false;
+            bool carryOn = true;
             string splashFormat = "{0}...";
             try
             {

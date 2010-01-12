@@ -46,7 +46,9 @@
  * 
  */
 
+using System;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.AircraftCarrierTiles
 {
@@ -69,6 +71,11 @@ namespace Wof.Model.Level.LevelTiles.AircraftCarrierTiles
         }
 
         #endregion
+
+        public override string GetXMLName
+        {
+            get { return Nodes.AircraftCarrierBegin; }
+        }
 
         public override int TileIndex
         {

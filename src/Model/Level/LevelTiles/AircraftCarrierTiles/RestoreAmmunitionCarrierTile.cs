@@ -46,7 +46,9 @@
  * 
  */
 
+using System;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.AircraftCarrierTiles
 {
@@ -66,6 +68,15 @@ namespace Wof.Model.Level.LevelTiles.AircraftCarrierTiles
         public RestoreAmmunitionCarrierTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound)
             : base(yBegin, yEnd, viewXShift, hitBound)
         {
+        }
+
+        #endregion
+
+        #region Overrides of LevelTile
+
+        public override string GetXMLName
+        {
+            get { return Nodes.AircraftCarrierRestoreAmmunition; }
         }
 
         #endregion

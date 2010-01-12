@@ -48,6 +48,7 @@
 
 using System.Collections.Generic;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles
 {
@@ -71,6 +72,11 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles
                                 List<Quadrangle> collisionRectangles, bool reflect)
             : base(yBegin, yEnd, viewXShift, hitBound, type, collisionRectangles, reflect)
         {
+        }
+
+        public override string GetXMLName
+        {
+            get { return Nodes.Terrain; }
         }
 
         #endregion

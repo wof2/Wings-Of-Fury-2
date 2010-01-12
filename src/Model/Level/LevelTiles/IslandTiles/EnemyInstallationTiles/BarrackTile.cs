@@ -46,8 +46,10 @@
  * 
  */
 
+using System;
 using System.Collections.Generic;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 {
@@ -78,6 +80,11 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         #endregion
 
         #region Public Method
+
+        public override string GetXMLName
+        {
+            get { return Nodes.Barrack; }
+        }
 
         /// <summary>
         /// Funkcja niszczy instalacje obronna.

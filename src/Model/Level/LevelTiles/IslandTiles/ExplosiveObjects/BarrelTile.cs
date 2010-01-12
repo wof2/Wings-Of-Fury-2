@@ -50,6 +50,7 @@ using System;
 using System.Diagnostics;
 using Wof.Model.Level.Common;
 using System.Collections.Generic;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects
 {
@@ -107,6 +108,11 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects
         public void Destroy()
         {
             this.mIsDestroyed = true;
+        }
+
+        public override string GetXMLName
+        {
+            get { return Nodes.Barrels; }
         }
 
       /*

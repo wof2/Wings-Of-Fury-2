@@ -51,6 +51,7 @@ using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.LevelTiles.Watercraft.ShipManagers;
 using System;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft
 {
@@ -82,6 +83,11 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         #endregion
 
         #region Properties
+
+        public override string GetXMLName
+        {
+            get { return Nodes.ShipBegin; }
+        }
 
         public override int TileIndex
         {

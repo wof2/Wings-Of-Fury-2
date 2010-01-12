@@ -49,6 +49,8 @@
 using System.Collections.Generic;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.XmlParser;
+
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 {
@@ -136,6 +138,10 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 
         #region Properties
 
+        public override string GetXMLName
+        {
+            get { return Nodes.WoodenBunker; }
+        }
         /// <summary>
         /// Pobiera lub ustawia index obiektu.
         /// </summary>
