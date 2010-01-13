@@ -45,13 +45,33 @@ namespace wingitor
             List<LevelTile> tiles = parser.Tiles;
 
             levelTiles.Items.Clear();
+            List<OceanTile> oceanTiles = new List<OceanTile>();
             foreach (LevelTile tile in tiles)
             {
-              //  if(tile is OceanTile)
-             //   {
-              //  }
-                levelTiles.Items.Add(tile.GetXMLName);
+                if(tile is OceanTile)
+                {                	
+                	oceanTiles.Add(tile as OceanTile);
+                } else
+                {
+                	if(oceanTiles.Count > 0)
+                	{
+                		levelTiles.Items.Add("Ocean - width = " + oceanTiles.Count);
+                		oceanTiles.Clear();
+                	}else
+                	{
+                		levelTiles.Items.Add(tile.GetXMLName);
+                	}
+                	
+                }
+                
             }
+            
+            // na koniec
+            if(oceanTiles.Count > 0)
+        	{
+        		levelTiles.Items.Add("Ocean - width = " + oceanTiles.Count);
+        		oceanTiles.Clear();
+        	}
 
         }
 
