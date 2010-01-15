@@ -47,10 +47,15 @@
  */
 
 using System;
+using System.IO;
+using System.Net;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
+using System.Threading;
+
 using BetaGUI;
 using Mogre;
-using System.Threading;
 using Wof.Languages;
 using FontManager = Wof.Languages.FontManager;
 
@@ -61,6 +66,7 @@ namespace Wof.Controller.Screens
         private Window guiWindow;
 
         private const float C_QUIT_AD_PROBABILITY = 0.65f;
+        private Thread newUpdatesThread;
 
         public StartScreen(GameEventListener gameEventListener,
                             IFrameWork framework, Viewport viewport, Camera camera) :
@@ -68,6 +74,9 @@ namespace Wof.Controller.Screens
         {
             this.fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie startowym
         }
+        
+        protected bool areUpdatesAvailable = false;
+        
 
         protected override void CreateGUI()
         {
@@ -118,6 +127,7 @@ namespace Wof.Controller.Screens
             buttons[7] = guiWindow.createButton(new Vector4(0, 9 * h, Viewport.ActualWidth / 2, h),
                                                            "bgui.button", LanguageResources.GetString(LanguageKey.Donate), cc, i++);
 
+            // indeks wystepuje jeszcze w metodzie checkAvailableUpdates() 
             buttons[8] = guiWindow.createButton(new Vector4(0, 10 * h, Viewport.ActualWidth / 2, h),
                                                            "bgui.button", LanguageResources.GetString(LanguageKey.CheckForUpdates), cc, i++);
 
@@ -132,11 +142,77 @@ namespace Wof.Controller.Screens
      
        
             guiWindow.show();
+            
         
+            newUpdatesThread = new Thread(checkAvailableUpdates);
+            newUpdatesThread.Start();
            
-
      
 		
+        }
+        public override void FrameStarted(FrameEvent evt)
+        {
+        	lock(this)
+        	{
+        		if(areUpdatesAvailable)
+        		{
+        			onNewUpdates();
+        			areUpdatesAvailable = false;
+        		}
+        	}
+          	
+        }
+        
+        protected void onNewUpdates() 
+        {
+        	int index = 8;
+        	
+    		BetaGUI.Button b = (buttons[index] as BetaGUI.Button);    	
+    		guiWindow.createStaticImage(new Vector4(b.x + b.w - 2* b.h, b.y, b.h, b.h), "new_updates.png");       	
+        	
+        	
+        }
+        
+      
+        
+        protected void checkAvailableUpdates()
+        {
+        	string url = EngineConfig.C_WOF_UPDATE_CHECK_PAGE + "?v="+EngineConfig.C_WOF_VERSION+"&d="+EngineConfig.C_IS_DEMO.ToString();
+        	
+
+			// For HTTP, cast the request to HttpWebRequest
+			// allowing setting more properties, e.g. User-Agent.
+			// An HTTP response can be cast to HttpWebResponse.
+			try
+			{
+				WebRequest request = WebRequest.Create (url);
+				using (WebResponse response = request.GetResponse())
+				{
+				   // Ensure that the correct encoding is used. 
+				   // Check the response for the Web server encoding.
+				   // For binary content, use a stream directly rather
+				   // than wrapping it with StreamReader.
+				 
+				   using (StreamReader reader = new StreamReader
+				      (response.GetResponseStream(), Encoding.UTF8))
+				   {
+				       string content = reader.ReadToEnd();
+				       
+				       lock(this)
+				       {
+				       		areUpdatesAvailable = "1".Equals(content);
+				       }
+				      
+				       
+				   }
+				}
+			}
+			catch(Exception ex)
+			{
+				LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Unable to connect to the \"check updates\" URL");
+			}
+			
+			
         }
 
         #region BetaGUIListener Members

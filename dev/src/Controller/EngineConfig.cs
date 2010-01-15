@@ -82,6 +82,7 @@ namespace Wof.Controller
 
         public static readonly String C_WOF_HOME_PAGE = "http://www.wingsoffury2.com";
         public static readonly String C_WOF_NEWS_PAGE = "http://www.wingsoffury2.com/news.php";
+        public static readonly String C_WOF_UPDATE_CHECK_PAGE = "http://www.wingsoffury2.com/update_chk.php";
     
 
         public static readonly bool UseLastHardwareSettings = false;
@@ -221,7 +222,7 @@ namespace Wof.Controller
         public static int DebugStartLevel = 1;
 
 
-        public static readonly int C_LOADING_DELAY = 3000;
+        public static readonly int C_LOADING_DELAY = 0; //3000;
 
         /// <summary>
         /// Bazowa wysokoœæ czcionki wyra¿ona w procentowej wysokoœci wzglêdem ekranu. Wykorzystywane przez AbstractScreen
@@ -279,7 +280,8 @@ namespace Wof.Controller
                     BodiesStay = !LowDetails;
                     
                    
-                    
+                    //Console.WriteLine(System.Threading.Thread.CurrentThread.CurrentCulture.Name);
+
                     try
                     {
                         LanguageManager.SetLanguage(configOptions[7]);
