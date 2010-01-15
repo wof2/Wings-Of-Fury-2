@@ -1362,10 +1362,14 @@ namespace Wof.Controller.Screens
                         preloaderScreen.MaterialName = preloadingMaterial.Name;
                         LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Presenting hardware preloader overlay.");
                         preloaderScreen.Show();
-                        preloadingOverlay.Show();     
+                        preloadingOverlay.Show();
+                      
                         
                     }
                 }
+            } else
+            {
+            	
             }
 
             try
@@ -1642,7 +1646,7 @@ namespace Wof.Controller.Screens
                             FreeSplashScreens();
                             SoundManager3D.Instance.UpdaterRunning = true;
                             SoundManager.Instance.LoopOceanSound();
-
+                            viewport.Target.ResetStatistics();                          
                         }
                     }
                 }

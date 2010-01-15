@@ -104,10 +104,11 @@ namespace Wof.Model.Level.LevelTiles
     {
         #region Const
 
+        
         /// <summary>
         /// Szerokosc jednego elementu.
         /// </summary>
-        public const int Width = 10;
+        public const int TileWidth = 10;
 
         #endregion
 
@@ -286,12 +287,12 @@ namespace Wof.Model.Level.LevelTiles
             set
             {
                 tilesIndex = value;
-                int positionX = value * Width;
+                int positionX = value * TileWidth;
                 if(hitBound == null)
                 {
                 	// domyslny hitbound zbudowany w oparciu o YBegin i YEnd
 	                hitBound = new Quadrangle(new PointD(positionX, 0), new PointD(positionX, YBegin),
-	                                          new PointD(positionX + Width, yEnd), new PointD(positionX + Width, 0));
+	                                          new PointD(positionX + TileWidth, yEnd), new PointD(positionX + TileWidth, 0));
                 } else
                 {
                 	// hitbound podany 'explicite'. Do tej pory w zmiennej hitBound jest prostokat o wierzcholkach ulozonych relatywnie (tak jak collision-rect) -> zamieniamy na wartosci bezwzgledne

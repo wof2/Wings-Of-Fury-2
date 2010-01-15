@@ -281,16 +281,17 @@ namespace Wof.Misc
 	            	TexturePtr texture = (TexturePtr)(i.Current);
 	            	
 	            	pass.CreateTextureUnitState(texture.Name);
+	            	pass.SetSceneBlending(SceneBlendFactor.SBF_ZERO, SceneBlendFactor.SBF_ONE);
 	            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Material will be preloaded ("+k+") - " + texture.Name);
 	            	k++; 
 	            	if(i.MoveNext())
 	            	{            		
 	            		texture = (TexturePtr)(i.Current);
-	            		pass.CreateTextureUnitState(texture.Name);
+	            		pass.CreateTextureUnitState(texture.Name);	    
 	            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Material will be preloaded ("+k+") - " + texture.Name);
 	            		k++; total ++;
 	            	}    			
-	            	pass.SetSceneBlending(SceneBlendFactor.SBF_ZERO, SceneBlendFactor.SBF_ONE);
+	            	
             	} 
             	total ++;
             	

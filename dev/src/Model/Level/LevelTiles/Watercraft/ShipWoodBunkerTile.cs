@@ -156,7 +156,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
                 //indeks obiektu na liscie
                 base.TileIndex = value;
                 //pole razenia.
-                horizon = new Quadrangle(new PointD(value * Width - GameConsts.ShipWoodenBunker.HorizonWidth / 2, 5),
+                horizon = new Quadrangle(new PointD(value * TileWidth - GameConsts.ShipWoodenBunker.HorizonWidth / 2, 5),
                                          GameConsts.ShipWoodenBunker.HorizonWidth,
                                          GameConsts.ShipWoodenBunker.HorizonHeight);
             }

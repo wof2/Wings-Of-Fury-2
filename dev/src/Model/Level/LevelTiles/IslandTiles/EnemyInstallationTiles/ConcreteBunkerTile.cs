@@ -166,7 +166,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             {
                 //indeks obiektu na liscie
                 base.TileIndex = value;
-                horizon = new Quadrangle(new PointD(value*Width - GameConsts.ConcreteBunker.HorizonWidth/2, 5),
+                horizon = new Quadrangle(new PointD(value*TileWidth - GameConsts.ConcreteBunker.HorizonWidth/2, 5),
                                          GameConsts.ConcreteBunker.HorizonWidth,
                                          GameConsts.ConcreteBunker.HorizonHeight);
             }

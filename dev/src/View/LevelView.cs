@@ -1830,9 +1830,9 @@ namespace Wof.View
           			
                 	return;
 				}
-				catch(Exception)
+				catch(Exception ex)
             	{
-            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while creating hydrax, using old style water");
+            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while creating hydrax, using old style water. " + ex.Message + " "+ ex.StackTrace);
             	}
   
             }

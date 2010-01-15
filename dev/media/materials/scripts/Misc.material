@@ -47,7 +47,7 @@ material PreloaderMaterial
             diffuse 1.0 1.0 1.0
             specular 1.0 1.0 1.0 0
             emissive 0.0 0.0 0.0
-           
+            scene_blend zero one
             texture_unit
             {
                 texture axes.png

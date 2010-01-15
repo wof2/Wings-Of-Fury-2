@@ -195,7 +195,7 @@ namespace Wof.Model.Level.Planes
             //wylosowanie pozycji
             Random r = new Random();
             int atEnd = r.Next(0, 2); //losuje 0 albo 1
-            float endPos = (level.LevelTiles.Count)*LevelTile.Width - 2.0f*width;
+            float endPos = (level.LevelTiles.Count)*LevelTile.TileWidth - 2.0f*width;
 
             float x;
 

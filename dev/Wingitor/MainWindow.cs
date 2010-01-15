@@ -30,6 +30,8 @@ namespace Wingitor
             {
                 return;
             }
+            OnLevelLoaded(editorRenderPanel.CurrentLevel.LevelParser);
+              
             renderThread = new Thread(editorRenderPanel.Go);
             renderThread.Start();
             this.menu.SetMainWindow(this);
