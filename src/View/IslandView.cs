@@ -388,7 +388,7 @@ namespace Wof.View
             palm.CastShadows = EngineConfig.ShadowsQuality > 0; 
 
             palmNode = parent.CreateChildSceneNode("PalmNode" + LevelView.PropCounter, position);
-
+          
             if (EngineConfig.LowDetails || forceLowDetails)
             {
 
@@ -397,7 +397,8 @@ namespace Wof.View
                 palmNode.Yaw(Math.HALF_PI + angle);
                 palmNode.Scale(0.5f, 1, 1);
                 palmNode.Translate(new Vector3(0, 2.5f, 0));
-                palmNode.Pitch(Math.HALF_PI);
+                palmNode.Pitch(-Math.HALF_PI);
+                //palmNode.Pitch(Math.PI);
                 Quaternion q = new Quaternion(new Radian(new Degree(20)), Vector3.UNIT_X);
                 Quaternion q2 = new Quaternion(new Radian(new Degree(-20)), Vector3.UNIT_X);
 
@@ -466,7 +467,7 @@ namespace Wof.View
                 palmNode.Yaw(Math.HALF_PI + angle);
                 palmNode.Scale(0.5f, 1, 1);
                 palmNode.Translate(new Vector3(0, 2.5f, 0));
-                palmNode.Pitch(Math.HALF_PI);
+                palmNode.Pitch(-Math.HALF_PI);
                 Quaternion q = new Quaternion(new Radian(new Degree(30)), Vector3.UNIT_X);
                 Quaternion q2 = new Quaternion(new Radian(new Degree(-30)), Vector3.UNIT_X);
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "0", EffectsManager.EffectType.PALMTOP2, position + new Vector3(0.0f, 4.0f, -0.2f), new Vector2(2.5f, 2.5f),

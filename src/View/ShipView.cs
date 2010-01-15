@@ -122,7 +122,7 @@ namespace Wof.View
         public void OnShipDamaged(ShipState state)
         {
         	
-         	float length = this.tileViews.Count * LevelTile.Width;
+         	float length = this.tileViews.Count * LevelTile.TileWidth;
          	
          	
             switch (state)

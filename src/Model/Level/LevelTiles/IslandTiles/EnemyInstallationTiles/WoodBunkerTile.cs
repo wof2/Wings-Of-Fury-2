@@ -153,7 +153,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                 //indeks obiektu na liscie
                 base.TileIndex = value;
                 //pole razenia.
-                horizon = new Quadrangle(new PointD(value*Width - GameConsts.WoodenBunker.HorizonWidth/2, 5),
+                horizon = new Quadrangle(new PointD(value*TileWidth - GameConsts.WoodenBunker.HorizonWidth/2, 5),
                                          GameConsts.WoodenBunker.HorizonWidth,
                                          GameConsts.WoodenBunker.HorizonHeight);
             }

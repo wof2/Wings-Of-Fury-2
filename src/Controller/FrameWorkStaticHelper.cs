@@ -116,6 +116,7 @@ namespace Wof.Controller
                     else
                     {
                         type = match.Groups[2].Value; // D3DMULTISAMPLE_X_SAMPLES 
+                        if(type.Length == 0) type = "0";
                         quality = "0";
                     }
 

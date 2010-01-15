@@ -154,7 +154,7 @@ namespace Wof.Model.Level.Common
         /// <author>Michal Ziober</author>
         public static int PositionToIndex(float posX)
         {
-            int index = Convert.ToInt32(Math.Floor(posX/LevelTile.Width));
+            int index = Convert.ToInt32(Math.Floor(posX/LevelTile.TileWidth));
             return index;
         }
 
@@ -167,7 +167,7 @@ namespace Wof.Model.Level.Common
         /// <author>Michal Ziober</author>
         public static float IndexToPosition(int index)
         {
-            return index*LevelTile.Width;
+            return index*LevelTile.TileWidth;
         }
 
         /// <summary>

@@ -115,7 +115,7 @@ namespace Wof.Model.Level.Carriers
             if (beginTile == null)
                 throw new Exception("Nie odnaleziono obiektu RestoreAmmunitionCarrierTile");
 
-            return new PointD(Mathematics.IndexToPosition(beginTile.TileIndex), beginTile.YBegin*LevelTile.Width);
+            return new PointD(Mathematics.IndexToPosition(beginTile.TileIndex), beginTile.YBegin*LevelTile.TileWidth);
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Wof.Model.Level.Carriers
             if (endTile == null)
                 throw new Exception("Nie odnaleziono obiektu RestoreAmmunitionCarrierTile");
 
-            return new PointD(Mathematics.IndexToPosition(endTile.TileIndex), endTile.YBegin*LevelTile.Width);
+            return new PointD(Mathematics.IndexToPosition(endTile.TileIndex), endTile.YBegin*LevelTile.TileWidth);
         }
 
         /// <summary>

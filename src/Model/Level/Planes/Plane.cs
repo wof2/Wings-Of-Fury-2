@@ -1084,7 +1084,7 @@ namespace Wof.Model.Level.Planes
                 bool rightFlag = true;
                 for (int i = 0; i < Bounds.Peaks.Count; i++)
                 {
-                    if (Carrier.GetEndPosition().X + LevelTile.Width >= Bounds.Peaks[i].X)
+                    if (Carrier.GetEndPosition().X + LevelTile.TileWidth >= Bounds.Peaks[i].X)
                     {
                         rightFlag = false;
                         break;
@@ -1107,7 +1107,7 @@ namespace Wof.Model.Level.Planes
                         return false;
 
                 for (int i = 0; i < Bounds.Peaks.Count; i++)
-                    if (Bounds.Peaks[i].X >= Carrier.GetEndPosition().X + LevelTile.Width)
+                    if (Bounds.Peaks[i].X >= Carrier.GetEndPosition().X + LevelTile.TileWidth)
                         return false;
 
                 return true;
@@ -1122,7 +1122,7 @@ namespace Wof.Model.Level.Planes
             get
             {
                 return Carrier.GetBeginPosition().X < Bounds.Center.X &&
-                       Bounds.Center.X < Carrier.GetEndPosition().X + LevelTile.Width;
+                       Bounds.Center.X < Carrier.GetEndPosition().X + LevelTile.TileWidth;
             }
         }
 
@@ -1134,7 +1134,7 @@ namespace Wof.Model.Level.Planes
             get
             {
                 return Carrier.GetBeginPosition().X < WheelsPosition.X &&
-                       WheelsPosition.X < Carrier.GetEndPosition().X + LevelTile.Width;
+                       WheelsPosition.X < Carrier.GetEndPosition().X + LevelTile.TileWidth;
             }
         }
 
@@ -1148,7 +1148,7 @@ namespace Wof.Model.Level.Planes
             {
                 return locationState == LocationState.AircraftCarrier && MovementVector.X <= 0.01f &&
                        Bounds.Center.X >= level.Carrier.GetRestoreAmunitionPosition().X &&
-                       Bounds.Center.X <= level.Carrier.GetRestoreAmunitionPosition().X + LevelTile.Width;
+                       Bounds.Center.X <= level.Carrier.GetRestoreAmunitionPosition().X + LevelTile.TileWidth;
             }
         }
 
@@ -1413,7 +1413,7 @@ namespace Wof.Model.Level.Planes
             counterStartedEngine = 0;
 
             breakingEndCarrierTile = null;
-			breakingEndPositionX = Carrier.GetRestoreAmunitionPosition().X + LevelTile.Width;
+			breakingEndPositionX = Carrier.GetRestoreAmunitionPosition().X + LevelTile.TileWidth;
             direction = info.Direction;
             movementVector = new PointD(0, 0);
             if(info.PositionType == StartPositionType.Carrier)
@@ -2189,7 +2189,7 @@ namespace Wof.Model.Level.Planes
                     level.Controller.OnUnregisterRocket(rocket);
                 }
                 if (!(crashTile is OceanTile) && !(crashTile is AircraftCarrierTile))
-                    level.KillVulnerableSoldiers(Convert.ToInt32(System.Math.Floor(Position.X/LevelTile.Width)), 2, true);
+                    level.KillVulnerableSoldiers(Convert.ToInt32(System.Math.Floor(Position.X/LevelTile.TileWidth)), 2, true);
             }
         }
 
@@ -2822,7 +2822,7 @@ namespace Wof.Model.Level.Planes
             {
                 if (direction == Direction.Left ||
                     (direction == Direction.Right && //zeby nie wybucha³ pop prawej stronie
-                     Bounds.LeftMostX >= level.Carrier.GetEndPosition().X + LevelTile.Width + 4))
+                     Bounds.LeftMostX >= level.Carrier.GetEndPosition().X + LevelTile.TileWidth + 4))
                 {
                     landingState = LandingState.None;
                     locationState = LocationState.Air;
@@ -3052,7 +3052,7 @@ namespace Wof.Model.Level.Planes
             float scaleFactor = time/timeUnit;
             float peakX = (direction == Direction.Left)
                               ? Carrier.GetBeginPosition().X
-                              : Carrier.GetEndPosition().X + LevelTile.Width;
+                              : Carrier.GetEndPosition().X + LevelTile.TileWidth;
             if (isFallingFromCarrier)
             {
                 if (isSlippingFromCarrier)

@@ -169,6 +169,7 @@ namespace wingitor
                      }
                      catch (Exception ex)
                      {
+                     	 MessageBox.Show(ex.Message + " " + ex.StackTrace ,"Error while rendering");
                          running = false;
                      }
 
