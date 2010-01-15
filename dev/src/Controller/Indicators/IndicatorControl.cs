@@ -287,8 +287,7 @@ namespace Wof.Controller.Screens
                     if (gameScreen.CurrentLevel.MissionType == MissionType.BombingRun)
                     {
                         infoElement.Caption = String.Format(@"{0} | {1} | {2}: {3} | {4}",
-                        levelName,
-                        gameScreen.LevelNo,
+                        levelName,                        
                         difficulty,
                         LanguageResources.GetString(LanguageKey.EnemySoldiersLeft),
                         gameScreen.CurrentLevel.SoldiersCount,
