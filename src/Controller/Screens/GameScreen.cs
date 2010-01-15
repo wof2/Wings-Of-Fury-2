@@ -794,9 +794,13 @@ namespace Wof.Controller.Screens
             delayedControllerFacade.ClearJobs();
             delayedControllerFacade = null;
             // test pamiêci
-            TextureManager.Singleton.UnloadAll();
+            
+            
+          /*  TextureManager.Singleton.UnloadAll();
             MaterialManager.Singleton.UnloadAll();
             MeshManager.Singleton.UnloadAll();
+           */
+           
            // CompositorManager.Singleton.RemoveAll();
            // CompositorManager.Singleton.UnloadAll();
             try
@@ -1581,6 +1585,7 @@ namespace Wof.Controller.Screens
                     {
                         isFirstFrame = true;
                         TimeSpan diff = DateTime.Now.Subtract(loadingStart);
+                        LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Level loaded in "+ (int)diff.TotalMilliseconds + "[ms]");
 
 
 
