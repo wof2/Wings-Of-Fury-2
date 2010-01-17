@@ -229,7 +229,8 @@ namespace Wof.Controller.Screens
         { 
             OverlayElement text = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText1");
             text.SetParameter("font_name", Wof.Languages.FontManager.CurrentFont);
-            ViewHelper.AlignTextAreaHorzRight(text, Viewport, 0.1f);
+            text.SetPosition(0.01f, text.Top);
+           // ViewHelper.AlignTextAreaHorzRight(text, Viewport, 0.0f);
             text.Show();
             
             OverlayElement text2 = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText2");

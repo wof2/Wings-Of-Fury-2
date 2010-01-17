@@ -607,7 +607,7 @@ namespace Wof.Controller.Screens
                 hudOverlay.Hide();
                 hudOverlay.Dispose();
             }
-            if (!EngineConfig.DisplayingMinimap) return;
+            if (!EngineConfig.DisplayMinimap) return;
 
             try
             {

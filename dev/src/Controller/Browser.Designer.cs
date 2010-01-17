@@ -34,43 +34,47 @@ namespace Wof.Controller
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.wofBrowser = new System.Windows.Forms.WebBrowser();
-			this.SuspendLayout();
-			// 
-			// wofBrowser
-			// 
-			this.wofBrowser.AllowWebBrowserDrop = false;
-			this.wofBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-									| System.Windows.Forms.AnchorStyles.Left) 
-									| System.Windows.Forms.AnchorStyles.Right)));
-			this.wofBrowser.IsWebBrowserContextMenuEnabled = false;
-			this.wofBrowser.Location = new System.Drawing.Point(0, 0);
-			this.wofBrowser.Margin = new System.Windows.Forms.Padding(0);
-			this.wofBrowser.MinimumSize = new System.Drawing.Size(20, 20);
-			this.wofBrowser.Name = "wofBrowser";
-			this.wofBrowser.ScriptErrorsSuppressed = true;
-			this.wofBrowser.Size = new System.Drawing.Size(300, 300);
-			this.wofBrowser.TabIndex = 1;
-			this.wofBrowser.TabStop = false;
-			this.wofBrowser.WebBrowserShortcutsEnabled = false;
-			this.wofBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
-			this.wofBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WofBrowserNavigated);
-			// 
-			// Browser
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(300, 300);
-			this.Controls.Add(this.wofBrowser);
-			this.DoubleBuffered = true;
-			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-			this.Name = "Browser";
-			this.ShowIcon = false;
-			this.ShowInTaskbar = false;
-			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-			this.Activated += new System.EventHandler(this.Browser_Activated);
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BrowserFormClosing);
-			this.ResumeLayout(false);
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Browser));
+            this.wofBrowser = new System.Windows.Forms.WebBrowser();
+            this.SuspendLayout();
+            // 
+            // wofBrowser
+            // 
+            this.wofBrowser.AllowWebBrowserDrop = false;
+            this.wofBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.wofBrowser.IsWebBrowserContextMenuEnabled = false;
+            this.wofBrowser.Location = new System.Drawing.Point(0, 0);
+            this.wofBrowser.Margin = new System.Windows.Forms.Padding(0);
+            this.wofBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wofBrowser.Name = "wofBrowser";
+            this.wofBrowser.ScriptErrorsSuppressed = true;
+            this.wofBrowser.ScrollBarsEnabled = false;
+            this.wofBrowser.Size = new System.Drawing.Size(300, 300);
+            this.wofBrowser.TabIndex = 1;
+            this.wofBrowser.TabStop = false;
+            this.wofBrowser.WebBrowserShortcutsEnabled = false;
+            this.wofBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
+            this.wofBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WofBrowserNavigated);
+            // 
+            // Browser
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(300, 300);
+            this.Controls.Add(this.wofBrowser);
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "Browser";
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.Activated += new System.EventHandler(this.Browser_Activated);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BrowserFormClosing);
+            this.ResumeLayout(false);
+
         }
 		private System.Windows.Forms.WebBrowser wofBrowser;
 

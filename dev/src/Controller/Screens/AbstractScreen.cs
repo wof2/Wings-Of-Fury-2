@@ -706,7 +706,7 @@ namespace Wof.Controller.Screens
             initialized = true;
         }
       
-        public void CleanUp(Boolean justMenu)
+        public virtual void CleanUp(Boolean justMenu)
         {
             if (mGui != null)
             {
