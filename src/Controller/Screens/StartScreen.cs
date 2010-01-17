@@ -65,8 +65,14 @@ namespace Wof.Controller.Screens
     {
         private Window guiWindow;
 
+        private GUI updatesGUI;
+        private Window updatesGUIWindow;
+
+
         private const float C_QUIT_AD_PROBABILITY = 0.65f;
         private Thread newUpdatesThread;
+
+        private static bool updatesChecked = false;
 
         public StartScreen(GameEventListener gameEventListener,
                             IFrameWork framework, Viewport viewport, Camera camera) :
@@ -76,7 +82,28 @@ namespace Wof.Controller.Screens
         }
         
         protected bool areUpdatesAvailable = false;
-        
+        public override void CleanUp(Boolean justMenu)
+        {
+            base.CleanUp(justMenu);
+          
+
+            if (newUpdatesThread != null)
+            {
+
+                try
+                {
+                    newUpdatesThread.Abort();
+                }
+                catch (Exception)
+                {
+                }
+            }
+
+            if (updatesGUI != null)
+            {
+                updatesGUI.killGUI();
+            }
+        }
 
         protected override void CreateGUI()
         {
@@ -142,10 +169,13 @@ namespace Wof.Controller.Screens
      
        
             guiWindow.show();
-            
-        
-            newUpdatesThread = new Thread(checkAvailableUpdates);
-            newUpdatesThread.Start();
+            //onNewUpdates();
+            if (!updatesChecked)
+            {
+                newUpdatesThread = new Thread(checkAvailableUpdates);
+                newUpdatesThread.Start(); 
+            }
+           
            
      
 		
@@ -162,15 +192,18 @@ namespace Wof.Controller.Screens
         	}
           	
         }
-        
+
+      
         protected void onNewUpdates() 
         {
         	int index = 8;
-        	
-    		BetaGUI.Button b = (buttons[index] as BetaGUI.Button);    	
-    		guiWindow.createStaticImage(new Vector4(b.x + b.w - 2* b.h, b.y, b.h, b.h), "new_updates.png");       	
-        	
-        	
+            updatesGUI = new GUI(FontManager.CurrentFont, fontSize);
+            updatesGUI.SetZOrder(500);
+            updatesGUIWindow = mGui.createWindow(new Vector4(guiWindow.x, guiWindow.y, guiWindow.w, guiWindow.h), String.Empty, (int)wt.NONE, String.Empty);
+
+    		BetaGUI.Button b = (buttons[index] as BetaGUI.Button);
+            updatesGUIWindow.createStaticImage(new Vector4(b.x + b.w - 2 * b.h, b.y, b.h, b.h), "new_updates.png", 100);
+            
         }
         
       
@@ -197,7 +230,7 @@ namespace Wof.Controller.Screens
 				      (response.GetResponseStream(), Encoding.UTF8))
 				   {
 				       string content = reader.ReadToEnd();
-				       
+				       updatesChecked = true;
 				       lock(this)
 				       {
 				       		areUpdatesAvailable = "1".Equals(content);

@@ -347,8 +347,35 @@ namespace Wof.Misc
 
         public static Vector2 GetTextDimensions(String text, Font font, Viewport viewport)
         {
-            
+
+            TexturePtr fontTexture = (TexturePtr)TextureManager.Singleton.GetByName(font.GetMaterial().GetTechnique(0).GetPass(0).GetTextureUnitState(0).TextureName);
 	        float charHeight = Mogre.StringConverter.ParseReal(font.GetParameter("size"));
+
+
+            Box[] GlyphTexCoords = new Box[text.Length];
+            FloatRect glypheTexRect;
+            uint charheight = 0;
+            uint charwidth = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                if ((text[i] != '\t') && (text[i] != '\n') && (text[i] != ' '))
+                {
+                    glypheTexRect = font.GetGlyphTexCoords(text[i]);
+                    GlyphTexCoords[i].left = (uint)(glypheTexRect.left * fontTexture.SrcWidth);
+                    GlyphTexCoords[i].top = (uint)(glypheTexRect.top * fontTexture.SrcHeight);
+                    GlyphTexCoords[i].right = (uint)(glypheTexRect.right * fontTexture.SrcWidth);
+                    GlyphTexCoords[i].bottom = (uint)(glypheTexRect.bottom * fontTexture.SrcHeight);
+
+                    if (GlyphTexCoords[i].Height > charheight)
+                        charheight = GlyphTexCoords[i].Height;
+                    if (GlyphTexCoords[i].Width > charwidth)
+                        charwidth = GlyphTexCoords[i].Width;
+
+                }
+            }
+         //   charwidth = charheight / 3;
+
+
 
 	        Vector2 result = new Vector2(0, 0);
 
@@ -360,7 +387,7 @@ namespace Wof.Misc
 			        result.x += font.GetGlyphAspectRatio(text[i]);
 	        }
 
-            result.x = (result.x*charHeight)/(float) viewport.ActualWidth;
+            result.x = (result.x * charwidth) / (float)viewport.ActualWidth;
             result.y = charHeight / (float)viewport.ActualHeight;
 
 	        return result;

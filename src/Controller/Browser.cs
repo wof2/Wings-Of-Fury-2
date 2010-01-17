@@ -81,14 +81,16 @@ namespace Wof.Controller
 		}		
 		
 	    private Form gameForm;
-		
+
+	 
 		public Browser(Form gameForm, AbstractScreen currentScreen)
 		{
+		 
 
             Vector2 m = currentScreen.GetMargin();
 
             origin = currentScreen.ViewportToScreen(new Vector2(m.x + currentScreen.Viewport.ActualWidth * 0.51f, (int)(m.y)));
-            dimensions = currentScreen.ViewportToScreen(new Vector2(currentScreen.Viewport.ActualWidth * 0.48f, (int)currentScreen.Viewport.ActualHeight - m.y - currentScreen.GetTextVSpacing()));
+            dimensions = currentScreen.ViewportToScreen(new Vector2(currentScreen.Viewport.ActualWidth * 0.47f, (int)currentScreen.Viewport.ActualHeight - m.y - currentScreen.GetTextVSpacing()));
 
 
             this.gameForm = gameForm;			
@@ -108,9 +110,18 @@ namespace Wof.Controller
             }
         }
 
-        public void SetPosition()
+        public void SetParentOrigin(Vector2 newPos, AbstractScreen currentScreen)
+	    {
+            if (currentScreen == null || currentScreen.Viewport == null) return;
+            Vector2 m = currentScreen.GetMargin();
+	        origin = currentScreen.ViewportToScreen(new Vector2(m.x + currentScreen.Viewport.ActualWidth * 0.51f, (int)(m.y)));
+	        origin += newPos;
+	        SetPosition();
+	    }
+
+	    public void SetPosition()
         {
-          
+            
             SetBounds((int)(origin.x), (int)(origin.y), (int)dimensions.x, (int)dimensions.y);
         }
 

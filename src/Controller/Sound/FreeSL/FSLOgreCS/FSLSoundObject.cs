@@ -105,6 +105,7 @@ namespace FSLOgreCS
 
         public virtual void Play()
         {
+            if(EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
             // dzwieki powinny miec ustawiona lokalna glosnosc (niezalezna od muzyki) przed rozpoczeciem pierwszego odtworzenia
             SetGain(GetBaseGain() * EngineConfig.SoundVolume / 100.0f);
             FreeSL.fslSoundPlay(_sound);
@@ -115,6 +116,7 @@ namespace FSLOgreCS
 
         public void Stop()
         {
+            if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
             _shouldBePlaying = false;
             FreeSL.fslSoundStop(_sound);
             _playing = false;
@@ -122,6 +124,7 @@ namespace FSLOgreCS
 
         public bool IsPlaying()
         {
+            if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return false;
             //return FreeSL.fslSoundIsPlaying(_sound);
 
             // uwagi na bugi w streamingu w FreeSL trzeba zrobic workaround...
@@ -143,17 +146,19 @@ namespace FSLOgreCS
 
         public void Pause()
         {
-           
+            if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
             FreeSL.fslSoundPause(_sound);
         }
 
         public bool IsPaused()
         {
+            if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return false;
             return FreeSL.fslSoundIsPaused(_sound);
         }
 
         public void LoopSound(bool loop)
         {
+            if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
             FreeSL.fslSoundSetLooping(_sound, loop);
         }
         /*
@@ -169,12 +174,14 @@ namespace FSLOgreCS
         }
         public void SetBaseGain(float baseGain)
         {
+           
             this._baseGain = baseGain;
             SetGain(baseGain * EngineConfig.SoundVolume / 100.0f);
         }
 
         private void SetGain(float gain)
         {
+            if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
             FreeSL.fslSoundSetGain(_sound, gain);
         }
 
@@ -185,6 +192,7 @@ namespace FSLOgreCS
 
         public virtual void Update()
         {
+            if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
         	if(_streaming)
         	{
         		if(_loop && _shouldBePlaying && !IsPlaying())

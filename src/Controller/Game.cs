@@ -146,18 +146,36 @@ namespace Wof.Controller
            currentScreen.DisplayGUI(false);
         }
 
+        public Game() : base()
+        {
+            this.BackColor = Color.Black;
+            this.Icon = Wof.Properties.Resources.WofIcon;
+        }
 
         protected override void WireEventListeners()
         {
 
             base.WireEventListeners();
+            this.Move += new EventHandler(Game_Move);
             this.Activated += new EventHandler(Game_Activated);
             this.Deactivate += new EventHandler(Game_Deactivate);
             this.Closing += new System.ComponentModel.CancelEventHandler(Game_Closing);
 
         }
 
-       
+        protected virtual void Game_Move(object sender, EventArgs e)
+        {
+           
+            if(browser != null)
+            {
+                int BorderWidth = (this.Width - this.ClientSize.Width) /2;
+                int TitlebarHeight = this.Height - this.ClientSize.Height - 2 * BorderWidth;
+                BorderWidth = 0;
+
+                browser.SetParentOrigin(new Vector2(Location.X + BorderWidth, Location.Y + TitlebarHeight), currentScreen as AbstractScreen);
+            }
+           
+        }
 
         void Game_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -323,7 +341,8 @@ namespace Wof.Controller
         	}
         	catch(Exception ex)
         	{
-        		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error while opening firewall for WOF: "+ ex.Message);
+                // jeszcze nie jest stworzony singleton
+        		//LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error while opening firewall for WOF: "+ ex.Message);
         	}
         	
         	
@@ -464,6 +483,7 @@ namespace Wof.Controller
             try
             {
                 game = new Game();
+               
 
                 // jesli przeprowadzono test wydajnosci, przekaz go dalej
                 if (performanceTest != null && performanceTest.HasResults)

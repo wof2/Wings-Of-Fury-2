@@ -17,6 +17,7 @@ namespace Wof.Controller
         public const String C_VSYNC = "VSync";
         public const String C_ANTIALIASING = "Anti aliasing";
         public const String C_USE_NV_PERFHUD = "Allow NVPerfHUD";
+        public const String C_FULLSCREEN = "Full Screen";
         
         public static void ShowOgreException()
         {
@@ -93,6 +94,25 @@ namespace Wof.Controller
             }
             return 0;
             
+        }
+
+        public static bool GetCurrentFullscreen()
+        {
+            ConfigOptionMap map = Root.Singleton.RenderSystem.GetConfigOptions();
+
+            foreach (KeyValuePair<string, Mogre.ConfigOption_NativePtr> s in map)
+            {
+                if (s.Key.Equals(C_FULLSCREEN))
+                {
+                    string str = s.Value.currentValue;
+                    bool ret = str.Equals("Yes") ? true : false;
+                    return ret;
+                }
+
+
+            }
+            return false;
+
         }
 
         public static int[] GetCurrentFSAA()

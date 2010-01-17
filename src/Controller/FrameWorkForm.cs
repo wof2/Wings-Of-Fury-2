@@ -206,6 +206,9 @@ namespace Wof.Controller
             if (!Setup())
                 return;
 
+
+            // po wczytaniu poziomu odswiezmy polozenie okna
+            this.OnMove(new EventArgs());
           
 
             modelWorker.WorkerSupportsCancellation = true;
@@ -508,11 +511,21 @@ namespace Wof.Controller
 				
 				if(hwnd !=0)
 				{
-		            IntPtr ptr = new IntPtr(hwnd);
-		            this.WindowState = FormWindowState.Maximized;
-                
-
-		            User32.SetWinFullScreen(ptr);
+                    if(FrameWorkStaticHelper.GetCurrentFullscreen())
+                    {
+                        IntPtr ptr = new IntPtr(hwnd);
+                        this.WindowState = FormWindowState.Maximized;
+                        User32.SetWinFullScreen(ptr);
+                        
+                    }
+                    else
+                    {
+                        this.WindowState = FormWindowState.Normal;
+                        this.FormBorderStyle = FormBorderStyle.FixedSingle;
+                        this.Left = 0;
+                        this.Top = 0;
+                    }
+		           
 		            
 		            /*const int GWL_EXSTYLE = -20;
 		            const int GWL_STYLE = -16;
@@ -752,6 +765,7 @@ namespace Wof.Controller
 
         protected virtual void WireEventListeners()
         {
+           
             modelWorker.DoWork += LoopModelWorker;
             root.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
             root.FrameEnded += FrameEnded;
@@ -760,6 +774,8 @@ namespace Wof.Controller
             SoundManager3D.Instance.CreateFrameListener(root);
 
         }
+
+      
        
 
         private void RenderSystem_EventOccurred(string eventName, Const_NameValuePairList parameters)
@@ -842,6 +858,9 @@ namespace Wof.Controller
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
                         translateVector.x = -3*moveScale;
                     else
+                    if (inputKeyboard.IsKeyDown(KeyCode.KC_LCONTROL))
+                        translateVector.x = -0.5f * moveScale;
+                    else
                         translateVector.x = -moveScale;
                 }
 
@@ -849,6 +868,8 @@ namespace Wof.Controller
                 {
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
                         translateVector.x = 3*moveScale;
+                    if (inputKeyboard.IsKeyDown(KeyCode.KC_LCONTROL))
+                        translateVector.x = 0.5f * moveScale;
                     else
                         translateVector.x = moveScale;
                 }
@@ -858,19 +879,32 @@ namespace Wof.Controller
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
                         translateVector.z = - 3*moveScale;
                     else
+                    if (inputKeyboard.IsKeyDown(KeyCode.KC_LCONTROL))
+                        translateVector.z = -0.5f * moveScale;
+                    else
                         translateVector.z = - moveScale;
                 }
+
+              
 
                 if (inputKeyboard.IsKeyDown(KeyCode.KC_S))
                 {
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_LSHIFT))
                         translateVector.z = 3*moveScale;
+                    if (inputKeyboard.IsKeyDown(KeyCode.KC_LCONTROL))
+                        translateVector.z = 0.5f * moveScale;
                     else
                         translateVector.z = moveScale;
                 }
 
                 Degree cameraYaw = -mouseState.X.rel*.13f;
                 Degree cameraPitch = -mouseState.Y.rel*.13f;
+
+                if (inputKeyboard.IsKeyDown(KeyCode.KC_LCONTROL))
+                {
+                    cameraYaw *= 0.5f;
+                    cameraPitch *= 0.5f;
+                }
 
                 camera.Yaw(cameraYaw);
                 camera.Pitch(cameraPitch);
@@ -1506,17 +1540,6 @@ namespace Wof.Controller
             }
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // FrameWorkForm
-            // 
-            this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Name = "FrameWorkForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.ResumeLayout(false);
-
-        }
+        
     }
 }
