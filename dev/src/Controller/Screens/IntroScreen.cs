@@ -69,6 +69,7 @@ namespace Wof.Controller.Screens
     {
        
 
+    	public const float C_INTRO_AD_PROBABILITY = 0.5f;
         public const String C_TEXTURE_NAME = "IntroScreen";
         private readonly Overlay overlay;
 
@@ -76,6 +77,8 @@ namespace Wof.Controller.Screens
         private int maxScreens;
         private DateTime lastChange;
         private EffectTextureAnimation animation;
+        
+        private bool wasInitialized = false;
 
         /// <summary>
         /// Czas animacji (w sek) zwi¹zanych z poszczególnymi screenami
@@ -172,14 +175,25 @@ namespace Wof.Controller.Screens
         public override void FrameStarted(FrameEvent evt)
         {
             base.FrameStarted(evt);
-
             AdManager.Singleton.Work();
-            // jeœli screen jest wystarczaj¹co d³ugo na ekranie - przewijamy
-            TimeSpan diff = DateTime.Now.Subtract(lastChange);
-            if (diff.TotalSeconds > screenTimes[currentButton])
+            
+            if(!wasInitialized)
             {
-                NextScreen();
+            	wasInitialized = true;
+            	NextScreen();
+            
+            }else
+            {
+            	// jeœli screen jest wystarczaj¹co d³ugo na ekranie - przewijamy
+	            TimeSpan diff = DateTime.Now.Subtract(lastChange);
+	            if (diff.TotalSeconds > screenTimes[currentButton])
+	            {
+	                NextScreen();
+	            }
+            	
             }
+            
+           
           
           
 
@@ -194,13 +208,13 @@ namespace Wof.Controller.Screens
 
         protected override void CreateGUI()
         {
-            if (!initScreen(currentScreen))
+           /* if (!initScreen(currentScreen))
             {
                 // nie udalo sie?
                 NextScreen();
             }
            
-            overlay.Show();
+            overlay.Show();*/
         }
 
 
@@ -225,38 +239,21 @@ namespace Wof.Controller.Screens
         	*/
         }
         
-        private void showAdText() 
-        { 
-            OverlayElement text = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText1");
-            text.SetParameter("font_name", Wof.Languages.FontManager.CurrentFont);
-            text.SetPosition(0.01f, text.Top);
-           // ViewHelper.AlignTextAreaHorzRight(text, Viewport, 0.0f);
-            text.Show();
-            
-            OverlayElement text2 = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText2");
-            text2.SetParameter("font_name", Languages.FontManager.CurrentFont);
-            ViewHelper.AlignTextAreaHorzCenter(text2, Viewport);  
-            text2.Show();
-        	
-        }
-        
-        private void hideAdText() 
-        {
-        	OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText1").Hide();
-        	OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText2").Hide();
-        	
-        }
+      
         	
         private bool initScreen(int i)
-        {
-            
+        {            
             MaterialPtr overlayMaterial = null;
             TextureUnitState unit;
             animation = null;
             currentMaterialName = null;
             if (isScreenAnAd[i - 1]) // poczatkowo i = 1
             {
-            	showAdText();
+            	if(Mogre.Math.RangeRandom(0, 1) < (1 - C_INTRO_AD_PROBABILITY))
+            	{
+            		return false;            		
+            	}
+            	showAdText(viewport);
 	            	
             	//if(adIds.Count == 0) return false;
             	AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_ZONE, 1.0f, out currentAd);

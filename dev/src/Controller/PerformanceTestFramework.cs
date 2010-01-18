@@ -5,9 +5,11 @@ interfejsów użytkownika.
 using System;
 using System.Collections;
 using System.Collections.Generic;
+
 using Mogre;
+using System.Windows.Forms;
 using Wof.Languages;
-using Math=Mogre.Math;
+using Math = Mogre.Math;
 
 namespace Wof.Controller
 {
@@ -73,9 +75,15 @@ namespace Wof.Controller
             bool hiEndVS = root.RenderSystem.Capabilities.IsShaderProfileSupported("vs_3_0");
            
             List<String> videoOptions= FrameWorkStaticHelper.GetVideoModes(true, 800, 600);
-            int maxVO = videoOptions.Count - 1;
-
-
+            
+            
+            if(videoOptions.Count == 0)
+            {
+            	videoOptions.Add("800 x 600 @ 32-bit colour");
+            	MessageBox.Show("Your system is incapable of displaying 800x600 or better resolution. Trying to force 800x600","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+			int maxVO = videoOptions.Count - 1;
+           
             List<String> aaOptions = FrameWorkStaticHelper.GetAntialiasingModes();
             int maxAA = aaOptions.Count - 1;
             

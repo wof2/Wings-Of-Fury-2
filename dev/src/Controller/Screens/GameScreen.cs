@@ -92,7 +92,7 @@ namespace Wof.Controller.Screens
     {
         private const float C_LOADING_AD_PROBABILITY = 0.8f;
         private const float C_CHANGING_AMMO_AD_PROBABILITY = 0.65f;
-        private const float C_CHANGING_AMMO_AD_MIN_TIME = 2.3f;
+        private const float C_CHANGING_AMMO_AD_MIN_TIME = 2.1f;
         private float changingAmmoTime = 0;
         private bool showingChangingAmmoAds = false;
 
@@ -207,7 +207,12 @@ namespace Wof.Controller.Screens
         	return new Vector2(screen.x / XScale, screen.y / YScale);
          	
         }
-
+        
+ 		private bool displayed = false;
+        public bool Displayed()
+        {
+        	return displayed;
+        }
         // Obiekty kontroli GUI
         private GUI mGui;
 
@@ -611,7 +616,7 @@ namespace Wof.Controller.Screens
 
         public void DisplayGUI(Boolean justMenu)
         {
-
+			displayed = true;
             LogManager.Singleton.LogMessage("About to load model...", LogMessageLevel.LML_CRITICAL);
             
             delayedControllerFacade = new DelayedControllerFacade(this);

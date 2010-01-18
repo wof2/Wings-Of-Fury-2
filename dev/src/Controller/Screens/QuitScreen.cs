@@ -210,6 +210,7 @@ namespace Wof.Controller.Screens
                     overlayMaterial = MaterialManager.Singleton.GetByName(currentMaterialName);
                     overlayMaterial.Load();
                     unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
+                    showAdText(viewport);
 
                     unit.SetTextureName(path);
                     AdManager.Singleton.RegisterImpression(currentAd);
@@ -221,12 +222,13 @@ namespace Wof.Controller.Screens
                 }
                 else
                 {
+                	hideAdText();
                     return false;
                 }
             }
             else
             {
-                   
+                    hideAdText();
             }
 
           
@@ -290,6 +292,7 @@ namespace Wof.Controller.Screens
 
             if (currentScreen > maxScreens)
             {
+            	hideAdText();
                 ExitGame();
                 return;
             }
