@@ -593,10 +593,10 @@ namespace Wof.Controller
         public virtual void ChooseSceneManager()
         {
             // Get the SceneManager, in this case a generic one
-            sceneMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "SceneMgr");
+            if(sceneMgr == null) sceneMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "SceneMgr");
 
-            minimapMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "MinimapMgr");
-            overlayMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "OverlayMgr");
+            if (minimapMgr == null) minimapMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "MinimapMgr");
+            if (overlayMgr == null) overlayMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "OverlayMgr");
 
            
         }

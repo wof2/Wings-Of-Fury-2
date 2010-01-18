@@ -343,43 +343,52 @@ namespace Wof.Controller
             {
                 if (framework.SceneMgr != null)
                 {
+                    framework.SceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_NONE;
                     framework.SceneMgr.DestroyAllBillboardSets();
                     framework.SceneMgr.DestroyAllEntities();
                     framework.SceneMgr.DestroyAllManualObjects();
                     framework.SceneMgr.DestroyAllInstancedGeometry();
                     framework.SceneMgr.DestroyAllMovableObjects();
+                    framework.SceneMgr.DestroyAllLights();
                     framework.SceneMgr.ClearScene();
-                    // sceneMgr.DestroyAllCameras();
-                    framework.SceneMgr.Dispose();
-                    Root.Singleton.DestroySceneManager(framework.SceneMgr);
-                    framework.SceneMgr = null;
+
+                    framework.SceneMgr.DestroyAllCameras();
+               
+                   // framework.SceneMgr.Dispose();
+                  //  Root.Singleton.DestroySceneManager(framework.SceneMgr);
+                  //  framework.SceneMgr = null;
                 }
                 if (framework.MinimapMgr != null)
                 {
                     framework.MinimapMgr.DestroyAllCameras();
                     framework.MinimapMgr.DestroyAllEntities();
-                    framework.MinimapMgr.DestroyAllEntities();
+                    framework.MinimapMgr.DestroyAllLights();
                     framework.MinimapMgr.ClearScene();
-                    Root.Singleton.DestroySceneManager(framework.MinimapMgr);
-                    framework.MinimapMgr = null;
+                  //  Root.Singleton.DestroySceneManager(framework.MinimapMgr);
+                  //  framework.MinimapMgr = null;
                 }
 
                 if (framework.OverlayMgr != null)
                 {
                     framework.OverlayMgr.DestroyAllCameras();
+                    framework.OverlayMgr.DestroyAllLights();
                     framework.OverlayMgr.ClearScene();
-                    Root.Singleton.DestroySceneManager(framework.OverlayMgr);
-                    framework.OverlayMgr = null;
+                 //   Root.Singleton.DestroySceneManager(framework.OverlayMgr);
+                 //   framework.OverlayMgr = null;
                 }
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
+               
             }
             catch (Exception)
             {
                 
               
             }
-           
+
+            /*
+            TextureManager.Singleton.UnloadUnreferencedResources();
+            MaterialManager.Singleton.UnloadUnreferencedResources();
+            MeshManager.Singleton.UnloadUnreferencedResources();
+           */
         }
     }
 }
