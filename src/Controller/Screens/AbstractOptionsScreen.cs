@@ -219,6 +219,10 @@ namespace Wof.Controller.Screens
 
             Vector2 m = GetMargin();
             int h = (int)GetTextVSpacing();
+
+
+            if (guiWindow != null) mGui.killWindow(guiWindow);
+
             guiWindow = mGui.createWindow(new Vector4(m.x,
                                                       m.y, Viewport.ActualWidth / 2,
                                                       Viewport.ActualHeight - m.y - h),

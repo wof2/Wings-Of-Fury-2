@@ -45,87 +45,6 @@ fragment_program GLSL/OceanFS glsl
 	}
 }
 
-material OceanHLSL_GLSL
-{
-
-	
-
-	technique
-	{
-		pass
-		{
-			vertex_program_ref HLSL/OceanVS
-			{
-				param_named waveSpeed float2 0.0 0.168
-				param_named noiseSpeed float 0.155
-			}
-
-			fragment_program_ref HLSL/OceanFS
-			{
-				param_named fadeBias float 0.336
-				param_named fadeExp float 5.546
-				param_named waterColor float4 0.0 0.244 0.395 1.0
-			}
-
-			texture_unit
-			{
-				texture NoiseVolume.dds 3d
-				tex_coord_set 0
-				filtering linear linear none
-			}
-
-			texture_unit
-			{
-				cubic_texture morning.jpg combinedUVW
-				tex_address_mode clamp
-				tex_coord_set 1
-			}
-
-		}
-
-	}
-
-	technique
-	{
-		pass
-		{
-			vertex_program_ref GLSL/OceanVS
-			{
-				param_named waveSpeed float2 0.0 0.168
-				param_named noiseSpeed float 0.155
-			}
-
-			fragment_program_ref GLSL/OceanFS
-			{
-				param_named fadeBias float 0.336
-				param_named fadeExp float 5.546
-				param_named waterColor float4 0.0 0.244 0.395 1.0
-			}
-
-			texture_unit
-			{
-				texture NoiseVolume.dds 3d
-				tex_coord_set 0
-				filtering linear linear none
-				tex_address_mode wrap
-			}
-
-			texture_unit
-			{
-				cubic_texture morning.jpg combinedUVW
-				tex_address_mode clamp
-				tex_coord_set 1
-			}
-
-		}
-
-	}
-
-
-	
-
-
-}
 
 
 vertex_program Cg/OceanVS cg
@@ -151,45 +70,6 @@ fragment_program Cg/OceanFS cg
 	profiles ps_2_0 arbfp1
 
 }
-
-material OceanCg
-{
-	technique
-	{
-		pass
-		{
-			vertex_program_ref Cg/OceanVS
-			{
-				param_named waveSpeed float2 0.0 0.168
-				param_named noiseSpeed float 0.155
-			}
-
-			fragment_program_ref Cg/OceanFS
-			{
-				param_named fadeBias float 0.336
-				param_named fadeExp float 5.546
-				param_named waterColor float4 0.0 0.244 0.395 1.0
-			}
-
-			texture_unit
-			{
-				texture NoiseVolume.dds 3d
-				tex_coord_set 0
-				filtering linear linear none
-			}
-
-			texture_unit
-			{
-				cubic_texture morning.jpg combinedUVW
-				tex_address_mode clamp
-				tex_coord_set 1
-			}
-
-		}
-
-	}
-}
-
 
 vertex_program Cg/Ocean2VS cg
 {

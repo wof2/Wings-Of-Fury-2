@@ -69,7 +69,7 @@ namespace Wof.Controller.Screens
     {
        
 
-    	public const float C_INTRO_AD_PROBABILITY = 0.5f;
+    	public const float C_INTRO_AD_PROBABILITY = 1.0f;
         public const String C_TEXTURE_NAME = "IntroScreen";
         private readonly Overlay overlay;
 
@@ -130,7 +130,7 @@ namespace Wof.Controller.Screens
                                   base(gameEventListener, framework, viewport, camera)
         {
 
-            currentScreen = 1;
+            currentScreen = 0;
           //  textureDimensions = new Pair<uint, uint>(1280,1024); // default
 
             overlay = OverlayManager.Singleton.GetByName("Wof/Intro");

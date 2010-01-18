@@ -371,7 +371,21 @@ namespace Wof.Controller.AdAction
         
         public void CloseAd(Ad ad)
         {
-        	if(ads.Contains(ad)) ads.Remove(ad);
+        	if(ads.Contains(ad))
+        	{
+        	    ads.Remove(ad);
+        	}
+            string path = ad.path;
+            try
+            {
+                TextureManager.Singleton.Unload(path);
+                TextureManager.Singleton.Remove(path);
+
+            }
+            catch (Exception)
+            {
+            }
+
             adAction.Close_Ad(ad.id);
         }
     }

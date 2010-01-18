@@ -98,6 +98,8 @@ namespace Wof.View.Effects
 
        
         private bool isLoaded = false;
+        private bool isEffectsPreloaded = false;
+
         private Hashtable smokeSystems; // <ParticleSystem> -> <node>
 
         private static readonly EffectsManager singleton = new EffectsManager();
@@ -201,7 +203,7 @@ namespace Wof.View.Effects
                 darkLightSmokeMgr = new ParticleManager("DarkLightSmokeSystem", "Smokes/DarkLightSmoke");
 
                 BuildMaterials();
-                PreloadEffects();
+                //PreloadEffects();
                 isLoaded = true;
             }
         }
@@ -251,41 +253,50 @@ namespace Wof.View.Effects
 
         public void PreloadEffects2(SceneManager sceneMgr)
         {
-            IEnumerator i = Enum.GetNames(typeof (EffectType)).GetEnumerator();
-            String matName, spriteName;
-            while (i.MoveNext())
+            if(!isEffectsPreloaded)
             {
-                spriteName = (i.Current as String);
-                EffectType et = (EffectType) Enum.Parse(typeof (EffectType), spriteName);
-                matName = GetEffectInfo(et).material;
-                MaterialManager.Singleton.GetByName(matName).Load();
-                Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, new Vector3(0, 0, 0), new Vector2(0.5f, 0.5f), et,
-                                 false, "0");
+                isEffectsPreloaded = true;
+                IEnumerator i = Enum.GetNames(typeof(EffectType)).GetEnumerator();
+                String matName, spriteName;
+                while (i.MoveNext())
+                {
+                    spriteName = (i.Current as String);
+                    EffectType et = (EffectType)Enum.Parse(typeof(EffectType), spriteName);
+                    matName = GetEffectInfo(et).material;
+                    MaterialManager.Singleton.GetByName(matName).Load();
+                    Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, new Vector3(0, 0, 0), new Vector2(0.5f, 0.5f), et,
+                                     false, "0");
+                }
             }
+           
         }
 
-        private static void PreloadEffects()
+        public void PreloadEffects()
         {
-            IEnumerator i = Enum.GetNames(typeof (EffectType)).GetEnumerator();
-            String matName, spriteName, imgPath;
-            TextureUnitState state;
-            while (i.MoveNext())
+            if (!isEffectsPreloaded)
             {
-                spriteName = (i.Current as String);
-                matName = GetEffectInfo((EffectType) Enum.Parse(typeof (EffectType), spriteName)).material;
-                MaterialPtr m = MaterialManager.Singleton.GetByName(matName);
-                m.Load();
-                m.Touch();
-                state = m.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
-                for (uint j = 0; j < state.NumFrames; j++)
+                isEffectsPreloaded = true;
+                IEnumerator i = Enum.GetNames(typeof (EffectType)).GetEnumerator();
+                String matName, spriteName, imgPath;
+                TextureUnitState state;
+                while (i.MoveNext())
                 {
-                    imgPath = state.GetFrameTextureName(j);
-                    TexturePtr tex = TextureManager.Singleton.Load(imgPath, "General");
-                    tex.Load();
-                    tex.Touch();
-                    tex = null;
+                    spriteName = (i.Current as String);
+                    matName = GetEffectInfo((EffectType) Enum.Parse(typeof (EffectType), spriteName)).material;
+                    MaterialPtr m = MaterialManager.Singleton.GetByName(matName);
+                    m.Load();
+                    m.Touch();
+                    state = m.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
+                    for (uint j = 0; j < state.NumFrames; j++)
+                    {
+                        imgPath = state.GetFrameTextureName(j);
+                        TexturePtr tex = TextureManager.Singleton.Load(imgPath, "General");
+                        tex.Load();
+                        tex.Touch();
+                        tex = null;
+                    }
+                    m = null;
                 }
-                m = null;
             }
 
             //  ResourceGroupManager.Singleton.LoadResourceGroup("General", true, false);

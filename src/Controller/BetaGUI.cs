@@ -689,9 +689,18 @@ namespace BetaGUI
 	             	OverlayManager.Singleton.DestroyOverlayElement(mI[i]);
 	             	
 	            }
-	          //  mO.Hide();
-	          //  mO.Dispose();
-	          //  mO = null;
+                foreach (OverlayContainer container in mO.GetChildContainerIterator())
+                {
+                     foreach (OverlayElement element in container.GetChildIterator())
+                     {
+                         OverlayManager.Singleton.DestroyOverlayElement(element);
+                     }
+                        
+                    
+                }
+	            mO.Hide();
+	            mO.Dispose();
+	            mO = null;
             }
             catch(Exception)
             {
