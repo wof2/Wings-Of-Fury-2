@@ -1138,8 +1138,21 @@ namespace Wof.Controller
             window.WriteContentsToFile(fileName);
         }
 
+        private float lastResetStatistics = 0;
+        private const int resetStatisticsEvery = 10000; // 10 sek
+
+        private float lastUpdateStatistics = 0;
+        private const int updateStatisticsEvery = 500; // 0.5 sek
+
+        private string lastStats = String.Empty;
         public string UpdateStats()
         {
+            if (Environment.TickCount - lastUpdateStatistics < updateStatisticsEvery)
+            {
+                return lastStats;
+            }
+            lastUpdateStatistics = Environment.TickCount;
+
             string fpsFormat = "{0}: {1} ";
             string avgFps = String.Format("{0}:", LanguageResources.GetString(LanguageKey.AverageFPS));
             string worstFps = String.Format("{0}:", LanguageResources.GetString(LanguageKey.WorstFPS));
@@ -1147,12 +1160,26 @@ namespace Wof.Controller
             // update stats when necessary
             try
             {
+               
                 OverlayElement guiAvg = OverlayManager.Singleton.GetOverlayElement("Core/AverageFps");
                 OverlayElement guiCurr = OverlayManager.Singleton.GetOverlayElement("Core/CurrFps");
                 OverlayElement guiBest = OverlayManager.Singleton.GetOverlayElement("Core/BestFps");
                 OverlayElement guiWorst = OverlayManager.Singleton.GetOverlayElement("Core/WorstFps");
 
                 RenderTarget.FrameStats stats = window.GetStatistics();
+
+              
+               
+                if (Environment.TickCount - lastResetStatistics > resetStatisticsEvery)
+                {
+                    lastResetStatistics = Environment.TickCount;
+                    window.ResetStatistics();
+                }
+
+                if (stats.WorstFPS == 999 && stats.AvgFPS == 0)
+                {
+                    return lastStats;
+                }
 
                 guiAvg.Caption = avgFps + stats.AvgFPS;
                 guiCurr.Caption =
@@ -1166,10 +1193,9 @@ namespace Wof.Controller
                 OverlayElement guiTris = OverlayManager.Singleton.GetOverlayElement("Core/NumTris");
                 guiTris.Caption = tris + stats.TriangleCount;
 
-
-                return
-                    avgFps + " " + stats.AvgFPS + "|| " + worstFps + stats.WorstFPS + "|| " + tris + " " +
-                    stats.TriangleCount;
+                lastStats = avgFps + " " + stats.AvgFPS + "|| " + worstFps + stats.WorstFPS + "|| " + tris + " " +
+                            stats.TriangleCount;
+                return lastStats;
             }
 
             catch

@@ -53,6 +53,7 @@ using Wof.Controller;
 using Wof.Model.Level.Common;
 using Wof.View.Effects;
 using Math=Mogre.Math;
+using Wof.Controller.AdAction;
 
 namespace Wof.Misc
 {
@@ -246,7 +247,7 @@ namespace Wof.Misc
 
         public static MaterialPtr BuildPreloaderMaterial(int maxTextures)
         {
-        	Pass pass;           
+        	Pass pass = null;           
             Technique t;
             string name = "PreloaderMaterial";
             MaterialPtr mptr;
@@ -276,22 +277,38 @@ namespace Wof.Misc
             while(i.MoveNext())
             {
             	if(j <  System.Math.Ceiling(maxTextures / 2.0f)) {
-	            	j++;            
-	            	pass = t.CreatePass();
+	            	j++;  
+                    
 	            	TexturePtr texture = (TexturePtr)(i.Current);
+                    if (!texture.Name.Contains(AdManager.C_ADS_DIR))
+                    {
+                        pass = t.CreatePass();
+                        pass.CreateTextureUnitState(texture.Name);
+                        pass.SetSceneBlending(SceneBlendFactor.SBF_ZERO, SceneBlendFactor.SBF_ONE);
+                        LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Material will be preloaded (" + k + ") - " + texture.Name);
+                    }
+                    else
+                    {
+                        
+                    }
 	            	
-	            	pass.CreateTextureUnitState(texture.Name);
-	            	pass.SetSceneBlending(SceneBlendFactor.SBF_ZERO, SceneBlendFactor.SBF_ONE);
-	            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Material will be preloaded ("+k+") - " + texture.Name);
 	            	k++; 
 	            	if(i.MoveNext())
-	            	{            		
-	            		texture = (TexturePtr)(i.Current);
-	            		pass.CreateTextureUnitState(texture.Name);	    
-	            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,"Material will be preloaded ("+k+") - " + texture.Name);
-	            		k++; total ++;
-	            	}    			
-	            	
+	            	{
+                        if (!texture.Name.Contains(AdManager.C_ADS_DIR))
+                        {
+                            texture = (TexturePtr) (i.Current);
+                            if(pass == null)
+                            {
+                                pass = t.CreatePass();
+                            }
+                            pass.CreateTextureUnitState(texture.Name);
+                            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,
+                                                            "Material will be preloaded (" + k + ") - " + texture.Name);
+                        }
+	            	    k++; total ++;
+	            	}
+            	    pass = null;
             	} 
             	total ++;
             	

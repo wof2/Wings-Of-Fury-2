@@ -479,8 +479,11 @@ namespace Wof.Controller.Screens
                     LogManager.Singleton.LogMessage("About to load level view...", LogMessageLevel.LML_CRITICAL);
                     levelView = new LevelView(framework, this);
                 
-                    LogManager.Singleton.LogMessage("About to register level " + levelNo +  " - " + LevelFile + " to view...", LogMessageLevel.LML_CRITICAL);
+                    LogManager.Singleton.LogMessage("Preloading music (if streaming disabled)", LogMessageLevel.LML_CRITICAL);
                     SoundManager.Instance.PreloadRandomIngameMusic();
+
+                    LogManager.Singleton.LogMessage("About to register level " + levelNo + " - " + LevelFile + " to view...", LogMessageLevel.LML_CRITICAL);
+                    
                     levelView.OnRegisterLevel(currentLevel);
                    
                     EffectsManager.Singleton.PreloadMesh("Bazooka.mesh");
@@ -762,21 +765,14 @@ namespace Wof.Controller.Screens
 
             OverlayManager.Singleton.GetOverlayElement(overlayLoadingScreenMissionTypeName).Show();
             
-
-
             loadingOverlay.Show();
 
             ViewEffectsManager.Singleton.Load();
-
+            ViewEffectsManager.Singleton.PreloadEffects();
 
             isFirstLoadingFrame = true;
             
-       
-
-            //Console.WriteLine("Starting loading thread...");
-            // start loading
-            //loaderThread = new Thread(StartLoading);
-            //loaderThread.Start();
+      
             
         }
 
@@ -1045,6 +1041,7 @@ namespace Wof.Controller.Screens
                             int timeInterval = (int) Math.Round(evt.timeSinceLastFrame*1000);
                             if (isFirstFrame)
                             {
+                                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "!!! Game started !!!");
                             	if(currentLevel.UserPlane.IsEngineWorking) 
 				                {  
 									OnTurnOnEngine(false);				                	
@@ -1656,7 +1653,7 @@ namespace Wof.Controller.Screens
                             FreeSplashScreens();
                             SoundManager3D.Instance.UpdaterRunning = true;
                             SoundManager.Instance.LoopOceanSound();
-                            viewport.Target.ResetStatistics();                          
+                                        
                         }
                     }
                 }
