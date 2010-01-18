@@ -210,7 +210,7 @@ namespace Wof.Controller.Screens
         protected KeyCode[] cheatPlane = { KeyCode.KC_GRAVE, KeyCode.KC_P, KeyCode.KC_L };
         protected KeyCode[] cheatAllLevels = { KeyCode.KC_GRAVE, KeyCode.KC_I, KeyCode.KC_D, KeyCode.KC_K, KeyCode.KC_F, KeyCode.KC_A };
   		protected KeyCode[] cheatLives = { KeyCode.KC_GRAVE, KeyCode.KC_I, KeyCode.KC_M, KeyCode.KC_L, KeyCode.KC_A, KeyCode.KC_M, KeyCode.KC_E};
-
+      
 
   	
 
@@ -435,12 +435,7 @@ namespace Wof.Controller.Screens
             cheats[cheatPlane] = new KeyValuePair<VoidDelegateVoid, uint>(doCheatPlane, 0); ;
             cheats[cheatAllLevels] = new KeyValuePair<VoidDelegateVoid, uint>(doCheatAllLevels, 0); ;
             cheats[cheatLives] = new KeyValuePair<VoidDelegateVoid, uint>(doCheatLives, 0); ;
-            
-            
-
-            TextureManager.Singleton.UnloadUnreferencedResources();
-            MaterialManager.Singleton.UnloadUnreferencedResources();
-            MeshManager.Singleton.UnloadUnreferencedResources();
+          
             
             cloudNodes = new List<SceneNode>();
 
@@ -492,10 +487,9 @@ namespace Wof.Controller.Screens
             light.Direction = new Vector3(0, -5, 0);
             light.DiffuseColour = new ColourValue(1.0f, 1.0f, 1.0f);
             light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);
-
-            sceneMgr.ShadowFarDistance = 1000;
-            sceneMgr.ShadowColour = new ColourValue(0.8f, 0.8f, 0.8f);
-
+         
+            sceneMgr.ShadowFarDistance = 0;
+        
             EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(0, -70, -500), new Vector2(1300, 450), new Degree(2),
                                                6);
   

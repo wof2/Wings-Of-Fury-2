@@ -135,39 +135,6 @@ namespace Wof.Controller.Screens
            
         }
 
-        public override void CreateOcean()
-        {
-
-            base.CreateOcean();
-            MaterialPtr m;
-            if(EngineConfig.ShadowsQuality > 0) 
-            {
-            	m = MaterialManager.Singleton.GetByName("Ocean2_HLSL");
-            }
-            else 
-            {
-            	m = MaterialManager.Singleton.GetByName("Ocean2_HLSL_NoShadows");
-            }
-            m.Load();
-            Pass p = m.GetBestTechnique().GetPass("Decal");
-            TextureUnitState tu = null;
-            if(p!= null)
-            {
-            	 tu = p.GetTextureUnitState("Reflection");
-            }
-            
-            if (tu != null)
-            {
-                tu.SetCubicTextureName("cloudy_noon.jpg", true);
-            }
-            if (p.HasFragmentProgram)
-            {
-                GpuProgramParametersSharedPtr param = p.GetVertexProgramParameters();
-                param.SetNamedConstant("bumpSpeed", new Vector3(-1f, 0f, 0));
-                p.SetVertexProgramParameters(param);
-            }
-
-        }
 
         public override void CreateScene()
         {

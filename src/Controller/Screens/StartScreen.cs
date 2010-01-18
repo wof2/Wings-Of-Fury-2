@@ -182,6 +182,7 @@ namespace Wof.Controller.Screens
         }
         public override void FrameStarted(FrameEvent evt)
         {
+            base.FrameStarted(evt);
         	lock(this)
         	{
         		if(areUpdatesAvailable)
