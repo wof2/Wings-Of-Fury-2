@@ -578,22 +578,14 @@ namespace Wof.Controller
                 videoMode = performanceTestFramework.VideoMode;
                 antialiasing = performanceTestFramework.Antialiasing;
             }
-            
+           
             d3dxSystem.SetConfigOption("Full Screen", fullScreen);
             d3dxSystem.SetConfigOption("Video Mode", videoMode);
             if(antialiasing != null) d3dxSystem.SetConfigOption("Anti aliasing", antialiasing);
             
-          
-            
-    
-          	
-            window = root.Initialise(true, EngineConfig.C_GAME_NAME);
-        
-            windowHeight = window.Height;
-            windowWidth = window.Width;           
-            Resize += new EventHandler(OgreForm_Resize);
             root.SaveConfig();
-            return true;
+            return Configure();
+          
            
         }
 

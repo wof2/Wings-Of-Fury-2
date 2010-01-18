@@ -52,6 +52,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+
 using BetaGUI;
 using FSLOgreCS;
 using MHydrax;
@@ -59,15 +60,16 @@ using Mogre;
 using MOIS;
 using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
+using Wof.Misc;
 using Wof.Model.Configuration;
 using Wof.View;
 using Wof.View.Effects;
+using Wof.View.NodeAnimation;
+using Button = BetaGUI.Button;
 using FontManager = Wof.Languages.FontManager;
 using Math = Mogre.Math;
+using Timer = Mogre.Timer;
 using Vector3 = Mogre.Vector3;
-using Wof.View.NodeAnimation;
-using Button=BetaGUI.Button;
-using Timer=Mogre.Timer;
 
 namespace Wof.Controller.Screens
 {
@@ -180,6 +182,11 @@ namespace Wof.Controller.Screens
             NONE
         } ;
 
+        private bool displayed = false;
+        public bool Displayed()
+        {
+        	return displayed;
+        }
         public const float C_RESPONSE_DELAY = 0.14f;
                            // czas w sekunach w jakim klawisze reaguj¹ na przyciskanie, a mysz 'klika'
 
@@ -651,6 +658,7 @@ namespace Wof.Controller.Screens
         {
         	
         	
+        	
     	
             int h = (int)GetTextVSpacing();
             mGui = new GUI(FontManager.CurrentFont, fontSize);
@@ -693,6 +701,7 @@ namespace Wof.Controller.Screens
 
         public void DisplayGUI(Boolean justMenu)
         {
+        	displayed = true;
             CreateGUI();
 
             if (!justMenu)
@@ -764,6 +773,28 @@ namespace Wof.Controller.Screens
 
         }
  
+          public static void showAdText(Viewport v) 
+        { 
+            OverlayElement text = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText1");
+            text.SetParameter("font_name", Wof.Languages.FontManager.CurrentFont);
+            text.SetPosition(0.01f, text.Top);
+           // ViewHelper.AlignTextAreaHorzRight(text, Viewport, 0.0f);
+            text.Show();
+            
+            OverlayElement text2 = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText2");
+            text2.SetParameter("font_name", Languages.FontManager.CurrentFont);
+            ViewHelper.AlignTextAreaHorzCenter(text2, v);  
+            text2.Show();
+        	
+        }
+        
+        public static void hideAdText() 
+        {
+        	OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText1").Hide();
+        	OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText2").Hide();
+        	
+        }
+        
         public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
         	

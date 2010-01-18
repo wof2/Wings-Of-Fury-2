@@ -142,12 +142,16 @@ namespace Wof.Controller
          
      
             }
-          
-           currentScreen.DisplayGUI(false);
+            if(!currentScreen.Displayed())
+            {
+            	currentScreen.DisplayGUI(false);
+            }
+           
         }
 
         public Game() : base()
         {
+        	this.Text = EngineConfig.C_GAME_NAME + " " +EngineConfig.C_WOF_VERSION;
             this.BackColor = Color.Black;
             this.Icon = Wof.Properties.Resources.WofIcon;
         }
@@ -182,7 +186,7 @@ namespace Wof.Controller
            
         }
 
-        void Game_Activated(object sender, EventArgs e)
+        protected void Game_Activated(object sender, EventArgs e)
         {
             // przegladarka reklam wraca na swoje miejsce
             if(browser != null)
@@ -492,6 +496,7 @@ namespace Wof.Controller
                 }
                 EngineConfig.DisplayingMinimap = false;
                 
+               
                 game.Go();
 
                 if(game.browser != null)
@@ -751,6 +756,10 @@ namespace Wof.Controller
         public void ShowBrowser()
         {
         	if(browser == null) StartBrowser();
+        	Vector2 res = FrameWorkStaticHelper.GetCurrentVideoMode();
+        	int scale = (int)(100 * (res.x * res.y) / (1024.0f * 768.0f));
+        	
+        	browser.SetScale(scale);
         	browser.TopMost = true;
         	if(!browser.Visible) browser.Show();
         }
@@ -836,6 +845,7 @@ namespace Wof.Controller
                 if((browser == null && (currentScreen as AbstractScreen).Viewport != null))
                 { 
                     StartBrowser();
+                    game.Game_Activated(game, new EventArgs());
                 }
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }

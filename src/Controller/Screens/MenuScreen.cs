@@ -57,6 +57,8 @@ namespace Wof.Controller.Screens
     internal interface MenuScreen
     {
         void DisplayGUI(Boolean justMenu);
+        
+        bool Displayed();
         void CleanUp(Boolean justMenu);
         void OnUpdateModel(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick);
         void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick);

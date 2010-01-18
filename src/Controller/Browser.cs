@@ -84,9 +84,9 @@ namespace Wof.Controller
 
 	 
 		public Browser(Form gameForm, AbstractScreen currentScreen)
-		{
-		 
-
+		{	
+			
+			
             Vector2 m = currentScreen.GetMargin();
 
             origin = currentScreen.ViewportToScreen(new Vector2(m.x + currentScreen.Viewport.ActualWidth * 0.51f, (int)(m.y)));
@@ -146,20 +146,33 @@ namespace Wof.Controller
 	        mousePos = e.MousePosition;  
 	    }
 
+	    private int scalePercent = 100;
+	    public void SetScale(int percent)
+	    {
+	    	
+	    	return; // na razie wylaczone z uwagi na ramki
+	    	scalePercent = percent;
+	    	
+	    	
+	    	if(wofBrowser.Document != null && wofBrowser.ReadyState.Equals(WebBrowserReadyState.Complete))
+	    	{
+	    		wofBrowser.Document.Body.Style = "zoom: " + scalePercent + "%";
+	    		
+	    		// nie mozna
+				/*HtmlWindow docWindow = wofBrowser.Document.Window;
+			
+				foreach (HtmlWindow frameWindow in docWindow.Frames)
+				{
+					frameWindow.Document.Body.Style = "zoom: " + scalePercent + "%";
+				}*/
+	    	}
+	    }
 	   
 	
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+          	
         	
-        	switch(wofBrowser.Document.Url.LocalPath)
-        	{
-        		case  "/navcancl.htm":
-        			
-        		case "/dnserrordiagoff_webOC.htm":        			
-        			wofBrowser.DocumentText = File.ReadAllText("none.dat");
-        			return;
-        		break;                       			  	
-        	}
         		
    
     
@@ -168,13 +181,27 @@ namespace Wof.Controller
             {
                 return;
             }
-           
+            
+            switch(wofBrowser.Document.Url.LocalPath)
+        	{
+        		case  "/navcancl.htm":
+        			
+        		case "/dnserrordiagoff_webOC.htm":        			
+        			wofBrowser.DocumentText = File.ReadAllText("none.dat");
+        			
+        			return;
+        		break;                       			  	
+        	}
+            
+            /*wofBrowser.Document.Body.SetAttribute("overflow-x", "hidden");
+            wofBrowser.Document.Body.SetAttribute("overflow-y", "scroll");*/
+  
             //  this.wofBrowser.
             this.wofBrowser.Document.MouseMove += new HtmlElementEventHandler(Document_MouseMove);
             this.wofBrowser.Document.MouseOver += new HtmlElementEventHandler(Document_MouseOver);
             this.wofBrowser.Document.MouseLeave += new HtmlElementEventHandler(Document_MouseLeave);
             this.wofBrowser.Document.Click += new HtmlElementEventHandler(Document_Click);
-
+            SetScale(scalePercent);
             this.wofBrowser.Navigating += wofBrowser_Navigating;
             eventsWired = true;
            
