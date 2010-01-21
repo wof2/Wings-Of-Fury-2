@@ -632,6 +632,16 @@ namespace Wof.View
             float lastH;
             SceneNode lWire = (SceneNode) arrestingWire.GetChild(0);
             SceneNode rWire = (SceneNode) arrestingWire.GetChild(1);
+            SceneNode temp;
+            
+            // fix zamienione nody
+            if(rWire.Name.StartsWith(name + "_LArrestingWire"))
+            {
+            	temp = lWire;
+            	lWire = rWire;
+            	rWire = temp;
+            }
+            
             lastH = lWire._getDerivedPosition().x - targetWorldXPos;
             Radian alpha = Math.ATan(lastH/(0.5f*arrestingWiresSpan)); // k¹t wychylenia kawalkow liny
             float length = lastH/Math.Sin(alpha); // dlugosc liny
@@ -676,44 +686,7 @@ namespace Wof.View
             this.hangaringDirection = hangaringDirection;
         }
 
-        /*
-        public void ShowAd()
-        {
-            if(ad != null)
-            {
-                string orgMaterialName = "AdMaterial";
-                string materialName = orgMaterialName + ad.id;
-                MaterialPtr ptr =  ViewHelper.CloneMaterial(orgMaterialName, materialName);
-                TextureUnitState unit = ptr.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
-                unit.SetTextureName(ad.path);
-
-                adEntity.SetMaterialName(materialName);
-                adNode.SetVisible(true);
-
-                AdManager.Singleton.RegisterImpression();
-               
-            }
-           
-          
-        }
-       
-        public void ClearAd()
-        {
-            MaterialManager.Singleton.Unload(adEntity.GetMesh().GetSubMesh(0).MaterialName);
-            adNode.SetVisible(false);
-            AdManager.Singleton.CloseAd();
-            AdManager.Singleton.Work();
-
-        }
-       
-        public void RegisterAd(AdManager.Ad ad)
-        {
-            AdManager.Singleton.CurrentAd = ad;
-            this.ad = ad;
-
-        }
-        */
-
+      
         public void updateTime(float timeSinceLastFrameUpdate)
         {
             aerialAnimation1.updateTime(timeSinceLastFrameUpdate);
