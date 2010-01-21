@@ -522,11 +522,11 @@
   </data>
 
   <data name="CustomLevels">
-    <value>Custom Levels</value>
+    <value>Додаткові місії</value>
   </data>
   
    <data name="PressUpToLand">
-    <value>Press "{0}" to land</value>
+    <value>Натисніть "{0}", щоб приземлитись</value>
   </data>
  
 
