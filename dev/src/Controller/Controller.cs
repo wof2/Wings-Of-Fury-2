@@ -474,6 +474,13 @@ namespace Wof.Controller
         /// </summary>
         /// <param name="tile"></param>
         void OnShipSunk(BeginShipTile tile);
+        
+        
+        /// <summary>
+        /// Samolot byc moze bedzie ladowal
+        /// </summary>
+        /// <param name="p"></param>
+        void OnPotentialLanding(Plane p);
 
 
     }

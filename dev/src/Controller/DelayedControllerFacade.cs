@@ -639,6 +639,13 @@ namespace Wof.Controller
         {
             AddJob(MethodBase.GetCurrentMethod().Name, new object[] { tile });
         }
+        
+        public void OnPotentialLanding(Plane p)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { p });
+        }
+        
+        
 
         #endregion
     }

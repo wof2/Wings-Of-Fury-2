@@ -247,6 +247,7 @@ namespace Wof.Languages
         public const string Poland = @"Poland";
         public const string PressEToTurnOnTheEngine = @"PressEToTurnOnTheEngine";
         public const string PressLeftUpToTakeOff = @"PressLeftUpToTakeOff";
+        public const string PressUpToLand = @"PressUpToLand";
         public const string PressXToChangeAmmo = @"PressXToChangeAmmo";
         
         public const string Previous = @"Previous";
