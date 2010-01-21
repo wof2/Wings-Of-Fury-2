@@ -507,11 +507,11 @@
 
 
   <data name="CustomLevels">
-    <value>Custom Levels</value>
+    <value>Дополнительно уровни</value>
   </data>
 
  <data name="PressUpToLand">
-    <value>Press "{0}" to land</value>
+    <value>Нажмите "{0}", чтобы приземлиться</value>
   </data>
 
 
