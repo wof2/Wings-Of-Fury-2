@@ -143,6 +143,11 @@ namespace Wof.Model.Level.Planes
         #region Constants
 
         /// <summary>
+        /// Maksymalna odleglosc od lotniskowca ktora moze spowodowac wyswietlenie hintu o ladowaniu
+        /// </summary>
+        private const float potentiallyLandingMaxDistance = 70;
+          
+        /// <summary>
         /// K¹t o jaki bêdzie siê zmienia³o nachylenie samolotu po jednokrotnym naciœniêciu strza³ki.
         /// (Wyra¿ony w radianach)
         /// </summary>
@@ -608,6 +613,10 @@ namespace Wof.Model.Level.Planes
         private float justAfterTakeOffTimer;
 
      
+        /// <summary>
+        /// Czy pokazano hint o ladowaniu 
+        /// </summary>
+        private bool isLandingHintDelivered;
 
         /// <summary>
         /// Mówi ile czasu bêdzie trwa³o ca³e zawracanie.
@@ -2746,6 +2755,25 @@ namespace Wof.Model.Level.Planes
 
         #region Landing Methods
 
+        
+      
+        /// <summary>
+        /// Sprawdza czy samolot znajduje siê za samolotami na lotniskowcu
+        /// </summary>
+        private bool IsPotentiallyLanding
+        {
+            get
+            {
+            	bool cond1 = this.IsEngineWorking && this.locationState == LocationState.Air && wheelsState == WheelsState.Out && direction == Direction.Left;
+            	Carrier c = Carrier;            	
+            	if(!cond1) return false;            	
+            	float dist = Center.X - c.GetEndPosition().X;            	                                       
+            	return  dist > 0 && dist <= potentiallyLandingMaxDistance;
+            	
+            }
+        }
+        
+        
         /// <summary>
         /// Proces l¹dowania na lotniskowcu.
         /// Ustawia samolot gdy podchodzi do l¹dowania.
@@ -2756,6 +2784,19 @@ namespace Wof.Model.Level.Planes
         /// <param name="timeUnit"></param>
         public void LandingProcess(float time, float timeUnit)
         {
+        	//ZBLIZAMY SIE DO LOTNISKOWCA
+        	if(!isLandingHintDelivered && IsPotentiallyLanding)        		
+        	{
+        		level.Controller.OnPotentialLanding(this);
+        	}
+        	
+        	// schowanie podwozia powoduje ze mozliwe jest ponowne pokazanie komunikatu o ladowaniu
+        	if(this.wheelsState == WheelsState.In)
+        	{
+        		isLandingHintDelivered = false;
+        	}
+        	
+        	
             //SAMOLOT PODCHODZI DO L¥DOWANIA
             if (locationState == LocationState.Air &&
                 wheelsState == WheelsState.Out &&
@@ -2774,7 +2815,7 @@ namespace Wof.Model.Level.Planes
 
             //KO£OWANIE PO LOTNISKOWCU
             if (landingState == LandingState.Wheeling)
-                LandingWeeling();
+                LandingWheeling();
 
             //HAMOWANIE PRZEZS LINÊ
             if (landingState == LandingState.Breaking)
@@ -2807,7 +2848,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Ko³owanie po lotniskowcu w czasie lotu.
         /// </summary>
-        private void LandingWeeling()
+        private void LandingWheeling()
         {
             AirstripContact();
             breakingEndCarrierTile = Carrier.IsOnEndCarrier(Bounds.Center);

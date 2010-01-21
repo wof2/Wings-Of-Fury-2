@@ -529,7 +529,7 @@ namespace Wof.Controller.Screens
                     _altitudeBar = new AltitudeBar(fontSize, framework.Viewport, viewport.ActualWidth / 6.5f, viewport.ActualHeight / 75.0f);
                     
                     
-                    if (LevelNo == 1 && firstTakeOff)
+                    if (ShowHintMessages && LevelNo == 1 && firstTakeOff)
                     {
 
                         MessageEntry message =
@@ -580,6 +580,11 @@ namespace Wof.Controller.Screens
                                                           KeyMap.GetName(KeyMap.Instance.Up));
         }
 
+        private static String GetLandingHintMessage()
+        {
+            return String.Format(LanguageResources.GetString(LanguageKey.PressUpToLand),
+                                                          KeyMap.GetName(KeyMap.Instance.Up));
+        }
         private static String GetChangeAmmoMessage()
         {
             return String.Format(LanguageResources.GetString(LanguageKey.PressXToChangeAmmo), KeyMap.GetName(KeyMap.Instance.AltFire));
@@ -2477,13 +2482,12 @@ namespace Wof.Controller.Screens
             gameMessages.ClearMessages(GetHintMessage());
           
 
-            if (LevelNo == 1 && firstTakeOff)
+            if (ShowHintMessages && LevelNo == 1 && firstTakeOff)
             {
                
                 MessageEntry message = new MessageEntry(0.2f, 0.2f, GetHintMessage2(), true, true);
                 message.IncreaseY(-message.CharHeight/2.0f);
                 gameMessages.AppendMessage(message);
-
                 gameMessages.AppendMessage(GetChangeAmmoMessage());
                 
             }
@@ -2831,7 +2835,7 @@ namespace Wof.Controller.Screens
         {
             //currentLevel.OnCheckVictoryConditions();
             levelView.OnStopPlayingEnemyPlaneEngineSounds();
-          
+        //  readyForLevelEnd = true;
             if (!readyForLevelEnd)
             {
 
@@ -2961,9 +2965,26 @@ namespace Wof.Controller.Screens
             levelView.OnTileRestored(restoredBunker);
         }
 
+        private bool ShowHintMessages
+        {
+        	get { return EngineConfig.Difficulty <= EngineConfig.DifficultyLevel.Easy; }
+        }
+        public void OnPotentialLanding(Plane p)
+        {
+        	if (ShowHintMessages)        
+            {
+        		MessageEntry message = new MessageEntry(0.2f, 0.2f, GetLandingHintMessage(), true, false);
+                message.IncreaseY(-message.CharHeight/2.0f);
+                
+        		gameMessages.ClearMessages();
+        		gameMessages.AppendMessage(message);        		
+        	}
+        }
+        
         public void OnTakeOff()
         {
-            if (firstTakeOff && levelNo == 1)
+        	  
+            if (ShowHintMessages && firstTakeOff && levelNo == 1)
             {
                 gameMessages.ClearMessages(GetHintMessage2());
 
@@ -2999,6 +3020,7 @@ namespace Wof.Controller.Screens
           
 
             firstTakeOff = false;
+            
             levelView.OnTakeOff();
         }
 

@@ -525,7 +525,10 @@
     <value>Custom Levels</value>
   </data>
   
-  
+   <data name="PressUpToLand">
+    <value>Press "{0}" to land</value>
+  </data>
+ 
 
   
 

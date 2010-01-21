@@ -531,7 +531,10 @@
   <data name="CustomLevels">
     <value>Misje dodatkowe</value>
   </data>
-
+	
+ <data name="PressUpToLand">
+    <value>Naciśnij "{0}" aby wylądować</value>
+  </data>
 
 
 

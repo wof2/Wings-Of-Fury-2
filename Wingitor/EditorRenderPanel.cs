@@ -437,6 +437,12 @@ namespace wingitor
         {
             
         }
+        
+        
+        public void OnPotentialLanding(Plane p)
+        {
+        	
+        }
 
         #endregion
     }

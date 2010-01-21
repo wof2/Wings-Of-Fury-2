@@ -95,6 +95,7 @@ namespace Wof.Controller
 
             this.gameForm = gameForm;			
 			InitializeComponent();
+			//wofBrowser.DocumentText = File.ReadAllText("none.dat");
             this.wofBrowser.Url = new System.Uri(GetNewsUrl(), System.UriKind.Absolute);
 		}
 
