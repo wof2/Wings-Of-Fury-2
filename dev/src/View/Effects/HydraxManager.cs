@@ -283,11 +283,14 @@ namespace Wof.View.Effects
                 // Normal mode
                 MMaterialManager.MNormalMode.NM_VERTEX,
                 // Projected grid options
-                new MProjectedGrid.MOptions(164, 35, 50, false, false, true, 3.75f));
+                new MProjectedGrid.MOptions(32, 10, 5, false, false, true, 3.75f));
 
-
+        
             hydrax.SetModule(module);
-            hydrax.LoadCfg(cfgFileName);
+            if(hydrax.LoadCfg(cfgFileName))
+            {
+              //  Console.WriteLine("OKOKOK");
+            }
             hydrax.Create();
            
 

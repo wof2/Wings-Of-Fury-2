@@ -216,7 +216,7 @@ namespace Wof.Controller
            // this.BringToFront();
            // this.Activate();
 
-           // while (root != null && root.RenderOneFrame())
+          //  while (root != null && root.RenderOneFrame())
           //      Application.DoEvents();
 
             
@@ -446,12 +446,13 @@ namespace Wof.Controller
         {
             if (root.RestoreConfig())
             {
-                //ResourceBackgroundQueue.Singleton.StartBackgroundThread = true;
-                //ResourceBackgroundQueue.Singleton.Initialise();
-                //ResourceBackgroundQueue.Singleton.InitialiseAllResourceGroups();
+             
+             
                 try
                 {
-                 
+                    //window  = root.Initialise(true, EngineConfig.C_GAME_NAME);
+                   // return true;
+
                     root.Initialise(false, EngineConfig.C_GAME_NAME);
 
                     this.FormBorderStyle = FormBorderStyle.None;
@@ -593,10 +594,10 @@ namespace Wof.Controller
         public virtual void ChooseSceneManager()
         {
             // Get the SceneManager, in this case a generic one
-            if(sceneMgr == null) sceneMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "SceneMgr");
+            sceneMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "SceneMgr");
 
-            if (minimapMgr == null) minimapMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "MinimapMgr");
-            if (overlayMgr == null) overlayMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "OverlayMgr");
+            minimapMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "MinimapMgr");
+            overlayMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "OverlayMgr");
 
            
         }
@@ -656,10 +657,13 @@ namespace Wof.Controller
 
         protected virtual void SetupShadows(Camera camera)
         {
-        	       	
-        	
-            if(EngineConfig.ShadowsQuality > 0)
+
+            if (EngineConfig.ShadowsQuality > 0)
             {
+
+             
+
+          
             	
                 ushort baseSize = 512;
                 switch(EngineConfig.ShadowsQuality)
@@ -673,10 +677,22 @@ namespace Wof.Controller
                         sceneMgr.ShadowFarDistance = 170;
                         break;
                     case EngineConfig.ShadowsQualityTypes.High:
-                        baseSize = 512;
-                        sceneMgr.ShadowFarDistance = 200;
+                        baseSize = 1024;
+                        sceneMgr.ShadowFarDistance = 180;
                         break;
                 }
+
+                // w przypadku starej wody mozemy wykorzystac stencil shadows
+             /*   if (!EngineConfig.UseHydrax)
+                {
+                   
+                    // sceneMgr.ShowDebugShadows  
+                    sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_STENCIL_MODULATIVE;
+                    sceneMgr.ShadowColour = new ColourValue(0.7f,0.7f,0.7f);
+                  //  sceneMgr.ShadowFarDistance *= 0.8f;
+                    return;
+                }*/
+
                
                 int i = 0;
                 sceneMgr.ShadowTechnique = ShadowTechnique.SHADOWTYPE_TEXTURE_ADDITIVE_INTEGRATED;
@@ -778,7 +794,7 @@ namespace Wof.Controller
         }
 
 
-
+        private int modelDuration;
         protected virtual void LoopModelWorker(object sender, EventArgs args)
         {
             int frameTime = 20; // 20 ms -> 50 fps
@@ -797,7 +813,7 @@ namespace Wof.Controller
                 end = timer.Milliseconds;  
                 
                 int duration = (int)(end - start);
-                
+                modelDuration = duration;
                 int sleepTime = frameTime - duration;
                 if(sleepTime <0) sleepTime = 1;
                 
@@ -837,10 +853,10 @@ namespace Wof.Controller
             Vector3 translateVector = Vector3.ZERO;
 
             // set the scaling of camera motion
-
+         
             MouseState_NativePtr mouseState = inputMouse.MouseState;
             
-            //camera.Yaw(-evt.timeSinceLastFrame * 0.3f);
+          //  camera.Yaw(-evt.timeSinceLastFrame * 0.3f);
 
 
             if (EngineConfig.ManualCamera && camera != null)
@@ -1025,26 +1041,7 @@ namespace Wof.Controller
             // subtract the time since last frame to delay specific key presses
             toggleDelay -= evt.timeSinceLastFrame;
 
-            // toggle rendering mode
-            if (inputKeyboard.IsKeyDown(KeyCode.KC_R) && toggleDelay < 0)
-            {
-                if (camera.PolygonMode == PolygonMode.PM_POINTS)
-                {
-                    camera.PolygonMode = PolygonMode.PM_SOLID;
-                }
-                else if (camera.PolygonMode == PolygonMode.PM_SOLID)
-                {
-                    camera.PolygonMode = PolygonMode.PM_WIREFRAME;
-                }
-                else
-                {
-                    camera.PolygonMode = PolygonMode.PM_POINTS;
-                }
-
-                Console.WriteLine("Rendering mode changed to '{0}'.", camera.PolygonMode);
-
-                toggleDelay = 1;
-            }
+         
 
             if (inputKeyboard.IsKeyDown(KeyCode.KC_T) && toggleDelay < 0)
             {
@@ -1091,6 +1088,8 @@ namespace Wof.Controller
             {
                 sceneMgr.ShowBoundingBoxes = !sceneMgr.ShowBoundingBoxes;
             }
+
+         
 
             if (inputKeyboard.IsKeyDown(KeyCode.KC_F))
             {
@@ -1367,7 +1366,10 @@ namespace Wof.Controller
         public static void LoadResources()
         {
             // Initialise, parse scripts etc
+            //  ResourceBackgroundQueue.Singleton.StartBackgroundThread = true;
+            //  ResourceBackgroundQueue.Singleton.Initialise();
             ResourceGroupManager.Singleton.InitialiseAllResourceGroups();
+           
         }
 
 
