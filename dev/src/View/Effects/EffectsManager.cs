@@ -114,6 +114,35 @@ namespace Wof.View.Effects
             get { return totalTime; }
         }
 
+
+        private string[] additionalPreloadedTextures = new string[] { "trailsmoke.png",
+                                                                      "smoke.png", 
+                                                                      "A6M-airscrew.png", 
+                                                                      "hint_right_dogfight.png", 
+                                                                      "hint_left_dogfight.png",
+                                                                      "axes.png",
+                                                                      "rocketsmoke.png",
+                                                                      "concrete_destroyed.dds",
+                                                                      "thColNavyDestroyed.dds",
+                                                                      "RustedMetal.dds",
+                                                                      "seaman.dds",
+                                                                      "panel1.png",
+                                                                      "panel2.png",
+                                                                      "panel4.png",
+                                                                      "panel5.png"
+                                                                    
+        };
+
+        private string[] additionalPreloadedMeshes = new string[] { 
+                                                                     "HUD.mesh",
+                                                                     "Bazooka.mesh",
+                                                                     "Arrow.mesh"
+        };
+
+
+        
+            
+                
         public enum EffectType
         {
             EXPLOSION1,
@@ -164,7 +193,7 @@ namespace Wof.View.Effects
 
         private EffectsManager()
         {
-            Load();
+            Init();
         }
 
         public void Clear()
@@ -190,7 +219,7 @@ namespace Wof.View.Effects
             }
         }
 
-        public void Load()
+        public void Init()
         {
             if (!isLoaded)
             {
@@ -203,7 +232,7 @@ namespace Wof.View.Effects
                 darkLightSmokeMgr = new ParticleManager("DarkLightSmokeSystem", "Smokes/DarkLightSmoke");
 
                 BuildMaterials();
-                //PreloadEffects();
+                //PreloadGameResources();
                 isLoaded = true;
             }
         }
@@ -250,7 +279,7 @@ namespace Wof.View.Effects
             }
           
         }
-
+        /*
         public void PreloadEffects2(SceneManager sceneMgr)
         {
             if(!isEffectsPreloaded)
@@ -267,11 +296,14 @@ namespace Wof.View.Effects
                     Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, new Vector3(0, 0, 0), new Vector2(0.5f, 0.5f), et,
                                      false, "0");
                 }
+
+
+             
             }
            
-        }
+        }*/
 
-        public void PreloadEffects()
+        public void PreloadGameResources()
         {
             if (!isEffectsPreloaded)
             {
@@ -285,18 +317,41 @@ namespace Wof.View.Effects
                     matName = GetEffectInfo((EffectType) Enum.Parse(typeof (EffectType), spriteName)).material;
                     MaterialPtr m = MaterialManager.Singleton.GetByName(matName);
                     m.Load();
-                    m.Touch();
                     state = m.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
                     for (uint j = 0; j < state.NumFrames; j++)
                     {
                         imgPath = state.GetFrameTextureName(j);
-                        TexturePtr tex = TextureManager.Singleton.Load(imgPath, "General");
+                        TexturePtr tex = TextureManager.Singleton.Load(imgPath, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
                         tex.Load();
-                        tex.Touch();
                         tex = null;
                     }
                     m = null;
                 }
+
+               /* ResourceManager.ResourceMapIterator iterator = TextureManager.Singleton.GetResourceIterator();
+                foreach (ResourcePtr ptr in iterator)
+                {
+                   ((TexturePtr) ptr).Load();
+                }*/
+
+               
+                foreach (string s in additionalPreloadedTextures)
+                {
+                    try
+                    {
+                        TextureManager.Singleton.Load(s, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+
+                foreach (string s in additionalPreloadedMeshes)
+                {
+                    PreloadMesh(s);
+                }
+           
+
             }
 
             //  ResourceGroupManager.Singleton.LoadResourceGroup("General", true, false);
@@ -320,7 +375,14 @@ namespace Wof.View.Effects
          
   		public void PreloadMesh(string meshName, string group)
         {
-        	MeshManager.Singleton.Load(meshName, group);          
+            try
+            {
+                MeshManager.Singleton.Load(meshName, group);      
+            }
+            catch (Exception)
+            {
+            }
+        	    
         }
   
         public bool EffectExists(string name)
