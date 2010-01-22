@@ -84,10 +84,18 @@ namespace Wof.Controller.Screens
         	bool old = EngineConfig.UseHydrax;
             EngineConfig.UseHydrax = LanguageResources.GetString(LanguageKey.Yes).Equals(selected);
             EngineConfig.SaveEngineConfig();
+            // restart potrzebny gdy cienie sa wlaczone
+
             if(old != EngineConfig.UseHydrax)
             {
             	this.forceRebuild = true;
+                if (EngineConfig.ShadowsQuality > 0)
+                {
+                    OptionsScreen.restartRequired = true;
+                }
             }
+
+            
             
            
         }

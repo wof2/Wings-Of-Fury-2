@@ -2082,8 +2082,13 @@ namespace Wof.View
             sceneMgr.RootSceneNode.AttachObject(lightbillboardset);
             sceneMgr.RootSceneNode.AttachObject(light);
 			*/
-         
-           
+/*
+            Camera texCamera = new Camera("TexCamera", sceneMgr);
+            LiSPSMShadowCameraSetup c = new LiSPSMShadowCameraSetup();
+            c.GetShadowCamera(sceneMgr, framework.Camera, framework.Viewport, light, texCamera, 2);
+            ShadowCameraSetupPtr p = new ShadowCameraSetupPtr(c);
+            sceneMgr.SetShadowCameraSetup(p);
+  */         
              sceneMgr.ShadowColour = new ColourValue(0.5f, 0.5f, 0.5f);
         }
 

@@ -125,6 +125,8 @@ namespace Wof.View.Effects
                                                                       "concrete_destroyed.dds",
                                                                       "thColNavyDestroyed.dds",
                                                                       "RustedMetal.dds",
+                                                                      "oldwood2_destroyed.dds",
+                                                                      "oldwood2.dds",
                                                                       "seaman.dds",
                                                                       "panel1.png",
                                                                       "panel2.png",

@@ -81,26 +81,51 @@ namespace Wof.Controller.Screens
 
         protected override void ProcessOptionSelection(string selected)
         {
+            bool restart = false;
+            EngineConfig.ShadowsQualityTypes old = EngineConfig.ShadowsQuality;
             if(LanguageResources.GetString(LanguageKey.None).Equals(selected))
             {
             	EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.None;
+                if(old > 0)
+                {
+                    restart = true;
+                }
+
             } else
             if(LanguageResources.GetString(LanguageKey.Low).Equals(selected))
             {
             	EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Low;
+                if (old == 0)
+                {
+                    restart = true;
+                }
+
             } else
             if(LanguageResources.GetString(LanguageKey.Medium).Equals(selected))
             {
             	EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Medium;
+                if (old == 0)
+                {
+                    restart = true;
+                }
             } else
             if(LanguageResources.GetString(LanguageKey.High).Equals(selected))
             {
             	EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.High;
+                if (old == 0)
+                {
+                    restart = true;
+                }
             } 
            
             EngineConfig.SaveEngineConfig();
+
+            if (restart && EngineConfig.UseHydrax)
+            {
+                OptionsScreen.restartRequired = true;
+            }
             
-            OptionsScreen.shutdownRequired = true;
+           
         }
 
         protected override bool IsOptionSelected(string option)

@@ -350,6 +350,8 @@ namespace Wof.View
             {
                 carrierHangar = sceneMgr.CreateEntity(name + "Hangar", "HangarFloor.mesh");
             }
+            carrierHangar.CastShadows = false;
+
             carrierHangarNode = mainNode.CreateChildSceneNode(name + "HangarNode", Vector3.ZERO);
 
             carrierHangarNode.AttachObject(carrierHangar);
@@ -546,7 +548,7 @@ namespace Wof.View
             float z = zCoordinate;
             Vector3 position = new Vector3(1.4f, 0.55f, zCoordinate);
             SceneNode wireNode = mainNode.CreateChildSceneNode(name + "_ArrestingWire" + z + "Node", position);
-
+          
             SceneNode lWireNode =
                 wireNode.CreateChildSceneNode(name + "_LArrestingWire" + z + "Node",
                                               new Vector3(arrestingWiresSpan/2.0f, 0.0f, 0.0f));
@@ -559,7 +561,8 @@ namespace Wof.View
 
             Entity lWire = sceneMgr.CreateEntity(name + "_LArrestingWire" + z, "ArrestingWire.mesh");
             Entity rWire = sceneMgr.CreateEntity(name + "_RArrestingWire" + z, "ArrestingWire.mesh");
-
+            lWire.CastShadows = false;
+            rWire.CastShadows = false;
             lWireNode.AttachObject(lWire);
             rWireNode.AttachObject(rWire);
             arrestingWires.Add(wireNode);
