@@ -59,8 +59,11 @@ namespace Wof.Controller.Screens
                       
         }
 
-        
-     
+        public override void CleanUp(Boolean justMenu)
+        {
+            base.CleanUp(justMenu);
+        }
+
         protected override void CreateGUI()
         {
             mGui = new GUI(Wof.Languages.FontManager.CurrentFont, fontSize);
