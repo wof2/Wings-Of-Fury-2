@@ -474,8 +474,15 @@ namespace Wof.Controller.Screens
             lock (loadingLock)
             {
                 try
-                {                	
+                {     
+           	
                     loadingStart = DateTime.Now;
+                    
+                    LogManager.Singleton.LogMessage("Preloading meshes and textures", LogMessageLevel.LML_CRITICAL);
+                    ViewEffectsManager.Singleton.Init();
+                    ViewEffectsManager.Singleton.PreloadGameResources();
+
+
                     LogManager.Singleton.LogMessage("About to load level view...", LogMessageLevel.LML_CRITICAL);
                     levelView = new LevelView(framework, this);
                 
@@ -486,7 +493,6 @@ namespace Wof.Controller.Screens
                     
                     levelView.OnRegisterLevel(currentLevel);
                    
-                    EffectsManager.Singleton.PreloadMesh("Bazooka.mesh");
 
                     LogManager.Singleton.LogMessage("About to register player plane", LogMessageLevel.LML_CRITICAL);
                     OnRegisterPlane(currentLevel.UserPlane);
@@ -772,9 +778,7 @@ namespace Wof.Controller.Screens
             
             loadingOverlay.Show();
 
-            ViewEffectsManager.Singleton.Load();
-            ViewEffectsManager.Singleton.PreloadEffects();
-
+          
             isFirstLoadingFrame = true;
             
       
