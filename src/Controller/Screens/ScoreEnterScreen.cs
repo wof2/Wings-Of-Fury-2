@@ -72,8 +72,9 @@ namespace Wof.Controller.Screens
 
         protected override void CreateGUI()
         {
-            mGui = new GUI(FontManager.CurrentFont, fontSize);
-            createMouse(); 
+            base.CreateGUI();
+            //mGui = new GUI(FontManager.CurrentFont, fontSize);
+            //createMouse(); 
             guiWindow = mGui.createWindow(new Vector4(Viewport.ActualWidth/4,
                                                       Viewport.ActualHeight/4, Viewport.ActualWidth/2,
                                                       Viewport.ActualHeight/3),

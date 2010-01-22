@@ -135,6 +135,17 @@ namespace Wof.Controller.Screens
            
         }
 
+        public override void CleanUp(Boolean justMenu)
+        {
+            foreach (PlaneView view in PlaneViews)
+            {
+                 EffectsManager.Singleton.NoSmoke(sceneMgr, view.PlaneNode);
+            }
+           
+            base.CleanUp(justMenu);
+
+        }
+
 
         public override void CreateScene()
         {
@@ -188,6 +199,7 @@ namespace Wof.Controller.Screens
         {
             
             List<PositionedMessage> ret = new List<PositionedMessage>();
+         //   return ret;
             PositionedMessage m;
             int i = 0;
             foreach (string s in names)
@@ -212,17 +224,14 @@ namespace Wof.Controller.Screens
             if (referer == buttons[0])
             {
 
-                for (int i = 0; i < planeViews.Count; i++)
-                {
-                    EffectsManager.Singleton.NoSmoke(sceneMgr, planeViews[i].PlaneNode);
-                }
-                sceneMgr.Dispose(); // zniszcz bie¿¹c¹ scenê przed wyœwietleniem nastêpnej
-                planeViews.Clear();
+             
                 
+              //  this.forceRebuild = true;
 
                 if (highscore > 0)
                 {
                     PlayClickSound();
+                  //  gameEventListener.GotoEndingScreen(100);
                     gameEventListener.GotoEnterScoreScreen(highscore);
                 } else
                 {
