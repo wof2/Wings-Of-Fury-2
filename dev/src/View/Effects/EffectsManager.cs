@@ -1048,15 +1048,7 @@ namespace Wof.View.Effects
                 material = "Effects/Cloud1";
             }
         	MaterialPtr mat;
-            if(!MaterialManager.Singleton.ResourceExists(material+name))
-            {
-            	mat = ViewHelper.CloneMaterial(material, material+name);
-            	
-            	
-            } else
-            {
-            	mat = MaterialManager.Singleton.GetByName(material+name);
-            }
+            mat = ViewHelper.CloneMaterial(material, material + name);
 
             if (EngineConfig.UseHydrax)
             {
