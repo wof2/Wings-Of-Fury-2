@@ -203,13 +203,18 @@ namespace Wof.Misc
 
         public static MaterialPtr CloneMaterial(String orgName, String cloneName)
         {
+            MaterialPtr matPtr;
             if (MaterialManager.Singleton.ResourceExists(cloneName))
             {
-                return MaterialManager.Singleton.GetByName(cloneName);
+                matPtr = MaterialManager.Singleton.GetByName(cloneName);
+                if (matPtr.CompilationRequired) matPtr.Compile();
+                return matPtr;
             }
 
-            MaterialPtr matPtr = MaterialManager.Singleton.GetByName(orgName);
-            if (!matPtr.IsLoaded) matPtr.Load();
+            matPtr = MaterialManager.Singleton.GetByName(orgName);
+            if (matPtr.IsLoaded) matPtr.Load();
+            if (matPtr.CompilationRequired) matPtr.Compile();
+
             return matPtr.Clone(cloneName);
         }
 
