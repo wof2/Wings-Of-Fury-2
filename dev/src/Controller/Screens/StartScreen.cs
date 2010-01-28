@@ -243,7 +243,11 @@ namespace Wof.Controller.Screens
 			}
 			catch(Exception ex)
 			{
-				LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Unable to connect to the \"check updates\" URL");
+                if(LogManager.Singleton != null)
+                {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Unable to connect to the \"check updates\" URL");
+                }
+				
 			}
 			
 			

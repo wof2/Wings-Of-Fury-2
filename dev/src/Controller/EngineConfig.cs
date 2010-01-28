@@ -116,8 +116,9 @@ namespace Wof.Controller
 
    
 
-
-        // TO DO
+        public static bool UseAsyncModel = false;
+     
+        
         public static bool Gore = false;
         public static bool MinimapNoseCamera = false;
 
@@ -232,6 +233,8 @@ namespace Wof.Controller
 
        
 
+
+
       
      /*   public static void SetDisplayMinimap(bool enabled)
         {
@@ -274,12 +277,28 @@ namespace Wof.Controller
                         MusicVolume = 40;
                     }
 
-                    LowDetails = "true".Equals(configOptions[5]);
-                    InverseKeys = "true".Equals(configOptions[6]);
+                  
+                    try
+                    {
+                        LowDetails = "true".Equals(configOptions[5]);
+                    }
+                    catch (Exception)
+                    {
+                        LowDetails = false;
+                    }
                     ExplosionLights = !LowDetails;
                     BodiesStay = !LowDetails;
-                    
-                   
+
+                    try
+                    {
+                        InverseKeys = "true".Equals(configOptions[6]);
+                    }
+                    catch (Exception)
+                    {
+                        InverseKeys = false;
+                    }
+
+                  
                     //Console.WriteLine(System.Threading.Thread.CurrentThread.CurrentCulture.Name);
 
                     try
@@ -406,6 +425,18 @@ namespace Wof.Controller
                     {
                         HardwareTexturePreloaderTextureLimit = 64;
                     }
+
+
+                    
+
+                    try
+                    {
+                        UseAsyncModel = "true".Equals(configOptions[17]);
+                    }
+                    catch (Exception)
+                    {
+                        UseAsyncModel = false;
+                    }
                     
 								
                     
@@ -429,7 +460,7 @@ namespace Wof.Controller
 
         public static void SaveEngineConfig()
         {
-            String[] configuration = new String[17];
+            String[] configuration = new String[18];
             configuration[0] = BloomEnabled ? "true" : "false";
             configuration[1] = SoundEnabled ? "true" : "false";
             configuration[2] = SoundSystem.ToString();
@@ -447,6 +478,9 @@ namespace Wof.Controller
             configuration[14] = UseHardwareTexturePreloader ? "true" : "false";
             configuration[15] = Gore ? "true" : "false";
             configuration[16] = HardwareTexturePreloaderTextureLimit.ToString();
+            configuration[17] = UseAsyncModel ? "true" : "false";
+
+            
              
             ExplosionLights = !LowDetails;
             BodiesStay = !LowDetails;

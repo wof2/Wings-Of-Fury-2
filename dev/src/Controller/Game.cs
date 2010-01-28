@@ -297,11 +297,13 @@ namespace Wof.Controller
         protected override bool FrameStarted(FrameEvent evt)
         {
 
-            
+            if(!base.FrameStarted(evt)) return false;
+
             if(IsDisposed)
             {
                 return false;
             }
+
         	evt.timeSinceLastFrame *= EngineConfig.CurrentGameSpeedMultiplier;
             time += evt.timeSinceLastFrame;
 
@@ -312,11 +314,6 @@ namespace Wof.Controller
                 if (HydraxManager.Singleton.USE_UPDATER_THREAD) Monitor.Exit(HydraxManager.Singleton);
             }
 
-            if (window.IsClosed)
-                return false;
-       
-           
-          
             return !shutDown;
         }
 
