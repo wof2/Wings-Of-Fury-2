@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 
 using AdManaged;
@@ -18,7 +19,7 @@ namespace Wof.Controller.AdAction
         public const bool C_DEBUG_MODE = true;
         public const string C_AD_KEY = "bea3f0f70c9ae51eba5cf04184d96b99";
    
-        public const int C_AD_DOWNLOAD_TIMEOUT = 50000;
+        public const int C_AD_DOWNLOAD_TIMEOUT = 5000;
         public const int C_CONNECT_TIMEOUT = 2000;
         public const string C_ADS_DIR = "..\\..\\media\\materials\\textures\\ads/";
         /// <summary>
@@ -88,9 +89,10 @@ namespace Wof.Controller.AdAction
             get { return adAction; }
         }
 
-       
-       
-
+        public bool ConnectionErrorOccured
+        {
+            get { return connectionErrorOccured; }
+        }
 
 
         public void Work()
@@ -101,6 +103,37 @@ namespace Wof.Controller.AdAction
         	}
         }
 
+
+        private bool connectionErrorOccured = false;
+
+        public bool TestConnection()
+        {
+            try
+            {
+                connectionErrorOccured = false;
+                WebRequest request = WebRequest.Create("http://openx.adveraction.pl/www/delivery/Mobile/standalone.php");
+                using (WebResponse response = request.GetResponse())
+                {
+
+                   //response.Headers[HttpResponseHeader.]
+                }
+            }
+            catch (Exception ex)
+            {
+                if (LogManager.Singleton != null)
+                {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error connecting adserver");
+                }
+                connectionErrorOccured = true;
+            }
+
+            
+         
+
+            return !connectionErrorOccured;
+
+        }
+
         private AdManager()
         {
             timer.Reset();
@@ -108,7 +141,8 @@ namespace Wof.Controller.AdAction
             int result = AdAction.Init(C_AD_KEY, C_ADS_DIR, C_CONNECT_TIMEOUT);
             if(result == 0)
             {
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error connecting adserver");
+               
+              
             }
         }
 
