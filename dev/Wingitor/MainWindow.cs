@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Mogre;
 using wingitor;
+using Wof.Controller;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.XmlParser;
 
@@ -70,6 +71,7 @@ namespace Wingitor
 
         public void OnLevelLoaded(XmlLevelParser parser)
         {
+            this.Text = EngineConfig.C_GAME_NAME + " level editor ( " + parser.MissionType + " ): " + parser.LevelFile;
             this.menu.OnLevelLoaded(parser);
         }
 
@@ -96,8 +98,8 @@ namespace Wingitor
         }
         private void save(object sender, EventArgs e)
         {
-            saveFileDialog.Filter = "WOF2 level file (*.dat)|*.dat";
-            saveFileDialog.DefaultExt = "dat";
+            saveFileDialog.Filter = "WOF2 level file (*" + XmlLevelParser.C_LEVEL_POSTFIX + ")|*" + XmlLevelParser.C_LEVEL_POSTFIX;
+            saveFileDialog.DefaultExt = XmlLevelParser.C_LEVEL_POSTFIX.Substring(1);
             DialogResult result = saveFileDialog.ShowDialog();
             if(result == DialogResult.OK)
             {

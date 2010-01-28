@@ -51,6 +51,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using Wof.Model.Level.XmlParser;
 
 namespace Wof.Controller.Screens
 {
@@ -88,7 +89,7 @@ namespace Wof.Controller.Screens
             try
             {
                
-                return new List<string>(Directory.GetFiles(C_CUSTOM_LEVELS_DIR, "*.dat"));
+                return new List<string>(Directory.GetFiles(C_CUSTOM_LEVELS_DIR, "*" + XmlLevelParser.C_LEVEL_POSTFIX));
             }
             catch (Exception)
             {

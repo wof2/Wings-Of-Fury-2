@@ -52,6 +52,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 using Wof.Controller;
+using Wof.Controller.Screens;
 using Wof.Model.Exceptions;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
@@ -73,6 +74,11 @@ namespace Wof.Model.Level.XmlParser
         /// Pora dnia.
         /// </summary>
         private DayTime dayTime;
+
+
+
+        private string levelFile;
+
         
         
         /// <summary>
@@ -127,6 +133,7 @@ namespace Wof.Model.Level.XmlParser
             if (!File.Exists(path))
                 throw new LevelFileNotFoundException(Path.GetFileName(path));
 
+            levelFile = path;
             Initialize();
             if (!tilesManager.IsReadOK)
                 throw new IOException("Error while reading tiles file ..." + path);
@@ -214,7 +221,7 @@ namespace Wof.Model.Level.XmlParser
                   }
             }
 
-            return Model.Level.MissionType.BombingRun; // nie zdefiniowano
+            return MissionType.BombingRun; // nie zdefiniowano
 
         }
 
@@ -329,7 +336,7 @@ namespace Wof.Model.Level.XmlParser
                     }
                     
                 }
-                File.WriteAllText(filename.Replace(".dat", ".xml"), xml.InnerXml);
+                File.WriteAllText(filename.Replace(C_LEVEL_POSTFIX, ".xml"), xml.InnerXml);
 
                 File.WriteAllText(filename, RijndaelSimple.Encrypt(xml.InnerXml));
                
@@ -364,9 +371,9 @@ namespace Wof.Model.Level.XmlParser
                 string levelNumer = fileName.Substring(firstDigitPosition, numberLenght);
                 
                 // automatically reencode XML file to DAT file
-                if (EngineConfig.AutoEncodeXMLs && File.Exists(fileName.Replace(".dat", ".xml")))
+                if (EngineConfig.AutoEncodeXMLs && File.Exists(fileName.Replace(C_LEVEL_POSTFIX, ".xml")))
                 {
-                    File.WriteAllText(fileName, RijndaelSimple.Encrypt(File.ReadAllText(fileName.Replace(".dat", ".xml"))));
+                    File.WriteAllText(fileName, RijndaelSimple.Encrypt(File.ReadAllText(fileName.Replace(C_LEVEL_POSTFIX, ".xml"))));
                 }
 
 
@@ -493,7 +500,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            width = int.Parse(reader.Value);
+                            width = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -504,7 +511,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            variation = int.Parse(reader.Value);
+                            variation = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -559,7 +566,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            variation = int.Parse(reader.Value);
+                            variation = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -601,7 +608,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            width = int.Parse(reader.Value);
+                            width = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -613,7 +620,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            variation = int.Parse(reader.Value);
+                            variation = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -667,7 +674,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            width = int.Parse(reader.Value);
+                            width = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -678,7 +685,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            variation = int.Parse(reader.Value);
+                            variation = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -757,7 +764,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            numSoldiers = int.Parse(reader.Value);
+                            numSoldiers = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -768,7 +775,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            numGenerals = int.Parse(reader.Value);
+                            numGenerals = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -779,7 +786,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            variation = int.Parse(reader.Value);
+                            variation = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -864,7 +871,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            variation = int.Parse(reader.Value);
+                            variation = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -905,7 +912,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            variation = int.Parse(reader.Value);
+                            variation = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -953,7 +960,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            enemyPlanes = int.Parse(reader.Value.Trim());
+                            enemyPlanes = Int32.Parse(reader.Value.Trim());
                         }
                         catch
                         {
@@ -966,7 +973,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            timeToFirstEnemyPlane = int.Parse(reader.Value.Trim());
+                            timeToFirstEnemyPlane = Int32.Parse(reader.Value.Trim());
                         }
                         catch
                         {
@@ -978,7 +985,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            timeToNextEnemyPlane = int.Parse(reader.Value.Trim());
+                            timeToNextEnemyPlane = Int32.Parse(reader.Value.Trim());
                         }
                         catch
                         {
@@ -1018,7 +1025,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            width = int.Parse(reader.Value);
+                            width = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -1030,7 +1037,7 @@ namespace Wof.Model.Level.XmlParser
                     {
                         try
                         {
-                            variation = int.Parse(reader.Value);
+                            variation = Int32.Parse(reader.Value);
                         }
                         catch
                         {
@@ -1184,6 +1191,11 @@ namespace Wof.Model.Level.XmlParser
             get { return shipManagers; }
         }
 
+        public string LevelFile
+        {
+            get { return levelFile; }
+        }
+
         #endregion
 
         #region IDisposable Members
@@ -1198,5 +1210,9 @@ namespace Wof.Model.Level.XmlParser
         }
 
         #endregion
+
+        public const String C_LEVEL_FOLDER = "levels";
+        public const String C_LEVEL_PREFIX = "level-";
+        public const String C_LEVEL_POSTFIX = ".dat";
     }
 }

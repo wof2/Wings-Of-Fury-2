@@ -53,7 +53,7 @@ namespace wingitor
             : base()
         {
             mainWindow = window;
-            this.filename = "levels/level-1.dat";
+            this.filename = "levels/level-1" + XmlLevelParser.C_LEVEL_POSTFIX;
         }
 
         public EditorRenderPanel(string filename) : base()
