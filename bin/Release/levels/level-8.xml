@@ -45,14 +45,15 @@
   
   <ocean width="11"/>
   
-  <!-- high island: Island12u -->
-  <island-begin mesh="Island12u" variation="1"/>
-  <terrain variation="1"/>
-  <concrete-bunker num-soldiers="3" variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <island-end/> 
-  <!-- high island: Island12u -->
+  <!-- laguna -->
+   <island-begin mesh="Laguna"/>
+  	<concrete-bunker num-soldiers="3"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <barrels variation="0" />
+    <terrain variation="0"/>
+  <island-end/>
+
   
   
   <ocean width="12"/>
@@ -62,7 +63,7 @@
   <ocean width="20"/>
   <ocean width="1" variation="2" />
 
- 
+
 
   <ocean width="12"/>
 
@@ -101,7 +102,7 @@
   <terrain variation="2"/>
   <terrain variation="1"/>
   <barrack num-soldiers="8" variation="1"/>
-  <barrels variation="0" />
+  
   <terrain variation="4" traversable="false"/>
   <concrete-bunker num-soldiers="3"/>
   <terrain variation="3"/>
@@ -113,6 +114,8 @@
   <!-- lane island: Island18u -->
  
   <ocean width="21"/>
+   <ocean width="1" variation="5" />
+  <ocean width="2"/>
   <!-- patrolboat -->
   <ship-begin width="1"/>
   <ship-wooden-bunker num-soldiers="1" traversable="false"/>

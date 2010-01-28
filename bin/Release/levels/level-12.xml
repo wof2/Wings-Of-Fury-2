@@ -14,7 +14,7 @@
   
   <island-begin mesh="Island6" variation="3"/>
   <terrain variation="1"/>
-  <fortress-bunker variation="0" num-generals="2"/>
+  <fortress-bunker variation="2" num-generals="2"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <barrels variation="1"/>
@@ -28,18 +28,19 @@
   <terrain variation="0"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
+  <barrack num-soldiers="5" />
   <terrain variation="0"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
   <barrels variation="0"/>
   <terrain variation="0"/>
-  <barrack num-soldiers="5" />
+ 
   <barrack num-soldiers="6" variation="1"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
-  <terrain variation="0"/>
+  <barrack num-soldiers="5" />
   <terrain variation="0"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
@@ -64,7 +65,7 @@
   <terrain variation="0"/>
   <barrels variation="0" traversable="false"/>
   <terrain variation="2"/>
-  <concrete-bunker num-soldiers="7"/>
+  <fortress-bunker variation="4" num-generals="2" num-soldiers="5"/>
   <terrain variation="0"/>
   <terrain variation="0" traversable="false"/>
   <wooden-bunker num-soldiers="3"/>

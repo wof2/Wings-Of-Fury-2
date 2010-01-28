@@ -16,14 +16,14 @@
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
-  <barrack num-soldiers="6" variation="0"/>
-  <barrack num-soldiers="6" variation="1"/>
+  <barrack num-soldiers="2" variation="0"/>
+  <barrack num-soldiers="2" variation="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
   <concrete-bunker num-soldiers="3" variation="0"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
-  <terrain variation="0"/>
+  <fortress-bunker variation="0" num-soldiers="10"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
   <wooden-bunker num-soldiers="6" variation="1"/>
@@ -37,15 +37,17 @@
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
-  <wooden-bunker num-soldiers="6" variation="1"/>
-  <concrete-bunker num-soldiers="3" variation="2"/>
+  <wooden-bunker num-soldiers="2" variation="1"/>
+  <concrete-bunker num-soldiers="5" variation="2"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
-  <concrete-bunker num-soldiers="3" variation="0"/>
+  <concrete-bunker num-soldiers="4" variation="0"/>
   <island-end/> 
 
-  <ocean width="50"/>
+ <ocean width="24"/>
+   <ocean variation="5"/>
+  <ocean width="24"/>
 
   <aircraft-carrier-begin width="1"/>
   <aircraft-carrier-middle width="3"/>

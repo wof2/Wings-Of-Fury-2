@@ -21,7 +21,7 @@
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
-  <concrete-bunker num-soldiers="3" variation="0"/>
+   <fortress-bunker variation="3" num-soldiers="4"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="0"/>
@@ -50,7 +50,7 @@
   <concrete-bunker num-soldiers="3"/>
   <terrain variation="1"/>
   <terrain variation="0"/>
-  <terrain variation="0"/>
+  <terrain variation="4"/>
   <island-end/> 
 
   <ocean width="40"/>

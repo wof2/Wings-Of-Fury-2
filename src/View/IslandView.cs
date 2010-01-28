@@ -51,6 +51,7 @@ using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
+using Wof.Model.Level.Common;
 using Wof.View.Effects;
 using Math=Mogre.Math;
 using Wof.View.TileViews;
@@ -121,7 +122,16 @@ namespace Wof.View
 
         protected override void initOnScene()
         {
-          
+            BeginIslandTile tile;
+            if (tileViews != null && tileViews.Count > 0 && tileViews[0].LevelTile is BeginIslandTile)
+            {
+                tile = (tileViews[0].LevelTile as BeginIslandTile);
+                meshName = tile.MeshName;
+            }
+            if (meshName == null) return;
+            
+
+
 
             float margin;
             staticNode = sceneMgr.CreateSceneNode(mainNode.Name + "Static");
@@ -136,12 +146,8 @@ namespace Wof.View
                 margin = 0.3f;
             }
             float maxX = -((Math.Abs(count) - 1) * LevelView.TileWidth);
-            BeginIslandTile tile;
-            if(tileViews != null && tileViews.Count > 0 && tileViews[0].LevelTile is BeginIslandTile)
-            {
-                tile = (tileViews[0].LevelTile as BeginIslandTile);
-                meshName = tile.MeshName;
-            }
+           
+           
 
           
            
@@ -159,9 +165,9 @@ namespace Wof.View
                     initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
                     initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
                     break;
-                case "IslandRound.mesh": //4
+                case "IslandRound": //4
                     //ISLAND ROUND
-                    initNonCollisionTreesCircle(staticNode, 15.0f, 1.4f);
+                    initNonCollisionTreesCircle(staticNode, 15.0f, 1.3f);
                     break;
 
                 case "Island2": //6
@@ -172,6 +178,7 @@ namespace Wof.View
                 case "Laguna": //7
                     //LAGUNA
                     break;
+
 
                 case "DoubleLaguna": //8
                     // DOUBLE LAGUNA
@@ -297,13 +304,14 @@ namespace Wof.View
                 {
                     float X = (islandCounter%5*250) - 650;
                     float Z = Math.RangeRandom(-4, 0)*70;
-                    staticNode.Translate(new Vector3(-250 + Z, 0, UnitConverter.LogicToWorldUnits(firstTileIndex) + X));
+                    staticNode.Translate(new Vector3(-250 + Z, 0, Math.RangeRandom(-120, 120) + X));
                     staticNode.SetDirection(Vector3.UNIT_X);
                     angle = Math.RangeRandom(0, 2*Math.PI);
                 }
                 else
                 {
-                    staticNode.Translate(new Vector3(-350, 0, UnitConverter.LogicToWorldUnits(firstTileIndex) + 100));
+
+                    staticNode.Translate(new Vector3(-450 + Math.RangeRandom(-150, 150), 0, Math.RangeRandom(-200, 200)));
                     staticNode.SetDirection(Vector3.UNIT_X);
                     angle = Math.HALF_PI;
                 }
@@ -420,7 +428,7 @@ namespace Wof.View
 
         protected void initPalm2(SceneNode parent, Vector3 position)
         {
-            initPalm2(parent, position, false);
+            initPalm2(parent, position, backgroundDummy);
         }
         
         
@@ -529,7 +537,7 @@ namespace Wof.View
         }
         private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity)
         {
-            initNonCollisionTreesDiamond(parent, zMin, zMax, xMin, xMax, intensity, false);
+            initNonCollisionTreesDiamond(parent, zMin, zMax, xMin, xMax, intensity, backgroundDummy);
         }
 
         private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity, bool forceLowDetails)
@@ -554,7 +562,7 @@ namespace Wof.View
 
         private void initNonCollisionTreesCircle(SceneNode parent, float radius, float intensity)
         {
-            initNonCollisionTreesCircle(parent, radius, intensity, false);
+            initNonCollisionTreesCircle(parent, radius, intensity, backgroundDummy);
         }
 
         private void initNonCollisionTreesCircle(SceneNode parent, float radius, float intensity, bool forceLowDetails)
@@ -570,7 +578,7 @@ namespace Wof.View
 
         private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax, float intensity)
         {
-            initNonCollisionTreesDiamond(parent, zMin, zMax, intensity, false);
+            initNonCollisionTreesDiamond(parent, zMin, zMax, intensity, backgroundDummy);
         }
 
         private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax, float intensity, bool forceLowDetails)

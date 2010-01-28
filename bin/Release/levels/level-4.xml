@@ -3,14 +3,12 @@
 <level dayTime="foggy" missionType="dogFight" enemyPlanes="4" timeToFirstEnemyPlane="0" timeToNextEnemyPlane="30000">
   <ocean width="30"/>
 
-
-
   <ocean width="20"/>
   <ocean width="1" variation="3"/>
   <ocean width="40"/>
   
   <!-- lane island: Island18u -->
-  <island-begin mesh="Island18u" variation="3"/>  
+  <island-begin mesh="Island18u" variation="6"/>  
   <wooden-bunker num-soldiers="3"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
@@ -38,6 +36,17 @@
   
   <ocean width="30"/>
   <ocean width="1" variation="1"/>
+  
+  
+    <!-- double laguna -->
+  <island-begin mesh="DoubleLaguna"/>    
+  	<terrain variation="1"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="2"/>
+    <wooden-bunker num-soldiers="5"/>
+  <island-end/>
   
 
   <ocean width="30"/>

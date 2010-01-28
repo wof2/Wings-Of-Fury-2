@@ -19,6 +19,8 @@ namespace Wof.View
         public BackGroundDummyIslandView(int indexTile, string meshName, IFrameWork framework, SceneNode parentNode) : base(indexTile, framework, parentNode)
         {
             this.meshName = meshName;
+            this.count = 10; // na razie testowo. Nie ma tileviewsow wiec trzeba ustawic jakas dlugosc
+            initOnScene();
         }
 
       

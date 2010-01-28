@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<level dayTime="night" missionType="assassination" enemyPlanes="8" timeToNextEnemyPlane="30000" timeToFirstEnemyPlane="20000">
+  
+  
+  <ocean width="10"/>
+  <ocean width="1" variation="3"/>
+  <ocean width="10"/>
+  
+  <!-- lane island: Island18u -->
+  <island-begin mesh="Island18u" variation="6"/>  
+  <fortress-bunker variation="3" num-soldiers="10" num-generals="2"/>
+  <terrain variation="2"/>
+  <terrain variation="1"/>
+  <barrack num-soldiers="12" variation="1"/>
+  <barrels variation="0" />
+  <terrain variation="4" traversable="false"/>
+  <concrete-bunker num-soldiers="8"/>
+  <terrain variation="3"/>
+  <terrain variation="0" width="4"/>  
+  <terrain variation="0" width="2" />
+  <terrain variation="0" />
+  <wooden-bunker num-soldiers="3"/>
+  <island-end/>
+  <!-- lane island: Island18u -->
+  <ocean width="19"/>
+  <ocean width="1" variation="5"/>
+  <ocean width="19"/>
+  <ocean width="1" variation="4"/>
+    
+  <ocean width="11"/>
+  
+     <!-- laguna -->
+   <island-begin mesh="Laguna" variation="5"/>
+  	<terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <concrete-bunker num-soldiers="5"/>
+  <island-end/>
+    
+  
+  
+  
+
+  <ocean width="12"/>
+
+  <ocean width="1" variation="3"/>
+
+  <ocean width="20"/>
+  <ocean width="1" variation="2" />
+  
+  <island-begin mesh="Island6" variation="6"/>
+  <concrete-bunker num-soldiers="3" variation="0"/>
+  <terrain variation="0"/>
+  <terrain variation="2"/>
+  <terrain variation="0"/>
+   <wooden-bunker num-soldiers="6" variation="1"/>
+  <terrain variation="2"/>
+  <terrain variation="1"/>
+  <terrain variation="0"/>
+  <terrain variation="2"/> 
+  <concrete-bunker num-soldiers="3" variation="2"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <terrain variation="1"/>
+  <barrels variation="1"/>
+  <barrack num-soldiers="10" variation="1"/>
+  <barrels variation="1"/>
+  <terrain variation="1"/>
+  <concrete-bunker num-soldiers="3" variation="0"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <fortress-bunker variation="0" num-soldiers="5" num-generals="2"/>
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <wooden-bunker num-soldiers="6" variation="1"/>
+   <fortress-bunker variation="4" num-soldiers="5" num-generals="2"/>
+  <terrain variation="1"/>
+  <terrain variation="0"/>
+  <terrain variation="2"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <terrain variation="2"/>
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <terrain variation="2"/>
+   <fortress-bunker variation="1" num-soldiers="5" num-generals="2"/>
+  <concrete-bunker num-soldiers="5" variation="2"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <terrain variation="1"/>
+  <concrete-bunker num-soldiers="4" variation="0"/>
+  <island-end/> 
+
+  <ocean width="12"/>
+  <ocean width="1" variation="5"/>
+  <ocean width="20"/>
+  
+  
+   <ocean width="1" variation="1"/>
+  <ocean width="22"/>
+  
+  <!-- double laguna -->
+  <island-begin mesh="DoubleLaguna" variation="2"/>
+    <concrete-bunker num-soldiers="4"/>
+  	<terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <fortress-bunker variation="2" num-soldiers="5" num-generals="2"/>
+  <island-end/>
+  
+  
+  
+  <ocean width="20" />
+
+  
+  <aircraft-carrier-begin width="1"/>
+  <aircraft-carrier-middle width="3"/>
+  <aircraft-carrier-restore-ammunition width="1"/>
+  <aircraft-carrier-middle width="1"/>
+  <aircraft-carrier-end width="3"/>
+  <ocean width="1" variation="2"/>
+    
+  <ocean width="21"/>
+  <ocean width="1" variation="4"/>
+  <ocean width="24"/>
+
+
+  <!-- lane island: Island18u -->
+  <island-begin mesh="Island18u" variation="3"/>  
+  <wooden-bunker num-soldiers="3"/>
+  <terrain variation="2"/>
+  <terrain variation="1"/>
+  <barrack num-soldiers="8" variation="1"/>
+  <barrels variation="0" />
+  <terrain variation="4" traversable="false"/>
+  <fortress-bunker variation="0" num-soldiers="5" num-generals="2"/>
+  <terrain variation="3"/>
+  <terrain variation="0" width="4"/>  
+  <terrain variation="0" width="2" />
+  <terrain variation="0" />
+  <concrete-bunker num-soldiers="4"/>
+  <island-end/>
+  <!-- lane island: Island18u -->
+ 
+
+  
+  
+
+  <ocean width="100"/>
+</level>

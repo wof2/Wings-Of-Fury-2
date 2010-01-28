@@ -8,7 +8,8 @@
   <ship-begin width="1"/>
   <ship-wooden-bunker num-soldiers="1" traversable="false"/>
   <ship-end width="1" />
-  
+   <ocean width="15"/>
+    <ocean variation="3"/>
   <ocean width="8"/>
   
   <!-- warship -->
@@ -21,7 +22,8 @@
   <ship-deck width="1" variation="1" traversable="false"/>  
   <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" />
   <ship-end width="1" variation="1" traversable="false"/>
-  
+  <ocean width="20"/>
+  <ocean variation="4"/>
   <ocean width="8"/>
   
   <!-- patrolboat -->
@@ -45,7 +47,7 @@
   <terrain variation="11" width="1" traversable="false"/>
   <island-end variation="10" traversable="false"/>
   <!-- high island: Island12u -->
-  
+  <ocean width="9" />
   <ocean width="1" variation="3"/>
   <ocean width="9" />
 
@@ -55,13 +57,15 @@
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
 
+   <ocean width="15"/>
+    <ocean variation="4"/>  
   <ocean width="15"/>
     <!-- patrolboat -->
   <ship-begin width="1"/>
   <ship-wooden-bunker num-soldiers="1" traversable="false"/>
   <ship-end width="1" />
   
-  <ocean width="19"/>
+  <ocean width="22"/>
   <!-- warship -->
   <ship-begin width="1" variation="1" traversable="true" type="warship"/>
   <ship-concrete-bunker num-soldiers="1" traversable="true" variation="1" />

@@ -39,7 +39,7 @@
   <terrain variation="0"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
-  <barrels variation="0"/>
+  <barrels variation="1"/>
   <terrain variation="0"/>
   <barrack num-soldiers="5" />
   <barrack num-soldiers="6" variation="1"/>
