@@ -209,27 +209,28 @@ namespace Wof.Controller
 
             // po wczytaniu poziomu odswiezmy polozenie okna
             this.OnMove(new EventArgs());
-          
 
-            modelWorker.WorkerSupportsCancellation = true;
-            modelWorker.RunWorkerAsync();
-           // this.BringToFront();
-           // this.Activate();
-
-          //  while (root != null && root.RenderOneFrame())
-          //      Application.DoEvents();
-
+            if (EngineConfig.UseAsyncModel)
+            {
+                modelWorker.WorkerSupportsCancellation = true;
+                modelWorker.RunWorkerAsync();
+            }
+        
             
             root.StartRendering();
             
             // clean up
-            modelWorker.CancelAsync();
+            if (EngineConfig.UseAsyncModel)
+            {
+                modelWorker.CancelAsync();
+            }
+           
 
             if (Game.getGame() != null && Game.getGame().CurrentScreen != null)
             {
                 Game.getGame().CurrentScreen.CleanUp(false);
             }
-                         
+                        
             
 
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
@@ -773,8 +774,10 @@ namespace Wof.Controller
 
         protected virtual void WireEventListeners()
         {
-           
-            modelWorker.DoWork += LoopModelWorker;
+            if (EngineConfig.UseAsyncModel)
+            {
+                modelWorker.DoWork += LoopModelWorker;
+            }
             root.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
             root.FrameEnded += FrameEnded;
             root.RenderSystem.EventOccurred +=
@@ -795,6 +798,12 @@ namespace Wof.Controller
 
 
         private int modelDuration;
+
+        /// <summary>
+        /// Asynchroniczne przetwarzanie modelu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
         protected virtual void LoopModelWorker(object sender, EventArgs args)
         {
             int frameTime = 20; // 20 ms -> 50 fps
@@ -839,6 +848,11 @@ namespace Wof.Controller
             if (window.IsClosed)
                 return false;
 
+            // przetwarzanie synchroniczne
+            if (!EngineConfig.UseAsyncModel)
+            {
+                ModelFrameStarted(evt);
+            }
 
             return !shutDown;
         }
