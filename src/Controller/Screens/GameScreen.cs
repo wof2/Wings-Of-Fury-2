@@ -77,6 +77,7 @@ using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
+using Wof.Model.Level.XmlParser;
 using Wof.View;
 using Wof.View.Effects;
 using Button = BetaGUI.Button;
@@ -97,10 +98,6 @@ namespace Wof.Controller.Screens
         private bool showingChangingAmmoAds = false;
 
         private WeaponType? changeAmmoToWhenCanClearRestoreAmmunitionScreen = null;
-
-        private const String C_LEVEL_FOLDER = "levels";
-        private const String C_LEVEL_PREFIX = "level-";
-        private const String C_LEVEL_POSTFIX = ".dat";
 
         private const int C_SOLDIER_SCORE = 10;
         private const int C_BARRACK_SCORE = 20;
@@ -601,8 +598,8 @@ namespace Wof.Controller.Screens
        
         public static String GetLevelFileName(int levelNo)
         {
-            return C_LEVEL_FOLDER + "\\"
-                   + C_LEVEL_PREFIX + levelNo + C_LEVEL_POSTFIX;
+            return XmlLevelParser.C_LEVEL_FOLDER + "\\"
+                   + XmlLevelParser.C_LEVEL_PREFIX + levelNo + XmlLevelParser.C_LEVEL_POSTFIX;
         }
 
         /// <summary>
