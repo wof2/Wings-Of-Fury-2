@@ -544,31 +544,30 @@
   </data>
 
 
-  <data name="CustomLevels"> <!-- similar to 'additional levels' -->
-    <value>Custom Levels</value>
+ <data name="CustomLevels"> <!-- similar to 'additional levels' -->
+    <value>Extra Levels</value>
   </data>
 
  <data name="PressUpToLand">
-    <value>Press "{0}" to land</value>
+    <value>Druk "{0}" om te landen</value>
   </data>
 
   <!-- don't worry about the line breaks in the strings below -->
   <data name="News404_1">
-    <value>Error navigating to WOF2 project news</value>
+    <value>Fout bij het navigeren naar WOF2 project-nieuws</value>
   </data>
 
   <data name="News404_2">
-    <value>Cannot establish Internet connection</value>
+    <value>Kan geen internetverbinding tot stand brengen</value>
   </data>
 
   <data name="News404_3">
-    <value>Please allow WOF2 through your firewall. You will be able to download new levels, updates and support the game at the same time!</value>
+    <value>Voeg WOF2 A.U.B. toe aan uw firewall-uitzonderingen. U zult dan nieuwe levels en updates kunnen downloaden. Hiermee ondersteunt u het spel ook nog eens!</value>
   </data>
 
   <data name="News404_4">
-    <value>How to do this?</value>
+    <value>Hoe dit te doen?</value>
   </data>
-
 
 
 </root>
