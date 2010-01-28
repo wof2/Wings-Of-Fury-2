@@ -33,7 +33,7 @@
     petrolLoss="1"
     bombCount="25"
     rocketCount="15"
-    torpedoCount="3"
+    torpedoCount="1"
     breakingPower = "4"
     hitCoefficient="0.38"
     rangeSlowWheelingSpeed = "0.004"
@@ -43,9 +43,9 @@
     breakingMinSpeed = "5"
     sinkingSpeed = "1.3"
     maxHeight = "150"
-    landingSpeed = "1.0"	
-    userRotateStep = "2.0943951"
-    userRotateBrakingFactor = "1.9"
+    landingSpeed = "2.0"	
+    userRotateStep = "2.2943951"
+    userRotateBrakingFactor = "3.9"
     userMaxRotateValue = "2.0943951"
     godMode = "0"
     width = "5.5"
@@ -65,7 +65,7 @@
     oilLoss="1"
     minPitch = "10"
     viewRange = "85"
-    rocketCount="4"
+    rocketCount="3"
     nextRocketInterval = "1000"
     storagePlaneDistanceFault = "16"
     safeUserPlaneDistance = "45"
@@ -110,7 +110,7 @@
  <ShipWoodenBunker
     fireDelay = "800"
     horizonHeight = "65"
-    horizonWidth ="65"/>
+    horizonWidth ="85"/>
 
   <!--Bomby:
   fireInterval - Przedzial czasu, jaki musi uplynac, aby gracz mogl zrzucic nastepna bombe. Podany w milisekundach(ms). Typ: int
@@ -138,15 +138,7 @@
   maxSpeed - Maksymalna pozioma predkosc torpedy. Typ: int
   -->
   <Torpedo
-   fireInterval = "600"
-   baseSpeed = "30"/>
-
-  <!--Torpedy:
-  fireInterval - Przedzial czasu, jaki musi uplynac, aby gracz mogl zrzucic nastepna rakiete. Podany w milisekundach(ms). Typ: int
-  maxSpeed - Maksymalna pozioma predkosc torpedy. Typ: int
-  -->
-  <Torpedo
-   fireInterval = "1200"
+   fireInterval = "3500"
    baseSpeed = "10"/>
 
   <!--Wlasciwosci efektow:
