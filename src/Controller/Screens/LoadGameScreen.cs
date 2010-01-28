@@ -50,23 +50,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.IO;
 using BetaGUI;
 using Mogre;
 using Wof.Languages;
 using Wof.Model.Configuration;
+using Wof.Model.Level.XmlParser;
 using FontManager = Wof.Languages.FontManager;
 using Wof.Model.Level;
 
 namespace Wof.Controller.Screens
 {
-    internal class LoadGameScreen : AbstractScreen, BetaGUIListener
+    internal class LoadGameScreen : AbstractOptionsScreen
     {
         public const String C_COMPLETED_LEVELS_FILE = "game.dat";
-
-        private Window guiWindow;
-        private List<uint> completedLevels;
-
+        
+       
         #region GameScreen Members
 
         public LoadGameScreen(GameEventListener gameEventListener,
@@ -74,17 +73,86 @@ namespace Wof.Controller.Screens
                                   base(gameEventListener,  framework, viewport, camera)
         {
 
-            fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
-            if(GameConsts.Game.AllLevelsCheat)
-            {
-                completedLevels = LoadGameUtil.GetAllPossibleLevels();
-            } else
-            {
-                completedLevels = LoadGameUtil.GetCompletedLevels();
-            }
+          //  fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
+          
+            this.OnOptionCreated += new OptionCreated(CustomLevelsScreen_OnOptionCreated);
+            showRestartRequiredMessage = false;
+            autoGoBack = false;
             
         }
 
+
+        protected override void GoToBack(Button referer)
+        {
+            gameEventListener.GotoStartScreen();
+        }
+
+        protected override string getTitle()
+        {
+            return LanguageResources.GetString(LanguageKey.StartFrom);
+        }
+
+        protected override List<string> GetAvailableOptions()
+        {
+          
+              if(GameConsts.Game.AllLevelsCheat)
+              {
+                  return LoadGameUtil.GetAllPossibleLevelsFull();
+              } else
+              {
+                  return LoadGameUtil.GetCompletedLevelsFull();
+              }
+        }
+
+
+
+        protected void CustomLevelsScreen_OnOptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page)
+        {
+
+            int levelNo = int.Parse(availableOptions.ToArray()[index].Substring(LanguageResources.GetString(LanguageKey.Level).Length));
+           
+
+            string filename = Level.GetMissionTypeTextureFile(Level.GetMissionType( XmlLevelParser.GetLevelFileName(levelNo)));
+
+            if (filename != null)
+            {
+
+                guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), filename, (ushort)(1000 + index));
+            }
+        }
+
+        protected override Vector4 GetOptionPos(uint index, Window window)
+        {
+            return new Vector4(0, 2 * GetTextVSpacing() + index * GetTextVSpacing(),
+                               Viewport.ActualWidth / 2 - GetTextVSpacing(), GetTextVSpacing());
+
+        }
+
+        protected override string GetOptionDisplayText(string option)
+        {
+            if (option.StartsWith("__"))
+            {
+                return option.Substring(2);
+            }
+            else
+            {
+                return option;
+            }
+        }
+
+        protected override void ProcessOptionSelection(string selected)
+        {
+             PlayClickSound();
+            int levelNo = int.Parse(selected.Substring(LanguageResources.GetString(LanguageKey.Level).Length));
+             gameEventListener.StartGame(levelNo);
+        }
+
+        protected override bool IsOptionSelected(string option)
+        {
+            return false;
+        }
+
+        /*
         protected override void CreateGUI()
         {
 
@@ -128,37 +196,8 @@ namespace Wof.Controller.Screens
 
             guiWindow.show();
         }
-
+        */
         #endregion
 
-        #region BetaGUIListener Members
-
-        public void onButtonPress(Button referer)
-        {
-            if (screenTime > C_RESPONSE_DELAY)
-            {
-                if (referer == buttons[completedLevels.Count]) // przycisk exit
-                {
-                    PlayClickSound();
-                    gameEventListener.GotoStartScreen();
-                }
-                else
-                {
-                    int i = 0;
-                    IEnumerator e = buttons.GetEnumerator();
-                    while (e.MoveNext())
-                    {
-                        if (referer == e.Current)
-                        {
-                            PlayClickSound();
-                            gameEventListener.StartGame((int) ((Button) e.Current).id);
-                        }
-                        i++;
-                    }
-                }
-            }
-        }
-
-        #endregion
     }
 }

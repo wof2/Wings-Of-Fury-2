@@ -61,6 +61,7 @@ using MOIS;
 using Wof.Controller.Screens;
 using Wof.Languages;
 using Wof.Model.Configuration;
+using Wof.Model.Level.XmlParser;
 using Wof.View;
 using Wof.View.Effects;
 
@@ -667,7 +668,7 @@ namespace Wof.Controller
             int score = ((GameScreen) currentScreen).Score;
             int level = ((GameScreen) currentScreen).LevelNo;
           
-            if (File.Exists(GameScreen.GetLevelFileName(level + 1)))
+            if (File.Exists(XmlLevelParser.GetLevelFileName(level + 1)))
             {
                 LoadGameUtil.NewLevelCompleted((uint) (level + 1));
 

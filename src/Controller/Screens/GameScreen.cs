@@ -594,14 +594,6 @@ namespace Wof.Controller.Screens
         }
 
 
-
-       
-        public static String GetLevelFileName(int levelNo)
-        {
-            return XmlLevelParser.C_LEVEL_FOLDER + "\\"
-                   + XmlLevelParser.C_LEVEL_PREFIX + levelNo + XmlLevelParser.C_LEVEL_POSTFIX;
-        }
-
         /// <summary>
         /// Zwalnia screeny z pamiêci
         /// </summary>
@@ -633,7 +625,7 @@ namespace Wof.Controller.Screens
             delayedControllerFacade = new DelayedControllerFacade(this);
             if(LevelFile == null)
             {
-                levelFile = GetLevelFileName(levelNo);
+                levelFile = XmlLevelParser.GetLevelFileName(levelNo);
             }
             currentLevel = new Level(LevelFile, delayedControllerFacade, lives);
 
