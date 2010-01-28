@@ -536,30 +536,31 @@
     <value>Πάτησε '{0}','{1}' για να απογειώσεις</value>
   </data>
 
+ 
   <data name="CustomLevels">
-    <value>Custom Levels</value>
+    <value>Επίπεδα ειδικής κατασκευής</value>
   </data>
 
- <data name="PressUpToLand">
-    <value>Press "{0}" to land</value>
+  <data name="PressUpToLand">
+    <value>Πάτησε "{0}" για να προσγειωθείς</value>
   </data>
 
 
   <!-- don't worry about the line breaks in the strings below -->
   <data name="News404_1">
-    <value>Error navigating to WOF2 project news</value>
+    <value>Λάθος κατά τη πλοήγηση στο WOF2 τα νέα του σχέδιου</value>
   </data>
 
   <data name="News404_2">
-    <value>Cannot establish Internet connection</value>
+    <value>Δεν μπορεί να θεσπίσει την διαδυκτυακή σύνδεση</value>
   </data>
 
   <data name="News404_3">
-    <value>Please allow WOF2 through your firewall. You will be able to download new levels, updates and support the game at the same time!</value>
+    <value>Επιτρέπτε WOF2 μέσα από το firewall σας. Θα μπορείτε να καταφορτώνετε τα καινούργια επίπεδα, ενημερώσεις και να υποστιρίζετε το πιχνίδι ταυτόχρονα!</value>
   </data>
 
   <data name="News404_4">
-    <value>How to do this?</value>
+    <value>Πως να το κάνεις;</value>
   </data>
 
 </root>
