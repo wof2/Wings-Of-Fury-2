@@ -130,10 +130,14 @@ namespace Wof.Controller.Indicators
         {
         }
 
+      
+
         public MessageEntry(uint time, String message)
             : this(0, 0, time, message, 0.03f, DefaultColourTop, DefaultColourBottom, false, false)
         {
         }
+
+    
 
         public MessageEntry(float x, float y, String message, bool blinking, bool permanent)
             : this(x, y, 3000, message, 0.03f, DefaultColourTop, DefaultColourBottom, blinking, permanent)
@@ -142,6 +146,11 @@ namespace Wof.Controller.Indicators
 
         public MessageEntry(float x, float y, String message)
             : this(x, y, message, false, false)
+        {
+        }
+
+        public MessageEntry(float x, float y, String message, uint time)
+            : this(x, y, time, message, 0.03f, DefaultColourTop, DefaultColourBottom, false, false)
         {
         }
 

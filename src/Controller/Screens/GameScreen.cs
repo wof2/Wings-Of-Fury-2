@@ -534,8 +534,12 @@ namespace Wof.Controller.Screens
                     
                     if (ShowHintMessages && LevelNo == 1 && firstTakeOff)
                     {
-
                         MessageEntry message =
+                              new MessageEntry(0.2f, 0.2f, GetChangeAmmoMessage(), 5000);
+                        message.IncreaseY(-message.CharHeight / 2.0f);
+                        gameMessages.AppendMessage(message);
+
+                        message =
                             new MessageEntry(0.2f, 0.2f, GetHintMessage(), true, true);
                         message.IncreaseY(-message.CharHeight/2.0f);
                         gameMessages.AppendMessage(message);
@@ -2481,7 +2485,6 @@ namespace Wof.Controller.Screens
                 MessageEntry message = new MessageEntry(0.2f, 0.2f, GetHintMessage2(), true, true);
                 message.IncreaseY(-message.CharHeight/2.0f);
                 gameMessages.AppendMessage(message);
-                gameMessages.AppendMessage(GetChangeAmmoMessage());
                 
             }
 
