@@ -9,9 +9,12 @@
   <ship-wooden-bunker num-soldiers="1" traversable="false"/>
   <ship-end width="1" />
   
-  <ocean width="11" />
+  <ocean width="21" />
 
   <ocean width="1" variation="3"/>
+  <ocean width="8" />
+    
+  <ocean width="1" variation="2"/>
   <ocean width="8" />
 
   <aircraft-carrier-begin width="1"/>
@@ -27,9 +30,11 @@
   <ship-end width="1" />
   
   
-   
+  <ocean width="10"/>  
+  <ocean width="1" variation="5"/> 
+  <ocean width="29"/>
   
-  <ocean width="19"/>
+  
   <!-- warship -->
   <ship-begin width="1" variation="1" traversable="true" type="warship"/>
   <ship-concrete-bunker num-soldiers="2" traversable="true" variation="1" />
@@ -41,6 +46,18 @@
   <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" />
   <ship-end width="1" variation="1" traversable="false"/>
   
+  <ocean width="20"/>
+  
+  <island-begin mesh="Laguna" variation="5"/>
+  	<terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+  <island-end/>
+   <ocean width="10"/>
+  
+  <ocean width="1" variation="5"/>
   <ocean width="16"/>
    
    <!-- patrolboat -->

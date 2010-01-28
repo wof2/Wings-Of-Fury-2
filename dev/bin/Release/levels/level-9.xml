@@ -25,6 +25,8 @@
   <ship-wooden-bunker num-soldiers="1" traversable="false"/>
   <ship-end width="1" />
   
+   <ocean width="5"/>
+  <ocean width="1" variation="5"/>
   <ocean width="24"/>
   
   <island-begin mesh="Island4" variation="2"/>
@@ -42,7 +44,8 @@
   <terrain variation="2"/>
   <island-end/> 
   
-  
+  <ocean width="10"/>
+    <ocean width="1" variation="4"/>
   <ocean width="20"/>
     
   <aircraft-carrier-begin width="1"/>

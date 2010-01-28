@@ -42,7 +42,15 @@
   <ship-wooden-bunker num-soldiers="1" traversable="false"/>
   <ship-end width="1" />
   
-  
+  <ocean width="25"/>
+   <!-- laguna -->
+   <island-begin mesh="Laguna" variation="4"  />
+  	<terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+  <island-end/>
   
   <ocean width="19"/>
   

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="morning2" missionType="dogfight" enemyPlanes="10" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="12000">
+<level dayTime="morning" missionType="dogfight" enemyPlanes="10" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="12000">
   <ocean width="1" variation="3"/>
   <ocean width="19"/>
   <ocean width="1" variation="2"/>
@@ -8,10 +8,10 @@
   <ocean width="1" variation="4"/>
   <ocean width="19"/>
   
-  <island-begin  mesh="Island4" variation="1"/>
+  <island-begin  mesh="Island4" variation="2"/>
   <concrete-bunker num-soldiers="3"/>
   <terrain variation="2"/>
-  <terrain variation="1"/>
+  <barrels variation="0" />
   <terrain variation="2"/>
   <barrack num-soldiers="5" />
   <barrack num-soldiers="6" variation="1"/>
@@ -29,7 +29,7 @@
   <island-begin  mesh="Island12u" variation="10" traversable="false"/>
   <terrain variation="14" traversable="false"/>
   <terrain variation="15" traversable="false"/>
-  <barrels variation="0" />
+  <barrels variation="1" />
   <barrack num-soldiers="6" variation="1"/>
   <wooden-bunker num-soldiers="3"/>
   <terrain variation="0" width="1" traversable="true"/>
@@ -46,11 +46,15 @@
   <ocean width="25"/>
   <ocean width="1" variation="2"/>
   <ocean width="4"/>
+  
+  
   <aircraft-carrier-begin width="1"/>
   <aircraft-carrier-middle width="3"/>
   <aircraft-carrier-restore-ammunition width="1"/>
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
+  
+  
   <ocean width="1" variation="2"/>
   <ocean width="11"/>
  
@@ -62,8 +66,10 @@
   <ship-end width="1" />
   
   
-  <ocean width="1" variation="4"/>
+  <ocean width="1" variation="0"/>
   <ocean width="24"/>
+  
+  
   <island-begin  mesh="Island4" variation="2"/>
   <terrain variation="1"/>
   <wooden-bunker num-soldiers="3"/>
@@ -108,7 +114,7 @@
 
   <ocean width="21"/>
   
-  <island-begin mesh="Island4" variation="2"/>
+  <island-begin mesh="Island4" variation="0"/>
   <terrain variation="1"/>
   <wooden-bunker num-soldiers="3"/>
   <terrain variation="2"/>

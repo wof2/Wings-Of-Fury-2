@@ -90,19 +90,11 @@ namespace Wof.View.TileViews
                     backgroundViews.Add(cmv);
                     break;
                 case 2:
-                    //5 wysepek
+                    //2 wysepki
 
                     cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_LAGUNA, framework, parentNode);
                     backgroundViews.Add(cmv);
-
-                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
-                    backgroundViews.Add(cmv);
-
-                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_DLAGUNA, framework, parentNode);
-                    backgroundViews.Add(cmv);
-
-                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
-                    backgroundViews.Add(cmv);
+                    
 
                     cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
@@ -116,7 +108,7 @@ namespace Wof.View.TileViews
                     cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_DLAGUNA, framework, parentNode);
                     backgroundViews.Add(cmv);
                     break;
                 case 4:
@@ -135,18 +127,10 @@ namespace Wof.View.TileViews
                     cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
                     backgroundViews.Add(cmv);
 
-                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
-                    backgroundViews.Add(cmv);
-
                     cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_LAGUNA, framework, parentNode);
                     cmv.MainNode.SetScale(2,2,2);
                     backgroundViews.Add(cmv);
 
-                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_ROUND, framework, parentNode);
-                    backgroundViews.Add(cmv);
-
-                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_ISLAND_DLAGUNA, framework, parentNode);
-                    backgroundViews.Add(cmv);
                     break;
 
                 case 6:
