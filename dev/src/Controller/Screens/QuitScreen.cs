@@ -241,7 +241,7 @@ namespace Wof.Controller.Screens
             {
                 // reklamy maja zachowac oryginalna rozdzielczosc 
                 scale = AdSizeUtils.ScaleAdToDisplay(textureDimensions, new PointD(Viewport.ActualWidth, Viewport.ActualHeight), true);
-                scale = 0.75f * scale;
+                scale = 0.65f * scale;
             }
             else
             {

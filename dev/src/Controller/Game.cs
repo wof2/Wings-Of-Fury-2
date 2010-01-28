@@ -59,6 +59,7 @@ using Microsoft.Win32;
 using Mogre;
 using MOIS;
 using Wof.Controller.Screens;
+using Wof.Languages;
 using Wof.Model.Configuration;
 using Wof.View;
 using Wof.View.Effects;
@@ -1358,7 +1359,7 @@ namespace Wof.Controller
         /// Reads path of default browser from registry
         /// </summary>
         /// <returns></returns>
-        private static string GetDefaultBrowserPath()
+        public static string GetDefaultBrowserPath()
         {
 
             string browser = string.Empty;
@@ -1392,7 +1393,7 @@ namespace Wof.Controller
         }
         public void GotoDonateWebPageDo()
         {
-            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/donate?v="+EngineConfig.C_WOF_VERSION+"_"+EngineConfig.C_IS_DEMO.ToString();
+            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/donate?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode;
             try
             {
                 // launch default browser
@@ -1414,7 +1415,7 @@ namespace Wof.Controller
 
         public void GotoUpdateWebPageDo()
         {
-            string url = EngineConfig.C_WOF_HOME_PAGE + "/update.php?v="+EngineConfig.C_WOF_VERSION+"&d="+EngineConfig.C_IS_DEMO.ToString();
+            string url = EngineConfig.C_WOF_HOME_PAGE + "/update.php?v="+EngineConfig.C_WOF_VERSION+"&d="+EngineConfig.C_IS_DEMO.ToString()+"&l="+LanguageManager.ActualLanguageCode;
             try
             {
                 // launch default browser

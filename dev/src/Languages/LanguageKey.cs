@@ -223,6 +223,11 @@ namespace Wof.Languages
 
         public const string Naval = @"Naval";
         public const string Neutralized = @"Neutralized";
+        public const string News404_1 = @"News404_1";
+        public const string News404_2 = @"News404_2";
+        public const string News404_3 = @"News404_3";
+        public const string News404_4 = @"News404_4";
+        
         public const string Next = @"Next";
         public const string NewGame = @"NewGame";
         public const string No = @"No";

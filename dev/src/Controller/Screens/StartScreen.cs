@@ -211,7 +211,7 @@ namespace Wof.Controller.Screens
         
         protected void checkAvailableUpdates()
         {
-        	string url = EngineConfig.C_WOF_UPDATE_CHECK_PAGE + "?v="+EngineConfig.C_WOF_VERSION+"&d="+EngineConfig.C_IS_DEMO.ToString();
+        	string url = EngineConfig.C_WOF_UPDATE_CHECK_PAGE + "?v="+EngineConfig.C_WOF_VERSION+"&d="+EngineConfig.C_IS_DEMO.ToString() + "&l="+LanguageManager.ActualLanguageCode;
         	
 
 			// For HTTP, cast the request to HttpWebRequest
