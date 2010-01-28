@@ -139,7 +139,7 @@
   maxSpeed - Maksymalna pozioma predkosc torpedy. Typ: int
   -->
   <Torpedo
-   fireInterval = "1200"
+   fireInterval = "1900"
    baseSpeed = "10"/>
 
   <!--Wlasciwosci efektow:
