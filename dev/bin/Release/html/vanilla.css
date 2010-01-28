@@ -1,3 +1,7 @@
+.html, body {
+overflow-x: hidden;
+}
+
 BODY {
 	PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-LEFT: 0px; PADDING-RIGHT: 0px; BACKGROUND: url(menu.jpg) #f6f6f6 repeat-x 0px 0px; PADDING-TOP: 0px
 }
