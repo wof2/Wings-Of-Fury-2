@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using MHydrax;
 using Mogre;
+using Wof.Controller;
 using Timer=Mogre.Timer;
 
 namespace Wof.View.Effects
@@ -162,24 +163,31 @@ namespace Wof.View.Effects
 
         public void Update(float timeSinceLastFrame)
         {
-            if (hydrax != null && hydrax.IsCreated) hydrax.Update(timeSinceLastFrame);
-            return;
-            float updateEvery = 0.05f; // 20fps
 
-               if(hydrax != null)
-            hydrax.Update(timeSinceLastFrame);
-           return;
-            if (hydrax != null && hydrax.IsCreated)
+            if(EngineConfig.UpdateHydraxEveryFrame)
             {
-                timeSinceUpdate += timeSinceLastFrame;
-                if (forceUpdate || timeSinceUpdate > updateEvery)
-                {
-                    hydrax.Update(timeSinceUpdate);
-                    timeSinceUpdate = 0;
-                    forceUpdate = false;
-                }
-                
+                if (hydrax != null && hydrax.IsCreated) hydrax.Update(timeSinceLastFrame);
+                return;
             }
+            else
+            {
+                float updateEvery = 0.05f; // 20fps
+
+
+                if (hydrax != null && hydrax.IsCreated)
+                {
+                    timeSinceUpdate += timeSinceLastFrame;
+                    if (forceUpdate || timeSinceUpdate > updateEvery)
+                    {
+                        hydrax.Update(timeSinceUpdate);
+                        timeSinceUpdate = 0;
+                        forceUpdate = false;
+                    }
+
+                }
+            }
+          
+          
            
 
         }

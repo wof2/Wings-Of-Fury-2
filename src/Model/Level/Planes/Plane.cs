@@ -2766,9 +2766,11 @@ namespace Wof.Model.Level.Planes
             {
             	bool cond1 = this.IsEngineWorking && this.locationState == LocationState.Air && wheelsState == WheelsState.Out && direction == Direction.Left;
             	Carrier c = Carrier;            	
-            	if(!cond1) return false;            	
-            	float dist = Center.X - c.GetEndPosition().X;            	                                       
-            	return  dist > 0 && dist <= potentiallyLandingMaxDistance;
+            	if(!cond1) return false;
+                PointD dist = Center - c.GetEndPosition();
+                float distX = dist.X;
+              
+                return distX > 0 && distX <= potentiallyLandingMaxDistance && dist.Y > 0;
             	
             }
         }
