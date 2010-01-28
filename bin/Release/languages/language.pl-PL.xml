@@ -536,6 +536,23 @@
     <value>Naciśnij "{0}" aby wylądować</value>
   </data>
 
+  <!-- don't worry about the line breaks in the strings below -->
+  <data name="News404_1">
+    <value>Nie można otworzyć strony z aktualnościami projektu WOF2</value>
+  </data>
+
+  <data name="News404_2">
+    <value>Nie można nawiązać połączenia ze stroną</value>
+  </data>
+
+  <data name="News404_3">
+    <value>Proszę 'przepuść' grę przez swojego Firewall'a / antywirusa. Dzięki temu będziesz mógł pobierać uaktualnienia i patche, a także wspierać dalszy jej rozwój!</value>
+  </data>
+
+  <data name="News404_4">
+    <value>Jak to zrobić?</value>
+  </data>
+
 
 
 </root>

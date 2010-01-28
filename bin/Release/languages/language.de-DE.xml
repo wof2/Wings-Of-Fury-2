@@ -545,17 +545,33 @@
     <value>Drücke '{0}','{1}' zum Abheben</value>
   </data>
 
+
+  <!-- similar to "additional levels" -->
   <data name="CustomLevels">
     <value>Custom Levels</value>
   </data>
 
- <data name="PressUpToLand">
+  <!-- "{0}" will be substituted for the real key -->
+  <data name="PressUpToLand">
     <value>Press "{0}" to land</value>
   </data>
-
-
-  <!-- IDEA: Good for translaters would be to add the content of the splash screen here, too. -->
-
-  <!-- TODO: Check if the umlauts are correct encoded. My editor tells "U8-DOS". If there are problems, please tell me and I use an other encoding. -> beautyod@gmx.de -->
+  
+  <!-- don't worry about the line breaks in the strings below --> 
+  <data name="News404_1">
+    <value>Error navigating to WOF2 project news</value>
+  </data>
+  
+  <data name="News404_2">
+    <value>Cannot establish Internet connection</value>
+  </data>
+  
+  <data name="News404_3">
+    <value>Please allow WOF2 through your firewall. You will be able to download new levels, updates and support the game at the same time!</value>
+  </data>
+  
+  <data name="News404_4">
+    <value>How to do this?</value>
+  </data>
+  
 
 </root>
