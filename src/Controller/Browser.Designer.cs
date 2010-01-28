@@ -49,7 +49,6 @@ namespace Wof.Controller
             this.wofBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.wofBrowser.Name = "wofBrowser";
             this.wofBrowser.ScriptErrorsSuppressed = true;
-            this.wofBrowser.ScrollBarsEnabled = false;
             this.wofBrowser.Size = new System.Drawing.Size(300, 300);
             this.wofBrowser.TabIndex = 1;
             this.wofBrowser.TabStop = false;
