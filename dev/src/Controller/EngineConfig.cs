@@ -64,12 +64,12 @@ namespace Wof.Controller
         /// <summary>
         /// Wersja tej kompilacji WOfa. Powinna byæ w formacie X.XX
         /// </summary>
-        public static readonly String C_WOF_VERSION = "1.00";
+        public static readonly String C_WOF_VERSION = "3.00";
 
         public static readonly bool C_IS_INTERNAL_TEST = true;
         public static readonly String C_IS_INTERNAL_TEST_INFO = "!!! Internal test version !!! ";
 
- 		public static readonly String C_GAME_NAME = "Wings Of Fury 2";
+ 		public static readonly String C_GAME_NAME = "Wings Of Fury 2: Return of the legend";
  		
         /// <summary>
         /// Czy bie¿¹ca kompilacja jest demem?
@@ -117,7 +117,8 @@ namespace Wof.Controller
    
 
         public static bool UseAsyncModel = false;
-     
+        public static bool UpdateHydraxEveryFrame = true;
+
         
         public static bool Gore = false;
         public static bool MinimapNoseCamera = false;
@@ -438,6 +439,17 @@ namespace Wof.Controller
                         UseAsyncModel = false;
                     }
                     
+                    try
+                    {
+                        UpdateHydraxEveryFrame = "true".Equals(configOptions[18]);
+                    }
+                    catch (Exception)
+                    {
+                        UpdateHydraxEveryFrame = true;
+                    }
+                    
+
+                    
 								
                     
                 }
@@ -460,7 +472,7 @@ namespace Wof.Controller
 
         public static void SaveEngineConfig()
         {
-            String[] configuration = new String[18];
+            String[] configuration = new String[19];
             configuration[0] = BloomEnabled ? "true" : "false";
             configuration[1] = SoundEnabled ? "true" : "false";
             configuration[2] = SoundSystem.ToString();
@@ -479,6 +491,7 @@ namespace Wof.Controller
             configuration[15] = Gore ? "true" : "false";
             configuration[16] = HardwareTexturePreloaderTextureLimit.ToString();
             configuration[17] = UseAsyncModel ? "true" : "false";
+            configuration[18] = UpdateHydraxEveryFrame ? "true" : "false";
 
             
              
