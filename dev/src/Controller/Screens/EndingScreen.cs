@@ -80,12 +80,14 @@ namespace Wof.Controller.Screens
                                     EngineConfig.C_GAME_NAME,
                                     String.Empty,
                                     String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.CoreTeam)),
-                                    "Adam Witczak  Kamil Slawinski  Michal Ziober",
+                                    "Adam Witczak",
                                     String.Empty,
                                     String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.SupportTeam)),
+                                    "Kamil Slawinski",  
+                                    "Michal Ziober",
+                                    "Jakub Tezycki",
                                     "Emil Hornung",
                                     "Tomasz Bilski",
-                                    "Jakub Tezycki",
                                     String.Empty,
                                     String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.Graphics)),
                                     "Adam Witczak",
@@ -112,7 +114,7 @@ namespace Wof.Controller.Screens
                                     String.Empty,
                                     LanguageResources.GetString(LanguageKey.SpecialThanksToSteveWaldo),
                                     LanguageResources.GetString(LanguageKey.CreatorOfOriginalWingsOfFury),
-                                    String.Format(@"{0} 2009", LanguageResources.GetString(LanguageKey.Poland)) 
+                                    String.Format(@"{0} 2010", LanguageResources.GetString(LanguageKey.Poland)) 
                                  };
 
         #endregion
@@ -190,7 +192,7 @@ namespace Wof.Controller.Screens
         protected override List<Button> buildButtons()
         {
             List<Button> ret = new List<Button>();
-            ret.Add(guiWindow.createButton(new Vector4(20, 30*GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
+            ret.Add(guiWindow.createButton(new Vector4(20, 33*GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
                                            "bgui.button", LanguageResources.GetString(LanguageKey.Quit), cc));
             return ret;
         }
@@ -204,7 +206,7 @@ namespace Wof.Controller.Screens
             int i = 0;
             foreach (string s in names)
             {
-                if(i ==0)
+                if(i == 0)
                 {
                     m = new PositionedMessage(20, GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing(), s, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
                 } else

@@ -56,6 +56,7 @@ using FSLOgreCS;
 using Microsoft.DirectX.DirectSound;
 using Mogre;
 using MOIS;
+using Wof.Controller.AdAction;
 using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
 using Wof.View.Effects;
@@ -345,7 +346,8 @@ namespace Wof.Controller
                     CreateViewports();
                 }
 
-
+                // test polaczenia
+                AdManager.Singleton.TestConnection();
               
                 splash.Increment(4);
 
@@ -371,6 +373,8 @@ namespace Wof.Controller
                 // Create the scene
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingScene)));
                 CreateScene();
+
+           
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.AddingCompositors)));
                 // AddCompositors();

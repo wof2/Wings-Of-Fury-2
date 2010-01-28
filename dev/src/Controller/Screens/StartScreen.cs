@@ -239,6 +239,8 @@ namespace Wof.Controller.Screens
 				      
 				       
 				   }
+                   response.Close();
+
 				}
 			}
 			catch(Exception ex)
