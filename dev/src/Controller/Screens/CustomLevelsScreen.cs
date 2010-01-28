@@ -105,7 +105,7 @@ namespace Wof.Controller.Screens
 
         protected override string getTitle()
         {
-            return LanguageResources.GetString(LanguageKey.StartFrom);
+            return LanguageResources.GetString(LanguageKey.CustomLevels);
         }
 
         protected override List<string> GetAvailableOptions()

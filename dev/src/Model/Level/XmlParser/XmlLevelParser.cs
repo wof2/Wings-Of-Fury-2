@@ -1214,5 +1214,11 @@ namespace Wof.Model.Level.XmlParser
         public const String C_LEVEL_FOLDER = "levels";
         public const String C_LEVEL_PREFIX = "level-";
         public const String C_LEVEL_POSTFIX = ".dat";
+
+        public static String GetLevelFileName(int levelNo)
+        {
+            return C_LEVEL_FOLDER + "\\"
+                   + C_LEVEL_PREFIX + levelNo + C_LEVEL_POSTFIX;
+        }
     }
 }

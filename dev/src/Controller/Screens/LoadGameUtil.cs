@@ -51,6 +51,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using Wof.Languages;
 using Wof.Model.Level.XmlParser;
 
 namespace Wof.Controller.Screens
@@ -60,14 +61,25 @@ namespace Wof.Controller.Screens
 
         public const string C_CUSTOM_LEVELS_DIR = "custom_levels/";
 
+        public static List<string> GetAllPossibleLevelsFull()
+        {
+            List<string> ret = new List<string>();
+            List<uint> levels = GetAllPossibleLevels();
+            foreach (uint u in levels)
+            {
+                ret.Add(LanguageResources.GetString(LanguageKey.Level) + u);
+            }
+            return ret;
+        }
+
         public static List<uint> GetAllPossibleLevels()
         {
             List<uint> completedLevels = new List<uint>();
 
             int i = 0;
-            while (File.Exists(GameScreen.GetLevelFileName(++i)))
+            while (File.Exists(XmlLevelParser.GetLevelFileName(++i)))
             {
-                completedLevels.Add((uint) i);
+                completedLevels.Add((uint)i);
             }
             return completedLevels;
         }
@@ -99,6 +111,17 @@ namespace Wof.Controller.Screens
            
 
 
+        }
+
+        public static List<string> GetCompletedLevelsFull()
+        {
+            List<string> ret = new List<string>();
+            List<uint> completedLevels = GetCompletedLevels();
+            foreach (uint u in completedLevels)
+            {
+                ret.Add( LanguageResources.GetString(LanguageKey.Level) + u);
+            }
+            return ret;
         }
 
         public static List<uint> GetCompletedLevels()
