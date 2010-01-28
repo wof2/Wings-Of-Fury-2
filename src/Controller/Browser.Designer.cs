@@ -44,7 +44,6 @@ namespace Wof.Controller
             this.wofBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.wofBrowser.IsWebBrowserContextMenuEnabled = false;
             this.wofBrowser.Location = new System.Drawing.Point(0, 0);
             this.wofBrowser.Margin = new System.Windows.Forms.Padding(0);
             this.wofBrowser.MinimumSize = new System.Drawing.Size(20, 20);

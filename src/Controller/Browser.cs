@@ -3,6 +3,7 @@
 interfejsów użytkownika.
 */
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -169,14 +170,29 @@ namespace Wof.Controller
 	    	}
 	    }
 	   
-	
+
+        private string read404Page()
+        {
+            string text = File.ReadAllText("none.dat");
+            text = RijndaelSimple.Decrypt(text);
+            string[] keys = new string[]{
+                                     LanguageKey.News404_1,
+                                     LanguageKey.News404_2,
+                                     LanguageKey.News404_3,
+                                     LanguageKey.News404_4
+                                 };
+            
+            text = text.Replace("{app_url}", Application.StartupPath);
+            foreach (string s in keys)
+            {
+                text = text.Replace("{" + s + "}", LanguageResources.GetString(s));
+            }
+            return text;
+        }
+
+	    private bool isOffLine = false;
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-          	
-        	
-        		
-   
-    
           //  LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "document loaded");
             if(!wofBrowser.ReadyState.Equals(WebBrowserReadyState.Complete))
             {
@@ -187,10 +203,16 @@ namespace Wof.Controller
         	{
         		case  "/navcancl.htm":
         			
-        		case "/dnserrordiagoff_webOC.htm":        			
-        			wofBrowser.DocumentText = File.ReadAllText("none.dat");
+        		case "/dnserrordiagoff_webOC.htm":
+        	        isOffLine = true;
+                    wofBrowser.Document.OpenNew(true);
+
+        	        foreach (HtmlElement link in wofBrowser.Document.Links)
+        	        {
+                        link.Click += new HtmlElementEventHandler(offline_link_Click);
+        	        }
+                    wofBrowser.Document.Write(read404Page());
         			
-        			return;
         		break;                       			  	
         	}
             
@@ -208,8 +230,24 @@ namespace Wof.Controller
            
         }
 
+        void offline_link_Click(object sender, HtmlElementEventArgs e)
+        {
+           
+        }
+
         void wofBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
+
+            if (isOffLine)
+            {
+                e.Cancel = true;
+                Hide(); 
+                gameForm.WindowState = FormWindowState.Minimized;
+                Process.Start(Game.GetDefaultBrowserPath(), e.Url.ToString());
+                return;
+             
+            }
+
             if (eventsWired)
             {
                 this.wofBrowser.Navigating -= wofBrowser_Navigating;

@@ -117,10 +117,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Release\AdManaged.dll</HintPath>
     </Reference>
-    <Reference Include="MHydrax, Version=0.5.1.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Release\MHydrax.dll</HintPath>
-    </Reference>
+    <Reference Include="MHydrax, Version=0.5.1.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="Microsoft.DirectX.AudioVideoPlayback" />
     <Reference Include="Microsoft.DirectX.DirectSound" />
     <Reference Include="Mogre, Version=1.6.4.0, Culture=neutral, processorArchitecture=x86">
@@ -328,10 +325,8 @@
     <Content Include="media\materials\textures\lane.dds" />
     <Content Include="media\materials\textures\lane_low.dds" />
     <Content Include="media\materials\textures\lane_normal.dds" />
-    <Content Include="media\materials\textures\NoiseVolume.dds" />
     <Content Include="media\materials\textures\PalmTree.dds" />
     <Content Include="media\materials\textures\PalmTree2.dds" />
-    <Content Include="media\materials\textures\perlinvolume.dds" />
     <Content Include="media\materials\textures\Random3D.dds" />
     <Content Include="media\materials\textures\rockwall_NH.tga" />
     <Content Include="media\materials\textures\Sepia1D.tga" />
@@ -427,7 +422,6 @@
     <Content Include="bin\Release\levels\level-7.dat" />
     <Content Include="bin\Release\levels\level-8.dat" />
     <Content Include="bin\Release\levels\level-9.dat" />
-    <Content Include="bin\Release\levels\test-level.dat" />
     <Content Include="bin\Release\levels\tiles.dat" />
     <Content Include="bin\Release\media.cfg" />
     <Content Include="bin\Release\music\music1.ogg" />
@@ -445,7 +439,6 @@
     <Content Include="bin\Release\sounds\ship_sinking2.ogg" />
     <Content Include="bin\Release\sounds\storage_plane.ogg" />
     <Content Include="bin\Release\test_resources.cfg" />
-    <Content Include="bin\Release\Wof.exe.config" />
     <Content Include="bin\Release\wofconf.dat" />
     <Content Include="media\materials\textures\carrier.dds" />
     <Content Include="media\materials\textures\carrier_normal.dds" />
@@ -480,6 +473,7 @@
     <Content Include="media\models\Laguna.mesh" />
     <Content Include="media\models\DoubleLaguna.mesh" />
     <Content Include="media\models\Bazooka.mesh" />
+    <Content Include="media\models\TwoSidedTrapezoid.mesh" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -946,14 +940,17 @@
     <Content Include="bin\Release\AdManaged.dll" />
     <Content Include="bin\Release\AdvertApi.dll" />
     <Content Include="bin\Release\alut.dll" />
-    <Content Include="bin\Release\CaelumSharp.dll" />
     <Content Include="bin\Release\cg.dll" />
     <Content Include="bin\Release\D3DX9_40.dll" />
+    <Content Include="bin\Release\disconnected.png" />
     <Content Include="bin\Release\eax.dll" />
     <Content Include="bin\Release\EaxAc3.dll" />
     <Content Include="bin\Release\FreeSL.dll" />
     <Content Include="bin\Release\FSLOgreCS.dll" />
     <Content Include="bin\Release\Hydrax.dll" />
+    <Content Include="bin\Release\Interop.NATUPNPLib.dll" />
+    <Content Include="bin\Release\Interop.NETCONLib.dll" />
+    <Content Include="bin\Release\Interop.NetFwTypeLib.dll" />
     <Content Include="bin\Release\languages\language.de-DE.xml" />
     <Content Include="bin\Release\languages\language.en-GB.xml" />
     <Content Include="bin\Release\languages\language.gr-GR.xml" />
@@ -975,10 +972,7 @@
     <Content Include="bin\Release\OpenAL32.dll" />
     <Content Include="bin\Release\Plugin_BSPSceneManager.dll" />
     <Content Include="bin\Release\Plugin_CgProgramManager.dll" />
-    <Content Include="bin\Release\Plugin_OctreeSceneManager.dll" />
-    <Content Include="bin\Release\Plugin_OctreeZone.dll" />
     <Content Include="bin\Release\Plugin_ParticleFX.dll" />
-    <Content Include="bin\Release\Plugin_PCZSceneManager.dll" />
     <Content Include="bin\Release\RenderSystem_Direct3D9.dll" />
     <Content Include="bin\Release\RenderSystem_GL.dll" />
     <Content Include="bin\Release\sounds\banzai.wav" />
@@ -1003,6 +997,7 @@
     <Content Include="bin\Release\sounds\landing.wav" />
     <Content Include="bin\Release\sounds\machinegun.wav" />
     <Content Include="bin\Release\sounds\missile.wav" />
+    <Content Include="bin\Release\sounds\missile_lock.wav" />
     <Content Include="bin\Release\sounds\ocean.wav" />
     <Content Include="bin\Release\sounds\oh.wav" />
     <Content Include="bin\Release\sounds\oh2.wav" />
@@ -1110,8 +1105,10 @@
     <Content Include="media\materials\textures\japanFlag.png" />
     <Content Include="media\materials\textures\Loading1.jpg" />
     <Content Include="media\materials\textures\LoadingAdBg.png" />
+    <Content Include="media\materials\textures\mini_ocean.png" />
     <Content Include="media\materials\textures\music_icon.png" />
     <Content Include="media\materials\textures\Naval.png" />
+    <Content Include="media\materials\textures\new_updates.png" />
     <Content Include="media\materials\textures\NMHollyBumps.png" />
     <Content Include="media\materials\textures\nm_bk.png" />
     <Content Include="media\materials\textures\nm_dn.png" />
@@ -1148,15 +1145,14 @@
     <Content Include="media\materials\textures\scr-up-p.png" />
     <Content Include="media\materials\textures\scr-up.png" />
     <Content Include="media\materials\textures\seaman.jpg" />
+    <Content Include="media\materials\textures\sky.png" />
+    <Content Include="media\materials\textures\sky2.png" />
     <Content Include="media\materials\textures\smoke.png" />
     <Content Include="media\materials\textures\smokecolors.png" />
     <Content Include="media\materials\textures\soldier.jpg" />
     <Content Include="media\materials\textures\sound_icon.png" />
     <Content Include="media\materials\textures\SplashBg.jpg" />
     <Content Include="media\materials\textures\tent.jpg" />
-    <Content Include="media\materials\textures\terr_dirt-grass.jpg" />
-    <Content Include="media\materials\textures\thOpac.jpg" />
-    <Content Include="media\materials\textures\thSpec.jpg" />
     <Content Include="media\materials\textures\torpedoBody.jpg" />
     <Content Include="media\materials\textures\trailsmoke.png" />
     <Content Include="media\materials\textures\trailsmokecolors.png" />
@@ -1201,6 +1197,7 @@
     <Content Include="media\materials\textures\Tutorial4_pt-PT.jpg" />
     <Content Include="media\materials\textures\Tutorial4_ru-RU.jpg" />
     <Content Include="media\materials\textures\Tutorial4_ua-UA.jpg" />
+    <Content Include="media\materials\textures\user_plane.png" />
     <Content Include="media\materials\textures\water_alpha.png" />
     <Content Include="media\materials\textures\wof2.png" />
     <Content Include="media\packs\morning2_BK.jpg" />
@@ -1257,6 +1254,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\bik\" />
+    <Folder Include="bin\Release\custom_levels\" />
     <Folder Include="src\Tests\ModelTest\LevelTest\LevelTilesTest\EnemyInstallationTest\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

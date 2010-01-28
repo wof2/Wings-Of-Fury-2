@@ -741,7 +741,7 @@ namespace Wof.Controller.Screens
 
 
 
-                    adSurface.SetDimensions(0.75f * adSurface.Width * scale.X, 0.75f * adSurface.Height * scale.Y);
+                    adSurface.SetDimensions(0.65f * adSurface.Width * scale.X, 0.65f * adSurface.Height * scale.Y);
                     float xShift = (1 - adSurface.Width) / 2.0f;
                     float yShift = (1 - adSurface.Height) / 2.0f;
                     adSurface.SetPosition(xShift, yShift);
@@ -2295,7 +2295,7 @@ namespace Wof.Controller.Screens
 
                     PointD scale = AdSizeUtils.ScaleAdToDisplay(pair, adSurface, false);
 
-                    adContainer.SetDimensions(0.9f * adContainer.Width * scale.X, 0.9f * adContainer.Height * scale.Y);
+                    adContainer.SetDimensions(0.65f * adContainer.Width * scale.X, 0.65f * adContainer.Height * scale.Y);
 
                     float xPos = (adSurface.X - adContainer.Width) / 2.0f;
                     float yPos = guiWindow.h - 0.9f * adSurface.Y; //(adSurface.Y - adContainer.Height) / 2.0f;
