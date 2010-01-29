@@ -10,6 +10,22 @@ material Island: IslandBase
 
 }
 
+material Mountain
+{
+    technique
+    {
+        // base pass
+        pass
+        {
+			texture_unit
+            {
+                texture sand.dds   
+            }        
+        }
+        
+    }
+}
+
 
 
 material Islandold

@@ -878,6 +878,7 @@
     <Compile Include="src\View\CompositeModelView.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="src\View\Effects\AdQuadrangle3D.cs" />
     <Compile Include="src\View\Effects\EffectsManager.cs" />
     <Compile Include="src\View\Effects\HydraxManager.cs" />
     <Compile Include="src\View\Effects\ParticleManager.cs" />

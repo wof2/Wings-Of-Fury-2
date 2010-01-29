@@ -82,6 +82,16 @@ namespace Wof.View
     /// </summary>
     public class LevelView
     {
+        private const int C_AD_BASE_X = 200;
+        private const int C_AD_Z_DIST = 150;
+        private const int C_AD_X_DIST = 300;
+        private const int C_AD_Y_DIST = 10;
+
+        private const int C_AD_SIZE = 30;
+
+        private const float C_AD_MAX_DISPLAY_TIME = 40.0f;
+        
+
         /*
         private AdManager.Ad ad = null;
         public AdManager.Ad Ad
@@ -162,6 +172,11 @@ namespace Wof.View
 
         public void Destroy()
         {
+            if(dynamicAds != null)
+            {
+                dynamicAds.Clear();
+                dynamicAds = null;
+            }
             if (availableSplashNodesPool != null)
             {
                 availableSplashNodesPool.Clear();
@@ -280,6 +295,8 @@ namespace Wof.View
         private List<AmmunitionView> ammunitionViews;
         private List<TileView> tileViews;
         private List<CompositeModelView> compositeModelViews;
+
+        private List<AdQuadrangle3D> dynamicAds;
         private CarrierView carrierView;
 
         private List<CompositeModelView> backgroundViews;
@@ -347,6 +364,7 @@ namespace Wof.View
             dyingSoldierViews = new List<SoldierView>();
             ammunitionViews = new List<AmmunitionView>();
             backgroundViews = new List<CompositeModelView>();
+            dynamicAds = new List<AdQuadrangle3D>();
         }
 
         public PlaneView FindPlaneView(Plane p)
@@ -384,6 +402,59 @@ namespace Wof.View
             }) as ShipView;
             
         }
+
+      
+
+
+        /// <summary>
+        /// Rejestruje w view reklamê dynamiczn¹
+        /// </summary>
+        /// <param name="ad"></param>
+        public void OnRegisterBackgroundDynamicAd(AdManager.Ad ad)
+        {
+            int count = dynamicAds.Count;
+
+            int dir = count%2 == 1 ? 1 : -1;
+
+            Vector3 position = new Vector3(C_AD_BASE_X + count * C_AD_X_DIST * dir, C_AD_Y_DIST, -C_AD_Z_DIST);
+            Vector2 size = new Vector2(C_AD_SIZE, C_AD_SIZE);
+           
+            TexturePtr ptr = TextureManager.Singleton.GetByName(ad.path);
+            float ratio = 1.0f;
+            if(ptr != null)
+            {
+                ratio = 1.0f * ptr.SrcWidth / ptr.SrcHeight;
+            }
+            size.x *= ratio;
+            
+           
+           
+          
+            Entity mountain = sceneMgr.CreateEntity("AdMountain" + ad.id, "Mountain.mesh");
+            SceneNode mountainNode = sceneMgr.RootSceneNode.CreateChildSceneNode(mountain.Name + "Node", position + new Vector3(size.x * 0.5f,0,0));
+            mountainNode.AttachObject(mountain);
+
+            IslandView.initPalm(sceneMgr, mountainNode, new Vector3(-9,-10,12), true ).Roll(Math.HALF_PI);
+            IslandView.initPalm2(sceneMgr, mountainNode, new Vector3(-5, -7, 11), true).Roll(Math.HALF_PI);
+            IslandView.initPalm2(sceneMgr, mountainNode, new Vector3(2, -6, 11), true).Roll(Math.HALF_PI);
+            IslandView.initPalm2(sceneMgr, mountainNode, new Vector3(7, -8, 12), true).Roll(Math.HALF_PI);
+            IslandView.initPalm(sceneMgr, mountainNode, new Vector3(10, -7, 11), true).Roll(Math.HALF_PI);
+
+            AdQuadrangle3D q3d = AdManager.Singleton.AddDynamicAd(sceneMgr, ad.id, position, size);
+            SceneNode adNodeParent = mountainNode.CreateChildSceneNode(-position - new Vector3(size.x*0.5f, 0, 0));
+                
+            SceneNode adNode = adNodeParent.CreateChildSceneNode();
+            
+            adNode.AttachObject(q3d.ManualObject);
+
+            q3d.SetSceneNodes(mountainNode, adNode);
+            dynamicAds.Add(q3d);
+
+         
+
+        }
+
+
 
         protected void OnRegisterTile(LevelTile levelTile)
         {
@@ -1627,12 +1698,109 @@ namespace Wof.View
           
         }
 
+        private float dynamicAdsTimer = 0;
+
+
+        private void HandleDynamicAds(FrameEvent evt)
+        {
+            dynamicAdsTimer += evt.timeSinceLastFrame;
+
+
+            // reklamy ktore juz zostaly pokazane (i uplynal odpowiedni czas) sa chowane
+            for (int i =0; i < dynamicAds.Count; i++) 
+            {
+                AdQuadrangle3D ad = dynamicAds[i];
+
+               
+                if (ad.WasShown)
+                {
+                    if (dynamicAdsTimer > C_AD_MAX_DISPLAY_TIME)
+                    {
+                        SceneNode holder = ad.GetParent();
+
+                        // zatop
+                        Vector3 pos = holder._getDerivedPosition();
+
+
+                        if(pos.y > -C_AD_SIZE * 1.4f)
+                        {
+                            if (!EngineConfig.LowDetails)
+                            {
+                                if (pos.y > -10)
+                                {
+                                    // ponad woda
+                                    string name;
+                                    EffectsManager.EffectType type;
+                                    if (((uint) ad.GetHashCode() + i)%2 == 0)
+                                    {
+                                        type = EffectsManager.EffectType.EXPLOSION2_SLOW;
+                                    }
+                                    else
+                                    {
+                                        type = EffectsManager.EffectType.EXPLOSION1_SLOW;
+                                    }
+                                    for (uint j = 0; j < 3; j++)
+                                    {
+
+                                        name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type,
+                                                                                    (ad.GetHashCode() + j).ToString());
+                                        if (!EffectsManager.Singleton.EffectExists(name))
+                                        {
+                                            if (Math.RangeRandom(0, 1) > 0.8f)
+                                            {
+                                                EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode,
+                                                                                pos +
+                                                                                ViewHelper.RandomVector3(15, 0, 5),
+                                                                                new Vector2(25, 25) +
+                                                                                ViewHelper.RandomVector2(5, 5),
+                                                                                type, false,
+                                                                                (ad.GetHashCode() + j).ToString());
+
+                                            }
+
+                                        }
+                                    }
+                                }
+                            }
+                            pos.y = 0;
+                            ShipView.SinkingWaterAnimation(sceneMgr, pos, "AdWave" + ad.GetBillboardId(), 4, new Vector2(25, 25), new Vector2(40, 40));
+                            holder.Translate(0, -evt.timeSinceLastFrame * 6.0f, 0);
+                            ad.DecreaseOpacity(evt.timeSinceLastFrame * 0.5f);
+
+                          
+
+                            
+                        }
+                        else
+                        {
+                            AdManager.Singleton.RemoveDynamicAd(ad);
+                            ad.ManualObject.Visible = false;
+                            dynamicAds.Remove(ad);
+                        }
+                        
+
+                        
+                    }
+                }
+                else
+                {
+                    if (AdManager.Singleton.IsDynamicAdVisible(ad))
+                    {
+                        ad.WasShown = true;
+                    }
+                }
+
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="evt"></param>
         public void OnFrameStarted(FrameEvent evt)
         {
+
+            HandleDynamicAds(evt);
             
             if (EngineConfig.UseHydrax)
             {

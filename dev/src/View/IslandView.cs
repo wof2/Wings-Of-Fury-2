@@ -156,24 +156,24 @@ namespace Wof.View
             {
                 case "Island1": //5
                     //ISLAND1
-                    initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
-                    initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, margin, 5, 0.7f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, -margin, -5, 0.7f);
                     break;
 
                 case "Island1a": //5
                     //ISLAND1
-                    initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
-                    initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, margin, 5, 0.7f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, -margin, -5, 0.7f);
                     break;
                 case "IslandRound": //4
                     //ISLAND ROUND
-                    initNonCollisionTreesCircle(staticNode, 15.0f, 1.3f);
+                    initNonCollisionTreesCircle(sceneMgr, staticNode, 15.0f, 1.3f);
                     break;
 
                 case "Island2": //6
                     //ISLAND2
-                    initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
-                    initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, margin, 5, 0.7f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, -margin, -5, 0.7f);
                     break;
                 case "Laguna": //7
                     //LAGUNA
@@ -182,34 +182,34 @@ namespace Wof.View
 
                 case "DoubleLaguna": //8
                     // DOUBLE LAGUNA
-                    initNonCollisionTreesDiamond(staticNode, -5.5f, 0.0f, maxX * 0.1f, maxX, 0.6f);
-                    initNonCollisionTreesDiamond(staticNode, -1.5f, 30.0f, maxX * 0.00f, maxX * 0.15f, 0.6f);
-                   
-                    initNonCollisionTreesDiamond(staticNode, -1.5f, 30.0f, maxX * 0.85f, maxX * 1.00f, 0.6f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, -5.5f, 0.0f, maxX * 0.1f, maxX, 0.6f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, -1.5f, 30.0f, maxX * 0.00f, maxX * 0.15f, 0.6f);
+
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, -1.5f, 30.0f, maxX * 0.85f, maxX * 1.00f, 0.6f);
                    
                     break;
 
                 case "Island3": //9
                     //ISLAND3
-                    initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
-                    initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, margin, 5, 0.7f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, -margin, -5, 0.7f);
                     break;
                 case "Island12u": //12
                     //ISLAND12u
-                    initNonCollisionTreesDiamond(staticNode, margin, 5, maxX / 4.0f, maxX / 2.0f, 0.5f);
-                    initNonCollisionTreesDiamond(staticNode, -margin, -5, maxX / 4.0f, maxX / 2.0f, 0.5f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, margin, 5, maxX / 4.0f, maxX / 2.0f, 0.5f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, -margin, -5, maxX / 4.0f, maxX / 2.0f, 0.5f);
                     break;
 
                 case "Island4": //13
                     //ISLAND4
-                    initNonCollisionTreesDiamond(staticNode, margin, 5, 0.7f);
-                    initNonCollisionTreesDiamond(staticNode, -margin, -5, 0.7f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, margin, 5, 0.7f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, -margin, -5, 0.7f);
                     break;
 
                 case "Island18u": //18
                     //ISLAND18u
-                    initNonCollisionTreesDiamond(staticNode, 10, 14, maxX / 2.5f, maxX, 0.5f);
-                    initNonCollisionTreesDiamond(staticNode, -11, -13, maxX / 2.5f, maxX, 0.5f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, 10, 14, maxX / 2.5f, maxX, 0.5f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, -11, -13, maxX / 2.5f, maxX, 0.5f);
 
                     // zwolnic pamiec
                     EnemyPlaneView epv = new EnemyPlaneView(null, framework, staticNode);
@@ -240,13 +240,13 @@ namespace Wof.View
                    
                     if (backgroundDummy)
                     {
-                        initNonCollisionTreesDiamond(staticNode, 1, 15, 0.7f);
-                        initNonCollisionTreesDiamond(staticNode, -1, -15, 0.7f);
+                        initNonCollisionTreesDiamond(sceneMgr, staticNode, 1, 15, 0.7f);
+                        initNonCollisionTreesDiamond(sceneMgr, staticNode, -1, -15, 0.7f);
                     }
                     else
                     {
-                        initNonCollisionTreesDiamond(staticNode, margin, 15, 0.7f);
-                        initNonCollisionTreesDiamond(staticNode, -margin, -15, 0.7f);
+                        initNonCollisionTreesDiamond(sceneMgr, staticNode, margin, 15, 0.7f);
+                        initNonCollisionTreesDiamond(sceneMgr, staticNode, -margin, -15, 0.7f);
                     }
                     break;
 
@@ -254,12 +254,12 @@ namespace Wof.View
                     //ISLAND6
                     if (EngineConfig.LowDetails)
                     {
-                        initNonCollisionTreesDiamond(staticNode, 4.5f, 33, 0.5f);
+                        initNonCollisionTreesDiamond(sceneMgr, staticNode, 4.5f, 33, 0.5f);
                     }
-                    else initNonCollisionTreesDiamond(staticNode, 4.5f, 33, 0.9f);
+                    else initNonCollisionTreesDiamond(sceneMgr, staticNode, 4.5f, 33, 0.9f);
 
-                    initNonCollisionTreesDiamond(staticNode, -4.5f, -60, 0.5f);
-                    initNonCollisionTreesDiamond(staticNode, -4.5f, -30, 0.5f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, -4.5f, -60, 0.5f);
+                    initNonCollisionTreesDiamond(sceneMgr, staticNode, -4.5f, -30, 0.5f);
                     break;
                 default:
                     return;
@@ -277,6 +277,7 @@ namespace Wof.View
 
             compositeModel = sceneMgr.CreateEntity(name, meshFilename);
             compositeModel.CastShadows = false;// EngineConfig.ShadowsQuality > 0;
+           
           //  compositeModel.SetMaterialName("Carrier");
       //      compositeModel.SetMaterialName("Carrier/Panels");
            /* 
@@ -361,17 +362,17 @@ namespace Wof.View
                 }
             }
         }
-        protected void initPalm(SceneNode parent, Vector3 position)
+        protected void initPalm(SceneManager sceneMgr1, SceneNode parent, Vector3 position)
         {
-            initPalm(parent, position, false, true);   
+            initPalm(sceneMgr1, parent, position, false, true);   
 
         }
-         protected void initPalm(SceneNode parent, Vector3 position, bool forceLowDetails)
+        public static SceneNode initPalm(SceneManager sceneMgr1, SceneNode parent, Vector3 position, bool forceLowDetails)
         {
-            initPalm(parent, position, forceLowDetails, true);   
+           return initPalm( sceneMgr1, parent, position, forceLowDetails, true);   
 
         }
-        protected void initPalm(SceneNode parent, Vector3 position, bool forceLowDetails, bool rayBasedY)
+        public static SceneNode initPalm(SceneManager sceneMgr, SceneNode parent, Vector3 position, bool forceLowDetails, bool rayBasedY)
         {
             Entity palm;
             SceneNode palmNode;
@@ -422,13 +423,14 @@ namespace Wof.View
             }
             palmNode.AttachObject(palm);
 
+            return palmNode;
 
            
         }
 
-        protected void initPalm2(SceneNode parent, Vector3 position)
+        private void initPalm2(SceneManager sceneMgr, SceneNode parent, Vector3 position)
         {
-            initPalm2(parent, position, backgroundDummy);
+            initPalm2(sceneMgr, parent, position, backgroundDummy);
         }
         
         
@@ -441,7 +443,7 @@ namespace Wof.View
         /// <param name="position"></param>
         /// <param name="forceLowDetails"></param>
         /// <param name="rayBasedY"></param>
-        protected void initPalm2(SceneNode parent, Vector3 position, bool forceLowDetails, bool rayBasedY)
+        public static SceneNode initPalm2(SceneManager sceneMgr, SceneNode parent, Vector3 position, bool forceLowDetails, bool rayBasedY)
         {
         	/*if(rayBasedY)
         	{
@@ -490,7 +492,7 @@ namespace Wof.View
                 palmNode.Translate(new Vector3(0, -0.0f, 0));
             }
             palmNode.AttachObject(palm);
-
+            return palmNode;
         	
         }
 
@@ -500,9 +502,9 @@ namespace Wof.View
         /// <param name="parent"></param>
         /// <param name="position"></param>
         /// <param name="forceLowDetails"></param>
-        protected void initPalm2(SceneNode parent, Vector3 position, bool forceLowDetails)
+        public static SceneNode initPalm2(SceneManager sceneMgr, SceneNode parent, Vector3 position, bool forceLowDetails)
         {
-        	initPalm2(parent, position, forceLowDetails, true);
+        	return initPalm2(sceneMgr, parent, position, forceLowDetails, true);
 
         }
 
@@ -520,9 +522,9 @@ namespace Wof.View
 
         }
 
-        private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax)
+        private void initNonCollisionTreesDiamond(SceneManager sceneMgr, SceneNode parent, float zMin, float zMax)
         {
-            initNonCollisionTreesDiamond(parent, zMin, zMax, 1);
+            initNonCollisionTreesDiamond(sceneMgr, parent, zMin, zMax, 1);
         }
 
         private void initLampPosts(SceneNode parent, float z, float xMin, float xMax, float num, Radian direction)
@@ -535,12 +537,12 @@ namespace Wof.View
                
             }
         }
-        private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity)
+        public void initNonCollisionTreesDiamond(SceneManager sceneMgr1, SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity)
         {
-            initNonCollisionTreesDiamond(parent, zMin, zMax, xMin, xMax, intensity, backgroundDummy);
+            initNonCollisionTreesDiamond(sceneMgr1, parent, zMin, zMax, xMin, xMax, intensity, backgroundDummy);
         }
 
-        private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity, bool forceLowDetails)
+        private void initNonCollisionTreesDiamond(SceneManager sceneMgr1, SceneNode parent, float zMin, float zMax, float xMin, float xMax, float intensity, bool forceLowDetails)
         {
             int c = (int)Math.Abs(count);
             int count_l = (int)(c * 2 * intensity);
@@ -551,41 +553,41 @@ namespace Wof.View
 
                 if (i % 10 == 1) //Co dziesiata palma jest z wieksza iloscia trojkatow
                 {
-                    initPalm(parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax)), forceLowDetails);
+                    initPalm(sceneMgr1, parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax)), forceLowDetails);
                 }
                 else
                 {
-                    initPalm2(parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax)), forceLowDetails);
+                    initPalm2(sceneMgr1, parent, new Vector3(z, -0.5f, Math.RangeRandom(xMin, xMax)), forceLowDetails);
                 }
             }
         }
 
-        private void initNonCollisionTreesCircle(SceneNode parent, float radius, float intensity)
+        private void initNonCollisionTreesCircle(SceneManager sceneMgr, SceneNode parent, float radius, float intensity)
         {
-            initNonCollisionTreesCircle(parent, radius, intensity, backgroundDummy);
+            initNonCollisionTreesCircle(sceneMgr, parent, radius, intensity, backgroundDummy);
         }
 
-        private void initNonCollisionTreesCircle(SceneNode parent, float radius, float intensity, bool forceLowDetails)
+        private void initNonCollisionTreesCircle(SceneManager sceneMgr, SceneNode parent, float radius, float intensity, bool forceLowDetails)
         {
             int c = (int)Math.Abs(count);
             int count_l = (int)(c * 2 * intensity);
 
             for (int i = 0; i < count_l; i++)
             {
-                initPalm2(parent, new Vector3(Math.RangeRandom(-radius, radius), -0.5f, Math.RangeRandom(-radius, radius) - 25), forceLowDetails);
+                initPalm2(sceneMgr, parent, new Vector3(Math.RangeRandom(-radius, radius), -0.5f, Math.RangeRandom(-radius, radius) - 25), forceLowDetails);
             }
         }
 
-        private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax, float intensity)
+        private void initNonCollisionTreesDiamond(SceneManager sceneMgr, SceneNode parent, float zMin, float zMax, float intensity)
         {
-            initNonCollisionTreesDiamond(parent, zMin, zMax, intensity, backgroundDummy);
+            initNonCollisionTreesDiamond(sceneMgr, parent, zMin, zMax, intensity, backgroundDummy);
         }
 
-        private void initNonCollisionTreesDiamond(SceneNode parent, float zMin, float zMax, float intensity, bool forceLowDetails)
+        private void initNonCollisionTreesDiamond(SceneManager sceneMgr, SceneNode parent, float zMin, float zMax, float intensity, bool forceLowDetails)
         {
             int c = (int)Math.Abs(count);
             float max = - c * LevelView.TileWidth;
-            initNonCollisionTreesDiamond(parent, zMin, zMax, 0.1f * max, 0.9f * max, intensity, forceLowDetails);
+            initNonCollisionTreesDiamond(sceneMgr, parent, zMin, zMax, 0.1f * max, 0.9f * max, intensity, forceLowDetails);
         }
 
 

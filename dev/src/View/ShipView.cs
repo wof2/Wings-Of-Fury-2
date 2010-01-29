@@ -219,29 +219,37 @@ namespace Wof.View
         	
         }
         
+     
+
+        public static void SinkingWaterAnimation(SceneManager sceneMgr, Vector3 pos, string baseName, int count, Vector2 range, Vector2 size)
+        {
+            string name;
+
+
+            for (uint i = 0; i < count; i++)
+            {
+                Vector2 rand = ViewHelper.RandomVector2(range.x, range.y);
+                Vector3 posView = new Vector3(pos.x + rand.x, pos.y, pos.z + rand.y);
+                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.SUBMERGE, baseName + "_" + i);
+                NodeAnimation.NodeAnimation node = EffectsManager.Singleton.GetEffect(name);
+                if (!EffectsManager.Singleton.EffectExists(name) || (node != null && node.getPercent() > 0.6f))
+                {
+                    EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
+                                                               baseName + "_" + i,
+                                                               EffectsManager.EffectType.SUBMERGE, posView,
+                                                               size, Quaternion.IDENTITY, false);
+                }
+
+            }
+        }
        
         public void OnShipSinking(LevelTile shipTile) 
         {
         	LevelTile tile = shipTile;
         	Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(tile.TileIndex), 1.5f));
             string name;
-           
 
-            for (uint i = 0; i < 3; i++ )
-            {
-                Vector2 rand = ViewHelper.RandomVector2(6, 6);
-                Vector3 posView = new Vector3(v.x + rand.x, v.y, 0 + rand.y);
-                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.SUBMERGE, tile.GetHashCode() + "_" + i);
-                NodeAnimation.NodeAnimation node = EffectsManager.Singleton.GetEffect(name);
-                if (!EffectsManager.Singleton.EffectExists(name) || (node!=null && node.getPercent() > 0.6f))
-                {
-                    EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
-                                                               tile.GetHashCode() + "_" + i,
-                                                               EffectsManager.EffectType.SUBMERGE, posView,
-                                                               new Vector2(25, 25), Quaternion.IDENTITY, false);
-                }                    
-
-            }
+            SinkingWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), tile.GetHashCode().ToString(), 3, new Vector2(6, 6), new Vector2(25, 25));
             
            
             // zgaœ ogieñ - pierwotnie mia³o byæ realizowane przez LevelView.OnShipUnderWater. Z przyczyn technicznych realizowane jest tutaj

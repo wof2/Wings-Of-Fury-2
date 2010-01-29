@@ -46,11 +46,15 @@
  * 
  */
 
+using System;
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
+using Wof.Controller.AdAction;
+using Wof.Controller.Screens;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
+using Wof.View.Effects;
 
 namespace Wof.View.TileViews
 {
@@ -69,12 +73,16 @@ namespace Wof.View.TileViews
         public BeginIslandTileView(LevelTile levelTile, IFrameWork framework)
             : base(levelTile, framework)
         {
+
         }
+
+
+       
 
         public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
             base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
-
+           
             CompositeModelView cmv;
 
             int variant = ((IslandTile) LevelTile).Variant;

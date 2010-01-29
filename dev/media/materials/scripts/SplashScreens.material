@@ -9,12 +9,14 @@ material SplashScreen
 			// wartosc podmieniana dynamicznie
 			texture_unit 
 			{
-				texture Loading1.jpg
-				//alpha_op_ex modulate src_texture src_manual 0.2 0.2
+				filtering anisotropic
+				max_anisotropy 4
+				texture Loading1.jpg			
 			}
 		}
 	}
 }
+
 
 material SplashScreenBg
 {
@@ -113,9 +115,15 @@ material AdMaterial
 	technique
 	{
 		pass
-		{			
+		{
+			ambient 1.0 1.0 1.0
+			diffuse 1.0 1.0 1.0
+			lighting off
+			
 			texture_unit
 			{
+				filtering anisotropic
+				max_anisotropy 4
 				texture Intro1.jpg
 			}						
 			
