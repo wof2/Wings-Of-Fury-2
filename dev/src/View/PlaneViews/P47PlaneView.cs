@@ -217,8 +217,8 @@ namespace Wof.View
             hangaringCameraHolder = planeNode.CreateChildSceneNode(name + "HangaringCameraHolder");
         	cameraHolders.Add(planeNode.CreateChildSceneNode(name + "MainCameraHolder"));
             cameraHolders.Add(planeNode.CreateChildSceneNode(name + "BirdCameraHolder"));
-            cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveLeftCameraHolder"));
-            cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveRightCameraHolder"));
+           // cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveLeftCameraHolder"));
+          //  cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveRightCameraHolder"));
             cameraHolders.Add(innerNode.CreateChildSceneNode(name + "BehindCameraHolder"));
             cameraHolders.Add(innerNode.CreateChildSceneNode(name + "NoseCameraHolder"));
             
@@ -235,6 +235,7 @@ namespace Wof.View
 
             // ABOVE CAMERA HOLDERS
             
+            /*
             cameraHolders[2].ResetOrientation();
             cameraHolders[2].Position = new Vector3(-19, 2.0f, 0);
             cameraHolders[2].Yaw(new Radian(-Math.HALF_PI));
@@ -246,14 +247,15 @@ namespace Wof.View
             cameraHolders[3].Yaw(new Radian(Math.HALF_PI));
            // cameraHolders[3].Pitch(new Radian(-Math.HALF_PI * 0.28f));
             cameraHolders[3].Pitch(new Radian(-Math.HALF_PI * 0.01f));
+            */
 
 
-            cameraHolders[4].ResetOrientation();
-            cameraHolders[4].Position = new Vector3(0, 4.0f, 30);        
-            cameraHolders[4].Pitch(new Radian(-Math.HALF_PI * 0.01f));
+            cameraHolders[2].ResetOrientation();
+            cameraHolders[2].Position = new Vector3(0, 4.0f, 30);        
+            cameraHolders[2].Pitch(new Radian(-Math.HALF_PI * 0.01f));
             
-            cameraHolders[5].ResetOrientation();
-            cameraHolders[5].Position = new Vector3(0, 0.0f, -6);        
+            cameraHolders[3].ResetOrientation();
+            cameraHolders[3].Position = new Vector3(0, 0.0f, -6);        
             //cameraHolders[5].Pitch(new Radian(-Math.HALF_PI * 0.01f));
 
             HangaringCameraHolder.ResetOrientation();
