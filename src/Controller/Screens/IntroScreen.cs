@@ -175,7 +175,7 @@ namespace Wof.Controller.Screens
         public override void FrameStarted(FrameEvent evt)
         {
             base.FrameStarted(evt);
-            AdManager.Singleton.Work();
+            AdManager.Singleton.Work(null);
             
             if(!wasInitialized)
             {
@@ -351,7 +351,7 @@ namespace Wof.Controller.Screens
                 {
                    
                     AdManager.Singleton.CloseAd(currentAd);
-                    AdManager.Singleton.Work(); // wyslij, na wszelki wypadek
+                    AdManager.Singleton.Work(null); // wyslij, na wszelki wypadek
                  
                   
                     MaterialManager.Singleton.Unload(currentMaterialName);
