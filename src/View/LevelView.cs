@@ -108,7 +108,7 @@ namespace Wof.View
 
         private int currentCameraHolderIndex = 0;
 
-        private List<int> crossHairCameraIndexes = new List<int>() { 2, 3, 4, 5 };
+        private List<int> crossHairCameraIndexes = new List<int>() {2, 3 };
 
         public SceneNode CurrentCameraHolder
         {
