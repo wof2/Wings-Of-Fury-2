@@ -58,11 +58,20 @@ namespace Wof.View.Effects
     	private string name;
         private ManualObject manualObject;
         
+
+        /// <summary>
+        /// Pobiera encje (reprezentacje ogre) quada
+        /// </summary>
 		public ManualObject ManualObject {
 			get { return manualObject; }
 		}
-        
-        
+
+        public Quadrangle Quadrangle
+        {
+            get { return quadrangle; }
+        }
+
+
         /// <summary>
         /// Wczorok¹t w view. Klasa pomocnicza
         /// <author>Adam Witczak</author>
@@ -70,11 +79,12 @@ namespace Wof.View.Effects
         /// <param name="name"></param>
         public Quadrangle3D(SceneManager sceneMgr, String name) 
         {
-        
+            if(sceneMgr.HasManualObject(name))
+            {
+                sceneMgr.DestroyManualObject(name);
+            }
         	manualObject = sceneMgr.CreateManualObject(name);
-        	
-            manualObject.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_OVERLAY;
-            manualObject.QueryFlags = 0;
+          
           
         }
         
@@ -82,33 +92,51 @@ namespace Wof.View.Effects
         /// Wierzcholki quadrangle'a 3D w porzadku CCW
         /// </summary>
         private float[][] corners;
+
         
         
+        /// <summary>
+        /// Pobiera rogi quada w kolejnosci CCW
+        /// </summary>
+        /// <returns></returns>
         public float[][] GetCorners3DArray()
         {
         	return corners;
         }
+
+
+       
+
+        private Quadrangle quadrangle;
         
-        
-        
+        /// <summary>
+        /// Buduje quada o wymaganych parametrach. Quad bedzie mogl byc wyswietlony w przestrzeni 3D. Ma nakladn¹ teksture wg textureName
+        /// </summary>
+        /// <param name="quadrangle"></param>
+        /// <param name="origin"></param>
+        /// <param name="textureName"></param>
         public void SetCorners3D(Quadrangle quadrangle, Vector3 origin, String textureName)
         {
-        	
+
+            this.quadrangle = quadrangle;
         	Vector2 leftBottom = quadrangle.Peaks[0].ToVector2();
             Vector2 leftTop = quadrangle.Peaks[1].ToVector2();
             Vector2 rightTop = quadrangle.Peaks[2].ToVector2();
             Vector2 rightBottom = quadrangle.Peaks[3].ToVector2();
-            
+
+            float extend = 1.1f;
+
+
             corners = new float[4][];
             corners[0] = new float[3];
-            corners[0][0] = rightBottom.x + origin.x;
-            corners[0][1] = rightBottom.y + origin.y;
+            corners[0][0] = extend * rightBottom.x + origin.x;
+            corners[0][1] = extend * rightBottom.y + origin.y;
             corners[0][2] = origin.z;
             
             
             corners[1] = new float[3];
-            corners[1][0] = rightTop.x + origin.x;
-            corners[1][1] = rightTop.y + origin.y;
+            corners[1][0] = extend * rightTop.x + origin.x;
+            corners[1][1] = extend * rightTop.y + origin.y;
             corners[1][2] = origin.z;
             
             
@@ -129,7 +157,7 @@ namespace Wof.View.Effects
 	        float textureBottom = 1;
 	        float textureRight  = 1;
 
-			manualObject.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_2;
+      //      manualObject.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_MAIN - 1;
 
             manualObject.Clear();
             manualObject.Begin("Misc/BoundingQuadrangle", RenderOperation.OperationTypes.OT_TRIANGLE_LIST);
@@ -149,17 +177,30 @@ namespace Wof.View.Effects
            
 
             AxisAlignedBox box = new AxisAlignedBox();
-            box.SetInfinite();
+            float hwidth = 1.1f * (quadrangle.RightMostX - quadrangle.LeftMostX) * 0.5f;
+            float hheight = 1.1f * (quadrangle.HighestY - quadrangle.LowestY) * 0.5f;
+            box.SetMinimum(origin.x - hwidth, origin.y - hheight, origin.z - 10);
+            box.SetMaximum(origin.x + hwidth, origin.y + hheight, origin.z + 10);
+
             manualObject.BoundingBox = box;
-            
-            MaterialPtr mat = ViewHelper.CloneMaterial("SplashScreen", manualObject.Name + "SplashScreen");
-            mat.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(textureName);
+
+            MaterialPtr mat = ViewHelper.CloneMaterial("AdMaterial", manualObject.Name + "AdMaterial");
+            Pass pass = mat.GetBestTechnique().GetPass(0);
+            pass.DepthWriteEnabled = true;
+            pass.SetSceneBlending(SceneBlendType.SBT_TRANSPARENT_ALPHA);
+
+            TextureUnitState state = pass.GetTextureUnitState(0);
+            state.SetTextureName(textureName);
+
             manualObject.SetMaterialName(0, mat.Name);
+          //  manualObject.SetMaterialName(0, "Concrete");
         }
          
 
         public void SetCorners(Quadrangle quadrangle)
         {
+            manualObject.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_OVERLAY;
+            manualObject.QueryFlags = 0;
             Vector2 leftBottom = UnitConverter.LogicToWorldUnits(quadrangle.Peaks[0]);
             Vector2 leftTop = UnitConverter.LogicToWorldUnits(quadrangle.Peaks[1]);
             Vector2 rightTop = UnitConverter.LogicToWorldUnits(quadrangle.Peaks[2]);

@@ -42,6 +42,8 @@ namespace Wof.Controller.AdAction
 
         
         private Timer timer = new Timer();
+
+        public delegate void AdDownloadedAsync(Ad ad);
            
     
         public enum AdStatus
@@ -154,11 +156,27 @@ namespace Wof.Controller.AdAction
 
         }
 
+        ~AdManager()
+        {
+            if(adHelper3D != null)
+            {
+                //adHelper3D.Clear();
+                //adHelper3D.Dispose();
+                //adHelper3D = null;
+            }
+            if(adAction != null)
+            {
+                //adAction.CleanUp();
+               // adAction = null;
+            }
+            
+        }
+
         private AdManager()
         {
             timer.Reset();
             adAction = new CommercialAdAction();
-            adHelper3D = new AdHelper3D();
+            adHelper3D = new AdHelper3D(0.02f, 80, 2000, 2);
             int result = AdAction.Init(C_AD_KEY, C_ADS_DIR, C_CONNECT_TIMEOUT);
             if(result == 0)
             {
@@ -260,7 +278,7 @@ namespace Wof.Controller.AdAction
             int id1 = 0;
             
             try
-            {              
+            {
                 id1 = adAction.Get_Ad_For_Zone(zone, ratio);      
                 Console.WriteLine(id1);
             }
@@ -369,29 +387,35 @@ namespace Wof.Controller.AdAction
         	AdHelper3D.Clear();
         }
         
-        int id;
-        public Quadrangle3D AddDynamicAd(SceneManager sceneMgr, int id, Vector3 origin, Vector2 size)
+      
+        public void RemoveDynamicAd(AdQuadrangle3D quadrangle3D)
+        {
+            adHelper3D.Remove_Ad(quadrangle3D.GetBillboardId());
+            
+        }
+        public AdQuadrangle3D AddDynamicAd(SceneManager sceneMgr, int id, Vector3 origin, Vector2 size)
         {  
         	
             Ad outAd = ads.Find(delegate(Ad ad)
 	                                       {
 	                                           return ad.id.Equals(id);
-	                                       });        	
-        	
-        	Quadrangle q = new Quadrangle(new PointD(0,0), size.x, size.y);        	
-        	Quadrangle3D q3d = new Quadrangle3D(sceneMgr, "Ad"+id );
+	                                       });
+
+            LoadAdTexture(outAd);
+            Quadrangle q = new Quadrangle(new PointD(0, 0), size.x, size.y);
+            AdQuadrangle3D q3d = new AdQuadrangle3D(sceneMgr, outAd);
         	q3d.SetCorners3D(q, origin, outAd.path);
         	
         	float[][] corners = q3d.GetCorners3DArray();
-        	AdHelper3D.Add_Ad(id, 
+            int billboardId = AdHelper3D.Add_Ad(id, 
         	                  corners[0][0], corners[0][1], corners[0][2],
         	                  corners[1][0], corners[1][1], corners[1][2],
         	                  corners[2][0], corners[2][1], corners[2][2]
         	                 );
         	                  
-        	 this.id = id;            
+        	q3d.SetBillboardId(billboardId);       
         	AdHelper3D.Start_Time();
-        	
+        
         	return q3d;
         }
         
@@ -399,6 +423,7 @@ namespace Wof.Controller.AdAction
         {
             Matrix4 proj = c.ProjectionMatrix;
             Matrix4 view = c.ViewMatrix;
+        
             adHelper3D.Camera(new float[]{  
                               	proj.m00, proj.m01, proj.m02, proj.m03,
                               	proj.m10, proj.m11, proj.m12, proj.m13,
@@ -411,31 +436,39 @@ namespace Wof.Controller.AdAction
                               	view.m20, view.m21, view.m22, view.m23, 
                               	view.m30, view.m31, view.m32, view.m33                              
                               }	);
-            
-            if(id != 0)
-            {
-            	int corners =0;
-	        	float angle = 0;
-	        	float area = 0;
-	        	float timer = 0;
-	        	
-	        	AdHelper3D.Get_Ad_State(id, out corners, out angle, out area, out timer);
-	        	Console.WriteLine("id="+id+", corners:"+corners+" angle:"+angle+ " timer:"+timer);
-            }
-            
+
+           
                               
         	
         }
-        
+        /// <summary>
+        /// Czy reklama dynamiczna jest widoczna z punktu widzenia API ? (czy spelnia wymagania)
+        /// </summary>
+        /// <param name="quadrangle3D"></param>
+        /// <returns></returns>
+        public bool IsDynamicAdVisible(AdQuadrangle3D quadrangle3D)
+        {
+            int corners;
+            float angle, area, timer;
+            bool visible = AdHelper3D.Get_Ad_State(quadrangle3D.GetBillboardId(), out corners, out angle, out area, out timer);
+
+            Console.WriteLine(area);
+            return visible;
+        }
+
+        public AdStatus GetAdAsync(string zone, float ratio, out int id)
+        {
+            return GetAdAsync(zone, ratio, out id, null);
+        }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="zone"></param>
         /// <param name="downloadMsTimeout"></param>
         /// <param name="allowedSizes">Jesli null to nie ma ograniczenia wielkosci</param>
-        /// <param name="adDownloadedCallback"></param>
+        /// <param name="adDownloadedAsyncCallback"></param>
         /// <returns></returns>
-        public AdStatus GetAdAsync(string zone, float ratio, out int id)
+        public AdStatus GetAdAsync(string zone, float ratio, out int id, AdDownloadedAsync adDownloadedAsyncCallback)
         {
             id = 0;
             try
@@ -475,6 +508,14 @@ namespace Wof.Controller.AdAction
 		                    Work(null);
 		                    System.Threading.Thread.Sleep(100);		                   
 		                }
+                        if(adDownloadedAsyncCallback != null)
+                        {
+                            Ad adOut= ads.Find(delegate(Ad ad)
+	                                       {
+	                                           return ad.id.Equals(adId);
+	                                       });
+                            adDownloadedAsyncCallback(adOut);
+                        }
 		
 		                }
 		               ).Start(id);
@@ -483,12 +524,16 @@ namespace Wof.Controller.AdAction
             }
             return AdStatus.NO_ADS;
         }
+
+
+       
         
         
 
         
         public void CloseAd(Ad ad)
         {
+          
         	if(ads.Contains(ad))
         	{
         	    ads.Remove(ad);
@@ -498,6 +543,7 @@ namespace Wof.Controller.AdAction
             {
                 TextureManager.Singleton.Unload(path);
                 TextureManager.Singleton.Remove(path);
+                adAction.Close_Ad(ad.id);
 
             }
             catch (Exception)
@@ -506,7 +552,7 @@ namespace Wof.Controller.AdAction
             
            // AdHelper3D h = new AdHelper3D();
            // h.Add_Ad(
-          //  adAction.Close_Ad(ad.id);
+          
         }
     }
 }

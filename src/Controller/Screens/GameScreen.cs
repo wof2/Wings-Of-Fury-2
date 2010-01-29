@@ -91,6 +91,9 @@ namespace Wof.Controller.Screens
 {
     internal class GameScreen : MenuScreen, IController, BetaGUIListener
     {
+
+        private const int C_AD_DYNAMIC_ADS_COUNT = 2;
+
         private const float C_LOADING_AD_PROBABILITY = 0.8f;
         private const float C_CHANGING_AMMO_AD_PROBABILITY = 0.65f;
         private const float C_CHANGING_AMMO_AD_MIN_TIME = 2.1f;
@@ -127,6 +130,12 @@ namespace Wof.Controller.Screens
         private AdManager.Ad loadingAd;
         private AdManager.Ad changingAmmoAd;
         private bool changingAmmoAdTried = false;
+
+        /// <summary>
+        /// Lista reklam dynamicznych ktore czekaja na rejestracje w warstwie view
+        /// </summary>
+        private Queue<AdManager.Ad> backgroundAdsToShow = new Queue<AdManager.Ad>();
+
 
         /// <summary>
         /// Indeks aktualnie zaznaczonej broni (w menu wyboru broni)
@@ -674,17 +683,14 @@ namespace Wof.Controller.Screens
                 {
                     loadingAd = null;
                 }
-                
-              
-
-                
             }
             
-            // zlec zaladowanie reklamy ingame
+            // zlec zaladowanie reklamy ingame (przy przeladowaniu amunicji)
             status = AdManager.Singleton.GetAdAsync(C_AD_GAME_ZONE, 0.25f, out changingAmmoAdId);
 
-              
-            
+            // zlec ladowanie reklam dynamicznych (3D)
+            BeginDynamicAdsDownload(C_AD_DYNAMIC_ADS_COUNT);
+
 
             // jesli nie ma byc reklamy lub jesli nie udalo sie zaladowac reklamy
             if(imageName == null)
@@ -1337,7 +1343,46 @@ namespace Wof.Controller.Screens
 
         }
 
+      
+        private void BeginDynamicAdsDownload(int count)
+        {
+            for(int i = 0; i < count ; i++)
+            {
+                int temp;
+                AdManager.Singleton.GetAdAsync(GameScreen.C_AD_GAME_ZONE, 1.0f, out temp, backgroundAdDownloadedAsyncCallback);
+            }
+           
+        }
+
     
+     
+        /// <summary>
+        /// Callback wywolywany kiedy zakonczone jest sciagniecie reklamy dynamicznej
+        /// </summary>
+        /// <param name="ad"></param>
+        private void backgroundAdDownloadedAsyncCallback(AdManager.Ad ad)
+        {
+            lock (backgroundAdsToShow)
+            {
+                backgroundAdsToShow.Enqueue(ad);
+            }
+            
+        }
+
+        /// <summary>
+        /// Rejestruje czekajace reklamy dynamiczne w warstwie view
+        /// </summary>
+        private void RegisterDynamicAds()
+        {
+            lock (backgroundAdsToShow)
+            {
+                while (backgroundAdsToShow.Count > 0)
+                {
+                    levelView.OnRegisterBackgroundDynamicAd(backgroundAdsToShow.Dequeue());
+                }
+            }
+        }
+      
 
         public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
@@ -1473,7 +1518,6 @@ namespace Wof.Controller.Screens
                        
                         if (levelView != null && levelView.IsHangaringFinished())
                         {
-
                             levelView.OnHangaringFinished();
                         }
 
@@ -1557,7 +1601,8 @@ namespace Wof.Controller.Screens
                                 }
 
                             }
-                           
+
+                            RegisterDynamicAds();
                             levelView.OnFrameStarted(evt);
                             delayedControllerFacade.DoJobs();
 
@@ -1606,9 +1651,7 @@ namespace Wof.Controller.Screens
 	                                    //levelView.OnRegisterAd(AdManager.Singleton.CurrentAd);
 	                                }
 	                                
-	                                Quadrangle3D q3d = AdManager.Singleton.AddDynamicAd(sceneMgr, changingAmmoAdId, new Vector3(0,20,30), new Vector2(50,50));
-	                                
-	                                 sceneMgr.RootSceneNode.AttachObject(q3d.ManualObject);
+	                              
 	
 	                            }
                             }
