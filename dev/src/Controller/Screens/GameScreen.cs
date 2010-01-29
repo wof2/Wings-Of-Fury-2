@@ -508,9 +508,7 @@ namespace Wof.Controller.Screens
                     foreach (StoragePlane sp in currentLevel.StoragePlanes)
                     {
                         OnRegisterPlane(sp);
-                    }
-                    
-                    
+                    }               
                     
                     LogManager.Singleton.LogMessage("Finished loading level.", LogMessageLevel.LML_CRITICAL);
                    
@@ -1343,17 +1341,13 @@ namespace Wof.Controller.Screens
 
         public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
-
             if (levelView == null && !isFirstLoadingFrame)
             {
                // Thread.Sleep(10000);
                 StartLoading();
-              
-
             }
 
-           
-            AdManager.Singleton.Work();
+            AdManager.Singleton.Work(camera);
             
 
             if(isFirstLoadingFrame)
@@ -1416,6 +1410,8 @@ namespace Wof.Controller.Screens
                             missionTypeGui.killGUI();
                             missionTypeGui = null;
                         }
+                        
+                        AdManager.Singleton.ClearDynamicAds();
 
 
                         if(levelNo == 0)
@@ -1609,6 +1605,10 @@ namespace Wof.Controller.Screens
 	                                    changingAmmoAd = null;
 	                                    //levelView.OnRegisterAd(AdManager.Singleton.CurrentAd);
 	                                }
+	                                
+	                                Quadrangle3D q3d = AdManager.Singleton.AddDynamicAd(sceneMgr, changingAmmoAdId, new Vector3(0,20,30), new Vector2(50,50));
+	                                
+	                                 sceneMgr.RootSceneNode.AttachObject(q3d.ManualObject);
 	
 	                            }
                             }
@@ -2325,7 +2325,7 @@ namespace Wof.Controller.Screens
                     AdManager.Singleton.CloseAd(changingAmmoAd);
 
                 }
-                AdManager.Singleton.Work();
+                AdManager.Singleton.Work(camera);
                 showingChangingAmmoAds = false;
                 changingAmmoAd = null;
                 changingAmmoAdTried = false;

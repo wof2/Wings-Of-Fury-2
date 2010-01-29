@@ -46,9 +46,10 @@
  * 
  */
 
+using Mogre;
 using System;
 using System.Drawing;
-using Math=Mogre.Math;
+using Math = Mogre.Math;
 
 namespace Wof.Model.Level.Common
 {
@@ -247,6 +248,20 @@ namespace Wof.Model.Level.Common
         {
             mX += x;
             mY += y;
+        }
+        
+        /// <summary>
+        /// Przeksztalca dany punkt w obiekt klasy
+        /// Vector2
+        /// </summary>
+        /// <returns>Obiekt klasy Vector2.</returns>
+        public Vector2 ToVector2()
+        {
+            Vector2 point = new Vector2();
+            point.x = mX;
+            point.y = mY;
+
+            return point;
         }
 
         /// <summary>

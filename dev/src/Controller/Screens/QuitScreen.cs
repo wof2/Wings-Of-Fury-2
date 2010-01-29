@@ -153,7 +153,7 @@ namespace Wof.Controller.Screens
             base.FrameStarted(evt);
 
             
-            AdManager.Singleton.Work();
+            AdManager.Singleton.Work(null);
             
             // jeœli screen jest wystarczaj¹co d³ugo na ekranie - przewijamy
             TimeSpan diff = DateTime.Now.Subtract(lastChange);
@@ -280,7 +280,7 @@ namespace Wof.Controller.Screens
                 {
                   
                     AdManager.Singleton.CloseAd(currentAd);
-                    AdManager.Singleton.Work(); // wyslij, na wszelki wypadek
+                    AdManager.Singleton.Work(null); // wyslij, na wszelki wypadek
 
 
 

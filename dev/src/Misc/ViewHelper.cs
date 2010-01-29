@@ -99,7 +99,7 @@ namespace Wof.Misc
                     if (!helperQuandrangles.ContainsKey(q))
                     {
                         Quadrangle3D quadrangle3D =
-                            new Quadrangle3D("BoundingQuadrangle_" + target.Name + "_" + q.GetHashCode());
+                            new Quadrangle3D(sceneMgr, "BoundingQuadrangle_" + target.Name + "_" + q.GetHashCode());
                         quadrangle3D.SetCorners(q);
                         //sceneMgr.RootSceneNode.AttachObject(quadrangle3D);
 

@@ -385,6 +385,8 @@ namespace Wof.Controller
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingInput)));
              
                 CreateInput();
+                
+                
             }
             finally
             {

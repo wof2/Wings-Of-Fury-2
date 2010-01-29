@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
 
 using AdManaged;
 using Mogre;
-using Timer=Mogre.Timer;
-using System.Threading;
 using Wof.Model.Level.Common;
+using Timer = Mogre.Timer;
+using Wof.View.Effects;
 
 namespace Wof.Controller.AdAction
 {
@@ -33,6 +34,8 @@ namespace Wof.Controller.AdAction
         private Dictionary<int, bool> downloadingAds = new Dictionary<int, bool>();
      
         private CommercialAdAction adAction;
+        private AdHelper3D adHelper3D;
+        
         private static readonly AdManager singleton = new AdManager();
 
 		private uint lastRegisterImpression = 0;
@@ -88,6 +91,11 @@ namespace Wof.Controller.AdAction
         {
             get { return adAction; }
         }
+        
+          public AdHelper3D AdHelper3D
+        {
+            get { return adHelper3D; }
+        }
 
         public bool ConnectionErrorOccured
         {
@@ -95,11 +103,23 @@ namespace Wof.Controller.AdAction
         }
 
 
-        public void Work()
+        public void Work(Camera c)
         {
         	lock(this)
         	{
-            	adAction.Work();
+        		try
+        		{
+        			
+        			
+        			adAction.Work();
+            		adHelper3D.Work(adAction);
+            		if(c != null) UpdateCamera(c);
+        		}
+        		catch(Exception)
+        		{
+        			
+        		}
+            	
         	}
         }
 
@@ -138,6 +158,7 @@ namespace Wof.Controller.AdAction
         {
             timer.Reset();
             adAction = new CommercialAdAction();
+            adHelper3D = new AdHelper3D();
             int result = AdAction.Init(C_AD_KEY, C_ADS_DIR, C_CONNECT_TIMEOUT);
             if(result == 0)
             {
@@ -279,7 +300,7 @@ namespace Wof.Controller.AdAction
                 for (; downloadingAds[id1]; )
                 {
                     // System.Console.Write(".");
-                    Work();
+                    Work(null);
                     System.Threading.Thread.Sleep(100);
                     end = timer.Milliseconds;
                     if (end - start > downloadMsTimeout)
@@ -317,7 +338,7 @@ namespace Wof.Controller.AdAction
 	        	for (; downloadingAds[id]; )
 	            {
 	                // System.Console.Write(".");
-	                Work();
+	                Work(null);
 	                System.Threading.Thread.Sleep(100);
 	                end = timer.Milliseconds;
 	                if (end - start > downloadMsTimeout)
@@ -342,6 +363,69 @@ namespace Wof.Controller.AdAction
         	
         }
         
+        public void ClearDynamicAds()
+        {
+        	AdHelper3D.Stop_Time();
+        	AdHelper3D.Clear();
+        }
+        
+        int id;
+        public Quadrangle3D AddDynamicAd(SceneManager sceneMgr, int id, Vector3 origin, Vector2 size)
+        {  
+        	
+            Ad outAd = ads.Find(delegate(Ad ad)
+	                                       {
+	                                           return ad.id.Equals(id);
+	                                       });        	
+        	
+        	Quadrangle q = new Quadrangle(new PointD(0,0), size.x, size.y);        	
+        	Quadrangle3D q3d = new Quadrangle3D(sceneMgr, "Ad"+id );
+        	q3d.SetCorners3D(q, origin, outAd.path);
+        	
+        	float[][] corners = q3d.GetCorners3DArray();
+        	AdHelper3D.Add_Ad(id, 
+        	                  corners[0][0], corners[0][1], corners[0][2],
+        	                  corners[1][0], corners[1][1], corners[1][2],
+        	                  corners[2][0], corners[2][1], corners[2][2]
+        	                 );
+        	                  
+        	 this.id = id;            
+        	AdHelper3D.Start_Time();
+        	
+        	return q3d;
+        }
+        
+        public void UpdateCamera(Camera c)
+        {
+            Matrix4 proj = c.ProjectionMatrix;
+            Matrix4 view = c.ViewMatrix;
+            adHelper3D.Camera(new float[]{  
+                              	proj.m00, proj.m01, proj.m02, proj.m03,
+                              	proj.m10, proj.m11, proj.m12, proj.m13,
+                              	proj.m20, proj.m21, proj.m22, proj.m23, 
+                              	proj.m30, proj.m31, proj.m32, proj.m33                              
+                              }, 
+                              new float[]{  
+                              	view.m00, view.m01, view.m02, view.m03,
+                              	view.m10, view.m11, view.m12, view.m13,
+                              	view.m20, view.m21, view.m22, view.m23, 
+                              	view.m30, view.m31, view.m32, view.m33                              
+                              }	);
+            
+            if(id != 0)
+            {
+            	int corners =0;
+	        	float angle = 0;
+	        	float area = 0;
+	        	float timer = 0;
+	        	
+	        	AdHelper3D.Get_Ad_State(id, out corners, out angle, out area, out timer);
+	        	Console.WriteLine("id="+id+", corners:"+corners+" angle:"+angle+ " timer:"+timer);
+            }
+            
+                              
+        	
+        }
         
         /// <summary>
         /// 
@@ -388,7 +472,7 @@ namespace Wof.Controller.AdAction
 		                for (; downloadingAds[adId]; )
 		                {
 		                   // System.Console.Write(".");
-		                    Work();
+		                    Work(null);
 		                    System.Threading.Thread.Sleep(100);		                   
 		                }
 		
@@ -419,8 +503,10 @@ namespace Wof.Controller.AdAction
             catch (Exception)
             {
             }
-
-            adAction.Close_Ad(ad.id);
+            
+           // AdHelper3D h = new AdHelper3D();
+           // h.Add_Ad(
+          //  adAction.Close_Ad(ad.id);
         }
     }
 }

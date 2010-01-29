@@ -53,19 +53,110 @@ using Wof.Model.Level.Common;
 
 namespace Wof.View.Effects
 {
-    public class Quadrangle3D //: ManualObject
+    public class Quadrangle3D 
     {
-        private ManualObject o;
+    	private string name;
+        private ManualObject manualObject;
+        
+		public ManualObject ManualObject {
+			get { return manualObject; }
+		}
+        
+        
         /// <summary>
         /// Wczorok¹t w view. Klasa pomocnicza
         /// <author>Adam Witczak</author>
         /// </summary>
         /// <param name="name"></param>
-        public Quadrangle3D(String name)
+        public Quadrangle3D(SceneManager sceneMgr, String name) 
         {
-            o.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_OVERLAY;
-            o.QueryFlags = 0;
+        
+        	manualObject = sceneMgr.CreateManualObject(name);
+        	
+            manualObject.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_OVERLAY;
+            manualObject.QueryFlags = 0;
+          
         }
+        
+        /// <summary>
+        /// Wierzcholki quadrangle'a 3D w porzadku CCW
+        /// </summary>
+        private float[][] corners;
+        
+        
+        public float[][] GetCorners3DArray()
+        {
+        	return corners;
+        }
+        
+        
+        
+        public void SetCorners3D(Quadrangle quadrangle, Vector3 origin, String textureName)
+        {
+        	
+        	Vector2 leftBottom = quadrangle.Peaks[0].ToVector2();
+            Vector2 leftTop = quadrangle.Peaks[1].ToVector2();
+            Vector2 rightTop = quadrangle.Peaks[2].ToVector2();
+            Vector2 rightBottom = quadrangle.Peaks[3].ToVector2();
+            
+            corners = new float[4][];
+            corners[0] = new float[3];
+            corners[0][0] = rightBottom.x + origin.x;
+            corners[0][1] = rightBottom.y + origin.y;
+            corners[0][2] = origin.z;
+            
+            
+            corners[1] = new float[3];
+            corners[1][0] = rightTop.x + origin.x;
+            corners[1][1] = rightTop.y + origin.y;
+            corners[1][2] = origin.z;
+            
+            
+            corners[2] = new float[3];
+            corners[2][0] = leftTop.x + origin.x;
+            corners[2][1] = leftTop.y + origin.y;
+            corners[2][2] = origin.z;
+            
+            
+            corners[3] = new float[3];
+            corners[3][0] = leftBottom.x + origin.x;
+            corners[3][1] = leftBottom.y + origin.y;
+            corners[3][2] = origin.z;
+            
+            
+            float textureTop    = 0;
+	        float textureLeft   = 0;
+	        float textureBottom = 1;
+	        float textureRight  = 1;
+
+			manualObject.RenderQueueGroup = (byte)RenderQueueGroupID.RENDER_QUEUE_WORLD_GEOMETRY_2;
+
+            manualObject.Clear();
+            manualObject.Begin("Misc/BoundingQuadrangle", RenderOperation.OperationTypes.OT_TRIANGLE_LIST);
+            manualObject.Position( origin.x + leftBottom.x, origin.y + leftBottom.y, origin.z);
+            manualObject.TextureCoord(textureLeft, textureBottom);
+            manualObject.Position( origin.x + leftTop.x, origin.y + leftTop.y,  origin.z);
+            manualObject.TextureCoord(textureLeft, textureTop);
+            manualObject.Position( origin.x + rightTop.x, origin.y + rightTop.y,  origin.z);
+            manualObject.TextureCoord(textureRight, textureTop);
+            manualObject.Position( origin.x + rightBottom.x, origin.y + rightBottom.y,  origin.z);
+            manualObject.TextureCoord(textureRight, textureBottom);
+        /*    manualObject.Position( origin.x + leftBottom.x, origin.y + leftBottom.y,  origin.z);
+            manualObject.TextureCoord(0, 0);*/
+            manualObject.Quad(3,2,1,0);
+            manualObject.End();
+            
+           
+
+            AxisAlignedBox box = new AxisAlignedBox();
+            box.SetInfinite();
+            manualObject.BoundingBox = box;
+            
+            MaterialPtr mat = ViewHelper.CloneMaterial("SplashScreen", manualObject.Name + "SplashScreen");
+            mat.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(textureName);
+            manualObject.SetMaterialName(0, mat.Name);
+        }
+         
 
         public void SetCorners(Quadrangle quadrangle)
         {
@@ -75,23 +166,23 @@ namespace Wof.View.Effects
             Vector2 rightBottom = UnitConverter.LogicToWorldUnits(quadrangle.Peaks[3]);
 
 
-            o.Clear();
-            o.Begin("Misc/BoundingQuadrangle", RenderOperation.OperationTypes.OT_LINE_STRIP);
-            o.Position(leftBottom.x, leftBottom.y, 0);
-            o.TextureCoord(0, 0);
-            o.Position(leftTop.x, leftTop.y, 0);
-            o.TextureCoord(0, 1);
-            o.Position(rightTop.x, rightTop.y, 0);
-            o.TextureCoord(1, 1);
-            o.Position(rightBottom.x, rightBottom.y, 0);
-            o.TextureCoord(0, 1);
-            o.Position(leftBottom.x, leftBottom.y, 0);
-            o.TextureCoord(0, 0);
-            o.End();
+            manualObject.Clear();
+            manualObject.Begin("Misc/BoundingQuadrangle", RenderOperation.OperationTypes.OT_LINE_STRIP);
+            manualObject.Position(leftBottom.x, leftBottom.y, 0);
+            manualObject.TextureCoord(0, 0);
+            manualObject.Position(leftTop.x, leftTop.y, 0);
+            manualObject.TextureCoord(0, 1);
+            manualObject.Position(rightTop.x, rightTop.y, 0);
+            manualObject.TextureCoord(1, 1);
+            manualObject.Position(rightBottom.x, rightBottom.y, 0);
+            manualObject.TextureCoord(0, 1);
+            manualObject.Position(leftBottom.x, leftBottom.y, 0);
+            manualObject.TextureCoord(0, 0);
+            manualObject.End();
 
             AxisAlignedBox box = new AxisAlignedBox();
             box.SetInfinite();
-            o.BoundingBox = box;
+            manualObject.BoundingBox = box;
         }
     }
 }
