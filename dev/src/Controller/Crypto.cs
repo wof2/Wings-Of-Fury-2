@@ -29,12 +29,12 @@ namespace Wof.Controller
     /// </summary>
     public class RijndaelSimple
     {
-        private static string passPhrase = "kFDS3rf@se"; // can be any string
-        private static string saltValue = "Vjk/hal*le"; // can be any string
-        private static string hashAlgorithm = "SHA1"; // can be "MD5"
-        private static int passwordIterations = 2; // can be any number
-        private static string initVector = "@1B2c3D4e5F6g7H8"; // must be 16 bytes
-        private static int keySize = 256; // can be 192 or 128
+        public readonly static string passPhrase = "kFDS3rf@se"; // can be any string
+        public readonly static string saltValue = "Vjk/hal*le"; // can be any string
+        public readonly static string hashAlgorithm = "SHA1"; // can be "MD5"
+        public readonly static int passwordIterations = 2; // can be any number
+        public readonly static string initVector = "@1B2c3D4e5F6g7H8"; // must be 16 bytes
+        public readonly static int keySize = 256; // can be 192 or 128
 
         /// <summary>
         /// Encrypts specified plaintext using Rijndael symmetric key algorithm

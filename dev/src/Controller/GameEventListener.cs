@@ -78,6 +78,9 @@ namespace Wof.Controller
         void GotoDifficultyOptionsScreen();
         void GotoDonateScreen();
         void GotoQuitScreen();
+        void GotoEnhancedVersionScreen();
+
+        void GotoEnhancedVersionWebPage();
 
        //void MinimizeWindow();
         //void MaximizeWindow();

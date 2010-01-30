@@ -668,6 +668,13 @@ namespace Wof.Controller.Screens
                 version += "i";
             }
 
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                version += "e";
+            }
+
+           
+
             mGui.mFontSize = (uint)(fontSize * 0.7f);
             Window infoWindow = mGui.createWindow(new Vector4(viewport.ActualWidth - 5 * h, viewport.ActualHeight - 0.8f * h, 4.33f * h, 0.83f * h), "bgui.window", (int)wt.NONE, version);
             infoWindow.show();
@@ -1617,5 +1624,84 @@ namespace Wof.Controller.Screens
             }
 
         }
+
+
+        public static string Wrap(string text, int maxLength)
+        {
+            text = text.Replace("\n", " ");
+            text = text.Replace("\r", " ");
+            text = text.Replace(".", ". ");
+            text = text.Replace(">", "> ");
+            text = text.Replace("\t", " ");
+            text = text.Replace(",", ", ");
+            text = text.Replace(";", "; ");
+            text = text.Replace("<br>", " ");
+            text = text.Replace(" ", " ");
+
+            string[] Words = text.Split(' ');
+            int currentLineLength = 0;
+            ArrayList Lines = new ArrayList(text.Length / maxLength);
+            string currentLine = "";
+            bool InTag = false;
+
+            foreach (string currentWord in Words)
+            {
+                //ignore html
+                if (currentWord.Length > 0)
+                {
+
+                    if (currentWord.Substring(0, 1) == "<")
+                        InTag = true;
+
+                    if (InTag)
+                    {
+                        //handle filenames inside html tags
+                        if (currentLine.EndsWith("."))
+                        {
+                            currentLine += currentWord;
+                        }
+                        else
+                            currentLine += " " + currentWord;
+
+                        if (currentWord.IndexOf(">") > -1)
+                            InTag = false;
+                    }
+                    else
+                    {
+                        if (currentLineLength + currentWord.Length + 1 < maxLength)
+                        {
+                            currentLine += " " + currentWord;
+                            currentLineLength += (currentWord.Length + 1);
+                        }
+                        else
+                        {
+                            Lines.Add(currentLine);
+                            currentLine = currentWord;
+                            currentLineLength = currentWord.Length;
+                        }
+                    }
+                }
+
+            }
+            if (currentLine != "")
+                Lines.Add(currentLine);
+
+            string ret = "";
+            foreach (string line in Lines)
+            {
+                ret += line + "\r\n";
+            }
+            return  ret.Trim();
+           // string[] textLinesStr = new string[Lines.Count];
+           // Lines.CopyTo(textLinesStr, 0);
+          //  return textLinesStr;
+
+
+        }
+
     }
+
+
+
+
 }

@@ -338,6 +338,10 @@ namespace Wof.Controller
         private static void Main(string[] args)
         {
 
+            //Licensing.BuildLicenseFile();
+            //Console.WriteLine(Licensing.IsEhnancedVersion());
+
+
         	try
         	{
         		Firewall.AddException();
@@ -979,6 +983,25 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
+        public void GotoEnhancedVersionScreen()
+        {
+            Boolean justMenu = IsMenuScreen(currentScreen);
+            ScreenState ss = null;
+            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
+            {
+                ss = (currentScreen as AbstractScreen).GetScreenState();
+            }
+            initScreenAfter(currentScreen);
+            SoundManager.Instance.PlayMainTheme();
+
+            currentScreen = new EnhancedVersionScreen(this, this, viewport, camera);
+            if (ss != null)
+            {
+                ((AbstractScreen)currentScreen).SetScreenState(ss);
+            }
+            currentScreen.DisplayGUI(justMenu);
+        }
+
         public void GotoQuitScreen()
         {
         	DisposeBrowser();
@@ -1382,6 +1405,12 @@ namespace Wof.Controller
 
         }
 
+        public void GotoEnhancedVersionWebPage()
+        {
+        	MinimizeWindow();
+            GotoEnhancedVersionWebPageDo();
+        }
+
         public void GotoDonateWebPage()
         {
         	MinimizeWindow();
@@ -1389,9 +1418,25 @@ namespace Wof.Controller
         	
           // ExitGame(GotoDonateWebPageDo);
         }
+
+
+        
+        public void GotoEnhancedVersionWebPageDo()
+        {
+            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/enhanced?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.C_IS_ENHANCED_VERSION + "&hash=" + Licensing.Hash;
+            try
+            {
+                // launch default browser
+                Process.Start(GetDefaultBrowserPath(), url);
+            }
+            catch (Exception)
+            { }
+        }
+
+
         public void GotoDonateWebPageDo()
         {
-            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/donate?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode;
+            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/donate?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.C_IS_ENHANCED_VERSION;
             try
             {
                 // launch default browser
@@ -1413,7 +1458,7 @@ namespace Wof.Controller
 
         public void GotoUpdateWebPageDo()
         {
-            string url = EngineConfig.C_WOF_HOME_PAGE + "/update.php?v="+EngineConfig.C_WOF_VERSION+"&d="+EngineConfig.C_IS_DEMO.ToString()+"&l="+LanguageManager.ActualLanguageCode;
+            string url = EngineConfig.C_WOF_HOME_PAGE + "/update.php?v=" + EngineConfig.C_WOF_VERSION + "&d=" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.C_IS_ENHANCED_VERSION;
             try
             {
                 // launch default browser

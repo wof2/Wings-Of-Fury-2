@@ -32,5 +32,6 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <StartArguments>-DebugInfo -FreeLook -DebugdguStafrt 0</StartArguments>
+    <StartAction>Project</StartAction>
   </PropertyGroup>
 </Project>

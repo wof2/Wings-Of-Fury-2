@@ -76,6 +76,8 @@ namespace Wof.Controller
         /// </summary>
         public static readonly bool C_IS_DEMO = false;
 
+        public static readonly bool C_IS_ENHANCED_VERSION = Licensing.IsEhnancedVersion();
+
 
         public static readonly String C_ENGINE_CONFIG = "wofconf.dat";
         public static readonly String C_OGRE_CFG = "ogre.cfg";
