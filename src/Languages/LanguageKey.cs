@@ -140,6 +140,7 @@ namespace Wof.Languages
         public const string EnableBloom = @"EnableBloom";
         public const string EnableSound = @"EnableSound";
         public const string EnableVSync = @"EnableVSync";
+        
         public const string EnemyGenerals = @"EnemyGenerals";  
         public const string EnemyInstallationsAreBothSideCaptain = @"EnemyInstallationsAreBothSideCaptain";
         public const string EnemyInstallationsAreLeftCaptain = @"EnemyInstallationsAreLeftCaptain";
@@ -153,6 +154,8 @@ namespace Wof.Languages
         public const string EnemyShipsLeft = @"EnemyShipsLeft";
         public const string EnemySoldiersLeft = @"EnemySoldiersLeft";
         public const string Engine = @"Engine";
+        public const string EnhancedVersion = @"EnhancedVersion";
+        public const string EnhancedVersionDetails = @"EnhancedVersionDetails";
         public const string EnterYourName = @"EnterYourName";
         public const string ExitToMenu = @"ExitToMenu";
 

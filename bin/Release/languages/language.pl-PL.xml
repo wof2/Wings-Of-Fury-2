@@ -554,5 +554,14 @@
   </data>
 
 
+  <data name="EnhancedVersion">
+    <value>Wersja rozszerzona</value>
+  </data>
+
+  <data name="EnhancedVersionDetails">
+    <value>Wersja rozszerzona gry zawiera nowe poziomy oraz bonusową zawartość. Dodatkowo usunięte są wszelkie reklamy. Wersja ta dostępna jest dla osób, które dokonały darowizny lub wspierały projekt.</value>
+  </data>
+
+
 
 </root>

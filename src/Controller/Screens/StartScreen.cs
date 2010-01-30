@@ -119,7 +119,10 @@ namespace Wof.Controller.Screens
             {
                 gameName += " Demo";
             }
-           
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                gameName += " Enhanced";
+            }
             
             guiWindow = mGui.createWindow(new Vector4(m.x,
                                                       m.y, Viewport.ActualWidth/2,
@@ -127,7 +130,7 @@ namespace Wof.Controller.Screens
                                           			  "bgui.window", (int)wt.NONE, gameName);
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
-            initButtons(10, 9);
+            initButtons(11, 10);
             uint i = 0;
 
         
@@ -154,11 +157,16 @@ namespace Wof.Controller.Screens
             buttons[7] = guiWindow.createButton(new Vector4(0, 9 * h, Viewport.ActualWidth / 2, h),
                                                            "bgui.button", LanguageResources.GetString(LanguageKey.Donate), cc, i++);
 
-            // indeks wystepuje jeszcze w metodzie checkAvailableUpdates() 
+
             buttons[8] = guiWindow.createButton(new Vector4(0, 10 * h, Viewport.ActualWidth / 2, h),
+                                                           "bgui.button", LanguageResources.GetString(LanguageKey.EnhancedVersion), cc, i++);
+            
+
+            // indeks wystepuje jeszcze w metodzie checkAvailableUpdates() 
+            buttons[9] = guiWindow.createButton(new Vector4(0, 11 * h, Viewport.ActualWidth / 2, h),
                                                            "bgui.button", LanguageResources.GetString(LanguageKey.CheckForUpdates), cc, i++);
 
-            buttons[9] = guiWindow.createButton(new Vector4(0, 12 * h, Viewport.ActualWidth / 2, h),
+            buttons[10] = guiWindow.createButton(new Vector4(0, 13 * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Quit), cc, i);
 
          
@@ -197,7 +205,7 @@ namespace Wof.Controller.Screens
       
         protected void onNewUpdates() 
         {
-        	int index = 8;
+        	int index = 9;
             updatesGUI = new GUI(FontManager.CurrentFont, fontSize);
             updatesGUI.SetZOrder(500);
             updatesGUIWindow = mGui.createWindow(new Vector4(guiWindow.x, guiWindow.y, guiWindow.w, guiWindow.h), String.Empty, (int)wt.NONE, String.Empty);
@@ -211,7 +219,7 @@ namespace Wof.Controller.Screens
         
         protected void checkAvailableUpdates()
         {
-        	string url = EngineConfig.C_WOF_UPDATE_CHECK_PAGE + "?v="+EngineConfig.C_WOF_VERSION+"&d="+EngineConfig.C_IS_DEMO.ToString() + "&l="+LanguageManager.ActualLanguageCode;
+            string url = EngineConfig.C_WOF_UPDATE_CHECK_PAGE + "?v=" + EngineConfig.C_WOF_VERSION + "&d=" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.C_IS_ENHANCED_VERSION;
         	
 
 			// For HTTP, cast the request to HttpWebRequest
@@ -296,6 +304,10 @@ namespace Wof.Controller.Screens
                     gameEventListener.GotoDonateScreen();
                 }
                 else if (referer == buttons[8])
+                {
+                    gameEventListener.GotoEnhancedVersionScreen();
+                }
+                else if (referer == buttons[9])
                 {
                     gameEventListener.GotoUpdateWebPage();
                 }

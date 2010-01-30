@@ -109,15 +109,17 @@ namespace Wof.Controller.Screens
             guiWindow.createStaticText(new Vector4(5, 1.2f*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, 3 * GetTextVSpacing()), donateMessage);
           
             mGui.mFontSize = fontSize;
-            initButtons(2, 1);
+            initButtons(3, 2);
 
             buttons[0] = guiWindow.createButton(new Vector4(5, 6*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Donate), 
                                                 cc, 0);
 
+            buttons[1] = guiWindow.createButton(new Vector4(5, 8 * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+                                               LanguageResources.GetString(LanguageKey.EnhancedVersion), cc, 0);
 
-            buttons[1] = guiWindow.createButton(new Vector4(5, 13*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
-                                               LanguageResources.GetString(LanguageKey.OK), cc, 0);
+            buttons[2] = guiWindow.createButton(new Vector4(5, 13*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+                                               LanguageResources.GetString(LanguageKey.Back), cc, 0);
             selectButton(0);
             guiWindow.show();
         }
@@ -135,12 +137,16 @@ namespace Wof.Controller.Screens
                 {
                     PlayClickSound();
                     gameEventListener.GotoStartScreen();
-                }
-
+                }else
                 if (referer == buttons[0])
                 {
                     PlayClickSound();
                     gameEventListener.GotoDonateWebPage();
+                }else
+                if (referer == buttons[1])
+                {
+                    PlayClickSound();
+                    gameEventListener.GotoEnhancedVersionScreen();
                 }
             }
         }
