@@ -84,7 +84,7 @@ namespace Wof.View
     {
         private const int C_AD_BASE_X = 200;
         private const int C_AD_Z_DIST = 150;
-        private const int C_AD_X_DIST = 300;
+        private const int C_AD_X_DIST = 450;
         private const int C_AD_Y_DIST = 10;
 
         private const int C_AD_SIZE = 30;
