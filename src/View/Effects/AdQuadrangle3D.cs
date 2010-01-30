@@ -15,9 +15,7 @@ namespace Wof.View.Effects
         private SceneNode parent;
         private SceneNode adNode;
         
-
-       
-
+        
         public AdQuadrangle3D(SceneManager sceneMgr, AdManager.Ad ad) : base(sceneMgr, "Ad" + ad.id)
         {
             this.ad = ad;
