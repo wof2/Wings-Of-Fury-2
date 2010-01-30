@@ -280,7 +280,7 @@ namespace Wof.Controller.AdAction
             try
             {
                 id1 = adAction.Get_Ad_For_Zone(zone, ratio);      
-                Console.WriteLine(id1);
+              //  Console.WriteLine(id1);
             }
             catch (Exception ex)
             {
@@ -452,7 +452,7 @@ namespace Wof.Controller.AdAction
             float angle, area, timer;
             bool visible = AdHelper3D.Get_Ad_State(quadrangle3D.GetBillboardId(), out corners, out angle, out area, out timer);
 
-            Console.WriteLine(area);
+          //  Console.WriteLine(area);
             return visible;
         }
 
