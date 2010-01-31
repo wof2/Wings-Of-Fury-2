@@ -1154,7 +1154,16 @@ namespace Wof.Controller
 
         public void TakeScreenshot(string fileName)
         {
-            window.WriteContentsToFile(fileName);
+            try
+            {
+                window.WriteContentsToFile(fileName);
+
+            }
+            catch (Exception)
+            {
+               
+            }
+            
         }
 
         private float lastResetStatistics = 0;
