@@ -89,7 +89,8 @@ namespace Wof.View
 
         private const int C_AD_SIZE = 30;
 
-        private const float C_AD_MAX_DISPLAY_TIME = 40.0f;
+        private const float C_AD_MAX_DISPLAY_TIME = 10.0f;
+        public const int C_AD_DYNAMIC_ADS_COUNT = 3;
         
 
         /*
@@ -413,41 +414,73 @@ namespace Wof.View
         public void OnRegisterBackgroundDynamicAd(AdManager.Ad ad)
         {
             int count = dynamicAds.Count;
+            Vector3 position;
+            Vector2 size;
+            SceneNode adNodeParent;
+            SceneNode adNodeSuper = null;
+            bool isPersistent = false;
 
-            int dir = count%2 == 1 ? 1 : -1;
-
-            Vector3 position = new Vector3(C_AD_BASE_X + count * C_AD_X_DIST * dir, C_AD_Y_DIST, -C_AD_Z_DIST);
-            Vector2 size = new Vector2(C_AD_SIZE, C_AD_SIZE);
-           
+            size = new Vector2(C_AD_SIZE, C_AD_SIZE);
             TexturePtr ptr = TextureManager.Singleton.GetByName(ad.path);
             float ratio = 1.0f;
-            if(ptr != null)
+            if (ptr != null)
             {
                 ratio = 1.0f * ptr.SrcWidth / ptr.SrcHeight;
             }
             size.x *= ratio;
-            
-           
-           
-          
-            Entity mountain = sceneMgr.CreateEntity("AdMountain" + ad.id, "Mountain.mesh");
-            SceneNode mountainNode = sceneMgr.RootSceneNode.CreateChildSceneNode(mountain.Name + "Node", position + new Vector3(size.x * 0.5f,0,0));
-            mountainNode.AttachObject(mountain);
 
-            IslandView.initPalm(sceneMgr, mountainNode, new Vector3(-9,-10,12), true ).Roll(Math.HALF_PI);
-            IslandView.initPalm2(sceneMgr, mountainNode, new Vector3(-5, -7, 11), true).Roll(Math.HALF_PI);
-            IslandView.initPalm2(sceneMgr, mountainNode, new Vector3(2, -6, 11), true).Roll(Math.HALF_PI);
-            IslandView.initPalm2(sceneMgr, mountainNode, new Vector3(7, -8, 12), true).Roll(Math.HALF_PI);
-            IslandView.initPalm(sceneMgr, mountainNode, new Vector3(10, -7, 11), true).Roll(Math.HALF_PI);
+            float newWidth = 1.0f;
+            float newHeight = 1.0f;
+            if(count == 0)
+            {
+                size *= 0.3f;
+                position = carrierView.MainNode._getDerivedPosition() + new Vector3(68, 1, -8);
+                isPersistent = true;
 
-            AdQuadrangle3D q3d = AdManager.Singleton.AddDynamicAd(sceneMgr, ad.id, position, size);
-            SceneNode adNodeParent = mountainNode.CreateChildSceneNode(-position - new Vector3(size.x*0.5f, 0, 0));
+                Entity adHolder = sceneMgr.CreateEntity("AdHolder" + ad.id, "AdHolder.mesh");
+             
+                SceneNode adHolderNode = sceneMgr.RootSceneNode.CreateChildSceneNode(adHolder.Name + "Node", position + new Vector3(size.x * 0.5f, 0, 0));
+                adHolderNode.AttachObject(adHolder);
+             
+
+                AxisAlignedBox bb = adHolder.BoundingBox;
+                newWidth = size.x / (bb.Size.x * 0.82f);
+                newHeight = size.y / (bb.Size.y * 0.86f);
+                adHolderNode.Scale(newWidth, newHeight, 1.0f);
+              
+                
+                //adNodeParent = adHolderNode.CreateChildSceneNode(-position - new Vector3(size.x * 0.5f, 0, -1.5f));
+                adNodeParent = sceneMgr.RootSceneNode.CreateChildSceneNode(new Vector3(0.0f, 0.26f, 0.6f));
+              //  adNodeParent.Scale(1.1f, 0.9f, 1.0f);
+
+
+                adNodeSuper = adHolderNode;
+            }
+            else
+            {
+                int dir = count % 2 == 1 ? 1 : -1;
+                position = new Vector3(C_AD_BASE_X + count * C_AD_X_DIST * dir, C_AD_Y_DIST, -C_AD_Z_DIST);
+
+                Entity adHolder = sceneMgr.CreateEntity("AdMountain" + ad.id, "Mountain.mesh");
+                SceneNode adHolderNode = sceneMgr.RootSceneNode.CreateChildSceneNode(adHolder.Name + "Node", position + new Vector3(size.x * 0.5f, 0, 0));
+                adHolderNode.AttachObject(adHolder);
+                IslandView.initPalm(sceneMgr, adHolderNode, new Vector3(-9, -10, 12), true).Roll(Math.HALF_PI);
+                IslandView.initPalm2(sceneMgr, adHolderNode, new Vector3(-5, -7, 11), true).Roll(Math.HALF_PI);
+                IslandView.initPalm2(sceneMgr, adHolderNode, new Vector3(2, -6, 11), true).Roll(Math.HALF_PI);
+                IslandView.initPalm2(sceneMgr, adHolderNode, new Vector3(7, -8, 12), true).Roll(Math.HALF_PI);
+                IslandView.initPalm(sceneMgr, adHolderNode, new Vector3(10, -7, 11), true).Roll(Math.HALF_PI);
+               
+                adNodeParent = adHolderNode.CreateChildSceneNode(-position - new Vector3(size.x * 0.5f, 0, 0));
+                adNodeSuper = adHolderNode;
+            }
+
+            AdQuadrangle3D q3d = AdManager.Singleton.AddDynamicAd(sceneMgr, ad.id, position, size, isPersistent);
                 
             SceneNode adNode = adNodeParent.CreateChildSceneNode();
             
             adNode.AttachObject(q3d.ManualObject);
 
-            q3d.SetSceneNodes(mountainNode, adNode);
+            q3d.SetSceneNodes(adNodeSuper, adNode);
             dynamicAds.Add(q3d);
 
          
@@ -644,11 +677,11 @@ namespace Wof.View
             {
                 if (Math.RangeRandom(0.0f, 1.0f) < 0.7f)
                 {
-                    soldierView.DieFromGun(Mogre.Math.RangeRandom(0.0f,1.0f) > 0.5f);
+                    soldierView.DieFromGun(Math.RangeRandom(0.0f,1.0f) > 0.5f);
                 }
                 else
                 {
-                    soldierView.DieFromExplosion(Mogre.Math.RangeRandom(0.0f, 1.0f) > 0.5f);
+                    soldierView.DieFromExplosion(Math.RangeRandom(0.0f, 1.0f) > 0.5f);
                 }
             }
         }
@@ -1709,75 +1742,79 @@ namespace Wof.View
             // reklamy ktore juz zostaly pokazane (i uplynal odpowiedni czas) sa chowane
             for (int i =0; i < dynamicAds.Count; i++) 
             {
+                
                 AdQuadrangle3D ad = dynamicAds[i];
-
+                if (ad.IsPersistent) continue;
                
                 if (ad.WasShown)
                 {
                     if (dynamicAdsTimer > C_AD_MAX_DISPLAY_TIME)
                     {
                         SceneNode holder = ad.GetParent();
-
-                        // zatop
-                        Vector3 pos = holder._getDerivedPosition();
-
-
-                        if(pos.y > -C_AD_SIZE * 1.4f)
+                        Vector3 pos = Vector3.ZERO;
+                        if (holder != null)
                         {
-                            if (!EngineConfig.LowDetails)
+                            pos = holder._getDerivedPosition();
+                        }
+                       
+                        // zatop
+                        
+
+
+                      
+                        if (!EngineConfig.LowDetails && holder != null && pos.y > -C_AD_SIZE * 1.4f)
+                        {
+                           
+                            if (pos.y > -10)
                             {
-                                if (pos.y > -10)
+                                // ponad woda
+                                string name;
+                                EffectsManager.EffectType type;
+                                if (((uint) ad.GetHashCode() + i)%2 == 0)
                                 {
-                                    // ponad woda
-                                    string name;
-                                    EffectsManager.EffectType type;
-                                    if (((uint) ad.GetHashCode() + i)%2 == 0)
-                                    {
-                                        type = EffectsManager.EffectType.EXPLOSION2_SLOW;
-                                    }
-                                    else
-                                    {
-                                        type = EffectsManager.EffectType.EXPLOSION1_SLOW;
-                                    }
-                                    for (uint j = 0; j < 3; j++)
-                                    {
+                                    type = EffectsManager.EffectType.EXPLOSION2_SLOW;
+                                }
+                                else
+                                {
+                                    type = EffectsManager.EffectType.EXPLOSION1_SLOW;
+                                }
+                                for (uint j = 0; j < 3; j++)
+                                {
 
-                                        name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type,
-                                                                                    (ad.GetHashCode() + j).ToString());
-                                        if (!EffectsManager.Singleton.EffectExists(name))
-                                        {
-                                            if (Math.RangeRandom(0, 1) > 0.8f)
-                                            {
-                                                EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode,
-                                                                                pos +
-                                                                                ViewHelper.RandomVector3(15, 0, 5),
-                                                                                new Vector2(25, 25) +
-                                                                                ViewHelper.RandomVector2(5, 5),
-                                                                                type, false,
+                                    name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type,
                                                                                 (ad.GetHashCode() + j).ToString());
-
-                                            }
+                                    if (!EffectsManager.Singleton.EffectExists(name))
+                                    {
+                                        if (Math.RangeRandom(0, 1) > 0.8f)
+                                        {
+                                            EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode,
+                                                                            pos +
+                                                                            ViewHelper.RandomVector3(15, 0, 5),
+                                                                            new Vector2(25, 25) +
+                                                                            ViewHelper.RandomVector2(5, 5),
+                                                                            type, false,
+                                                                            (ad.GetHashCode() + j).ToString());
 
                                         }
+
                                     }
                                 }
                             }
+                           
                             pos.y = 0;
+                       
                             ShipView.SinkingWaterAnimation(sceneMgr, pos, "AdWave" + ad.GetBillboardId(), 4, new Vector2(25, 25), new Vector2(40, 40));
                             holder.Translate(0, -evt.timeSinceLastFrame * 6.0f, 0);
-                            ad.DecreaseOpacity(evt.timeSinceLastFrame * 0.5f);
-
-                          
-
-                            
                         }
-                        else
+                       
+
+                        if (!ad.DecreaseOpacity(evt.timeSinceLastFrame * 0.5f))
                         {
-                            AdManager.Singleton.RemoveDynamicAd(ad);
+                            //AdManager.Singleton.RemoveDynamicAd(ad);
                             ad.ManualObject.Visible = false;
                             dynamicAds.Remove(ad);
+
                         }
-                        
 
                         
                     }
@@ -2179,13 +2216,13 @@ namespace Wof.View
                                            new Degree(5), 5, lighterClouds, Quaternion.IDENTITY, visibility, ColourValue.White);
                 
                 
-                Quaternion q = new Quaternion(new Radian(Mogre.Math.HALF_PI), Vector3.UNIT_Y);
+                Quaternion q = new Quaternion(new Radian(Math.HALF_PI), Vector3.UNIT_Y);
                 
                 EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
                                            new Vector2(5500, 400) + ViewHelper.RandomVector2(1000, 100),
                                            new Degree(5), 5, lighterClouds, q, visibility, ColourValue.White);
                 
-                Quaternion q2 = new Quaternion(new Radian(-Mogre.Math.HALF_PI), Vector3.UNIT_Y);
+                Quaternion q2 = new Quaternion(new Radian(-Math.HALF_PI), Vector3.UNIT_Y);
                 
                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
                                            new Vector2(5500, 400) + ViewHelper.RandomVector2(1000, 100),
@@ -2462,9 +2499,6 @@ namespace Wof.View
         }
 
 
-        
-     
-
-        
+       
     }
 }

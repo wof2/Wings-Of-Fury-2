@@ -393,7 +393,7 @@ namespace Wof.Controller.AdAction
             adHelper3D.Remove_Ad(quadrangle3D.GetBillboardId());
             
         }
-        public AdQuadrangle3D AddDynamicAd(SceneManager sceneMgr, int id, Vector3 origin, Vector2 size)
+        public AdQuadrangle3D AddDynamicAd(SceneManager sceneMgr, int id, Vector3 origin, Vector2 size, bool isPersistent)
         {  
         	
             Ad outAd = ads.Find(delegate(Ad ad)
@@ -403,7 +403,7 @@ namespace Wof.Controller.AdAction
 
             LoadAdTexture(outAd);
             Quadrangle q = new Quadrangle(new PointD(0, 0), size.x, size.y);
-            AdQuadrangle3D q3d = new AdQuadrangle3D(sceneMgr, outAd);
+            AdQuadrangle3D q3d = new AdQuadrangle3D(sceneMgr, outAd, isPersistent);
         	q3d.SetCorners3D(q, origin, outAd.path);
         	
         	float[][] corners = q3d.GetCorners3DArray();
@@ -421,8 +421,11 @@ namespace Wof.Controller.AdAction
         
         public void UpdateCamera(Camera c)
         {
+           
+            //Camera c = new Camera();
             Matrix4 proj = c.ProjectionMatrix;
             Matrix4 view = c.ViewMatrix;
+
         
             adHelper3D.Camera(new float[]{  
                               	proj.m00, proj.m01, proj.m02, proj.m03,
@@ -452,7 +455,7 @@ namespace Wof.Controller.AdAction
             float angle, area, timer;
             bool visible = AdHelper3D.Get_Ad_State(quadrangle3D.GetBillboardId(), out corners, out angle, out area, out timer);
 
-          //  Console.WriteLine(area);
+          //  Console.WriteLine(area + " " + timer + " " + angle + " " + corners);
             return visible;
         }
 

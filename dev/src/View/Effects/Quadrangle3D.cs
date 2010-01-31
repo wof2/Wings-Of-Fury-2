@@ -124,8 +124,8 @@ namespace Wof.View.Effects
             Vector2 rightTop = quadrangle.Peaks[2].ToVector2();
             Vector2 rightBottom = quadrangle.Peaks[3].ToVector2();
 
-            float extend = 1.1f;
-
+            float extend = 1.25f;
+          
 
             corners = new float[4][];
             corners[0] = new float[3];
@@ -141,14 +141,14 @@ namespace Wof.View.Effects
             
             
             corners[2] = new float[3];
-            corners[2][0] = leftTop.x + origin.x;
-            corners[2][1] = leftTop.y + origin.y;
+            corners[2][0] = extend * leftTop.x + origin.x;
+            corners[2][1] = extend * leftTop.y + origin.y;
             corners[2][2] = origin.z;
             
             
             corners[3] = new float[3];
-            corners[3][0] = leftBottom.x + origin.x;
-            corners[3][1] = leftBottom.y + origin.y;
+            corners[3][0] = extend * leftBottom.x + origin.x;
+            corners[3][1] = extend * leftBottom.y + origin.y;
             corners[3][2] = origin.z;
             
             

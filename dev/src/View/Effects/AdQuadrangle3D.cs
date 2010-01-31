@@ -14,29 +14,32 @@ namespace Wof.View.Effects
 
         private SceneNode parent;
         private SceneNode adNode;
+
+        private bool isPersistent = false;
         
-        
-        public AdQuadrangle3D(SceneManager sceneMgr, AdManager.Ad ad) : base(sceneMgr, "Ad" + ad.id)
+        public AdQuadrangle3D(SceneManager sceneMgr, AdManager.Ad ad, bool isPersistent) : base(sceneMgr, "Ad" + ad.id)
         {
             this.ad = ad;
+            this.isPersistent = isPersistent;
         }
 
         private float opacity = 1.0f;
 
 
-        public void DecreaseOpacity(float o)
+        public bool DecreaseOpacity(float o)
         {
-            if(opacity < 0 ) return;
+            if(opacity < 0 ) return false;
             opacity -= o;
             if(opacity < 0)
             {
                 ManualObject.Visible = false;
                 opacity = 0;
-                return;
+                return false;
             }
 
             TextureUnitState state = ManualObject.GetSection(0).GetMaterial().GetBestTechnique().GetPass(0).GetTextureUnitState(0);
             state.SetAlphaOperation(LayerBlendOperationEx.LBX_MODULATE, LayerBlendSource.LBS_TEXTURE, LayerBlendSource.LBS_MANUAL, 1.0f, opacity);
+            return true;
                            
         }
 
@@ -49,6 +52,11 @@ namespace Wof.View.Effects
         {
             get { return wasShown; }
             set { wasShown = value; }
+        }
+
+        public bool IsPersistent
+        {
+            get { return isPersistent; }
         }
 
         public void SetSceneNodes(SceneNode parent, SceneNode adNode)

@@ -120,14 +120,30 @@ material AdMaterial
 			diffuse 1.0 1.0 1.0
 			lighting off
 			
+			
 			texture_unit
 			{
 				filtering anisotropic
 				max_anisotropy 4
 				texture Intro1.jpg
-			}						
+			}	
 			
-		}      
+			
+						
+			
+		}   
+		
+		pass
+		{
+			scene_blend alpha_blend 
+			texture_unit
+			{				
+				filtering anisotropic
+				max_anisotropy 4
+				texture noise.png
+			}		
+		}
+		
 
 	}
 }

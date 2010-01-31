@@ -91,9 +91,6 @@ namespace Wof.Controller.Screens
 {
     internal class GameScreen : MenuScreen, IController, BetaGUIListener
     {
-
-        private const int C_AD_DYNAMIC_ADS_COUNT = 2;
-
         private const float C_LOADING_AD_PROBABILITY = 0.8f;
         private const float C_CHANGING_AMMO_AD_PROBABILITY = 0.65f;
         private const float C_CHANGING_AMMO_AD_MIN_TIME = 2.1f;
@@ -689,7 +686,7 @@ namespace Wof.Controller.Screens
             status = AdManager.Singleton.GetAdAsync(C_AD_GAME_ZONE, 0.25f, out changingAmmoAdId);
 
             // zlec ladowanie reklam dynamicznych (3D)
-            BeginDynamicAdsDownload(C_AD_DYNAMIC_ADS_COUNT);
+            BeginDynamicAdsDownload(LevelView.C_AD_DYNAMIC_ADS_COUNT);
 
 
             // jesli nie ma byc reklamy lub jesli nie udalo sie zaladowac reklamy
