@@ -774,18 +774,20 @@ namespace Wof.Controller.Screens
 
         }
  
-          public static void showAdText(Viewport v) 
-        { 
-            OverlayElement text = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText1");
-            text.SetParameter("font_name", Wof.Languages.FontManager.CurrentFont);
-            text.SetPosition(0.01f, text.Top);
-           // ViewHelper.AlignTextAreaHorzRight(text, Viewport, 0.0f);
-            text.Show();
-            
-            OverlayElement text2 = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText2");
-            text2.SetParameter("font_name", Languages.FontManager.CurrentFont);
-            ViewHelper.AlignTextAreaHorzCenter(text2, v);  
-            text2.Show();
+        public static void showAdText(Viewport v) 
+        {
+           
+                OverlayManager.Singleton.GetByName("Wof/AdText").Show();
+                OverlayElement text = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText1");
+                text.SetParameter("font_name", Wof.Languages.FontManager.CurrentFont);
+                text.SetPosition(0.01f, text.Top);
+               // ViewHelper.AlignTextAreaHorzRight(text, Viewport, 0.0f);
+                text.Show();
+                
+                OverlayElement text2 = OverlayManager.Singleton.GetOverlayElement("Wof/AdTextScreenText2");
+                text2.SetParameter("font_name", Languages.FontManager.CurrentFont);
+                ViewHelper.AlignTextAreaHorzCenter(text2, v);  
+                text2.Show();
         	
         }
         

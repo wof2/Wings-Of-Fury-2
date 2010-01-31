@@ -1018,7 +1018,8 @@ namespace Wof.Controller
             }
             initScreenAfter(currentScreen);
 
-            currentScreen = new QuitScreen(this, this, viewport, camera);
+         //   currentScreen = new IntroScreen(this, this, viewport, camera);
+           currentScreen = new QuitScreen(this, this, viewport, camera);
             if (ss != null)
             {
                 ((AbstractScreen)currentScreen).SetScreenState(ss);

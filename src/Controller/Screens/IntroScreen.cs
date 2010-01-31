@@ -253,7 +253,7 @@ namespace Wof.Controller.Screens
             	{
             		return false;            		
             	}
-            	showAdText(viewport);
+            	
 	            	
             	//if(adIds.Count == 0) return false;
             	AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_ZONE, 1.0f, out currentAd);
@@ -268,7 +268,7 @@ namespace Wof.Controller.Screens
                     {
                        return false;
                     }
-                    OverlayManager.Singleton.GetByName("Wof/AdText").Show();
+                    showAdText(viewport);
                     
                   
 

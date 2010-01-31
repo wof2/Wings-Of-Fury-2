@@ -251,8 +251,8 @@ namespace Wof.Controller
                 {
                     String[] configOptions = File.ReadAllLines(C_ENGINE_CONFIG);
 
-                    BloomEnabled = "true".Equals(configOptions[0]);
-                    SoundEnabled = "true".Equals(configOptions[1]);
+                    BloomEnabled = bool.Parse(configOptions[0]);
+                    SoundEnabled = bool.Parse(configOptions[1]);
                     try
                     {
                         SoundSystem =
@@ -283,7 +283,7 @@ namespace Wof.Controller
                   
                     try
                     {
-                        LowDetails = "true".Equals(configOptions[5]);
+                        LowDetails = bool.Parse(configOptions[5]);
                     }
                     catch (Exception)
                     {
@@ -294,7 +294,7 @@ namespace Wof.Controller
 
                     try
                     {
-                        InverseKeys = "true".Equals(configOptions[6]);
+                        InverseKeys = bool.Parse(configOptions[6]);
                     }
                     catch (Exception)
                     {
@@ -338,7 +338,7 @@ namespace Wof.Controller
                     	if(ShowIntro)
                     	{
                     		// intro mo¿na tylko wy³aczyæ. Chodzi o to zeby zapobiec w³¹czeniu intra jeœli uruchomiono program z -SkipIntro
-                    		ShowIntro = "true".Equals(configOptions[9]);
+                            ShowIntro = bool.Parse(configOptions[9]);
                     	}
                     	
                     }
@@ -348,7 +348,7 @@ namespace Wof.Controller
                     }
                      try
 					{
-                    	 DisplayMinimap = "true".Equals(configOptions[10]);
+                        DisplayMinimap = bool.Parse(configOptions[10]);
                     }
                     catch(Exception)
                     {
@@ -359,7 +359,7 @@ namespace Wof.Controller
 
                     try
 					{
-                    	UseHydrax = "true".Equals(configOptions[11]);
+                    	UseHydrax = bool.Parse(configOptions[11]);
                     }
                     catch(Exception)
                     {
@@ -396,7 +396,7 @@ namespace Wof.Controller
 					
 					try
 					{
-                    	 AudioStreaming = "true".Equals(configOptions[13]);
+                    	 AudioStreaming = bool.Parse(configOptions[13]);
                     }
                     catch(Exception)
                     {
@@ -404,7 +404,7 @@ namespace Wof.Controller
                     }
                     try
 					{
-                        UseHardwareTexturePreloader = "true".Equals(configOptions[14]);
+                        UseHardwareTexturePreloader = bool.Parse(configOptions[14]);
                     }
                     catch(Exception)
                     {
@@ -413,7 +413,7 @@ namespace Wof.Controller
 
 					try
 					{
-                        Gore = "true".Equals(configOptions[15]);
+                        Gore = bool.Parse(configOptions[15]);
                     }
                     catch(Exception)
                     {
@@ -434,7 +434,7 @@ namespace Wof.Controller
 
                     try
                     {
-                        UseAsyncModel = "true".Equals(configOptions[17]);
+                        UseAsyncModel = bool.Parse(configOptions[17]);
                     }
                     catch (Exception)
                     {
@@ -443,7 +443,7 @@ namespace Wof.Controller
                     
                     try
                     {
-                        UpdateHydraxEveryFrame = "true".Equals(configOptions[18]);
+                        UpdateHydraxEveryFrame = bool.Parse(configOptions[18]);
                     }
                     catch (Exception)
                     {
@@ -475,25 +475,25 @@ namespace Wof.Controller
         public static void SaveEngineConfig()
         {
             String[] configuration = new String[19];
-            configuration[0] = BloomEnabled ? "true" : "false";
-            configuration[1] = SoundEnabled ? "true" : "false";
+            configuration[0] = BloomEnabled.ToString();
+            configuration[1] = SoundEnabled.ToString();
             configuration[2] = SoundSystem.ToString();
             configuration[3] = SoundVolume.ToString();
             configuration[4] = MusicVolume.ToString();
-            configuration[5] = LowDetails ? "true" : "false";
-            configuration[6] = InverseKeys ? "true" : "false";
+            configuration[5] = LowDetails.ToString();
+            configuration[6] = InverseKeys.ToString();
             configuration[7] = Settings.Default.Language;
             configuration[8] = Difficulty.ToString();
-            configuration[9] = ShowIntro ? "true" : "false";
-            configuration[10] = DisplayMinimap ? "true" : "false";
-            configuration[11] = UseHydrax ? "true" : "false";
+            configuration[9] = ShowIntro.ToString();
+            configuration[10] = DisplayMinimap.ToString();
+            configuration[11] = UseHydrax.ToString();
             configuration[12] = ShadowsQuality.ToString();
             configuration[13] = AudioStreaming.ToString();
-            configuration[14] = UseHardwareTexturePreloader ? "true" : "false";
-            configuration[15] = Gore ? "true" : "false";
+            configuration[14] = UseHardwareTexturePreloader.ToString();
+            configuration[15] = Gore.ToString();
             configuration[16] = HardwareTexturePreloaderTextureLimit.ToString();
-            configuration[17] = UseAsyncModel ? "true" : "false";
-            configuration[18] = UpdateHydraxEveryFrame ? "true" : "false";
+            configuration[17] = UseAsyncModel.ToString();
+            configuration[18] = UpdateHydraxEveryFrame.ToString();
 
             
              

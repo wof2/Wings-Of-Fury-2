@@ -206,14 +206,15 @@ namespace Wof.View
 
         protected void AddCrew()
         {
-            crewAnimationStates = new AnimationState[3];
+            int crewCount = 5;
+            crewAnimationStates = new AnimationState[crewCount];
             SceneNode crewNode;
             Entity crew, signal;
 
             Billboard lightbillboard;
             BillboardSet lightbillboardset;
 
-            for (int i = 0; i <= 2; i++)
+            for (int i = 0; i < crewCount; i++)
             {
                 crew = sceneMgr.CreateEntity(name + "Crew" + i, "CarrierCrew.mesh");
 
@@ -268,6 +269,18 @@ namespace Wof.View
                 {
                     crewNode.Position = new Vector3(-4.6f, 0.3f, -32.0f - 47.5f);
                     crewNode.Yaw(new Radian(-2.2f));
+                    crewAnimationStates[i] = crew.GetAnimationState("idle");
+                }
+                else if (i == 3)
+                {
+                    crewNode.Position = new Vector3(-5.9f, 0.3f, -24 );
+                    crewNode.Yaw(new Radian(-2.2f));
+                    crewAnimationStates[i] = crew.GetAnimationState("idle");
+                }
+                else if (i == 4)
+                {
+                    crewNode.Position = new Vector3(-5.2f, 0.3f, -7);
+                    crewNode.Yaw(new Radian(-1.0f));
                     crewAnimationStates[i] = crew.GetAnimationState("idle");
                 }
 
