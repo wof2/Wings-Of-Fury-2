@@ -206,12 +206,13 @@ namespace Wof.Controller.Screens
                     {
                         return false;
                     }
+                    showAdText(viewport);
+                    
 
                     overlayMaterial = MaterialManager.Singleton.GetByName(currentMaterialName);
                     overlayMaterial.Load();
                     unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
-                    showAdText(viewport);
-
+                    
                     unit.SetTextureName(path);
                     AdManager.Singleton.RegisterImpression(currentAd);
 
@@ -278,10 +279,10 @@ namespace Wof.Controller.Screens
             {
                 if (currentMaterialName != null && animation != null)
                 {
-                  
+                   
                     AdManager.Singleton.CloseAd(currentAd);
                     AdManager.Singleton.Work(null); // wyslij, na wszelki wypadek
-
+                   
 
 
                     MaterialManager.Singleton.Unload(currentMaterialName);

@@ -85,7 +85,7 @@ namespace Wof.View
         private const int C_AD_BASE_X = 200;
         private const int C_AD_Z_DIST = 150;
         private const int C_AD_X_DIST = 450;
-        private const int C_AD_Y_DIST = 10;
+        private const int C_AD_Y_DIST = 20;
 
         private const int C_AD_SIZE = 30;
 
@@ -431,29 +431,28 @@ namespace Wof.View
 
             float newWidth = 1.0f;
             float newHeight = 1.0f;
+
+            Entity adHolder = sceneMgr.CreateEntity("AdHolder" + ad.id, "AdHolder.mesh");
+
             if(count == 0)
             {
                 size *= 0.3f;
                 position = carrierView.MainNode._getDerivedPosition() + new Vector3(68, 1, -8);
                 isPersistent = true;
 
-                Entity adHolder = sceneMgr.CreateEntity("AdHolder" + ad.id, "AdHolder.mesh");
+                
              
                 SceneNode adHolderNode = sceneMgr.RootSceneNode.CreateChildSceneNode(adHolder.Name + "Node", position + new Vector3(size.x * 0.5f, 0, 0));
                 adHolderNode.AttachObject(adHolder);
              
 
                 AxisAlignedBox bb = adHolder.BoundingBox;
-                newWidth = size.x / (bb.Size.x * 0.82f);
+                newWidth = size.x / (bb.Size.x * 0.87f);
                 newHeight = size.y / (bb.Size.y * 0.86f);
                 adHolderNode.Scale(newWidth, newHeight, 1.0f);
               
                 
-                //adNodeParent = adHolderNode.CreateChildSceneNode(-position - new Vector3(size.x * 0.5f, 0, -1.5f));
-                adNodeParent = sceneMgr.RootSceneNode.CreateChildSceneNode(new Vector3(0.0f, 0.26f, 0.6f));
-              //  adNodeParent.Scale(1.1f, 0.9f, 1.0f);
-
-
+                adNodeParent = sceneMgr.RootSceneNode.CreateChildSceneNode(new Vector3(0.0f, 0.26f, 0));
                 adNodeSuper = adHolderNode;
             }
             else
@@ -461,26 +460,38 @@ namespace Wof.View
                 int dir = count % 2 == 1 ? 1 : -1;
                 position = new Vector3(C_AD_BASE_X + count * C_AD_X_DIST * dir, C_AD_Y_DIST, -C_AD_Z_DIST);
 
-                Entity adHolder = sceneMgr.CreateEntity("AdMountain" + ad.id, "Mountain.mesh");
-                SceneNode adHolderNode = sceneMgr.RootSceneNode.CreateChildSceneNode(adHolder.Name + "Node", position + new Vector3(size.x * 0.5f, 0, 0));
-                adHolderNode.AttachObject(adHolder);
-                IslandView.initPalm(sceneMgr, adHolderNode, new Vector3(-9, -10, 12), true).Roll(Math.HALF_PI);
-                IslandView.initPalm2(sceneMgr, adHolderNode, new Vector3(-5, -7, 11), true).Roll(Math.HALF_PI);
-                IslandView.initPalm2(sceneMgr, adHolderNode, new Vector3(2, -6, 11), true).Roll(Math.HALF_PI);
-                IslandView.initPalm2(sceneMgr, adHolderNode, new Vector3(7, -8, 12), true).Roll(Math.HALF_PI);
-                IslandView.initPalm(sceneMgr, adHolderNode, new Vector3(10, -7, 11), true).Roll(Math.HALF_PI);
+                Entity radarDome = sceneMgr.CreateEntity("AdRadarDome" + ad.id, "RadarDome.mesh");
+              
+                SceneNode radarNode = sceneMgr.RootSceneNode.CreateChildSceneNode(radarDome.Name + "Node", position + new Vector3(size.x * 0.5f, 0, 0));
+                radarNode.AttachObject(radarDome);
+                SceneNode innerHolderNode = radarNode.CreateChildSceneNode(new Vector3(0,0,1.5f));
+
+                innerHolderNode.AttachObject(adHolder);
+
+                AxisAlignedBox bb = adHolder.BoundingBox;
+                newWidth = size.x / (bb.Size.x * 0.87f);
+                newHeight = size.y / (bb.Size.y * 0.86f);
+                innerHolderNode.Scale(newWidth, newHeight, 1.0f);
+
+
+                IslandView.initPalm(sceneMgr, radarNode, new Vector3(-9, -21, 12 - 5), true).Roll(Math.HALF_PI);
+                IslandView.initPalm2(sceneMgr, radarNode, new Vector3(-5, -20, 11 - 5), true).Roll(Math.HALF_PI);
+                IslandView.initPalm2(sceneMgr, radarNode, new Vector3(2, -18, 11 - 5), true).Roll(Math.HALF_PI);
+                IslandView.initPalm2(sceneMgr, radarNode, new Vector3(7, -20, 12 - 5), true).Roll(Math.HALF_PI);
+                IslandView.initPalm(sceneMgr, radarNode, new Vector3(10, -17, 11 - 5), true).Roll(Math.HALF_PI);
                
-                adNodeParent = adHolderNode.CreateChildSceneNode(-position - new Vector3(size.x * 0.5f, 0, 0));
-                adNodeSuper = adHolderNode;
+                adNodeParent = radarNode.CreateChildSceneNode(-position - new Vector3(size.x * 0.5f, 0, -1.5f));
+                adNodeSuper = radarNode;
             }
 
             AdQuadrangle3D q3d = AdManager.Singleton.AddDynamicAd(sceneMgr, ad.id, position, size, isPersistent);
                 
-            SceneNode adNode = adNodeParent.CreateChildSceneNode();
+          //  SceneNode adNode = adNodeParent.CreateChildSceneNode();
             
-            adNode.AttachObject(q3d.ManualObject);
+          //  adNode.AttachObject(q3d.ManualObject);
+            adNodeParent.AttachObject(q3d.ManualObject);
 
-            q3d.SetSceneNodes(adNodeSuper, adNode);
+            q3d.SetSceneNodes(adNodeSuper, adNodeParent);
             dynamicAds.Add(q3d);
 
          
@@ -1758,65 +1769,68 @@ namespace Wof.View
                         }
                        
                         // zatop
-                        
 
-
-                      
-                        if (!EngineConfig.LowDetails && holder != null && pos.y > -C_AD_SIZE * 1.4f)
+                        if (holder != null)
                         {
-                           
-                            if (pos.y > -10)
+
+                            if (pos.y > -60)
                             {
-                                // ponad woda
-                                string name;
-                                EffectsManager.EffectType type;
-                                if (((uint) ad.GetHashCode() + i)%2 == 0)
-                                {
-                                    type = EffectsManager.EffectType.EXPLOSION2_SLOW;
-                                }
-                                else
-                                {
-                                    type = EffectsManager.EffectType.EXPLOSION1_SLOW;
-                                }
-                                for (uint j = 0; j < 3; j++)
+                                if (!EngineConfig.LowDetails)
                                 {
 
-                                    name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type,
-                                                                                (ad.GetHashCode() + j).ToString());
-                                    if (!EffectsManager.Singleton.EffectExists(name))
+
+                                    // ponad woda
+                                    string name;
+                                    EffectsManager.EffectType type;
+                                    if (((uint) ad.GetHashCode() + i)%2 == 0)
                                     {
-                                        if (Math.RangeRandom(0, 1) > 0.8f)
+                                        type = EffectsManager.EffectType.EXPLOSION2_SLOW;
+                                    }
+                                    else
+                                    {
+                                        type = EffectsManager.EffectType.EXPLOSION1_SLOW;
+                                    }
+                                    for (uint j = 0; j < 3; j++)
+                                    {
+
+                                        name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type,
+                                                                                    (ad.GetHashCode() + j).ToString());
+                                        if (!EffectsManager.Singleton.EffectExists(name))
                                         {
-                                            EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode,
-                                                                            pos +
-                                                                            ViewHelper.RandomVector3(15, 0, 5),
-                                                                            new Vector2(25, 25) +
-                                                                            ViewHelper.RandomVector2(5, 5),
-                                                                            type, false,
-                                                                            (ad.GetHashCode() + j).ToString());
+                                            if (Math.RangeRandom(0, 1) > 0.8f)
+                                            {
+                                                EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode,
+                                                                                pos +
+                                                                                ViewHelper.RandomVector3(15, 0, 5),
+                                                                                new Vector2(25, 25) +
+                                                                                ViewHelper.RandomVector2(5, 5),
+                                                                                type, false,
+                                                                                (ad.GetHashCode() + j).ToString());
+
+                                            }
 
                                         }
-
                                     }
+                                    pos.y = 0;
+                                    ShipView.SinkingWaterAnimation(sceneMgr, pos, "AdWave" + ad.GetBillboardId(), 4,
+                                                                   new Vector2(25, 25), new Vector2(40, 40));
+
                                 }
+                                holder.Translate(0, -evt.timeSinceLastFrame*6.0f, 0);
                             }
-                           
-                            pos.y = 0;
-                       
-                            ShipView.SinkingWaterAnimation(sceneMgr, pos, "AdWave" + ad.GetBillboardId(), 4, new Vector2(25, 25), new Vector2(40, 40));
-                            holder.Translate(0, -evt.timeSinceLastFrame * 6.0f, 0);
-                        }
-                       
 
-                        if (!ad.DecreaseOpacity(evt.timeSinceLastFrame * 0.5f))
-                        {
-                            //AdManager.Singleton.RemoveDynamicAd(ad);
-                            ad.ManualObject.Visible = false;
-                            dynamicAds.Remove(ad);
+                            if (!ad.DecreaseOpacity(evt.timeSinceLastFrame*0.2f) && pos.y < -60)
+                            {
+                                //AdManager.Singleton.RemoveDynamicAd(ad);
+                                holder.SetVisible(false);
+                                ad.ManualObject.Visible = false;
+                                dynamicAds.Remove(ad);
+
+                            
+                            }
+
 
                         }
-
-                        
                     }
                 }
                 else

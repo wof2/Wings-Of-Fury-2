@@ -17,6 +17,22 @@ material Concrete2: NormalMappedSpecular
 }
 
 
+material Concrete2Simple
+{
+	technique
+	{
+		pass
+		{
+			
+			texture_unit 
+			{
+				texture concrete2.dds
+			}
+		}
+	}
+}
+
+
 material Wood
 {
 	technique

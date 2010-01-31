@@ -15,6 +15,22 @@ material Steel2 : NormalMappedSpecular
 }
 
 
+material Steel2Simple
+{
+	technique
+	{
+		pass
+		{
+			
+			texture_unit 
+			{
+				texture steel2.dds
+			}
+		}
+	}
+}
+
+
 
 material GreenSteel : NormalMappedSpecular
 {
@@ -24,4 +40,20 @@ material GreenSteel : NormalMappedSpecular
 }
 
 
+
+
+material White
+{
+	technique
+	{
+		pass
+		{
+			
+			texture_unit 
+			{
+				texture white.dds
+			}
+		}
+	}
+}
 

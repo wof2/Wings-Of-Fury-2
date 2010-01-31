@@ -112,7 +112,6 @@ namespace Wof.Controller.AdAction
         		try
         		{
         			
-        			
         			adAction.Work();
             		adHelper3D.Work(adAction);
             		if(c != null) UpdateCamera(c);
