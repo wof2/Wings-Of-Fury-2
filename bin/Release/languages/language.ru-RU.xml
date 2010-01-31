@@ -517,19 +517,19 @@
 
   <!-- don't worry about the line breaks in the strings below -->
   <data name="News404_1">
-    <value>Error navigating to WOF2 project news</value>
+    <value>Не удается открыть сайт с последними новостями WOF2</value>
   </data>
 
   <data name="News404_2">
-    <value>Cannot establish Internet connection</value>
+    <value>Невозможно установить соединение с сайтом</value>
   </data>
 
   <data name="News404_3">
-    <value>Please allow WOF2 through your firewall. You will be able to download new levels, updates and support the game at the same time!</value>
+    <value>Пожалуйста, "позволь" игре пройты ваш брандмауэр или антивирус. Таким образом, вы сможете скачать обновления и исправления и поддерживать его дальнейшее развитие!</value>
   </data>
 
   <data name="News404_4">
-    <value>How to do this?</value>
+    <value>Как это сделать?</value>
   </data>
 
 
