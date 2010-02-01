@@ -48,7 +48,7 @@ namespace Wof.Controller.AdAction
     
         public enum AdStatus
         {
-            NO_ADS, TIMEOUT, OK, DOWNLOAD_FAILED
+            NO_ADS, TIMEOUT, OK, DOWNLOAD_FAILED, ADS_DISABLED
         } ;
 
       
@@ -173,15 +173,20 @@ namespace Wof.Controller.AdAction
 
         private AdManager()
         {
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                return;
+            }
             timer.Reset();
             adAction = new CommercialAdAction();
             adHelper3D = new AdHelper3D(0.02f, 80, 2000, 2);
             int result = AdAction.Init(C_AD_KEY, C_ADS_DIR, C_CONNECT_TIMEOUT);
-            if(result == 0)
+            if (result == 0)
             {
-               
-              
+
+
             }
+           
         }
 
         private void AdDownloaded(int id, string path, bool animated)
@@ -202,8 +207,11 @@ namespace Wof.Controller.AdAction
 
         public void RegisterImpression(Ad ad)
         {
-        	
-        	lastRegisterImpression = timer.Milliseconds;
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                return;
+            }
+            lastRegisterImpression = timer.Milliseconds;
         	
             adAction.Add(ad.id);
         }
@@ -273,7 +281,12 @@ namespace Wof.Controller.AdAction
         /// <returns></returns>
         public AdStatus GetAd(string zone, int downloadMsTimeout, float ratio, AdManaged.AdDownloaded adDownloadedCallback, out Ad outAd)
         {
-            outAd = null;           
+            outAd = null;   
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                return AdStatus.ADS_DISABLED;
+            }
+                    
             int id1 = 0;
             
             try
@@ -342,7 +355,13 @@ namespace Wof.Controller.AdAction
         
         public AdStatus GatherAsyncResult(int id, int downloadMsTimeout, out Ad outAd)
         {
-        	outAd = null;
+            outAd = null;
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                return AdStatus.ADS_DISABLED;
+            }
+                  
+        	
         	if(downloadingAds.ContainsKey(id)) 
         	{
         	   	// jeszcze nie skonczono
@@ -382,6 +401,10 @@ namespace Wof.Controller.AdAction
         
         public void ClearDynamicAds()
         {
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                return;
+            }
         	AdHelper3D.Stop_Time();
         	AdHelper3D.Clear();
         }
@@ -389,12 +412,19 @@ namespace Wof.Controller.AdAction
       
         public void RemoveDynamicAd(AdQuadrangle3D quadrangle3D)
         {
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                return;
+            }
             adHelper3D.Remove_Ad(quadrangle3D.GetBillboardId());
             
         }
         public AdQuadrangle3D AddDynamicAd(SceneManager sceneMgr, int id, Vector3 origin, Vector2 size, bool isPersistent)
-        {  
-        	
+        {
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                return null;
+            }
             Ad outAd = ads.Find(delegate(Ad ad)
 	                                       {
 	                                           return ad.id.Equals(id);
@@ -420,7 +450,10 @@ namespace Wof.Controller.AdAction
         
         public void UpdateCamera(Camera c)
         {
-           
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                return;
+            }
             //Camera c = new Camera();
             Matrix4 proj = c.ProjectionMatrix;
             Matrix4 view = c.ViewMatrix;
@@ -450,6 +483,10 @@ namespace Wof.Controller.AdAction
         /// <returns></returns>
         public bool IsDynamicAdVisible(AdQuadrangle3D quadrangle3D)
         {
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                return false;
+            }
             int corners;
             float angle, area, timer;
             bool visible = AdHelper3D.Get_Ad_State(quadrangle3D.GetBillboardId(), out corners, out angle, out area, out timer);
@@ -473,10 +510,14 @@ namespace Wof.Controller.AdAction
         public AdStatus GetAdAsync(string zone, float ratio, out int id, AdDownloadedAsync adDownloadedAsyncCallback)
         {
             id = 0;
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                return AdStatus.ADS_DISABLED;
+            }
             try
             {              
                 id = adAction.Get_Ad_For_Zone(zone, ratio);      
-                Console.WriteLine(id);
+               // Console.WriteLine(id);
             }
             catch (Exception ex)
             {
@@ -535,7 +576,10 @@ namespace Wof.Controller.AdAction
         
         public void CloseAd(Ad ad)
         {
-          
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                return;
+            }
         	if(ads.Contains(ad))
         	{
         	    ads.Remove(ad);

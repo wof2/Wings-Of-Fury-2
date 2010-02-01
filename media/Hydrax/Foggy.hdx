@@ -5,7 +5,7 @@ HydraxVersion=0.5.1
 
 #Main options field
 <vector3>Position=0x-0.6x0
-<float>PlanesError=2.2
+<float>PlanesError=2.1
 #Shader mode: 0=HLSL, 1=CG, 2=GLSL
 <int>ShaderMode=0
 <float>FullReflectionDistance=1e+07

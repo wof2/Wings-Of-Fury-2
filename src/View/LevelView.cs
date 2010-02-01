@@ -83,13 +83,13 @@ namespace Wof.View
     public class LevelView
     {
         private const int C_AD_BASE_X = 200;
-        private const int C_AD_Z_DIST = 150;
+        private const int C_AD_Z_DIST = 125;
         private const int C_AD_X_DIST = 450;
         private const int C_AD_Y_DIST = 20;
 
-        private const int C_AD_SIZE = 30;
+        private const int C_AD_SIZE = 32;
 
-        private const float C_AD_MAX_DISPLAY_TIME = 15.0f;
+        private const float C_AD_MAX_DISPLAY_TIME = 35.0f;
         public const int C_AD_DYNAMIC_ADS_COUNT = 3;
         
 
@@ -413,8 +413,12 @@ namespace Wof.View
         /// <param name="ad"></param>
         public void OnRegisterBackgroundDynamicAd(AdManager.Ad ad)
         {
+            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                return;
+            }
             int count = dynamicAds.Count;
-            Vector3 position;
+            Vector3 position = Vector3.ZERO;
             Vector2 size;
             SceneNode adNodeParent;
             SceneNode adNodeSuper = null;
@@ -457,8 +461,38 @@ namespace Wof.View
             }
             else
             {
-                int dir = count % 2 == 1 ? 1 : -1;
-                position = new Vector3(C_AD_BASE_X + count * C_AD_X_DIST * dir, C_AD_Y_DIST, -C_AD_Z_DIST);
+                // zaczep o ktoras wyspe
+                int j = 0;
+                for (int i = 0; i < compositeModelViews.Count; i++)
+                {
+
+                    CompositeModelView iv = compositeModelViews[i];
+                    if(!(iv is CarrierView)) 
+                    {
+                        // hardcode :/
+                        if(iv is IslandView && iv.TileViews[0].LevelTile.Variant == 7) continue; // to jest variant w ktorym wyspa ma w tle radar
+
+                        j++;
+                        if(j < count)
+                        {
+                            continue;
+                        }
+
+                        iv = compositeModelViews[i];
+
+                        position = new Vector3(UnitConverter.LogicToWorldUnits(iv.TileViews[0].LevelTile.TileIndex) + Math.RangeRandom(-4 * LevelTile.TileWidth, -1 * LevelTile.TileWidth), C_AD_Y_DIST, -C_AD_Z_DIST);
+                  
+                        break;
+                    }
+                }
+
+                // jak nie ma wyspy to losuj 
+                if(position == Vector3.ZERO)
+                {
+                    int dir = count % 2 == 1 ? 1 : -1;
+                    position = new Vector3(C_AD_BASE_X + count * C_AD_X_DIST * dir, C_AD_Y_DIST, -C_AD_Z_DIST);
+                }
+              
 
                 Entity radarDome = sceneMgr.CreateEntity("AdRadarDome" + ad.id, "RadarDome.mesh");
               
@@ -1777,8 +1811,7 @@ namespace Wof.View
                             {
                                 if (!EngineConfig.LowDetails)
                                 {
-
-
+                                    
                                     // ponad woda
                                     string name;
                                     EffectsManager.EffectType type;
@@ -1819,7 +1852,7 @@ namespace Wof.View
                                 holder.Translate(0, -evt.timeSinceLastFrame*6.0f, 0);
                             }
 
-                            if (!ad.DecreaseOpacity(evt.timeSinceLastFrame*0.2f) && pos.y < -60)
+                            if (!ad.DecreaseOpacity(evt.timeSinceLastFrame*0.15f) && pos.y < -60)
                             {
                                 //AdManager.Singleton.RemoveDynamicAd(ad);
                                 holder.SetVisible(false);

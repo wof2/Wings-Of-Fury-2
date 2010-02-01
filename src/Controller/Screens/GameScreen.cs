@@ -686,7 +686,11 @@ namespace Wof.Controller.Screens
             status = AdManager.Singleton.GetAdAsync(C_AD_GAME_ZONE, 0.25f, out changingAmmoAdId);
 
             // zlec ladowanie reklam dynamicznych (3D)
-            BeginDynamicAdsDownload(LevelView.C_AD_DYNAMIC_ADS_COUNT);
+            if (!EngineConfig.C_IS_ENHANCED_VERSION)
+            {
+                BeginDynamicAdsDownload(LevelView.C_AD_DYNAMIC_ADS_COUNT);
+            }
+           
 
 
             // jesli nie ma byc reklamy lub jesli nie udalo sie zaladowac reklamy

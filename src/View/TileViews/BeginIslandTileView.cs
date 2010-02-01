@@ -155,6 +155,14 @@ namespace Wof.View.TileViews
                     backgroundViews.Add(cmv);
                     break;
 
+                case 7:
+                    // radar
+
+                    cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_RADAR_DOME, framework, parentNode);
+                    backgroundViews.Add(cmv);
+
+                    break;
+
             }
         }
     }

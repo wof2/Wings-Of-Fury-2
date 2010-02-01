@@ -146,8 +146,9 @@ namespace Wof.View
                 margin = 0.3f;
             }
             float maxX = -((Math.Abs(count) - 1) * LevelView.TileWidth);
-           
-           
+
+
+            float dummyYPosition = 0;
 
           
            
@@ -261,8 +262,12 @@ namespace Wof.View
                     initNonCollisionTreesDiamond(sceneMgr, staticNode, -4.5f, -60, 0.5f);
                     initNonCollisionTreesDiamond(sceneMgr, staticNode, -4.5f, -30, 0.5f);
                     break;
-                default:
-                    return;
+
+                case "RadarDome":
+                    dummyYPosition = 21;
+                    break;
+                    
+                
             }
 
             if (EngineConfig.LowDetails && MeshManager.Singleton.ResourceExists(meshName + "_low" + ViewHelper.C_MESH_EXT))
@@ -305,14 +310,14 @@ namespace Wof.View
                 {
                     float X = (islandCounter%5*250) - 650;
                     float Z = Math.RangeRandom(-4, 0)*70;
-                    staticNode.Translate(new Vector3(-250 + Z, 0, Math.RangeRandom(-120, 120) + X));
+                    staticNode.Translate(new Vector3(-250 + Z, dummyYPosition, Math.RangeRandom(-120, 120) + X));
                     staticNode.SetDirection(Vector3.UNIT_X);
                     angle = Math.RangeRandom(0, 2*Math.PI);
                 }
                 else
                 {
 
-                    staticNode.Translate(new Vector3(-450 + Math.RangeRandom(-150, 150), 0, Math.RangeRandom(-200, 200)));
+                    staticNode.Translate(new Vector3(-450 + Math.RangeRandom(-150, 150), dummyYPosition, Math.RangeRandom(-200, 200)));
                     staticNode.SetDirection(Vector3.UNIT_X);
                     angle = Math.HALF_PI;
                 }

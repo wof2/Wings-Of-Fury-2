@@ -13,6 +13,7 @@ namespace Wof.View
         public const string C_DUMMY_ISLAND_LAGUNA = "Laguna";
         public const string C_DUMMY_ISLAND_DLAGUNA = "DoubleLaguna";
         public const string C_DUMMY_ISLAND_6 = "Island6";
+        public const string C_DUMMY_RADAR_DOME = "RadarDome";
 
         
 
