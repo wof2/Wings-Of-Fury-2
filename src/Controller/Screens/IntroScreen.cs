@@ -69,7 +69,7 @@ namespace Wof.Controller.Screens
     {
        
 
-    	public const float C_INTRO_AD_PROBABILITY = 1.0f;
+    	public const float C_INTRO_AD_PROBABILITY = 0.0f;
         public const String C_TEXTURE_NAME = "IntroScreen";
         private readonly Overlay overlay;
 
@@ -83,12 +83,12 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Czas animacji (w sek) zwi¹zanych z poszczególnymi screenami
         /// </summary>
-        private float[] screenTimes = { 2.1f, 1.5f};//, 2.5f, 2.0f };
+        private float[] screenTimes = { 2.0f};//, 2.5f, 2.0f };
 
         /// <summary>
         /// Minimalny czas (w sek) przez jaki screen musi byæ na ekranie
         /// </summary>
-        private float[] screenMinTimes = {2.0f, 1.5f};// , 1.0f, 1.0f };
+        private float[] screenMinTimes = {0.0f};// , 1.0f, 1.0f };
 
 
         string currentMaterialName; 
@@ -101,7 +101,7 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Czy screen jest reklam¹
         /// </summary>
-        private bool[] isScreenAnAd = { true, true, false, false };
+        private bool[] isScreenAnAd = { false };
 
 
         public const string C_AD_ZONE = "pregame";
@@ -299,12 +299,14 @@ namespace Wof.Controller.Screens
                 hideAdText();
             }
 
-            if(i == 3)
+            if(i == 1)
             {
                 SoundManager3D.Instance.PlayAmbient("sounds/raven.wav", EngineConfig.SoundVolume, false, false);
             }
 
             textureDimensions = unit.GetTextureDimensions();
+        //    Console.WriteLine(textureDimensions.first);
+            
             PointD scale = new PointD(1,1);
             // skaluj overlay tak aby tekstury nie zmienia³y swoich proporcji
             float prop = 1.0f;
@@ -316,6 +318,8 @@ namespace Wof.Controller.Screens
             }
             else
             {
+            	textureDimensions = new Pair<uint, uint>(1280,1024);
+            	scale = AdSizeUtils.ScaleAdToDisplay(textureDimensions, new PointD(Viewport.ActualWidth, Viewport.ActualHeight), true);
                 prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * Viewport.ActualWidth / Viewport.ActualHeight));
             }
             overlay.SetScale(scale.X, scale.Y * prop);
@@ -347,7 +351,7 @@ namespace Wof.Controller.Screens
             currentScreen++;
             if (currentScreen > 1)
             {
-                if(currentMaterialName != null && animation != null)
+                if(currentMaterialName != null && animation != null && currentAd != null)
                 {
                    
                     AdManager.Singleton.CloseAd(currentAd);

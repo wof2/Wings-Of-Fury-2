@@ -194,8 +194,8 @@
     <value>Land op het vliegdekschip en druk op '{0}' voor reparaties</value>
   </data>
   <!-- low difficulty / details -->
-  <data name="Laag">
-    <value>Low</value>
+  <data name="Low">
+    <value>Laag</value>
   </data>
   <data name="LowFuelWarning">
     <value>WAARSCHUWING, LAAG BRANDSTOFPEIL</value>
@@ -571,13 +571,12 @@
 
 
   <data name="EnhancedVersion">
-    <value>Enhanced version</value>
+    <value>Verbeterde versie</value>
   </data>
 
   <data name="EnhancedVersionDetails">
-    <value>Enhanced version of the game contain additional levels and bonus content. Also all ads are removed. It's available for all WOF2 donators and supporters.</value>
+    <value>De verbeterde versie van het spel bevat extra levels en bonusmateriaal. Tevens zijn de advertenties verwijderd. Het is beschikbaar voor alle WOF2 donateurs en fans die het spel ondersteunen.</value>
   </data>
-
 
 </root>
 

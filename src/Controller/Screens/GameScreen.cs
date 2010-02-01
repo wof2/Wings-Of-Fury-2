@@ -735,7 +735,7 @@ namespace Wof.Controller.Screens
 
 
 
-                    adSurface.SetDimensions(0.65f * adSurface.Width * scale.X, 0.65f * adSurface.Height * scale.Y);
+                    adSurface.SetDimensions(0.5f * adSurface.Width * scale.X, 0.5f * adSurface.Height * scale.Y);
                     float xShift = (1 - adSurface.Width) / 2.0f;
                     float yShift = (1 - adSurface.Height) / 2.0f;
                     adSurface.SetPosition(xShift, yShift);
