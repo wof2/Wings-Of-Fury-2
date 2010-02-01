@@ -36,7 +36,7 @@ material NormalMappedSpecular
 			// to lighting pass categorisation routine
 			ambient 0 0 0 
 			// do this for each light
-			iteration once_per_light
+			iteration once_per_light directional 
 
 		
 			scene_blend add
@@ -142,7 +142,7 @@ material NormalMappedSpecular
 			// to lighting pass categorisation routine
 			ambient 0 0 0 
 			// do this for each light
-			iteration once_per_light
+			iteration once_per_light directional 
 
 		
 			scene_blend add
@@ -254,7 +254,7 @@ material IslandBase
 			ambient 0 0 0 
 			
 			// do this for each light
-			iteration once_per_light
+			iteration once_per_light directional 
 
 		
 			scene_blend add
