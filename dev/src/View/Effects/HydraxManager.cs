@@ -164,6 +164,7 @@ namespace Wof.View.Effects
         public void Update(float timeSinceLastFrame)
         {
 
+           // hydrax.SunPosition 
             if(EngineConfig.UpdateHydraxEveryFrame)
             {
                 if (hydrax != null && hydrax.IsCreated) hydrax.Update(timeSinceLastFrame);
