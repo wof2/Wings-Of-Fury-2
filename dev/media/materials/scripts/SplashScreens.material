@@ -156,7 +156,7 @@ material IntroScreen1
 		{			
 			texture_unit
 			{
-				texture Intro3.jpg
+				texture Intro1.jpg
 			}						
 			
 		}      

@@ -69,7 +69,7 @@ namespace Wof.Controller.Screens
         private Window updatesGUIWindow;
 
 
-        private const float C_QUIT_AD_PROBABILITY = 0.65f;
+        private const float C_QUIT_AD_PROBABILITY = 0.0f;
         private Thread newUpdatesThread;
 
         private static bool updatesChecked = false;
