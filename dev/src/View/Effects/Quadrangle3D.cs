@@ -175,15 +175,15 @@ namespace Wof.View.Effects
             manualObject.End();
             
            
-
+/*
             AxisAlignedBox box = new AxisAlignedBox();
-            float hwidth = 1.1f * (quadrangle.RightMostX - quadrangle.LeftMostX) * 0.5f;
-            float hheight = 1.1f * (quadrangle.HighestY - quadrangle.LowestY) * 0.5f;
+            float hwidth = 1.4f * (quadrangle.RightMostX - quadrangle.LeftMostX) * 0.5f;
+            float hheight = 1.4f * (quadrangle.HighestY - quadrangle.LowestY) * 0.5f;
             box.SetMinimum(origin.x - hwidth, origin.y - hheight, origin.z - 10);
             box.SetMaximum(origin.x + hwidth, origin.y + hheight, origin.z + 10);
 
             manualObject.BoundingBox = box;
-
+*/
             MaterialPtr mat = ViewHelper.CloneMaterial("AdMaterial", manualObject.Name + "AdMaterial");
             Pass pass = mat.GetBestTechnique().GetPass(0);
             pass.DepthWriteEnabled = true;

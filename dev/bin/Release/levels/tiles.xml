@@ -281,6 +281,7 @@
   <tile name="island-begin" y-start="0.0" y-end="1.5" variation="4" /> <!-- Duza wyspa   -->
   <tile name="island-begin" y-start="0.0" y-end="1.5" variation="5" /> <!-- 3 wysepki + lotniskowiec -->
   <tile name="island-begin" y-start="0.0" y-end="1.5" variation="6" /> <!-- 3 wysepki w tym laguna -->
+  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="7" /> <!-- radar -->
    
     
   <tile name="island-begin" y-start="0.0" y-end="8.0" variation="10"/>

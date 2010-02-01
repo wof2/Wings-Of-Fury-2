@@ -39,7 +39,7 @@
   
   
     <!-- double laguna -->
-  <island-begin mesh="DoubleLaguna"/>    
+  <island-begin mesh="DoubleLaguna"  />    
   	<terrain variation="1"/>
     <terrain variation="0"/>
     <terrain variation="0"/>

@@ -55,7 +55,7 @@
 
   <ocean width="40"/>
   
-  <island-begin mesh="Island2" variation="2"/>
+  <island-begin mesh="Island2" variation="7"/>
   <concrete-bunker num-soldiers="5" variation="3" />
   <terrain variation="0"/>
   <terrain variation="0"/>
