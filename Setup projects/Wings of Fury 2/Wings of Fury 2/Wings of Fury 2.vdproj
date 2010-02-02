@@ -117,6 +117,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_DB63D209545F44C6A85797A2AE17BA6C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_DD78BD3AA58A4718B37869DE3B20255E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -260,7 +266,7 @@
             "Object" = "8:_DD78BD3AA58A4718B37869DE3B20255E"
             "FileType" = "3:2"
             "InstallAction" = "3:1"
-            "Arguments" = "8:"
+            "Arguments" = "8:/Q"
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
             "Identifier" = "8:_E670B80B_7F6F_4632_8E2B_17C0CF5BEBB9"
@@ -680,6 +686,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DB63D209545F44C6A85797A2AE17BA6C"
+            {
+            "SourcePath" = "8:..\\..\\..\\Wof.exe"
+            "TargetName" = "8:Wof.exe"
+            "Tag" = "8:"
+            "Folder" = "8:_7B69A81890CF4F63B65C7835AB095B5B"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DD78BD3AA58A4718B37869DE3B20255E"
             {
             "SourcePath" = "8:..\\..\\..\\bin\\dxwebsetup.exe"
@@ -779,7 +805,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:WOF2 - Return of the legend"
         "ProductCode" = "8:{1BCF503C-7071-4B6F-B349-3C07735E8BB4}"
-        "PackageCode" = "8:{369F0BF4-C1FE-4BDF-A83A-AEAB511E1BFE}"
+        "PackageCode" = "8:{C5FD4A26-2B64-44E3-9492-1544002DB6DC}"
         "UpgradeCode" = "8:{A3459711-01CE-491D-ACB4-333AEB5CC979}"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
@@ -900,29 +926,29 @@
         {
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_612626060A0B49999CAACA5CA5206D8F"
             {
-            "Name" = "8:Wings of Fury 2"
+            "Name" = "8:Wings of Fury 2 - Return of the legend"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_95FBB51648454847A9DEE5524BCDED78"
+            "Target" = "8:_DB63D209545F44C6A85797A2AE17BA6C"
             "Folder" = "8:_840B3C63D7134524A7B6A0221944FBEC"
-            "WorkingFolder" = "8:_D6CBA4FF2EB2420AB8049173EDEC0CED"
+            "WorkingFolder" = "8:_7B69A81890CF4F63B65C7835AB095B5B"
             "Icon" = "8:_CB0D609E1C6B4A648C2E3F9B5BFFE1FC"
             "Feature" = "8:"
             }
             "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_8F084663C38E4836AF80AC36D67A7AA0"
             {
-            "Name" = "8:Wings of Fury 2"
+            "Name" = "8:Wings of Fury 2 - Return of the legend"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_95FBB51648454847A9DEE5524BCDED78"
+            "Target" = "8:_DB63D209545F44C6A85797A2AE17BA6C"
             "Folder" = "8:_253ACDFE24984F9999972129EB95D124"
-            "WorkingFolder" = "8:_D6CBA4FF2EB2420AB8049173EDEC0CED"
+            "WorkingFolder" = "8:_7B69A81890CF4F63B65C7835AB095B5B"
             "Icon" = "8:_CB0D609E1C6B4A648C2E3F9B5BFFE1FC"
             "Feature" = "8:"
             }

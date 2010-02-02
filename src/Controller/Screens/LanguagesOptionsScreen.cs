@@ -87,7 +87,7 @@ namespace Wof.Controller.Screens
                 if (lang.Key.Equals(holder.Value))
                 {
                     LanguageManager.SetLanguage(lang.Value);
-                    EngineConfig.SaveEngineConfig();
+                    //EngineConfig.SaveEngineConfig();
                     break;
                 }
             }

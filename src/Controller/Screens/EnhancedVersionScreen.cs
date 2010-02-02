@@ -101,7 +101,7 @@ namespace Wof.Controller.Screens
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
             mGui.mFontSize = smallFontSize;
           
-            guiWindow.createStaticText(new Vector4(5, 1.2f * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, 3 * GetTextVSpacing()), Wrap(message, 60));
+            guiWindow.createStaticText(new Vector4(5, 1.2f * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, 3 * GetTextVSpacing()), Wrap(message, 50));
 
             mGui.mFontSize = fontSize;
             initButtons(2, 1);
