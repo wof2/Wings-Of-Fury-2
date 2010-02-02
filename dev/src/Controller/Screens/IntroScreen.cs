@@ -319,8 +319,25 @@ namespace Wof.Controller.Screens
             else
             {
             	textureDimensions = new Pair<uint, uint>(1280,1024);
-            	scale = AdSizeUtils.ScaleAdToDisplay(textureDimensions, new PointD(Viewport.ActualWidth, Viewport.ActualHeight), true);
+            //	scale = AdSizeUtils.ScaleAdToDisplay(textureDimensions, new PointD(Viewport.ActualWidth, Viewport.ActualHeight), false);
                 prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * Viewport.ActualWidth / Viewport.ActualHeight));
+               
+                // wychodzimy poza ekran
+                if(scale.Y * prop > 1.0f)
+                {
+                    float scalingFactor = 1.0f/(scale.Y*prop);
+                    scale.X *= scalingFactor; scale.Y *= scalingFactor;
+                    
+                }
+
+                if (scale.X * prop > 1.0f)
+                {
+                    float scalingFactor = 1.0f / (scale.X * prop);
+                    scale.X *= scalingFactor; scale.Y *= scalingFactor;
+
+                }
+
+             //   scale.X *= 0.5f; scale.Y *= 0.5f;
             }
             overlay.SetScale(scale.X, scale.Y * prop);
            
