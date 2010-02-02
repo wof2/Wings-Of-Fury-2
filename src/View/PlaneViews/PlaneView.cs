@@ -48,6 +48,7 @@
 
 using System;
 using System.Collections.Generic;
+using FSLOgreCS;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
@@ -71,6 +72,8 @@ namespace Wof.View
     {
 
         protected IFrameWork frameWork;
+
+        protected FSLSoundObject planePassSound = null;
 
         /// <summary>
         /// Node trzymaj¹cy wizualizacjê torpedy
@@ -134,6 +137,9 @@ namespace Wof.View
         {
             get { return animationState; }
         }
+
+        public abstract string GetMainMeshName();
+        
 
         #region SceneNodes
 
@@ -270,6 +276,7 @@ namespace Wof.View
             get { return hangaringCameraHolder; }
         }
 
+       
         #endregion
 
         protected void InitLight(SceneNode parent, ColourValue c1, Vector3 localPosition, Vector2 size)
@@ -380,6 +387,8 @@ namespace Wof.View
 
         public PlaneView(Plane plane, IFrameWork frameWork, SceneNode parentNode, String name)
         {
+           
+
             this.frameWork = frameWork;
             this.sceneMgr = frameWork.SceneMgr;
             this.plane = plane;
@@ -400,8 +409,37 @@ namespace Wof.View
             initOnScene();
         }
 
+        ~PlaneView()
+        {
+            if (planePassSound != null)
+            {
+                SoundManager3D.Instance.RemoveSound(planePassSound.Name);
+                planePassSound.Destroy();
+                planePassSound = null;
+            }
+        }
+     
+        public virtual void EnableNightLights()
+        {
+            if (LevelView.IsNightScene)
+            {
+                InitLight(lWingNode, new ColourValue(0.9f, 0.1f, 0.1f), new Vector3(0.1f, 0.05f, -0.9f),
+                          new Vector2(2.5f, 2.5f));
+                InitLight(rWingNode, new ColourValue(0.9f, 0.1f, 0.1f), new Vector3(0.1f, 0.05f, -0.9f),
+                          new Vector2(2.5f, 2.5f));
+
+                InitLight(lWingNode, new ColourValue(0.1f, 0.1f, 0.9f), new Vector3(8.85f, 0.35f, 9.0f),
+                          new Vector2(2.5f, 2.5f));
+            }
+        }
+
+
         protected virtual void initOnScene()
         {
+            if (EngineConfig.SoundEnabled)
+            {
+                planePassSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_PLANE_PASS, this.planeNode, false, false);
+            }
             initAnimationManager();
             initWheels();
             initBlade();
@@ -510,6 +548,17 @@ namespace Wof.View
             animationMgr.enableBlade();
         }
 
+        public void PlayPlanePass()
+        {
+            if (EngineConfig.SoundEnabled && !planePassSound.IsPlaying())
+            {
+                //planePassSound.SetGain(soundObject.GetBaseGain() * volume / 100.0f);
+                //planePassSound.SetGain(EngineConfig.SoundVolume / 100.0f);
+                planePassSound.SetBaseGain(0.5f);
+                planePassSound.Play();
+            }
+        }
+
 
         #region VertexAnimable members
 
@@ -544,6 +593,7 @@ namespace Wof.View
         {
             return cameraHolders;
         }
+
 
         /// <summary>
         /// 

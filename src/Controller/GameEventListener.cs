@@ -46,13 +46,15 @@
  * 
  */
 
+using Wof.Model.Level.Planes;
+
 namespace Wof.Controller
 {
     public interface GameEventListener
     {
-        void StartGame();
-        void StartGame(int levelNo);
-        void StartGame(string levelFile);
+        void StartGame(PlaneType userPlaneType);
+        void StartGame(int levelNo, PlaneType userPlaneType);
+        void StartGame(string levelFile, PlaneType userPlaneType);
         void ExitGame();
         void GotoStartScreen();
         void GotoNextLevel();
@@ -79,6 +81,8 @@ namespace Wof.Controller
         void GotoDonateScreen();
         void GotoQuitScreen();
         void GotoEnhancedVersionScreen();
+        void GotoPlanesScreen();
+        
 
         void GotoEnhancedVersionWebPage();
 

@@ -68,7 +68,7 @@ namespace wingitor
         {
             if(filename != null)
             {
-                currentLevel = new Level(filename, this);
+                currentLevel = new Level(filename, this, EngineConfig.CurrentPlayerPlaneType);
                 levelView = new LevelView(this, this);
                 levelView.OnRegisterLevel(currentLevel);
                 levelView.SetVisible(true);
@@ -115,7 +115,7 @@ namespace wingitor
                 if (levelToLoad != null)
                 {
                     filename = levelToLoad;
-                    currentLevel = new Level(filename, this);
+                    currentLevel = new Level(filename, this, EngineConfig.CurrentPlayerPlaneType);
                 }
                
                 levelView = new LevelView(this, this);

@@ -311,7 +311,7 @@ namespace Wof.Controller
         private static string GetNewsUrl()
         {
             return EngineConfig.C_WOF_NEWS_PAGE + "?v=" + EngineConfig.C_WOF_VERSION + "&d=" +
-                EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.C_IS_ENHANCED_VERSION + "&noads=" + (AdManager.Singleton.ConnectionErrorOccured ? 1 : 0);
+                EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&noads=" + (AdManager.Singleton.ConnectionErrorOccured ? 1 : 0);
         }
 		
         public void ReturnToInitialState()

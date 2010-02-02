@@ -144,7 +144,7 @@ namespace Wof.Controller.Screens
         {
              PlayClickSound();
             int levelNo = int.Parse(selected.Substring(LanguageResources.GetString(LanguageKey.Level).Length));
-             gameEventListener.StartGame(levelNo);
+            gameEventListener.StartGame(levelNo, EngineConfig.CurrentPlayerPlaneType);
         }
 
         protected override bool IsOptionSelected(string option)

@@ -51,6 +51,7 @@ using System.Globalization;
 using System.IO;
 using FSLOgreCS;
 using Wof.Languages;
+using Wof.Model.Level.Planes;
 using Wof.Properties;
 
 namespace Wof.Controller
@@ -76,7 +77,7 @@ namespace Wof.Controller
         /// </summary>
         public static readonly bool C_IS_DEMO = false;
 
-        public static readonly bool C_IS_ENHANCED_VERSION = Licensing.IsEhnancedVersion();
+        public static readonly bool IsEnhancedVersion = Licensing.IsEhnancedVersion();
 
 
         public static readonly String C_ENGINE_CONFIG = "wofconf.dat";
@@ -95,6 +96,8 @@ namespace Wof.Controller
         public static readonly bool DisplayBoundingQuadrangles = false;
 
         public static readonly bool AutoEncodeXMLs = true;
+
+
       
 
         /// <summary>
@@ -110,6 +113,8 @@ namespace Wof.Controller
        
         public const float GameSpeedMultiplierSlow = 0.5f;
  		public const float GameSpeedMultiplierNormal = 1.0f;
+
+        
  		
         /// <summary>
         /// Do efektu bullet-time
@@ -131,7 +136,7 @@ namespace Wof.Controller
         public static bool SpinKeys = false; // Nie zapisywane do Wofconf.dat , czy trzeba chwilowo odwrócic przyciski podczas spinu
         public static bool ShowIntro = true; // czy ma byæ odgrywane intro? (nadpisywane przez wofconf.dat)
 
-      
+        public static PlaneType CurrentPlayerPlaneType;
 
         public static bool DisplayMinimap = true;
 
@@ -449,9 +454,23 @@ namespace Wof.Controller
                     {
                         UpdateHydraxEveryFrame = true;
                     }
-                    
 
-                    
+
+                    try
+                    {
+
+                        CurrentPlayerPlaneType =
+                            (PlaneType)Enum.Parse(typeof(PlaneType), configOptions[19]);
+                    }
+                    catch (Exception)
+                    {
+                        CurrentPlayerPlaneType = PlaneType.P47;
+                    }
+
+                    if(!EngineConfig.IsEnhancedVersion)
+                    {
+                        CurrentPlayerPlaneType = PlaneType.P47;
+                    }
 								
                     
                 }
@@ -474,7 +493,7 @@ namespace Wof.Controller
 
         public static void SaveEngineConfig()
         {
-            String[] configuration = new String[19];
+            String[] configuration = new String[20];
             configuration[0] = BloomEnabled.ToString();
             configuration[1] = SoundEnabled.ToString();
             configuration[2] = SoundSystem.ToString();
@@ -494,7 +513,7 @@ namespace Wof.Controller
             configuration[16] = HardwareTexturePreloaderTextureLimit.ToString();
             configuration[17] = UseAsyncModel.ToString();
             configuration[18] = UpdateHydraxEveryFrame.ToString();
-
+            configuration[19] = CurrentPlayerPlaneType.ToString();
             
              
             ExplosionLights = !LowDetails;

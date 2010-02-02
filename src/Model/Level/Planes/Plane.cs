@@ -120,6 +120,13 @@ namespace Wof.Model.Level.Planes
         public TurnType turnType;
     }
 
+    public enum PlaneType
+    {
+        P47,
+        F4U,
+        A6M
+    } ;
+
     #endregion
 
     #region Delegates
@@ -362,7 +369,9 @@ namespace Wof.Model.Level.Planes
         }
         
         protected StartPositionInfo startPositionInfo;
-        
+
+
+        protected PlaneType planeType;
         
         /// <summary>
         /// Prêdkoœæ obracania œmig³a
@@ -759,7 +768,8 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         /// <param name="level"></param>
         /// <param name="isEnemy"></param>
-        public Plane(Level level, bool isEnemy) : this(level, isEnemy, null)
+        public Plane(Level level, bool isEnemy, PlaneType type)
+            : this(level, isEnemy, null, type)
         {
         	
         }
@@ -768,8 +778,10 @@ namespace Wof.Model.Level.Planes
         /// Konstruktor podstawowy.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public Plane(Level level, bool isEnemy, StartPositionInfo info)
+        public Plane(Level level, bool isEnemy, StartPositionInfo info, PlaneType type)
         {
+            this.planeType = type;
+
             this.level = level;
             startPositionInfo = info;
             if(info != null) Init();
@@ -809,11 +821,13 @@ namespace Wof.Model.Level.Planes
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="isEnemy"></param>
-        public Plane(Level level, float width, float height, bool isEnemy, StartPositionInfo info)
-            : this(level, isEnemy, info)
+        public Plane(Level level, float width, float height, bool isEnemy, StartPositionInfo info, PlaneType type)
+            : this(level, isEnemy, info, type)
         {
             bounds = new Quadrangle(info.Position, width, height);
         }
+
+
 
         #endregion
 
@@ -3269,6 +3283,11 @@ namespace Wof.Model.Level.Planes
         public string Name
         {
             get { return "Plane" + GetHashCode(); }
+        }
+
+        public PlaneType PlaneType
+        {
+            get { return planeType; }
         }
 
         #endregion 

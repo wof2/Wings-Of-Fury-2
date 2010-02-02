@@ -53,57 +53,30 @@ using Wof.Controller;
 
 namespace Wof.View
 {
-    public class PlayerPlaneView : P47PlaneView
+    public abstract class PlayerPlaneView : PlaneView
     {
-        protected FSLSoundObject planePassSound = null;
+       
+        protected static int planeCounter = 1;
 
         /// <summary>
         /// Samolot gracza w widoku
         /// <author>Adam Witczak,Kamil S³awiñski</author>
         /// </summary> 
         public PlayerPlaneView(Plane plane, IFrameWork frameWork, SceneNode parentNode)
-            : base(plane, frameWork, parentNode, "PlayerPlane")
+            : base(plane, frameWork, parentNode, "Plane_" + (plane != null ? plane.PlaneType.ToString() : "Modelless" ) + planeCounter)
         {
-            if (LevelView.IsNightScene)
-            {
-                InitLight(lWingNode, new ColourValue(0.9f, 0.1f, 0.1f), new Vector3(0.1f, 0.05f, -0.9f),
-                          new Vector2(2.5f, 2.5f));
-                InitLight(rWingNode, new ColourValue(0.9f, 0.1f, 0.1f), new Vector3(0.1f, 0.05f, -0.9f),
-                          new Vector2(2.5f, 2.5f));
-
-                InitLight(lWingNode, new ColourValue(0.1f, 0.1f, 0.9f), new Vector3(8.85f, 0.35f, 9.0f),
-                          new Vector2(2.5f, 2.5f));
-            }
+            planeCounter++;
         }
 
         protected override void initOnScene()
         {
             base.initOnScene();
-            if (EngineConfig.SoundEnabled)
-            {
-                planePassSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_PLANE_PASS, this.planeNode, false, false);
-            }
+            EnableNightLights();
+            
         }
 
-        ~PlayerPlaneView()
-        {
-            if (planePassSound != null)
-            {
-                SoundManager3D.Instance.RemoveSound(planePassSound.Name);
-                planePassSound.Destroy();
-                planePassSound = null;
-            }
-        }
+       
 
-        public void PlayPlanePass()
-        {
-            if (EngineConfig.SoundEnabled && !planePassSound.IsPlaying())
-            {
-            	//planePassSound.SetGain(soundObject.GetBaseGain() * volume / 100.0f);
-                //planePassSound.SetGain(EngineConfig.SoundVolume / 100.0f);
-                planePassSound.SetBaseGain(0.5f);
-                planePassSound.Play();
-            }
-        }
+       
     }
 }

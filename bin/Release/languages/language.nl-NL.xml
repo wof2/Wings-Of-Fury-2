@@ -578,6 +578,19 @@
     <value>De verbeterde versie van het spel bevat extra levels en bonusmateriaal. Tevens zijn de advertenties verwijderd. Het is beschikbaar voor alle WOF2 donateurs en fans die het spel ondersteunen.</value>
   </data>
 
+
+  <data name="Planes">
+    <value>Vliegtuigen</value>
+  </data>
+
+  <data name="P47">
+    <value>P47</value>
+  </data>
+
+  <data name="F4U">
+    <value>F4U</value>
+  </data>
+
 </root>
 
 

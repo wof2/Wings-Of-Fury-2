@@ -64,9 +64,11 @@ namespace Wof.Model.Level.Planes
             set { tile = value; }
         }
 
-        public StoragePlane(Level level, AircraftCarrierTile tile) : base(level, false)
+        public StoragePlane(Level level, AircraftCarrierTile tile, PlaneType type ) : base(level, false, type)
         {
             this.tile = tile;
+
+
             bounds =
                 new Quadrangle(new PointD(Mathematics.IndexToPosition(tile.TileIndex), level.Carrier.Height), Width,
                                Height);

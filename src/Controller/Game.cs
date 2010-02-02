@@ -61,6 +61,7 @@ using MOIS;
 using Wof.Controller.Screens;
 using Wof.Languages;
 using Wof.Model.Configuration;
+using Wof.Model.Level.Planes;
 using Wof.Model.Level.XmlParser;
 using Wof.View;
 using Wof.View.Effects;
@@ -120,7 +121,7 @@ namespace Wof.Controller
             {
                 if(EngineConfig.DebugStart)
                 {
-                    StartGame(EngineConfig.DebugStartLevel);
+                    StartGame(EngineConfig.DebugStartLevel, EngineConfig.CurrentPlayerPlaneType);
                     return;
 
                 } else
@@ -338,7 +339,7 @@ namespace Wof.Controller
         private static void Main(string[] args)
         {
 
-            //Licensing.BuildLicenseFile();
+        //    Licensing.BuildLicenseFile();
             //Console.WriteLine(Licensing.IsEhnancedVersion());
 
 
@@ -606,22 +607,22 @@ namespace Wof.Controller
 
         #region GameEventListener Members
 
-        public void StartGame()
+        public void StartGame(PlaneType userPlaneType)
         {
-            StartGame(1);
+            StartGame(1, userPlaneType);
         }
 
 
-        public void StartGame(string levelFile)
+        public void StartGame(string levelFile, PlaneType userPlaneType)
         {
-            StartGame(0, levelFile);
+            StartGame(0, levelFile, userPlaneType);
           
         }
-        public void StartGame(int levelNo)
+        public void StartGame(int levelNo, PlaneType userPlaneType)
         {
-             StartGame(levelNo, null);
+            StartGame(levelNo, null, userPlaneType);
         }
-        public void StartGame(int levelNo, string levelFile)
+        public void StartGame(int levelNo, string levelFile, PlaneType userPlaneType)
         {
         	HideBrowser();
             switch (EngineConfig.Difficulty)
@@ -658,7 +659,7 @@ namespace Wof.Controller
 
 
             SetCompositorEnabled(CompositorTypes.BLOOM, EngineConfig.BloomEnabled);
-            currentScreen = new GameScreen(this, this, directSound, 2, levelNo, levelFile);
+            currentScreen = new GameScreen(this, this, directSound, 2, levelNo, levelFile, userPlaneType);
             currentScreen.DisplayGUI(false);
         }
 
@@ -692,7 +693,7 @@ namespace Wof.Controller
 
                 SetCompositorEnabled(CompositorTypes.BLOOM, EngineConfig.BloomEnabled);
 
-                currentScreen = new GameScreen(this, this, directSound, lives, level + 1, null);
+                currentScreen = new GameScreen(this, this, directSound, lives, level + 1, null, EngineConfig.CurrentPlayerPlaneType);
                 ((GameScreen) currentScreen).Score = score;
 
                 currentScreen.DisplayGUI(false);
@@ -1001,6 +1002,27 @@ namespace Wof.Controller
             }
             currentScreen.DisplayGUI(justMenu);
         }
+
+        public void GotoPlanesScreen()
+        {
+            Boolean justMenu = IsMenuScreen(currentScreen);
+            ScreenState ss = null;
+            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
+            {
+                ss = (currentScreen as AbstractScreen).GetScreenState();
+            }
+            initScreenAfter(currentScreen);
+            SoundManager.Instance.PlayMainTheme();
+
+            currentScreen = new PlanesScreen(this, this, viewport, camera);
+            if (ss != null)
+            {
+                ((AbstractScreen)currentScreen).SetScreenState(ss);
+            }
+            currentScreen.DisplayGUI(justMenu);
+        }
+
+        
 
         public void GotoQuitScreen()
         {
@@ -1424,7 +1446,7 @@ namespace Wof.Controller
         
         public void GotoEnhancedVersionWebPageDo()
         {
-            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/enhanced?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.C_IS_ENHANCED_VERSION + "&hash=" + Licensing.Hash;
+            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/enhanced?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash;
             try
             {
                 // launch default browser
@@ -1437,7 +1459,7 @@ namespace Wof.Controller
 
         public void GotoDonateWebPageDo()
         {
-            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/donate?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.C_IS_ENHANCED_VERSION;
+            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/donate?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion;
             try
             {
                 // launch default browser
@@ -1459,7 +1481,7 @@ namespace Wof.Controller
 
         public void GotoUpdateWebPageDo()
         {
-            string url = EngineConfig.C_WOF_HOME_PAGE + "/update.php?v=" + EngineConfig.C_WOF_VERSION + "&d=" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.C_IS_ENHANCED_VERSION;
+            string url = EngineConfig.C_WOF_HOME_PAGE + "/update.php?v=" + EngineConfig.C_WOF_VERSION + "&d=" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion;
             try
             {
                 // launch default browser

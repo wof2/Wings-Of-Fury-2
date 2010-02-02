@@ -54,6 +54,7 @@ using Wof.Model.Level;
 using Wof.Model.Level.Carriers;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
+using Wof.Model.Level.Planes;
 
 namespace Tests.ModelTest.PlaneTest
 {
@@ -67,7 +68,7 @@ namespace Tests.ModelTest.PlaneTest
         {
             InitializeComponent();
             //przerobione przez Emila:
-            level = new Level("level-1.xml", null);
+            level = new Level("level-1.xml", null, PlaneType.P47);
             //level.UserPlane.StartEngine();
 
 

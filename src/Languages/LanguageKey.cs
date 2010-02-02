@@ -161,6 +161,12 @@ namespace Wof.Languages
 
         #endregion
 
+
+        #region ---F---
+        public const string F4U = @"F4U";
+        #endregion
+
+
         #region ---G---
 
         public const string GameOver = @"GameOver";
@@ -249,8 +255,11 @@ namespace Wof.Languages
 
         #region ---P---
 
+
+        public const string P47 = @"P47";
         public const string Pause = @"Pause";
         public const string Pitch = @"Pitch";
+        public const string Planes = @"Planes";
         public const string PlanesDestroyed = @"PlanesDestroyed";
         public const string Poland = @"Poland";
         public const string PressEToTurnOnTheEngine = @"PressEToTurnOnTheEngine";

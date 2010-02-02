@@ -413,7 +413,7 @@ namespace Wof.View
         /// <param name="ad"></param>
         public void OnRegisterBackgroundDynamicAd(AdManager.Ad ad)
         {
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return;
             }
@@ -806,7 +806,20 @@ namespace Wof.View
                 }
                 else
                 {
-                    playerPlaneView = new PlayerPlaneView(plane, framework, sceneMgr.RootSceneNode);
+                    switch (level.UserPlane.PlaneType)
+                    {
+                       
+                        case PlaneType.F4U:
+                            playerPlaneView = new F4UPlaneView(plane, framework, sceneMgr.RootSceneNode);
+                            break;
+
+                        default:
+                        case PlaneType.P47:
+                            playerPlaneView = new P47PlaneView(plane, framework, sceneMgr.RootSceneNode);
+                            break;
+                       
+                    }
+                    
                 }
             }
         }
