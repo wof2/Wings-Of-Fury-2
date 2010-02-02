@@ -298,6 +298,14 @@ namespace BetaGUI
         public Callback callback;
         public float x, y, w, h;
 
+        protected Window window;
+
+        public Window Window
+        {
+            get { return window; }
+        }
+
+
         public void Translate(Vector2 move)
         {
             x += move.x;
@@ -361,14 +369,15 @@ namespace BetaGUI
             return false;
         }
 
-        public Button(Vector4 D, String M, String T, Callback C, Window P, uint ID)
-            : this(D, M, T, C, P)
+        public Button(Vector4 D, String M, String T, Callback C, Window P, uint ID, Window w)
+            : this(D, M, T, C, P,w)
         {
             id = ID;
         }
 
-        public Button(Vector4 D, String M, String T, Callback C, Window P)
+        public Button(Vector4 D, String M, String T, Callback C, Window P, Window window)
         {
+            this.window = window;
             text = T;
 
             x = D.x;
@@ -524,7 +533,7 @@ namespace BetaGUI
         // Adam Witczak
         public Button createButton(Vector4 D, String M, String T, Callback C, uint ID)
         {
-            Button x = new Button(D, M, T, C, this, ID);
+            Button x = new Button(D, M, T, C, this, ID, this);
             mB.Add(x);
             return x;
         }
@@ -532,7 +541,7 @@ namespace BetaGUI
 
         public Button createButton(Vector4 D, String M, String T, Callback C)
         {
-            Button x = new Button(D, M, T, C, this);
+            Button x = new Button(D, M, T, C, this, this);
             mB.Add(x);
             return x;
         }

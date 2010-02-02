@@ -300,6 +300,10 @@ namespace Wof.Controller.Screens
         	  Cursor.Position = GetContainer().PointToScreen(new Point((int)( viewportPos.x / XScale), (int)( viewportPos.y / YScale)));  	  
         
         }
+
+
+
+
         /// <summary>
         /// Pobiera kontrolke zawierajaca screen
         /// </summary>
@@ -453,8 +457,27 @@ namespace Wof.Controller.Screens
         }
 
 
-      
-        
+
+        protected void pinImageToButton(Button b, string image)
+        {
+            pinImageToButton(b, image, 1.0f);
+        }
+
+        protected void pinImageToButton(Button b, string image, float scale)
+        {
+            lock (mGui)
+            {
+                Window w = b.Window;
+                Vector2 offset = Vector2.ZERO;
+                //  if(scale > 1.0f)
+                {
+                    offset = -new Vector2(b.h * (scale - 1) * 0.5f, b.h * (scale - 1) * 0.5f);
+                }
+                Window pinupWindow = mGui.createWindow(new Vector4(w.x, w.y, w.w, w.h), String.Empty, (int)wt.NONE, String.Empty);
+                pinupWindow.createStaticImage(new Vector4(b.x + b.w - 2 * b.h + offset.x, b.y + offset.y, b.h * scale, b.h * scale), image, 100);
+            }
+
+        }
 
         /// <summary>
         /// Pobiera ze screenu aktualny stan: samoloty oraz pozycje myszki

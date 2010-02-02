@@ -118,6 +118,8 @@ namespace Wof.Controller.Screens
             buttons[1] = guiWindow.createButton(new Vector4(5, 8 * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                LanguageResources.GetString(LanguageKey.EnhancedVersion), cc, 0);
 
+            pinImageToButton(buttons[1], "pin.png", 1.6f);
+
             buttons[2] = guiWindow.createButton(new Vector4(5, 13*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                LanguageResources.GetString(LanguageKey.Back), cc, 0);
             selectButton(0);

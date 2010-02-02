@@ -52,6 +52,7 @@ using FSLOgreCS;
 using Microsoft.DirectX.AudioVideoPlayback;
 using Microsoft.DirectX.DirectSound;
 using Mogre;
+using Wof.Model.Level.Planes;
 using Buffer=Microsoft.DirectX.DirectSound.Buffer;
 using Math=Mogre.Math;
 
@@ -113,6 +114,8 @@ namespace Wof.Controller
         private Audio gearDownSound;
         private Audio startEngineSound;
         private Audio stopEngineSound;
+        private Audio startEngineSound2;
+        private Audio stopEngineSound2;
         private Audio failedEngineSound;
         private Audio bunkerFireSound;
         private Audio bunkerFireSound2;
@@ -142,6 +145,8 @@ namespace Wof.Controller
         private Audio fanfare;
 
         private Buffer engineIdleSound;
+        private Buffer engineIdleSound2;
+        
         private Buffer gunFireBuffer;
         private Buffer waterBubblesBuffer;
         private Buffer oceanSound;
@@ -166,6 +171,11 @@ namespace Wof.Controller
                 gearDownSound = new Audio("sounds/gear_down.wav");
                 startEngineSound = new Audio("sounds/enginestart.wav");
                 stopEngineSound = new Audio("sounds/enginestop.wav");
+                startEngineSound2 = new Audio("sounds/enginestart_f4u.wav");
+                stopEngineSound2 = new Audio("sounds/enginestop_f4u.wav");
+
+
+                
                 failedEngineSound = new Audio("sounds/startengine.wav");
                 bunkerFireSound = new Audio("sounds/cannon.wav");
                 bunkerFireSound2 = new Audio("sounds/cannon2.wav");
@@ -194,6 +204,9 @@ namespace Wof.Controller
 
                 engineIdleSound = new Buffer("sounds/engineidle.wav",
                                              dsDevice);
+
+                engineIdleSound2 = new Buffer("sounds/engineidle_f4u.wav",
+                                            dsDevice);
 
 
                /* enemyEngineSound = new Buffer("sounds/engineidle.wav",
@@ -284,13 +297,30 @@ namespace Wof.Controller
                 return;
             }
             startEngineSound.Ending += startHandler;
-            LoopDXSound(engineIdleSound,-1000);
-            Play(startEngineSound);
+            if(EngineConfig.CurrentPlayerPlaneType == PlaneType.P47)
+            {
+                LoopDXSound(engineIdleSound, -1000);
+                Play(startEngineSound);
+            }
+            else
+            {
+                LoopDXSound(engineIdleSound2, -1000);
+                Play(startEngineSound2);
+            }
+           
+           
         }
 
         public void PlayStopEngineSound()
         {
-            Play(stopEngineSound);
+            if (EngineConfig.CurrentPlayerPlaneType == PlaneType.P47)
+            {
+                Play(stopEngineSound);
+            }
+            else
+            {
+                Play(stopEngineSound2);
+            }
         }
 
         public void PlayFailedEngineSound()
@@ -475,13 +505,27 @@ namespace Wof.Controller
 
         public void LoopEngineSound()
         {
-           // SoundManager3D.Instance.CreateSound("sounds/fanfare.wav", this.planeNode, true, true);
-            LoopDXSound(engineIdleSound, -1000);
+            if (EngineConfig.CurrentPlayerPlaneType == PlaneType.P47)
+            {
+                LoopDXSound(engineIdleSound, -1000);
+            }
+            else
+            {
+                LoopDXSound(engineIdleSound2, -1000);
+            }
         }
 
         public void HaltEngineSound()
         {
-            HaltDXSound(engineIdleSound);
+            if (EngineConfig.CurrentPlayerPlaneType == PlaneType.P47)
+            {
+                HaltDXSound(engineIdleSound);
+            }
+            else
+            {
+                HaltDXSound(engineIdleSound2);
+            }
+           
         }
 
         public void LoopOceanSound()
@@ -503,8 +547,18 @@ namespace Wof.Controller
             }
             try
             {
-                engineIdleSound.Frequency =
+                if (EngineConfig.CurrentPlayerPlaneType == PlaneType.P47)
+                {
+                    engineIdleSound.Frequency =
                     engineIdleSound.Format.SamplesPerSecond + freq;
+                }
+                else
+                {
+                    engineIdleSound2.Frequency =
+                     engineIdleSound2.Format.SamplesPerSecond + freq;
+                }
+
+               
             }
             catch (Exception)
             {

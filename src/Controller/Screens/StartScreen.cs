@@ -65,8 +65,8 @@ namespace Wof.Controller.Screens
     {
         private Window guiWindow;
 
-        private GUI updatesGUI;
-        private Window updatesGUIWindow;
+     //   private GUI updatesGUI;
+      //  private Window updatesGUIWindow;
 
 
         private const float C_QUIT_AD_PROBABILITY = 0.0f;
@@ -99,10 +99,11 @@ namespace Wof.Controller.Screens
                 }
             }
 
-            if (updatesGUI != null)
+           /* if (updatesGUI != null)
             {
                 updatesGUI.killGUI();
-            }
+            }*/
+
         }
 
         private uint updateButtonIndex;
@@ -181,18 +182,25 @@ namespace Wof.Controller.Screens
 
 
             buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
-                                                           "bgui.selected.button", LanguageResources.GetString(LanguageKey.EnhancedVersion), cc, i++);
+                                                           "bgui.button", LanguageResources.GetString(LanguageKey.EnhancedVersion), cc, i++);
+
+
+            pinImageToButton(buttons[i-1], "pin.png", 1.6f);
+
             if (EngineConfig.IsEnhancedVersion)
             {
                 buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
-                                                          "bgui.selected.button", LanguageResources.GetString(LanguageKey.Planes), cc, i++);
+                                                          "bgui.button", LanguageResources.GetString(LanguageKey.Planes), cc, i++);
+
+                pinImageToButton(buttons[i - 1], "pin.png", 1.6f);
             }
 
 
             buttons[i] = guiWindow.createButton(new Vector4(0, (i + 3) * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Quit), cc, i);
+          
 
-         
+
             
             selectButton(0);
             SetMousePosition((uint)(guiWindow.x + buttons[0].x + (Viewport.ActualWidth / 4)), (uint)(guiWindow.y + buttons[0].y + h / 2.0F));
@@ -224,17 +232,16 @@ namespace Wof.Controller.Screens
         	}
           	
         }
-
+     
       
         protected void onNewUpdates() 
         {
             uint index = updateButtonIndex;
-            updatesGUI = new GUI(FontManager.CurrentFont, fontSize);
-            updatesGUI.SetZOrder(500);
-            updatesGUIWindow = mGui.createWindow(new Vector4(guiWindow.x, guiWindow.y, guiWindow.w, guiWindow.h), String.Empty, (int)wt.NONE, String.Empty);
+            //updatesGUI = new GUI(FontManager.CurrentFont, fontSize);
+           // updatesGUI.SetZOrder(500);
 
     		BetaGUI.Button b = (buttons[index] as BetaGUI.Button);
-            updatesGUIWindow.createStaticImage(new Vector4(b.x + b.w - 2 * b.h, b.y, b.h, b.h), "new_updates.png", 100);
+            pinImageToButton(b, "new_updates.png");
             
         }
         
