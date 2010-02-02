@@ -576,16 +576,20 @@ namespace Wof.Controller
             string fullScreen = "Yes";
             string videoMode = "800 x 600 @ 32-bit colour";
             string antialiasing = null ;
+            string vsync = "No";
 
             if (performanceTestFramework != null && performanceTestFramework.HasResults)
             {
                 fullScreen = performanceTestFramework.FullScreen;
                 videoMode = performanceTestFramework.VideoMode;
                 antialiasing = performanceTestFramework.Antialiasing;
+                vsync = performanceTestFramework.VSync;
             }
            
             d3dxSystem.SetConfigOption("Full Screen", fullScreen);
             d3dxSystem.SetConfigOption("Video Mode", videoMode);
+            d3dxSystem.SetConfigOption("VSync", vsync);
+            
             if(antialiasing != null) d3dxSystem.SetConfigOption("Anti aliasing", antialiasing);
             
             root.SaveConfig();

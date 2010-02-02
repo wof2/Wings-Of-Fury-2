@@ -88,49 +88,10 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 
 	siStartupInfo.cb = sizeof(siStartupInfo);
 
-	if(!IsNetfx20Installed())
-	{
+	
+	
 
-	CreateProcess(L"./Dependencies/dotnetfx.exe",     // Application name
-		L"",                 // Application arguments
-		0,
-		0,
-		FALSE,
-		CREATE_DEFAULT_ERROR_MODE,
-		0,
-		0,                              // Working directory
-		&siStartupInfo,
-		&piProcessInfo);
-
-
-
-	// Wait until application has terminated
-	WaitForSingleObject(piProcessInfo.hProcess, INFINITE);
-
-	// Close process and thread handles
-	::CloseHandle(piProcessInfo.hThread);
-	::CloseHandle(piProcessInfo.hProcess);
-	}
-
-		CreateProcess(L"./Dependencies/vcredist_x86.exe",     // Application name
-		L"",                 // Application arguments
-		0,
-		0,
-		FALSE,
-		CREATE_DEFAULT_ERROR_MODE,
-		0,
-		0,                              // Working directory
-		&siStartupInfo,
-		&piProcessInfo);
-
-			// Wait until application has terminated
-	WaitForSingleObject(piProcessInfo.hProcess, INFINITE);
-
-	// Close process and thread handles
-	::CloseHandle(piProcessInfo.hThread);
-	::CloseHandle(piProcessInfo.hProcess);
-
-			CreateProcess(L"./Dependencies/DirectX/dxsetup.exe",     // Application name
+		CreateProcess(L"./Dependencies/DirectX/dxsetup.exe",     // Application name
 		L"",                 // Application arguments
 		0,
 		0,
