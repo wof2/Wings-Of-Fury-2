@@ -351,15 +351,17 @@ namespace Wof.Controller.Screens
 
         private DelayedControllerFacade delayedControllerFacade;
 
+        protected PlaneType userPlaneType;
       
 
         public GameScreen(GameEventListener gameEventListener,
-                          IFrameWork framework, Device directSound, int lives, int levelNo, string levelFile)
+                          IFrameWork framework, Device directSound, int lives, int levelNo, string levelFile, PlaneType userPlaneType)
         {
         	
         	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Using keys from KeyMap.ini: \n" +  KeyMap.Instance.ToString()); // needed to init KeyMap instance
         	KeyMap.Instance.Value = KeyMap.Instance.Value;
-        
+
+            this.userPlaneType = userPlaneType;
         	isFirstFrame = false;
             this.gameEventListener = gameEventListener;
             sceneMgr = framework.SceneMgr;
@@ -483,6 +485,11 @@ namespace Wof.Controller.Screens
                     
                     LogManager.Singleton.LogMessage("Preloading meshes and textures", LogMessageLevel.LML_CRITICAL);
                     ViewEffectsManager.Singleton.Init();
+                    if(currentLevel.UserPlane.PlaneType == PlaneType.P47)
+                    {
+                        
+                    }
+                   // additionalPreloadedTextures
                     ViewEffectsManager.Singleton.PreloadGameResources();
 
 
@@ -502,13 +509,16 @@ namespace Wof.Controller.Screens
 
 
                     LogManager.Singleton.LogMessage("About to register enemy planes", LogMessageLevel.LML_CRITICAL);
-                    if(currentLevel.EnemyPlanesLeft > 0)
-                    {
-                    	EffectsManager.Singleton.PreloadMesh(EnemyPlaneView.GetMeshName());
-                    }
+                    
                     
                     if (currentLevel.EnemyPlanes.Count > 0) //warunek dodany przez Emila
-                        OnRegisterPlane(currentLevel.EnemyPlanes[currentLevel.EnemyPlanes.Count - 1]);
+                    {
+                        Plane p = currentLevel.EnemyPlanes[currentLevel.EnemyPlanes.Count - 1];
+                        OnRegisterPlane(p);
+                        PlaneView pv = levelView.FindPlaneView(p);
+                        EffectsManager.Singleton.PreloadMesh(pv.GetMainMeshName());
+                    }
+                        
 
                     LogManager.Singleton.LogMessage("About to register storage planes", LogMessageLevel.LML_CRITICAL);
                     foreach (StoragePlane sp in currentLevel.StoragePlanes)
@@ -635,7 +645,7 @@ namespace Wof.Controller.Screens
             {
                 levelFile = XmlLevelParser.GetLevelFileName(levelNo);
             }
-            currentLevel = new Level(LevelFile, delayedControllerFacade, lives);
+            currentLevel = new Level(LevelFile, delayedControllerFacade, lives, userPlaneType);
 
             string baseName;
             //Console.WriteLine("LOADING WAITING GUI");        
@@ -686,7 +696,7 @@ namespace Wof.Controller.Screens
             status = AdManager.Singleton.GetAdAsync(C_AD_GAME_ZONE, 0.25f, out changingAmmoAdId);
 
             // zlec ladowanie reklam dynamicznych (3D)
-            if (!EngineConfig.C_IS_ENHANCED_VERSION)
+            if (!EngineConfig.IsEnhancedVersion)
             {
                 BeginDynamicAdsDownload(LevelView.C_AD_DYNAMIC_ADS_COUNT);
             }

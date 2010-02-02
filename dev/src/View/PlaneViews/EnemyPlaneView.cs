@@ -86,11 +86,12 @@ namespace Wof.View
                           new Vector2(2.0f, 2.0f));
             }
         }
-        
-        public static string GetMeshName()
+
+        public override string GetMainMeshName()
         {
-        	return "A6M.mesh";
+            return "A6M.mesh";
         }
+      
 
         /*public void Dispose()
         {
@@ -232,7 +233,7 @@ namespace Wof.View
 
             //Entity e = sceneMgr.CreateEntity("");
             
-            planeEntity = sceneMgr.CreateEntity(name + "_Body", GetMeshName());
+            planeEntity = sceneMgr.CreateEntity(name + "_Body", GetMainMeshName());
             //  planeEntity.SetMaterialName("P47/Body");
             innerNode.AttachObject(planeEntity);
             outerNode.Scale(new Vector3(0.4f, 0.4f, 0.4f));

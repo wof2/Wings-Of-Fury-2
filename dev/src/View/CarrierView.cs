@@ -448,7 +448,24 @@ namespace Wof.View
 
         public void InitStoragePlaneOnCarrier(StoragePlane plane)
         {
-            PlaneView planeView = new P47PlaneView(plane, framework, sceneMgr.RootSceneNode, "StoragePlane");
+            
+
+            PlaneView planeView;
+            switch (plane.PlaneType)
+            {
+                   
+                    case PlaneType.F4U:
+                        planeView = new F4UPlaneView(plane, framework, sceneMgr.RootSceneNode);
+                        break;
+
+                    default:
+                    case PlaneType.P47:
+                        planeView = new P47PlaneView(plane, framework, sceneMgr.RootSceneNode);
+                        break;
+                   
+            }
+          
+           
             storagePlanes.Add(planeView);
             int index = storagePlanes.Count;
 

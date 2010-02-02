@@ -50,6 +50,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using Wof.Model.Level;
+using Wof.Model.Level.Planes;
 
 namespace Tests.ModelTest.PlaneTest
 {
@@ -63,7 +64,7 @@ namespace Tests.ModelTest.PlaneTest
             InitializeComponent();
 
             //plane = new Plane(new Quadrangle(new PointD(10, 10), 100, 50));
-            level = new Level("level-1.xml", null);
+            level = new Level("level-1.xml", null, PlaneType.P47);
             timer1.Start();
         }
 

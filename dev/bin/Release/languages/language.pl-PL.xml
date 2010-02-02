@@ -562,6 +562,17 @@
     <value>Wersja rozszerzona gry zawiera nowe poziomy oraz bonusową zawartość. Dodatkowo usunięte są wszelkie reklamy. Wersja ta dostępna jest dla osób, które dokonały darowizny lub wspierały projekt.</value>
   </data>
 
+  <data name="Planes">
+    <value>Samoloty</value>
+  </data>
+
+  <data name="P47">
+    <value>P47</value>
+  </data>
+
+  <data name="F4U">
+    <value>F4U</value>
+  </data>
 
 
 </root>

@@ -520,6 +520,7 @@
     </Compile>
     <Compile Include="src\Controller\RootInitializationException.cs" />
     <Compile Include="src\Controller\Screens\BloodOptionsScreen.cs" />
+    <Compile Include="src\Controller\Screens\PlanesScreen.cs" />
     <Compile Include="src\Controller\Screens\CustomLevelsScreen.cs" />
     <Compile Include="src\Controller\Screens\EnhancedVersionScreen.cs" />
     <Compile Include="src\Controller\Screens\HydraxOptionsScreen.cs" />
@@ -913,6 +914,7 @@
     <Compile Include="src\View\NodeAnimation\PlaneNodeAnimationManager.cs" />
     <Compile Include="src\View\NodeAnimation\RotateNodeAnimation.cs" />
     <Compile Include="src\View\NodeAnimation\SinRotateNodeAnimation.cs" />
+    <Compile Include="src\View\PlaneViews\F4UPlaneView.cs" />
     <Compile Include="src\View\PlaneViews\P47PlaneView.cs" />
     <Compile Include="src\View\PlaneViews\PlaneView.cs">
       <SubType>Code</SubType>

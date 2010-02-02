@@ -62,12 +62,14 @@ using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
 using Wof.Misc;
 using Wof.Model.Configuration;
+using Wof.Model.Level.Planes;
 using Wof.View;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;
 using Button = BetaGUI.Button;
 using FontManager = Wof.Languages.FontManager;
 using Math = Mogre.Math;
+using Plane=Mogre.Plane;
 using Timer = Mogre.Timer;
 using Vector3 = Mogre.Vector3;
 
@@ -584,7 +586,21 @@ namespace Wof.Controller.Screens
                 planeViews = new List<PlaneView>();
                 for (int i = 0; i < planesInitialPositions.Count; i++)
                 {
-                    P47PlaneView p = new P47PlaneView(null,  framework, sceneMgr.RootSceneNode, "Plane");
+                    P47PlaneView p;
+                    if(EngineConfig.CurrentPlayerPlaneType == PlaneType.P47)
+                    {
+                        p = new P47PlaneView(null, framework, sceneMgr.RootSceneNode);
+                    }else
+                    if (EngineConfig.CurrentPlayerPlaneType == PlaneType.F4U)
+                    {
+                        p = new F4UPlaneView(null, framework, sceneMgr.RootSceneNode);
+                        p.PlaneNode.Yaw(new Radian(new Degree(90)));
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    
                     p.PlaneNode.Translate(planesInitialPositions[i]);
                    
                     p.AnimationMgr.SetGearsVisible(false);
@@ -668,7 +684,7 @@ namespace Wof.Controller.Screens
                 version += "i";
             }
 
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 version += "e";
             }

@@ -53,6 +53,7 @@ using Wof.Controller;
 using Wof.Model.Level;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.Infantry;
+using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 using Wof.View;
 using Math=Mogre.Math;
@@ -102,7 +103,7 @@ namespace Wof.Tests
          
             public override void CreateScene()
             {
-                lvl = new Level("levels/test-level.xml", null);
+                lvl = new Level("levels/test-level.xml", null, PlaneType.P47);
 
                 lvlView = new LevelView(this, null);
 

@@ -541,5 +541,17 @@
     <value>Расширенная версия игры включает в себя новые уровни. Кроме того удалены все рекламы. Эта версия доступна для тех, кто финансировал и поддержал проект.</value>
   </data>
 
+  <data name="Planes">
+    <value>Самолеты</value>
+  </data>
+
+  <data name="P47">
+    <value>P47</value>
+  </data>
+
+  <data name="F4U">
+    <value>F4U</value>
+  </data>
+
 
 </root>

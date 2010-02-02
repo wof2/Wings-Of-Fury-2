@@ -129,7 +129,7 @@ namespace Wof.Controller.Screens
         {
             if (File.Exists(selected))
             {
-                gameEventListener.StartGame(selected);
+                gameEventListener.StartGame(selected, EngineConfig.CurrentPlayerPlaneType);
             }
             
         }

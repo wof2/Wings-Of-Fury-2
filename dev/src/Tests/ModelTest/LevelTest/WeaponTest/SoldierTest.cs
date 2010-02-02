@@ -49,6 +49,7 @@
 using System;
 using System.Threading;
 using Wof.Model.Level;
+using Wof.Model.Level.Planes;
 
 namespace View.src.Tests.ModelTest.LevelTest.WeaponTest
 {
@@ -64,7 +65,7 @@ namespace View.src.Tests.ModelTest.LevelTest.WeaponTest
             string[] levelsName = LevelsManager.GetAvailableLevels();
             if (levelsName != null && levelsName.Length > 0)
             {
-                Level level = new Level(levelsName[0], null);
+                Level level = new Level(levelsName[0], null, PlaneType.P47);
                 Random rand = new Random();
                 int time;
                 while (true)

@@ -73,6 +73,7 @@ namespace Wof.Model.Level
     /// </summary>
     public class Level : IDisposable
     {
+
         #region Constants
 
         /// <summary>
@@ -97,6 +98,8 @@ namespace Wof.Model.Level
         #endregion
 
         #region fields
+
+
 
         /// <summary>
         /// Dane zapisane w pliku xml.
@@ -267,8 +270,9 @@ namespace Wof.Model.Level
         #endregion
 
         #region Public Constructors
-        
-        public Level(string fileName, IController controller) : this(fileName, controller, 3)
+
+        public Level(string fileName, IController controller, PlaneType userPlaneType)
+            : this(fileName, controller, 3, userPlaneType)
         {
 
         }
@@ -288,7 +292,7 @@ namespace Wof.Model.Level
         /// <param name="fileName">Nazwa pliku.</param>
         /// <param name="controller"></param>
         /// <author>Michal Ziober</author>
-        public Level(string fileName, IController controller, int lives)
+        public Level(string fileName, IController controller, int lives, PlaneType userPlaneType)
         {
            
             this.controller = controller;
@@ -353,7 +357,7 @@ namespace Wof.Model.Level
 		            
                  
             info.MissionType = MissionType;
-            userPlane = new Plane(this, false, info);
+            userPlane = new Plane(this, false, info, userPlaneType);
             userPlane.RegisterWeaponEvent += userPlane_RegisterWeaponEvent;
             
             ModelEffectsManager.Instance.Reset(userPlane);
@@ -1260,7 +1264,7 @@ namespace Wof.Model.Level
         {
             List<StoragePlane> temp = new List<StoragePlane>();
             for (int i = 0; i < lives - 1 && i < 3; i++)
-                temp.Add(new StoragePlane(this, Carrier.CarrierTiles[i]));
+                temp.Add(new StoragePlane(this, Carrier.CarrierTiles[i], EngineConfig.CurrentPlayerPlaneType));
             return temp;
         }
 

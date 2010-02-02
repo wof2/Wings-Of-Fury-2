@@ -105,6 +105,7 @@ namespace Wof.Controller.Screens
             }
         }
 
+        private uint updateButtonIndex;
         protected override void CreateGUI()
         {
         	
@@ -119,54 +120,76 @@ namespace Wof.Controller.Screens
             {
                 gameName += " Demo";
             }
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
-            {
-                gameName += " Enhanced";
-            }
+           
             
             guiWindow = mGui.createWindow(new Vector4(m.x,
                                                       m.y, Viewport.ActualWidth/2,
                                                       Viewport.ActualHeight - m.y - h ),
                                           			  "bgui.window", (int)wt.NONE, gameName);
+
+
+            if (EngineConfig.IsEnhancedVersion)
+            {
+                guiWindow.createStaticImage(
+                    new Vector4(0, GetTextVSpacing(), 0.95f * 8.7f * GetTextVSpacing(), 0.95f * GetTextVSpacing()), "enhanced.png", 100);
+               
+            }
+
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
-            initButtons(11, 10);
+            int buttonCount = 11;
+            if(EngineConfig.IsEnhancedVersion)
+            {
+                buttonCount += 1;
+            }
+
+            int backIndex = buttonCount - 1;
+
+            initButtons(buttonCount, backIndex);
             uint i = 0;
 
-        
+      
 
-            buttons[0] = guiWindow.createButton(new Vector4(0, 2 * h, Viewport.ActualWidth / 2, h),
+            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.NewGame), cc, i++);
-            buttons[1] = guiWindow.createButton(new Vector4(0, 3 * h, Viewport.ActualWidth / 2, h),
+            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.CompletedLevels),
                                                 cc, i++);
-            buttons[2] = guiWindow.createButton(new Vector4(0, 4 * h, Viewport.ActualWidth / 2, h),
+            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
                                               "bgui.button", LanguageResources.GetString(LanguageKey.CustomLevels),
                                               cc, i++);
-            buttons[3] = guiWindow.createButton(new Vector4(0, 5 * h, Viewport.ActualWidth / 2, h),
+            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Highscores), cc,
                                                 i++);
-            buttons[4] = guiWindow.createButton(new Vector4(0, 6 * h, Viewport.ActualWidth / 2, h),
+            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Options), cc, i++);
-            buttons[5] = guiWindow.createButton(new Vector4(0, 7 * h, Viewport.ActualWidth / 2, h),
+            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Tutorial), cc,
                                                 i++);
-            buttons[6] = guiWindow.createButton(new Vector4(0, 8 * h, Viewport.ActualWidth / 2, h),
+            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Credits), cc, i++);
 
-            buttons[7] = guiWindow.createButton(new Vector4(0, 9 * h, Viewport.ActualWidth / 2, h),
-                                                           "bgui.button", LanguageResources.GetString(LanguageKey.Donate), cc, i++);
+           
 
-
-            buttons[8] = guiWindow.createButton(new Vector4(0, 10 * h, Viewport.ActualWidth / 2, h),
-                                                           "bgui.button", LanguageResources.GetString(LanguageKey.EnhancedVersion), cc, i++);
-            
-
+            updateButtonIndex = i;
             // indeks wystepuje jeszcze w metodzie checkAvailableUpdates() 
-            buttons[9] = guiWindow.createButton(new Vector4(0, 11 * h, Viewport.ActualWidth / 2, h),
+            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
                                                            "bgui.button", LanguageResources.GetString(LanguageKey.CheckForUpdates), cc, i++);
 
-            buttons[10] = guiWindow.createButton(new Vector4(0, 13 * h, Viewport.ActualWidth / 2, h),
+            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
+                                                          "bgui.button", LanguageResources.GetString(LanguageKey.Donate), cc, i++);
+
+
+            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
+                                                           "bgui.selected.button", LanguageResources.GetString(LanguageKey.EnhancedVersion), cc, i++);
+            if (EngineConfig.IsEnhancedVersion)
+            {
+                buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
+                                                          "bgui.selected.button", LanguageResources.GetString(LanguageKey.Planes), cc, i++);
+            }
+
+
+            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 3) * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Quit), cc, i);
 
          
@@ -205,7 +228,7 @@ namespace Wof.Controller.Screens
       
         protected void onNewUpdates() 
         {
-        	int index = 9;
+            uint index = updateButtonIndex;
             updatesGUI = new GUI(FontManager.CurrentFont, fontSize);
             updatesGUI.SetZOrder(500);
             updatesGUIWindow = mGui.createWindow(new Vector4(guiWindow.x, guiWindow.y, guiWindow.w, guiWindow.h), String.Empty, (int)wt.NONE, String.Empty);
@@ -219,7 +242,7 @@ namespace Wof.Controller.Screens
         
         protected void checkAvailableUpdates()
         {
-            string url = EngineConfig.C_WOF_UPDATE_CHECK_PAGE + "?v=" + EngineConfig.C_WOF_VERSION + "&d=" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.C_IS_ENHANCED_VERSION;
+            string url = EngineConfig.C_WOF_UPDATE_CHECK_PAGE + "?v=" + EngineConfig.C_WOF_VERSION + "&d=" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion;
         	
 
 			// For HTTP, cast the request to HttpWebRequest
@@ -267,51 +290,72 @@ namespace Wof.Controller.Screens
 
         public void onButtonPress(Button referer)
         {
-        
+       
             if (screenTime > C_RESPONSE_DELAY)
             {
                 PlayClickSound();
-                if (referer == buttons[0])
+
+
+                string NewGame = LanguageResources.GetString(LanguageKey.NewGame);
+                string CompletedLevels = LanguageResources.GetString(LanguageKey.CompletedLevels);
+                string CustomLevels = LanguageResources.GetString(LanguageKey.CustomLevels);
+                string Highscores = LanguageResources.GetString(LanguageKey.Highscores);
+                string Options = LanguageResources.GetString(LanguageKey.Options);
+                string Tutorial = LanguageResources.GetString(LanguageKey.Tutorial);
+                string Credits = LanguageResources.GetString(LanguageKey.Credits);
+                string Donate = LanguageResources.GetString(LanguageKey.Donate);
+                string EnhancedVersion = LanguageResources.GetString(LanguageKey.EnhancedVersion);
+                string Planes = LanguageResources.GetString(LanguageKey.Planes);
+                string CheckForUpdates = LanguageResources.GetString(LanguageKey.CheckForUpdates);
+                string Quit = LanguageResources.GetString(LanguageKey.Quit);
+
+
+
+                if (referer.text.Equals(NewGame))
                 {
-                    gameEventListener.StartGame();
+                    gameEventListener.StartGame(EngineConfig.CurrentPlayerPlaneType);
                 }
-                else if (referer == buttons[1])
+                else if(referer.text.Equals(CompletedLevels))
                 {
                     gameEventListener.GotoLoadGameScreen();
                 }
-                else if (referer == buttons[2])
+                else if(referer.text.Equals(CustomLevels))
                 {
                     gameEventListener.GotoCustomLevelsScreen();
                 }
-                else if (referer == buttons[3])
+                else  if(referer.text.Equals(Highscores))
                 {
                     gameEventListener.GotoHighscoresScreen();
                 }
-                else if (referer == buttons[4])
+                else if (referer.text.Equals(Options))
                 {
                     gameEventListener.GotoOptionsScreen();
                 }
-                else if (referer == buttons[5])
+                else if (referer.text.Equals(Tutorial))
                 {
                     gameEventListener.GotoTutorialScreen();
                 }
-                else if (referer == buttons[6])
+                else if (referer.text.Equals(Credits))
                 {
                     gameEventListener.GotoCreditsScreen();
                 }
-                else if (referer == buttons[7])
+                else if (referer.text.Equals(Donate))
                 {
                     gameEventListener.GotoDonateScreen();
                 }
-                else if (referer == buttons[8])
+                else if (referer.text.Equals(EnhancedVersion))
                 {
                     gameEventListener.GotoEnhancedVersionScreen();
                 }
-                else if (referer == buttons[9])
+                else if (referer.text.Equals(Planes))
+                {
+                    gameEventListener.GotoPlanesScreen();
+                }
+                else if (referer.text.Equals(CheckForUpdates))
                 {
                     gameEventListener.GotoUpdateWebPage();
                 }
-                else if (referer == buttons[backButtonIndex])
+                else if (referer.text.Equals(Quit))
                 {
                     if(Mogre.Math.RangeRandom(0, 1) > (1 - C_QUIT_AD_PROBABILITY))
                     {

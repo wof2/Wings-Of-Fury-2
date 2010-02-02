@@ -48,6 +48,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
@@ -115,7 +116,7 @@ namespace Wof.View.Effects
         }
 
 
-        private string[] additionalPreloadedTextures = new string[] { "trailsmoke.png",
+        private List<String> additionalPreloadedTextures = new List<String> ( new string[] { "trailsmoke.png",
                                                                       "smoke.png", 
                                                                       "A6M-airscrew.png", 
                                                                       "hint_right_dogfight.png", 
@@ -131,18 +132,35 @@ namespace Wof.View.Effects
                                                                       "panel1.png",
                                                                       "panel2.png",
                                                                       "panel4.png",
-                                                                      "panel5.png"
+                                                                      "panel5.png",
+                                                                     
                                                                     
-        };
+        });
 
-        private string[] additionalPreloadedMeshes = new string[] { 
+        private List<String> additionalPreloadedMeshes =  new List<String> ( new string[] { 
                                                                      "HUD.mesh",
                                                                      "Bazooka.mesh",
                                                                      "Arrow.mesh"
-        };
+        });
 
 
-        
+        public void RegisterAdditionalPreloadedTexture(string texture)
+        {
+            if(!additionalPreloadedTextures.Contains(texture))
+            {
+                 additionalPreloadedTextures.Add(texture);
+            }
+           
+        }
+
+        public void RegisterAdditionalPreloadedMesh(string meshName)
+        {
+            if (!additionalPreloadedMeshes.Contains(meshName))
+            {
+                additionalPreloadedMeshes.Add(meshName);
+            }
+
+        }
             
                 
         public enum EffectType
@@ -336,6 +354,7 @@ namespace Wof.View.Effects
                    ((TexturePtr) ptr).Load();
                 }*/
 
+               
                
                 foreach (string s in additionalPreloadedTextures)
                 {

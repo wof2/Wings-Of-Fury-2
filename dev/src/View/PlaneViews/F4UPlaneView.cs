@@ -1,5 +1,5 @@
-/*
- * Copyright 2008 Adam Witczak, Jakub Tê¿ycki, Kamil S³awiñski, Tomasz Bilski, Emil Hornung, Micha³ Ziober
+ï»¿/*
+ * Copyright 2008 Adam Witczak, Jakub TÄ™Å¼ycki, Kamil SÅ‚awiÅ„ski, Tomasz Bilski, Emil Hornung, MichaÅ‚ Ziober
  *
  * This file is part of Wings Of Fury 2.
  * 
@@ -54,134 +54,39 @@ using Wof.Model.Configuration;
 using Wof.Model.Level;
 using Wof.Model.Level.Planes;
 using Wof.View.Effects;
-using Math=Mogre.Math;
-using Plane=Wof.Model.Level.Planes.Plane;
+using Math = Mogre.Math;
+using Plane = Wof.Model.Level.Planes.Plane;
 
 namespace Wof.View
 {
     /// <summary>
-    /// Samolot P47 w widoku
-    /// <author>Adam Witczak, Kamil S³awiñski</author>
+    /// Samolot F4U w widoku
+    /// <author>Adam Witczak</author>
     /// </summary> 
-    public class P47PlaneView : PlayerPlaneView
+    public class F4UPlaneView : P47PlaneView
     {
+
+        protected string bodyMaterialName = "F4U1FUSD";
+        protected string destroyedBodyMaterialName = "F4U1FUSDDestroyed";
+
+
+
        
-        protected Entity blade;
-        protected Entity airscrew;
 
-        protected bool hasSmokeTrail = false;
-        protected string bodyMaterialName = "P47/Body";
-        protected string destroyedBodyMaterialName = "P47/DestroyedBody";
-       
-
-        public bool HasSmokeTrail
-        {
-            get { return hasSmokeTrail; }
-        }
-
-        public bool ShouldHaveSmokeTrail
-        {
-            get { return (Math.Abs(Plane.RotateValue) >= 2.0); }
-        }
-
-        public P47PlaneView(Plane plane, IFrameWork frameWork, SceneNode parentNode)
+        public F4UPlaneView(Plane plane, IFrameWork frameWork, SceneNode parentNode)
             : base(plane, frameWork, parentNode)
         {
           
-            lWingNode = innerNode.CreateChildSceneNode(name + "LWingNode", new Vector3(-8.8f, 0.0f, -1.5f));
-            rWingNode = innerNode.CreateChildSceneNode(name + "RWingNode", new Vector3(8.8f, 0.0f, -1.5f));
-            StartSmokeTrails();
-            StopSmokeTrails();
         }
 
-
-        public override string GetMainMeshName()
-        {
-            return "P47Body.mesh";
-        }
-
-        public void StopSmokeTrails()
-        {
-            hasSmokeTrail = false;
-            EffectsManager.Singleton.NoSmoke(sceneMgr, lWingNode, EffectsManager.SmokeType.SMOKETRAIL);
-            EffectsManager.Singleton.NoSmoke(sceneMgr, rWingNode, EffectsManager.SmokeType.SMOKETRAIL);
-        }
-
-        public void StartSmokeTrails()
-        {
-            hasSmokeTrail = true;
-            EffectsManager.Singleton.Smoke(sceneMgr,
-                                           lWingNode,
-                                           EffectsManager.SmokeType.SMOKETRAIL,
-                                           new Vector3(0, 0, 0),
-                                           new Vector3(0, 0, 1),
-                                           new Vector2(0.4f, 0.3f)
-                );
-            EffectsManager.Singleton.Smoke(sceneMgr,
-                                           rWingNode,
-                                           EffectsManager.SmokeType.SMOKETRAIL,
-                                           new Vector3(0, 0, 0),
-                                           new Vector3(0, 0, 1),
-                                           new Vector2(0.4f, 0.3f)
-                );
-        }
-
-
-        protected override void initBlade()
-        {
-            // BLADE
-            bladeNode = innerNode.CreateChildSceneNode(name + "_Blade", new Vector3(0.0f, 0.1f, -7.0f));
-            blade = sceneMgr.CreateEntity(name + "_Blade", "P47Blade.mesh");
-            bladeNode.AttachObject(blade);
-            blade.Visible = true; // tylko kiedy niskie obroty
-            // BLADE
-
-            // AIRSCREW
-            airscrew = sceneMgr.CreateEntity(name + "_Airscrew", "Airscrew.mesh");
-            airscrew.CastShadows = false;
-            bladeNode.AttachObject(airscrew);
-            airscrew.Visible = false;
-            // AIRSCREW
-        }
-
-        public void SwitchToFastEngine()
-        {
-            blade.Visible = false;
-            airscrew.Visible = true;
-
-       
-        }
-
-        public void SwitchToSlowEngine()
-        {
-            if (!blade.Visible && !airscrew.Visible) return; // jesli calosc wczesniej nie byla widoczna
-            blade.Visible = true;
-            airscrew.Visible = false;
-
-          
-        }
-
-        public override void SetBladeVisibility(bool visible)
-        {
-            blade.Visible = visible;
-            airscrew.Visible = visible;
-        }
-
-        public override void ShowTorpedo()
-        {
-            torpedoHolder.SetVisible(true);
-        }
-
-        public override void HideTorpedo()
-        {
-            torpedoHolder.SetVisible(false);
-        }
-
+     
         protected override void initWheels()
         {
             lWheelNode =
                 innerNode.CreateChildSceneNode(name + "_LeftWheel", new Vector3(-3.0f, -1.0f, -2.3f),
                                                new Quaternion(Math.DegreesToRadians(20), Vector3.UNIT_X));
+            lWheelNode.Scale(0.9f, 0.9f, 0.9f);
+
             lWheelInnerNode = lWheelNode.CreateChildSceneNode(name + "_LeftWheelInner");
 
             Entity lWheel = sceneMgr.CreateEntity(name + "_lWheel", "Wheel.mesh");
@@ -191,7 +96,9 @@ namespace Wof.View
                 innerNode.CreateChildSceneNode(name + "_RightWheel", new Vector3(3.0f, -1.0f, -2.3f),
                                                new Quaternion(Math.DegreesToRadians(20), Vector3.UNIT_X));
             rWheelNode.Rotate(Vector3.NEGATIVE_UNIT_Y, Math.DegreesToRadians(180));
+            rWheelNode.Scale(0.9f, 0.9f, 0.9f);
             rWheelInnerNode = rWheelNode.CreateChildSceneNode(name + "_RightWheelInner");
+           
 
             Entity rWheel = sceneMgr.CreateEntity(name + "_rWheel", "Wheel.mesh");
             rWheelInnerNode.AttachObject(rWheel);
@@ -205,76 +112,18 @@ namespace Wof.View
 
             Entity rearWheel = sceneMgr.CreateEntity(name + "_rearWheele", "Wheel.mesh");
             rearWheelInnerNode.AttachObject(rearWheel);
-            
+
             // retract landing gear
-            if(this.plane != null && this.plane.WheelsState == WheelsState.In) 
+            if (this.plane != null && this.plane.WheelsState == WheelsState.In)
             {
-            	LWheelInnerNode.Roll(new Radian(new Degree(90)));
-            	RWheelInnerNode.Roll(new Radian(new Degree(90)));
-            	RearWheelInnerNode.Pitch(new Radian(new Degree(45)));
-            	// IMPORTANT: this should be also set in animation manager later on (MaxAngle *= -1 to change direction of wheel movement)
+                LWheelInnerNode.Roll(new Radian(new Degree(90)));
+                RWheelInnerNode.Roll(new Radian(new Degree(90)));
+                RearWheelInnerNode.Pitch(new Radian(new Degree(45)));
+                // IMPORTANT: this should be also set in animation manager later on (MaxAngle *= -1 to change direction of wheel movement)
             }
-                               
+
         }
 
-        public override void ResetCameraHolders()
-        {
-
-            hangaringCameraHolder = planeNode.CreateChildSceneNode(name + "HangaringCameraHolder");
-        	cameraHolders.Add(planeNode.CreateChildSceneNode(name + "MainCameraHolder"));
-            cameraHolders.Add(planeNode.CreateChildSceneNode(name + "BirdCameraHolder"));
-           // cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveLeftCameraHolder"));
-          //  cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveRightCameraHolder"));
-            cameraHolders.Add(innerNode.CreateChildSceneNode(name + "BehindCameraHolder"));
-            cameraHolders.Add(innerNode.CreateChildSceneNode(name + "NoseCameraHolder"));
-            
-            // MAIN CAMERA HOLDER
-            cameraHolders[0].ResetOrientation();
-            cameraHolders[0].Position = new Vector3(0, 2.5f, 8);
-            cameraHolders[0].LookAt(new Vector3(0, 0, -1), Node.TransformSpace.TS_LOCAL);
-
-            // BIRD CAMERA HOLDER
-            cameraHolders[1].ResetOrientation();
-            cameraHolders[1].Position = new Vector3(0, 30, 0);
-            cameraHolders[1].Pitch(new Radian(-Math.HALF_PI));
-            //cameraHolders[1].Roll(new Radian(Mogre.Math.HALF_PI));
-
-            // ABOVE CAMERA HOLDERS
-            
-            /*
-            cameraHolders[2].ResetOrientation();
-            cameraHolders[2].Position = new Vector3(-19, 2.0f, 0);
-            cameraHolders[2].Yaw(new Radian(-Math.HALF_PI));
-           // cameraHolders[2].Pitch(new Radian(-Math.HALF_PI * 0.28f));
-            cameraHolders[2].Pitch(new Radian(-Math.HALF_PI * 0.01f));
-            
-            cameraHolders[3].ResetOrientation();
-            cameraHolders[3].Position = new Vector3(19, 2.0f, 0);
-            cameraHolders[3].Yaw(new Radian(Math.HALF_PI));
-           // cameraHolders[3].Pitch(new Radian(-Math.HALF_PI * 0.28f));
-            cameraHolders[3].Pitch(new Radian(-Math.HALF_PI * 0.01f));
-            */
-
-
-            cameraHolders[2].ResetOrientation();
-            cameraHolders[2].Position = new Vector3(0, 4.0f, 30);        
-            cameraHolders[2].Pitch(new Radian(-Math.HALF_PI * 0.01f));
-            
-            cameraHolders[3].ResetOrientation();
-            cameraHolders[3].Position = new Vector3(0, 0.0f, -6);        
-            //cameraHolders[5].Pitch(new Radian(-Math.HALF_PI * 0.01f));
-
-            HangaringCameraHolder.ResetOrientation();
-            HangaringCameraHolder.Position = new Vector3(19, 7.0f, 0);
-            HangaringCameraHolder.Yaw(new Radian(Math.HALF_PI));
-            HangaringCameraHolder.Pitch(new Radian(-Math.HALF_PI * 0.28f));
-            
-
-            
-            
-            
-         
-        }
 
         public override void SmashPaint()
         {
@@ -294,64 +143,46 @@ namespace Wof.View
             }
         }
 
-    
+
         protected override void initOnScene()
         {
             // main nodes init
-            planeEntity = sceneMgr.CreateEntity(name + "_Body", "P47Body.mesh");
-          
-            if(GameConsts.UserPlane.PlaneCheat)
-            {
-                ViewHelper.ReplaceMaterial(planeEntity, bodyMaterialName, "P47/BodyPL");
-                bodyMaterialName = "P47/BodyPL";
-            }
-             
-            
+            planeEntity = sceneMgr.CreateEntity(name + "_Body", "F4U.mesh");
 
-            planeEntity.CastShadows = EngineConfig.ShadowsQuality > 0; 
+          
+            planeEntity.CastShadows = EngineConfig.ShadowsQuality > 0;
             innerNode.AttachObject(planeEntity);
             outerNode.Scale(new Vector3(0.4f, 0.4f, 0.4f));
 
             initBlade();
             initWheels();
 
+            SceneNode pilotNode = innerNode.CreateChildSceneNode(planeNode.Name + "Pilot", new Vector3(0, 1.0f, -0.4f));
+            Entity pilotEntity = sceneMgr.CreateEntity(name + "_Pilot", "Pilot.mesh");
+            pilotNode.AttachObject(pilotEntity);
 
-            torpedoHolder = innerNode.CreateChildSceneNode(planeNode.Name + "TorpedoHolder", new Vector3(0,-1.6f,1.6f));
-            if(plane != null)
+            torpedoHolder = innerNode.CreateChildSceneNode(planeNode.Name + "TorpedoHolder", new Vector3(0, -1.6f, 1.6f));
+            if (plane != null)
             {
-              /*  if (this.plane.Direction == Direction.Right)
-                {
-                    torpedoHolder.Orientation = new Quaternion(Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
-                }
-                else
-                {
-                    torpedoHolder.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
-
-                } */
                 torpedoHolder.Scale(2.5f, 2.5f, 2.5f); // caly node jest skalowany x 0.4
                 Entity torpedo = sceneMgr.CreateEntity(name + "_Torpedo", "Torpedo.mesh");
                 torpedoHolder.AttachObject(torpedo);
             }
-           
-
-
-          
-           // torpedoHolder.SetVisible(false);
 
 
             ViewHelper.AttachAxes(sceneMgr, innerNode, 1.5f);
 
             refreshPosition();
             initAnimationManager();
-            if(this.plane != null && this.plane.WheelsState == WheelsState.In) 
+            if (this.plane != null && this.plane.WheelsState == WheelsState.In)
             {
-            	this.animationMgr.switchToGearUpDown(false);
-	            this.animationMgr.CurrentAnimation.Enabled = false;
-	            animationMgr.disableAll();
+                this.animationMgr.switchToGearUpDown(false);
+                this.animationMgr.CurrentAnimation.Enabled = false;
+                animationMgr.disableAll();
             }
-           
-            
-            
+
+
+
             if (plane != null && plane.LocationState == LocationState.Air)
             {
                 animationMgr.switchToIdle();
@@ -371,7 +202,7 @@ namespace Wof.View
                 minimapItem.Refresh();
             }
             // kamery
-          
+
 
             ResetCameraHolders();
         }

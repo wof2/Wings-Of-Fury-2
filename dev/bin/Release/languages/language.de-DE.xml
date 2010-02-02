@@ -581,6 +581,17 @@
     <value>Die erweiterte Version des Spiels enthält zusätzliche Level und Inhalte. Außerdem ist sie werbefrei. Sie ist erhältlich für Spender und Helfer.</value>
   </data>
 
+  <data name="Planes">
+    <value>Flugzeug</value>
+  </data>
+
+  <data name="P47">
+    <value>P47</value>
+  </data>
+
+  <data name="F4U">
+    <value>F4U</value>
+  </data>
 
 
 </root>

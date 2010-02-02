@@ -576,6 +576,22 @@
   <data name="EnhancedVersionDetails">
     <value>Enhanced version of the game contain additional levels and bonus content. Also all ads are removed. It's available for all WOF2 donators and supporters.</value>
   </data>
+  
+  <data name="Planes">
+    <value>Planes</value>
+  </data>
+
+
+  <data name="P47">
+    <value>P47</value>
+  </data>
+
+  <data name="F4U">
+    <value>F4U</value>
+  </data>
+  
+  
+  
 
 
 </root>

@@ -173,7 +173,7 @@ namespace Wof.Controller.AdAction
 
         private AdManager()
         {
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return;
             }
@@ -207,7 +207,7 @@ namespace Wof.Controller.AdAction
 
         public void RegisterImpression(Ad ad)
         {
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return;
             }
@@ -282,7 +282,7 @@ namespace Wof.Controller.AdAction
         public AdStatus GetAd(string zone, int downloadMsTimeout, float ratio, AdManaged.AdDownloaded adDownloadedCallback, out Ad outAd)
         {
             outAd = null;   
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return AdStatus.ADS_DISABLED;
             }
@@ -356,7 +356,7 @@ namespace Wof.Controller.AdAction
         public AdStatus GatherAsyncResult(int id, int downloadMsTimeout, out Ad outAd)
         {
             outAd = null;
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return AdStatus.ADS_DISABLED;
             }
@@ -401,7 +401,7 @@ namespace Wof.Controller.AdAction
         
         public void ClearDynamicAds()
         {
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return;
             }
@@ -412,7 +412,7 @@ namespace Wof.Controller.AdAction
       
         public void RemoveDynamicAd(AdQuadrangle3D quadrangle3D)
         {
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return;
             }
@@ -421,7 +421,7 @@ namespace Wof.Controller.AdAction
         }
         public AdQuadrangle3D AddDynamicAd(SceneManager sceneMgr, int id, Vector3 origin, Vector2 size, bool isPersistent)
         {
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return null;
             }
@@ -450,7 +450,7 @@ namespace Wof.Controller.AdAction
         
         public void UpdateCamera(Camera c)
         {
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return;
             }
@@ -483,7 +483,7 @@ namespace Wof.Controller.AdAction
         /// <returns></returns>
         public bool IsDynamicAdVisible(AdQuadrangle3D quadrangle3D)
         {
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return false;
             }
@@ -510,7 +510,7 @@ namespace Wof.Controller.AdAction
         public AdStatus GetAdAsync(string zone, float ratio, out int id, AdDownloadedAsync adDownloadedAsyncCallback)
         {
             id = 0;
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return AdStatus.ADS_DISABLED;
             }
@@ -576,7 +576,7 @@ namespace Wof.Controller.AdAction
         
         public void CloseAd(Ad ad)
         {
-            if (EngineConfig.C_IS_ENHANCED_VERSION)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return;
             }
