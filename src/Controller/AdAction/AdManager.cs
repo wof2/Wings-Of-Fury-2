@@ -129,13 +129,14 @@ namespace Wof.Controller.AdAction
 
         public bool TestConnection()
         {
+            return true;
             try
             {
                 connectionErrorOccured = false;
                 WebRequest request = WebRequest.Create("http://openx.adveraction.pl/www/delivery/Mobile/standalone.php");
                 using (WebResponse response = request.GetResponse())
                 {
-
+                   
                    //response.Headers[HttpResponseHeader.]
                 }
             }
@@ -187,6 +188,10 @@ namespace Wof.Controller.AdAction
 
             }
            
+        }
+        public void AdDownloaded(Ad ad)
+        {
+            AdDownloaded(ad.id, ad.path, ad.animated);
         }
 
         private void AdDownloaded(int id, string path, bool animated)
@@ -429,7 +434,7 @@ namespace Wof.Controller.AdAction
 	                                       {
 	                                           return ad.id.Equals(id);
 	                                       });
-
+            
             LoadAdTexture(outAd);
             Quadrangle q = new Quadrangle(new PointD(0, 0), size.x, size.y);
             AdQuadrangle3D q3d = new AdQuadrangle3D(sceneMgr, outAd, isPersistent);

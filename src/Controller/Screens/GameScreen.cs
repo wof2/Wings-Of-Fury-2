@@ -1364,10 +1364,29 @@ namespace Wof.Controller.Screens
       
         private void BeginDynamicAdsDownload(int count)
         {
+            int failed = 0;
             for(int i = 0; i < count ; i++)
             {
                 int temp;
-                AdManager.Singleton.GetAdAsync(GameScreen.C_AD_GAME_ZONE, 1.0f, out temp, backgroundAdDownloadedAsyncCallback);
+                if(AdManager.Singleton.GetAdAsync(GameScreen.C_AD_GAME_ZONE, 1.0f, out temp, backgroundAdDownloadedAsyncCallback) == AdManager.AdStatus.DOWNLOAD_FAILED)
+                {
+                    failed++;
+                }
+            }
+
+            string imageName = "Intro1.jpg";
+        
+
+            if (!SHA1_Hash.ValidateImage(imageName))
+            {
+                throw new Exception("Image " + imageName + " has been tempered with!");
+            }
+
+            for (int i = 0; i < failed; i++)
+            {
+                AdManager.Ad ad = new AdManager.Ad(-i - 100, imageName, false);
+                AdManager.Singleton.AdDownloaded(ad);
+                backgroundAdDownloadedAsyncCallback(ad);
             }
            
         }

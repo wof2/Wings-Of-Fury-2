@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Mogre;
 
 namespace Wof.Controller
 {
@@ -23,8 +25,48 @@ namespace Wof.Controller
                 new byte[] {157,75,83,175,27,56,102,103,233,232,226,245,80,64,132,7,224,252,8,73}
             };
 
+        private static readonly Dictionary<string, byte[]> hashOfImage = new Dictionary<string, byte[]>();
+
         private static readonly SHA1 sha = new SHA1Managed();
         private static readonly ASCIIEncoding ae = new ASCIIEncoding();
+
+
+        private static void InitHashOfImage()
+        {
+            if(hashOfImage.Count > 0) return;
+            hashOfImage["Intro1.jpg"] = new byte[] {48, 244, 100, 144, 183, 140, 104, 156, 117, 186, 74, 36, 102, 151, 165, 246};
+            
+        }
+        public static byte[] ComputeMD5(string path)
+        {
+            MD5 md5 = MD5.Create();
+            return md5.ComputeHash(File.ReadAllBytes(path));
+        }
+
+        public static bool ValidateImage(string imageName)
+        {
+            FileInfo_NativePtr info = ResourceGroupManager.Singleton.FindResourceFileInfo(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, imageName)[0];
+            string path = info.archive.Name + "/" + imageName;
+            
+
+            MD5 md5 = MD5.Create();
+            InitHashOfImage();
+            if (!hashOfImage.ContainsKey(imageName))
+            {
+                return true;
+            }
+
+            byte[] hash = md5.ComputeHash(File.ReadAllBytes(path));
+             
+            //Wiêc trzeba rêcznie sprawdziæ wszystkie pary czy s¹ równe
+            for (int i = 0; i < hashOfImage.Count; i++)
+            {
+                if (hash[i] != hashOfImage[imageName][i])
+                     return false;
+            }
+
+            return true;
+        }
 
         public static bool ValidateLevel(int levelNumber, string levelContent)
         {

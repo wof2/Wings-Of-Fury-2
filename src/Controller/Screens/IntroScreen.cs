@@ -296,6 +296,8 @@ namespace Wof.Controller.Screens
                 currentMaterialName = C_TEXTURE_NAME + currentScreen;
                 overlayMaterial = MaterialManager.Singleton.GetByName(currentMaterialName);
                 unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
+               
+
                 hideAdText();
             }
 
