@@ -88,8 +88,7 @@ namespace Wof.Controller.Screens
             Level.PeekMissionDetails(availableOptions.ToArray()[index], out mt, out enhancedOnly);
             enhancedMissionsMap[holder] = enhancedOnly;
             
-
-
+            
             string filename = Level.GetMissionTypeTextureFile(mt);
 
             if (filename != null)
@@ -99,7 +98,7 @@ namespace Wof.Controller.Screens
 
             if (enhancedOnly)
             {
-                guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - 2 * GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), "pin.png", (ushort)(1100 + index));
+                guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - 2.5f * GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), "pin.png", (ushort)(1100 + index));
             }
         }
 
