@@ -116,7 +116,8 @@ namespace Wof.Controller.Screens
 
         public const string C_AD_LOADING_ZONE = "pregame";
         public const string C_AD_GAME_ZONE = "ingame";
-        
+        public const string C_DEFAULT_AD_IMAGE_NAME = "Intro1.jpg";
+
         private int changingAmmoAdId = 0;
 
 
@@ -1374,17 +1375,15 @@ namespace Wof.Controller.Screens
                 }
             }
 
-            string imageName = "Intro1.jpg";
-        
 
-            if (!SHA1_Hash.ValidateImage(imageName))
+            if (!SHA1_Hash.ValidateImage(C_DEFAULT_AD_IMAGE_NAME))
             {
-                throw new Exception("Image " + imageName + " has been tempered with!");
+                throw new Exception("Image " + C_DEFAULT_AD_IMAGE_NAME + " has been tempered with!");
             }
 
             for (int i = 0; i < failed; i++)
             {
-                AdManager.Ad ad = new AdManager.Ad(-i - 100, imageName, false);
+                AdManager.Ad ad = new AdManager.Ad(-i - 100, C_DEFAULT_AD_IMAGE_NAME, false);
                 AdManager.Singleton.AdDownloaded(ad);
                 backgroundAdDownloadedAsyncCallback(ad);
             }
