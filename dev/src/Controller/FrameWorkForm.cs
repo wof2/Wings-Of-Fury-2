@@ -348,11 +348,8 @@ namespace Wof.Controller
 
                 // test polaczenia
                 AdManager.Singleton.TestConnection();
-              
+
                 splash.Increment(4);
-
-
-                // load presets
 
 
                 // InitializeSound sound

@@ -17,7 +17,7 @@ namespace Wof.View.Effects
 
         private bool isPersistent = false;
         
-        public AdQuadrangle3D(SceneManager sceneMgr, AdManager.Ad ad, bool isPersistent) : base(sceneMgr, "Ad" + ad.id)
+        public AdQuadrangle3D(SceneManager sceneMgr, AdManager.Ad ad, bool isPersistent) : base(sceneMgr, "Ad" + ad.GetHashCode())
         {
             this.ad = ad;
             this.isPersistent = isPersistent;

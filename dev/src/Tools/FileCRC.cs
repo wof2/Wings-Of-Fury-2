@@ -13,10 +13,11 @@ namespace Wof.Tools
         private static void Main(string[] args)
         {
             // string outputFile;
-            if (args.Length == 0 || args.Length > 2)
+            if (args.Length == 0 || args.Length > 3)
             {
-                Console.WriteLine("Usage: WofCRC.exe inputEncodedFilename [-b]");
+                Console.WriteLine("Usage: WofCRC.exe inputEncodedFilename [-b] [-m]");
                 Console.WriteLine("-b suppresses C#'s array formatted byte output");
+                Console.WriteLine("-m calculates MD5 instead of RSA");
                 Console.WriteLine("Prints file CRC");
                 return;
             }
@@ -27,8 +28,39 @@ namespace Wof.Tools
                 MessageBox.Show("File '" + filename + "' does not exist");
                 return;
             }
-            byte[] crc = SHA1_Hash.DigestEncodedFile(filename);
-            if (args.Length == 2 && args[1].Equals("-b"))
+
+            byte[] crc;
+            bool md5 = false;
+            try
+            {
+                 md5 = "-m".Equals(args[1]) || "-m".Equals(args[2]) || "-m".Equals(args[3]);
+            }
+            catch (Exception)
+            {
+               
+            }
+
+            bool format = false;
+            try
+            {
+                 format = "-b".Equals(args[1]) || "-b".Equals(args[2]) || "-b".Equals(args[3]);
+            }
+            catch (Exception)
+            {
+                
+            }
+           
+            if (!md5)
+            {
+                crc = SHA1_Hash.DigestEncodedFile(filename);
+            }
+            else
+            {
+                crc = SHA1_Hash.ComputeMD5(filename);
+            }
+
+
+            if (format)
             {
                 Console.Write("new byte[] {");
                 for (int i = 0; i < crc.Length; i++)

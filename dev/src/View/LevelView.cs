@@ -436,7 +436,7 @@ namespace Wof.View
             float newWidth = 1.0f;
             float newHeight = 1.0f;
 
-            Entity adHolder = sceneMgr.CreateEntity("AdHolder" + ad.id, "AdHolder.mesh");
+            Entity adHolder = sceneMgr.CreateEntity("AdHolder" + count, "AdHolder.mesh");
 
             if(count == 0)
             {
@@ -492,9 +492,9 @@ namespace Wof.View
                     int dir = count % 2 == 1 ? 1 : -1;
                     position = new Vector3(C_AD_BASE_X + count * C_AD_X_DIST * dir, C_AD_Y_DIST, -C_AD_Z_DIST);
                 }
-              
 
-                Entity radarDome = sceneMgr.CreateEntity("AdRadarDome" + ad.id, "RadarDome.mesh");
+
+                Entity radarDome = sceneMgr.CreateEntity("AdRadarDome" + count, "RadarDome.mesh");
               
                 SceneNode radarNode = sceneMgr.RootSceneNode.CreateChildSceneNode(radarDome.Name + "Node", position + new Vector3(size.x * 0.5f, 0, 0));
                 radarNode.AttachObject(radarDome);
