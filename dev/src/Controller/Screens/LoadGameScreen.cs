@@ -106,17 +106,19 @@ namespace Wof.Controller.Screens
 
 
 
-        protected void CustomLevelsScreen_OnOptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page)
+        protected void CustomLevelsScreen_OnOptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page, ButtonHolder holder)
         {
 
             int levelNo = int.Parse(availableOptions.ToArray()[index].Substring(LanguageResources.GetString(LanguageKey.Level).Length));
-           
 
-            string filename = Level.GetMissionTypeTextureFile(Level.GetMissionType( XmlLevelParser.GetLevelFileName(levelNo)));
+            MissionType mt;
+            bool enhancedOnly;
+            Level.PeekMissionDetails(XmlLevelParser.GetLevelFileName(levelNo), out mt, out enhancedOnly);
+
+            string filename = Level.GetMissionTypeTextureFile(mt);
 
             if (filename != null)
             {
-
                 guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), filename, (ushort)(1000 + index));
             }
         }
@@ -140,10 +142,10 @@ namespace Wof.Controller.Screens
             }
         }
 
-        protected override void ProcessOptionSelection(string selected)
+        protected override void ProcessOptionSelection(ButtonHolder holder)
         {
              PlayClickSound();
-            int levelNo = int.Parse(selected.Substring(LanguageResources.GetString(LanguageKey.Level).Length));
+            int levelNo = int.Parse(holder.Value.Substring(LanguageResources.GetString(LanguageKey.Level).Length));
             gameEventListener.StartGame(levelNo, EngineConfig.CurrentPlayerPlaneType);
         }
 
@@ -181,7 +183,7 @@ namespace Wof.Controller.Screens
                                             completedLevels[i], cc, completedLevels[i]));
                
                 // ikonka typu misji
-                string filename = Level.GetMissionTypeTextureFile(Level.GetMissionType(GameScreen.GetLevelFileName((int) completedLevels[i])));
+                string filename = Level.GetMissionTypeTextureFile(Level.PeekMissionDetails(GameScreen.GetLevelFileName((int) completedLevels[i])));
                
                 if(filename != null)
                 {

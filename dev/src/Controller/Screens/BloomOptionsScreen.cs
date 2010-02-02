@@ -76,9 +76,9 @@ namespace Wof.Controller.Screens
             return availableModes;
         }
 
-        protected override void ProcessOptionSelection(string selected)
+        protected override void ProcessOptionSelection(ButtonHolder holder)
         {
-            EngineConfig.BloomEnabled = LanguageResources.GetString(LanguageKey.Yes).Equals(selected);
+            EngineConfig.BloomEnabled = LanguageResources.GetString(LanguageKey.Yes).Equals(holder.Value);
             EngineConfig.SaveEngineConfig();
         }
 

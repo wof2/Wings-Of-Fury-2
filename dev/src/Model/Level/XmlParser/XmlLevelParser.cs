@@ -76,6 +76,7 @@ namespace Wof.Model.Level.XmlParser
         private DayTime dayTime;
 
 
+        private bool enhancedOnly;
 
         private string levelFile;
 
@@ -130,6 +131,7 @@ namespace Wof.Model.Level.XmlParser
 
         public XmlLevelParser(String path)
         {
+            
             if (!File.Exists(path))
                 throw new LevelFileNotFoundException(Path.GetFileName(path));
 
@@ -142,6 +144,7 @@ namespace Wof.Model.Level.XmlParser
             tilesManager.Dictionary.Values.CopyTo(tileNodeArray, 0);
 
             Read(path);
+           
             SetIndex();
         }
 
@@ -196,13 +199,19 @@ namespace Wof.Model.Level.XmlParser
 
 
 
-        public static MissionType PeekMissionType(String path)
+        public static void PeekMissionDetails(String path, out MissionType missionType, out bool enhancedOnly)
         {
+
+           
             if (!File.Exists(path))
                 throw new LevelFileNotFoundException(Path.GetFileName(path));
             XmlReader reader = null;
             string contents = RijndaelSimple.Decrypt(File.ReadAllText(path));
             reader = XmlReader.Create(new StringReader(contents));
+
+            enhancedOnly = false;
+            missionType = MissionType.BombingRun; // nie zdefiniowano
+
             while (reader.Read())
             {
                   if (reader.Name.Equals(Nodes.Level))
@@ -211,17 +220,32 @@ namespace Wof.Model.Level.XmlParser
                       {
                           for (int i = 0; i < reader.AttributeCount; i++)
                           {
-
                               reader.MoveToAttribute(i);
                               if (reader.Name.Equals(Attributes.MissionType, StringComparison.InvariantCultureIgnoreCase))
-                                  return GetMissionTypeForName(reader.Value);
+                              {
+                                   missionType = GetMissionTypeForName(reader.Value);
+                              }else
+                              if (reader.Name.Equals(Attributes.EnhancedOnly, StringComparison.InvariantCultureIgnoreCase))
+                              {
+                                  try
+                                  {
+                                      enhancedOnly = Int32.Parse(reader.Value.Trim()) > 0 ? true : false;
+                                  }
+                                  catch (Exception)
+                                  {
+
+                                      enhancedOnly = false;
+                                  }
+                                   
+                              }
+                                  
                           }
                       }
                      
                   }
             }
-
-            return MissionType.BombingRun; // nie zdefiniowano
+           
+           
 
         }
 
@@ -247,6 +271,13 @@ namespace Wof.Model.Level.XmlParser
                 att = xml.CreateAttribute(Attributes.EnemyPlanes);
                 att.Value = level.LevelParser.enemyPlanes.ToString();
                 rootNode.Attributes.Append(att);
+               
+                
+                att = xml.CreateAttribute(Attributes.EnhancedOnly);
+                att.Value = level.LevelParser.enhancedOnly ? "1" : "0";
+                rootNode.Attributes.Append(att);
+
+                
 
                 att = xml.CreateAttribute(Attributes.MissionType);
                 att.Value = StringValueAttribute.GetStringValue(level.LevelParser.missionType);
@@ -953,6 +984,20 @@ namespace Wof.Model.Level.XmlParser
                     if (reader.Name.Equals(Attributes.DayTime, StringComparison.InvariantCultureIgnoreCase))
                         dayTime = GetDayTimeForName(reader.Value);
 
+                    if (reader.Name.Equals(Attributes.EnhancedOnly, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        try
+                        {
+                            enhancedOnly = Int32.Parse(reader.Value.Trim()) > 0 ? true : false;
+                        }
+                        catch
+                        {
+                            enhancedOnly = false;
+                            return false;
+                        }
+                    }
+                    
+
                     if (reader.Name.Equals(Attributes.MissionType, StringComparison.InvariantCultureIgnoreCase))
                         missionType = GetMissionTypeForName(reader.Value);
 
@@ -1160,19 +1205,19 @@ namespace Wof.Model.Level.XmlParser
         public int EnemyPlanes
         {
             get { return enemyPlanes; }
-            set { enemyPlanes = value; }
+            //set { enemyPlanes = value; }
         }
 
         public int TimeToFirstEnemyPlane
         {
             get { return timeToFirstEnemyPlane; }
-            set { timeToFirstEnemyPlane = value; }
+            //set { timeToFirstEnemyPlane = value; }
         }
         
         public int TimeToNextEnemyPlane
         {
             get { return timeToNextEnemyPlane; }
-            set { timeToNextEnemyPlane = value; }
+            //set { timeToNextEnemyPlane = value; }
         }
 
         /// <summary>
@@ -1194,6 +1239,11 @@ namespace Wof.Model.Level.XmlParser
         public string LevelFile
         {
             get { return levelFile; }
+        }
+
+        public bool EnhancedOnly
+        {
+            get { return enhancedOnly; }
         }
 
         #endregion

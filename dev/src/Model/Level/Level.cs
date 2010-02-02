@@ -95,6 +95,8 @@ namespace Wof.Model.Level
         /// </summary>
         private readonly float timeToFirstEnemyPlane;// = 1*60*1000;
 
+        private readonly bool enhancedOnly;
+
         #endregion
 
         #region fields
@@ -277,13 +279,12 @@ namespace Wof.Model.Level
 
         }
         
-        public static MissionType GetMissionType(string fileName)
+        public static void PeekMissionDetails(string fileName, out MissionType mt, out bool enhancedOnly)
         {
         	if (String.IsNullOrEmpty(fileName))
                 throw new IOException("File name must be set !");
-
-            return XmlLevelParser.PeekMissionType(fileName);       	
-        	
+           
+            XmlLevelParser.PeekMissionDetails(fileName, out mt, out enhancedOnly);
         }
 
         /// <summary>
@@ -378,6 +379,8 @@ namespace Wof.Model.Level
                 timeToFirstEnemyPlane = 0;
                 timeToNextEnemyPlane = LevelParser.TimeToNextEnemyPlane * 0.5f;
             }
+
+            enhancedOnly = LevelParser.EnhancedOnly;
             
             enemyPlanesLeft = enemyPlanesPoolCount = LevelParser.EnemyPlanes;
 
@@ -1667,6 +1670,11 @@ namespace Wof.Model.Level
         public XmlLevelParser LevelParser
         {
             get { return levelParser; }
+        }
+
+        public bool EnhancedOnly
+        {
+            get { return enhancedOnly; }
         }
 
         #endregion

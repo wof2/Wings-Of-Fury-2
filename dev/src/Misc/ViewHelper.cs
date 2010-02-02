@@ -48,6 +48,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
 using Wof.Model.Level.Common;
@@ -235,6 +236,43 @@ namespace Wof.Misc
             bool ret = (mat != null);
             mat = null;
             return ret;
+        }
+        public static string[] GetTextureNames(Entity entity)
+        {
+            List<string> textures = new List<string>();
+            //string[] textures = new string[];
+            SubEntity e;
+            for (uint i = 0; i < entity.NumSubEntities; i++)
+            {
+                e = entity.GetSubEntity(i);
+                MaterialPtr ptr =  MaterialManager.Singleton.GetByName(e.MaterialName);
+                if(!ptr.IsLoaded)
+                {
+                    ptr.Load(false);
+                }
+                Technique t = ptr.GetBestTechnique();
+                Technique.PassIterator iterator =  t.GetPassIterator();
+                foreach (Pass pass in iterator)
+                {
+                    Pass.TextureUnitStateIterator iterator2 = pass.GetTextureUnitStateIterator();
+                    foreach (TextureUnitState unit in iterator2)
+                    {
+                        if (unit.GetContentType() == TextureUnitState.ContentType.CONTENT_NAMED)
+                        {
+
+                            if (unit.TextureName.Length > 0 && !textures.Contains(unit.TextureName))
+                            {
+                                textures.Add(unit.TextureName);
+                            }
+
+                        }
+                    }
+
+                }
+
+            }
+
+            return textures.ToArray();
         }
 
         public static void ReplaceMaterial(Entity entity, String findMatName, String replaceMatName)

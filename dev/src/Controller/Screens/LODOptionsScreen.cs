@@ -77,9 +77,9 @@ namespace Wof.Controller.Screens
             return availableModes;
         }
 
-        protected override void ProcessOptionSelection(string selected)
+        protected override void ProcessOptionSelection(ButtonHolder holder)
         {
-            EngineConfig.LowDetails = LanguageResources.GetString(LanguageKey.Low).Equals(selected);
+            EngineConfig.LowDetails = LanguageResources.GetString(LanguageKey.Low).Equals(holder.Value);
             EngineConfig.SaveEngineConfig();
         }
 

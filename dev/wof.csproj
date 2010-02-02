@@ -654,6 +654,7 @@
     <Compile Include="src\Model\Exceptions\ExceptionService.cs" />
     <Compile Include="src\Model\Exceptions\LevelCorruptedException.cs" />
     <Compile Include="src\Model\Exceptions\LevelFileNotFoundException.cs" />
+    <Compile Include="src\Model\Exceptions\LevelUnavailableException.cs" />
     <Compile Include="src\Model\Exceptions\TilesFileNotFoundException.cs" />
     <Compile Include="src\Model\Level\AttractorTarget.cs" />
     <Compile Include="src\Model\Level\Carriers\Carrier.cs">
