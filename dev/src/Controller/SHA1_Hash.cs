@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using Mogre;
+using Wof.Controller.Screens;
+using Wof.View;
 
 namespace Wof.Controller
 {
@@ -34,7 +37,7 @@ namespace Wof.Controller
         private static void InitHashOfImage()
         {
             if(hashOfImage.Count > 0) return;
-            hashOfImage["Intro1.jpg"] = new byte[] {48, 244, 100, 144, 183, 140, 104, 156, 117, 186, 74, 36, 102, 151, 165, 246};
+            hashOfImage[GameScreen.C_DEFAULT_AD_IMAGE_NAME] = new byte[] { 48, 244, 100, 144, 183, 140, 104, 156, 117, 186, 74, 36, 102, 151, 165, 246 };
             
         }
         public static byte[] ComputeMD5(string path)
@@ -45,8 +48,19 @@ namespace Wof.Controller
 
         public static bool ValidateImage(string imageName)
         {
-            FileInfo_NativePtr info = ResourceGroupManager.Singleton.FindResourceFileInfo(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, imageName)[0];
-            string path = info.archive.Name + "/" + imageName;
+            string path;
+            try
+            {
+                FileInfo_NativePtr info;
+                info = ResourceGroupManager.Singleton.FindResourceFileInfo(ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME, imageName)[0];
+                path = info.archive.Name + "/" + imageName;
+
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
             
 
             MD5 md5 = MD5.Create();
