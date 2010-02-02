@@ -68,7 +68,7 @@ namespace Wof.Controller
         /// </summary>
         public static readonly String C_WOF_VERSION = "3.00";
 
-        public static readonly bool C_IS_INTERNAL_TEST = true;
+        public static readonly bool C_IS_INTERNAL_TEST = false;
         public static readonly String C_IS_INTERNAL_TEST_INFO = "!!! Internal test version !!! ";
 
  		public static readonly String C_GAME_NAME = "Wings Of Fury 2: Return of the legend";
@@ -232,7 +232,7 @@ namespace Wof.Controller
         public static int DebugStartLevel = 1;
 
 
-        public static readonly int C_LOADING_DELAY = 0; //3000;
+        public static readonly int C_LOADING_DELAY_AD = 2000;
 
         /// <summary>
         /// Bazowa wysokoœæ czcionki wyra¿ona w procentowej wysokoœci wzglêdem ekranu. Wykorzystywane przez AbstractScreen
