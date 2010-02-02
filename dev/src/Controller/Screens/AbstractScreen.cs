@@ -167,7 +167,7 @@ namespace Wof.Controller.Screens
 
         public uint GetTextVSpacing()
         {
-            return (uint)(fontSize * 1.2f);
+            return (uint)(fontSize * 1.25f);
         }
         
         
@@ -445,13 +445,13 @@ namespace Wof.Controller.Screens
             
             cloudNodes = new List<SceneNode>();
 
-            if(fontSize == 0)
-            {
+         //   if(fontSize == 0)
+         //   {
                 this.fontSize = (uint)(viewport.ActualHeight * EngineConfig.C_FONT_SIZE);
-            } else
-            {
-                this.fontSize = fontSize;
-            }
+         //   } else
+         //   {
+         //       this.fontSize = fontSize;
+         //   }
             
             keyDelay = new Timer();
         }

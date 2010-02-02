@@ -237,7 +237,7 @@ namespace Wof.Controller
         /// <summary>
         /// Bazowa wysokoœæ czcionki wyra¿ona w procentowej wysokoœci wzglêdem ekranu. Wykorzystywane przez AbstractScreen
         /// </summary>
-        public static readonly float C_FONT_SIZE = 0.035f;
+        public static float C_FONT_SIZE = 0.035f;
 
 
        
@@ -324,12 +324,23 @@ namespace Wof.Controller
 
                     try
                     {
-                        LanguageManager.SetLanguage(configOptions[7]);
+
+                        if(configOptions[7].Length > 0)
+                        {
+                         //   LanguageManager.SetLanguage(configOptions[7]);
+                        }
+                        else
+                        {
+                            // autodetekcja
+                        }
+                        
                     }
                     catch (Exception)
                     {
-                        LanguageManager.SetLanguage("en-GB");
+                      //  LanguageManager.SetLanguage("en-GB");
                     }
+
+                   
 
                     LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Language:" + LanguageManager.ActualLanguageCode);
 
@@ -549,7 +560,7 @@ namespace Wof.Controller
             configuration[4] = MusicVolume.ToString();
             configuration[5] = LowDetails.ToString();
             configuration[6] = InverseKeys.ToString();
-            configuration[7] = Settings.Default.Language;
+            configuration[7] = "";// Settings.Default.Language;
             configuration[8] = Difficulty.ToString();
             configuration[9] = ShowIntro.ToString();
             configuration[10] = DisplayMinimap.ToString();

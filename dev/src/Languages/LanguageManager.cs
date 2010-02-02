@@ -48,6 +48,7 @@
 
 using System;
 using System.Collections.Generic;
+using Wof.Controller;
 using Wof.Properties;
 
 namespace Wof.Languages
@@ -67,6 +68,8 @@ namespace Wof.Languages
             FontManager.SetCurrentFont(langCode);
             Settings.Default.Language = langCode;
             Settings.Default.Save();
+
+           
         }
 
         /// <summary>

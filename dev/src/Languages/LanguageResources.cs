@@ -55,6 +55,7 @@ using System.IO;
 using System.Reflection;
 using System.Resources;
 using System.Windows.Forms;
+using Wof.Controller;
 using Wof.Properties;
 
 namespace Wof.Languages
@@ -89,10 +90,22 @@ namespace Wof.Languages
                 {
                     if (mActualLanguage == null)
                     {
+                       
+                        if (!XmlLanguageManager.Languages.ContainsKey(Settings.Default.Language))
+                        {
+                            Settings.Default.Language = LanguageManager.CultureType.English;
+                            Settings.Default.Save();
+                        }
+
                         FontManager.SetCurrentFont(Settings.Default.Language);
-                        if (XmlLanguageManager.Languages.ContainsKey(Settings.Default.Language))
-                            mActualLanguage = XmlLanguageManager.Languages[Settings.Default.Language];
+                        mActualLanguage = XmlLanguageManager.Languages[Settings.Default.Language];
+
+                        UpdateFontSize(Settings.Default.Language);
+                            
                     }
+
+                 
+
                     return mActualLanguage;
                 }
             }
@@ -200,6 +213,25 @@ namespace Wof.Languages
             }
         }*/
 
+
+        private  static void UpdateFontSize(string lang)
+        {
+            EngineConfig.C_FONT_SIZE = 0.035f;
+            if (lang.Equals("en-GB"))
+            {
+                EngineConfig.C_FONT_SIZE *= 0.75f;
+            }
+            else
+            if (lang.Equals("ru-RU"))
+            {
+                EngineConfig.C_FONT_SIZE *= 1.1f;
+            }
+            else
+            if (lang.Equals("ua-UA"))
+            {
+                EngineConfig.C_FONT_SIZE *= 1.1f;
+            } 
+        }
         private static void SetLanguage(string lang)
         {
             if (String.IsNullOrEmpty(lang))
@@ -211,6 +243,7 @@ namespace Wof.Languages
             lock (mlockResourceManager)
             {
                 XMLManager = null;
+                UpdateFontSize(lang);
                 //SetupLanguage();
             }
         }
