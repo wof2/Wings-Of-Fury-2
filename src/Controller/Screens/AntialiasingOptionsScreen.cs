@@ -74,11 +74,11 @@ namespace Wof.Controller.Screens
             return LanguageResources.GetString(LanguageKey.ChooseAntialiasingMode);
         }
 
-        protected override void ProcessOptionSelection(string selected)
+        protected override void ProcessOptionSelection(ButtonHolder holder)
         {
-            if (!Root.Singleton.RenderSystem.GetConfigOptions()[C_ANTIALIASING].currentValue.Equals(selected))
+            if (!Root.Singleton.RenderSystem.GetConfigOptions()[C_ANTIALIASING].currentValue.Equals(holder.Value))
             {
-                Root.Singleton.RenderSystem.SetConfigOption(C_ANTIALIASING, selected);
+                Root.Singleton.RenderSystem.SetConfigOption(C_ANTIALIASING, holder.Value);
                 OptionsScreen.restartRequired = true;
             }
             Root.Singleton.SaveConfig();

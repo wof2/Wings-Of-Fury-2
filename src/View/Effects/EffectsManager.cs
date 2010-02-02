@@ -133,6 +133,10 @@ namespace Wof.View.Effects
                                                                       "panel2.png",
                                                                       "panel4.png",
                                                                       "panel5.png",
+                                                                      "F4U1_body_destroyed.dds",
+                                                                      "F4U1_body_destroyed_normal.dds",
+                                                                      "a6m_destroyed.jpg",
+
                                                                      
                                                                     
         });
@@ -143,6 +147,15 @@ namespace Wof.View.Effects
                                                                      "Arrow.mesh"
         });
 
+        public void RegisterAdditionalPreloadedTextures(Entity entity)
+        {
+            string[] names = ViewHelper.GetTextureNames(entity);
+            foreach (string name in names)
+            {
+                RegisterAdditionalPreloadedTexture(name);
+            }
+
+        }
 
         public void RegisterAdditionalPreloadedTexture(string texture)
         {

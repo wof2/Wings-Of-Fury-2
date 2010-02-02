@@ -61,6 +61,7 @@ namespace Wof.Model.Level.XmlParser
         public const string ViewXShift = @"view-x-shift";
         public const string Barrels = @"barrels";
         public const string DayTime = @"dayTime";
+        public const string EnhancedOnly = @"enhancedOnly";
         public const string Mesh = @"mesh";
         public const string MissionType = @"missionType";     
         public const string TimeToFirstEnemyPlane = @"timeToFirstEnemyPlane";        
@@ -71,5 +72,8 @@ namespace Wof.Model.Level.XmlParser
         public const string NumSoldiers = @"num-soldiers";
         public const string NumGenerals = @"num-generals";
         public const string Type = @"type";
+        
+
+        
     }
 }

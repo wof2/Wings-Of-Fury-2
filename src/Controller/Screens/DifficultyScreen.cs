@@ -77,7 +77,7 @@ namespace Wof.Controller.Screens
             return availableModes;
         }
 
-        protected override void ProcessOptionSelection(string selected)
+        protected override void ProcessOptionSelection(ButtonHolder holder)
         {
             /*
             this.gameEventListener.MinimizeWindow();
@@ -87,7 +87,7 @@ namespace Wof.Controller.Screens
             
             this.gameEventListener.MaximizeWindow();
             */
-
+            string selected = holder.Value;
             if (LanguageResources.GetString(LanguageKey.High).Equals(selected))
             {
                 EngineConfig.Difficulty = EngineConfig.DifficultyLevel.Hard;

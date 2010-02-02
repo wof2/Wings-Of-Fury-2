@@ -79,11 +79,11 @@ namespace Wof.Controller.Screens
             return availableModes;
         }
 
-        protected override void ProcessOptionSelection(string selected)
+        protected override void ProcessOptionSelection(ButtonHolder holder)
         {
             bool restart = false;
             EngineConfig.ShadowsQualityTypes old = EngineConfig.ShadowsQuality;
-            if(LanguageResources.GetString(LanguageKey.None).Equals(selected))
+            if(LanguageResources.GetString(LanguageKey.None).Equals(holder.Value))
             {
             	EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.None;
                 if(old > 0)
@@ -92,7 +92,7 @@ namespace Wof.Controller.Screens
                 }
 
             } else
-            if(LanguageResources.GetString(LanguageKey.Low).Equals(selected))
+            if(LanguageResources.GetString(LanguageKey.Low).Equals(holder.Value))
             {
             	EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Low;
                 if (old == 0)
@@ -101,7 +101,7 @@ namespace Wof.Controller.Screens
                 }
 
             } else
-            if(LanguageResources.GetString(LanguageKey.Medium).Equals(selected))
+            if(LanguageResources.GetString(LanguageKey.Medium).Equals(holder.Value))
             {
             	EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Medium;
                 if (old == 0)
@@ -109,7 +109,7 @@ namespace Wof.Controller.Screens
                     restart = true;
                 }
             } else
-            if(LanguageResources.GetString(LanguageKey.High).Equals(selected))
+            if(LanguageResources.GetString(LanguageKey.High).Equals(holder.Value))
             {
             	EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.High;
                 if (old == 0)

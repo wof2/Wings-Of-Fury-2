@@ -80,11 +80,11 @@ namespace Wof.Controller.Screens
             return availableModes;
         }
 
-        protected override void ProcessOptionSelection(string selected)
+        protected override void ProcessOptionSelection(ButtonHolder holder)
         {
             foreach (KeyValuePair<string, string> lang in LanguageManager.AvailableLanguages)
             {
-                if (lang.Key.Equals(selected))
+                if (lang.Key.Equals(holder.Value))
                 {
                     LanguageManager.SetLanguage(lang.Value);
                     EngineConfig.SaveEngineConfig();

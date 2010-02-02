@@ -76,11 +76,11 @@ namespace Wof.Controller.Screens
             return FilterPossibleOptions(availableOptions);
         }
 
-        protected override void ProcessOptionSelection(String selected)
+        protected override void ProcessOptionSelection(ButtonHolder holder)
         {
-            if (!Root.Singleton.RenderSystem.GetConfigOptions()[C_VIDEO_MODE].currentValue.Equals(selected))
+            if (!Root.Singleton.RenderSystem.GetConfigOptions()[C_VIDEO_MODE].currentValue.Equals(holder.Value))
             {
-                Root.Singleton.RenderSystem.SetConfigOption(C_VIDEO_MODE, selected);
+                Root.Singleton.RenderSystem.SetConfigOption(C_VIDEO_MODE, holder.Value);
                 OptionsScreen.restartRequired = true;
             }
 

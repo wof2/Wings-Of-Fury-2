@@ -483,16 +483,10 @@ namespace Wof.Controller.Screens
            	
                     loadingStart = DateTime.Now;
                     
-                    LogManager.Singleton.LogMessage("Preloading meshes and textures", LogMessageLevel.LML_CRITICAL);
+                    LogManager.Singleton.LogMessage("Initializing effects manager", LogMessageLevel.LML_CRITICAL);
                     ViewEffectsManager.Singleton.Init();
-                    if(currentLevel.UserPlane.PlaneType == PlaneType.P47)
-                    {
-                        
-                    }
-                   // additionalPreloadedTextures
-                    ViewEffectsManager.Singleton.PreloadGameResources();
 
-
+                  
                     LogManager.Singleton.LogMessage("About to load level view...", LogMessageLevel.LML_CRITICAL);
                     levelView = new LevelView(framework, this);
                 
@@ -506,6 +500,14 @@ namespace Wof.Controller.Screens
 
                     LogManager.Singleton.LogMessage("About to register player plane", LogMessageLevel.LML_CRITICAL);
                     OnRegisterPlane(currentLevel.UserPlane);
+                   
+                    
+                    LogManager.Singleton.LogMessage("Preloading meshes and textures", LogMessageLevel.LML_CRITICAL);
+                    PlaneView upv = levelView.FindPlaneView(currentLevel.UserPlane);
+                    ViewEffectsManager.Singleton.RegisterAdditionalPreloadedTextures(upv.PlaneEntity);
+
+
+                    ViewEffectsManager.Singleton.PreloadGameResources();
 
 
                     LogManager.Singleton.LogMessage("About to register enemy planes", LogMessageLevel.LML_CRITICAL);
@@ -646,6 +648,11 @@ namespace Wof.Controller.Screens
                 levelFile = XmlLevelParser.GetLevelFileName(levelNo);
             }
             currentLevel = new Level(LevelFile, delayedControllerFacade, lives, userPlaneType);
+            if(!EngineConfig.IsEnhancedVersion && currentLevel.EnhancedOnly)
+            {
+                throw new LevelUnavailableException(levelFile);
+            }
+
 
             string baseName;
             //Console.WriteLine("LOADING WAITING GUI");        

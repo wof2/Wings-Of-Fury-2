@@ -114,12 +114,12 @@ namespace Wof.Controller.Screens
            
         }
 
-        protected override void ProcessOptionSelection(string selected)
+        protected override void ProcessOptionSelection(ButtonHolder holder)
         {
 
-            if (!Root.Singleton.RenderSystem.GetConfigOptions()[C_VSYNC].currentValue.Equals(selected))
+            if (!Root.Singleton.RenderSystem.GetConfigOptions()[C_VSYNC].currentValue.Equals(holder.Value))
             {
-                if (LanguageResources.GetString(LanguageKey.Yes).Equals(selected))
+                if (LanguageResources.GetString(LanguageKey.Yes).Equals(holder.Value))
                 {
                     Root.Singleton.RenderSystem.SetConfigOption(C_VSYNC, "Yes");
                 }else

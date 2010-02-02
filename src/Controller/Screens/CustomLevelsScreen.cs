@@ -63,6 +63,7 @@ namespace Wof.Controller.Screens
     internal class CustomLevelsScreen : AbstractOptionsScreen
     {
 
+        protected Dictionary<ButtonHolder, bool> enhancedMissionsMap = new Dictionary<ButtonHolder, bool>();
 
         #region CustomLevelsScreen Members
 
@@ -78,14 +79,27 @@ namespace Wof.Controller.Screens
            
 
         }
-        protected void CustomLevelsScreen_OnOptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page)
+        protected void CustomLevelsScreen_OnOptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page, ButtonHolder holder)
         {
-            string filename = Level.GetMissionTypeTextureFile(Level.GetMissionType(availableOptions.ToArray()[index]));
+            if (holder == null) return;
+           
+            MissionType mt;
+            bool enhancedOnly;
+            Level.PeekMissionDetails(availableOptions.ToArray()[index], out mt, out enhancedOnly);
+            enhancedMissionsMap[holder] = enhancedOnly;
+            
+
+
+            string filename = Level.GetMissionTypeTextureFile(mt);
 
             if (filename != null)
             {
-
                 guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), filename, (ushort)(1000 + index));
+            }
+
+            if (enhancedOnly)
+            {
+                guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - 2 * GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), "pin.png", (ushort)(1100 + index));
             }
         }
 
@@ -125,11 +139,16 @@ namespace Wof.Controller.Screens
             }
         }
 
-        protected override void ProcessOptionSelection(string selected)
+        protected override void ProcessOptionSelection(ButtonHolder holder)
         {
-            if (File.Exists(selected))
+            if(! EngineConfig.IsEnhancedVersion && enhancedMissionsMap[holder] )
             {
-                gameEventListener.StartGame(selected, EngineConfig.CurrentPlayerPlaneType);
+                return;
+            }
+
+            if (File.Exists(holder.Value))
+            {
+                gameEventListener.StartGame(holder.Value, EngineConfig.CurrentPlayerPlaneType);
             }
             
         }

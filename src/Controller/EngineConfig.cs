@@ -50,6 +50,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using FSLOgreCS;
+using Mogre;
 using Wof.Languages;
 using Wof.Model.Level.Planes;
 using Wof.Properties;
@@ -262,11 +263,15 @@ namespace Wof.Controller
                     {
                         SoundSystem =
                             (FreeSL.FSL_SOUND_SYSTEM) Enum.Parse(typeof (FreeSL.FSL_SOUND_SYSTEM), configOptions[2]);
+
                     }
                     catch (Exception)
                     {
                         SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_DIRECTSOUND;
                     }
+
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Sound system:" + SoundSystem);
+
                     try
                     {
                         SoundVolume = int.Parse(configOptions[3]);
@@ -275,6 +280,8 @@ namespace Wof.Controller
                     {
                         SoundVolume = 100;
                     }
+
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Sound volume:" + SoundVolume);
 
                     try
                     {
@@ -285,6 +292,7 @@ namespace Wof.Controller
                         MusicVolume = 40;
                     }
 
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Music volume:" + MusicVolume);
                   
                     try
                     {
@@ -294,6 +302,10 @@ namespace Wof.Controller
                     {
                         LowDetails = false;
                     }
+
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Low details:" + LowDetails);
+                  
+
                     ExplosionLights = !LowDetails;
                     BodiesStay = !LowDetails;
 
@@ -306,7 +318,8 @@ namespace Wof.Controller
                         InverseKeys = false;
                     }
 
-                  
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Inverse keys:" + InverseKeys);
+
                     //Console.WriteLine(System.Threading.Thread.CurrentThread.CurrentCulture.Name);
 
                     try
@@ -317,6 +330,10 @@ namespace Wof.Controller
                     {
                         LanguageManager.SetLanguage("en-GB");
                     }
+
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Language:" + LanguageManager.ActualLanguageCode);
+
+
 					try
 					{
 						 //Difficulty
@@ -337,6 +354,8 @@ namespace Wof.Controller
 					{
 						Difficulty = DifficultyLevel.Easy;
 					}
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Difficulty:" + Difficulty);
+
 					
                     try
 					{
@@ -351,6 +370,9 @@ namespace Wof.Controller
                     {
                     	ShowIntro = true;
                     }
+
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "ShowIntro:" + ShowIntro);
+
                      try
 					{
                         DisplayMinimap = bool.Parse(configOptions[10]);
@@ -359,6 +381,8 @@ namespace Wof.Controller
                     {
                     	DisplayMinimap = true;
                     }
+
+                     LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "DisplayMinimap:" + DisplayMinimap);
                   //  DisplayingMinimap = DisplayMinimap;
 
 
@@ -371,7 +395,7 @@ namespace Wof.Controller
                     	UseHydrax = false;
                     }
 
-
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "UseHydrax:" + UseHydrax);
                     
                 //  UseHydrax = false;
                   
@@ -398,6 +422,8 @@ namespace Wof.Controller
 					{
 						ShadowsQuality = ShadowsQualityTypes.Medium;
 					}
+
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "ShadowsQuality:" + ShadowsQuality);
 					
 					try
 					{
@@ -407,6 +433,9 @@ namespace Wof.Controller
                     {
                     	 AudioStreaming = false;
                     }
+
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "AudioStreaming:" + AudioStreaming);
+
                     try
 					{
                         UseHardwareTexturePreloader = bool.Parse(configOptions[14]);
@@ -416,6 +445,9 @@ namespace Wof.Controller
                         UseHardwareTexturePreloader = false;
                     }
 
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "UseHardwareTexturePreloader:" + UseHardwareTexturePreloader);
+
+
 					try
 					{
                         Gore = bool.Parse(configOptions[15]);
@@ -424,6 +456,9 @@ namespace Wof.Controller
                     {
                         Gore = false;
                     }
+
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Gore:" + Gore);
+
                     
                     try
 					{
@@ -433,6 +468,9 @@ namespace Wof.Controller
                     {
                         HardwareTexturePreloaderTextureLimit = 64;
                     }
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "HardwareTexturePreloaderTextureLimit:" + HardwareTexturePreloaderTextureLimit);
+
+                   
 
 
                     
@@ -445,6 +483,10 @@ namespace Wof.Controller
                     {
                         UseAsyncModel = false;
                     }
+
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "UseAsyncModel:" + UseAsyncModel);
+
+                   
                     
                     try
                     {
@@ -455,6 +497,9 @@ namespace Wof.Controller
                         UpdateHydraxEveryFrame = true;
                     }
 
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "UpdateHydraxEveryFrame:" + UpdateHydraxEveryFrame);
+
+                   
 
                     try
                     {
@@ -471,7 +516,10 @@ namespace Wof.Controller
                     {
                         CurrentPlayerPlaneType = PlaneType.P47;
                     }
-								
+
+
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "CurrentPlayerPlaneType:" + CurrentPlayerPlaneType);
+
                     
                 }
                 else

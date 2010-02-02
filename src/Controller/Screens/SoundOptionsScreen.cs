@@ -165,8 +165,9 @@ namespace Wof.Controller.Screens
             return false;
         }
 
-        protected override void ProcessOptionSelection(string selected)
+        protected override void ProcessOptionSelection(ButtonHolder holder)
         {
+            string selected = holder.Value;
             foreach (FreeSL.FSL_SOUND_SYSTEM el in soundSystems.Keys)
             {
                 if (selected.Equals(soundSystems[el]))

@@ -624,6 +624,8 @@ namespace Wof.Controller
         }
         public void StartGame(int levelNo, string levelFile, PlaneType userPlaneType)
         {
+
+
         	HideBrowser();
             switch (EngineConfig.Difficulty)
             {

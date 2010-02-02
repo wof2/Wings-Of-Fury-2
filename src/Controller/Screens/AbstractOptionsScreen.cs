@@ -295,7 +295,7 @@ namespace Wof.Controller.Screens
                         GetOptionDisplayText(option));
                     if (OnOptionCreated != null)
                     {
-                        OnOptionCreated(pos, false, option, j, currentScreen);
+                        OnOptionCreated(pos, false, option, j, currentScreen, null);
                     }
                     continue;
                 }
@@ -309,13 +309,15 @@ namespace Wof.Controller.Screens
                         selected ? "bgui.selected.button" : "bgui.button",
                         GetOptionDisplayText(option), cc, j);
 
+                ButtonHolder holder = new ButtonHolder(button, option);
+                 options.Add(holder);
                 if(OnOptionCreated != null)
                 {
-                    OnOptionCreated(pos, selected, option, j, currentScreen);
+                    OnOptionCreated(pos, selected, option, j, currentScreen, holder);
                 }
                 
 
-                options.Add(new ButtonHolder(button, option));
+               
             }
             uint totalOptions = (uint) options.Count;
 
@@ -418,11 +420,11 @@ namespace Wof.Controller.Screens
 
         protected abstract List<String> GetAvailableOptions();
 
-        protected abstract void ProcessOptionSelection(String selected);
+        protected abstract void ProcessOptionSelection(ButtonHolder selected);
 
         protected abstract bool IsOptionSelected(String option);
 
-        public delegate void OptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page);
+        public delegate void OptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page, ButtonHolder holder);
 
         protected event OptionCreated OnOptionCreated;
 
@@ -464,8 +466,9 @@ namespace Wof.Controller.Screens
                         {
                             return;
                         } 
+                        
                         PlayClickSound();
-                        ProcessOptionSelection(holder.Value);
+                        ProcessOptionSelection(holder);
                         if (autoGoBack) GoToBack(referer);
                         return;
                     }
