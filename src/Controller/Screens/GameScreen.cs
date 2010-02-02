@@ -1693,11 +1693,11 @@ namespace Wof.Controller.Screens
                             }
                             
                         }
-                       
 
 
 
-                        if (EngineConfig.DebugStart || diff.TotalMilliseconds > EngineConfig.C_LOADING_DELAY)
+
+                        if (EngineConfig.DebugStart || (!showingLoadingAds || diff.TotalMilliseconds > EngineConfig.C_LOADING_DELAY_AD))
                         {
                             levelView.BuildCameraHolders();
                             if (!EngineConfig.FreeLook)
