@@ -240,7 +240,13 @@ namespace FSLOgreCS
         {
             lock (this)
             {
-                return AddSound(new FSLAmbientSound(soundFile, name, loop, streaming));
+                int before = Environment.TickCount;
+                FSLSoundObject obj = AddSound(new FSLAmbientSound(soundFile, name, loop, streaming));
+                if(!streaming && LogManager.Singleton != null)
+                {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Ambient sound preloaded within "+ (Environment.TickCount - before)+ "ms");
+                }
+                return obj;
             }
         }
 
