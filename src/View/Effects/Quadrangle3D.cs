@@ -193,6 +193,7 @@ namespace Wof.View.Effects
             state.SetTextureName(textureName);
 
             manualObject.SetMaterialName(0, mat.Name);
+            manualObject.CastShadows = false;
           //  manualObject.SetMaterialName(0, "Concrete");
         }
          
