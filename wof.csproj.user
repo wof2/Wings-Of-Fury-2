@@ -12,6 +12,8 @@
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
     <ProjectView>ShowAllFiles</ProjectView>
+    <ErrorReportUrlHistory>
+    </ErrorReportUrlHistory>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
@@ -33,5 +35,15 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <StartArguments>-DebugInfo -FreeLook -DefbugStart 1</StartArguments>
     <StartAction>Project</StartAction>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LincenseBuilder|AnyCPU' ">
+    <StartArguments>-DebugInfo -FreeLook -DebfugStart 1 -SkipIntro</StartArguments>
+    <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LincenseBuilder|x64' ">
+    <StartArguments>-DebugInfo -FreeLook -DebugdguStafrt 0</StartArguments>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LincenseBuilder|x86' ">
+    <StartArguments>-DebugInfo -FreeLook -DefbugStart 1</StartArguments>
   </PropertyGroup>
 </Project>
