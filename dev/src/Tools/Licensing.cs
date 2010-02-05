@@ -154,12 +154,20 @@ namespace Wof.Tools
                }
            }
            string contents = File.ReadAllText(C_LICENSE_FILE);
-           string plain = DecryptLicense(contents);
-
-           if (plain.Equals(C_ENHANCED_VERSION_LICENSE))
+           try
            {
-               return true;
+               string plain = DecryptLicense(contents);
+
+               if (plain.Equals(C_ENHANCED_VERSION_LICENSE))
+               {
+                   return true;
+               }
            }
+           catch (Exception)
+           {
+               return false;
+           }
+           
 
            return false;
        }
@@ -181,11 +189,16 @@ namespace Wof.Tools
            string id = null;
            try
            {
-               GetId();
+               id = GetId();
            }
            catch (Exception)
            {
                id = null;
+              
+           }
+
+           if(id == null)
+           {
                hash = null;
                return;
            }

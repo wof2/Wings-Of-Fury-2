@@ -102,6 +102,7 @@ namespace Wof.View
 
         ~EnemyPlaneView()
         {
+           
             if(engineSound!=null)
             {
                 SoundManager3D.Instance.RemoveSound(engineSound.Name); 
@@ -137,9 +138,10 @@ namespace Wof.View
 
         public void PlayGunSound()
         {
-           
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "START");
             if (EngineConfig.SoundEnabled && !gunSound.IsPlaying())
             {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, " -NEW LOOP");
                 gunSound.SetBaseGain(1.0f);
                 gunSound.Play();
                 //SoundManager3D.Instance.UpdateSoundObjects();
@@ -148,6 +150,7 @@ namespace Wof.View
 
         public void StopGunSound()
         {
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "STOP");
             if (EngineConfig.SoundEnabled) gunSound.Stop();
         }
 
@@ -221,6 +224,7 @@ namespace Wof.View
 
         protected override void initOnScene()
         {
+           
             // sound
             if (EngineConfig.SoundEnabled)
             {
@@ -247,21 +251,22 @@ namespace Wof.View
                 outerNode.LookAt(Vector3.NEGATIVE_UNIT_X, Node.TransformSpace.TS_WORLD);
             }*/
 
-            initBlade();
+        
 
             ViewHelper.AttachAxes(sceneMgr, innerNode, 1.5f);
+           
+
 
             refreshPosition();
-
-            initAnimationManager();
+            base.initOnScene();
+          
             if (plane != null && plane.LocationState == LocationState.Air)
             {
                 animationMgr.switchToIdle();
             }
             animationMgr.enableBlade();
 
-            // vertex animation
-            animationState = PlaneEntity.GetAnimationState("manual");
+          
 
             if (EngineConfig.DisplayingMinimap)
             {

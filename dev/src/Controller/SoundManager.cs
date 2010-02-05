@@ -584,7 +584,7 @@ namespace Wof.Controller
             }
         }
 
-        public void LoopGunFireSound()
+        private void LoopGunFireSound()
         {
             LoopDXSound(gunFireBuffer);
         }

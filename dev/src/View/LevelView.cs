@@ -1393,6 +1393,7 @@ namespace Wof.View
             {
                (p as EnemyPlaneView).PlayGunSound();
             }
+           
             
 
             Quaternion orient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y); 
