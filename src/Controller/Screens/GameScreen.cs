@@ -2426,7 +2426,7 @@ namespace Wof.Controller.Screens
 
         private void increaseScore(int baseScore)
         {
-            if (GameConsts.UserPlane.GodMode || GameConsts.Game.AllLevelsCheat || GameConsts.UserPlane.PlaneCheat || GameConsts.Game.LivesCheat) return;
+            if (GameConsts.UserPlane.GodMode || GameConsts.Game.AllLevelsCheat || GameConsts.UserPlane.PlaneCheat || GameConsts.Game.LivesCheat || EngineConfig.DebugStart) return;
 
             switch (EngineConfig.Difficulty)
             {

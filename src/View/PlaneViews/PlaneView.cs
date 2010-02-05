@@ -440,9 +440,11 @@ namespace Wof.View
             {
                 planePassSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_PLANE_PASS, this.planeNode, false, false);
             }
-            initAnimationManager();
-            initWheels();
             initBlade();
+            initWheels();
+            initAnimationManager();
+          
+           
             animationState = PlaneEntity.GetAnimationState("manual");
         }
 

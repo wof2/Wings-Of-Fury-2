@@ -312,9 +312,7 @@ namespace Wof.View
             innerNode.AttachObject(planeEntity);
             outerNode.Scale(new Vector3(0.4f, 0.4f, 0.4f));
 
-            initBlade();
-            initWheels();
-
+          
 
             torpedoHolder = innerNode.CreateChildSceneNode(planeNode.Name + "TorpedoHolder", new Vector3(0,-1.6f,1.6f));
             if(plane != null)
@@ -342,7 +340,8 @@ namespace Wof.View
             ViewHelper.AttachAxes(sceneMgr, innerNode, 1.5f);
 
             refreshPosition();
-            initAnimationManager();
+            base.initOnScene();
+
             if(this.plane != null && this.plane.WheelsState == WheelsState.In) 
             {
             	this.animationMgr.switchToGearUpDown(false);
@@ -358,9 +357,7 @@ namespace Wof.View
             }
             animationMgr.enableBlade();
 
-            // vertex animation
-            animationState = PlaneEntity.GetAnimationState("manual");
-
+          
             if (EngineConfig.DisplayingMinimap)
             {
                 minimapItem =
