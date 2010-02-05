@@ -445,7 +445,6 @@ namespace Wof.View
                 isPersistent = true;
 
                 
-             
                 SceneNode adHolderNode = sceneMgr.RootSceneNode.CreateChildSceneNode(adHolder.Name + "Node", position + new Vector3(size.x * 0.5f, 0, 0));
                 adHolderNode.AttachObject(adHolder);
              
@@ -495,7 +494,7 @@ namespace Wof.View
 
 
                 Entity radarDome = sceneMgr.CreateEntity("AdRadarDome" + count, "RadarDome.mesh");
-              
+                radarDome.CastShadows = false;
                 SceneNode radarNode = sceneMgr.RootSceneNode.CreateChildSceneNode(radarDome.Name + "Node", position + new Vector3(size.x * 0.5f, 0, 0));
                 radarNode.AttachObject(radarDome);
                 SceneNode innerHolderNode = radarNode.CreateChildSceneNode(new Vector3(0,0,1.5f));
@@ -524,7 +523,7 @@ namespace Wof.View
             
           //  adNode.AttachObject(q3d.ManualObject);
             adNodeParent.AttachObject(q3d.ManualObject);
-
+           
             q3d.SetSceneNodes(adNodeSuper, adNodeParent);
             dynamicAds.Add(q3d);
 
