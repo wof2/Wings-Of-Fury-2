@@ -63,6 +63,7 @@ using Wof.Languages;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.XmlParser;
+using Wof.Tools;
 using Wof.View;
 using Wof.View.Effects;
 
