@@ -279,7 +279,8 @@ namespace Wof.Controller.Screens
                  availableOptions.Count > j + C_MAX_OPTIONS*currentScreen;
                  j++)
             {
-                String option = availableOptions[(int) j + C_MAX_OPTIONS*currentScreen];
+                int index = (int) j + C_MAX_OPTIONS*currentScreen;
+                String option = availableOptions[index];
 
                 Vector4 pos = GetOptionPos(j, window);
 
@@ -295,7 +296,7 @@ namespace Wof.Controller.Screens
                         GetOptionDisplayText(option));
                     if (OnOptionCreated != null)
                     {
-                        OnOptionCreated(pos, false, option, j, currentScreen, null);
+                        OnOptionCreated(pos, false, option, (uint)index, currentScreen, null);
                     }
                     continue;
                 }
@@ -313,7 +314,7 @@ namespace Wof.Controller.Screens
                  options.Add(holder);
                 if(OnOptionCreated != null)
                 {
-                    OnOptionCreated(pos, selected, option, j, currentScreen, holder);
+                    OnOptionCreated(pos, selected, option, (uint)index, currentScreen, holder);
                 }
                 
 
