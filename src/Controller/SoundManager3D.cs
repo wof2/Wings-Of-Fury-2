@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using FSLOgreCS;
@@ -41,6 +42,8 @@ namespace Wof.Controller
         }
 
         private FSLSoundObject ambientSound;
+
+        private IDictionary<String, FSLSoundObject> ambientSounds = new Dictionary<String, FSLSoundObject>();
 
         protected SoundManager3D()
         {
@@ -147,21 +150,32 @@ namespace Wof.Controller
         /// <param name="volume">0-100</param>
         /// <param name="preloadOnly">czy tylko preloadowaæ muzykê</param>
         /// <param name="loop">zapêtlenie dziêku</param>
+        /// <param name="streaming"></param>
         public void PlayAmbient(String sound, int volume, bool preloadOnly, bool loop, bool streaming)
         {
+            streaming = false;
 
-           
+            if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
 
             if (ambientSound == null || (ambientSound != null && !ambientSound.Name.Equals(sound + "_Ambient")))
             {
                 
-                if (ambientSound != null)
+               /* if (ambientSound != null)
                 {
                      RemoveSound(ambientSound.Name);
                      ambientSound.Destroy();
+                }*/
+                if(ambientSounds.ContainsKey(sound))
+                {
+                    ambientSound = ambientSounds[sound];
+                }
+                else
+                {
+                    ambientSound = CreateAmbientSound(sound, sound + "_Ambient", loop, streaming);
+                    ambientSounds[sound] = ambientSound;
                 }
 
-                ambientSound = CreateAmbientSound(sound, sound + "_Ambient", loop, streaming);
+               
                 ambientSound.SetBaseGain(volume / 100.0f);
                 ambientSound.ApplyGain();
                 //Create Ambient sound  
