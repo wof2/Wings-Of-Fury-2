@@ -22,8 +22,21 @@ namespace Wof.Controller
         public static void ShowOgreException()
         {
             if (OgreException.IsThrown)
-                MessageBox.Show(OgreException.LastException.FullDescription, EngineConfig.C_GAME_NAME + " - Engine error",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            {
+                string info = "";
+                if (OgreException.LastException.Description.Contains("failed to draw primitive") || OgreException.LastException.FullDescription.Contains("failed to draw primitive"))
+                {
+
+                    info =
+                        "\r\nThis error is related to your graphics card driver. Try to update drivers. Some of Intel cards (GMA 945) might not be able to handle the game.";
+                }
+
+                info += "\r\nSupport: " + EngineConfig.C_WOF_SUPPORT_PAGE;
+
+                MessageBox.Show(OgreException.LastException.FullDescription + info, EngineConfig.C_GAME_NAME + " - Engine error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+               
         }
 
         public static void ShowWofException(Exception ex)

@@ -133,10 +133,25 @@ namespace Wof.Tools
 
        public static bool IsEhnancedVersion()
        {
+           
            BuildHash();
+           
+
            if (!File.Exists(C_LICENSE_FILE))
            {
                return false;
+           }
+           else
+           {
+               if(hash == null)
+               {
+                   // nie udalo sie stworzyc hasha. Ktos probuje odpalic wersje rozszerzona
+                   MessageBox.Show("Unable to build Enhanced version hash.\r\nWe are sorry but " + EngineConfig.C_GAME_NAME +
+                                   " Enhanced version cannot be run under Windows Guest Account. Please run the game as the Administrator.r\\n" +
+                                   " Starting standard version", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                   return false;
+               }
            }
            string contents = File.ReadAllText(C_LICENSE_FILE);
            string plain = DecryptLicense(contents);
@@ -163,7 +178,20 @@ namespace Wof.Tools
        {
          
            string ret = "";
-           byte[] arr = SHA1_Hash.DigestMessage(GetId());
+           string id = null;
+           try
+           {
+               GetId();
+           }
+           catch (Exception)
+           {
+               id = null;
+               hash = null;
+               return;
+           }
+
+
+           byte[] arr = SHA1_Hash.DigestMessage(id);
            foreach (byte b in arr)
            {
                ret += b.ToString()+ ";";
@@ -179,35 +207,44 @@ namespace Wof.Tools
            string[] keys = new string[] { "Win32_baseboard", "Win32_Processor" };
            string ret = "";
 
-           searcher = new ManagementObjectSearcher("select * from " + keys[0]);
-           var mobos = searcher.Get();
-
-           foreach (var m in mobos)
+           try
            {
-               foreach (PropertyData PC in m.Properties)
+               searcher = new ManagementObjectSearcher("select * from " + keys[0]);
+               var mobos = searcher.Get();
+
+               foreach (var m in mobos)
                {
-                   if (PC.Name.Equals("SerialNumber") || PC.Name.Equals("Product"))
+                   foreach (PropertyData PC in m.Properties)
                    {
-                       ret += PC.Value;
-                   }
-                  
-               }
-           }
+                       if (PC.Name.Equals("SerialNumber") || PC.Name.Equals("Product"))
+                       {
+                           ret += PC.Value;
+                       }
 
-
-           searcher = new ManagementObjectSearcher("select * from " + keys[1]);
-           mobos = searcher.Get();
-
-           foreach (var m in mobos)
-           {
-               foreach (PropertyData PC in m.Properties)
-               {
-                   if (PC.Name.Equals("ProcessorId"))
-                   {
-                       ret += PC.Value;
                    }
                }
+
+
+               searcher = new ManagementObjectSearcher("select * from " + keys[1]);
+               mobos = searcher.Get();
+
+               foreach (var m in mobos)
+               {
+                   foreach (PropertyData PC in m.Properties)
+                   {
+                       if (PC.Name.Equals("ProcessorId"))
+                       {
+                           ret += PC.Value;
+                       }
+                   }
+               }
            }
+           catch (Exception ex)
+           {
+               
+               throw;
+           }
+          
 
 
            return ret;
