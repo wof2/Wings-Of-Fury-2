@@ -88,6 +88,7 @@ namespace Wof.Controller
         public static readonly String C_WOF_HOME_PAGE = "http://www.wingsoffury2.com";
         public static readonly String C_WOF_NEWS_PAGE = "http://www.wingsoffury2.com/news.php";
         public static readonly String C_WOF_UPDATE_CHECK_PAGE = "http://www.wingsoffury2.com/update_chk.php";
+        public static readonly String C_WOF_SUPPORT_PAGE = "http://www.wingsoffury2.com";
     
 
         public static readonly bool UseLastHardwareSettings = false;
