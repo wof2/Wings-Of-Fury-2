@@ -48,67 +48,137 @@
 
 using System;
 using System.Drawing;
+using System.Windows.Forms;
+using Wof.Model.Configuration;
+using Wof.Model.Level;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.Planes;
+using Wof.Model.Level.Weapon;
+using Math=Mogre.Math;
 
 namespace Wof.Tests
 {
-    public class TestRectangleD
+    //OUTDATED!!!!!!!!!
+    public partial class GunTestForm : Form
     {
-       public static void Main()
+
+       // private Object2D
+  
+                           //new Quadrangle(new PointD(200, 200), new PointD(200, 300), new PointD(300, 300), new PointD(300, 200));
+
+      //  private Quadrangle q2 = new Quadrangle(new PointD(50, 50), 100, 120);
+        private Quadrangle activeQ;
+        private const float Step = 10;
+        private PointD p1 = new PointD(300, 300);
+
+        private Plane plane1;
+        private Plane plane2;
+
+       
+        public GunTestForm()
         {
-            ConsoleColor tmp = Console.ForegroundColor;
-            Console.WriteLine("---------------------");
-            TestEqual();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("---------------------");
-            Console.ForegroundColor = tmp;
-            TestCut();
-            Console.WriteLine("---------------------");
+            GameConsts.UserPlane.Width *= 10;
+            GameConsts.UserPlane.Height *= 10;
+            StartPositionInfo sp1 = new StartPositionInfo();
+            sp1.Position = p1;
+            sp1.Speed = 0;
+            sp1.PositionType = StartPositionType.Airborne;
+            sp1.Direction = Direction.Right;
+          
+            plane1 = new Plane(null, false,sp1, PlaneType.P47);
+            
+
+
+            StartPositionInfo sp2 = new StartPositionInfo();
+            sp2.Position = new PointD(350, 330);
+            sp2.Speed = 0;
+            sp2.PositionType = StartPositionType.Airborne;
+            sp2.Direction = Direction.Left;
+
+            plane2 = new Plane(null, true, sp2, PlaneType.A6M);
+
+            InitializeComponent();
         }
 
-        private static void TestEqual()
+        private void IntersectionTestForm_Load(object sender, EventArgs e)
         {
-            RectangleD first = new RectangleD(new Point(1, 2), 10, 10);
-            RectangleD second = new RectangleD(1, 2, 10, 10);
-            ShowEqualTest(first, second);
-            first = new RectangleD();
-            second = new RectangleD(1, 1, 1, 1);
-            ShowEqualTest(first, second);
-            ShowEqualTest(new RectangleD(0, 0, 1, 1), new RectangleD(0, 0, 1, 1.1f));
+            activeQ = plane1.Bounds;
         }
 
-        private static void TestCut()
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            RectangleD first = new RectangleD(1, 1, 1, 1);
-            RectangleD second = new RectangleD(1.5f, 1.5f, 1, 1);
-            ShowCutTest(first, second);
-            first = new RectangleD(1, 2, 1, 2);
-            second = new RectangleD(1.5f, 1.5f, 1, 1);
-            ShowCutTest(first, second);
-            first = new RectangleD(2, 2, 2, 2);
-            second = new RectangleD(1.5f, 1.5f, 1, 1.1f);
-            ShowCutTest(first, second);
-            ShowCutTest(new RectangleD(0, 0, 1, 1), new RectangleD(0.5f, 0.7f, 2, 2.1f));
-            ShowCutTest(new RectangleD(0, 3, 4, 2.1f), new RectangleD(2, 1, 2.1f, 2.2f));
-            ShowCutTest(new RectangleD(0, 1, 10, 1), new RectangleD(2, 0.1f, 1, 10));
-            ShowCutTest(new RectangleD(1, 1, 10, 1), new RectangleD(2, 0, 1, 10));
-            ShowCutTest(new RectangleD(0, 0, 0, 0), new RectangleD(1, 1, 1, 1));
+            plane1.Bounds.Draw(e.Graphics, Color.Blue);
+            plane2.Bounds.Draw(e.Graphics, Color.Green);
+          //  e.Graphics.DrawLine(new Pen(Color.Black), activeQ.Peaks[1].ToPoint(), e.Graphicsg.VisibleClipBounds.Height - activeQ.Peaks[2].ToPoint());
         }
 
-        private static void ShowCutTest(RectangleD first, RectangleD second)
+        private void checkIntersectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Console.WriteLine("Pierwszy prostokat: " + first.ToString());
-            Console.WriteLine("Drugi prostokat: " + second.ToString());
-            Console.WriteLine("Wynik przeciecia: " + first.Cut(second));
-            Console.WriteLine();
+         //  MessageBox.Show(q1.Intersects(q2).ToString());
         }
 
-        private static void ShowEqualTest(RectangleD first, RectangleD second)
+        private void IntersectionTestForm_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Console.WriteLine("Pierwszy prostokat: " + first.ToString());
-            Console.WriteLine("Drugi prostokat: " + second.ToString());
-            Console.WriteLine("Wynik porownania: " + (first == second));
-            Console.WriteLine();
+
+        }
+
+        private void IntersectionTestForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            const float angle = Math.PI/36.0f;
+       //     PointD rotateCenter = new PointD(300, 300);
+            switch (e.KeyCode)
+            {
+                case Keys.Up:
+                    activeQ.Move(0, Step);
+                    break;
+                case Keys.Down:
+                    activeQ.Move(0, -Step);
+                    break;
+                case Keys.Left:
+                    activeQ.Move(-Step, 0);
+                    break;
+                case Keys.Right:
+                    activeQ.Move(Step, 0);
+                    break;
+                case Keys.NumPad8:
+                    activeQ.Rotate(angle);
+                    break;
+                case Keys.NumPad2:
+                    activeQ.Rotate(-angle);
+                    break;
+                case Keys.B:
+                    activeQ = plane1.Bounds;
+                    break;
+                case Keys.G:
+                    activeQ = plane2.Bounds;
+                    break;
+                case Keys.NumPad9:
+                    activeQ.Move(Step, Step);
+                    break;
+                    //case ' ': MessageBox.Show(q1.ToString()); break;
+                default:
+                    break;
+            }
+
+            string app = "";
+           if(activeQ.IsObverse)
+           {
+            //   app = " LEFT";
+            //   plane1.Direction = Direction.Left;
+           }
+           else
+           {
+             //  app = " RIGHT";
+          //     plane1.Direction = Direction.Right;
+           }
+
+            pictureBox1.Refresh();
+
+            if (Gun.CanHitObjectByGun(plane1, plane2))
+                Text = "BUM";
+            else
+                Text = "";
+            Text += app;
         }
     }
 }

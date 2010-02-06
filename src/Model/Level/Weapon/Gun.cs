@@ -49,6 +49,7 @@
 using System;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
+using Wof.Model.Level.Planes;
 using Math=Mogre.Math;
 using Plane = Wof.Model.Level.Planes.Plane;
 
@@ -170,14 +171,14 @@ namespace Wof.Model.Level.Weapon
                     PointD cut = lineA.Intersect(lineB);
                     if (cut == null) continue;
                     if (cut.X > tile.HitBound.Peaks[2].X || cut.X < tile.HitBound.Peaks[1].X) continue; // sytuacja gdy samolot strzela dalej, za tile'em (czyli de facto kula uderzy³aby gdzies dalej mimo ze jest 'intersection' z prost¹)
-                    if (InRange(cut, planeBound.Center)) return cut;
+                    if (IsCutInRangeX(cut, planeBound.Center)) return cut;
                 }
             }
             return null;
         }
-        public static bool CanHitObject(IObject2D owner, IObject2D target)
+        public static bool CanHitObjectByGun(IObject2D owner, IObject2D target)
         {
-            return CanHitObject(owner, target, 0);
+            return CanHitObjectByGun(owner, target, 0);
         }
 
         /// <summary>
@@ -189,17 +190,37 @@ namespace Wof.Model.Level.Weapon
         /// <returns>Zwraca true jesli moze trafic wrogi samolot; false - w przeciwnym
         /// przypadku.</returns>
         /// <author>Michal Ziober</author>
-        public static bool CanHitObject(IObject2D owner, IObject2D target, float tolerance)
+        public static bool CanHitObjectByGun(IObject2D owner, IObject2D target, float tolerance)
         {
-            if (owner.Direction == Direction.Right && owner.Center.X > target.Center.X)
+
+            // UWAGA: Zakladamy ze 
+
+            Direction gunDirection = owner.MovementVector.X > 0 ? Direction.Right : Direction.Left;
+            
+             //   Console.WriteLine( (int)owner.Direction * (owner.Bounds.Peaks[2].X - owner.Bounds.Peaks[1].X));
+            
+           
+            if (gunDirection == Direction.Right && owner.Center.X > target.Center.X)
                 return false;
 
-            if (owner.Direction == Direction.Left && owner.Center.X < target.Center.X)
+            if (gunDirection == Direction.Left && owner.Center.X < target.Center.X)
                 return false;
+            
 
-            if (System.Math.Abs(owner.Center.X - target.Center.X) < 10 &&
-                System.Math.Abs(owner.Center.Y - target.Center.Y) > 10)
+
+          /*  if (System.Math.Abs(owner.Center.X - target.Center.X) < 10 &&
+                System.Math.Abs(owner.Center.Y - target.Center.Y) < 10)
                 return false;
+            */
+
+            /*
+            if ((owner.Bounds.Center - target.Bounds.Center).EuclidesLength > Math.Sqrt(RangeX * RangeX + RangeY * RangeY))
+            {
+                return false;
+            }
+            
+            */
+
 
             Quadrangle ownerBound = owner.Bounds;
             Quadrangle targetBound = target.Bounds;
@@ -218,7 +239,7 @@ namespace Wof.Model.Level.Weapon
                 PointD cut = lineA.Intersect(lineB);
                 if (cut == null)
                     continue;
-                if (InEnemyRange(cut, ownerBound.Center, targetBound.Center))
+                if (IsCutInRange(cut, targetBound.Center))
                     return true;
             }
 
@@ -229,15 +250,19 @@ namespace Wof.Model.Level.Weapon
         /// Sprawdza czy punkt przeciecia jest w zasiegu samolotu.
         /// </summary>
         /// <param name="cut">Punkt przeciecia dwoch prostych.</param>
-        /// <param name="plane">Pozycja samolotu.</param>
+        /// <param name="plane"></param>
         /// <returns>true jesli punkt przeciecia jest w zasiegu, false
         /// w przeciwnym przypadku.</returns>
         /// <author>Michal Ziober</author>
-        private static bool InEnemyRange(PointD cut, PointD plane, PointD enemyPlane)
+        private static bool IsCutInRange(PointD cut, PointD plane)
         {
+           // PointD diff = (cut - plane);
+
+          //  return diff.EuclidesLength < (new PointD(Plane.Width, Plane.Height).EuclidesLength) * 0.5f ;
             return
-                System.Math.Abs(cut.X - plane.X) < RangeX &&
-                ((cut.Y > enemyPlane.Y - Plane.Height) && (cut.Y < enemyPlane.Y + Plane.Height));
+                ((cut.Y > plane.Y - Plane.Height) && (cut.Y < plane.Y + Plane.Height))
+                &&
+                ((cut.X > plane.X - Plane.Width) && (cut.X < plane.X + Plane.Width));
         }
 
         /// <summary>
@@ -248,7 +273,7 @@ namespace Wof.Model.Level.Weapon
         /// <returns>true jesli punkt przeciecia jest w zasiegu, false
         /// w przeciwnym przypadku.</returns>
         /// <author>Michal Ziober</author>
-        private static bool InRange(PointD cut, PointD plane)
+        private static bool IsCutInRangeX(PointD cut, PointD plane)
         {
             return System.Math.Abs(cut.X - plane.X) < RangeX && System.Math.Abs(cut.Y - plane.Y) < RangeY;
         }

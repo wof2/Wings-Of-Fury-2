@@ -5,7 +5,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F101F624-0894-4B82-BE03-002A6D0E94F5}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Wof</RootNamespace>
     <AssemblyName>Wof</AssemblyName>
@@ -193,6 +193,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\Controller\Splash.resx">
       <DependentUpon>Splash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Tests\ModelTest\GunTestForm.resx">
+      <DependentUpon>GunTestForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Tests\ModelTest\IntersectionTestForm.resx">
       <DependentUpon>IntersectionTestForm.cs</DependentUpon>
@@ -543,6 +547,13 @@
     <Compile Include="src\Controller\IFrameWork.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyCodeConflictException.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyMap.cs" />
+    <Compile Include="src\Tests\ModelTest\GunTestForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\GunTestForm.Designer.cs">
+      <DependentUpon>GunTestForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Tests\ModelTest\GunTest.cs" />
     <Compile Include="src\Tools\Licensing.cs" />
     <Compile Include="src\Controller\PerformanceTestFramework.cs">
       <SubType>Form</SubType>

@@ -1436,7 +1436,11 @@ namespace Wof.Model.Level.Planes
             counterStartedEngine = 0;
 
             breakingEndCarrierTile = null;
-			breakingEndPositionX = Carrier.GetRestoreAmunitionPosition().X + LevelTile.TileWidth;
+            if(level != null)
+            {
+                breakingEndPositionX = Carrier.GetRestoreAmunitionPosition().X + LevelTile.TileWidth;
+            }
+			
             direction = info.Direction;
             movementVector = new PointD(0, 0);
             if(info.PositionType == StartPositionType.Carrier)

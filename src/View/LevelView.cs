@@ -1499,7 +1499,7 @@ namespace Wof.View
 
                 EffectsManager.Singleton.Sprite(sceneMgr, p.OuterNode,
                                                 new Vector3(-5f, -1.5f, -2) +
-                                                ViewHelper.UnsignedRandomVector3(5, 1.5f, 4), new Vector2(12, 12),
+                                                ViewHelper.UnsignedRandomVector3(5, 1.5f, 4), new Vector2(52, 52),
                                                 EffectsManager.EffectType.DEBRIS, false, (100 + i).ToString());
             }
         }

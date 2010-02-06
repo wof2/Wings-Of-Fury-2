@@ -46,6 +46,9 @@
  * 
  */
 
+using System;
+using System.Windows.Forms;
+
 namespace Tests.ModelTest.LevelTest.CommonTest.RectanglesTest
 {
     internal static class Program
@@ -53,12 +56,12 @@ namespace Tests.ModelTest.LevelTest.CommonTest.RectanglesTest
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        /*[STAThread]
+        [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new RectanglesTestForm());
-        }*/
+        }
     }
 }
