@@ -51,7 +51,7 @@ using Mogre;
 namespace Wof.View.NodeAnimation
 {
     /// <summary>
-    /// Animacja sinusoidalna obrotów - Abs(sin())
+    /// Animacja obrotu ktora przyspiesza jak kwadrat(X) -> na poczatku wolno potem coraz szybciej
     /// <author>Adam Witczak</author>
     /// </summary>
     public class AccRotateNodeAnimation : RotateNodeAnimation

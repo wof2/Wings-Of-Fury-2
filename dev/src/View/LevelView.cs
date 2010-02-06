@@ -1512,7 +1512,6 @@ namespace Wof.View
                 // ERROR 
                 return;
             }
-
             p.AnimationMgr.PrepareToSpin = true;
 
             if (p.AnimationMgr.CurrentAnimation != null)

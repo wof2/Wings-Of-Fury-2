@@ -547,8 +547,16 @@ namespace Wof.View.NodeAnimation
 
                     case AnimationType.SPIN_PHASE_ONE:
                     {
+                        this[animationName] = new AccRotateNodeAnimation(
+                        planeView.OuterNode,
+                        1.0f,
+                        new Degree(90),
+                        1,
+                        Vector3.UNIT_Z,
+                        animationName
+                        );
 
-                        this[animationName] = new HalfSinRotateNodeAnimation(
+                    /*    this[animationName] = new HalfSinRotateNodeAnimation(
                                                             planeView.OuterNode,
                                                             1.2f,
                                                             new Degree(90),
@@ -557,14 +565,23 @@ namespace Wof.View.NodeAnimation
                                                             animationName,
                                                             true
                                                             );
-
+                        */
                         this[animationName].Looped = false;
                     }
                     break;
                     case AnimationType.SPIN_PHASE_TWO:
                     {
 
-                        this[animationName] = new HalfSinRotateNodeAnimation(
+                        this[animationName] = new Acc2RotateNodeAnimation(
+                         planeView.OuterNode,
+                         1.0f,
+                         new Degree(90),
+                         1,
+                         Vector3.UNIT_Z,
+                         animationName
+                         );
+
+                        /*this[animationName] = new HalfSinRotateNodeAnimation(
                                                             planeView.OuterNode,
                                                             1.2f,
                                                             new Degree(90),
@@ -573,7 +590,7 @@ namespace Wof.View.NodeAnimation
                                                             animationName,
                                                             false
                                                             );
-
+                        */
                         this[animationName].Looped = false;
                     }
                     break;
