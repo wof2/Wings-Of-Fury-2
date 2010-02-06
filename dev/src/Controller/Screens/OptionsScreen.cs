@@ -114,6 +114,13 @@ namespace Wof.Controller.Screens
                                                 LanguageResources.GetString(LanguageKey.Sound), cc, i++);
             buttons[11] = guiWindow.createButton(new Vector4(0, 14 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Back), cc, i);
+
+            if(restartRequired)
+            {
+                Button b = buttons[11];
+                float size = 2.0f * GetTextVSpacing();
+                guiWindow.createStaticImage(new Vector4(b.x + b.w * 0.5f - 0.5f*size,  buttons[11].y + GetTextVSpacing(), size, size), "restart.png");
+            }
             selectButton(11);
             guiWindow.show();
         }
