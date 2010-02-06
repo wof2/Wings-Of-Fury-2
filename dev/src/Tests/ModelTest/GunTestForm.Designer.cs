@@ -46,69 +46,105 @@
  * 
  */
 
-using System;
-using System.Drawing;
-using Wof.Model.Level.Common;
-
 namespace Wof.Tests
 {
-    public class TestRectangleD
+    partial class GunTestForm
     {
-       public static void Main()
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
         {
-            ConsoleColor tmp = Console.ForegroundColor;
-            Console.WriteLine("---------------------");
-            TestEqual();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("---------------------");
-            Console.ForegroundColor = tmp;
-            TestCut();
-            Console.WriteLine("---------------------");
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
-        private static void TestEqual()
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
         {
-            RectangleD first = new RectangleD(new Point(1, 2), 10, 10);
-            RectangleD second = new RectangleD(1, 2, 10, 10);
-            ShowEqualTest(first, second);
-            first = new RectangleD();
-            second = new RectangleD(1, 1, 1, 1);
-            ShowEqualTest(first, second);
-            ShowEqualTest(new RectangleD(0, 0, 1, 1), new RectangleD(0, 0, 1, 1.1f));
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkIntersectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.menuStrip1.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 24);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(763, 579);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(763, 24);
+            this.menuStrip1.TabIndex = 1;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.checkIntersectionToolStripMenuItem});
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(41, 20);
+            this.testToolStripMenuItem.Text = "Test";
+            // 
+            // checkIntersectionToolStripMenuItem
+            // 
+            this.checkIntersectionToolStripMenuItem.Name = "checkIntersectionToolStripMenuItem";
+            this.checkIntersectionToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.checkIntersectionToolStripMenuItem.Text = "Check intersection";
+            this.checkIntersectionToolStripMenuItem.Click += new System.EventHandler(this.checkIntersectionToolStripMenuItem_Click);
+            // 
+            // GunTestForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(763, 603);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.menuStrip1);
+            this.MainMenuStrip = this.menuStrip1;
+            this.Name = "GunTestForm";
+            this.Text = "GunTestForm";
+            this.Load += new System.EventHandler(this.IntersectionTestForm_Load);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.IntersectionTestForm_KeyPress);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.IntersectionTestForm_KeyDown);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
-        private static void TestCut()
-        {
-            RectangleD first = new RectangleD(1, 1, 1, 1);
-            RectangleD second = new RectangleD(1.5f, 1.5f, 1, 1);
-            ShowCutTest(first, second);
-            first = new RectangleD(1, 2, 1, 2);
-            second = new RectangleD(1.5f, 1.5f, 1, 1);
-            ShowCutTest(first, second);
-            first = new RectangleD(2, 2, 2, 2);
-            second = new RectangleD(1.5f, 1.5f, 1, 1.1f);
-            ShowCutTest(first, second);
-            ShowCutTest(new RectangleD(0, 0, 1, 1), new RectangleD(0.5f, 0.7f, 2, 2.1f));
-            ShowCutTest(new RectangleD(0, 3, 4, 2.1f), new RectangleD(2, 1, 2.1f, 2.2f));
-            ShowCutTest(new RectangleD(0, 1, 10, 1), new RectangleD(2, 0.1f, 1, 10));
-            ShowCutTest(new RectangleD(1, 1, 10, 1), new RectangleD(2, 0, 1, 10));
-            ShowCutTest(new RectangleD(0, 0, 0, 0), new RectangleD(1, 1, 1, 1));
-        }
+        #endregion
 
-        private static void ShowCutTest(RectangleD first, RectangleD second)
-        {
-            Console.WriteLine("Pierwszy prostokat: " + first.ToString());
-            Console.WriteLine("Drugi prostokat: " + second.ToString());
-            Console.WriteLine("Wynik przeciecia: " + first.Cut(second));
-            Console.WriteLine();
-        }
-
-        private static void ShowEqualTest(RectangleD first, RectangleD second)
-        {
-            Console.WriteLine("Pierwszy prostokat: " + first.ToString());
-            Console.WriteLine("Drugi prostokat: " + second.ToString());
-            Console.WriteLine("Wynik porownania: " + (first == second));
-            Console.WriteLine();
-        }
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkIntersectionToolStripMenuItem;
     }
 }

@@ -1,5 +1,5 @@
-/*
- * Copyright 2008 Adam Witczak, Jakub Tê¿ycki, Kamil S³awiñski, Tomasz Bilski, Emil Hornung, Micha³ Ziober
+ï»¿/*
+ * Copyright 2008 Adam Witczak, Jakub TÄ™Å¼ycki, Kamil SÅ‚awiÅ„ski, Tomasz Bilski, Emil Hornung, MichaÅ‚ Ziober
  *
  * This file is part of Wings Of Fury 2.
  * 
@@ -47,68 +47,18 @@
  */
 
 using System;
-using System.Drawing;
-using Wof.Model.Level.Common;
+using System.Windows.Forms;
 
 namespace Wof.Tests
 {
-    public class TestRectangleD
+    internal class GutTest
     {
-       public static void Main()
+        [STAThread]
+        private static void Main()
         {
-            ConsoleColor tmp = Console.ForegroundColor;
-            Console.WriteLine("---------------------");
-            TestEqual();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("---------------------");
-            Console.ForegroundColor = tmp;
-            TestCut();
-            Console.WriteLine("---------------------");
-        }
-
-        private static void TestEqual()
-        {
-            RectangleD first = new RectangleD(new Point(1, 2), 10, 10);
-            RectangleD second = new RectangleD(1, 2, 10, 10);
-            ShowEqualTest(first, second);
-            first = new RectangleD();
-            second = new RectangleD(1, 1, 1, 1);
-            ShowEqualTest(first, second);
-            ShowEqualTest(new RectangleD(0, 0, 1, 1), new RectangleD(0, 0, 1, 1.1f));
-        }
-
-        private static void TestCut()
-        {
-            RectangleD first = new RectangleD(1, 1, 1, 1);
-            RectangleD second = new RectangleD(1.5f, 1.5f, 1, 1);
-            ShowCutTest(first, second);
-            first = new RectangleD(1, 2, 1, 2);
-            second = new RectangleD(1.5f, 1.5f, 1, 1);
-            ShowCutTest(first, second);
-            first = new RectangleD(2, 2, 2, 2);
-            second = new RectangleD(1.5f, 1.5f, 1, 1.1f);
-            ShowCutTest(first, second);
-            ShowCutTest(new RectangleD(0, 0, 1, 1), new RectangleD(0.5f, 0.7f, 2, 2.1f));
-            ShowCutTest(new RectangleD(0, 3, 4, 2.1f), new RectangleD(2, 1, 2.1f, 2.2f));
-            ShowCutTest(new RectangleD(0, 1, 10, 1), new RectangleD(2, 0.1f, 1, 10));
-            ShowCutTest(new RectangleD(1, 1, 10, 1), new RectangleD(2, 0, 1, 10));
-            ShowCutTest(new RectangleD(0, 0, 0, 0), new RectangleD(1, 1, 1, 1));
-        }
-
-        private static void ShowCutTest(RectangleD first, RectangleD second)
-        {
-            Console.WriteLine("Pierwszy prostokat: " + first.ToString());
-            Console.WriteLine("Drugi prostokat: " + second.ToString());
-            Console.WriteLine("Wynik przeciecia: " + first.Cut(second));
-            Console.WriteLine();
-        }
-
-        private static void ShowEqualTest(RectangleD first, RectangleD second)
-        {
-            Console.WriteLine("Pierwszy prostokat: " + first.ToString());
-            Console.WriteLine("Drugi prostokat: " + second.ToString());
-            Console.WriteLine("Wynik porownania: " + (first == second));
-            Console.WriteLine();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new GunTestForm());
         }
     }
 }

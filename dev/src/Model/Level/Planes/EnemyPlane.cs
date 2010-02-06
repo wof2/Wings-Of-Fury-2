@@ -520,7 +520,7 @@ namespace Wof.Model.Level.Planes
             if (rocketAttack)
                 return weaponManager.RocketCount > 0 && Rocket.CanHitEnemyPlane(this, level.UserPlane, tolerance);
             else
-                return Gun.CanHitObject(this, level.UserPlane, tolerance);
+                return Gun.CanHitObjectByGun(this, level.UserPlane, tolerance);
 
           
         }

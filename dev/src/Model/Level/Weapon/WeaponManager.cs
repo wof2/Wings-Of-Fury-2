@@ -324,8 +324,7 @@ namespace Wof.Model.Level.Weapon
                 EnemyPlaneFire(angle);
             else
             {
-                //zwieksza liczve wystrzelonych pociskow
-                this.refToLevel.Statistics.GunCount++;
+               
 
                 UserPlaneFire(angle);
             }
@@ -351,7 +350,7 @@ namespace Wof.Model.Level.Weapon
                 {
                     //sprawdzam czy wrogi samolot nie trafil w samolot gracza.
                     if ((Math.Abs(ammunitionOwner.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
-                        Gun.CanHitObject(plane, refToLevel.UserPlane))
+                        Gun.CanHitObjectByGun(plane, refToLevel.UserPlane))
                     {
                         //ubytek paliwa.
                         refToLevel.UserPlane.Hit(true);
@@ -377,6 +376,8 @@ namespace Wof.Model.Level.Weapon
 
             if (Environment.TickCount - lastFireTick >= Gun.FireInterval)
             {
+                //zwieksza liczve wystrzelonych pociskow
+                this.refToLevel.Statistics.GunCount++;
 
                 CheckEnemyPlaneHits();
 
@@ -398,7 +399,7 @@ namespace Wof.Model.Level.Weapon
                 foreach (EnemyPlane ep in refToLevel.EnemyPlanes)
                 {
                     if ((Math.Abs(ep.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
-                        Gun.CanHitObject(refToLevel.UserPlane, ep))
+                        Gun.CanHitObjectByGun(refToLevel.UserPlane, ep))
                     {
                         //ubytek paliwa.
                         ep.Hit(true);
@@ -424,7 +425,7 @@ namespace Wof.Model.Level.Weapon
                       if(ammo is Rocket)
                       {
                           if (/*ammo.Owner.IsEnemy &&*/ (Math.Abs(ammo.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
-                              Gun.CanHitObject(refToLevel.UserPlane, ammo, 10))
+                              Gun.CanHitObjectByGun(refToLevel.UserPlane, ammo, 10))
                           {
                               (ammo as Rocket).Destroy();
                               return;

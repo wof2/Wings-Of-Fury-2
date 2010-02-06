@@ -50,6 +50,9 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using Mogre;
+using Math=System.Math;
+using Rectangle=System.Drawing.Rectangle;
 
 namespace Wof.Model.Level.Common
 {
@@ -526,6 +529,8 @@ namespace Wof.Model.Level.Common
         /// <author>Emil</author>
         public void Draw(Graphics g, Color c)
         {
+       
+
             for (int i = 0; i < 4; i++)
             {
                 Point fromPoint =
@@ -533,7 +538,15 @@ namespace Wof.Model.Level.Common
                 Point toPoint =
                     new Point(peaks[(i + 1)%4].ToPoint().X,
                               (int) g.VisibleClipBounds.Height - peaks[(i + 1)%4].ToPoint().Y);
-                g.DrawLine(new Pen(c), fromPoint, toPoint);
+                if(i==1)
+                {
+                     g.DrawLine(new Pen(c), fromPoint, toPoint);
+                }
+                else
+                {
+                    g.DrawLine(new Pen(Color.Firebrick), fromPoint, toPoint);
+                }
+               
             }
             g.DrawRectangle(Pens.Black,
                             new Rectangle(
