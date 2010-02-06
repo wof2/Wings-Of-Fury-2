@@ -1679,6 +1679,7 @@ namespace Wof.View
                 	p.AnimationMgr.CurrentAnimation.TimeScale = 3.5f;
                 }
             }
+          
 
             // jeœli zakoñczy³ siê obrót powróæ do IDLE
             if (p.AnimationMgr.isCurrentAnimation(PlaneNodeAnimationManager.AnimationType.SPIN_PHASE_TWO))
@@ -1686,7 +1687,10 @@ namespace Wof.View
                 if (p.AnimationMgr.CurrentAnimation == null || p.AnimationMgr.CurrentAnimation.Ended ||
                     !p.AnimationMgr.CurrentAnimation.Enabled)
                 {
-                    EngineConfig.SpinKeys = true;//false
+                    if(EngineConfig.UseAlternativeSpinControl)
+                    {
+                        EngineConfig.SpinKeys = true;
+                    }
                     p.AnimationMgr.switchToIdle(true);
                 }
             }

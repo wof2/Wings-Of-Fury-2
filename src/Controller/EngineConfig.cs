@@ -67,7 +67,7 @@ namespace Wof.Controller
         /// <summary>
         /// Wersja tej kompilacji WOfa. Powinna byæ w formacie X.XX
         /// </summary>
-        public static readonly String C_WOF_VERSION = "3.00";
+        public static readonly String C_WOF_VERSION = "3.01";
 
         public static readonly bool C_IS_INTERNAL_TEST = false;
         public static readonly String C_IS_INTERNAL_TEST_INFO = "!!! Internal test version !!! ";
@@ -137,6 +137,8 @@ namespace Wof.Controller
         public static bool LowDetails = false; // niskie detale obiektow, mniej efektow (nadpisywane przez wofconf.dat)
         public static bool InverseKeys = false; // czy przyciski UP / DOWN s¹ zamienione? (nadpisywane przez wofconf.dat)
         public static bool SpinKeys = false; // Nie zapisywane do Wofconf.dat , czy trzeba chwilowo odwrócic przyciski podczas spinu
+     
+        
         public static bool ShowIntro = true; // czy ma byæ odgrywane intro? (nadpisywane przez wofconf.dat)
 
         public static PlaneType CurrentPlayerPlaneType;
@@ -161,7 +163,10 @@ namespace Wof.Controller
         
  		public static bool AudioStreaming;
  		
-        public static string Language = "en-GB";
+    //    public static string Language = "en-GB";
+
+        public static bool UseAlternativeSpinControl = false; // czy uzywac alternatywnego podejscia do sterowania spinem?
+
       
         public enum DifficultyLevel
         {
@@ -324,6 +329,7 @@ namespace Wof.Controller
 
                     //Console.WriteLine(System.Threading.Thread.CurrentThread.CurrentCulture.Name);
 
+                    /*
                     try
                     {
 
@@ -340,9 +346,20 @@ namespace Wof.Controller
                     catch (Exception)
                     {
                       //  LanguageManager.SetLanguage("en-GB");
-                    }
+                    }*/
 
-                   
+
+                    try
+                    {
+                        UseAlternativeSpinControl = bool.Parse(configOptions[7]);
+                    }
+                    catch (Exception)
+                    {
+                        UseAlternativeSpinControl = false;
+                    }
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "UseAlternativeSpinControl:" + UseAlternativeSpinControl);
+
+
 
                     LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Language:" + LanguageManager.ActualLanguageCode);
 
@@ -562,7 +579,7 @@ namespace Wof.Controller
             configuration[4] = MusicVolume.ToString();
             configuration[5] = LowDetails.ToString();
             configuration[6] = InverseKeys.ToString();
-            configuration[7] = "";// Settings.Default.Language;
+            configuration[7] = UseAlternativeSpinControl.ToString();// Settings.Default.Language;
             configuration[8] = Difficulty.ToString();
             configuration[9] = ShowIntro.ToString();
             configuration[10] = DisplayMinimap.ToString();

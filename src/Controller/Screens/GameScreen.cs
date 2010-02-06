@@ -947,7 +947,7 @@ namespace Wof.Controller.Screens
                                 {
                                     currentLevel.OnSteerDown();
                                 }
-                                else if (EngineConfig.SpinKeys) EngineConfig.SpinKeys = false;
+                                else if (EngineConfig.SpinKeys && EngineConfig.UseAlternativeSpinControl) EngineConfig.SpinKeys = false;
                             }
                             else
                             {
@@ -961,7 +961,7 @@ namespace Wof.Controller.Screens
                                 {
                                     currentLevel.OnSteerDown();
                                 }
-                                else if (EngineConfig.SpinKeys) EngineConfig.SpinKeys = false;
+                                else if (EngineConfig.SpinKeys && EngineConfig.UseAlternativeSpinControl) EngineConfig.SpinKeys = false;
                             }
 
 
