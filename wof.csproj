@@ -937,6 +937,7 @@
     <Compile Include="src\View\Effects\WaterTrailGenerator.cs" />
     <Compile Include="src\View\IslandView.cs" />
     <Compile Include="src\View\LevelView.cs" />
+    <Compile Include="src\View\NodeAnimation\Acc2RotateNodeAnimation.cs" />
     <Compile Include="src\View\NodeAnimation\ConstMoveNodeAnimation.cs" />
     <Compile Include="src\View\NodeAnimation\AccRotateNodeAnimation.cs" />
     <Compile Include="src\View\NodeAnimation\HalfSinRotateNodeAnimation.cs" />
