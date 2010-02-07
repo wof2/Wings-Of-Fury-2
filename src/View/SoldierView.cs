@@ -215,7 +215,7 @@ namespace Wof.View
 
             if (EngineConfig.SoundEnabled)
             {
-                float rand = Math.RangeRandom(0.0f, 3.0f);
+                float rand = Math.RangeRandom(0.0f, 5.0f);
                 if (rand >= 0 && rand < 1.0)
                 {
                     dieSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_1, soldierNode, false, false);
@@ -227,9 +227,20 @@ namespace Wof.View
                     dieSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_2, soldierNode, false, false);
                     dieSound.SetBaseGain(4.0f);
                 }else
+                if (rand >= 2 && rand < 3.0)
                 {
                     dieSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_3, soldierNode, false, false);
                     dieSound.SetBaseGain(3.0f);
+                }
+                else if (rand >= 3 && rand < 4.0)
+                {
+                    dieSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_4, soldierNode, false, false);
+                    dieSound.SetBaseGain(2.0f);
+                }
+                else
+                {
+                    dieSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SOLDIER_DIE_5, soldierNode, false, false);
+                    dieSound.SetBaseGain(2.0f);
                 }
                 dieSound.SetReferenceDistance(60); // make it a bit louder but dissapear faster
 

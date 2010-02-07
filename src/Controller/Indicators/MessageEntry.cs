@@ -103,7 +103,7 @@ namespace Wof.Controller.Indicators
 
         private static ColourValue defaultColourBottom = new ColourValue(0.8f, 0.1f, 0.1f);
        
-        protected int charsPerLine = 58;
+        protected int charsPerLine = 55;
 
         public static ColourValue DefaultColourBottom
         {
