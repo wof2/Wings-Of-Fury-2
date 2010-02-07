@@ -444,7 +444,7 @@ namespace Wof.View
             float newHeight = 1.0f;
 
             Entity adHolder = sceneMgr.CreateEntity("AdHolder" + count, "AdHolder.mesh");
-
+            adHolder.CastShadows = false;
             if(count == 0)
             {
                 size *= 0.3f;
