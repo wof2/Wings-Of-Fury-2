@@ -122,6 +122,7 @@ namespace Wof.View.TileViews
         public virtual void Destroy(bool smoke, bool firePossibility, bool switchToDieAnimationState)
         {
 
+            Vector3 windDirection = new Vector3(-0.35f, 1, 0); // dzieki temu dym nie zaslania obiektow gdy mamy kamere za samolotem
             if (installationEntity!=null && switchToDieAnimationState && installationEntity.HasVertexAnimation)
             {
                 animationState = installationEntity.GetAnimationState("die");
@@ -133,7 +134,7 @@ namespace Wof.View.TileViews
                
             }
 
-            if(smoke) smokeParticleSystem = EffectsManager.Singleton.Smoke(sceneMgr, installationNode, new Vector3(0, -1, 0), Vector3.UNIT_Y);
+            if (smoke) smokeParticleSystem = EffectsManager.Singleton.Smoke(sceneMgr, installationNode, new Vector3(0, -1, 0), windDirection);
             SetLightFlareVisibility(false);
 
             if (firePossibility && Math.RangeRandom(0.0f, 1.0f) > 0.8f)

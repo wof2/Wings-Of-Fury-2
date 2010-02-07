@@ -38,6 +38,12 @@ particle_system Smokes/Smoke
    	{
        	rate 	8
    	}
+   	
+   	affector ColourFader
+	{
+		alpha -0.5
+	}
+
 
 }
 
@@ -86,6 +92,12 @@ particle_system Smokes/RocketSmoke
    	{
        		rate 	1
    	}
+   	
+   	affector ColourFader
+	{
+		alpha -0.3
+	}
+
 
 }
 
@@ -136,6 +148,12 @@ particle_system Smokes/TrailSmoke
    	{
        		rate 	1
    	}
+   	
+   	affector ColourFader
+	{
+		alpha -0.3
+	}
+
 
 }
 particle_system Smokes/LightSmoke
@@ -181,6 +199,12 @@ particle_system Smokes/LightSmoke
    	{
        		rate 	1
    	}
+   	
+   	affector ColourFader
+	{
+		alpha -0.3
+	}
+
 
 }
 
@@ -224,5 +248,11 @@ particle_system Smokes/DarkLightSmoke
    	{
        	rate 	1
    	}
+   	
+   	affector ColourFader
+	{
+		alpha -0.3
+	}
+
 
 }

@@ -2017,20 +2017,29 @@ namespace Wof.Model.Level.Planes
         /// <returns></returns>
         public Boolean CanPlaneToggleGear()
         {
+            Console.WriteLine(rotateValue);
+            bool isTryingOut = (wheelsState == WheelsState.In);
+
+            bool ok1 = isTryingOut ? Math.Abs(rotateValue) < Math.PI*0.25f  : true; // kiedy samolot ma duza predkosc katowa nie powinno sie dac wystawic
+             
             return (planeState != PlaneState.Crashed &&
                     locationState != LocationState.AircraftCarrier &&
                     locationState != LocationState.CarrierTurningRound &&
                     landingState == LandingState.None &&
                     wheelsState != WheelsState.TogglingIn &&
                     wheelsState != WheelsState.TogglingOut &&
+                    ok1 &&
                     //dodane przez Emila
                     planeState != PlaneState.Destroyed &&
                     (
-                        wheelsState == WheelsState.In &&
+
+                        isTryingOut &&
                         RelativeAngle <= maxWheelOutAngle &&
                         RelativeAngle >= -maxWheelOutAngle ||
-                        wheelsState != WheelsState.In
+                        !isTryingOut
                     )
+
+
                    );
         }
 
@@ -3225,7 +3234,7 @@ namespace Wof.Model.Level.Planes
         {
             //rotateValue = rotateValue * (-Mogre.Math.Sin(RelativeAngle)/7.6f + 1.099f);
 
-            if (wheelsState == WheelsState.Out)
+            if (wheelsState == WheelsState.Out || wheelsState == WheelsState.TogglingOut)
                 if (
                     (RelativeAngle >= maxWheelOutAngle && (float) direction*rotateValue > 0) ||
                     (RelativeAngle <= -maxWheelOutAngle && (float) direction*rotateValue < 0)
