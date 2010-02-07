@@ -50,6 +50,7 @@ using System;
 using System.Collections.Generic;
 using BetaGUI;
 using Mogre;
+using Wof.Controller.Screens;
 using Wof.Languages;
 using FontManager=Wof.Languages.FontManager;
 
@@ -123,7 +124,7 @@ namespace Wof.Controller.Indicators
             messageElement.SetParameter("font_name", FontManager.CurrentFont);
 
             messageElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-            messageElement.SetParameter("char_height", "0.03");
+            messageElement.SetParameter("char_height",  StringConverter.ToString(EngineConfig.CurrentFontSize));
             messageElement.SetParameter("colour_top", "0.8 0.34 0.34");
             messageElement.SetParameter("colour_bottom", "0.8 0.1 0.1");
             messageElement.Caption = "";
@@ -190,8 +191,8 @@ namespace Wof.Controller.Indicators
         {
         	
         	if (!radioIcon.IsVisible) 
-        	{ 
-        		radioIconElement.SetPosition( ( currentMessage.X), (currentMessage.Y));   
+        	{
+                radioIconElement.SetPosition((currentMessage.X), (currentMessage.Y + currentMessage.CharHeight * 0.25f));   
         		radioIcon.Show();
         	}
             startTime = DateTime.Now;
@@ -205,7 +206,9 @@ namespace Wof.Controller.Indicators
             messageElement.SetParameter("colour_top", currentMessage.ColourTop);
             messageElement.SetParameter("colour_bottom", currentMessage.ColourBottom);
 
-            messageElement.Caption = currentMessage.Message;
+
+
+            messageElement.Caption = AbstractScreen.Wrap(currentMessage.Message, currentMessage.CharsPerLine); ;
             messageElement.Show();
         }
 

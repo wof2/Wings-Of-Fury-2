@@ -390,7 +390,7 @@ namespace Wof.Controller.Screens
             	this.lives = 2;
             }
             
-            this.fontSize = (uint)(EngineConfig.C_FONT_SIZE * viewport.ActualHeight);
+            this.fontSize = (uint)(EngineConfig.CurrentFontSize * viewport.ActualHeight);
 
 
             hiscoreCache = -1;
@@ -551,14 +551,14 @@ namespace Wof.Controller.Screens
                     
                     if (ShowHintMessages && LevelNo == 1 && firstTakeOff)
                     {
+
                         MessageEntry message =
-                              new MessageEntry(0.2f, 0.2f, GetChangeAmmoMessage(), 5000);
-                        message.IncreaseY(-message.CharHeight / 2.0f);
+                              new CenteredMessageEntry(viewport, GetChangeAmmoMessage(), 5000);
+                       
                         gameMessages.AppendMessage(message);
 
                         message =
-                            new MessageEntry(0.2f, 0.2f, GetHintMessage(), true, true);
-                        message.IncreaseY(-message.CharHeight/2.0f);
+                            new CenteredMessageEntry(viewport, GetHintMessage(), true, true);
                         gameMessages.AppendMessage(message);
 
 
@@ -689,15 +689,28 @@ namespace Wof.Controller.Screens
             {
                 // pobierz i ustaw na bie¿ac¹
                  
-                status = AdManager.Singleton.GetAd(C_AD_LOADING_ZONE, 1.0f, out loadingAd);
-                if (status == AdManager.AdStatus.OK)
+                try
                 {
-                    imageName = AdManager.Singleton.LoadAdTexture(loadingAd); // jesli sie nie uda bedzie null
+                    status = AdManager.Singleton.GetAd(C_AD_LOADING_ZONE, 1.0f, out loadingAd);
+                    if (status == AdManager.AdStatus.OK)
+                    {
+                        imageName = AdManager.Singleton.LoadAdTexture(loadingAd); // jesli sie nie uda bedzie null
+                    }
+                    else
+                    {
+                        loadingAd = null;
+                    }
+                    
                 }
-                else
+                catch (SEHException ex)
                 {
                     loadingAd = null;
                 }
+                catch(Exception ex)
+                {
+                    loadingAd = null;
+                }
+               
             }
             
             // zlec zaladowanie reklamy ingame (przy przeladowaniu amunicji)
@@ -1564,10 +1577,14 @@ namespace Wof.Controller.Screens
                             {
 
                                 // przyczep / odczep kamere
-                                if (inputKeyboard.IsKeyDown(KeyCode.KC_V) && EngineConfig.FreeLook &&
+                                if (inputKeyboard.IsKeyDown(KeyMap.Instance.ResetCamera) && 
                                     Button.CanChangeSelectedButton(3.0f))
                                 {
-                                    EngineConfig.ManualCamera = !EngineConfig.ManualCamera;
+                                    if (EngineConfig.FreeLook)
+                                    {
+                                        EngineConfig.ManualCamera = !EngineConfig.ManualCamera;
+                                    }
+                                    
                                     if (!EngineConfig.ManualCamera) levelView.OnResetCamera();
                                     Button.ResetButtonTimer();
                                 }
@@ -2561,8 +2578,7 @@ namespace Wof.Controller.Screens
             if (ShowHintMessages && LevelNo == 1 && firstTakeOff)
             {
                
-                MessageEntry message = new MessageEntry(0.2f, 0.2f, GetHintMessage2(), true, true);
-                message.IncreaseY(-message.CharHeight/2.0f);
+                MessageEntry message = new CenteredMessageEntry(viewport, GetHintMessage2(), true, true);
                 gameMessages.AppendMessage(message);
                 
             }
@@ -3048,7 +3064,7 @@ namespace Wof.Controller.Screens
         {
         	if (ShowHintMessages)        
             {
-        		MessageEntry message = new MessageEntry(0.2f, 0.2f, GetLandingHintMessage(), true, false);
+        		MessageEntry message = new CenteredMessageEntry(viewport, GetLandingHintMessage(), true, false);
                 message.IncreaseY(-message.CharHeight/2.0f);
                 
         		gameMessages.ClearMessages();

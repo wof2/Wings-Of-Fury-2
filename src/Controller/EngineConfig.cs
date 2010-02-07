@@ -244,7 +244,7 @@ namespace Wof.Controller
         /// <summary>
         /// Bazowa wysokoœæ czcionki wyra¿ona w procentowej wysokoœci wzglêdem ekranu. Wykorzystywane przez AbstractScreen
         /// </summary>
-        public static float C_FONT_SIZE = 0.035f;
+        public static float CurrentFontSize = 0.035f;
 
 
        
