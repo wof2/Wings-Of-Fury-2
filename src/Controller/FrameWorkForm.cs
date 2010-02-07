@@ -186,8 +186,8 @@ namespace Wof.Controller
         protected float debugTextDelay = 0.0f;
         protected float toggleDelay = 1.0f;
         protected float statDelay = 0.0f;
-        protected TextureFilterOptions filtering = TextureFilterOptions.TFO_BILINEAR;
-        protected uint aniso = 1;
+        protected TextureFilterOptions filtering = TextureFilterOptions.TFO_ANISOTROPIC;
+        protected uint aniso = 8;
 
 
         protected static float camSpeed = 50f;
@@ -475,7 +475,11 @@ namespace Wof.Controller
                    /*
                                     misc["useNVPerfHUD"] = FrameWorkStaticHelper.GetCurrentUseNVPerfHUD(root).ToString();*/
 		//	misc["gamma"] = StringConverter::toString(hwGamma);
-
+                  
+                    
+                    
+                   MaterialManager.Singleton.SetDefaultTextureFiltering(filtering);
+                   MaterialManager.Singleton.DefaultAnisotropy = aniso;
 
 
 	                Vector2 dim = FrameWorkStaticHelper.GetCurrentVideoMode();
@@ -648,7 +652,7 @@ namespace Wof.Controller
             // Create the camera
             camera = sceneMgr.CreateCamera("mainCamera");
 
-            camera.NearClipDistance = 5.0f;
+            camera.NearClipDistance = 3.0f;
             camera.FarClipDistance = 8600.0f;
 
 

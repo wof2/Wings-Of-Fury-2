@@ -257,7 +257,7 @@ namespace Wof.View
 
 
             cameraHolders[2].ResetOrientation();
-            cameraHolders[2].Position = new Vector3(0, 4.0f, 30);        
+            cameraHolders[2].Position = new Vector3(0, 5.5f, 30);        
             cameraHolders[2].Pitch(new Radian(-Math.HALF_PI * 0.01f));
             
             cameraHolders[3].ResetOrientation();
