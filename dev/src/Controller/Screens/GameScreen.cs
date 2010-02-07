@@ -2439,11 +2439,11 @@ namespace Wof.Controller.Screens
             changingAmmoTime = 0;
             mGui.killGUI();
             mGui = null;
-            SoundManager.Instance.LoopOceanSound();
+            /*SoundManager.Instance.LoopOceanSound();
             if (mayPlaySound)
             {
                 SoundManager.Instance.LoopEngineSound();
-            }
+            }*/
             levelView.OnStartHangaring(1, false); // powrot platformy
             
         }
@@ -2943,8 +2943,8 @@ namespace Wof.Controller.Screens
                     changingAmmo = true;            	
                     DisplayChangeAmmoScreen();
                    
-                    SoundManager.Instance.HaltEngineSound();
-                    SoundManager.Instance.HaltOceanSound();
+                   // SoundManager.Instance.HaltEngineSound();
+                   // SoundManager.Instance.HaltOceanSound();
                     levelView.OnStartHangaring(-1, true);
                     
                 }
