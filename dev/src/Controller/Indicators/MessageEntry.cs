@@ -26,7 +26,7 @@ namespace Wof.Controller.Indicators
             get { return permanent; }
         }
 
-        private float x;
+        protected float x;
 
         public float X
         {
@@ -38,7 +38,7 @@ namespace Wof.Controller.Indicators
             this.x += x;
         }
 
-        private float y;
+        protected float y;
 
         public float Y
         {
@@ -102,12 +102,24 @@ namespace Wof.Controller.Indicators
         }
 
         private static ColourValue defaultColourBottom = new ColourValue(0.8f, 0.1f, 0.1f);
+       
+        protected int charsPerLine = 58;
 
         public static ColourValue DefaultColourBottom
         {
             get { return defaultColourBottom; }
         }
 
+        public int CharsPerLine
+        {
+            get { return charsPerLine; }
+            set { charsPerLine = value; }
+        }
+
+        protected virtual void Init()
+        {
+            
+        }
 
         public MessageEntry(float x, float y, uint time, String message, float charHeight, ColourValue colourTop,
                             ColourValue colourBottom, bool blinking, bool permanent)
@@ -116,11 +128,12 @@ namespace Wof.Controller.Indicators
             this.y = y;
             this.time = time;
             this.message = message;
-            this.charHeight = 0.03f;
+            this.charHeight = charHeight;
             this.colourTop = colourTop;
             this.colourBottom = colourBottom;
             this.blinking = blinking;
             this.permanent = permanent;
+            Init();
                     
         }
 
@@ -133,14 +146,14 @@ namespace Wof.Controller.Indicators
       
 
         public MessageEntry(uint time, String message)
-            : this(0, 0, time, message, 0.03f, DefaultColourTop, DefaultColourBottom, false, false)
+            : this(0, 0, time, message, EngineConfig.CurrentFontSize, DefaultColourTop, DefaultColourBottom, false, false)
         {
         }
 
     
 
         public MessageEntry(float x, float y, String message, bool blinking, bool permanent)
-            : this(x, y, 3000, message, 0.03f, DefaultColourTop, DefaultColourBottom, blinking, permanent)
+            : this(x, y, 3000, message, EngineConfig.CurrentFontSize, DefaultColourTop, DefaultColourBottom, blinking, permanent)
         {
         }
 
@@ -150,7 +163,7 @@ namespace Wof.Controller.Indicators
         }
 
         public MessageEntry(float x, float y, String message, uint time)
-            : this(x, y, time, message, 0.03f, DefaultColourTop, DefaultColourBottom, false, false)
+            : this(x, y, time, message, EngineConfig.CurrentFontSize, DefaultColourTop, DefaultColourBottom, false, false)
         {
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 
@@ -243,20 +244,25 @@ namespace Wof.Controller.AdAction
                 {
                  //   throw new Exception("nie ma obslugi gif");
                 }
-              
+             
                 TextureManager.Singleton.Load(path, "Ads");
                 return path;
             }
-            catch (Exception ex)
+           
+            catch (SEHException ex)
             {
+              
                 // nie można zdekodować obrazka? pobieranie jednak sie nie udalo?
                 if (OgreException.IsThrown)
                 {
                     try
                     {
+                        OgreException.ClearLastException();
                         File.Delete(path);
+                        
+                    
                     }
-                    catch
+                    catch(Exception ex2)
                     {
                     }
                 }

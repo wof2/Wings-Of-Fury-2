@@ -216,20 +216,20 @@ namespace Wof.Languages
 
         private  static void UpdateFontSize(string lang)
         {
-            EngineConfig.C_FONT_SIZE = 0.035f;
+            EngineConfig.CurrentFontSize = 0.035f;
             if (lang.Equals("en-GB"))
             {
-                EngineConfig.C_FONT_SIZE *= 0.75f;
+                EngineConfig.CurrentFontSize *= 0.75f;
             }
             else
             if (lang.Equals("ru-RU"))
             {
-                EngineConfig.C_FONT_SIZE *= 1.1f;
+                EngineConfig.CurrentFontSize *= 1.1f;
             }
             else
             if (lang.Equals("ua-UA"))
             {
-                EngineConfig.C_FONT_SIZE *= 1.1f;
+                EngineConfig.CurrentFontSize *= 1.1f;
             } 
         }
         private static void SetLanguage(string lang)

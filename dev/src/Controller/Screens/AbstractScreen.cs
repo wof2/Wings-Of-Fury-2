@@ -447,7 +447,7 @@ namespace Wof.Controller.Screens
 
          //   if(fontSize == 0)
          //   {
-                this.fontSize = (uint)(viewport.ActualHeight * EngineConfig.C_FONT_SIZE);
+                this.fontSize = (uint)(viewport.ActualHeight * EngineConfig.CurrentFontSize);
          //   } else
          //   {
          //       this.fontSize = fontSize;
