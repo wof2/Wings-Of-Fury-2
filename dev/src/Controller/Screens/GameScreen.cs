@@ -1590,6 +1590,14 @@ namespace Wof.Controller.Screens
                                 }
 
 
+                                // przeladuj hydrax jesli nacisnieto H
+                                if (EngineConfig.DebugInfo && inputKeyboard.IsKeyDown(KeyCode.KC_H) && Button.CanChangeSelectedButton(3.0f))
+                                {
+                                    levelView.OnReCreateHydrax();
+                                    Button.ResetButtonTimer();
+                                }
+
+
                                 // zmiana kamery
                                 if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Cam1)) && Button.CanChangeSelectedButton(2.5f))
                                 {
