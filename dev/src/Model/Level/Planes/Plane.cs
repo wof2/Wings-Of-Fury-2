@@ -2017,7 +2017,7 @@ namespace Wof.Model.Level.Planes
         /// <returns></returns>
         public Boolean CanPlaneToggleGear()
         {
-            Console.WriteLine(rotateValue);
+            //Console.WriteLine(rotateValue);
             bool isTryingOut = (wheelsState == WheelsState.In);
 
             bool ok1 = isTryingOut ? Math.Abs(rotateValue) < Math.PI*0.25f  : true; // kiedy samolot ma duza predkosc katowa nie powinno sie dac wystawic
