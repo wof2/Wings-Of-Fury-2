@@ -1906,6 +1906,7 @@ namespace Wof.View
         /// <param name="evt"></param>
         public void OnFrameStarted(FrameEvent evt)
         {
+         
 
             HandleDynamicAds(evt);
             
@@ -2569,6 +2570,9 @@ namespace Wof.View
         }
 
 
-       
+        public void OnReCreateHydrax()
+        {
+            HydraxManager.Singleton.ReCreateHydrax(framework.SceneMgr, framework.Camera, framework.Viewport);
+        }
     }
 }

@@ -259,6 +259,34 @@ namespace Wof.View.Effects
            // hydrax.Position = new Vector3(hydrax.Position.x + vector.x, hydrax.Position.y + vector.y, hydrax.Position.z + vector.z);
         }
 
+
+        private string cfgFileName;
+     
+         
+         public void ReCreateHydrax(SceneManager sceneMgr, Camera camera, Viewport viewport)
+         {
+
+           //  RemoveHydraxDepthTechniques();
+          
+             MProjectedGrid module = new MProjectedGrid( // Hydrax parent pointer
+               hydrax,
+                 // Noise module
+               new MHydrax.MPerlin(),
+                 // Base plane
+               new Mogre.Plane(new Vector3(0, 1, 0), new Vector3(0, 0, 0)),
+                 // Normal mode
+               MMaterialManager.MNormalMode.NM_VERTEX,
+                 // Projected grid options
+               new MProjectedGrid.MOptions(32, 10, 5, false, false, true, 3.75f));
+             
+             hydrax.SetModule(module);
+             if (hydrax.LoadCfg(cfgFileName))
+             {
+                 //  Console.WriteLine("OKOKOK");
+             }
+             AddHydraxDepthTechniques();
+         }
+
         /// <summary>
         /// Tworzy gotow¹ powierzchniê wody. 
         /// </summary>
@@ -268,6 +296,7 @@ namespace Wof.View.Effects
         /// <param name="viewport"></param>
         public void CreateHydrax(string cfgFileName, SceneManager sceneMgr, Camera camera, Viewport viewport)
         {
+
             
             if (hydrax != null)
             {
@@ -294,7 +323,7 @@ namespace Wof.View.Effects
                 // Projected grid options
                 new MProjectedGrid.MOptions(32, 10, 5, false, false, true, 3.75f));
 
-        
+            this.cfgFileName = cfgFileName;
             hydrax.SetModule(module);
             if(hydrax.LoadCfg(cfgFileName))
             {
