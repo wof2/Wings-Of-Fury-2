@@ -768,6 +768,10 @@ namespace Wof.Controller.Screens
             	HydraxManager.Singleton.DisposeHydrax();
             	if(planeViews != null)
             	{
+            	    foreach (var list in PlaneViews)
+            	    {
+            	        list.Destroy();
+            	    }
             		planeViews.Clear();
             		planeViews = null;
             	}

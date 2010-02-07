@@ -219,8 +219,15 @@ namespace Wof.View
           
             cameraHolders = null;
 
+            playerPlaneView.Destroy();
+            playerPlaneView = null;
+
             if (planeViews != null)
             {
+                foreach (var p in planeViews)
+                {
+                    p.Destroy();
+                }
                 planeViews.Clear();
                 planeViews = null;
             }

@@ -409,14 +409,21 @@ namespace Wof.View
             initOnScene();
         }
 
-        ~PlaneView()
+        protected bool isDestroyed = false;
+        public virtual void Destroy()
         {
+            isDestroyed = true;
             if (planePassSound != null)
             {
                 SoundManager3D.Instance.RemoveSound(planePassSound.Name);
                 planePassSound.Destroy();
                 planePassSound = null;
             }
+        }
+        
+        ~PlaneView()
+        {
+            if (!isDestroyed) Destroy();
         }
      
         public virtual void EnableNightLights()

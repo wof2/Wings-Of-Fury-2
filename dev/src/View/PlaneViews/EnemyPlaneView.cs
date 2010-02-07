@@ -99,15 +99,14 @@ namespace Wof.View
 
         }*/
 
-
-        ~EnemyPlaneView()
+        public override void Destroy()
         {
-           
-            if(engineSound!=null)
+            base.Destroy();
+            if (engineSound != null)
             {
-                SoundManager3D.Instance.RemoveSound(engineSound.Name); 
+                SoundManager3D.Instance.RemoveSound(engineSound.Name);
                 engineSound.Destroy();
-                engineSound = null; 
+                engineSound = null;
             }
 
 
@@ -133,8 +132,8 @@ namespace Wof.View
                 gunSound = null;
             }
 
-            
         }
+      
 
         public void PlayGunSound()
         {

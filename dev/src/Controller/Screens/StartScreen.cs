@@ -92,7 +92,7 @@ namespace Wof.Controller.Screens
 
                 try
                 {
-                    newUpdatesThread.Abort();
+                   if(newUpdatesThread.ThreadState != ThreadState.Stopped) newUpdatesThread.Abort();
                 }
                 catch (Exception)
                 {
@@ -268,6 +268,7 @@ namespace Wof.Controller.Screens
 				   using (StreamReader reader = new StreamReader
 				      (response.GetResponseStream(), Encoding.UTF8))
 				   {
+                       
 				       string content = reader.ReadToEnd();
 				       updatesChecked = true;
 				       lock(this)

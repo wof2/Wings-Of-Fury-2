@@ -1449,7 +1449,7 @@ namespace Wof.Controller
         
         public void GotoEnhancedVersionWebPageDo()
         {
-            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/enhanced?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash;
+            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/enhanced?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash + "#form";
             try
             {
                 // launch default browser
