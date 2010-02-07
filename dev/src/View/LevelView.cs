@@ -2323,7 +2323,7 @@ namespace Wof.View
             Light light = sceneMgr.CreateLight("MainLight");
             light.Type = Light.LightTypes.LT_DIRECTIONAL;
            
-            light.Direction = new Vector3(1, -1, 2);
+            light.Direction = new Vector3(3, -1, -0.5f);
             light.Direction.Normalise();
             light.DiffuseColour = new ColourValue(0.95f, 0.90f, 0.90f);
             light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.05f);

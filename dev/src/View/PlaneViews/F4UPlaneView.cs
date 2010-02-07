@@ -124,6 +124,66 @@ namespace Wof.View
 
         }
 
+        public override void ResetCameraHolders()
+        {
+
+            hangaringCameraHolder = planeNode.CreateChildSceneNode(name + "HangaringCameraHolder");
+            cameraHolders.Add(planeNode.CreateChildSceneNode(name + "MainCameraHolder"));
+            cameraHolders.Add(planeNode.CreateChildSceneNode(name + "BirdCameraHolder"));
+            // cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveLeftCameraHolder"));
+            //  cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveRightCameraHolder"));
+            cameraHolders.Add(innerNode.CreateChildSceneNode(name + "BehindCameraHolder"));
+            cameraHolders.Add(innerNode.CreateChildSceneNode(name + "NoseCameraHolder"));
+
+            // MAIN CAMERA HOLDER
+            cameraHolders[0].ResetOrientation();
+            cameraHolders[0].Position = new Vector3(0, 2.5f, 8);
+            cameraHolders[0].LookAt(new Vector3(0, 0, -1), Node.TransformSpace.TS_LOCAL);
+
+            // BIRD CAMERA HOLDER
+            cameraHolders[1].ResetOrientation();
+            cameraHolders[1].Position = new Vector3(0, 30, 0);
+            cameraHolders[1].Pitch(new Radian(-Math.HALF_PI));
+            //cameraHolders[1].Roll(new Radian(Mogre.Math.HALF_PI));
+
+            // ABOVE CAMERA HOLDERS
+
+            /*
+            cameraHolders[2].ResetOrientation();
+            cameraHolders[2].Position = new Vector3(-19, 2.0f, 0);
+            cameraHolders[2].Yaw(new Radian(-Math.HALF_PI));
+           // cameraHolders[2].Pitch(new Radian(-Math.HALF_PI * 0.28f));
+            cameraHolders[2].Pitch(new Radian(-Math.HALF_PI * 0.01f));
+            
+            cameraHolders[3].ResetOrientation();
+            cameraHolders[3].Position = new Vector3(19, 2.0f, 0);
+            cameraHolders[3].Yaw(new Radian(Math.HALF_PI));
+           // cameraHolders[3].Pitch(new Radian(-Math.HALF_PI * 0.28f));
+            cameraHolders[3].Pitch(new Radian(-Math.HALF_PI * 0.01f));
+            */
+
+
+            cameraHolders[2].ResetOrientation();
+            cameraHolders[2].Position = new Vector3(0, 6.0f, 30);
+            cameraHolders[2].Pitch(new Radian(-Math.HALF_PI * 0.01f));
+
+            cameraHolders[3].ResetOrientation();
+            cameraHolders[3].Position = new Vector3(0, 0.0f, -6);
+            //cameraHolders[5].Pitch(new Radian(-Math.HALF_PI * 0.01f));
+
+            HangaringCameraHolder.ResetOrientation();
+            HangaringCameraHolder.Position = new Vector3(19, 7.0f, 0);
+            HangaringCameraHolder.Yaw(new Radian(Math.HALF_PI));
+            HangaringCameraHolder.Pitch(new Radian(-Math.HALF_PI * 0.28f));
+
+
+
+
+
+
+        }
+
+
 
         public override void SmashPaint()
         {
