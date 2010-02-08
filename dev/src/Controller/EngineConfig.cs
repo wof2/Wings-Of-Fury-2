@@ -67,7 +67,7 @@ namespace Wof.Controller
         /// <summary>
         /// Wersja tej kompilacji WOfa. Powinna byæ w formacie X.XX
         /// </summary>
-        public static readonly String C_WOF_VERSION = "3.01";
+        public static readonly String C_WOF_VERSION = "3.1";
 
         public static readonly bool C_IS_INTERNAL_TEST = false;
         public static readonly String C_IS_INTERNAL_TEST_INFO = "!!! Internal test version !!! ";
