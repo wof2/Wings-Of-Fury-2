@@ -156,9 +156,9 @@ namespace Wof.Controller
         /// Funkcja zglasza o zatrzymaniu pracy silnika.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public void OnTurnOffEngine()
+        public void OnTurnOffEngine(Plane p)
         {
-            AddJob(MethodBase.GetCurrentMethod().Name);
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { p });
         }
 
         /// <summary>
@@ -168,6 +168,16 @@ namespace Wof.Controller
         public void OnTurnOnEngine(bool engineStartSound)
         {
             AddJob(MethodBase.GetCurrentMethod().Name, new object[] { engineStartSound });
+        }
+
+        public void OnEngineFaulty(Plane p)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { p });
+        }
+
+        public void OnEngineRepaired(Plane p)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { p });
         }
 
         /// <summary>

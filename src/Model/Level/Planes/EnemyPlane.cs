@@ -912,9 +912,9 @@ namespace Wof.Model.Level.Planes
         {
             if (planeState == PlaneState.Damaged)
                 oil -= scaleFactor*GameConsts.EnemyPlane.OilLoss;
-            oil = Math.Max(oil, 0);
+           // oil = Math.Max(oil, 0);
 
-            if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed && oil == 0)
+            if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed && oil <= 0)
                 OutOfPetrolOrOil(scaleFactor);
         }
 

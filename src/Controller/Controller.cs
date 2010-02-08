@@ -123,13 +123,26 @@ namespace Wof.Controller
         /// Funkcja zglasza o zatrzymaniu pracy silnika.
         /// </summary>
         /// <author>Michal Ziober</author>
-        void OnTurnOffEngine();
+        void OnTurnOffEngine(Plane p);
 
         /// <summary>
         /// Funkcja zglasza o rozpoczeciu pracy silnika.
         /// </summary>
         /// <author>Michal Ziober</author>
         void OnTurnOnEngine(bool engineStartSound);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        void OnEngineFaulty(Plane p);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        void OnEngineRepaired(Plane p);
+
 
         /// <summary>
         /// Funkcja zglasz, ze proba uruchomienia silnika.

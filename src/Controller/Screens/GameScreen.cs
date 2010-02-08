@@ -1478,7 +1478,7 @@ namespace Wof.Controller.Screens
                     {
                         isGamePaused = true;
                         nextFrameGotoNextLevel = false;
-                        SoundManager.Instance.HaltEngineSound();
+                        SoundManager.Instance.HaltEngineSound(currentLevel.UserPlane);
                         SoundManager.Instance.HaltGunFireSound();
                         SoundManager.Instance.HaltWaterBubblesSound();
                         levelView.OnStopPlayingEnemyPlaneEngineSounds();
@@ -1548,7 +1548,7 @@ namespace Wof.Controller.Screens
                             if (!isGamePaused)
                             {
                                 DisplayPauseScreen();
-                                SoundManager.Instance.HaltEngineSound();
+                                SoundManager.Instance.HaltEngineSound(currentLevel.UserPlane);
                                 SoundManager.Instance.HaltWaterBubblesSound();
                                 SoundManager.Instance.HaltOceanSound();
                             }
@@ -1558,7 +1558,7 @@ namespace Wof.Controller.Screens
                                 SoundManager.Instance.LoopOceanSound();
                                 if (mayPlaySound)
                                 {
-                                    SoundManager.Instance.LoopEngineSound();
+                                    SoundManager.Instance.LoopEngineSound(currentLevel.UserPlane);
                                 }
                             }
                             Button.ResetButtonTimer();
@@ -1859,7 +1859,7 @@ namespace Wof.Controller.Screens
 
             if(currentLevel.UserPlane != null)
             {
-                SoundManager.Instance.SetEngineFrequency((int)currentLevel.UserPlane.AirscrewSpeed * 7);  
+                SoundManager.Instance.SetEngineFrequency(currentLevel.UserPlane);  
             }
            
 
@@ -1940,7 +1940,7 @@ namespace Wof.Controller.Screens
                 SoundManager.Instance.LoopOceanSound();
                 if (mayPlaySound)
                 {
-                    SoundManager.Instance.LoopEngineSound();
+                    SoundManager.Instance.LoopEngineSound(currentLevel.UserPlane);
                 }
             }
             if (referer == exitButton)
@@ -2555,10 +2555,18 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Funkcja zglasza o zatrzymaniu pracy silnika.
         /// </summary>
-        public void OnTurnOffEngine()
+        public void OnTurnOffEngine(Plane p)
         {
             mayPlaySound = false;
-            SoundManager.Instance.HaltEngineSound();
+            SoundManager.Instance.HaltEngineSound(p);
+           
+            // pokaz komunikat ze silnik mozna ponownie odpalic
+            if (p.IsEngineFaulty && p.CanTryToStartEngine)
+            {
+                gameMessages.ClearMessages();
+                MessageEntry message = new CenteredMessageEntry(viewport, GetHintMessage(), true, true);
+                gameMessages.AppendMessage(message);
+            }
             SoundManager.Instance.PlayStopEngineSound();
         }
 
@@ -2570,7 +2578,7 @@ namespace Wof.Controller.Screens
             mayPlaySound = true;
             if (engineStartSound)
             {
-                SoundManager.Instance.PlayStartEngineSound(startEngineSound_Ending);
+                SoundManager.Instance.PlayStartEngineSound(currentLevel.UserPlane, startEngineSound_Ending);
             } else
             {
             	
@@ -2593,9 +2601,18 @@ namespace Wof.Controller.Screens
 
 
         }
+        public void OnEngineFaulty(Plane p)
+        {
+            MessageEntry message = new CenteredMessageEntry(viewport, GetHintMessage(), true, true);
+            gameMessages.AppendMessage(message);
+            SoundManager.Instance.OnEngineFaulty(p);
 
+        }
 
-
+        public void OnEngineRepaired(Plane p)
+        {
+            SoundManager.Instance.OnEngineRepaired(p);
+        }
 
         private void startEngineSound_Ending(object sender, EventArgs e)
         {
@@ -2603,12 +2620,12 @@ namespace Wof.Controller.Screens
             {
             	if(currentLevel.UserPlane != null)
             	{
-            		SoundManager.Instance.SetEngineFrequency((int) currentLevel.UserPlane.AirscrewSpeed*7);
+            		SoundManager.Instance.SetEngineFrequency(currentLevel.UserPlane);
             	}
                
                 if (!isGamePaused && !changingAmmo)
                 {
-                    SoundManager.Instance.LoopEngineSound();
+                    SoundManager.Instance.LoopEngineSound(currentLevel.UserPlane);
                 }
             }
         }
