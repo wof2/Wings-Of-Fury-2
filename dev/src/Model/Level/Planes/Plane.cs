@@ -49,6 +49,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Wof.Controller;
 using Wof.Model.Configuration;
 using Wof.Model.Level;
 using Wof.Model.Level.Carriers;
@@ -149,6 +150,11 @@ namespace Wof.Model.Level.Planes
     {
         #region Constants
 
+
+        /// <summary>
+        /// Procent wartosci MaxOil po przekroczeniu ktorej silnik jest zatarty nie moze byc ponownie odpalony
+        /// </summary>
+        private const float engineUnstartableOilThreshold = 0.15f;
         /// <summary>
         /// Maksymalna odleglosc od lotniskowca ktora moze spowodowac wyswietlenie hintu o ladowaniu
         /// </summary>
@@ -437,7 +443,20 @@ namespace Wof.Model.Level.Planes
         {
             get { return oil; }
         }
-        
+
+
+        private float outOfOilFaultyEngineTimer = 0;
+        private float outOfOilFaultyEngineTimerMax;
+
+        private bool isEngineFaulty;
+
+        /// <summary>
+        /// Czy silnik jest uszkodzony z powodu braku oleju?
+        /// </summary>
+        public bool IsEngineFaulty
+        {
+            get { return isEngineFaulty; }
+        }
         
         protected AttractorTarget attractorTarget;
         
@@ -865,21 +884,37 @@ namespace Wof.Model.Level.Planes
         }
 
 
+        
         /// <summary>
-        /// Zwraca true, jesli samolot moze uruchomic silnik.
+        /// Czy moze sprobowac uruchomic silnik
+        /// </summary>
+        public bool CanTryToStartEngine
+        {
+            get
+            {
+              
+                return (!isEnemy &&
+                        petrol > 0 && //czy ilosc benzyny > 0
+                        oil >= - engineUnstartableOilThreshold * maxOil && //czy ilosc oleju jest OK
+                        planeState != PlaneState.Crashed &&
+                        planeState != PlaneState.Destroyed //czy samolot nie jest znisczony ?
+                        );
+            }
+            
+        }
+
+        /// <summary>
+        /// Zwraca true, jesli samolot moze uruchomic silnik w tym momencie.
         /// False w przeciwnym przypadku.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public bool CanEngineBeStarted
+        public bool CanEngineBeStartedNow
         {
             get
             {
                 //okres czasu jaki musi uplynac aby wlaczyc silnik w zaleznosci od stanu samolotu
-                int timeThreshold = planeState == PlaneState.Intact && !isEnemy && locationState == LocationState.Air ? GameConsts.UserPlane.EngineCounterThresholdInAir : GameConsts.UserPlane.EngineCounterThreshold;
-                return (petrol > 0 && //czy ilosc benzyny > 0
-                        oil > 0 && //czy ilosc oleju > 0
-                        planeState != PlaneState.Destroyed && //czy samolot nie jest znisczony ?
-                        counterStartedEngine > timeThreshold);
+                int timeThreshold = locationState == LocationState.Air ? GameConsts.UserPlane.EngineCounterThresholdInAir : GameConsts.UserPlane.EngineCounterThreshold;
+                return (locationState != LocationState.AirTurningRound && CanTryToStartEngine && counterStartedEngine > timeThreshold);
                 //czy mozna juz uruchomic silnik ?
             }
         }
@@ -1429,11 +1464,18 @@ namespace Wof.Model.Level.Planes
             	locationState = LocationState.Air;
             }
 
-            oil = maxOil;
+            OilRefuel();
             petrol = maxPetrol;
             isEngineJustStarted = false;
             isEngineJustStopped = false;
             counterStartedEngine = 0;
+
+
+       
+            outOfOilFaultyEngineTimerMax = 0;
+         
+
+
 
             breakingEndCarrierTile = null;
             if(level != null)
@@ -1509,8 +1551,13 @@ namespace Wof.Model.Level.Planes
             isLoweringTail = false;
 
             
-
             spinned = false;
+            isEngineFaulty = false;
+            if(level!=null)
+            {
+                level.Controller.OnEngineRepaired(this);
+            }
+           
         }
 
         /// <summary>
@@ -1549,7 +1596,8 @@ namespace Wof.Model.Level.Planes
                 motorState = EngineState.SwitchedOff;
                 airscrewSpeed = 0;
                 if (!isEnemy) //wy³¹czam dŸwiêk tylko dla samolotu gracza
-                    level.Controller.OnTurnOffEngine();
+                    level.Controller.OnTurnOffEngine(this);
+
             }
         }
 
@@ -1617,13 +1665,13 @@ namespace Wof.Model.Level.Planes
             petrol = System.Math.Max(petrol, 0);
             if (planeState == PlaneState.Damaged && !IsOnAircraftCarrier)
                 oil -= scaleFactor*GameConsts.UserPlane.OilLoss;
-            oil = System.Math.Max(oil, 0);
+          //  oil = System.Math.Max(oil, 0);
 
             // koniec paliwa
             if (!GameConsts.UserPlane.GodMode && planeState != PlaneState.Destroyed &&
                 planeState != PlaneState.Crashed)
             {
-                if (petrol == 0 || oil == 0)
+                if (petrol == 0 || oil <= 0)
                     OutOfPetrolOrOil(scaleFactor);
             }
 
@@ -1770,10 +1818,10 @@ namespace Wof.Model.Level.Planes
                     if (this.direction == direction)
                     {
                         float addSpeed = scaleFactor*GameConsts.UserPlane.MoveStep;
-                        if (wheelsState == WheelsState.In || wheelsState == WheelsState.TogglingIn)
+                        if ( (wheelsState == WheelsState.In || wheelsState == WheelsState.TogglingIn) && !isEngineFaulty)
                             addSpeedToMax(addSpeed, GameConsts.UserPlane.MaxSpeed); //przyspieszanie do maxymalnej
                         else
-                            addSpeedToMax(addSpeed, maxWheelOutSpeed);
+                            addSpeedToMax(addSpeed, maxWheelOutSpeed); // przy uszkodzonym silniku oraz kiedy podwozie jest wysuniete - nie przyspieszamy za bardzo
                     }
                     else //kierunek przeciwny do kierunku lotu
                         if (CanTurnAround) //sprawdzam czy mo¿e zawróciæ
@@ -1796,7 +1844,7 @@ namespace Wof.Model.Level.Planes
                 // rotateValue = 0; //hamujê zmianê k¹ta - test
                 //isChangingDirection = true;
                 //isBlockSpin = true;
-
+                isBlockEngine = true;
                 isBlockLeft = true;
                 isBlockRight = true;
                 //isBlockUp = true;
@@ -1861,7 +1909,11 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         public void RepairPlane()
         {
+            Random r = new Random();
+            outOfOilFaultyEngineTimerMax = (float)r.NextDouble() * 7 + 5;
+            isEngineFaulty = false; 
             planeState = PlaneState.Intact;
+            level.Controller.OnEngineRepaired(this);
         }
 
         /// <summary>
@@ -1985,6 +2037,7 @@ namespace Wof.Model.Level.Planes
                 //UnblockMovementInput();
                 isBlockLeft = false;
                 isBlockRight = false;
+                isBlockEngine = false;
 
             }
         }
@@ -2020,7 +2073,7 @@ namespace Wof.Model.Level.Planes
             //Console.WriteLine(rotateValue);
             bool isTryingOut = (wheelsState == WheelsState.In);
 
-            bool ok1 = isTryingOut ? Math.Abs(rotateValue) < Math.PI*0.25f  : true; // kiedy samolot ma duza predkosc katowa nie powinno sie dac wystawic
+            bool ok1 = isTryingOut ? Math.Abs(rotateValue) < Math.PI*0.3f  : true; // kiedy samolot ma duza predkosc katowa nie powinno sie dac wystawic
              
             return (planeState != PlaneState.Crashed &&
                     locationState != LocationState.AircraftCarrier &&
@@ -2032,10 +2085,7 @@ namespace Wof.Model.Level.Planes
                     //dodane przez Emila
                     planeState != PlaneState.Destroyed &&
                     (
-
-                        isTryingOut &&
-                        RelativeAngle <= maxWheelOutAngle &&
-                        RelativeAngle >= -maxWheelOutAngle ||
+                        isTryingOut && RelativeAngle <= maxWheelOutAngle && RelativeAngle >= -maxWheelOutAngle ||
                         !isTryingOut
                     )
 
@@ -2707,7 +2757,7 @@ namespace Wof.Model.Level.Planes
         {
             if (!isEngineJustStopped)
             {
-                if (CanEngineBeStarted)
+                if (CanEngineBeStartedNow)
                 {
                     StartEngineCounter = 0; //zeruje licznik.
                     StartEngine(); //uruchamiam silnik.
@@ -2740,6 +2790,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private void ResetEngineParameters()
         {
+          
             isEngineJustStarted = false;
             isEngineJustStopped = false;
             counterStartedEngine = 0;
@@ -2767,6 +2818,9 @@ namespace Wof.Model.Level.Planes
                 airscrewSpeed = 0.0f;
         }
 
+
+        
+
         /// <summary>
         /// Powoduje wy³¹czenie silinika i utratê kontroli po tym jak skoñczy siê olej lub paliwo.
         /// </summary>
@@ -2774,9 +2828,38 @@ namespace Wof.Model.Level.Planes
         {
             if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed)
             {
-                planeState = PlaneState.Destroyed;
-                StopEngine(scaleFactor);
-                rotateValue = 0;
+                if (!isEnemy && petrol > 0 && oil > -engineUnstartableOilThreshold * maxOil)
+                {
+                    // jesli mamy benzyne i nie ma oleju (ale nie jest jakas masakra)
+                    // to user ma mozliwosc ponownie odpalic silnik
+                    if(!isEngineFaulty)
+                    {
+                      // Console.WriteLine("silnik rozwalony");
+                        isEngineFaulty = true;
+                        level.Controller.OnEngineFaulty(this);
+                    }
+                    outOfOilFaultyEngineTimer += scaleFactor;
+                    if (locationState == Planes.LocationState.Air && outOfOilFaultyEngineTimer >= outOfOilFaultyEngineTimerMax)
+                    {
+                        //Console.WriteLine("i gasze silnik");
+                        // planeState = PlaneState.Destroyed;
+                        StopEngine(scaleFactor);
+                        outOfOilFaultyEngineTimer = 0;
+                        Random r = new Random();
+                        outOfOilFaultyEngineTimerMax = (float)r.NextDouble() * 7 + 5;
+                        rotateValue = 0;
+                    }
+                }
+                else
+                {
+                    planeState = PlaneState.Destroyed;
+                    StopEngine(scaleFactor);
+                    outOfOilFaultyEngineTimer = 0;
+                    rotateValue = 0;
+                    
+                }
+               
+              
             }
         }
 
@@ -3302,6 +3385,8 @@ namespace Wof.Model.Level.Planes
         {
             get { return planeType; }
         }
+
+      
 
         #endregion 
     }

@@ -378,7 +378,7 @@ namespace wingitor
             levelView.OnSoldierEndPrepareToFire(soldier);
         }
 
-        public void OnTurnOffEngine()
+        public void OnTurnOffEngine(Plane p)
         {
             
         }
@@ -386,6 +386,16 @@ namespace wingitor
         public void OnTurnOnEngine(bool engineStartSound)
         {
             
+        }
+
+        public void OnEngineFaulty(Plane p)
+        {
+            
+        }
+
+        public void OnEngineRepaired(Plane p)
+        {
+           
         }
 
         public void OnStartEngineFailed()

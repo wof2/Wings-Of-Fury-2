@@ -55,6 +55,7 @@ using Mogre;
 using Wof.Model.Level.Planes;
 using Buffer=Microsoft.DirectX.DirectSound.Buffer;
 using Math=Mogre.Math;
+using Plane=Mogre.Plane;
 
 namespace Wof.Controller
 {
@@ -146,11 +147,14 @@ namespace Wof.Controller
 
         private Buffer engineIdleSound;
         private Buffer engineIdleSound2;
+        private Buffer engineIdleFaultySound;
+        
         
         private Buffer gunFireBuffer;
         private Buffer waterBubblesBuffer;
         private Buffer oceanSound;
 
+        private Buffer currentEngineIdleSound;
         private Random random; 
         private SoundManager()
         {
@@ -200,6 +204,7 @@ namespace Wof.Controller
                 incorrectStart = new Audio("sounds/incorrectstart.wav");
                 fanfare = new Audio("sounds/fanfare.wav");
 
+                currentEngineIdleSound = null;
                 collisionSound = new Audio("sounds/collision.wav");
 
                 engineIdleSound = new Buffer("sounds/engineidle.wav",
@@ -207,8 +212,9 @@ namespace Wof.Controller
 
                 engineIdleSound2 = new Buffer("sounds/engineidle_f4u.wav",
                                             dsDevice);
-
-
+                engineIdleFaultySound = new Buffer("sounds/engineidlefaulty.wav",
+                                          dsDevice);
+                
                /* enemyEngineSound = new Buffer("sounds/engineidle.wav",
                                               dsDevice);
 
@@ -290,7 +296,10 @@ namespace Wof.Controller
             Play(gearDownSound);
         }
 
-        public void PlayStartEngineSound(EventHandler startHandler)
+
+
+
+        public void PlayStartEngineSound(Model.Level.Planes.Plane p, EventHandler startHandler)
         {
             if (ProblemWithSound)
             {
@@ -299,14 +308,15 @@ namespace Wof.Controller
             startEngineSound.Ending += startHandler;
             if(EngineConfig.CurrentPlayerPlaneType == PlaneType.P47)
             {
-                LoopDXSound(engineIdleSound, -1000);
+               // LoopDXSound(engineIdleSound, -1000);
                 Play(startEngineSound);
             }
             else
             {
-                LoopDXSound(engineIdleSound2, -1000);
+                //LoopDXSound(engineIdleSound2, -1000);
                 Play(startEngineSound2);
             }
+            LoopEngineSound(p);
            
            
         }
@@ -503,28 +513,45 @@ namespace Wof.Controller
             }
         }
 
-        public void LoopEngineSound()
+        public void OnEngineFaulty(Model.Level.Planes.Plane p)
         {
-            if (EngineConfig.CurrentPlayerPlaneType == PlaneType.P47)
+           if(!p.IsEnemy)
+           {
+               if (currentEngineIdleSound.Status.Playing)
+               {
+                    HaltDXSound(currentEngineIdleSound);
+                    LoopEngineSound(p);
+               }
+              
+           }
+        }
+
+        public void OnEngineRepaired(Model.Level.Planes.Plane p)
+        {
+            if (!p.IsEnemy)
             {
-                LoopDXSound(engineIdleSound, -1000);
-            }
-            else
-            {
-                LoopDXSound(engineIdleSound2, -1000);
+                if (currentEngineIdleSound.Status.Playing)
+                {
+                    HaltDXSound(currentEngineIdleSound);
+                    LoopEngineSound(p);
+                }
             }
         }
 
-        public void HaltEngineSound()
+
+        public void LoopEngineSound(Model.Level.Planes.Plane p)
         {
-            if (EngineConfig.CurrentPlayerPlaneType == PlaneType.P47)
-            {
-                HaltDXSound(engineIdleSound);
-            }
-            else
-            {
-                HaltDXSound(engineIdleSound2);
-            }
+            if(p.IsEnemy) return;
+
+            Console.WriteLine("Loop engine. faulty: " + p.IsEngineFaulty);
+            SelectEngineIdleSound(p);
+            LoopDXSound(currentEngineIdleSound);
+        }
+
+        public void HaltEngineSound(Model.Level.Planes.Plane p)
+        {
+            Console.WriteLine("dzwiek - gaszenie");
+            HaltDXSound(currentEngineIdleSound);
            
         }
 
@@ -539,7 +566,27 @@ namespace Wof.Controller
         }
 
       
-        public void SetEngineFrequency(int freq)
+        private void SelectEngineIdleSound(Model.Level.Planes.Plane p)
+        {
+            if (p.IsEngineFaulty)
+            {
+                currentEngineIdleSound = engineIdleFaultySound;
+            }
+            else
+            {
+                if (EngineConfig.CurrentPlayerPlaneType == PlaneType.P47)
+                {
+                    currentEngineIdleSound = engineIdleSound;
+                }
+                else
+                {
+                    currentEngineIdleSound = engineIdleSound2;
+                }
+
+            }
+            
+        }
+        public void SetEngineFrequency(Model.Level.Planes.Plane p)
         {
             if (ProblemWithSound)
             {
@@ -547,17 +594,11 @@ namespace Wof.Controller
             }
             try
             {
-                if (EngineConfig.CurrentPlayerPlaneType == PlaneType.P47)
+                if(currentEngineIdleSound == null)
                 {
-                    engineIdleSound.Frequency =
-                    engineIdleSound.Format.SamplesPerSecond + freq;
+                    SelectEngineIdleSound(p);
                 }
-                else
-                {
-                    engineIdleSound2.Frequency =
-                     engineIdleSound2.Format.SamplesPerSecond + freq;
-                }
-
+                currentEngineIdleSound.Frequency = currentEngineIdleSound.Format.SamplesPerSecond + (int)p.AirscrewSpeed * 7;
                
             }
             catch (Exception)

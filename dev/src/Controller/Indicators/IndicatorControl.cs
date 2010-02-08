@@ -141,6 +141,7 @@ namespace Wof.Controller.Screens
         /// <param name="oil">przedzia³ 0-1</param>
         private void RefreshOil(float oil)
         {
+            if (oil < 0) oil = 0;
             oilArrowNode.Orientation = new Quaternion(new Degree(oil*330), Vector3.NEGATIVE_UNIT_Z);
         }
 
