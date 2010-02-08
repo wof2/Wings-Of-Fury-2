@@ -1039,20 +1039,11 @@
     <Content Include="bin\Release\RenderSystem_GL.dll" />
     <Content Include="bin\Release\levels\level-14.dat" />
     <Content Include="bin\Release\levels\level-15.dat" />
+    <Content Include="bin\Release\sounds\oh4.ogg" />
+    <Content Include="bin\Release\sounds\oh5.ogg" />
     <None Include="bin\Release\Wof.exe" />
-    <Content Include="media\materials\textures\ads\130DA1CB1A1252F4B18D6FF538E9D342" />
-    <Content Include="media\materials\textures\ads\193DE76223EBDFA24F4C345CE6390813" />
-    <Content Include="media\materials\textures\ads\40B147BF68E07721615D15C8A078264F" />
-    <Content Include="media\materials\textures\ads\5951D662D8501F9587F011CA00748A23" />
-    <Content Include="media\materials\textures\ads\9D77EAE01D8041B6BDF09598A15D4A0F" />
-    <Content Include="media\materials\textures\ads\FD86D6C9C0112CB044919D89EC5F3F6F" />
-    <Content Include="media\materials\textures\ads\list" />
-    <Content Include="media\materials\textures\ads\711EFB2A143752671C9D99285EDD651D.jpeg" />
-    <Content Include="media\materials\textures\ads\814E1A1F25ABA224790EC7957359AB57.jpeg" />
-    <Content Include="media\materials\textures\ads\86AC30E5DDB58F090E15987691D318A9.jpeg" />
-    <Content Include="media\materials\textures\ads\92CC2365DE79D7FC2C4813834A58821B.jpeg" />
-    <Content Include="media\materials\textures\ads\9425E12235FEE02B129E442EF6EF2588.jpeg" />
-    <Content Include="media\materials\textures\ads\cookies.txt" />
+    <Content Include="bin\Release\sounds\engineidlefaulty.wav" />
+    <Content Include="media\materials\textures\restart.png" />
     <Content Include="media\materials\textures\white.dds" />
     <Content Include="media\materials\textures\F4U1_body.dds" />
     <Content Include="media\materials\textures\F4U1_body_destroyed.dds" />
@@ -1376,6 +1367,7 @@
   <ItemGroup>
     <Folder Include="bin\Release\bik\" />
     <Folder Include="bin\Release\custom_levels\" />
+    <Folder Include="media\materials\textures\ads\" />
     <Folder Include="src\Tests\ModelTest\LevelTest\LevelTilesTest\EnemyInstallationTest\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

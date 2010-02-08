@@ -126,6 +126,10 @@ namespace Wof.Controller
         private Audio shipFireSound;
         
         private Audio explosionSound;
+        private Audio explosionSound3;
+        
+        
+        private Audio explosionSound2;
     
         
         private Audio waterExplosionSound;
@@ -190,6 +194,9 @@ namespace Wof.Controller
                 
                          
                 explosionSound = new Audio("sounds/explosion.wav");
+                explosionSound3 = new Audio("sounds/explosion3.wav");
+                
+                explosionSound2 = new Audio("sounds/explosion2.wav");
             
                 waterExplosionSound = new Audio("sounds/watersplash.wav");
                 missileSound = new Audio("sounds/missile.wav");
@@ -381,16 +388,27 @@ namespace Wof.Controller
  		{
  			return  ricochetSound.CurrentPosition > 0 && ricochetSound.CurrentPosition < ricochetSound.Duration;
  		}
- 		
- 		
-     
-        
-     
+
+
+
+
+        public void PlayHeavyExposionSound()
+        {
+              Play(explosionSound2, 300);
+        }
 
 
         public void PlayExposionSound()
         {
-            Play(explosionSound);
+            if(this.random.NextDouble() > 0.5)
+            {
+                Play(explosionSound, 500);
+            }
+            else
+            {
+                Play(explosionSound3, 500);
+            }
+            
         }
 
         public void PlayWaterExplosionSound()
@@ -543,14 +561,14 @@ namespace Wof.Controller
         {
             if(p.IsEnemy) return;
 
-            Console.WriteLine("Loop engine. faulty: " + p.IsEngineFaulty);
+       //     Console.WriteLine("Loop engine. faulty: " + p.IsEngineFaulty);
             SelectEngineIdleSound(p);
             LoopDXSound(currentEngineIdleSound);
         }
 
         public void HaltEngineSound(Model.Level.Planes.Plane p)
         {
-            Console.WriteLine("dzwiek - gaszenie");
+        //    Console.WriteLine("dzwiek - gaszenie");
             HaltDXSound(currentEngineIdleSound);
            
         }

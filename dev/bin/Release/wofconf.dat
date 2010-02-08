@@ -2,7 +2,7 @@ False
 True
 FSL_SS_DIRECTSOUND
 50
-0
+40
 False
 False
 False
@@ -10,7 +10,7 @@ Easy
 True
 True
 False
-High
+None
 True
 True
 False
