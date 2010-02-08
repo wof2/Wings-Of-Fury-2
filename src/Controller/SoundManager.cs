@@ -216,11 +216,15 @@ namespace Wof.Controller
 
                 engineIdleSound = new Buffer("sounds/engineidle.wav",
                                              dsDevice);
+               
 
                 engineIdleSound2 = new Buffer("sounds/engineidle_f4u.wav",
                                             dsDevice);
+               
+
                 engineIdleFaultySound = new Buffer("sounds/engineidlefaulty.wav",
                                           dsDevice);
+            
                 
                /* enemyEngineSound = new Buffer("sounds/engineidle.wav",
                                               dsDevice);
@@ -394,7 +398,7 @@ namespace Wof.Controller
 
         public void PlayHeavyExposionSound()
         {
-              Play(explosionSound2, 300);
+              Play(explosionSound2, 200);
         }
 
 
@@ -563,7 +567,7 @@ namespace Wof.Controller
 
        //     Console.WriteLine("Loop engine. faulty: " + p.IsEngineFaulty);
             SelectEngineIdleSound(p);
-            LoopDXSound(currentEngineIdleSound);
+            LoopDXSound(currentEngineIdleSound, -600);
         }
 
         public void HaltEngineSound(Model.Level.Planes.Plane p)
@@ -589,6 +593,7 @@ namespace Wof.Controller
             if (p.IsEngineFaulty)
             {
                 currentEngineIdleSound = engineIdleFaultySound;
+              
             }
             else
             {

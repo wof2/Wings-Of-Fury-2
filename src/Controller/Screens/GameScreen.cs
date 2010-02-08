@@ -2794,8 +2794,15 @@ namespace Wof.Controller.Screens
             {
                 increaseScore(C_SHIP_CONCRETE_BUNKER_SCORE);
             }
-
-            SoundManager.Instance.PlayHeavyExposionSound();
+            if(Mogre.Math.RangeRandom(0,1) > 0.5f)
+            {
+                SoundManager.Instance.PlayHeavyExposionSound();
+            }
+            else
+            {
+                SoundManager.Instance.PlayExposionSound();
+            }
+           
         }
 
 

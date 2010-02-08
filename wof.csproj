@@ -5,7 +5,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F101F624-0894-4B82-BE03-002A6D0E94F5}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Wof</RootNamespace>
     <AssemblyName>Wof</AssemblyName>
@@ -1039,6 +1039,8 @@
     <Content Include="bin\Release\RenderSystem_GL.dll" />
     <Content Include="bin\Release\levels\level-14.dat" />
     <Content Include="bin\Release\levels\level-15.dat" />
+    <Content Include="bin\Release\sounds\explosion2.wav" />
+    <Content Include="bin\Release\sounds\explosion3.wav" />
     <Content Include="bin\Release\sounds\oh4.ogg" />
     <Content Include="bin\Release\sounds\oh5.ogg" />
     <None Include="bin\Release\Wof.exe" />
