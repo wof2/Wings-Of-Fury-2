@@ -2795,7 +2795,7 @@ namespace Wof.Controller.Screens
                 increaseScore(C_SHIP_CONCRETE_BUNKER_SCORE);
             }
 
-            SoundManager.Instance.PlayExposionSound();
+            SoundManager.Instance.PlayHeavyExposionSound();
         }
 
 
