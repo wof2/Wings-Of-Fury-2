@@ -102,7 +102,7 @@ namespace Wof.Misc
                         Quadrangle3D quadrangle3D =
                             new Quadrangle3D(sceneMgr, "BoundingQuadrangle_" + target.Name + "_" + q.GetHashCode());
                         quadrangle3D.SetCorners(q);
-                        //sceneMgr.RootSceneNode.AttachObject(quadrangle3D);
+                        sceneMgr.RootSceneNode.AttachObject(quadrangle3D.ManualObject);
 
                         helperQuandrangles.Add(q, quadrangle3D);
                     }
@@ -118,7 +118,7 @@ namespace Wof.Misc
                 {
                     if (helperQuandrangles.ContainsKey(q))
                     {
-                       // sceneMgr.RootSceneNode.DetachObject((Quadrangle3D) helperQuandrangles[q]);
+                        sceneMgr.RootSceneNode.DetachObject(((Quadrangle3D) helperQuandrangles[q]).ManualObject);
                        // (helperQuandrangles[q] as Quadrangle3D).Dispose();
                         helperQuandrangles.Remove(q);
                     }

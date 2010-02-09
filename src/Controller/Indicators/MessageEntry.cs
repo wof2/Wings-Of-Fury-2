@@ -94,7 +94,7 @@ namespace Wof.Controller.Indicators
         }
 
 
-        private static ColourValue defaultColourTop = new ColourValue(0.8f, 0.34f, 0.34f);
+        private static ColourValue defaultColourTop = new ColourValue(0.6f, 0.34f, 0.34f);
 
         public static ColourValue DefaultColourTop
         {

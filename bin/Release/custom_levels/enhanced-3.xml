@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<level dayTime="noon" enhancedOnly="1" missionType="dogfight" enemyPlanes="14" timeToFirstEnemyPlane="8000" timeToNextEnemyPlane="20000">
+  
+  <ocean width="15"/>
+  <!-- high island: Island12u -->
+  <island-begin mesh="Island12u" variation="10" traversable="false"/>
+  <terrain variation="14" traversable="false"/>
+  <terrain variation="15" traversable="false"/>
+  <barrels variation="0" />
+  <barrack num-soldiers="6" variation="1"/>
+  <wooden-bunker num-soldiers="3"/>
+  <terrain variation="0" width="1" traversable="true"/>
+  <terrain variation="10" width="1" traversable="false"/>
+  <terrain variation="13" width="1" traversable="false"/>
+  <terrain variation="12" width="1" traversable="false"/>
+  <terrain variation="11" width="1" traversable="false"/>
+  <island-end variation="10" traversable="false"/>
+  <!-- high island: Island12u -->
+  
+  <ocean width="12" />
+ <ocean width="1" variation="1"/>
+  <ocean width="9" />
+    <ocean width="1" variation="3"/>
+  <ocean width="5"/>
+ 
+  <ocean width="5"/>
+  
+     <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-end width="1" />
+  
+   <ocean width="15"/>  
+   <ocean width="1" variation="3" />
+   <ocean width="10"  />
+   <ocean width="6"/>
+  
+   
+  <ocean width="25"/>
+
+
+  <aircraft-carrier-begin width="1"/>
+  <aircraft-carrier-middle width="3"/>
+  <aircraft-carrier-restore-ammunition width="1"/>
+  <aircraft-carrier-middle width="1"/>
+  <aircraft-carrier-end width="3"/>
+
+  <ocean width="30"/>
+  
+  <island-begin mesh="Island2" variation="6"/>
+  <concrete-bunker num-soldiers="5" variation="3" />
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <concrete-bunker num-soldiers="6" variation="3" />
+  <island-end/> 
+  <ocean width="1" variation="5"/>
+  <ocean width="12"/>
+  
+  <ocean width="15"/>
+  
+  <island-begin mesh="Island4" variation="4"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <terrain variation="0"/>
+  <concrete-bunker num-soldiers="6" variation="3" />
+  <barrels variation="0"/>
+  <terrain variation="2"/>
+  <barrels variation="0"/>
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <barrels variation="0"/>
+  <wooden-bunker variation="0" num-soldiers="1"/>
+  <island-end/> 
+
+
+  <ocean width="15"/>
+</level>
