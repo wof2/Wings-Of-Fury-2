@@ -398,7 +398,7 @@ namespace Wof.Controller
 
         public void PlayHeavyExposionSound()
         {
-              Play(explosionSound2, 200);
+              Play(explosionSound2, -300);
         }
 
 
@@ -406,11 +406,11 @@ namespace Wof.Controller
         {
             if(this.random.NextDouble() > 0.5)
             {
-                Play(explosionSound, 500);
+                Play(explosionSound, 200);
             }
             else
             {
-                Play(explosionSound3, 500);
+                Play(explosionSound3, 200);
             }
             
         }

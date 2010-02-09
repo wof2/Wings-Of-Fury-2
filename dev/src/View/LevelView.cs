@@ -218,9 +218,12 @@ namespace Wof.View
             }
           
             cameraHolders = null;
-
-            playerPlaneView.Destroy();
-            playerPlaneView = null;
+            if(playerPlaneView != null)
+            {
+                playerPlaneView.Destroy();
+                playerPlaneView = null;
+            }
+           
 
             if (planeViews != null)
             {
@@ -1110,7 +1113,7 @@ namespace Wof.View
                    sceneMgr,
                    splashNode,
                    position,
-                   new Vector2(3, 3) + ViewHelper.UnsignedRandomVector2(5),
+                   new Vector2(4, 4) + ViewHelper.UnsignedRandomVector2(5),
                    EffectsManager.EffectType.EXPLOSION2,
                    false,
                    splashNode.GetHashCode().ToString()

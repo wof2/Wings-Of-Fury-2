@@ -125,9 +125,10 @@ namespace Wof.Controller.Indicators
 
             messageElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             messageElement.SetParameter("char_height",  StringConverter.ToString(EngineConfig.CurrentFontSize));
-            messageElement.SetParameter("colour_top", "0.8 0.34 0.34");
-            messageElement.SetParameter("colour_bottom", "0.8 0.1 0.1");
+            messageElement.SetParameter("colour_top", "0.6 0.34 0.34");
+            messageElement.SetParameter("colour_bottom", "0.5 0.1 0.1");
             messageElement.Caption = "";
+         
 
             messageContainer.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             messageContainer.SetDimensions(1.0f, 1.0f);
