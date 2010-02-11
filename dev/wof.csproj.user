@@ -33,7 +33,7 @@
     <StartArguments>-DebugInfo -FreeLook -DebugdguStafrt 0</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <StartArguments>-DebujgInfo -FreejLook -DebugStart 6</StartArguments>
+    <StartArguments>-DebujgInfo -FreejLook -DebugStart 8</StartArguments>
     <StartAction>Project</StartAction>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LincenseBuilder|AnyCPU' ">
