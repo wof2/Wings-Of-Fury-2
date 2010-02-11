@@ -88,8 +88,8 @@ namespace Wof.View
             : base(plane, frameWork, parentNode)
         {
           
-            lWingNode = innerNode.CreateChildSceneNode(name + "LWingNode", new Vector3(-8.8f, 0.0f, -1.5f));
-            rWingNode = innerNode.CreateChildSceneNode(name + "RWingNode", new Vector3(8.8f, 0.0f, -1.5f));
+            
+             
             StartSmokeTrails();
             StopSmokeTrails();
         }
@@ -297,6 +297,15 @@ namespace Wof.View
     
         protected override void initOnScene()
         {
+        	
+        	lWingNode = innerNode.CreateChildSceneNode(name + "LWingNode", new Vector3(-8.8f, 0.0f, -1.5f));
+            rWingNode = innerNode.CreateChildSceneNode(name + "RWingNode", new Vector3(8.8f, 0.0f, -1.5f));
+            
+            if(!this.plane.IsEnemy)
+            {
+            	    EnableNightLights();
+            }
+             
             // main nodes init
             planeEntity = sceneMgr.CreateEntity(name + "_Body", "P47Body.mesh");
           
@@ -369,6 +378,7 @@ namespace Wof.View
             }
             // kamery
           
+           
 
             ResetCameraHolders();
         }
