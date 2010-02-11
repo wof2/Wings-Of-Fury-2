@@ -516,7 +516,7 @@ namespace Wof.Model.Level
                         if(EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Easy))
                         {
                             // zabierz trochê ¿ycia przy zderzeniu - ten event bêdzie powtrzany kilka razy (w czasie gdy samolot bêd¹ siê dotykaæ)
-                            userPlane.Hit(userPlane.MaxOil * 0.08f, 0);
+                            userPlane.Hit(userPlane.MaxOil * 0.08f, 0.005f * userPlane.MaxOil);
                         }
                         else
                         {

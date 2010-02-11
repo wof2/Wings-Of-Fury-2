@@ -2201,7 +2201,7 @@ namespace Wof.Model.Level.Planes
             {
                 this.oilLeak += oilLeak;
                 oil -= oilTaken;
-                oil = System.Math.Max(oil, 0);
+               // oil = System.Math.Max(oil, 0);
             }
         }
 

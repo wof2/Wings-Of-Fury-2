@@ -301,7 +301,7 @@ namespace Wof.View
         	lWingNode = innerNode.CreateChildSceneNode(name + "LWingNode", new Vector3(-8.8f, 0.0f, -1.5f));
             rWingNode = innerNode.CreateChildSceneNode(name + "RWingNode", new Vector3(8.8f, 0.0f, -1.5f));
             
-            if(!this.plane.IsEnemy)
+            if(plane != null && !plane.IsEnemy)
             {
             	    EnableNightLights();
             }
