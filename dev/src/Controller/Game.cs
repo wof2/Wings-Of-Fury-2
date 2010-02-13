@@ -849,20 +849,14 @@ namespace Wof.Controller
             ScreenState ss = null;
             if (currentScreen != null && currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
-                if((browser == null && (currentScreen as AbstractScreen).Viewport != null))
-                { 
-                    StartBrowser();
-                    game.Game_Activated(game, new EventArgs());
-                }
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
-          
+
             Boolean justMenu = IsMenuScreen(currentScreen);
             initScreenAfter(currentScreen);
 
             SoundManager.Instance.PlayMainTheme();
            
-
             currentScreen = new StartScreen(this, this, viewport, camera);
             if (browser == null) StartBrowser();
 
@@ -870,16 +864,32 @@ namespace Wof.Controller
             {
                 ((AbstractScreen)currentScreen).SetScreenState(ss);
             }
+           
             currentScreen.DisplayGUI(justMenu);
-            if (ss != null)
+           
+            if (currentScreen != null && currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
-            	(currentScreen as AbstractScreen).SetMousePosition(ss);             
+              
+                if ((browser == null && (currentScreen as AbstractScreen).Viewport != null))
+                {
+                    StartBrowser();
+                    game.Game_Activated(game, new EventArgs());
+                }
+
             }
+          
 
             if (!shutDown && !shouldReload)
             {
                 ShowBrowser();
             }
+
+            if (ss != null)
+            {
+                (currentScreen as AbstractScreen).SetMousePosition(ss);
+            }
+
+
         }
 
 

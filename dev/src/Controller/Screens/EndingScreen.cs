@@ -101,6 +101,8 @@ namespace Wof.Controller.Screens
                                     "Beauty",
                                     "RedFox2879",
                                     "Jack Flushell",
+                                    "Paszmina",
+
                                     String.Empty,
                                     "Community Support",
                                     "Jonathan Rae",

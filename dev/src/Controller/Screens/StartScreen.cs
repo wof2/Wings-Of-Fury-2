@@ -139,7 +139,7 @@ namespace Wof.Controller.Screens
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
             int buttonCount = 11;
-            if(EngineConfig.IsEnhancedVersion)
+          //  if(EngineConfig.IsEnhancedVersion)
             {
                 buttonCount += 1;
             }
@@ -187,7 +187,7 @@ namespace Wof.Controller.Screens
 
             pinImageToButton(buttons[i-1], "pin.png", 1.6f);
 
-            if (EngineConfig.IsEnhancedVersion)
+          //  if (EngineConfig.IsEnhancedVersion)
             {
                 buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
                                                           "bgui.button", LanguageResources.GetString(LanguageKey.Planes), cc, i++);
@@ -203,8 +203,12 @@ namespace Wof.Controller.Screens
 
             
             selectButton(0);
-            SetMousePosition((uint)(guiWindow.x + buttons[0].x + (Viewport.ActualWidth / 4)), (uint)(guiWindow.y + buttons[0].y + h / 2.0F));
-             // polowa wysokosci przycisku
+            if (!screenStateSet)
+            {
+               //  SetMousePosition((uint)(guiWindow.x + buttons[0].x + (Viewport.ActualWidth / 4)), (uint)(guiWindow.y + buttons[0].y + h / 2.0F));
+           
+            }
+            
      
        
             guiWindow.show();
