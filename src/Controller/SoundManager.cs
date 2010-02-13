@@ -500,10 +500,11 @@ namespace Wof.Controller
 
                 audio.CurrentPosition = 0.0;
                 audio.Play();
-                audio.Volume = getBaseVolume() + soundVolumeModifier;
+                audio.Volume = System.Math.Min(0, getBaseVolume() + soundVolumeModifier);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 ProblemWithSound = true;
             }
         }
@@ -650,11 +651,13 @@ namespace Wof.Controller
 
         private void LoopGunFireSound()
         {
+        
             LoopDXSound(gunFireBuffer);
         }
 
         public void LoopGunFireSoundIfCan()
         {
+            Console.WriteLine("Looping");
             if (ProblemWithSound)
             {
                 return;
@@ -667,6 +670,7 @@ namespace Wof.Controller
 
         public void HaltGunFireSound()
         {
+            Console.WriteLine("Halting");
             HaltDXSound(gunFireBuffer);
         }
 
@@ -701,7 +705,7 @@ namespace Wof.Controller
                 }
 
                 buffer.Play(0, flags);
-                buffer.Volume = getBaseVolume() + soundVolumeModifier;
+                buffer.Volume = System.Math.Min(0, getBaseVolume() + soundVolumeModifier);
             }
             catch (Exception)
             {

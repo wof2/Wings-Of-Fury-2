@@ -141,7 +141,7 @@ namespace Wof.View
                 	for (uint i = 0; i < 6; i++ )
 	                {
                 		EffectsManager.Singleton.Sprite(sceneMgr, staticNode,
-                		                                new Vector3(Math.RangeRandom(-3, 3), 9.0f, -Mogre.Math.RangeRandom(0, length)),  new Vector2(Math.RangeRandom(5, 10), Math.RangeRandom(5, 10)),
+                		                                new Vector3(Math.RangeRandom(-3, 3), 8.0f, -Mogre.Math.RangeRandom(0, length)),  new Vector2(Math.RangeRandom(5, 10), Math.RangeRandom(5, 10)),
                                                EffectsManager.EffectType.FIRE, true, i.ToString());
                 	}
                 }

@@ -2243,7 +2243,7 @@ namespace Wof.Model.Level.Planes
 
                     oil -= oilLeak;
                 }
-                oil = System.Math.Max(oil, 0);
+               // oil = System.Math.Max(oil, 0);
             }
         }
 

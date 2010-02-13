@@ -221,13 +221,13 @@
   <!-- wariacja dla warship-->
   
   <!-- działka tylnie-->
-  <tile name="ship-concrete-bunker" y-start="4.0" y-end="4.0" variation="1" view-x-shift="-5.2">   
+  <tile name="ship-concrete-bunker" y-start="3.5" y-end="3.5" variation="1" view-x-shift="-5.2">   
     <collision-rect rectangle="[-5.7, 6.0 ][1.8  ][2.3]" />
     <!-- dzialko -->
   </tile>
 
   <!-- przednie -->
-  <tile name="ship-concrete-bunker" y-start="4.0" y-end="4.0" variation="2" view-x-shift="5.2">
+  <tile name="ship-concrete-bunker" y-start="3.5" y-end="3.5" variation="2" view-x-shift="5.2">
     <collision-rect rectangle="[4.7, 6.0 ][1.8  ][2.3]" />
     <!-- dzialko -->
   </tile>
