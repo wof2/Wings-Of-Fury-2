@@ -63,7 +63,7 @@
   <EnemyPlane 
     speed="38"
     oilLoss="1"
-    minPitch = "10"
+    minPitch = "12"
     viewRange = "85"
     rocketCount="3"
     nextRocketInterval = "1000"
@@ -84,7 +84,7 @@
   <Soldier 
     minSpeed = "5"
     maxSpeed = "6"
-    homelessTime = "12000"/>
+    homelessTime = "10000"/>
   
   <!-- Bunkier:
   fireDelay - odstęp pomiedzy każdym strzałem. Podany w ms. Typ: int

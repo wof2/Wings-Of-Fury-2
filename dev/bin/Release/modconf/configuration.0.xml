@@ -33,7 +33,7 @@
     petrolLoss="1"
     bombCount="30"
     rocketCount="30"
-    torpedoCount="3" 
+    torpedoCount="2" 
     breakingPower = "4"
     hitCoefficient="0.48"
     rangeSlowWheelingSpeed = "0.004"
@@ -139,7 +139,7 @@
   maxSpeed - Maksymalna pozioma predkosc torpedy. Typ: int
   -->
   <Torpedo
-   fireInterval = "1900"
+   fireInterval = "3000"
    baseSpeed = "10"/>
 
   <!--Wlasciwosci efektow:
