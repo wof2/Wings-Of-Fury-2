@@ -657,7 +657,7 @@ namespace Wof.Controller
 
         public void LoopGunFireSoundIfCan()
         {
-            Console.WriteLine("Looping");
+          //  Console.WriteLine("Looping");
             if (ProblemWithSound)
             {
                 return;
@@ -670,7 +670,7 @@ namespace Wof.Controller
 
         public void HaltGunFireSound()
         {
-            Console.WriteLine("Halting");
+         //   Console.WriteLine("Halting");
             HaltDXSound(gunFireBuffer);
         }
 

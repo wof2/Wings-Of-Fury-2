@@ -206,18 +206,18 @@ namespace Wof.View
 
         protected override void initOnScene()
         {
-            // main nodes init
-            planeEntity = sceneMgr.CreateEntity(name + "_Body", "F4U.mesh");
-            
-            lWingNode = innerNode.CreateChildSceneNode(name + "LWingNode", new Vector3(-8.8f, 0.0f, -1.5f));
-            rWingNode = innerNode.CreateChildSceneNode(name + "RWingNode", new Vector3(8.8f, 0.0f, -1.5f));
-            
-            if(!this.plane.IsEnemy)
+           
+           
+            lWingNode = innerNode.CreateChildSceneNode(name + "LWingNode", new Vector3(-8.8f, -0.2f, -1.5f));
+            rWingNode = innerNode.CreateChildSceneNode(name + "RWingNode", new Vector3(8.8f, -0.2f, -1.5f));
+
+            if (plane != null && !this.plane.IsEnemy)
             {
             	    EnableNightLights();
             }
 
-          
+            // main nodes init
+            planeEntity = sceneMgr.CreateEntity(name + "_Body", "F4U.mesh");
             planeEntity.CastShadows = EngineConfig.ShadowsQuality > 0;
             innerNode.AttachObject(planeEntity);
             outerNode.Scale(new Vector3(0.4f, 0.4f, 0.4f));
