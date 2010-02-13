@@ -137,11 +137,11 @@ namespace Wof.Controller.Screens
 
 
 
-            buttons[0] = guiWindow.createButton(new Vector4(5, 1 * GetTextVSpacing(), -5 + guiWindow.w * 0.5f, GetTextVSpacing()), matp47,
+            buttons[0] = guiWindow.createButton(new Vector4(5, 2 * GetTextVSpacing(), -5 + guiWindow.w * 0.5f, GetTextVSpacing()), matp47,
                                                 LanguageResources.GetString(LanguageKey.P47),
                                                 cc, 0);
 
-            buttons[1] = guiWindow.createButton(new Vector4(buttons[0].x + buttons[0].w, 1 * GetTextVSpacing(), buttons[0].w, GetTextVSpacing()), matf4u,
+            buttons[1] = guiWindow.createButton(new Vector4(buttons[0].x + buttons[0].w, 2 * GetTextVSpacing(), buttons[0].w, GetTextVSpacing()), matf4u,
                                               LanguageResources.GetString(LanguageKey.F4U),
                                               cc, 1);
 
@@ -163,7 +163,7 @@ namespace Wof.Controller.Screens
 
           
 
-            buttons[4] = guiWindow.createButton(new Vector4(5, 13 * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[4] = guiWindow.createButton(new Vector4(5, 15 * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                LanguageResources.GetString(LanguageKey.Back), cc, 4);
            
             guiWindow.show();
@@ -182,7 +182,17 @@ namespace Wof.Controller.Screens
                 {
                     PlayClickSound();
                     gameEventListener.GotoStartScreen();
+                    return;
                 }
+
+
+                if (!EngineConfig.IsEnhancedVersion)
+                {
+                    PlayClickSound();
+                    gameEventListener.GotoEnhancedVersionScreen();
+                    return;
+                }
+
 
                 if (referer == buttons[0] || referer == buttons[2])
                 {

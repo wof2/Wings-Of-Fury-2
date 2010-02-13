@@ -167,7 +167,7 @@ namespace Wof.Controller.Screens
 
         public uint GetTextVSpacing()
         {
-            return (uint)(fontSize * 1.25f);
+            return (uint)(fontSize * 1.3f);
         }
         
         
@@ -431,7 +431,7 @@ namespace Wof.Controller.Screens
             this.camera = camera;
             initialized = false;
             screenTime = 0;
-            CenterMousePosition();
+         //   CenterMousePosition();
             wasUpKeyPressed = false;
             wasDownKeyPressed = false;
             wasEnterKeyPressed = false;
@@ -487,12 +487,15 @@ namespace Wof.Controller.Screens
         {
             return new ScreenState(planeViews, cloudNodes, MousePos);
         }
+
+        protected bool screenStateSet = false;
         /// <summary>
         /// Wymusza nowy stan screena: samoloty oraz po³o¿enie myszki
         /// </summary>
         /// <param name="ss"></param>
         public void SetScreenState(ScreenState ss)
         {
+            screenStateSet = true;
             planeViews = ss.PlaneViews;
             cloudNodes = ss.CloudNodes;
             SetMousePosition(ss);

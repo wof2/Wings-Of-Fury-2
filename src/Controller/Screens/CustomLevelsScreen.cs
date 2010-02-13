@@ -142,6 +142,7 @@ namespace Wof.Controller.Screens
         {
             if(! EngineConfig.IsEnhancedVersion && enhancedMissionsMap[holder] )
             {
+                gameEventListener.GotoEnhancedVersionScreen();
                 return;
             }
 
