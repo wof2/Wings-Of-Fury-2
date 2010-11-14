@@ -1,0 +1,64 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3c.org/TR/1999/REC-html401-19991224/loose.dtd">
+<HTML xmlns="http://www.w3.org/1999/xhtml"><HEAD><TITLE>Wings of Fury 2 - General - official game forum</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<base href="{app_url}/html/" />
+
+<LINK rel=stylesheet type=text/css href="vanilla.css" media=screen>
+<BODY id=DiscussionsPage>
+<DIV id=Header><A name=pgtop></A>
+<H1><A href="http://wingsoffury2.com/">Wings Of Fury 2 - community news 
+</A></H1></DIV><BR><BR><BR>
+<BR>
+<TABLE>
+  <TBODY>     
+    <TD vAlign=top>
+      <DIV id=ContentBody>
+      <OL id=Discussions>
+        <LI id=Discussion_24 
+        class="Discussion Sticky Unread NewComments Category_6">
+        <UL>        
+          <LI class=DiscussionTopic><h2>{News404_1}</h2><br /></LI>
+         
+          <LI>
+          <h3>{News404_3}</h2><br /><br />
+          <strong>
+          <br />
+          <a href="http://www.wingsoffury2.com/page/firewall">{News404_4}</a>
+          </strong>
+          </LI>
+       </UL></LI>
+     
+        <LI id=Discussion_11 class="Discussion Read NoNewComments Category_1">
+        <UL>
+          <LI class=DiscussionType></LI>
+          <LI class=DiscussionTopic></LI>
+          <LI class="Category UnblockedCategory Category_5"><BR>
+          <TABLE align=center>
+            <TBODY>
+                <TR>
+                   <TD>                
+                    <a href="http://www.wingsoffury2.com/page/donate"><img src="donate2.gif" border="0"></a>
+                   </TD>
+                  <TD>
+                    <a href="http://www.wingsoffury2.com/page/donate"><img src="donate5.gif" border="0"></a>
+                  </TD>
+                  <TD>
+                     <a href="http://www.wingsoffury2.com/page/donate"><img src="donate10.gif" border="0"></a>
+                  </TD></TR>
+                <TR>
+                  <TD colspan="3">&gt; <a href="http://wingsoffury2.com/page/donate">Donate</a> other 
+                    amount or use different currency (EUR, PLN, GBP, JPY, AUD, CAD). 
+                    <BR />&gt; <A href="http://wingsoffury2.com/page/donate">What do I 
+                    pay for?</A>.
+                  </TD>
+                </TR>
+            </TBODY>
+            </TABLE></LI></UL></LI></OL></DIV>
+      <DIV class="ContentInfo Bottom">
+     </TD></TR>
+  <TR>
+    <TD colSpan=2></TD></TR></TBODY></TABLE>
+<DIV></DIV><A id=pgbottom name=pgbottom>&nbsp;</A> 
+<DIV></DIV>
+<DIV></DIV>
+</BODY></HTML>

@@ -102,9 +102,11 @@ namespace Wof.Controller.Screens
                                     "RedFox2879",
                                     "Jack Flushell",
                                     "Paszmina",
+                                    "Sébastien Ligez",
 
                                     String.Empty,
                                     "Community Support",
+                                    "Sandy Siegel",
                                     "Jonathan Rae",
                                     "Winnow Driscoll",
                                     "Detlef Spengler",

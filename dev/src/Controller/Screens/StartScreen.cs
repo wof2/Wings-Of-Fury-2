@@ -159,6 +159,8 @@ namespace Wof.Controller.Screens
             buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
                                               "bgui.button", LanguageResources.GetString(LanguageKey.CustomLevels),
                                               cc, i++);
+            pinImageToButton(buttons[i - 1], "pin.png", 1.6f);
+
             buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.Highscores), cc,
                                                 i++);
@@ -333,7 +335,14 @@ namespace Wof.Controller.Screens
                 }
                 else if(referer.text.Equals(CustomLevels))
                 {
-                    gameEventListener.GotoCustomLevelsScreen();
+                    if(EngineConfig.IsEnhancedVersion)
+                    {
+                        gameEventListener.GotoCustomLevelsScreen();
+                    } else
+                    {
+                        gameEventListener.GotoEnhancedVersionScreen();
+                    }
+                    
                 }
                 else  if(referer.text.Equals(Highscores))
                 {

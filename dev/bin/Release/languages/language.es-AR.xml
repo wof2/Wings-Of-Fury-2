@@ -1,0 +1,622 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- FOR ALL TRANSLATORS: please translate everything between <value> and </value> tags. Leave rest of the stuff unchanged  
+       '{0}' - this is message placeholder. It is usually replaced with the value which depends on the keyboard mapping (keys). You do not need to translate it.
+       Example:
+       
+      <data name="PressXToChangeAmmo">
+        <value>Press '{0}' to change the ammo, repair and refuel</value>
+      </data>
+      
+      
+      ->>>
+      
+      
+     <data name="PressXToChangeAmmo">
+      <value>Translated text. '{0}' is placed in a place that is adequate in your language</value>
+    </data>
+       
+       
+  -->
+  <data name="Antialiasing">
+    <value>Antialiasing</value>
+  </data>
+  <data name="Back">
+    <value>Volver</value>
+  </data>
+
+  <!-- "bloom" effect -->
+  <data name="Bloom">
+    <value>Bloom</value>
+  </data>
+  <data name="Bombs">
+    <value>Bombas</value>
+  </data>
+  <data name="ChangeOptionMessage1">
+    <value>Los cambios realizados a algunas opciones cobrarán</value>
+  </data>
+  <data name="ChangeOptionMessage2">
+    <value>efecto luego de reiniciar el juego.</value>
+  </data>
+  <data name="ChooseDifficulty">
+    <value>Seleccione dificultad</value>
+  </data>
+  <data name="CompletedLevels">
+    <value>Niveles completados</value>
+  </data>
+  <data name="Congratulations">
+    <value>Felicitaciones</value>
+  </data>
+  <data name="Controls">
+    <value>Controles</value>
+  </data>
+  <data name="CreatingGameObjects">
+    <value>Creando objetos</value>
+  </data>
+  <data name="CreatingScene">
+    <value>Creando Escena</value>
+  </data>
+  <data name="CreatingTheRootObject">
+    <value>Creando el objeto raíz</value>
+  </data>
+  <data name="CreatorOfOriginalWingsOfFury">
+    <value>Creador del Wings of Fury (1987) original</value>
+  </data>
+  <data name="Credits">
+    <value>Créditos</value>
+  </data>
+  <data name="Details">
+    <value>Detalles</value>
+  </data>
+  <data name="Difficulty">
+    <value>Dificultad</value>
+  </data>
+  <data name="EnterYourName">
+    <value>Introduzca su nombre</value>
+  </data>
+  <data name="ExitToMenu">
+    <value>Salir al menú</value>
+  </data>
+  <data name="GameOver">
+    <value>Fin del juego</value>
+  </data>
+  <data name="HallOfFame">
+    <value>Salón de la fama</value>
+  </data>
+  <data name="Highscores">
+    <value>Highscores</value>
+  </data>
+  <data name="InitializingSound">
+    <value>Inicializando sonido</value>
+  </data>
+  <!-- ID of the current language -->
+  <data name="LanguageID">
+    <value>Espanol (Archentina)</value>
+  </data>
+  <!-- level / stage of the game -->
+  <data name="Level">
+    <value>Nivel</value>
+  </data>
+  <data name="LoadingResources">
+    <value>Cargando recursos</value>
+  </data>
+  <data name="NewGame">
+    <value>Nuevo juego</value>
+  </data>
+  <!-- next menu option -->
+  <data name="Next">
+    <value>Siguiente</value>
+  </data>
+  <data name="OK">
+    <value>Aceptar</value>
+  </data>
+  <data name="Options">
+    <value>Opciones</value>
+  </data>
+  <data name="Pause">
+    <value>Pausa</value>
+  </data>
+  <!-- previous menu option -->
+  <data name="Previous">
+    <value>Anterior</value>
+  </data>
+  <data name="Quit">
+    <value>Salir</value>
+  </data>
+  <data name="Resume">
+    <value>Continuar</value>
+  </data>
+  <data name="Rockets">
+    <value>Misiles</value>
+  </data>
+  <data name="SelectAmmunition">
+    <value>Seleccione munición</value>
+  </data>
+  <data name="SetupingResources">
+    <value>Configurando recursos</value>
+  </data>
+  <data name="Sound">
+    <value>Sonido</value>
+  </data>
+  <data name="SpecialThanksToSteveWaldo">
+    <value>Special thanks to Steve Waldo</value>
+  </data>
+  <data name="Tutorial">
+    <value>Tutorial</value>
+  </data>
+  <data name="VideoMode">
+    <value>Modo de video</value>
+  </data>
+  <data name="VideoOptions">
+    <value>Opciones de video</value>
+  </data>
+  <data name="VSync">
+    <value>VSync</value>
+  </data>
+  <data name="YouWonTheGame">
+    <value>Has ganado el juego</value>
+  </data>
+  <data name="AddingCompositors">
+    <value>Agregando compositores</value>
+  </data>
+  <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
+    <!--<value>Todos los soldados enemigos han sido eliminados, aterrice en el portaaviones y presione X</value>-->
+    <value>Todos los soldados enemigos han sido eliminados, aterrice en el portaaviones y presione '{0}'</value>
+  </data>
+  <data name="AverageFPS">
+    <value>FPS promedio</value>
+  </data>
+  <data name="BestFPS">
+    <value>Best FPS</value>
+  </data>
+  <data name="ChooseAntialiasingMode">
+    <value>Seleccione el modo de antialiasing</value>
+  </data>
+  <data name="ChooseLevelOfDetail">
+    <value>Seleccione el nivel de detalle</value>
+  </data>
+  <data name="ChooseVideoMode">
+    <value>Seleccione el modo de video</value>
+  </data>
+  <data name="CreatingInput">
+    <value>Creando entradas</value>
+  </data>
+  <data name="CurrentFPS">
+    <value>FPS actuales</value>
+  </data>
+  <data name="EnableBloom">
+    <value>Activar bloom</value> <!-- this is outdated -->
+  </data>
+  <data name="EnableSound">
+    <value>Activar sonido</value>
+  </data>
+  <data name="EnableVSync">
+    <value>Activar VSync</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheLeft">
+    <value>Avión enemigo acercándose por la izquierda</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheRight">
+    <value>Avión enemigo acercándose por la derecha</value>
+  </data>
+  
+  <!-- high difficulty / high details -->
+  <data name="High">
+    <value>Alto</value>
+  </data>
+  <data name="InverseKeys">
+    <value>Invertir teclas</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRefuel">
+    <!--<value>Aterrice en el portaaviones y presione 'X' para cargar combustible</value>-->
+    <value>Aterrice en el portaaviones y presione '{0}' para cargar combustible</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRepair">
+    <!--<value>Aterrice en el portaaviones y presione 'X' para reparar</value>-->
+    <value>Aterrice en el portaaviones y presione '{0}' para reparar</value>
+  </data>
+  <!-- low difficulty / details -->
+  <data name="Low">
+    <value>Bajo</value>
+  </data>
+  <data name="LowFuelWarning">
+    <value>ADVERTENCIA, NIVEL DE COMBUSTIBLE BAJO</value>
+  </data>
+  <data name="LowOilWarning">
+    <value>ADVERTENCIA, NIVEL DE ACEITE BAJO</value>
+  </data>
+  
+  <data name="Medium">
+    <value>Medio</value>
+  </data>
+  <data name="No">
+    <value>No</value>
+  </data>
+  
+  <data name="PressEToTurnOnTheEngine">
+    <value>Presione y mantenga '{0}' para encender el motor</value>
+  </data>
+  
+  <data name="PressXToChangeAmmo">
+    <value>Presione '{0}' to change the ammo, repair and refuel</value>
+  </data>
+  
+  
+  <data name="ScreenshotWrittenTo">
+    <value>Screenshot guardado en</value>
+  </data>
+  <data name="StartFrom">
+    <value>Comenzar desde</value>
+  </data>
+  <data name="TriangleCount">
+    <value>Cuantidad de polígonos</value>
+  </data>
+  <data name="WorstFPS">
+    <value>Peores FPS</value>
+  </data>
+  <data name="Yes">
+    <value>Si</value>
+  </data>
+  <data name="AreYouTryingToReachStarsCaptain">
+    <value>Are you trying to reach the stars captain?</value>
+  </data>
+  <data name="EnemyInstallationDestroyed">
+    <value>¡Instalación enemiga destruida, Señor!</value>
+  </data>
+  <data name="EnemyInstallationsAreBothSideCaptain">
+    <value>¡Las instalaciones enemigas se encuentran a ambos lados capitán!</value>
+  </data>
+  <data name="EnemyInstallationsAreLeftCaptain">
+    <value>¡Las instalaciones enemigas se encuentran a la izquierda capitán!</value>
+  </data>
+  <data name="EnemyInstallationsAreRightCaptain">
+    <value>¡Las instalaciones enemigas se encuentran a la derecha capitán!</value>
+  </data>
+  <data name="EnemyPlaneDownIRepeat">
+    <value>¡Avión enemigo derribado! ¡Repito! ¡Avión enemigo derribado!</value>
+  </data>
+  <data name="KillAllEnemySoldiers">
+    <value>Acabe con todos los soldados enemigos. ¡A por ellos capitán!</value>
+  </data>
+  <data name="OhNoEnemySoldiersAreRebuildingBunker">
+    <value>¡Oh, no! ¡Los soldados enemigos están reconstruyendo el bunker!</value>
+  </data>
+  <data name="RetractYourLandingGearWithG">
+    <value>Retraiga su tren de aterrizaje presionando '{0}'</value>
+  </data>
+  <data name="WARNINGProtectTheCarrierFromEnemyPlane">
+    <value>¡ADVERTENCIA! ¡Proteja al portaaviones de aviones enemigos!</value>
+  </data>
+  <data name="WeAreNotLeavingYetCaptain">
+    <value>¡Aun no nos vamos capitán!</value>
+  </data>
+  <data name="Languages">
+    <value>Idiomas</value>
+  </data>
+  <!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
+  <data name="CoreTeam">
+    <value>Equipo principal</value>
+  </data>
+  <data name="SupportTeam">
+    <value>Equipo de apoyo</value>
+  </data>
+  <data name="Graphics">
+    <value>Gráficos</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>Traducciones hechas por la comunidad</value>
+  </data>
+  <data name="Poland">
+    <value>Poland</value>
+  </data>
+  <data name="Donate">
+    <value>Donar</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>Comprobar si hay actualizaciones</value>
+  </data>
+   <!--
+        Next 5 messages will be concatenated into one.        
+    -->
+  <data name="DonateMessagePart1">   
+    <value>Si te ha gustado</value>
+  </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
+  <data name="DonateMessagePart2">
+    <value>por favor considere hacer una donación</value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>vía Paypal. Estamos recaudando</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>fondos para apoyar </value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>el desarrollo del juego.</value>
+  </data>
+  <!-- message displayed after pressing 'c' (change camera) key. -->
+  <data name="CameraChanged">
+    <value>Cambio de vista efectuado</value>
+  </data>
+
+  <!-- added to rev. 265 -->
+  <data name="EnemySoldiersLeft">
+    <value>Soldados enemigos restantes</value>
+  </data>
+
+  <!-- added to rev. 305 - Level stats -->
+  <data name="LevelStats">
+    <value>Estadísticas del nivel</value>
+  </data>
+
+  <data name="BombsDropped">
+    <value>Bombas lanzadas:</value>
+  </data>
+
+  <data name="BombsAccuracy">
+    <value>Puntería con bombas:</value>
+  </data>
+
+  <data name="RocketsFired">
+    <value>Misiles disparados:</value>
+  </data>
+
+  <data name="RocketsAccuracy">
+    <value>Puntería con misiles:</value>
+  </data>
+
+  <data name="GunShellsFired">
+    <value>Disparos efectuados:</value>
+  </data>
+
+  <data name="GunAccuracy">
+    <value>Puntería con ametralladora:</value>
+  </data>
+
+  <data name="PlanesDestroyed">
+    <value>Aviones destruidos:</value>
+  </data>
+
+  <data name="LevelCompleted">
+    <value>Nivel completado</value>
+  </data>
+
+  <data name="Engine"><!-- plane engine -->
+    <value>Motor</value>
+  </data>
+
+  <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
+    <value>Acelerar/Frenar/Virar</value>
+  </data>
+
+  <data name="Pitch"><!-- changing of plane's altitude. -->
+    <value>Inclinación</value>
+  </data>
+
+  <data name="Spin"><!-- rolling the plane around its longwise (when you press ctrl) -->
+    <value>Girar</value>
+  </data>
+
+  <data name="Gear"><!-- landing gear -->
+    <value>Tren de aterrizaje</value>
+  </data>
+
+  <data name="Gun">
+    <value>Ametralladora</value>
+  </data>
+
+  <data name="Camera">
+    <value>Cámara</value>
+  </data>
+
+  <data name="Zoomin">
+    <value>Zoom +</value>
+  </data>
+
+
+  <data name="Zoomout">
+    <value>Zoom -</value>
+  </data>
+
+  <data name="RearmEndMission">
+    <value>recargar municiones / Finalizar misión</value>
+  </data>
+
+  <!-- added 2.01.2009 -->
+
+  <data name="Torpedo">
+    <value>Torpedo</value>
+  </data>
+  <data name="Torpedoes">
+    <value>Torpedos</value>
+  </data>
+
+ <!-- added 25.03.2009 -->
+  <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
+    <value>Todos los aviones enemigos han sido destruidos, aterrice en el portaaviones y presione '{0}'</value>
+  </data>
+  
+  <data name="EnemyPlanesLeft">
+    <value>Aviones enemigos restantes</value>
+  </data>
+  
+  <data name="Target">
+    <value>Blanco</value>
+  </data>
+  
+  <data name="Neutralized"> <!-- killed -->
+    <value>Neutralizado</value>
+  </data>
+  
+  <data name="Alive">
+    <value>Vivo</value>
+  </data> 
+  
+  <data name="TargetNeutralizedLandOnCarrierAndPressX">
+      <value>Blanco neutralizado. Aterrice en el portaaviones y presione '{0}'</value>
+  </data> 
+  
+  <!-- enemy ships left to be sunk -->
+  <data name="EnemyShipsLeft">
+    <value>Barcos enemigos restantes</value>
+  </data>
+  
+  <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
+    <value>Todos los barcos enemigos han sido destruidos, aterrice en el portaaviones y presione '{0}'</value>
+  </data>
+  
+  <data name="EnemyInstallationDamaged">
+    <value>¡Instalación enemiga dañada, Señor!</value>
+  </data>
+  
+  <data name="TorpedoTooHigh">
+    <value>¡Demasiada altitud! El torpedo fallo</value>
+  </data>
+  
+  <data name="TorpedoLongTravelDistance">
+    <value>¡El torpedo se ha quedado sin combustible! Acérquese al objetivo</value>
+  </data>
+	
+	<!-- Hydrax is a water effects library -->
+  <data name="HydraxWater">
+    <value>Hydrax Water</value>
+  </data>
+
+  <data name="Blood">
+    <value>Sangre</value>
+  </data>
+
+  <!-- Used in the options context like so: "shadows: none" -->
+  <data name="None">
+    <value>Ninguna</value>
+  </data>
+
+ <data name="Shadows">
+    <value>Sombras</value>
+  </data>
+
+  <!-- Bullet time effect - like in Matrix :) -->
+  <data name="BulletTime">
+    <value>Bullet Time</value>
+  </data>
+
+  <data name="MissionType">
+    <value>Tipo de misión</value>
+  </data>
+  
+  <!-- available mission types: -->
+  <data name="Dogfight">
+    <value>Batalla Aérea</value> <!-- destroying planes -->
+  </data>
+  
+  
+  <data name="BombingRun"> <!-- destroying enemy installations -->
+    <value>Bombardeo</value>
+  </data>
+  
+  
+  <data name="Assassination">
+    <value>Asesinato</value> <!-- "kill the generals" -->
+  </data>
+  
+  
+  <data name="Naval">
+    <value>Naval</value> <!-- sink all ships -->
+  </data>
+
+
+  <data name="KeyboardInfo1">
+    <value>Por favor use el archivo (directorio_juego)\Release\KeyMap.ini, </value>
+  </data>
+  
+  <data name="KeyboardInfo2">
+    <value>para cambiar las teclas asignadas</value>
+  </data>
+  
+  <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
+  <data name="Tutorial0">
+   <value>
+     Tipos de misiones:
+     Puede encontrarse con varios tipos de misiones durante el juego:
+     Batalla Aérea - derribe todos los aviones enemigos para completar la misión.
+     Bombardeo - Elimine a todos los soldados enemigos.
+
+
+     Asesinato - Los generales enemigos están escondiéndose en una fortaleza en alguna parte. Use sus misiles para eliminarlos.
+     Naval - Hunda todos los barcos enemigos usando torpedos. Recuerde que debe volar bajo y de forma estable antes de lanzar un torpedo.
+   </value>
+  </data>
+  
+  
+  
+  
+  <data name="EnemyGenerals">
+    <value>Generales enemigos restantes</value> <!-- left - means 'to eliminate' -->
+  </data>
+ 
+  <data name="Altitude">
+    <value>Altitud</value>
+  </data>
+
+
+  <data name="PressLeftUpToTakeOff">
+    <value>Presione '{0}','{1}' para despegar</value>
+  </data>
+
+  <data name="CustomLevels">
+    <value>Niveles personalizados</value>
+  </data>
+
+ <data name="PressUpToLand">
+    <value>Presione "{0}" para aterrizar</value>
+  </data>
+
+  <!-- don't worry about the line breaks in the strings below -->
+  <data name="News404_1">
+    <value>Error navigating to WOF2 project news</value>
+  </data>
+
+  <data name="News404_2">
+    <value>Imposible establecer conexión con Internet</value>
+  </data>
+
+  <data name="News404_3">
+    <value>Por favor permita al WOF2 conectarse a Internet a través de su firewall. Así podrá descargar nuevos niveles y actualizaciones y apoyar el juego al mismo tiempo</value>
+  </data>
+
+  <data name="News404_4">
+    <value>¿Como hacerlo?</value>
+  </data>
+
+  <data name="EnhancedVersion"><!-- enhanced version of the game -->
+    <value>Versión Enhanced</value>
+  </data>
+
+  <data name="EnhancedVersionDetails">
+    <value>La versión Enhanced del juego contiene niveles adicionales y contenido bonus. También son retirados todos los anuncios. Esta versión esta disponible para todos aquellos que hayan donado y apoyado el desarrollo del juego.</value>
+  </data>
+  
+  <data name="Planes"><!-- airplanes -->
+    <value>Aviones</value>
+  </data>
+
+
+  <!-- plane names -->
+
+  <data name="P47">
+    <value>P47</value>
+  </data>
+
+  <data name="F4U">
+    <value>F4U</value>
+  </data>
+  
+  
+  
+
+
+</root>
+
+
