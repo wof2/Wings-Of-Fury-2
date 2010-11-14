@@ -1,11 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Wings of Fury 2", "Wings of Fury 2\Wings of Fury 2.vdproj", "{6C1896BA-6E02-43EB-B88F-453CE3BE7084}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wof", "..\..\wof.csproj", "{F101F624-0894-4B82-BE03-002A6D0E94F5}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Wings of Fury 2 - update", "Wings of Fury 2 - update\Wings of Fury 2 - update.vdproj", "{06ED4415-1C6D-4E04-B449-3F34187BBFE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,18 +13,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6C1896BA-6E02-43EB-B88F-453CE3BE7084}.Debug|Any CPU.ActiveCfg = Debug
-		{6C1896BA-6E02-43EB-B88F-453CE3BE7084}.Debug|Any CPU.Build.0 = Debug
-		{6C1896BA-6E02-43EB-B88F-453CE3BE7084}.Debug|x64.ActiveCfg = Debug
-		{6C1896BA-6E02-43EB-B88F-453CE3BE7084}.Debug|x64.Build.0 = Debug
-		{6C1896BA-6E02-43EB-B88F-453CE3BE7084}.Debug|x86.ActiveCfg = Debug
-		{6C1896BA-6E02-43EB-B88F-453CE3BE7084}.Debug|x86.Build.0 = Debug
-		{6C1896BA-6E02-43EB-B88F-453CE3BE7084}.Release|Any CPU.ActiveCfg = Release
-		{6C1896BA-6E02-43EB-B88F-453CE3BE7084}.Release|Any CPU.Build.0 = Release
-		{6C1896BA-6E02-43EB-B88F-453CE3BE7084}.Release|x64.ActiveCfg = Release
-		{6C1896BA-6E02-43EB-B88F-453CE3BE7084}.Release|x64.Build.0 = Release
-		{6C1896BA-6E02-43EB-B88F-453CE3BE7084}.Release|x86.ActiveCfg = Release
-		{6C1896BA-6E02-43EB-B88F-453CE3BE7084}.Release|x86.Build.0 = Release
 		{F101F624-0894-4B82-BE03-002A6D0E94F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F101F624-0894-4B82-BE03-002A6D0E94F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F101F624-0894-4B82-BE03-002A6D0E94F5}.Debug|x64.ActiveCfg = Debug|x64
@@ -41,12 +25,6 @@ Global
 		{F101F624-0894-4B82-BE03-002A6D0E94F5}.Release|x64.Build.0 = Release|x64
 		{F101F624-0894-4B82-BE03-002A6D0E94F5}.Release|x86.ActiveCfg = Release|x86
 		{F101F624-0894-4B82-BE03-002A6D0E94F5}.Release|x86.Build.0 = Release|x86
-		{06ED4415-1C6D-4E04-B449-3F34187BBFE3}.Debug|Any CPU.ActiveCfg = Debug
-		{06ED4415-1C6D-4E04-B449-3F34187BBFE3}.Debug|x64.ActiveCfg = Debug
-		{06ED4415-1C6D-4E04-B449-3F34187BBFE3}.Debug|x86.ActiveCfg = Debug
-		{06ED4415-1C6D-4E04-B449-3F34187BBFE3}.Release|Any CPU.ActiveCfg = Release
-		{06ED4415-1C6D-4E04-B449-3F34187BBFE3}.Release|x64.ActiveCfg = Release
-		{06ED4415-1C6D-4E04-B449-3F34187BBFE3}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
