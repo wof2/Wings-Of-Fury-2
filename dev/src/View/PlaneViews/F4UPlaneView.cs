@@ -187,7 +187,7 @@ namespace Wof.View
 
         public override void SmashPaint()
         {
-            if (!EngineConfig.LowDetails && !GameConsts.UserPlane.PlaneCheat)
+            if (!EngineConfig.LowDetails && !GameConsts.UserPlane.Singleton.PlaneCheat)
             {
                 ViewHelper.ReplaceMaterial(planeEntity, bodyMaterialName, destroyedBodyMaterialName);
             }
@@ -197,7 +197,7 @@ namespace Wof.View
         public override void RestorePaint()
         {
             // polski samolot ma niezniszalny lakier;)
-            if (!EngineConfig.LowDetails && !GameConsts.UserPlane.PlaneCheat)
+            if (!EngineConfig.LowDetails && !GameConsts.UserPlane.Singleton.PlaneCheat)
             {
                 ViewHelper.ReplaceMaterial(planeEntity, destroyedBodyMaterialName, bodyMaterialName);
             }

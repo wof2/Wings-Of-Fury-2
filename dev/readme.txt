@@ -1,7 +1,16 @@
 ---------------------------------------------------------------
--- Wings Of Fury 2
--- Version 3.00 (final) - 30.05.2009
+-- Wings Of Fury 2: Return of the legend
+-- Version 3.30 (final) - 15.11.2010
 ---------------------------------------------------------------
+
+3.3 release credits:
+  Adam Witczak
+
+3.2 release credits:
+  Adam Witczak
+  
+3.1 release credits:
+  Adam Witczak
 
 3.0 release credits:
   Adam Witczak
@@ -29,8 +38,9 @@ Min. requirements tested:
 
 
 Required software:
- - the newest DirectX
- - .NET framework 2.0 
+ - Miscrosoft Windows XP or better
+ - the DirectX (9.0c update March 2009 or newer)
+ - Miscrosoft .NET framework 2.0 or better
  - Microsoft Visual C++ 2008 Redistributable Package 
  - latest graphics card drivers
 

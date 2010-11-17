@@ -145,7 +145,7 @@ namespace Wof.View
 
         protected SceneNode parentNode;
         protected SceneNode planeNode, innerSteeringNode, outerSteeringNode, outerNode, innerNode, idleNode;
-        protected SceneNode bladeNode, lWingNode, rWingNode;
+        protected SceneNode bladeNode, bladeNodeL, bladeNodeR, lWingNode, rWingNode;
 
         protected SceneNode lWheelNode, rWheelNode, rearWheelNode;
         protected List<SceneNode> cameraHolders;
@@ -213,6 +213,16 @@ namespace Wof.View
         public SceneNode BladeNode
         {
             get { return bladeNode; }
+        }
+
+        public SceneNode BladeNodeL
+        {
+            get { return bladeNodeL; }
+        }
+
+        public SceneNode BladeNodeR
+        {
+            get { return bladeNodeR; }
         }
 
         public SceneNode InnerNode
@@ -336,7 +346,7 @@ namespace Wof.View
             if (crossHairEffectNodeAnimation != null)
             {
                 float normalVisibilityDist = 3.0f;
-                float dist = (crossHairEffectNodeAnimation.Node._getDerivedPosition() - camera.RealPosition).Length;
+                float dist = (crossHairEffectNodeAnimation.FirstNode._getDerivedPosition() - camera.RealPosition).Length;
                 float visibility = dist * normalVisibilityDist;
                 if (visibility < 0) visibility = 0;
                 if (visibility > 100) visibility = 100;
@@ -344,7 +354,7 @@ namespace Wof.View
 
                 try
                 {
-                    MovableObject obj = crossHairEffectNodeAnimation.Node.GetAttachedObject(0);
+                    MovableObject obj = crossHairEffectNodeAnimation.FirstNode.GetAttachedObject(0);
                     if (obj != null && obj is BillboardSet)
                     {
                         ((BillboardSet)obj).GetMaterial().GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetAlphaOperation(LayerBlendOperationEx.LBX_MODULATE, LayerBlendSource.LBS_TEXTURE, LayerBlendSource.LBS_MANUAL, visibility, visibility);
@@ -610,5 +620,126 @@ namespace Wof.View
         public abstract void ResetCameraHolders();
 
         #endregion
+
+
+        
+
+        public virtual void OnFireGun()
+        {
+            if (this is EnemyPlaneView)
+            {
+                (this as EnemyPlaneView).PlayGunSound();
+            }
+            OnFireGunDo(new Vector3(-4.3f, -0.3f, -5.3f), new Vector3(4.3f, -0.3f, -5.3f), new Vector2(4.5f, 3.5f), false, 64);
+        }
+
+
+
+        protected void OnFireGunDo(Vector3 gun1Pos, Vector3 gun2Pos, Vector2 expSize, bool reverseDir, float baseWidth)
+        {
+            Quaternion orient, trailOrient;
+            if (reverseDir)
+            {
+                orient = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
+                trailOrient = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
+                trailOrient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
+
+            } else
+            {
+                orient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y);
+                trailOrient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y);
+                trailOrient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
+            }
+
+         //   trailOrient *= new Quaternion(Math.HALF_PI * -0.0f, Vector3.UNIT_Y);
+
+
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "LeftGunHit" + gun1Pos,
+                                                       EffectsManager.EffectType.GUNHIT2,
+                                                       gun1Pos, expSize,
+                                                       orient, false);
+
+
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "RightGunHit" + gun2Pos,
+                                                       EffectsManager.EffectType.GUNHIT2,
+                                                       gun2Pos, expSize,
+                                                       orient, false);
+
+            float trailWidth = baseWidth * Math.RangeRandom(1.0f, 1.1f);
+            string leftTrailName = EffectsManager.BuildSpriteEffectName(this.OuterNode, EffectsManager.EffectType.GUNTRAIL, "LeftGunTrail" + gun1Pos);
+            string rightTrailName = EffectsManager.BuildSpriteEffectName(this.OuterNode, EffectsManager.EffectType.GUNTRAIL, "RightGunTrail" + gun2Pos);
+            bool showLeftTrail = EffectsManager.Singleton.EffectEnded(leftTrailName) || !EffectsManager.Singleton.EffectExists(leftTrailName);
+            bool showRightTrail = EffectsManager.Singleton.EffectEnded(rightTrailName) || !EffectsManager.Singleton.EffectExists(rightTrailName);
+
+            if (this is PlayerPlaneView)
+            {
+                // nie odpalaj za kazdym razem 
+                showLeftTrail &= (Math.RangeRandom(0.0f, 1.0f) > 0.4f);
+                showRightTrail &= (Math.RangeRandom(0.0f, 1.0f) > 0.4f);
+            }
+
+            showLeftTrail |= (Math.RangeRandom(0.0f, 1.0f) > 0.95f); // czasem przerwij efekt i zacznij od poczatku
+            showRightTrail |= (Math.RangeRandom(0.0f, 1.0f) > 0.95f); // czasem przerwij efekt i zacznij od poczatku
+
+            Vector3 leftTrailBase = new Vector3(gun1Pos.x, 0.1f, gun1Pos.z - trailWidth * 0.5f);
+            Vector3 rightTrailBase = new Vector3(gun2Pos.x, 0.1f, gun2Pos.z - trailWidth * 0.5f);
+            
+            if (reverseDir)
+            {
+                leftTrailBase += new Vector3(0, 0.05f, gun1Pos.z + trailWidth * 0.9f); // trail is not symmertic :/
+                rightTrailBase += new Vector3(0, 0.05f, gun2Pos.z + trailWidth * 0.9f);
+
+
+            }
+
+
+
+            if (showLeftTrail)
+            {
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "LeftGunTrail" + gun1Pos,
+                                                           EffectsManager.EffectType.GUNTRAIL,
+                                                           leftTrailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 10.0f)),
+                                                           new Vector2(trailWidth, 1.0f),
+                                                           trailOrient, false);
+            }
+
+            if (showRightTrail)
+            {
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "RightGunTrail" + gun2Pos,
+                                                           EffectsManager.EffectType.GUNTRAIL,
+                                                           rightTrailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 10.0f)),
+                                                           new Vector2(trailWidth, 1.0f),
+                                                           trailOrient, false);
+            }
+
+            orient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
+            trailOrient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "LeftGunHitTop" + gun1Pos,
+                                                       EffectsManager.EffectType.GUNHIT2,
+                                                       gun1Pos, expSize,
+                                                       orient, false);
+
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "RightGunHitTop" + gun2Pos,
+                                                       EffectsManager.EffectType.GUNHIT2,
+                                                       gun2Pos, expSize,
+                                                       orient, false);
+
+            if (showLeftTrail)
+            {
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "LeftGunTrailTop" + gun1Pos,
+                                                           EffectsManager.EffectType.GUNTRAIL,
+                                                           leftTrailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 10.0f)),
+                                                           new Vector2(trailWidth, 1.0f),
+                                                           trailOrient, false);
+            }
+            if (showRightTrail)
+            {
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "RightGunTrailTop" + gun2Pos,
+                                                           EffectsManager.EffectType.GUNTRAIL,
+                                                           rightTrailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 10.0f)),
+                                                           new Vector2(trailWidth, 1.0f),
+                                                           trailOrient, false);
+            }
+        }
     }
 }

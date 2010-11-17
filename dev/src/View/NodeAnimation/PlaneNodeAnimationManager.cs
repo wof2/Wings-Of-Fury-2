@@ -47,6 +47,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using Mogre;
 using Wof.Model.Level.Planes;
 using Wof.Controller;
@@ -423,15 +424,20 @@ namespace Wof.View.NodeAnimation
 
                     #region BLADE
 
-                case AnimationType.BLADE:
+                    case AnimationType.BLADE:
                     {
                         float airscrewSpeed = 1000; // 1000 RPM
                         if (planeView.Plane != null)
                         {
                             airscrewSpeed = planeView.Plane.AirscrewSpeed;
                         }
+                        List<SceneNode> nodes = new List<SceneNode>();
+                        if (planeView.BladeNode != null) nodes.Add(planeView.BladeNode);
+                        if (planeView.BladeNodeL != null) nodes.Add(planeView.BladeNodeL);
+                        if (planeView.BladeNodeR != null) nodes.Add(planeView.BladeNodeR);
+
                         this[animationName] = new ConstRotateNodeAnimation(
-                            planeView.BladeNode,
+                            nodes,
                             airscrewSpeed,
                             Vector3.UNIT_Z,
                             animationName
@@ -496,10 +502,15 @@ namespace Wof.View.NodeAnimation
                     {
                         if (planeView is P47PlaneView)
                         {
+                            Degree deg = new Degree(90);
+                            if(planeView is B25PlaneView)
+                            {
+                                deg = 120;
+                            }
                             this[animationName] = new SinRotateNodeAnimation(
                                 (planeView as P47PlaneView).LWheelInnerNode,
                                 (duration <= 0 ? 2.0f : duration),
-                                new Degree(90),
+                                deg,
                                 Math.HALF_PI,
                                 Vector3.NEGATIVE_UNIT_Z,
                                 animationName
@@ -513,10 +524,15 @@ namespace Wof.View.NodeAnimation
                     {
                         if (planeView is P47PlaneView)
                         {
+                            Degree deg = new Degree(90);
+                            if (planeView is B25PlaneView)
+                            {
+                                deg = 120;
+                            }
                             this[animationName] = new SinRotateNodeAnimation(
                                 (planeView as P47PlaneView).RWheelInnerNode,
                                 (duration <= 0 ? 2.0f : duration),
-                                new Degree(90),
+                                deg,
                                 Math.HALF_PI,
                                 Vector3.NEGATIVE_UNIT_Z,
                                 animationName
@@ -530,10 +546,15 @@ namespace Wof.View.NodeAnimation
                     {
                         if (planeView is P47PlaneView)
                         {
+                            Degree deg = new Degree(45);
+                            if (planeView is B25PlaneView)
+                            {
+                                deg = 120;
+                            }
                             this[animationName] = new SinRotateNodeAnimation(
                                 (planeView as P47PlaneView).RearWheelInnerNode,
                                 (duration <= 0 ? 2.0f : duration),
-                                new Degree(45),
+                               deg,
                                 Math.HALF_PI,
                                 Vector3.NEGATIVE_UNIT_X,
                                 animationName

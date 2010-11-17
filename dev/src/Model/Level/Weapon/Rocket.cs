@@ -381,13 +381,16 @@ namespace Wof.Model.Level.Weapon
             {
                // Console.WriteLine(flyVector.X);
 
+                float minFlyingSpeed = Owner.IsEnemy ? GameConsts.EnemyPlane.Singleton.RangeFastWheelingMaxSpeed * GameConsts.EnemyPlane.Singleton.MaxSpeed : GameConsts.UserPlane.Singleton.RangeFastWheelingMaxSpeed * GameConsts.UserPlane.Singleton.MaxSpeed;
+
+
                 // rakieta wytraca prêdkoœæ uzyskan¹ od samolotu
-                if (Math.Abs(flyVector.X) > Math.Abs(Plane.MinFlyingSpeed * GameConsts.Rocket.BaseSpeed))
+                if (Math.Abs(flyVector.X) > Math.Abs(minFlyingSpeed * GameConsts.Rocket.BaseSpeed))
                 {
                     flyVector.X *= 0.995f;
                 }
 
-                if (Math.Abs(flyVector.Y) > Math.Abs(Plane.MinFlyingSpeed * GameConsts.Rocket.BaseSpeed))
+                if (Math.Abs(flyVector.Y) > Math.Abs(minFlyingSpeed * GameConsts.Rocket.BaseSpeed))
                 {
                     flyVector.Y *= 0.995f;
                 }

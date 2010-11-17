@@ -69,7 +69,11 @@ namespace Wof.Model.Configuration
         /// <summary>
         /// Ustawienia dla samolotu gracza.
         /// </summary>
-        private Dictionary<String, float> mUserPlaneConfig = null;
+        private Dictionary<String, float> mP47PlaneConfig = null;
+        private Dictionary<String, float> mF4UPlaneConfig = null;
+        private Dictionary<String, float> mB25PlaneConfig = null;
+
+        
         private Dictionary<String, float> mEnemyPlaneConfig = null;
         private Dictionary<String, float> mSoldierConfig = null;
         private Dictionary<String, float> mWoodenBunker = null;
@@ -121,8 +125,13 @@ namespace Wof.Model.Configuration
         /// <returns>Slownik zawierajacy konfiguracje dla podanego elementu gry.</returns>
         public Dictionary<String, float> GetConfiguration(String type)
         {
-            if (type.Equals(ConfigurationNames.UserPlane))
-                return mUserPlaneConfig;
+            
+            if (type.Equals(ConfigurationNames.P47))
+                return mP47PlaneConfig;
+            else if (type.Equals(ConfigurationNames.F4U))
+                return mF4UPlaneConfig;
+            else if (type.Equals(ConfigurationNames.B25))
+                return mB25PlaneConfig;
             else if (type.Equals(ConfigurationNames.EnemyPlane))
                 return mEnemyPlaneConfig;
             else if (type.Equals(ConfigurationNames.Soldier))
@@ -155,7 +164,11 @@ namespace Wof.Model.Configuration
             format.NumberGroupSeparator = ",";
 
             mEnemyPlaneConfig = InitConfig(typeof (ConfigurationAttributes.EnemyPlane));
-            mUserPlaneConfig = InitConfig(typeof (ConfigurationAttributes.UserPlane));
+           
+            mP47PlaneConfig = InitConfig(typeof(ConfigurationAttributes.UserPlane));
+            mF4UPlaneConfig = InitConfig(typeof(ConfigurationAttributes.UserPlane));
+            mB25PlaneConfig = InitConfig(typeof(ConfigurationAttributes.UserPlane));
+
             mConcreteBunker = InitConfig(typeof (ConfigurationAttributes.Bunker));
             mSoldierConfig = InitConfig(typeof (ConfigurationAttributes.Soldier));
             mWoodenBunker = InitConfig(typeof (ConfigurationAttributes.Bunker));
@@ -191,10 +204,20 @@ namespace Wof.Model.Configuration
             {
                 if (reader.NodeType == XmlNodeType.Element)
                 {
-                    if (reader.Name.Equals(ConfigurationNames.UserPlane))
+                    if (reader.Name.Equals(ConfigurationNames.P47))
                     {
-                        if (!ReadConfig(reader, mUserPlaneConfig))
-                            throw new XmlException("User plane jest niepoprawny !");
+                        if (!ReadConfig(reader, mP47PlaneConfig))
+                            throw new XmlException("P47 jest niepoprawny !");
+                    }
+                    else if (reader.Name.Equals(ConfigurationNames.F4U))
+                    {
+                        if (!ReadConfig(reader, mF4UPlaneConfig))
+                            throw new XmlException("F4U jest niepoprawny !");
+                    }
+                    else if (reader.Name.Equals(ConfigurationNames.B25))
+                    {
+                        if (!ReadConfig(reader, mB25PlaneConfig))
+                            throw new XmlException("B25 jest niepoprawny !");
                     }
                     else if (reader.Name.Equals(ConfigurationNames.EnemyPlane))
                     {
@@ -265,7 +288,7 @@ namespace Wof.Model.Configuration
                             config[reader.Name.Trim()] = value;
                         else return false;
                     }
-                    else return false;
+                   // else return false;
                 }
                 return true;
             }
@@ -286,7 +309,7 @@ namespace Wof.Model.Configuration
         {
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("User plane:");
-            builder.Append(ConfigToString(mUserPlaneConfig));
+            builder.Append(ConfigToString(mP47PlaneConfig));
             builder.AppendLine("Enemy plane:");
             builder.Append(ConfigToString(mEnemyPlaneConfig));
             builder.AppendLine("Soldier:");
@@ -356,10 +379,10 @@ namespace Wof.Model.Configuration
                 mSoldierConfig.Clear();
                 mSoldierConfig = null;
             }
-            if (mUserPlaneConfig != null)
+            if (mP47PlaneConfig != null)
             {
-                mUserPlaneConfig.Clear();
-                mUserPlaneConfig = null;
+                mP47PlaneConfig.Clear();
+                mP47PlaneConfig = null;
             }
             
             if (mRocket != null)

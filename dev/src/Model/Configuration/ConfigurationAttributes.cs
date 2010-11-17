@@ -54,7 +54,7 @@ namespace Wof.Model.Configuration
     /// <remarks>Wszystkie pola w klasach sa wywolywane dynamicznie.</remarks>
     public static class ConfigurationAttributes
     {
-        public static class UserPlane
+        public class UserPlane
         {
             public const string oilLoss = @"oilLoss";
             public const string moveStep = @"moveStep";
@@ -79,9 +79,10 @@ namespace Wof.Model.Configuration
             public const string godMode = @"godMode";
             public const string width = @"width";
             public const string height = @"height";
+            public const string canSpin = @"canSpin";
         }
 
-        public static class EnemyPlane
+        public class EnemyPlane : UserPlane
         {
             public const string speed = @"speed";
             public const string oilLoss = @"oilLoss";
@@ -98,21 +99,21 @@ namespace Wof.Model.Configuration
             public const string maxSimultaneousEnemyPlanes = @"maxSimultaneousEnemyPlanes";
         }
 
-        public static class Soldier
+        public class Soldier
         {
             public const string minSpeed = @"minSpeed";
             public const string maxSpeed = @"maxSpeed";
             public const string homelessTime = @"homelessTime";
         }
 
-        public static class Bunker
+        public class Bunker
         {
             public const string fireDelay = @"fireDelay";
             public const string horizonHeight = @"horizonHeight";
             public const string horizonWidth = "horizonWidth";
         }
 
-        public static class Bomb
+        public class Bomb
         {
             public const string accelerationInterval = @"accelerationInterval";
             public const string airResistance = @"airResistance";
@@ -120,19 +121,19 @@ namespace Wof.Model.Configuration
             public const string gravitation = @"gravitation";
         }
 
-        public static class Rocket
+        public class Rocket
         {
             public const string fireInterval = @"fireInterval";
             public const string baseSpeed = @"baseSpeed";
         }
 
-        public static class Torpedo
+        public class Torpedo
         {
             public const string fireInterval = @"fireInterval";
             public const string baseSpeed = @"baseSpeed";
         }
 
-        public static class Effects
+        public class Effects
         {
             public const string bulletLoadTime = @"bulletLoadTime";
         }        

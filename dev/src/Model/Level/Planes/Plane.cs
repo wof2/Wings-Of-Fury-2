@@ -125,7 +125,8 @@ namespace Wof.Model.Level.Planes
     {
         P47,
         F4U,
-        A6M
+        A6M,
+        B25
     } ;
 
     #endregion
@@ -154,50 +155,49 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Procent wartosci MaxOil po przekroczeniu ktorej silnik jest zatarty nie moze byc ponownie odpalony
         /// </summary>
-        private const float engineUnstartableOilThreshold = 0.15f;
+        protected const float engineUnstartableOilThreshold = 0.15f;
         /// <summary>
         /// Maksymalna odleglosc od lotniskowca ktora moze spowodowac wyswietlenie hintu o ladowaniu
         /// </summary>
-        private const float potentiallyLandingMaxDistance = 70;
-          
+        protected const float potentiallyLandingMaxDistance = 70;
+
         /// <summary>
         /// K¹t o jaki bêdzie siê zmienia³o nachylenie samolotu po jednokrotnym naciœniêciu strza³ki.
         /// (Wyra¿ony w radianach)
         /// </summary>
-        private readonly float rotateStep = GameConsts.UserPlane.UserRotateStep;
+        protected float rotateStep;
 
         /// <summary>
         /// Prêdkoœc przy wolnym ko³owaniu.
         /// </summary>
-        private readonly float slowWheelingSpeed = GameConsts.UserPlane.RangeSlowWheelingSpeed*GameConsts.UserPlane.MaxSpeed;
+        protected float slowWheelingSpeed;
 
         /// <summary>
         /// maksymalna prêdkoœæ przy szybkim ko³owaniu.
         /// </summary>
-        private static readonly float maxFastWheelingSpeed = GameConsts.UserPlane.RangeFastWheelingMaxSpeed*
-                                                    GameConsts.UserPlane.MaxSpeed;
+        protected float maxFastWheelingSpeed;
 
         /// <summary>
         /// Okreœla maksymaln¹ prêdkoœæ samolotu z wysuniêtym podwoziem
         /// </summary>
-        private readonly float maxWheelOutSpeed = 0.5f*GameConsts.UserPlane.MaxSpeed;
+        protected float maxWheelOutSpeed;
 
         /// <summary>
         /// Prêdkoœæ przy na lotniskowcu przy której samolot opuszcza dziób.
         /// </summary>//musialem usunac const aby mozna bylo je ustwic. Michal
-        private static readonly float changeWheelsSpeed = maxFastWheelingSpeed*0.8f;
+        protected float changeWheelsSpeed;
 
         /// <summary>
         /// K¹t o który jest pochylony dziób samolotu w górê w czasie ko³owania na lotniskowcy.
         /// </summary>
-        private const float angleOnCarrier = Math.PI*0.05f;
+        protected const float angleOnCarrier = Math.PI * 0.05f;
 
         /// <summary>
         /// Minimalna prêdkoœæ lotu.//musialem usunac const aby mozna bylo je ustwic. Michal
         /// </summary>
-        private static readonly float minFlyingSpeed = GameConsts.UserPlane.RangeFastWheelingMaxSpeed * GameConsts.UserPlane.MaxSpeed;
+        protected float minFlyingSpeed;
 
-        public static float MinFlyingSpeed
+        public float MinFlyingSpeed
         {
             get { return minFlyingSpeed; }
         }
@@ -211,17 +211,17 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Szerokoœæ prostok¹ta ograniczaj¹cego samolot
         /// </summary>
-        private readonly float width = GameConsts.UserPlane.Width;
+        protected float width;
 
         /// <summary>
         /// Wysokoœæ prostok¹ta ograniczaj¹cego samolot
         /// </summary>
-        private readonly float height = GameConsts.UserPlane.Height;
+        protected float height;
 
         /// <summary>
         /// Okreœla odleglosc po wspó³rzednej X miedzy ko³ami a srodkiem samolotu.
         /// </summary>
-        private const float wheelDistanceFromCenter = 1.15f;
+        protected const float wheelDistanceFromCenter = 1.15f;
 
         /// <summary>
         /// Minimalna prêdkosc smigiel(ustawiana zaraz po w³¹czeniu silnika).
@@ -282,7 +282,7 @@ namespace Wof.Model.Level.Planes
         /// Iloœæ oleju tracona, gdy samolot zostanie trafiony
         /// 
         /// </summary>
-        private float oilLeak = GameConsts.UserPlane.HitCoefficient;
+        protected float oilLeak;
 
         /// <summary>
         /// Maksymalny k¹t, pod którym mo¿na zrzuciæ bombê.
@@ -317,22 +317,22 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Maksymalna wartoœæ o jak¹ mo¿e obróciæ siê samolot w czasie timeUnit.
         /// </summary>
-        private readonly float maxRotateValue = GameConsts.UserPlane.UserMaxRotateValue;
+        protected float maxRotateValue;
 
         /// <summary>
         /// Si³a hamowania obrotu.
         /// </summary>
-        private readonly float rotateBrakingFactor = GameConsts.UserPlane.UserRotateBrakingFactor;
+        protected float rotateBrakingFactor;
 
         /// <summary>
         /// Moc hamowania wody w poziomie.//musialem usunac const aby mozna bylo je ustwic. Michal
         /// </summary>
-        private readonly float waterXBreakingPower = GameConsts.UserPlane.MaxSpeed*0.01f;
+        protected float waterXBreakingPower;
 
         /// <summary>
         /// Moc hamowania wody w pionie.//musialem usunac const aby mozna bylo je ustwic. Michal
         /// </summary>
-        private readonly float waterYBreakingPower = GameConsts.UserPlane.MaxSpeed*0.04f;
+        protected float waterYBreakingPower;
 
         /// <summary>
         /// Maksymalna predkoœæ zeœlizgiwania siê z lotniskowca.
@@ -779,6 +779,40 @@ namespace Wof.Model.Level.Planes
 
         #endregion
 
+
+
+        protected virtual void SetupConstants()
+        {
+            rotateStep = GameConsts.UserPlane.Singleton.UserRotateStep;
+
+            slowWheelingSpeed = GameConsts.UserPlane.Singleton.RangeSlowWheelingSpeed *
+                                GameConsts.UserPlane.Singleton.MaxSpeed;
+
+            maxFastWheelingSpeed = GameConsts.UserPlane.Singleton.RangeFastWheelingMaxSpeed *
+                                   GameConsts.UserPlane.Singleton.MaxSpeed;
+
+            maxWheelOutSpeed = 0.5f * GameConsts.UserPlane.Singleton.MaxSpeed;
+
+            changeWheelsSpeed = maxFastWheelingSpeed * 0.8f;
+
+            minFlyingSpeed = GameConsts.UserPlane.Singleton.RangeFastWheelingMaxSpeed *
+                             GameConsts.UserPlane.Singleton.MaxSpeed;
+
+            width = GameConsts.UserPlane.Singleton.Width;
+
+            height = GameConsts.UserPlane.Singleton.Height;
+
+            oilLeak = GameConsts.UserPlane.Singleton.HitCoefficient;
+
+            maxRotateValue = GameConsts.UserPlane.Singleton.UserMaxRotateValue;
+
+            rotateBrakingFactor = GameConsts.UserPlane.Singleton.UserRotateBrakingFactor;
+
+            waterXBreakingPower = GameConsts.UserPlane.Singleton.MaxSpeed * 0.01f;
+
+            waterYBreakingPower = GameConsts.UserPlane.Singleton.MaxSpeed * 0.04f;
+        }
+
         #region Public Constructor
 
       
@@ -792,6 +826,8 @@ namespace Wof.Model.Level.Planes
         {
         	
         }
+
+       
             
         /// <summary>
         /// Konstruktor podstawowy.
@@ -799,6 +835,7 @@ namespace Wof.Model.Level.Planes
         /// <author>Michal Ziober</author>
         public Plane(Level level, bool isEnemy, StartPositionInfo info, PlaneType type)
         {
+            SetupConstants();
             this.planeType = type;
 
             this.level = level;
@@ -832,7 +869,6 @@ namespace Wof.Model.Level.Planes
         }
 
 
-
         /// <summary>
         /// Tworzy samolot zgodnie z parametrami
         /// </summary>
@@ -845,6 +881,7 @@ namespace Wof.Model.Level.Planes
         {
             bounds = new Quadrangle(info.Position, width, height);
         }
+     
 
 
 
@@ -913,7 +950,7 @@ namespace Wof.Model.Level.Planes
             get
             {
                 //okres czasu jaki musi uplynac aby wlaczyc silnik w zaleznosci od stanu samolotu
-                int timeThreshold = locationState == LocationState.Air ? GameConsts.UserPlane.EngineCounterThresholdInAir : GameConsts.UserPlane.EngineCounterThreshold;
+                int timeThreshold = locationState == LocationState.Air ? GameConsts.UserPlane.Singleton.EngineCounterThresholdInAir : GameConsts.UserPlane.Singleton.EngineCounterThreshold;
                 return (locationState != LocationState.AirTurningRound && CanTryToStartEngine && counterStartedEngine > timeThreshold);
                 //czy mozna juz uruchomic silnik ?
             }
@@ -1032,7 +1069,7 @@ namespace Wof.Model.Level.Planes
             get
             {
                 // nie mozna zawracac na duzej wysokosci w taki sposob ze samolot zakonczylby zawrotke dziobem do gory
-                if (Bounds.Center.Y > GameConsts.UserPlane.MaxHeight * 0.9f * maxHeightTurningRange && ClimbingAngle < -0.5f)
+                if (Bounds.Center.Y > GameConsts.UserPlane.Singleton.MaxHeight * 0.9f * maxHeightTurningRange && ClimbingAngle < -0.5f)
                 {
                     return false;
                 }
@@ -1049,7 +1086,7 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
-                return (/*Math.Abs(rotateValue / rotateStep) <= 0.15f && */
+                return (GameConsts.UserPlane.Singleton.CanSpin > 0 &&  /*Math.Abs(rotateValue / rotateStep) <= 0.15f && */
                     wheelsState == WheelsState.In);
             }
         }
@@ -1285,7 +1322,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         public static float Width
         {
-            get { return GameConsts.UserPlane.Width; }
+            get { return GameConsts.UserPlane.Singleton.Width; }
         }
 
         /// <summary>
@@ -1293,7 +1330,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         public static float Height
         {
-            get { return GameConsts.UserPlane.Height; }
+            get { return GameConsts.UserPlane.Singleton.Height; }
         }
 
         /// <summary>
@@ -1487,8 +1524,12 @@ namespace Wof.Model.Level.Planes
             movementVector = new PointD(0, 0);
             if(info.PositionType == StartPositionType.Carrier)
             { 
-            	bounds = new Quadrangle(GetStartingPosition(), width, height);     
-            	Rotate(angleOnCarrier*(float) direction);
+            	bounds = new Quadrangle(GetStartingPosition(), width, height);   
+                if(planeType != PlaneType.B25) // hardcode
+                {
+                    Rotate(angleOnCarrier * (float)direction);
+                }
+            	
             	airscrewSpeed = 0;
             	
             	
@@ -1498,7 +1539,7 @@ namespace Wof.Model.Level.Planes
             	if(info.Position == null) 
             	{
             		info.Position = GetStartingPosition();
-            		info.Position.Y = GameConsts.UserPlane.MaxHeight * 0.5f;
+            		info.Position.Y = GameConsts.UserPlane.Singleton.MaxHeight * 0.5f;
             		info.Position.X += 100;
             	}
             	bounds = new Quadrangle(info.Position, width, height);
@@ -1658,17 +1699,17 @@ namespace Wof.Model.Level.Planes
     
             //odjêcie benzyny i ewentualnie oleju
             if (this.motorState == EngineState.Working && (locationState == LocationState.Air || locationState == LocationState.AirTurningRound))
-                petrol -= scaleFactor*movementVector.EuclidesLength/GameConsts.UserPlane.MaxSpeed*
-                          GameConsts.UserPlane.PetrolLoss;
+                petrol -= scaleFactor*movementVector.EuclidesLength/GameConsts.UserPlane.Singleton.MaxSpeed*
+                          GameConsts.UserPlane.Singleton.PetrolLoss;
 
 
             petrol = System.Math.Max(petrol, 0);
             if (planeState == PlaneState.Damaged && !IsOnAircraftCarrier)
-                oil -= scaleFactor*GameConsts.UserPlane.OilLoss;
+                oil -= scaleFactor*GameConsts.UserPlane.Singleton.OilLoss;
           //  oil = System.Math.Max(oil, 0);
 
             // koniec paliwa
-            if (!GameConsts.UserPlane.GodMode && planeState != PlaneState.Destroyed &&
+            if (!GameConsts.UserPlane.Singleton.GodMode && planeState != PlaneState.Destroyed &&
                 planeState != PlaneState.Crashed)
             {
                 if (petrol == 0 || oil <= 0)
@@ -1739,7 +1780,7 @@ namespace Wof.Model.Level.Planes
             else if (isLanding) //schodzenie do l¹dowania
             {
                 isLanding = false;
-                PointD landingVector = new PointD(movementVector.X, -GameConsts.UserPlane.LandingSpeed);
+                PointD landingVector = new PointD(movementVector.X, -GameConsts.UserPlane.Singleton.LandingSpeed);
                 bounds.Move(scaleFactor*landingVector);
                 isAfterFlyingDown = true;
             }
@@ -1772,8 +1813,8 @@ namespace Wof.Model.Level.Planes
                                 TurnRound(direction, TurnType.Carrier);
                             }
                             //hamowanie samolotu (MOCNE)
-                            float subSpeed = GameConsts.UserPlane.BreakingPower*scaleFactor*
-                                             GameConsts.UserPlane.MoveStep;
+                            float subSpeed = GameConsts.UserPlane.Singleton.BreakingPower*scaleFactor*
+                                             GameConsts.UserPlane.Singleton.MoveStep;
                             float oldSpeed = movementVector.EuclidesLength;
                             float newSpeed = movementVector.EuclidesLength - subSpeed;
 
@@ -1791,7 +1832,7 @@ namespace Wof.Model.Level.Planes
                                 else
                                 {
                                     //hamowanie samolotu (S£ABE)
-                                    float subSpeed = scaleFactor * GameConsts.UserPlane.MoveStep;
+                                    float subSpeed = scaleFactor * GameConsts.UserPlane.Singleton.MoveStep;
                                     float oldSpeed = movementVector.EuclidesLength;
                                     float newSpeed = movementVector.EuclidesLength - subSpeed;
 
@@ -1801,7 +1842,7 @@ namespace Wof.Model.Level.Planes
                             }
                             else if (CanFastWheeling)
                             {
-                                float addSpeed = scaleFactor*GameConsts.UserPlane.MoveStep;
+                                float addSpeed = scaleFactor*GameConsts.UserPlane.Singleton.MoveStep;
                                 float oldSpeed = movementVector.EuclidesLength;
                                 float newSpeed = movementVector.EuclidesLength + addSpeed;
 
@@ -1817,9 +1858,9 @@ namespace Wof.Model.Level.Planes
                 case LocationState.Air:
                     if (this.direction == direction)
                     {
-                        float addSpeed = scaleFactor*GameConsts.UserPlane.MoveStep;
+                        float addSpeed = scaleFactor*GameConsts.UserPlane.Singleton.MoveStep;
                         if ( (wheelsState == WheelsState.In || wheelsState == WheelsState.TogglingIn) && !isEngineFaulty)
-                            addSpeedToMax(addSpeed, GameConsts.UserPlane.MaxSpeed); //przyspieszanie do maxymalnej
+                            addSpeedToMax(addSpeed, GameConsts.UserPlane.Singleton.MaxSpeed); //przyspieszanie do maxymalnej
                         else
                             addSpeedToMax(addSpeed, maxWheelOutSpeed); // przy uszkodzonym silniku oraz kiedy podwozie jest wysuniete - nie przyspieszamy za bardzo
                     }
@@ -2217,28 +2258,28 @@ namespace Wof.Model.Level.Planes
                 planeState = PlaneState.Damaged;
                 if (hitByPlane) //ma³e trafienie
                 {
-                    oil -= GameConsts.UserPlane.HitCoefficient;
+                    oil -= GameConsts.UserPlane.Singleton.HitCoefficient;
                     if(isEnemy)
                     {
-                        oil -= GameConsts.UserPlane.HitCoefficient; // przeciwnik dostaje wiecej damage'u
+                        oil -= GameConsts.UserPlane.Singleton.HitCoefficient; // przeciwnik dostaje wiecej damage'u
                     }                     
-                    if(GameConsts.UserPlane.PlaneCheat)
+                    if(GameConsts.UserPlane.Singleton.PlaneCheat)
                     {
                         if(isEnemy)
                         {
-                            oil -= GameConsts.UserPlane.HitCoefficient / 3.0f; // lepsze dzia³ko
+                            oil -= GameConsts.UserPlane.Singleton.HitCoefficient / 3.0f; // lepsze dzia³ko
                         } else
                         {
-                            oil += GameConsts.UserPlane.HitCoefficient / 4.0f; // dwa razy mniejsze uszkodzenia
+                            oil += GameConsts.UserPlane.Singleton.HitCoefficient / 4.0f; // dwa razy mniejsze uszkodzenia
                         }                        
                     }
                 }
                 else
                 {
-                    oilLeak += GameConsts.UserPlane.HitCoefficient;
-                    if (GameConsts.UserPlane.PlaneCheat && !isEnemy)
+                    oilLeak += GameConsts.UserPlane.Singleton.HitCoefficient;
+                    if (GameConsts.UserPlane.Singleton.PlaneCheat && !isEnemy)
                     {
-                        oilLeak -= GameConsts.UserPlane.HitCoefficient / 4.0f; // mniejszy wyciek 
+                        oilLeak -= GameConsts.UserPlane.Singleton.HitCoefficient / 4.0f; // mniejszy wyciek 
                     }
 
                     oil -= oilLeak;
@@ -2389,7 +2430,7 @@ namespace Wof.Model.Level.Planes
                     {
                         // w czasie zawracania odwracamy gore z dolem (gdyz jeszcze nie zostal zmieniony direction a samolot juz jest w przeciwna strone)
                         // tu jest PROBLEM
-                       /* if (Bounds.Center.Y > 0.9f * GameConsts.UserPlane.MaxHeight * maxHeightTurningRange)
+                       /* if (Bounds.Center.Y > 0.9f * GameConsts.UserPlane.Singleton.MaxHeight * maxHeightTurningRange)
                         {
                             rotateValue = 0;
                             rotationFactor = 0.00f; // jesli jestesmy przy 'suficie' to nie mozemy zmieniac k¹ta i zawracac na raz
@@ -2416,7 +2457,7 @@ namespace Wof.Model.Level.Planes
                         else
                         {
                             //hamowanie samolotu
-                            float subSpeed = scaleFactor * GameConsts.UserPlane.MoveStep;
+                            float subSpeed = scaleFactor * GameConsts.UserPlane.Singleton.MoveStep;
                             subSpeedToMin(subSpeed, minFlyingSpeed);
                         }
 
@@ -2480,7 +2521,7 @@ namespace Wof.Model.Level.Planes
                         }
                         else //hamowanie samolotu (S£ABE)
                         {
-                            float subSpeed = scaleFactor*GameConsts.UserPlane.MoveStep;
+                            float subSpeed = scaleFactor*GameConsts.UserPlane.Singleton.MoveStep;
                             float oldSpeed = movementVector.EuclidesLength;
                             float newSpeed = movementVector.EuclidesLength - subSpeed;
 
@@ -2812,7 +2853,7 @@ namespace Wof.Model.Level.Planes
         {
             if (motorState == EngineState.Working)
                 airscrewSpeed =
-                    movementVector.EuclidesLength/GameConsts.UserPlane.MaxSpeed*(maxAirscrewSpeed - minAirscrewSpeed) +
+                    movementVector.EuclidesLength/GameConsts.UserPlane.Singleton.MaxSpeed*(maxAirscrewSpeed - minAirscrewSpeed) +
                     minAirscrewSpeed;
             else
                 airscrewSpeed = 0.0f;
@@ -3008,7 +3049,7 @@ namespace Wof.Model.Level.Planes
             float scaleFactor = time / timeUnit;
 
             changeAngleWhileWheeling(oldSpeed, Speed, scaleFactor);
-            if (Speed <= GameConsts.UserPlane.BreakingMinSpeed)
+            if (Speed <= GameConsts.UserPlane.Singleton.BreakingMinSpeed)
             {
                 Speed = 0;
                 level.Controller.OnReleasePlane(this, breakingEndCarrierTile);
@@ -3058,7 +3099,7 @@ namespace Wof.Model.Level.Planes
 
             //Console.WriteLine("angle:" + Angle);
 
-            if (Bounds.Center.Y > GameConsts.UserPlane.MaxHeight*maxHeightTurningRange)
+            if (Bounds.Center.Y > GameConsts.UserPlane.Singleton.MaxHeight*maxHeightTurningRange)
             {
                 FallDown(time, timeUnit, GlideType.heightLimit);
                 level.OnPlaneForceGoDown(this);
@@ -3161,8 +3202,11 @@ namespace Wof.Model.Level.Planes
                 if (!isFallingFromCarrier && !IsGearAboveCarrier)
                 {
                     
-                   // Console.WriteLine("speed:  " + maxFastWheelingSpeed + " =  " + GameConsts.UserPlane.RangeFastWheelingMaxSpeed + " * " + GameConsts.UserPlane.MaxSpeed);
+               ///     Console.WriteLine("speed:  " + maxFastWheelingSpeed + " =  " + GameConsts.UserPlane.Singleton.RangeFastWheelingMaxSpeed + " * " + GameConsts.UserPlane.Singleton.MaxSpeed);
+                    
+               //     Console.WriteLine("speed:  " + movementVector.EuclidesLength +" > "+ maxFastWheelingSpeed);
             
+                    
                     if (HasSpeedToStart)
                     {                   
                         if (IsPlaneNotAboveCarrier)
@@ -3301,10 +3345,10 @@ namespace Wof.Model.Level.Planes
 
             //aktualizacja movmentVector.Y
             movementVector.Y = (movementVector.Y >= 0)
-                                   ? - GameConsts.UserPlane.SinkingSpeed
+                                   ? - GameConsts.UserPlane.Singleton.SinkingSpeed
                                    :
                                        System.Math.Min(movementVector.Y + waterYBreakingPower,
-                                                       -GameConsts.UserPlane.SinkingSpeed);
+                                                       -GameConsts.UserPlane.Singleton.SinkingSpeed);
 
             bounds.Move((time/timeUnit)*movementVector);
         }

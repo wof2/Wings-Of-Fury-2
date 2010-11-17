@@ -2451,7 +2451,7 @@ namespace Wof.Controller.Screens
 
         private void increaseScore(int baseScore)
         {
-            if (GameConsts.UserPlane.GodMode || GameConsts.Game.AllLevelsCheat || GameConsts.UserPlane.PlaneCheat || GameConsts.Game.LivesCheat || EngineConfig.DebugStart) return;
+            if (GameConsts.UserPlane.Singleton.GodMode || GameConsts.Game.AllLevelsCheat || GameConsts.UserPlane.Singleton.PlaneCheat || GameConsts.Game.LivesCheat || EngineConfig.DebugStart) return;
 
             switch (EngineConfig.Difficulty)
             {
@@ -3041,7 +3041,7 @@ namespace Wof.Controller.Screens
 
             if (!Plane.IsEnemy)
             {
-                if(!GameConsts.UserPlane.GodMode) lives--;
+                if(!GameConsts.UserPlane.Singleton.GodMode) lives--;
                 if (lives < 0 || currentLevel.Lives - 1 < 0)
                 {
                     isGamePaused = true;

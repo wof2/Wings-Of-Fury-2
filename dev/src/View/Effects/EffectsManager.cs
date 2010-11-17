@@ -95,7 +95,8 @@ namespace Wof.View.Effects
 
         private float totalTime = 0;
 
-        
+        private List<NodeAnimation.NodeAnimation> animationsToRemove = new List<NodeAnimation.NodeAnimation>();
+
 
        
         private bool isLoaded = false;
@@ -460,6 +461,13 @@ namespace Wof.View.Effects
                     }
                 }
             }
+
+            foreach (NodeAnimation.NodeAnimation animation in animationsToRemove)
+            {
+                RemoveAnimation(animation);
+            }
+            animationsToRemove.Clear();
+
         }
 
         private ParticleManager GetSmokeManager(SmokeType type)
@@ -588,6 +596,18 @@ namespace Wof.View.Effects
             }
             return false;
         }
+
+        
+        public bool RemoveAnimationSafe(NodeAnimation.NodeAnimation animation)
+        {
+            if (effects.ContainsKey(animation.Name))
+            {
+                animationsToRemove.Add(animation);
+                return true;
+            }
+            return false;
+        }
+
 
         public VisibilityNodeAnimation Sprite(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition,
                                               Vector2 size, EffectType type, bool looped)
@@ -779,7 +799,11 @@ namespace Wof.View.Effects
             {
                 ret = effects[aName] as VisibilityNodeAnimation;
                 ret.rewind(false);
-                ret.Node.SetVisible(false);
+                foreach (SceneNode node in ret.Nodes)
+                {
+                     node.SetVisible(false);
+                }
+               
             }
         }
 
@@ -1029,8 +1053,8 @@ namespace Wof.View.Effects
                                   Quaternion.IDENTITY, looped);
            
 
-            waterImpact1Node = vnAnimation.Node;
-            waterImpact2Node = vnAnimation2.Node;
+            waterImpact1Node = vnAnimation.FirstNode;
+            waterImpact2Node = vnAnimation2.FirstNode;
 
             waterImpact1Node.Rotate(Vector3.UNIT_X, Mogre.Math.HALF_PI);
             waterImpact1Node.Rotate(Vector3.UNIT_Z, Mogre.Math.HALF_PI/2);
@@ -1065,22 +1089,22 @@ namespace Wof.View.Effects
                 vnAnimation =
                     RectangularEffect(sceneMgr, sceneMgr.RootSceneNode, "Seagull" + i, EffectType.SEAGULL, localPosition,
                                       size, Quaternion.IDENTITY, true);
-                vnAnimation.Node.Position += center;
+                vnAnimation.FirstNode.Position += center;
                 vnAnimation.TimeScale = Mogre.Math.RangeRandom(0.9f, 1.1f);
                 vnAnimation.rewindToRandom();
-              
-                vnAnimation.Node.GetAttachedObject(0).RenderQueueGroup =
+
+                vnAnimation.FirstNode.GetAttachedObject(0).RenderQueueGroup =
                     (byte) RenderQueueGroupID.RENDER_QUEUE_SKIES_EARLY;
-                vnAnimation.Node.Rotate(Vector3.UNIT_Z,
+                vnAnimation.FirstNode.Rotate(Vector3.UNIT_Z,
                                         Mogre.Math.DegreesToRadians(
                                             Mogre.Math.RangeRandom(-rotationDev.ValueDegrees,
                                                                     rotationDev.ValueDegrees)));
-                vnAnimation.Node.GetAttachedObject(0).CastShadows = false;
-                vnAnimation.Node.Rotate(Vector3.UNIT_X, Mogre.Math.HALF_PI);
+                vnAnimation.FirstNode.GetAttachedObject(0).CastShadows = false;
+                vnAnimation.FirstNode.Rotate(Vector3.UNIT_X, Mogre.Math.HALF_PI);
 
                 if (Mogre.Math.RangeRandom(0.0f, 1.0f) >= 0.5f) // losowy kierunek lotu
                 {
-                    vnAnimation.Node.Rotate(Vector3.UNIT_Z, Mogre.Math.PI); // w prawo
+                    vnAnimation.FirstNode.Rotate(Vector3.UNIT_Z, Mogre.Math.PI); // w prawo
                     tempSpeed = speed;
                 }
                 else
@@ -1089,7 +1113,7 @@ namespace Wof.View.Effects
                 }
                 // ruch mew
                 motion =
-                    new ConstMoveNodeAnimation(vnAnimation.Node, 1, tempSpeed, Vector3.UNIT_X, "Seagull" + i + "move");
+                    new ConstMoveNodeAnimation(vnAnimation.FirstNode, 1, tempSpeed, Vector3.UNIT_X, "Seagull" + i + "move");
                 motion.Enabled = true;
                 motion.onFinish = ChangeSeagullDirection; // mewy zmieniaja czasem kierunek lotu
                 motion.onFinishInfo = motion;
@@ -1109,7 +1133,7 @@ namespace Wof.View.Effects
                 if (Mogre.Math.RangeRandom(0.0f, 1.0f) >= 0.95f)
                 {
                     a.SwapDirection();
-                    a.Node.Rotate(Vector3.UNIT_Z, Mogre.Math.PI);
+                    a.FirstNode.Rotate(Vector3.UNIT_Z, Mogre.Math.PI);
                 }
             }
         }

@@ -84,7 +84,7 @@ namespace Wof.Model.Level.Effects
 
         public override void Update(int time)
         {
-        	_effectLevel = (_plane.Bounds.Center.Y) / (GameConsts.UserPlane.MaxHeight * 0.6f);
+        	_effectLevel = (_plane.Bounds.Center.Y) / (GameConsts.UserPlane.Singleton.MaxHeight * 0.6f);
             if(_effectLevel > 1) _effectLevel = 1;
         }
 

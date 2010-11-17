@@ -257,7 +257,7 @@ namespace Wof.View
             {
             	name = EffectsManager.BuildSpriteEffectName(staticNode, EffectsManager.EffectType.FIRE, i.ToString());
             	NodeAnimation.NodeAnimation node = EffectsManager.Singleton.GetEffect(name);
-            	if(node != null && node.Node._getDerivedPosition().y < 0.0f)
+            	if(node != null && node.FirstNode._getDerivedPosition().y < 0.0f)
             	{
             	   	EffectsManager.Singleton.NoSprite(sceneMgr, staticNode, EffectsManager.EffectType.FIRE, i);
             	}

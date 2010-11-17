@@ -482,7 +482,7 @@ namespace Wof.Model.Level
             currentTimeToNextEnemy = Math.Max(0, currentTimeToNextEnemy);
             if (currentTimeToNextEnemy == 0)
             {
-                if (enemyPlanesPoolCount > 0 && enemyPlanes.Count < GameConsts.EnemyPlane.MaxSimultaneousEnemyPlanes)
+                if (enemyPlanesPoolCount > 0 && enemyPlanes.Count < GameConsts.EnemyPlane.Singleton.MaxSimultaneousEnemyPlanes)
                     //dodanie nowego samolotu
                 {
                     EnemyPlane enemyPlane = new EnemyPlane(this);
@@ -513,7 +513,7 @@ namespace Wof.Model.Level
                     if (userPlane.Bounds.Intersects(ep.Bounds))
                     {
                         // zniszcz samolot gracza przy kolizji tylko w trybie innym ni¿ 'easy'
-                        if(EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Easy))
+                        if (EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Easy) || EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Medium))
                         {
                             // zabierz trochê ¿ycia przy zderzeniu - ten event bêdzie powtrzany kilka razy (w czasie gdy samolot bêd¹ siê dotykaæ)
                             userPlane.Hit(userPlane.MaxOil * 0.08f, 0.005f * userPlane.MaxOil);

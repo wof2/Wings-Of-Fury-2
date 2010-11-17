@@ -78,7 +78,7 @@ namespace Wof.Languages
         #endregion
 
         #region ---B---
-       
+        public const string B25 = @"B25";
         public const string Back = @"Back";
         public const string BestFPS = @"BestFPS";
         public const string Blood = @"Blood";

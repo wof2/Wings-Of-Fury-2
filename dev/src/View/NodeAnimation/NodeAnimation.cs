@@ -46,6 +46,7 @@
  * 
  */
 
+using System.Collections.Generic;
 using Mogre;
 using System;
 using Math = Mogre.Math;
@@ -100,12 +101,19 @@ namespace Wof.View.NodeAnimation
             get { return cycleLength; }
         }
 
-        protected SceneNode node;
+        protected List<SceneNode> nodes;
 
-        public SceneNode Node
+        public List<SceneNode> Nodes
         {
-            get { return node; }
-            set { node = value; }
+            get { return nodes; }
+            set { nodes = value; }
+        }
+
+      
+        public SceneNode FirstNode
+        {
+            get { if(nodes != null && nodes.Count > 0) return nodes[0];  else return null; }
+           
         }
 
         protected string name; // identyfikator animacji!
@@ -177,18 +185,24 @@ namespace Wof.View.NodeAnimation
 
         public abstract void animate();
 
-
-        public NodeAnimation(SceneNode node, float animationDuration, string name, Radian cycleLength)
+        public NodeAnimation(List<SceneNode> nodes, float animationDuration, string name, Radian cycleLength)
         {
             if (animationDuration <= 0) animationDuration = 1;
-            this.node = node;
+            this.nodes = nodes;
             duration = animationDuration;
             this.name = name;
             this.cycleLength = cycleLength;
 
-            amplitudeAtEnd = animationFunction((float) cycleLength.ValueRadians);
+            amplitudeAtEnd = animationFunction((float)cycleLength.ValueRadians);
             amplitudeAtStart = animationFunction(0);
         }
+
+        public NodeAnimation(SceneNode node, float animationDuration, string name, Radian cycleLength) : this(new List<SceneNode>() { node }, animationDuration, name, cycleLength)
+        {
+          
+        }
+
+       
 
         public virtual void updateTime(float timeSinceLastFrame)
         {
@@ -254,8 +268,12 @@ namespace Wof.View.NodeAnimation
 
         public void Destroy()
         {
-            node.Creator.DestroySceneNode(node.Name);
-            node = null;
+            foreach(SceneNode node in nodes)
+            {
+                node.Creator.DestroySceneNode(node.Name);
+            }
+            nodes.Clear();
+           
         }
 
         protected void frameInit()

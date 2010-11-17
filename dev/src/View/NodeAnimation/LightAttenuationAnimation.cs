@@ -46,6 +46,7 @@
  * 
  */
 
+using System.Collections.Generic;
 using Mogre;
 
 // TODO: sinusoidalna animacja natezenia swiatel eksplozji
@@ -91,7 +92,7 @@ namespace Wof.View.NodeAnimation
         /// <param name="name">Nazwa animacji</param>
         public LightAttenuationAnimation(Light light, float animationDuration, float multiplier, Radian cycleLength,
                                          string name)
-            : base(null, animationDuration, name, cycleLength)
+            : base(new List<SceneNode>(), animationDuration, name, cycleLength)
         {
             this.light = light;
             this.multiplier = multiplier;
