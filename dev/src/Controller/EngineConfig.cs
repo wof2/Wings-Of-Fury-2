@@ -609,6 +609,9 @@ namespace Wof.Controller
             	File.Copy(materialDir+"0NormalMappedSpecularNoShadows.base", materialDir+"0NormalMappedSpecular.material",true );
             	
             }
+
+
+
            
         }
     }

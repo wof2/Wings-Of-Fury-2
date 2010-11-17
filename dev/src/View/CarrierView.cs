@@ -474,22 +474,36 @@ namespace Wof.View
             int index = storagePlanes.Count;
 
             if (EngineConfig.DisplayingMinimap) planeView.MinimapItem.Hide();
-            SceneNode p47Node = planeView.OuterNode;
+            SceneNode planeNode = planeView.OuterNode;
 
             if (index == 1)
             {
-                p47Node.Yaw(new Radian(Math.HALF_PI));
-                p47Node.Pitch(0.1f);
-                p47Node.Roll(0.03f);
+                planeNode.Yaw(new Radian(Math.HALF_PI));
+                planeNode.Pitch(0.1f);
+                planeNode.Roll(0.03f);
+                if (plane.PlaneType == PlaneType.B25)
+                {
+                    planeNode.Yaw(0.03f);
+                }
                 //p47Node.Translate(new Vector3(5.9f, 0.33f, 0));
-                p47Node.Translate(new Vector3(5.9f, -0.23f, 0));
+                planeNode.Translate(new Vector3(5.9f, -0.23f, 0));
             }
             if (index == 2)
             {
-                p47Node.Yaw(new Radian(Math.HALF_PI/2.0f));
-                p47Node.Pitch(0.1f);
+                planeNode.Yaw(new Radian(Math.HALF_PI/2.0f));
+                planeNode.Pitch(0.1f);
                 //p47Node.Translate(new Vector3(5.9f, 0.24f, 0));
-                p47Node.Translate(new Vector3(5.9f, -0.14f, 0));
+                planeNode.Translate(new Vector3(5.9f, -0.14f, 0));
+                if (plane.PlaneType == PlaneType.B25)
+                {
+                    planeNode.Translate(new Vector3(0f, 0f, 2.9f));
+                }
+            }
+
+            if (plane.PlaneType == PlaneType.B25)
+            {
+                planeNode.SetScale(0.4f,0.4f,0.4f);
+                planeNode.Translate(new Vector3(1.5f, 0f, -0.5f));
             }
 
             //Ustawia zlozone skrzydla

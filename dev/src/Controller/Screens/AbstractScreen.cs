@@ -604,8 +604,21 @@ namespace Wof.Controller.Screens
                                          new Vector3(10, 17, 40)
                                      };
 
+      
+
         public virtual void CreateScene()
         {
+
+            if (EngineConfig.CurrentPlayerPlaneType == PlaneType.B25)
+            {
+                planesInitialPositions = new List<Vector3>
+                                     {
+                                         new Vector3(-8.5f, 17, 40),
+                                         new Vector3(8.5f, 17, 40)
+                                     };
+
+            }
+
             if (planeViews == null || planeViews.Count == 0)
             {
                 // add planes
@@ -625,8 +638,10 @@ namespace Wof.Controller.Screens
                     else
                     if (EngineConfig.CurrentPlayerPlaneType == PlaneType.B25)
                     {
+                       
                         p = new B25PlaneView(null, framework, sceneMgr.RootSceneNode);
                         p.PlaneNode.Yaw(new Radian(new Degree(90)));
+
                     }
                     else
                     {

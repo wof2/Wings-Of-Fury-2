@@ -83,7 +83,7 @@ namespace Wof.View
             lWheelNode =
                 innerNode.CreateChildSceneNode(name + "_LeftWheel", new Vector3(-3.3f, -0.5f, -2.3f),
                                                new Quaternion(Math.DegreesToRadians(20), Vector3.UNIT_X));
-            lWheelNode.Scale(1.0f, 1.0f, 1.0f);
+            lWheelNode.Scale(0.9f, 0.9f, 0.9f);
 
             lWheelInnerNode = lWheelNode.CreateChildSceneNode(name + "_LeftWheelInner");
 
@@ -94,7 +94,7 @@ namespace Wof.View
                 innerNode.CreateChildSceneNode(name + "_RightWheel", new Vector3(3.3f, -0.5f, -2.3f),
                                                new Quaternion(Math.DegreesToRadians(20), Vector3.UNIT_X));
             rWheelNode.Rotate(Vector3.NEGATIVE_UNIT_Y, Math.DegreesToRadians(180));
-            rWheelNode.Scale(1.0f, 1.0f, 1.0f);
+            rWheelNode.Scale(0.9f, 0.9f, 0.9f);
             rWheelInnerNode = rWheelNode.CreateChildSceneNode(name + "_RightWheelInner");
            
 
@@ -132,6 +132,7 @@ namespace Wof.View
             //  cameraHolders.Add(planeNode.CreateChildSceneNode(name + "AboveRightCameraHolder"));
             cameraHolders.Add(innerNode.CreateChildSceneNode(name + "BehindCameraHolder"));
             cameraHolders.Add(innerNode.CreateChildSceneNode(name + "NoseCameraHolder"));
+            cameraHolders.Add(innerNode.CreateChildSceneNode(name + "RearCameraHolder"));
 
             // MAIN CAMERA HOLDER
             cameraHolders[0].ResetOrientation();
@@ -168,6 +169,12 @@ namespace Wof.View
             cameraHolders[3].ResetOrientation();
             cameraHolders[3].Position = new Vector3(0, 0.0f, -6);
             //cameraHolders[5].Pitch(new Radian(-Math.HALF_PI * 0.01f));
+
+            cameraHolders[4].ResetOrientation();
+            cameraHolders[4].Position = new Vector3(0, 0.0f, 15);
+         //   cameraHolders[4].Pitch(new Radian(-Math.HALF_PI * 0.01f));
+            cameraHolders[4].Yaw(new Radian(Math.PI));
+
 
             HangaringCameraHolder.ResetOrientation();
             HangaringCameraHolder.Position = new Vector3(19, 7.0f, 0);
@@ -230,13 +237,13 @@ namespace Wof.View
 
         protected override void initBlade()
         { // BLADE
-            bladeNodeL = innerNode.CreateChildSceneNode(name + "_BladeL", new Vector3(3.66f, 0.2f, -5f));
+            bladeNodeL = innerNode.CreateChildSceneNode(name + "_BladeL", new Vector3(3.66f, 0.25f, -5.6f));
             bladeL = sceneMgr.CreateEntity(name + "_BladeL", "P47Blade.mesh");
             bladeNodeL.AttachObject(bladeL);
             bladeL.Visible = true; // tylko kiedy niskie obroty
 
 
-            bladeNodeR = innerNode.CreateChildSceneNode(name + "_BladeR", new Vector3(-3.66f, 0.2f, -5f));
+            bladeNodeR = innerNode.CreateChildSceneNode(name + "_BladeR", new Vector3(-3.66f, 0.25f, -5.6f));
             bladeR = sceneMgr.CreateEntity(name + "_BladeR", "P47Blade.mesh");
             bladeNodeR.AttachObject(bladeR);
             bladeR.Visible = true; // tylko kiedy niskie obroty
@@ -272,7 +279,7 @@ namespace Wof.View
             planeEntity = sceneMgr.CreateEntity(name + "_Body", "B25.mesh");
             planeEntity.CastShadows = EngineConfig.ShadowsQuality > 0;
             innerNode.AttachObject(planeEntity);
-            outerNode.Scale(new Vector3(0.6f, 0.6f, 0.6f));
+            outerNode.Scale(new Vector3(0.40f, 0.40f, 0.40f));
 
             initBlade();
             initWheels();

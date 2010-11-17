@@ -104,8 +104,8 @@
     userRotateBrakingFactor = "5.0"
     userMaxRotateValue = "0.9943951"
     godMode = "0"
-    width = "12.5"
-    height = "2.9"
+    width = "8.5"
+    height = "2.3"
     canSpin = "0"
     
     />
