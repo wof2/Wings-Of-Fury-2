@@ -149,12 +149,11 @@ namespace Wof.Controller
         private Audio incorrectStart;
         private Audio fanfare;
 
-        private Buffer engineIdleSound;
-        private Buffer engineIdleSound2;
+        private Buffer engineIdleSound, engineIdleSound2, engineIdleSound3;
         private Buffer engineIdleFaultySound;
-        
-        
-        private Buffer gunFireBuffer;
+
+
+        private Buffer gunFireBuffer, gunFireBuffer2;
         private Buffer waterBubblesBuffer;
         private Buffer oceanSound;
 
@@ -220,7 +219,9 @@ namespace Wof.Controller
 
                 engineIdleSound2 = new Buffer("sounds/engineidle_f4u.wav",
                                             dsDevice);
-               
+
+                engineIdleSound3 = new Buffer("sounds/engineidle_b25.wav",
+                                         dsDevice);
 
                 engineIdleFaultySound = new Buffer("sounds/engineidlefaulty.wav",
                                           dsDevice);
@@ -235,6 +236,10 @@ namespace Wof.Controller
 
                 gunFireBuffer = new Buffer("sounds/machinegun.wav",
                                            dsDevice);
+
+                gunFireBuffer2 = new Buffer("sounds/machinegun_b25.wav",
+                                          dsDevice);
+
                 waterBubblesBuffer = new Buffer("sounds/waterbubbles.wav",
                                                 dsDevice);
               
@@ -602,9 +607,13 @@ namespace Wof.Controller
                 {
                     currentEngineIdleSound = engineIdleSound;
                 }
-                else
+                else if (EngineConfig.CurrentPlayerPlaneType == PlaneType.F4U)
                 {
                     currentEngineIdleSound = engineIdleSound2;
+                }
+                 else
+                {
+                    currentEngineIdleSound = engineIdleSound3;
                 }
 
             }
@@ -651,8 +660,16 @@ namespace Wof.Controller
 
         private void LoopGunFireSound()
         {
+            if(EngineConfig.CurrentPlayerPlaneType == PlaneType.B25)
+            {
+                LoopDXSound(gunFireBuffer2);
+                
+            } else
+            {
+                LoopDXSound(gunFireBuffer);
+            }
         
-            LoopDXSound(gunFireBuffer);
+            
         }
 
         public void LoopGunFireSoundIfCan()
@@ -662,16 +679,38 @@ namespace Wof.Controller
             {
                 return;
             }
-            if (!gunFireBuffer.Status.Looping)
+           
+            if (EngineConfig.CurrentPlayerPlaneType == PlaneType.B25)
             {
-                LoopGunFireSound();
+                if (!gunFireBuffer2.Status.Looping)
+                {
+                    LoopGunFireSound();
+                }
             }
+            else
+            {
+                if (!gunFireBuffer.Status.Looping)
+                {
+                    LoopGunFireSound();
+                }
+            }
+               
+            
         }
 
         public void HaltGunFireSound()
         {
          //   Console.WriteLine("Halting");
-            HaltDXSound(gunFireBuffer);
+            if (EngineConfig.CurrentPlayerPlaneType == PlaneType.B25)
+            {
+                HaltDXSound(gunFireBuffer2);
+            }
+            else
+            {
+                HaltDXSound(gunFireBuffer);
+            }
+
+            
         }
 
          public void SingleWaterBubblesSound()

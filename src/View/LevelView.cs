@@ -109,7 +109,7 @@ namespace Wof.View
 
         private int currentCameraHolderIndex = 0;
 
-        private List<int> crossHairCameraIndexes = new List<int>() {2, 3 };
+        private List<int> crossHairCameraIndexes = new List<int>() {2, 3, 4 };
 
         public SceneNode CurrentCameraHolder
         {
@@ -1387,7 +1387,7 @@ namespace Wof.View
             }
 
             // shake animation
-            ShakeNodeAnimation animation = new ShakeNodeAnimation(framework.Camera.ParentSceneNode, 0.3f, new Radian(Math.PI), 1.5f,
+            ShakeNodeAnimation animation = new ShakeNodeAnimation(framework.Camera.ParentSceneNode, 0.25f, new Radian(Math.PI), 0.75f,
                                                                 tile.Name + "Shake");
             animation.Enabled = true;
             animation.rewind();
@@ -2170,6 +2170,31 @@ namespace Wof.View
             {
             	
             }
+
+            try
+            {
+
+                foreach (String name in new String[] { "B25/Body", "B25/BodyDestroyed", "SteelEnv" })
+                {
+                    //set_texture_alias
+                    m = MaterialManager.Singleton.GetByName(name);
+                    m.Load(false);
+
+                    Pass p = m.GetBestTechnique().GetPass(0);
+                    TextureUnitState tu = null;
+                    if (p != null)
+                    {
+                        tu = p.GetTextureUnitState(1);
+                        tu.SetCubicTextureName(texture);
+                    }
+                }
+                
+            }
+            catch (Exception)
+            {
+                
+               
+            }
             
             m = null;
 
@@ -2488,9 +2513,9 @@ namespace Wof.View
             if (crossHairCameraIndexes.Contains(camIndex))
             {
                 float distance = 35;
-                if(camIndex == 5)
+                if(camIndex == 4)
                 {
-                    distance = 50;
+                    distance = -40;
                 }
                 playerPlaneView.ShowCrossHair(distance);
             }
