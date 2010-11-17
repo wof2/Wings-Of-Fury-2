@@ -96,7 +96,7 @@ namespace Wof.View.TileViews
                 palmNode.Translate(new Vector3(0, 3, 0));
                 palmNode.Pitch(-Math.HALF_PI);
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, installationNode, "PalmTop" + LevelView.PropCounter, EffectsManager.EffectType.PALMTOP1, position + new Vector3(0.0f, 4.5f, -0.0f), new Vector2(1.8f, 1.8f),
-                                  Quaternion.IDENTITY, true).Node.Yaw(angle);
+                                  Quaternion.IDENTITY, true).FirstNode.Yaw(angle);
 
             }
             else
@@ -134,7 +134,7 @@ namespace Wof.View.TileViews
                 palmNode.Translate(new Vector3(0, 3, 0));
                 palmNode.Pitch(-Math.HALF_PI);
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, installationNode, "PalmTop" + LevelView.PropCounter, EffectsManager.EffectType.PALMTOP2, position + new Vector3(0.0f, 4.5f, -0.2f), new Vector2(2.5f, 2.5f),
-                                Quaternion.IDENTITY, true).Node.Yaw(angle);
+                                Quaternion.IDENTITY, true).FirstNode.Yaw(angle);
             }
             else
             {

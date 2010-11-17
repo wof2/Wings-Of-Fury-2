@@ -1,0 +1,71 @@
+material Metallic
+{
+	technique 0
+	{
+		pass 0
+		{
+			 scene_blend alpha_blend			
+			 ambient 0.588235 0.588235 0.588235 1
+			 diffuse 0.588235 0.588235 0.588235 1
+			 specular 0 0 0 10 0
+			 
+			 texture_unit 0
+			 {
+				texture_alias DiffuseMap
+				texture steel.dds
+			 }
+			 
+			 texture_unit 1
+			 {
+				texture_alias EnvMap
+				cubic_texture foggy.jpg combinedUVW
+				tex_address_mode clamp
+				env_map cubic_reflection
+				colour_op_ex blend_manual src_texture src_current 0.3
+			 }
+			
+			
+		}
+
+	}
+}
+
+material MetallicBump : Metallic
+{
+	technique 0
+	{	
+		pass 0
+		{        
+			 texture_unit 2
+			 {
+				 texture_alias BumpMap
+				 texture concrete2.dds
+				 colour_op_ex modulate src_texture src_current
+			 }
+		}      
+	}
+}
+
+material SteelEnv : MetallicBump
+{
+	set_texture_alias EnvMap foggy.jpg
+    set_texture_alias DiffuseMap steel.dds
+    set_texture_alias BumpMap concrete2.dds
+}
+
+material B25/BodyDestroyed : Metallic
+{
+	set_texture_alias EnvMap foggy.jpg
+    set_texture_alias DiffuseMap b25body_destroyed.dds
+}
+
+material B25/Body : Metallic
+{
+	set_texture_alias EnvMap foggy.jpg
+    set_texture_alias DiffuseMap b25body.dds
+}
+
+material Material1579 : Metallic
+{
+	
+}

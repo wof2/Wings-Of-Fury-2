@@ -26,7 +26,7 @@
   sinkingSpeed - Określa z jaką prędkością samolot będzie tonąć. Wyrażona jako liczba dodatnia. Typ: Double
   maxHeight - Maksymalna wysokość na jaką samolot może się wzbić. Typ: int
   -->
-  <UserPlane 
+	<P47 
     oilLoss="0.05"
     moveStep="5"
     maxSpeed="60"
@@ -49,7 +49,68 @@
     userMaxRotateValue = "2.0943951"
     godMode = "0"
     width = "5.5"
-    height = "2.1"/>
+    height = "2.1"
+    canSpin = "1"
+    />
+    
+    
+    <F4U 
+    oilLoss="0.05"
+    moveStep="5"
+    maxSpeed="60"
+    petrolLoss="1"
+    bombCount="30"
+    rocketCount="30"
+    torpedoCount="2" 
+    breakingPower = "4"
+    hitCoefficient="0.48"
+    rangeSlowWheelingSpeed = "0.004"
+    rangeFastWheelingMaxSpeed = "0.3"
+    engineCounterThreshold="1500"
+    engineCounterThresholdInAir="500"
+    breakingMinSpeed = "5"
+    sinkingSpeed = "1.3"
+    maxHeight = "150"
+    landingSpeed = "4.0"
+    userRotateStep = "2.6943951"
+    userRotateBrakingFactor = "5.4"
+    userMaxRotateValue = "2.0943951"
+    godMode = "0"
+    width = "5.5"
+    height = "2.1"
+    canSpin = "1"
+    />
+    
+    
+    <B25 
+    oilLoss="0.03"
+    moveStep="4"
+    maxSpeed="50"
+    petrolLoss="1"
+    bombCount="35"
+    rocketCount="35"
+    torpedoCount="2" 
+    breakingPower = "4"
+    hitCoefficient="0.38"
+    rangeSlowWheelingSpeed = "0.004"
+    rangeFastWheelingMaxSpeed = "0.3"
+    engineCounterThreshold="1500"
+    engineCounterThresholdInAir="500"
+    breakingMinSpeed = "4"
+    sinkingSpeed = "1.2"
+    maxHeight = "150"
+    landingSpeed = "4.0"
+    userRotateStep = "0.6943951"
+    userRotateBrakingFactor = "5.0"
+    userMaxRotateValue = "0.9943951"
+    godMode = "0"
+    width = "12.5"
+    height = "2.9"
+    canSpin = "0"
+    
+    />
+    
+    
   
   <!--Samolot wroga:
     speed - Prędkosć samolotu wroga. Typ: int
@@ -76,7 +137,16 @@
     carrierDistanceAlarm = "1200"
     enemyRotateStep = "1.04719755"
     maxSimultaneousEnemyPlanes="3"
-    accuracy = "98.0"
+    accuracy = "98.0"   
+    
+    width = "5.5"
+    height = "2"
+    userRotateStep = "2.6943951"
+    userRotateBrakingFactor = "5.4"
+    userMaxRotateValue = "2.0943951"
+    maxSpeed="60"
+    rangeFastWheelingMaxSpeed = "0.3"
+    
   />
 
   <!--Żołnierze:

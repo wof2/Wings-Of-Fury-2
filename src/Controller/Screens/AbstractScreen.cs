@@ -623,6 +623,12 @@ namespace Wof.Controller.Screens
                         p.PlaneNode.Yaw(new Radian(new Degree(90)));
                     }
                     else
+                    if (EngineConfig.CurrentPlayerPlaneType == PlaneType.B25)
+                    {
+                        p = new B25PlaneView(null, framework, sceneMgr.RootSceneNode);
+                        p.PlaneNode.Yaw(new Radian(new Degree(90)));
+                    }
+                    else
                     {
                         break;
                     }
@@ -659,15 +665,15 @@ namespace Wof.Controller.Screens
 	            	 VisibilityNodeAnimation ani = EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode, "MovingCloud"+i, type, new Vector3(left ? 200 : -200, 50 + Math.RangeRandom(-40,40), -200 + Math.RangeRandom(-600,1200)), new Vector2(600 + Math.RangeRandom(-50,50),600+ Math.RangeRandom(-50,50)), Quaternion.IDENTITY, true);
 	            	 if(left)
 	            	 {
-	            	 	 ani.Node.Yaw(new Radian(new Degree(20)));
+	            	 	 ani.FirstNode.Yaw(new Radian(new Degree(20)));
 	            	 } else
 	            	 {
-	            	 	 ani.Node.Yaw(new Radian(new Degree(-20)));
+	            	 	 ani.FirstNode.Yaw(new Radian(new Degree(-20)));
 	            	 } 
 	            	 
-	            	 ani.Node.Roll(new Radian(new Degree(Math.RangeRandom(-10,10))));
+	            	 ani.FirstNode.Roll(new Radian(new Degree(Math.RangeRandom(-10,10))));
 	            	
-		             cloudNodes.Add(ani.Node);
+		             cloudNodes.Add(ani.FirstNode);
 	            } 
             }
            
@@ -1543,12 +1549,12 @@ namespace Wof.Controller.Screens
 
         public void doCheatGodMode()
         {
-            GameConsts.UserPlane.GodMode = !GameConsts.UserPlane.GodMode;
+            GameConsts.UserPlane.Singleton.GodMode = !GameConsts.UserPlane.Singleton.GodMode;
         }
 
         public void doCheatPlane()
         {
-            GameConsts.UserPlane.PlaneCheat = !GameConsts.UserPlane.PlaneCheat;
+            GameConsts.UserPlane.Singleton.PlaneCheat = !GameConsts.UserPlane.Singleton.PlaneCheat;
         }
 
         public void doCheatAllLevels()

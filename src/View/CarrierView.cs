@@ -457,6 +457,10 @@ namespace Wof.View
                     case PlaneType.F4U:
                         planeView = new F4UPlaneView(plane, framework, sceneMgr.RootSceneNode);
                         break;
+                   
+                    case PlaneType.B25:
+                        planeView = new B25PlaneView(plane, framework, sceneMgr.RootSceneNode);
+                        break;
 
                     default:
                     case PlaneType.P47:

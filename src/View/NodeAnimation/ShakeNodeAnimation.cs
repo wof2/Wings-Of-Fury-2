@@ -47,103 +47,84 @@
  */
 
 using System;
+using System.Collections.Generic;
 using Mogre;
+using Math=Mogre.Math;
 
 namespace Wof.View.NodeAnimation
 {
     /// <summary>
-    /// Animacja binarnie ustawia widocznoœæ node'a przy rozpoczêciu / zakoñczeniu animacji
+    /// Animacja wstrzasow
     /// <author>Adam Witczak</author>
     /// </summary>
-    public class VisibilityNodeAnimation : NodeAnimation
+    public class ShakeNodeAnimation : NodeAnimation
     {
-        public enum VisibilityType
-        {
-            VISIBLE,
-            HIDDEN,
-            NOCHANGE
-        } ;
+       
 
-        /// <summary>
-        /// Przydatne aby okreœliæ czy animacja mo¿e byæ ponownie uruchomiona (zbyt czêste odpalanie)
-        /// </summary>
-        protected int lastInitTime = -1;
+        protected Vector3 initialPosition;
+        protected float maxPower;
+        public ShakeNodeAnimation(List<SceneNode> nodes, float animationDuration, Radian cycleLength,
+                                  float maxPower, string name)
+            : base(nodes, animationDuration, name, cycleLength)
+         {
+            this.maxPower = maxPower;
+            initialPosition = this.FirstNode.Position;
+         }
 
-        public int LastInitTime
+        public ShakeNodeAnimation(SceneNode node, float animationDuration, Radian cycleLength,
+                                  float maxPower, string name)
+            : this(new List<SceneNode>(){node}, animationDuration, cycleLength, maxPower, name)
         {
-            get { return lastInitTime; }
+          
         }
-
-
-        protected void SetVisible(object visibilityType)
+        
+ 		public override void updateTime(float timeSinceLastFrame)
         {
-            SetVisible((VisibilityType) visibilityType);
-        }
-
-        protected void SetVisible(VisibilityType v)
-        {
-            if(nodes == null || nodes.Count == 0) return;
-            foreach(SceneNode node in nodes)
+ 			if (enabled)
             {
-                if (node == null) continue;
-                
-                switch (v)
-                {
-                    case VisibilityType.HIDDEN:
-                        node.SetVisible(false, true);
-                        break;
-
-                    case VisibilityType.VISIBLE:
-                        node.SetVisible(true, true);
-                        break;
-
-                    case VisibilityType.NOCHANGE:
-                        break;
-                }
+ 				// za kazdym razem pobierz aktualna orientacje - jakos rozwala SPIN :/
+            	//if (this.timeSinceLastFrame == -1)
+            	//{            
+            		 //initialOrientation =
+                	//	new Quaternion(node.Orientation.w, node.Orientation.x, node.Orientation.y, node.Orientation.z);
+            	//}                
+               
             }
+ 			base.updateTime(timeSinceLastFrame);
+ 			
             
-        }
-
-        public VisibilityNodeAnimation(SceneNode node, float duration, string name, VisibilityType startVisibility,
-                                       VisibilityType endVisibility) : base(node, duration, name, 1.0f)
-        {
-            lastInitTime = Environment.TickCount;
-            onStart = SetVisible; //(startVisibility);
-            onFinish = SetVisible; // (endVisibility);
-            onStartInfo = startVisibility;
-            onFinishInfo = endVisibility;
-        }
-
-        public override void updateTime(float timeSinceLastFrame)
-        {
-            if (enabled)
-            {
-                if (this.timeSinceLastFrame == -1)
-                {
-                    lastInitTime = Environment.TickCount;
-                    if (onStart != null)
-                    {
-                        onStart(onStartInfo);
-                    }
-                }
-
-                this.timeSinceLastFrame = timeSinceLastFrame;
-            }
         }
 
         protected override float animationFunction(float x)
         {
-            return 0;
+            return Math.Abs(Math.Sin(x));
         }
 
         public override void animate()
         {
+            if (!enabled) return;
+            float power = 0;
+
+            frameInit(); // percent, percentAfter, delta and enabled are now set            
+
             if (!enabled)
             {
-                return;
+                // if frame init finished the animation
+               
+                FirstNode.SetPosition(initialPosition.x, initialPosition.y, initialPosition.z);
+               
             }
-            frameInit(); // percent, percentAfter, delta and enabled are now set
+
+            float amplitude = animationFunction(percentAfter*cycleLength.ValueRadians);
+
+           
             startNewLoop = false;
+        //    Console.WriteLine("Amplitude: " + amplitude);
+            foreach (SceneNode node in Nodes)
+            {
+                node.Translate(amplitude * Math.RangeRandom(-maxPower, maxPower), amplitude * Math.RangeRandom(-maxPower, maxPower), amplitude * Math.RangeRandom(-maxPower, maxPower));
+            }
+            lastAmplitude = amplitude;
         }
     }
 }

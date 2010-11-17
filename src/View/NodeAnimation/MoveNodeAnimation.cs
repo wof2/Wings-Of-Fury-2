@@ -101,7 +101,11 @@ namespace Wof.View.NodeAnimation
                 move += maxMove*(amplitude - amplitudeAtStart);
             }
             startNewLoop = false;
-            node.Translate(axis.x*move, axis.y*move, axis.z*move);
+            foreach (SceneNode node in Nodes)
+            {
+                 node.Translate(axis.x*move, axis.y*move, axis.z*move);
+            }
+           
             lastAmplitude = amplitude;
         }
     }

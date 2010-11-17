@@ -178,7 +178,7 @@ namespace Wof.View
                                                                    position, new Vector2(5, 3), Quaternion.IDENTITY,
                                                                    false);
 
-                    wna.onFinishInfo = wna.Node;
+                    wna.onFinishInfo = wna.Nodes;
                     wna.onFinish = levelViewRef.onFreeSplashNode;
                     LastWaterTrailTime = Environment.TickCount;
                 }

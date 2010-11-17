@@ -198,8 +198,8 @@ namespace Wof.Model.Level.Weapon
         public WeaponManager(LevelRef refLevel, IObject2D owner)
             : this(refLevel,
                    owner,
-                   owner is EnemyPlane ? GameConsts.EnemyPlane.RocketCount : GameConsts.UserPlane.RocketCount,
-                   GameConsts.UserPlane.BombCount, GameConsts.UserPlane.TorpedoCount)
+                   owner is EnemyPlane ? GameConsts.EnemyPlane.Singleton.RocketCount : GameConsts.UserPlane.Singleton.RocketCount,
+                   GameConsts.UserPlane.Singleton.BombCount, GameConsts.UserPlane.Singleton.TorpedoCount)
         {
         }
 
@@ -398,8 +398,11 @@ namespace Wof.Model.Level.Weapon
                 //sprawdzam czy samolot gracza nie trafi³ w wrogi samolot.
                 foreach (EnemyPlane ep in refToLevel.EnemyPlanes)
                 {
+
+                    bool biDirectional = refToLevel.UserPlane.PlaneType == PlaneType.B25 && !ammunitionOwner.IsEnemy; ;
+
                     if ((Math.Abs(ep.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
-                        Gun.CanHitObjectByGun(refToLevel.UserPlane, ep))
+                        Gun.CanHitObjectByGun(refToLevel.UserPlane, ep, 0, biDirectional))
                     {
                         //ubytek paliwa.
                         ep.Hit(true);
@@ -424,8 +427,9 @@ namespace Wof.Model.Level.Weapon
                   {
                       if(ammo is Rocket)
                       {
+                          bool biDirectional = refToLevel.UserPlane.PlaneType == PlaneType.B25 && !ammunitionOwner.IsEnemy; ;
                           if (/*ammo.Owner.IsEnemy &&*/ (Math.Abs(ammo.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
-                              Gun.CanHitObjectByGun(refToLevel.UserPlane, ammo, 10))
+                              Gun.CanHitObjectByGun(refToLevel.UserPlane, ammo, 10, biDirectional))
                           {
                               (ammo as Rocket).Destroy();
                               return;
@@ -441,36 +445,53 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         private void CheckGroundHits()
         {
-            if (ammunitionOwner.RelativeAngle < 0)
+            bool biDirectional = refToLevel.UserPlane.PlaneType == PlaneType.B25 && !ammunitionOwner.IsEnemy;
+            if (biDirectional || ammunitionOwner.RelativeAngle < 0)
             {
+              
                 PointD hitPoint = gun.GetHitPosition(ammunitionOwner.Bounds, ammunitionOwner.Center,
                                                      ammunitionOwner.Direction);
            
                 if (hitPoint != null)
                 {
+                    CheckGroundHit(hitPoint);
+                }
 
-                    int index = Mathematics.PositionToIndex(hitPoint.X);
-                    if (index >= 0 && index < refToLevel.LevelTiles.Count)
+                if (biDirectional)
+                {
+                    Direction opposite = ammunitionOwner.Direction == Direction.Left ? Direction.Right : Direction.Left;
+                    PointD hitPoint2 = gun.GetHitPosition(ammunitionOwner.Bounds, ammunitionOwner.Center, opposite);
+
+                    if (hitPoint2 != null)
                     {
-
-                        refToLevel.Controller.OnGunHit(refToLevel.LevelTiles[index], hitPoint.X, Math.Max(hitPoint.Y, 1));
-
-                        if (refToLevel.LevelTiles[index] is BarrelTile)
-                        {
-                            BarrelTile barrel = refToLevel.LevelTiles[index] as BarrelTile;
-                            if (!barrel.IsDestroyed)
-                            {
-                                barrel.Destroy();
-                                refToLevel.Controller.OnTileDestroyed(barrel, null);
-                                this.refToLevel.Statistics.HitByGun += refToLevel.KillVulnerableSoldiers(index, 2, false);
-                            }
-                        }
-                        else
-                            this.refToLevel.Statistics.HitByGun += refToLevel.KillVulnerableSoldiers(index, 0, false);
+                        CheckGroundHit(hitPoint2);
                     }
                 }
             }
         }
+
+        private void CheckGroundHit(PointD hitPoint)
+        {
+            int index = Mathematics.PositionToIndex(hitPoint.X);
+            if (index >= 0 && index < refToLevel.LevelTiles.Count)
+            {
+                refToLevel.Controller.OnGunHit(refToLevel.LevelTiles[index], hitPoint.X, Math.Max(hitPoint.Y, 1));
+
+                if (refToLevel.LevelTiles[index] is BarrelTile)
+                {
+                    BarrelTile barrel = refToLevel.LevelTiles[index] as BarrelTile;
+                    if (!barrel.IsDestroyed)
+                    {
+                        barrel.Destroy();
+                        refToLevel.Controller.OnTileDestroyed(barrel, null);
+                        this.refToLevel.Statistics.HitByGun += refToLevel.KillVulnerableSoldiers(index, 2, false);
+                    }
+                }
+                else
+                    this.refToLevel.Statistics.HitByGun += refToLevel.KillVulnerableSoldiers(index, 0, false);
+            }
+        }
+
         public Rocket RocketFire(float fireAngle, PointD movementVector, float zRotationPerSec)
 		{
         	Rocket rocket = null;

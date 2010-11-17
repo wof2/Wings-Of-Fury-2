@@ -51,6 +51,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using Wof.Controller;
+using Wof.Model.Level.Planes;
 
 namespace Wof.Model.Configuration
 {
@@ -96,12 +98,32 @@ namespace Wof.Model.Configuration
 
         private static void Set(ReadConfiguration configurations)
         {
+            
             //User Plane
-            SetConsts(typeof (GameConsts.UserPlane),
-                      configurations.GetConfiguration(ConfigurationNames.UserPlane), new GameConsts.UserPlane());
+            switch (EngineConfig.CurrentPlayerPlaneType)
+            {
+                case PlaneType.P47:
+                    SetConsts(typeof(GameConsts.UserPlane),
+                        configurations.GetConfiguration(ConfigurationNames.P47), GameConsts.UserPlane.Singleton);
+                    break;
+
+                case PlaneType.F4U:
+                    SetConsts(typeof(GameConsts.UserPlane),
+                        configurations.GetConfiguration(ConfigurationNames.F4U), GameConsts.UserPlane.Singleton);
+                    break;
+
+                case PlaneType.B25:
+                    SetConsts(typeof(GameConsts.UserPlane),
+                        configurations.GetConfiguration(ConfigurationNames.B25), GameConsts.UserPlane.Singleton);
+                    break;
+   
+            }
+            
+
+
             //Enemy Plane
             SetConsts(typeof (GameConsts.EnemyPlane),
-                      configurations.GetConfiguration(ConfigurationNames.EnemyPlane), new GameConsts.EnemyPlane());
+                      configurations.GetConfiguration(ConfigurationNames.EnemyPlane), GameConsts.EnemyPlane.Singleton);
             //Soldier
             SetConsts(typeof (GameConsts.Soldier),
                       configurations.GetConfiguration(ConfigurationNames.Soldier), new GameConsts.Soldier());
@@ -137,11 +159,14 @@ namespace Wof.Model.Configuration
            
         }
 
-        private static void SetConsts(Type type, Dictionary<String, float> config, Object obj)
+        private static void SetConsts(Type baseType, Dictionary<String, float> config, Object obj)
         {
+            Type[] types =  Type.GetTypeArray(new object[] {obj});
+           // Console.WriteLine(types[0]);
             if (config != null && config.Count > 0)
             {
-                FieldInfo[] fields = type.GetFields();
+                FieldInfo[] fields = baseType.GetFields();
+              //  FieldInfo[] fields = types[0].GetFields(BindingFlags.Static);
                 if (fields != null && fields.Length > 0)
                 {
                     foreach (KeyValuePair<String, float> item in config)

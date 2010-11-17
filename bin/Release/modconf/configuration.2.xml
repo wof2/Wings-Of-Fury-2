@@ -26,7 +26,7 @@
   sinkingSpeed - Określa z jaką prędkością samolot będzie tonąć. Wyrażona jako liczba dodatnia. Typ: Double
   maxHeight - Maksymalna wysokość na jaką samolot może się wzbić. Typ: int
   -->
-  <UserPlane 
+  <P47 
     oilLoss="0.2"
     moveStep="6"
     maxSpeed="60"
@@ -49,7 +49,66 @@
     userMaxRotateValue = "2.0943951"
     godMode = "0"
     width = "5.5"
-    height = "2.1"/>
+    height = "2.1"
+    canSpin = "1"
+    
+    />
+
+  <F4U
+   oilLoss="0.2"
+   moveStep="6"
+   maxSpeed="60"
+   petrolLoss="1"
+   bombCount="25"
+   rocketCount="15"
+   torpedoCount="1"
+   breakingPower = "4"
+   hitCoefficient="0.38"
+   rangeSlowWheelingSpeed = "0.004"
+   rangeFastWheelingMaxSpeed = "0.3"
+   engineCounterThreshold="1500"
+   engineCounterThresholdInAir="500"
+   breakingMinSpeed = "5"
+   sinkingSpeed = "1.3"
+   maxHeight = "150"
+   landingSpeed = "2.0"
+   userRotateStep = "2.2943951"
+   userRotateBrakingFactor = "3.9"
+   userMaxRotateValue = "2.0943951"
+   godMode = "0"
+   width = "5.5"
+   height = "2.1"
+   canSpin = "1"
+    
+    />
+
+  <B25
+   oilLoss="0.2"
+   moveStep="4"
+   maxSpeed="50"   
+   petrolLoss="1"
+   bombCount="30"
+   rocketCount="20"
+   torpedoCount="1"
+   breakingPower = "4"
+   hitCoefficient="0.38"
+   rangeSlowWheelingSpeed = "0.004"
+   rangeFastWheelingMaxSpeed = "0.3"
+   engineCounterThreshold="1500"
+   engineCounterThresholdInAir="500"
+   breakingMinSpeed = "5"
+   sinkingSpeed = "1.3"
+   maxHeight = "150"
+   landingSpeed = "2.0"
+   userRotateStep = "0.6943951"
+   userRotateBrakingFactor = "4.5"
+   userMaxRotateValue = "0.9943951"
+   godMode = "0"
+   width = "12.5"
+   height = "2.9"
+   canSpin = "0"
+    
+    />
   
   <!--Samolot wroga:
     speed - Prędkosć samolotu wroga. Typ: int
@@ -74,6 +133,15 @@
     enemyRotateStep = "1.04719755"
     maxSimultaneousEnemyPlanes="6"
     accuracy = "100.0"
+    
+    width = "5.5"
+    height = "2"
+    userRotateStep = "2.6943951"
+    userRotateBrakingFactor = "5.4"
+    userMaxRotateValue = "2.0943951"
+    maxSpeed="60"
+    rangeFastWheelingMaxSpeed = "0.3"
+    
 />
 
   <!--Żołnierze:

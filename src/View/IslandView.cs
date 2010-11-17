@@ -417,9 +417,9 @@ namespace Wof.View
                 Quaternion q2 = new Quaternion(new Radian(new Degree(-20)), Vector3.UNIT_X);
 
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "0" , EffectsManager.EffectType.PALMTOP1, position + new Vector3(0f, 4.0f, -0.0f), new Vector2(1.4f, 1.4f),
-                                         q, true).Node.Yaw(angle);
+                                         q, true).FirstNode.Yaw(angle);
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "1", EffectsManager.EffectType.PALMTOP1, position + new Vector3(0f, 4.0f, -0.0f), new Vector2(1.4f, 1.4f),
-                                         q2, true).Node.Yaw(angle);
+                                         q2, true).FirstNode.Yaw(angle);
             }
             else
             {
@@ -486,9 +486,9 @@ namespace Wof.View
                 Quaternion q = new Quaternion(new Radian(new Degree(30)), Vector3.UNIT_X);
                 Quaternion q2 = new Quaternion(new Radian(new Degree(-30)), Vector3.UNIT_X);
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "0", EffectsManager.EffectType.PALMTOP2, position + new Vector3(0.0f, 4.0f, -0.2f), new Vector2(2.5f, 2.5f),
-                                    q, true).Node.Yaw(angle);
+                                    q, true).FirstNode.Yaw(angle);
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, parent, "1", EffectsManager.EffectType.PALMTOP2, position + new Vector3(0.0f, 4.0f, -0.2f), new Vector2(2.5f, 2.5f),
-                                  q2, true).Node.Yaw(angle);
+                                  q2, true).FirstNode.Yaw(angle);
             }
             else
             {

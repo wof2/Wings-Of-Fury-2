@@ -77,8 +77,8 @@ namespace Wof.Tests
        
         public GunTestForm()
         {
-            GameConsts.UserPlane.Width *= 10;
-            GameConsts.UserPlane.Height *= 10;
+            GameConsts.UserPlane.Singleton.Width *= 10;
+            GameConsts.UserPlane.Singleton.Height *= 10;
             StartPositionInfo sp1 = new StartPositionInfo();
             sp1.Position = p1;
             sp1.Speed = 0;

@@ -128,6 +128,8 @@ namespace Wof.Model.Level.Weapon
         /// <author>Adam Witczak</author>
         public PointD GetHitPosition(Quadrangle planeBound, PointD position, Direction direction)
         {
+
+           
             // czy trafienie bedzie po prawej od samolotu czy po lewej
             Direction hitDirection;
             if (Math.Abs(planeBound.Angle) < Mogre.Math.HALF_PI)
@@ -180,6 +182,10 @@ namespace Wof.Model.Level.Weapon
         {
             return CanHitObjectByGun(owner, target, 0);
         }
+        public static bool CanHitObjectByGun(IObject2D owner, IObject2D target, float tolerance)
+        {
+            return CanHitObjectByGun(owner, target, tolerance, false);
+        }
 
         /// <summary>
         /// Funkcja sprawdza czy samolot bedzie mogl trafic dzialkiem w inny obiekt.
@@ -190,25 +196,27 @@ namespace Wof.Model.Level.Weapon
         /// <returns>Zwraca true jesli moze trafic wrogi samolot; false - w przeciwnym
         /// przypadku.</returns>
         /// <author>Michal Ziober</author>
-        public static bool CanHitObjectByGun(IObject2D owner, IObject2D target, float tolerance)
+        public static bool CanHitObjectByGun(IObject2D owner, IObject2D target, float tolerance, bool biDirectional)
         {
-
+           
             // UWAGA: Zakladamy ze 
 
-            Direction gunDirection = owner.MovementVector.X > 0 ? Direction.Right : Direction.Left;
-            
-             //   Console.WriteLine( (int)owner.Direction * (owner.Bounds.Peaks[2].X - owner.Bounds.Peaks[1].X));
-            
-           
-            if (gunDirection == Direction.Right && owner.Center.X > target.Center.X)
-                return false;
+            if (!biDirectional)
+            {
+                Direction gunDirection = owner.MovementVector.X > 0 ? Direction.Right : Direction.Left;
 
-            if (gunDirection == Direction.Left && owner.Center.X < target.Center.X)
-                return false;
-            
+                //   Console.WriteLine( (int)owner.Direction * (owner.Bounds.Peaks[2].X - owner.Bounds.Peaks[1].X));
 
 
-          /*  if (System.Math.Abs(owner.Center.X - target.Center.X) < 10 &&
+                if (gunDirection == Direction.Right && owner.Center.X > target.Center.X)
+                    return false;
+
+                if (gunDirection == Direction.Left && owner.Center.X < target.Center.X)
+                    return false;
+            }
+
+
+            /*  if (System.Math.Abs(owner.Center.X - target.Center.X) < 10 &&
                 System.Math.Abs(owner.Center.Y - target.Center.Y) < 10)
                 return false;
             */

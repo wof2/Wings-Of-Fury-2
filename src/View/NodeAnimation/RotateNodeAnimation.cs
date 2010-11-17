@@ -46,6 +46,7 @@
  * 
  */
 
+using System.Collections.Generic;
 using Mogre;
 
 namespace Wof.View.NodeAnimation
@@ -81,18 +82,25 @@ namespace Wof.View.NodeAnimation
         }
 
         protected Quaternion initialOrientation;
+        
+        public RotateNodeAnimation(List<SceneNode> nodes, float animationDuration, Degree maxAngle, Radian cycleLength,
+                                   Vector3 axis, string name)
+            : base(nodes, animationDuration, name, cycleLength)
+         {
+             this.maxAngle = maxAngle;
+             this.axis = axis;
 
+
+             initialOrientation =
+                 new Quaternion(FirstNode.Orientation.w, FirstNode.Orientation.x, FirstNode.Orientation.y, FirstNode.Orientation.z);
+
+         }
         public RotateNodeAnimation(SceneNode node, float animationDuration, Degree maxAngle, Radian cycleLength,
                                    Vector3 axis, string name)
-            : base(node, animationDuration, name, cycleLength)
+            : this(new List<SceneNode>(){node}, animationDuration, maxAngle, cycleLength, axis, name)
         {
-            this.maxAngle = maxAngle;
-            this.axis = axis;
-            
-           
-            initialOrientation =
-                new Quaternion(node.Orientation.w, node.Orientation.x, node.Orientation.y, node.Orientation.z);
-                  }
+          
+        }
         
  		public override void updateTime(float timeSinceLastFrame)
         {
@@ -123,9 +131,12 @@ namespace Wof.View.NodeAnimation
             {
                 // if frame init finished the animation
                 if (returnToInitialOrientation && initialOrientation != null)
-                {            	
-                	
-                    node.Orientation = initialOrientation;
+                {
+                    foreach (SceneNode node in Nodes)
+                    {
+                        node.Orientation = initialOrientation;
+                    }
+                   
                 }
             }
 
@@ -144,7 +155,10 @@ namespace Wof.View.NodeAnimation
                 angle += new Radian(maxAngle*(amplitude - amplitudeAtStart));
             }
             startNewLoop = false;
-            node.Rotate(axis, angle);
+            foreach (SceneNode node in Nodes)
+            {
+                node.Rotate(axis, angle);
+            }
             lastAmplitude = amplitude;
         }
     }

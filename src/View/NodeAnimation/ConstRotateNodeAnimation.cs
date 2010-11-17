@@ -46,6 +46,7 @@
  * 
  */
 
+using System.Collections.Generic;
 using Mogre;
 
 namespace Wof.View.NodeAnimation
@@ -64,6 +65,11 @@ namespace Wof.View.NodeAnimation
         // RPM - Revolutions Per Minute
         public ConstRotateNodeAnimation(SceneNode node, Degree rpm, Vector3 axis, string name)
             : base(node, 1, rpm*6, 1.0f, axis, name)
+        {
+        }
+
+        public ConstRotateNodeAnimation(List<SceneNode> nodes, Degree rpm, Vector3 axis, string name)
+            : base(nodes, 1, rpm * 6, 1.0f, axis, name)
         {
         }
     }

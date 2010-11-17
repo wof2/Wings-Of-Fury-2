@@ -55,45 +55,94 @@ namespace Wof.Model.Configuration
     /// </summary>
     public static class GameConsts
     {
+        public class P47Plane : UserPlane
+        {
+
+            protected P47Plane()
+            {
+               
+            }
+        }
+
+        public class F4UPlane : UserPlane
+        {
+            protected F4UPlane()
+            {
+               
+            }
+        }
+
+        public class B25Plane : UserPlane
+        {
+            protected B25Plane()
+            {
+               
+            }
+        }
+
+
         public class UserPlane
         {
+
+            protected static readonly UserPlane singleton = new UserPlane();
+
+            public static UserPlane Singleton
+            {
+                get { return singleton; }
+            }
+
+           
+            protected UserPlane()
+            {
+               
+            }
+
+
+
             #region Fields
+
+
+            ///<summary>
+            /// Czy samolot moze wykonac spin
+            /// </summary>
+            public int CanSpin = 1;
+
 
             ///<summary>
             /// Ilość oleju, która wycieka z samolotu gracza w czasie timeUnit.
             /// </summary>
-            public static float OilLoss = 1;
+            public  float OilLoss = 1;
 
             /// <summary>
             /// Wartosc o jaka bedzie zwiekszany(zmniejszany) wektor ruchu po nacisnieciu strzalki.
             /// </summary>
-            public static float MoveStep = 10;
+            public  float MoveStep = 10;
 
             /// <summary>
             /// Maxsymalna prędkośc samolotu jaką może wyciągnąć
             /// </summary>
-            public static float MaxSpeed = 80;
+            public  float MaxSpeed = 80;
 
             /// <summary>
             /// Ilość benzyny, którą samolot spala w czasie timeUnit.
             /// </summary>
-            public static float PetrolLoss = 1;
+            public  float PetrolLoss = 1;
 
             /// <summary>
             /// Liczba dostepnych bomb po jednorazowym pobraniu amunicji.
             /// </summary>
-            public static int BombCount = 30;
+            public  int BombCount = 30;
 
             /// <summary>
             /// Liczba dostepnych rakiet po jednorazowym pobraniu amunicji.
             /// </summary>
-            public static int RocketCount = 15;
+            public  int RocketCount = 15;
 
             
             /// <summary>
             /// Liczba dostepnych torped po jednorazowym pobraniu amunicji.
             /// </summary>
-            public static int TorpedoCount = 3;
+            public  int TorpedoCount = 3;
 
          
 
@@ -101,181 +150,190 @@ namespace Wof.Model.Configuration
             /// Stała mówi ile razy moveStep jest większy w czasie hamowannia na lotniskowcu.
             /// (Gdy jest przysikana strzałka przeciwna do ruchu samolotu.)
             /// </summary>
-            public static float BreakingPower = 4;
+            public  float BreakingPower = 4;
 
             /// <summary>
             /// Ilość oleju tracona, gdy samolot zostanie trafiony. Dodawana
             /// do ogolnej ilosci traconego oleju po kazdym trafieniu.
             /// </summary>
-            public static float HitCoefficient = 0.4f;
+            public  float HitCoefficient = 0.4f;
 
             /// <summary>
             /// Określa jaką częścią maksymalnej prędkości jest prędkość przy wolnym kołowaniu.
             /// </summary>
-            public static float RangeSlowWheelingSpeed = 0.004f;
+            public  float RangeSlowWheelingSpeed = 0.004f;
 
             /// <summary>
             /// Określa jaką częścia maksymalnej prędkości jest prędkoc przy szybkim kołowaniu.
             /// Jednocześnie określa jaką cześcią prędkości maksymalnej jest prędkość minimalna lotu.
             /// </summary>
-            public static float RangeFastWheelingMaxSpeed = 0.3f;
+            public  float RangeFastWheelingMaxSpeed = 0.3f;
 
             /// <summary>
             /// Prog, po przekroczeniu ktorego zostaje uruchomiony silnik. Czas podany w milisekundach.
             /// </summary>
-            public static int EngineCounterThreshold = 2000;
+            public  int EngineCounterThreshold = 2000;
 
             /// <summary>
             /// Prog, po przekroczeniu ktorego zostaje uruchomiony silnik, gdy samolot unosi sie
             /// w powietrzu. Czas podany w milisekundach.
             /// </summary>
-            public static int EngineCounterThresholdInAir = 500;
+            public  int EngineCounterThresholdInAir = 500;
 
             /// <summary>
             /// Prędkośc samolotu w czasie lądowania poniżej której samolot sie zatrzymuje.
             /// </summary>
-            public static int BreakingMinSpeed = 5;
+            public  int BreakingMinSpeed = 5;
 
             /// <summary>
             /// Określa z jaką prędkością samolot będzie tonąć. Wyrażona jako liczba dodatnia.
             /// </summary>
-            public static float SinkingSpeed = 1.3f;
+            public  float SinkingSpeed = 1.3f;
 
             /// <summary>
             /// Maksymalna wysokość na jaką samolot może się wzbić.
             /// </summary>
-            public static int MaxHeight = 100;
+            public  int MaxHeight = 100;
 
             /// <summary>
             /// Składowa Y wektora ruchu, gdy samolot ląduje.
             /// </summary>
-            public static float LandingSpeed = 2;
+            public  float LandingSpeed = 2;
 
             /// <summary>
             /// Określa jak bardzo będzie się zmieniała wartość obrotu w czasie timeUnit
             /// po naciśnięciu strzałki.
             /// </summary>
-            public static float UserRotateStep = Math.PI/1.5f; // 2.0943951
+            public  float UserRotateStep = Math.PI/1.5f; // 2.0943951
 
             /// <summary>
             /// Siła hamowania obrotu, czyli ile razy szybcieh hamowana jest wartość obrotu.
             /// niż zwiększana
             /// </summary>
-            public static float UserRotateBrakingFactor = 1.5f;
+            public  float UserRotateBrakingFactor = 1.5f;
 
             /// <summary>
             /// Maksymalna wartość o jaką może obrócić się samolot w czasie timeUnit.
             /// </summary>
-            public static float UserMaxRotateValue = Math.PI/1.5f; // 2.0943951
+            public  float UserMaxRotateValue = Math.PI/1.5f; // 2.0943951
 
             /// <summary>
             /// Określa czy samolot gracza reaguje na brak paliwa i oleju.
             /// </summary>
-            public static bool GodMode = false;
+            public  bool GodMode = false;
 
 
             /// <summary>
             /// Czy włączony jest 'PlaneCheat' - cheat
             /// </summary>
-            public static bool PlaneCheat = false;
+            public  bool PlaneCheat = false;
 
 
             /// <summary>
             /// Szerokość prostokąta ograniczającego samolot
             /// </summary>
-            public static float Width = 5.5f;
+            public  float Width = 5.5f;
 
             /// <summary>
             /// Wysokość prostokąta ograniczającego samolot
             /// </summary>
-            public static float Height = 2.1f;
+            public  float Height = 2.1f;
 
             #endregion
         }
 
-        public class EnemyPlane
+        public class EnemyPlane : UserPlane
         {
+
+            protected static readonly new EnemyPlane singleton = new EnemyPlane();
+            public static EnemyPlane Singleton
+            {
+                get { return singleton; }
+            }
+
+            protected EnemyPlane()
+            {
+               
+            }
+
             #region Consts
 
             /// <summary>
             /// Maksymalna ilość samolotów wroga
             /// </summary>
-            public static float MaxSimultaneousEnemyPlanes = 3;
+            public float MaxSimultaneousEnemyPlanes = 3;
 
             /// <summary>
             /// Prędkość samolotu wroga.
             /// </summary>
-            public static float Speed = 36;
+            public float Speed = 36;
 
-            /// <summary>
-            /// Ilość oleju, która wycieka z samolotu wroga w czasie timeUnit.
-            /// </summary>
-            public static float OilLoss = 1;
+          
 
             /// <summary>
             /// Najmniejszy pułap na jakim może latać samolot wroga.
             /// </summary>
-            public static float MinPitch = 10;
+            public float MinPitch = 10;
 
             /// <summary>
             /// Określa maksymalną odległość wroga od gracza (na osi X), w której może atakować.
             /// Dodane, żeby samolot wroga strzelał z w miarę bliskiej odległości.
             /// </summary>
-            public static float ViewRange = 80;
+            public float ViewRange = 80;
 
             /// <summary>
             /// Określa celność samolotu wroga. Wartosc np. 99 oznacza ze samolot zdecyduje sie na strzal nawet jesli linia strzału przecina się gdzieś z zasięgu 1 metra (100 - 99)
             /// od perfekcyjnej trajektorii strzału
             /// </summary>
-            public static float Accuracy = 100.0f;
+            public float Accuracy = 100.0f;
 
 
             /// <summary>
             /// Liczba dostepnych rakiet.
             /// </summary>
-            public static int RocketCount = 5;
+            public int RocketCount = 5;
 
             /// <summary>
             /// Czas jaki musi minąć, żeby samolot mógł wystrzelić kolejną rakietę.
             /// Wyrażony w ms.
             /// </summary>
-            public static int NextRocketInterval = 1000;
+            public int NextRocketInterval = 1000;
 
             /// <summary>
             /// Okresli o ile metrów samolot wroga może się pomylić w ataku na dodatkowe samoloty.
             /// </summary>
-            public static int StoragePlaneDistanceFault = 16;
+            public int StoragePlaneDistanceFault = 16;
 
             /// <summary>
             /// Minimalna odległość na którą może się zbliżyć do samolotu gracza.
             /// Lecąc naprzeciwko.
             /// </summary>
-            public static int SafeUserPlaneDistance = 30;
+            public int SafeUserPlaneDistance = 30;
 
             /// <summary>
             /// Okresla kiedy samolot wroga moze zaatakować(wystrzelic rakiete) do samolotu na lotniskowcu.
             /// </summary>
-            public static float AttackStoragePlaneDistance = 20.5f;
+            public float AttackStoragePlaneDistance = 20.5f;
 
             /// <summary>
             /// Określa na jakiej odlełości od lotniskowca włacza się alarm.
             /// </summary>
-            public static float CarrierDistanceAlarm = 1200;
+            public float CarrierDistanceAlarm = 1200;
 
             /// <summary>
             /// Jak szybka zmienia kąt samolot wroga.
             /// </summary>
-            public static float EnemyRotateStep = Math.PI/3; // 1.04719755
+            public float EnemyRotateStep = Math.PI/3; // 1.04719755
 
             /// <summary>
             /// Domyślna wartość czasu po jakim pojawi się pierwszy wrogi samolot.
             /// </summary>
-            public static int DefaultTimeToFirstEnemyPlane = 1 * 60 * 1000;
+            public int DefaultTimeToFirstEnemyPlane = 1 * 60 * 1000;
 
             /// <summary>
             /// Domyślna wartość czasu po jakim pojawi się kolejny wrogi samolot.
             /// </summary>
-            public static int DefaultTimeToNextEnemyPlane = 1 * 60 * 1000; 
+            public int DefaultTimeToNextEnemyPlane = 1 * 60 * 1000; 
             #endregion
         }
 
