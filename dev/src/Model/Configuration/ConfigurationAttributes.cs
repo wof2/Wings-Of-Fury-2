@@ -80,6 +80,8 @@ namespace Wof.Model.Configuration
             public const string width = @"width";
             public const string height = @"height";
             public const string canSpin = @"canSpin";
+            public const string turningDuration = @"turningDuration";
+           
         }
 
         public class EnemyPlane : UserPlane

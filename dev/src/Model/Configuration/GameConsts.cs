@@ -239,6 +239,11 @@ namespace Wof.Model.Configuration
             /// </summary>
             public  float Height = 2.1f;
 
+            /// <summary>
+            /// Czas zawracania
+            /// </summary>
+            public float TurningDuration = 3.0f;
+
             #endregion
         }
 

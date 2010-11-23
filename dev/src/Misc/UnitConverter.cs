@@ -81,7 +81,7 @@ namespace Wof.Misc
         /// <param name="percent43aspect">Procentowa odleg³oœæ od lewej strony ekranu (w przypadku proporcji ekranu 4/3)</param>
         /// <param name="percentWideAspect">Procentowa odleg³oœæ od lewej strony ekranu (w przypadku innej proporcji ekranu)</param>
         /// <returns>Poziome wspó³rzêdne ekranu w pikselach wzglêdem lewego brzegu ekranu</returns>
-        public static int AspectDependentHorizontalProportion(float percent43aspect, float percent54aspect,
+        public static int AspectDependentHorizontalProportion(float percent43aspect, float percent54aspect, float percent53aspect,
                                                               float percentWideAspect, Viewport viewport)
         {
             float viewportAspect = (1.0f*viewport.ActualWidth/viewport.ActualHeight);
@@ -96,9 +96,15 @@ namespace Wof.Misc
                 // 5/4
                 left = (int) (percent54aspect*viewport.ActualWidth); // inne proporcje ekranu
             }
+            else if (viewportAspect == 1280.0f / 768.0f)
+            {
+                // 5 / 3
+                left = (int)(percent53aspect * viewport.ActualWidth); // inne proporcje ekranu
+            }
+
             if (viewportAspect == 1680.0f/1050.0f)
             {
-                // widescreen
+                // widescreen (10/6)
                 left = (int) (percentWideAspect*viewport.ActualWidth); // inne proporcje ekranu
             }
             return left;

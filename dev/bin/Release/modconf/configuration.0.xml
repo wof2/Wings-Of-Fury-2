@@ -51,6 +51,7 @@
     width = "5.5"
     height = "2.1"
     canSpin = "1"
+    turningDuration = "3.0"
     />
     
     
@@ -79,6 +80,7 @@
     width = "5.5"
     height = "2.1"
     canSpin = "1"
+    turningDuration = "3.0"
     />
     
     
@@ -107,6 +109,7 @@
     width = "8.5"
     height = "2.3"
     canSpin = "0"
+    turningDuration = "5.0"
     
     />
     
@@ -146,6 +149,7 @@
     userMaxRotateValue = "2.0943951"
     maxSpeed="60"
     rangeFastWheelingMaxSpeed = "0.3"
+    turningDuration = "3.5"
     
   />
 

@@ -103,7 +103,7 @@ namespace Wof.Model.Configuration
         public ReadConfiguration(string path, bool isCryptData)
         {
             if (String.IsNullOrEmpty(path))
-                throw new ArgumentException(String.Format("Podana scierzka: {0} nie istnieje !", path), "path");
+                throw new ArgumentException(String.Format("Podana sciezka: {0} nie istnieje !", path), "path");
             if (!File.Exists(path))
                 throw new ConfigurationFileNotFoundException(Path.GetFileName(path));
 

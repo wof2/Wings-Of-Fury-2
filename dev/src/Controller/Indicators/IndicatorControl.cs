@@ -454,7 +454,7 @@ namespace Wof.Controller.Screens
 
             ConfigureContainer(ammoContainer, ammoElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
-                               UnitConverter.AspectDependentHorizontalProportion(0.057f, 0.03f, 0.134f, viewport),
+                               UnitConverter.AspectDependentHorizontalProportion(0.057f, 0.03f, 0.16f, 0.134f, viewport),
                                viewport.ActualHeight - minimapViewport.ActualHeight +
                                CountProportion(minimapViewport.ActualHeight,
                                                84, 61));
@@ -499,7 +499,7 @@ namespace Wof.Controller.Screens
 
             ConfigureContainer(livesContainer, livesElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
-                               UnitConverter.AspectDependentHorizontalProportion(0.125f, 0.10f, 0.189f, viewport),
+                               UnitConverter.AspectDependentHorizontalProportion(0.125f, 0.10f, 0.21f, 0.189f, viewport),
                                viewport.ActualHeight - minimapViewport.ActualHeight +
                                CountProportion(minimapViewport.ActualHeight,
                                                84, 61));
@@ -517,7 +517,7 @@ namespace Wof.Controller.Screens
 
             ConfigureContainer(scoreContainer, scoreElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
-                               UnitConverter.AspectDependentHorizontalProportion(0.85f, 0.875f, 0.790f, viewport),
+                               UnitConverter.AspectDependentHorizontalProportion(0.85f, 0.875f, 0.80f, 0.790f, viewport),
                                viewport.ActualHeight - minimapViewport.ActualHeight +
                                CountProportion(minimapViewport.ActualHeight,
                                                84, 58));
@@ -555,7 +555,7 @@ namespace Wof.Controller.Screens
 
             ConfigureContainer(hiscoreContainer, hiscoreElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
-                               UnitConverter.AspectDependentHorizontalProportion(0.85f, 0.875f, 0.790f, viewport),
+                               UnitConverter.AspectDependentHorizontalProportion(0.85f, 0.875f, 0.82f, 0.790f, viewport),
                                viewport.ActualHeight - minimapViewport.ActualHeight +
                                CountProportion(minimapViewport.ActualHeight,
                                                84, 34));

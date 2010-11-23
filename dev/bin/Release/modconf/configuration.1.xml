@@ -51,6 +51,7 @@
     width = "5.5"
     height = "2.1"
     canSpin = "1"
+    turningDuration = "3.0"
     />
 
   <F4U
@@ -78,6 +79,7 @@
     width = "5.5"
     height = "2.1"
     canSpin = "1"
+    turningDuration = "3.0"
     />
 
   <B25
@@ -105,6 +107,7 @@
     width = "8.5"
     height = "2.3"
     canSpin = "0"
+    turningDuration = "5.0"
     />
   
   <!--Samolot wroga:
@@ -141,6 +144,7 @@
     userMaxRotateValue = "2.0943951"
     maxSpeed="60"
     rangeFastWheelingMaxSpeed = "0.3"
+    turningDuration = "3.5"
     />
 
   <!--Żołnierze:
