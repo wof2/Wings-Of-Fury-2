@@ -49,6 +49,7 @@
 using System;
 using System.Collections.Generic;
 using Mogre;
+using Wof.Model.Configuration;
 using Wof.Model.Level.Planes;
 using Wof.Controller;
 using Math=Mogre.Math;
@@ -167,6 +168,9 @@ namespace Wof.View.NodeAnimation
             foreach (string name in Enum.GetNames(typeof (AnimationType)))
             {
                 AnimationType type = (AnimationType) Enum.Parse(typeof (AnimationType), name);
+
+               
+
                 register(type, 0);
             }
         }
@@ -452,9 +456,11 @@ namespace Wof.View.NodeAnimation
 
                 case AnimationType.INNERTURN:
                     {
+
+
                         this[animationName] = new GaussRotateNodeAnimation(
                             planeView.InnerNode,
-                            (duration <= 0 ? 3.0f : duration),
+                            (duration <= 0 ? GameConsts.UserPlane.Singleton.TurningDuration : duration),
                             new Degree(60),
                             10.0f,
                             Vector3.UNIT_Z,
@@ -468,7 +474,7 @@ namespace Wof.View.NodeAnimation
                     {
                         this[animationName] = new SinRotateNodeAnimation(
                             planeView.OuterNode,
-                            (duration <= 0 ? 3.0f : duration),
+                            (duration <= 0 ? GameConsts.UserPlane.Singleton.TurningDuration : duration),
                             new Degree(180),
                             Math.HALF_PI,
                             Vector3.UNIT_Y,

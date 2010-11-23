@@ -2261,16 +2261,20 @@ namespace Wof.Model.Level.Planes
                     oil -= GameConsts.UserPlane.Singleton.HitCoefficient;
                     if(isEnemy)
                     {
-                        oil -= GameConsts.UserPlane.Singleton.HitCoefficient; // przeciwnik dostaje wiecej damage'u
+                        oil -= GameConsts.UserPlane.Singleton.HitCoefficient * 1.2f; // przeciwnik dostaje wiecej damage'u
+                        if (planeType == Planes.PlaneType.B25)
+                        {
+                            oil -= GameConsts.UserPlane.Singleton.HitCoefficient; // lepsze dzia³ko
+                        }
                     }                     
                     if(GameConsts.UserPlane.Singleton.PlaneCheat)
                     {
                         if(isEnemy)
                         {
-                            oil -= GameConsts.UserPlane.Singleton.HitCoefficient / 3.0f; // lepsze dzia³ko
+                            oil -= GameConsts.UserPlane.Singleton.HitCoefficient / 2.0f; // lepsze dzia³ko
                         } else
                         {
-                            oil += GameConsts.UserPlane.Singleton.HitCoefficient / 4.0f; // dwa razy mniejsze uszkodzenia
+                            oil += GameConsts.UserPlane.Singleton.HitCoefficient / 2.0f; // dwa razy mniejsze uszkodzenia
                         }                        
                     }
                 }
@@ -2280,6 +2284,10 @@ namespace Wof.Model.Level.Planes
                     if (GameConsts.UserPlane.Singleton.PlaneCheat && !isEnemy)
                     {
                         oilLeak -= GameConsts.UserPlane.Singleton.HitCoefficient / 4.0f; // mniejszy wyciek 
+                    }
+                    if (planeType == Planes.PlaneType.B25)
+                    {
+                        oilLeak *= 0.75f; // lepszy pancerz
                     }
 
                     oil -= oilLeak;

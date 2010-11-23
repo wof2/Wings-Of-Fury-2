@@ -1387,14 +1387,18 @@ namespace Wof.View
             }
 
             // shake animation
-            ShakeNodeAnimation animation = new ShakeNodeAnimation(framework.Camera.ParentSceneNode, 0.25f, new Radian(Math.PI), 0.75f,
-                                                                tile.Name + "Shake");
-            animation.Enabled = true;
-            animation.rewind();
-            animation.Looped = false;
-            EffectsManager.Singleton.AddCustomEffect(animation);
-            animation.onFinish = onShakeFinish;
-            animation.onFinishInfo = animation;
+            if (Math.RangeRandom(0, 1) < 0.2f)
+            {
+                ShakeNodeAnimation animation = new ShakeNodeAnimation(framework.Camera.ParentSceneNode, 0.25f,
+                                                                      new Radian(Math.PI), 0.75f,
+                                                                      tile.Name + "Shake");
+                animation.Enabled = true;
+                animation.rewind();
+                animation.Looped = false;
+                EffectsManager.Singleton.AddCustomEffect(animation);
+                animation.onFinish = onShakeFinish;
+                animation.onFinishInfo = animation;
+            }
         }
 
         public void OnWarCry(Plane plane)
