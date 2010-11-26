@@ -109,7 +109,7 @@ namespace Wof.View
 
         private int currentCameraHolderIndex = 0;
 
-        private List<int> crossHairCameraIndexes = new List<int>() {2, 3, 4 };
+       
 
         public SceneNode CurrentCameraHolder
         {
@@ -2514,7 +2514,7 @@ namespace Wof.View
             cameraHolders[currentCameraHolderIndex].AttachObject(framework.Camera);
 
             // crosshair
-            if (crossHairCameraIndexes.Contains(camIndex))
+            if (playerPlaneView.GetCrossHairCameraIndexes().Contains(camIndex))
             {
                 float distance = 35;
                 if(camIndex == 4)

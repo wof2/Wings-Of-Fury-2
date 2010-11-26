@@ -196,7 +196,7 @@ namespace Wof.Controller.Screens
 
           
 
-            buttons[6] = guiWindow.createButton(new Vector4(5, 25.5f * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[6] = guiWindow.createButton(new Vector4(5, 24.0f * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                LanguageResources.GetString(LanguageKey.Back), cc, 6);
            
             guiWindow.show();

@@ -46,6 +46,7 @@
  * 
  */
 
+using System.Collections.Generic;
 using Mogre;
 using Plane=Wof.Model.Level.Planes.Plane;
 using FSLOgreCS;
@@ -57,6 +58,11 @@ namespace Wof.View
     {
        
         protected static int planeCounter = 1;
+      
+        public virtual List<int> GetCrossHairCameraIndexes()
+        {
+            return  new List<int>() { 2, 3 };
+        }
 
         /// <summary>
         /// Samolot gracza w widoku

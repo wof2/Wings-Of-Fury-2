@@ -496,5 +496,6 @@ namespace Wof.Controller
         void OnPotentialLanding(Plane p);
 
 
+        void OnSecondaryFireOnCarrier();
     }
 }

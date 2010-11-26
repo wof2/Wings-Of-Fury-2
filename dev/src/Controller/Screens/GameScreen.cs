@@ -2954,6 +2954,17 @@ namespace Wof.Controller.Screens
             SoundManager.Instance.PlayFanfare();
         }
 
+
+        public void OnSecondaryFireOnCarrier()
+        {
+            if (readyForLevelEnd && !isInNextLevelMenu)
+            {
+                OnReadyLevelEnd();
+                isGamePaused = true;
+                DisplayNextLevelScreen();
+            }
+        }
+
         public void OnChangeAmmunition()
         {
             //currentLevel.OnCheckVictoryConditions();

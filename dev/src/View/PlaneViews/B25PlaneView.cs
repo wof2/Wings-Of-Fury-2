@@ -47,6 +47,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
@@ -70,6 +71,11 @@ namespace Wof.View
         protected string destroyedBodyMaterialName = "B25/BodyDestroyed";
 
         protected Entity bladeL, bladeR;
+
+        public override List<int> GetCrossHairCameraIndexes()
+        {
+            return new List<int>() { 2, 3, 4 }; ;
+        }
 
         public B25PlaneView(Plane plane, IFrameWork frameWork, SceneNode parentNode)
             : base(plane, frameWork, parentNode)

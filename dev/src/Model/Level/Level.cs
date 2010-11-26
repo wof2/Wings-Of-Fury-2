@@ -702,6 +702,8 @@ namespace Wof.Model.Level
                 	userPlane.MovementVector.X = 0;
                     controller.OnChangeAmmunition();
                 }
+
+                controller.OnSecondaryFireOnCarrier();
                     
             }
 

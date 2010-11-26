@@ -73,7 +73,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 [Files]
 Source: "W:\wings\WoF\WofIcon.ico"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "W:\wings\WoF\Wof.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: W:\wings\WoF\bin\Release\*; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "\Wof.vshost.exe,\none.xml,\ogre.cfg,\custom_levels,\levels\*.xml,\wofconf.dat,\game.dat,\highscores.dat,*.manifest,*.config,*.pdb,*.log,*.manifest,_ReSharper.Wof,_ReSharper.Wof.vshost"
+Source: W:\wings\WoF\bin\Release\*; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "\Wof.vshost.exe,\none.xml,\ogre.cfg,\custom_levels\*.xml,\levels\*.xml,\wofconf.dat,\game.dat,\highscores.dat,*.manifest,*.config,*.pdb,*.log,*.manifest,_ReSharper.Wof,_ReSharper.Wof.vshost"
 Source: W:\wings\WoF\media\*; DestDir: {app}\media; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: \materials\textures\ads\*,thumbs.db
 Source: W:\wings\WoF\licenses\*; DestDir: {app}\licenses; Flags: ignoreversion recursesubdirs createallsubdirs
 
