@@ -654,8 +654,11 @@ namespace Wof.Controller
         {
             AddJob(MethodBase.GetCurrentMethod().Name, new object[] { p });
         }
-        
-        
+
+        public void OnSecondaryFireOnCarrier()
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name);
+        }
 
         #endregion
     }
