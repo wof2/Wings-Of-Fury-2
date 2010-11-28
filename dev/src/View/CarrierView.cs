@@ -505,6 +505,9 @@ namespace Wof.View
                 planeNode.SetScale(0.4f,0.4f,0.4f);
                 planeNode.Translate(new Vector3(1.5f, 0f, -0.5f));
             }
+         //   planeView.AnimationMgr.switchToGearUpDown(false);
+          //   planeView.AnimationMgr.CurrentAnimation.
+            planeView.ResetWheels();
 
             //Ustawia zlozone skrzydla
             planeView.PlaneEntity.GetAnimationState("storage").Enabled = true;
