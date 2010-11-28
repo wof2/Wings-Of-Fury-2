@@ -87,9 +87,9 @@ namespace Wof.View
         protected override void initWheels()
         {
             lWheelNode =
-                innerNode.CreateChildSceneNode(name + "_LeftWheel", new Vector3(-3.3f, -0.5f, -2.3f),
+                innerNode.CreateChildSceneNode(name + "_LeftWheel", new Vector3(-3.5f, -1.0f, -2.0f),
                                                new Quaternion(Math.DegreesToRadians(20), Vector3.UNIT_X));
-            lWheelNode.Scale(0.9f, 0.9f, 0.9f);
+            lWheelNode.Scale(1.0f, 1.1f, 1.0f);
 
             lWheelInnerNode = lWheelNode.CreateChildSceneNode(name + "_LeftWheelInner");
 
@@ -97,10 +97,10 @@ namespace Wof.View
             lWheelInnerNode.AttachObject(lWheel);
 
             rWheelNode =
-                innerNode.CreateChildSceneNode(name + "_RightWheel", new Vector3(3.3f, -0.5f, -2.3f),
+                innerNode.CreateChildSceneNode(name + "_RightWheel", new Vector3(3.5f, -1.0f, -2.0f),
                                                new Quaternion(Math.DegreesToRadians(20), Vector3.UNIT_X));
             rWheelNode.Rotate(Vector3.NEGATIVE_UNIT_Y, Math.DegreesToRadians(180));
-            rWheelNode.Scale(0.9f, 0.9f, 0.9f);
+            rWheelNode.Scale(1.0f, 1.1f, 1.0f);
             rWheelInnerNode = rWheelNode.CreateChildSceneNode(name + "_RightWheelInner");
            
 
@@ -108,10 +108,10 @@ namespace Wof.View
             rWheelInnerNode.AttachObject(rWheel);
 
             rearWheelNode =
-                innerNode.CreateChildSceneNode(name + "_RearWheel", new Vector3(0.0f, -1.0f, -7.3f),
+                innerNode.CreateChildSceneNode(name + "_RearWheel", new Vector3(0.0f, -1.15f, -7.3f),
                                                new Quaternion(Math.DegreesToRadians(10), Vector3.UNIT_X));
             // rearWheelNode.Rotate(Vector3.NEGATIVE_UNIT_Y, Mogre.Math.DegreesToRadians(180));
-            rearWheelNode.Scale(0.8f, 0.8f, 0.8f);
+            rearWheelNode.Scale(0.8f, 0.93f, 0.8f);
             rearWheelInnerNode = rearWheelNode.CreateChildSceneNode(name + "_RearWheelInner");
 
             Entity rearWheel = sceneMgr.CreateEntity(name + "_rearWheele", "Wheel.mesh");
@@ -243,13 +243,13 @@ namespace Wof.View
 
         protected override void initBlade()
         { // BLADE
-            bladeNodeL = innerNode.CreateChildSceneNode(name + "_BladeL", new Vector3(3.66f, 0.25f, -5.6f));
+            bladeNodeL = innerNode.CreateChildSceneNode(name + "_BladeL", new Vector3(3.66f, 0.25f, -5.3f));
             bladeL = sceneMgr.CreateEntity(name + "_BladeL", "P47Blade.mesh");
             bladeNodeL.AttachObject(bladeL);
             bladeL.Visible = true; // tylko kiedy niskie obroty
 
 
-            bladeNodeR = innerNode.CreateChildSceneNode(name + "_BladeR", new Vector3(-3.66f, 0.25f, -5.6f));
+            bladeNodeR = innerNode.CreateChildSceneNode(name + "_BladeR", new Vector3(-3.66f, 0.25f, -5.3f));
             bladeR = sceneMgr.CreateEntity(name + "_BladeR", "P47Blade.mesh");
             bladeNodeR.AttachObject(bladeR);
             bladeR.Visible = true; // tylko kiedy niskie obroty

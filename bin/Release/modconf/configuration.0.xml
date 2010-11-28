@@ -91,7 +91,7 @@
     petrolLoss="1"
     bombCount="35"
     rocketCount="35"
-    torpedoCount="2" 
+    torpedoCount="3" 
     breakingPower = "4"
     hitCoefficient="0.38"
     rangeSlowWheelingSpeed = "0.004"

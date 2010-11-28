@@ -2096,6 +2096,7 @@ namespace Wof.View
 
             // zmienne odbicie w wodzie
             string texture = "morning.jpg";
+            string texture_low = "morning_low.jpg";
             string material = "Skyplane/Morning";
             material = "Skybox/Morning";
 
@@ -2105,6 +2106,7 @@ namespace Wof.View
                     material = "Skyplane/Noon";
                     material = "Skybox/Noon";
                     texture = "cloudy_noon.jpg";
+                    texture_low = "cloudy_noon_low.jpg";
                     InitLight();
                     break;
 
@@ -2112,6 +2114,7 @@ namespace Wof.View
                     material = "Skyplane/Foggy";
                     material = "Skybox/Foggy";
                     texture = "foggy.jpg";
+                    texture_low = "foggy_low.jpg";
                     InitLight();
                     break;
 
@@ -2119,6 +2122,7 @@ namespace Wof.View
                     material = "Skyplane/Morning";
                     material = "Skybox/Morning";
                     texture = "morning.jpg";
+                    texture_low = "morning_low.jpg";
                     InitDawnLight();
                     break;
                     
@@ -2126,6 +2130,7 @@ namespace Wof.View
                     material = "Skyplane/Morning2";
                     material = "Skybox/Morning2";
                     texture = "morning2.jpg";
+                    texture_low = "morning2_low.jpg";
                     InitLight();
                     break;
 
@@ -2133,6 +2138,7 @@ namespace Wof.View
                     material = "Skyplane/Night";
                     material = "Skybox/Night";
                     texture = "night.jpg";
+                    texture_low = "night_low.jpg";
                     ambient = new ColourValue(0.27f, 0.27f, 0.32f);
                     InitNightLight();
                     isNightScene = true;
@@ -2175,6 +2181,9 @@ namespace Wof.View
             	
             }
 
+
+            // environment mapping materials
+
             try
             {
 
@@ -2189,7 +2198,7 @@ namespace Wof.View
                     if (p != null)
                     {
                         tu = p.GetTextureUnitState(1);
-                        tu.SetCubicTextureName(texture);
+                        tu.SetCubicTextureName(texture_low);
                     }
                 }
                 
@@ -2460,6 +2469,7 @@ namespace Wof.View
 
         public void OnTouchDown()
         {
+          //  playerPlaneView.AnimationMgr[PlaneNodeAnimationManager.AnimationType.IDLE].rewind();
             playerPlaneView.AnimationMgr[PlaneNodeAnimationManager.AnimationType.IDLE].Enabled = false;
             carrierView.CrewStatePlaneOnCarrier();
         }

@@ -172,6 +172,7 @@ namespace Wof.Controller.Screens
             
         }
 
+        
         public void DisplayIndicator()
         {
             wasDisplayed = true;
@@ -184,12 +185,9 @@ namespace Wof.Controller.Screens
             hud.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_OVERLAY;
 
             hudNode = new SceneNode(sceneMgr);
-            //float viewportAspect = (1.0f * viewport.ActualWidth / viewport.ActualHeight);
-            //float hudAspect = 4.0f / 3.0f;
-            //float scale = viewportAspect / hudAspect;
+         
 
-
-            hudNode.SetScale(0.01505f, 0.0155f, 0.01f);
+            hudNode.SetScale(UnitConverter.xscale(viewport) * 0.01505f, 0.0155f, 0.01f);
             hudNode.AttachObject(hud);
             hudNode.Position = new Vector3(-0.01f, -0.408f, -1f);
             hudNode.GetMaterial().SetDepthCheckEnabled(false);
@@ -201,7 +199,7 @@ namespace Wof.Controller.Screens
             fuelArrowNode = new SceneNode(sceneMgr);
             fuelArrowNode.SetScale(0.16f, 0.16f, 0.16f);
             fuelArrowNode.AttachObject(fuelArrow);
-            fuelArrowNode.Position = new Vector3(-0.214f, -0.255f, -0.7f);
+            fuelArrowNode.Position = new Vector3(UnitConverter.xscale(viewport) * -0.214f, -0.255f, -0.7f);
             fuelArrowNode.GetMaterial().SetDepthCheckEnabled(false);
 
 
@@ -212,7 +210,7 @@ namespace Wof.Controller.Screens
             oilArrowNode = new SceneNode(sceneMgr);
             oilArrowNode.SetScale(0.16f, 0.16f, 0.16f);
             oilArrowNode.AttachObject(oilArrow);
-            oilArrowNode.Position = new Vector3(0.214f, -0.255f, -0.7f);
+            oilArrowNode.Position = new Vector3(UnitConverter.xscale(viewport) * 0.214f, -0.255f, -0.7f);
             oilArrowNode.GetMaterial().SetDepthCheckEnabled(false);
 
 
@@ -428,38 +426,7 @@ namespace Wof.Controller.Screens
         }
 
 
-        private void CreateAmmoContainer()
-        {
-            ammoElement = OverlayManager.Singleton.CreateOverlayElement(
-                "TextArea", "ammoElement " + DateTime.Now.Ticks);
-            ammoContainer = (OverlayContainer) OverlayManager.Singleton.CreateOverlayElement(
-                                                   "Panel", "ammoContainer " + DateTime.Now.Ticks);
-
-        	
-        	int count = 0;
-        	switch(gameScreen.CurrentLevel.UserPlane.Weapon.SelectWeapon)
-        	{
-        		case WeaponType.Bomb:
-        			count = gameScreen.CurrentLevel.UserPlane.Weapon.BombCount;
-        			break;
-        		case WeaponType.Rocket:
-        			count = gameScreen.CurrentLevel.UserPlane.Weapon.RocketCount;
-        			break;
-        		case WeaponType.Torpedo:
-        			count = gameScreen.CurrentLevel.UserPlane.Weapon.TorpedoCount;
-        			break;
-        			
-        	}
-        	ConfigureElement(ammoElement, minimapViewport.ActualWidth, minimapViewport.ActualHeight,count.ToString());
-
-            ConfigureContainer(ammoContainer, ammoElement,
-                               minimapViewport.ActualWidth, minimapViewport.ActualHeight,
-                               UnitConverter.AspectDependentHorizontalProportion(0.057f, 0.03f, 0.16f, 0.134f, viewport),
-                               viewport.ActualHeight - minimapViewport.ActualHeight +
-                               CountProportion(minimapViewport.ActualHeight,
-                                               84, 61));
-        }
-
+      
 
         private void CreateAmmoTypeContainer()
         {
@@ -486,6 +453,36 @@ namespace Wof.Controller.Screens
            
         }
 
+        private void CreateAmmoContainer()
+        {
+            ammoElement = OverlayManager.Singleton.CreateOverlayElement(
+                "TextArea", "ammoElement " + DateTime.Now.Ticks);
+            ammoContainer = (OverlayContainer)OverlayManager.Singleton.CreateOverlayElement(
+                                                   "Panel", "ammoContainer " + DateTime.Now.Ticks);
+
+
+            int count = 0;
+            switch (gameScreen.CurrentLevel.UserPlane.Weapon.SelectWeapon)
+            {
+                case WeaponType.Bomb:
+                    count = gameScreen.CurrentLevel.UserPlane.Weapon.BombCount;
+                    break;
+                case WeaponType.Rocket:
+                    count = gameScreen.CurrentLevel.UserPlane.Weapon.RocketCount;
+                    break;
+                case WeaponType.Torpedo:
+                    count = gameScreen.CurrentLevel.UserPlane.Weapon.TorpedoCount;
+                    break;
+
+            }
+            ConfigureElement(ammoElement, minimapViewport.ActualWidth, minimapViewport.ActualHeight, count.ToString());
+
+            ConfigureContainer(ammoContainer, ammoElement,
+                               minimapViewport.ActualWidth, minimapViewport.ActualHeight,
+                               UnitConverter.AspectDependentHorizontalProportion(0.061f, viewport),
+                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.272f));
+        }
+
 
         private void CreateLivesContainer()
         {
@@ -499,10 +496,8 @@ namespace Wof.Controller.Screens
 
             ConfigureContainer(livesContainer, livesElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
-                               UnitConverter.AspectDependentHorizontalProportion(0.125f, 0.10f, 0.21f, 0.189f, viewport),
-                               viewport.ActualHeight - minimapViewport.ActualHeight +
-                               CountProportion(minimapViewport.ActualHeight,
-                                               84, 61));
+                               UnitConverter.AspectDependentHorizontalProportion(0.1275f, viewport),
+                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.272f));
         }
 
         private void CreateScoreContainer()
@@ -517,10 +512,9 @@ namespace Wof.Controller.Screens
 
             ConfigureContainer(scoreContainer, scoreElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
-                               UnitConverter.AspectDependentHorizontalProportion(0.85f, 0.875f, 0.80f, 0.790f, viewport),
-                               viewport.ActualHeight - minimapViewport.ActualHeight +
-                               CountProportion(minimapViewport.ActualHeight,
-                                               84, 58));
+                               UnitConverter.AspectDependentHorizontalProportion(0.860f, viewport),
+                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.31f));
+                              
         }
 
         private void CreateInfoContainer()
@@ -553,12 +547,11 @@ namespace Wof.Controller.Screens
             ConfigureElement(hiscoreElement, minimapViewport.ActualWidth, minimapViewport.ActualHeight,
                              gameScreen.GetHighscore().ToString());
 
+            
             ConfigureContainer(hiscoreContainer, hiscoreElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
-                               UnitConverter.AspectDependentHorizontalProportion(0.85f, 0.875f, 0.82f, 0.790f, viewport),
-                               viewport.ActualHeight - minimapViewport.ActualHeight +
-                               CountProportion(minimapViewport.ActualHeight,
-                                               84, 34));
+                               UnitConverter.AspectDependentHorizontalProportion(0.860f, viewport),
+                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.597f));
         }
         
         public static void ConfigureElement(OverlayElement element, int width, int height, String caption)

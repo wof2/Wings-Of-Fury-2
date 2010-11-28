@@ -28,6 +28,24 @@ material Metallic
 		}
 
 	}
+	
+	technique 1
+	{
+		pass 0
+		{
+			 scene_blend alpha_blend			
+			 ambient 0.588235 0.588235 0.588235 1
+			 diffuse 0.588235 0.588235 0.588235 1
+			 specular 0 0 0 10 0
+			 
+			 texture_unit 0
+			 {
+				texture_alias DiffuseMap
+				texture steel.dds
+			 }
+		}
+	
+	}
 }
 
 material MetallicBump : Metallic

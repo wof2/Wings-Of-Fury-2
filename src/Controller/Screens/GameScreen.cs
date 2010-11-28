@@ -408,6 +408,7 @@ namespace Wof.Controller.Screens
         
         private void UpdateHints(bool forceRefresh)
         {
+
            
         	
         	if(!currentLevel.CalculateFlyDirectionHint() && !forceRefresh)
@@ -1391,7 +1392,7 @@ namespace Wof.Controller.Screens
 
             if (!SHA1_Hash.ValidateImage(C_DEFAULT_AD_IMAGE_NAME))
             {
-                throw new Exception("Image " + C_DEFAULT_AD_IMAGE_NAME + " has been tempered with!");
+                throw new Exception("Image " + C_DEFAULT_AD_IMAGE_NAME + " has been tampered with!");
             }
 
             for (int i = 0; i < failed; i++)
@@ -2950,7 +2951,7 @@ namespace Wof.Controller.Screens
             }
             gameMessages.ClearMessages();
             gameMessages.AppendMessage(new MessageEntry(0, 0, message, true, true ));
-
+            UpdateHints(true);
             SoundManager.Instance.PlayFanfare();
         }
 

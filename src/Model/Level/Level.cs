@@ -1286,15 +1286,24 @@ namespace Wof.Model.Level
 
             if (onReadyLevelEndLaunched)
             {
-               int index = aircraftTiles[aircraftTiles.Count - 1].TileIndex;
-               if (index < planeIndex)
-               {
-                   left = true;
-               }
-               if (index > planeIndex)
-               {
-                   right = true;
-               }
+
+                if (userPlane.IsOnAircraftCarrier)
+                {
+                    left = false;
+                    right = false;
+                }
+                else
+                {
+                    int index = aircraftTiles[aircraftTiles.Count - 1].TileIndex;
+                    if (index < planeIndex)
+                    {
+                        left = true;
+                    }
+                    if (index > planeIndex)
+                    {
+                        right = true;
+                    }
+                }
             }
             else
             {

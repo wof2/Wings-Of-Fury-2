@@ -118,7 +118,7 @@ namespace Wof.Controller.Screens
         
 
             mGui.mFontSize = fontSize;
-            initButtons(7, 6);
+            initButtons(6, -1);
 
             string matp47, matp47_2;
             string matf4u, matf4u_2;
@@ -196,8 +196,8 @@ namespace Wof.Controller.Screens
 
           
 
-            buttons[6] = guiWindow.createButton(new Vector4(5, 24.0f * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
-                                               LanguageResources.GetString(LanguageKey.Back), cc, 6);
+           /* buttons[6] = guiWindow.createButton(new Vector4(5, 24.0f * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+                                               LanguageResources.GetString(LanguageKey.Back), cc, 6);*/
            
             guiWindow.show();
         }
@@ -212,13 +212,15 @@ namespace Wof.Controller.Screens
         {
             if (screenTime > C_RESPONSE_DELAY)
             {
+                bool back = false;
+                /*
                 if (referer == buttons[backButtonIndex])
                 {
                     PlayClickSound();
                     gameEventListener.GotoStartScreen();
                     return;
                 }
-
+                */
 
                 if (!EngineConfig.IsEnhancedVersion)
                 {
@@ -244,6 +246,7 @@ namespace Wof.Controller.Screens
 
                         EngineConfig.CurrentPlayerPlaneType = PlaneType.P47;
                         EngineConfig.SaveEngineConfig();
+                        back = true;
                     }
                 }else
                 if (referer == buttons[1] || referer == buttons[4])
@@ -262,6 +265,7 @@ namespace Wof.Controller.Screens
 
                         EngineConfig.CurrentPlayerPlaneType = PlaneType.F4U;
                         EngineConfig.SaveEngineConfig();
+                        back = true;
                     }
                 }
                 else
@@ -281,7 +285,14 @@ namespace Wof.Controller.Screens
 
                         EngineConfig.CurrentPlayerPlaneType = PlaneType.B25;
                         EngineConfig.SaveEngineConfig();
+                        back = true;
                     }
+                }
+
+                if(back)
+                {
+                    gameEventListener.GotoStartScreen();
+                    return;
                 }
             }
         }

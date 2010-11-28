@@ -2051,7 +2051,10 @@ namespace Wof.Model.Level.Planes
                 {
                     direction = (Direction) (-1*(int) direction);
                     //this.bounds.Rotate(angleOnCarrier);
-                    Rotate(2*angleOnCarrier*(float) direction); //((NA LOTNISKOWCU))
+                    if (planeType != PlaneType.B25)
+                    {
+                        Rotate(2*angleOnCarrier*(float) direction); //((NA LOTNISKOWCU))
+                    }
                     isChangingDirection = false;
                     locationState = LocationState.AircraftCarrier;
                 }
@@ -2575,7 +2578,11 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         /// <author>Tomek , Kamil S³awiñski</author>
         private void lowerTailStep(float scaleFactor)
-        {   
+        {
+            if (planeType == PlaneType.B25)
+            {
+                return;
+            }
         	//bounds.Rotate(-bounds.Angle);
         	//return;
             isLoweringTail = true;
@@ -2607,6 +2614,14 @@ namespace Wof.Model.Level.Planes
         /// <author>Tomek , Kamil S³awiñski</author>
         private void raiseTailStep(float scaleFactor)
         {
+            if (planeType == PlaneType.B25)
+            {
+                if (Math.Abs(bounds.Angle) < 0.02)
+                {
+                    AirstripContact();
+                }
+                return;
+            }
         	//bounds.Rotate(-bounds.Angle);
         	//return;
             isRaisingTail = true;

@@ -72,42 +72,29 @@ namespace Wof.Misc
             return Mathematics.IndexToPosition(tileIndex) + LevelView.ModelToViewAdjust;
         }
 
+        public static float xscale(Viewport viewport)
+        {
+            float viewportAspect = (1.0f * viewport.ActualWidth / viewport.ActualHeight);
+            float hudAspect = 4.0f / 3.0f;
+            float scale = viewportAspect / hudAspect;
+            return scale;
+        }
 
+       
         /// <summary>       
         /// Konwertuje procentow¹ odleg³oœæ od lewego brzegu ekranu na piksele w zale¿noœci od bie¿¹cej rozdzielczoœci i proporcji ekranu.
         /// Przydatne przy renderowaniu napisów, które maj¹ ró¿ne po³o¿enie w zale¿noœci od proporcji ekranu.
         /// Tak naprawde nie wiem na razie jak zrobiæ automatyczne przeliczenie, wiec trzeba korzystaæ z tej funkcji ;)
         /// </summary>
         /// <param name="percent43aspect">Procentowa odleg³oœæ od lewej strony ekranu (w przypadku proporcji ekranu 4/3)</param>
-        /// <param name="percentWideAspect">Procentowa odleg³oœæ od lewej strony ekranu (w przypadku innej proporcji ekranu)</param>
+        /// <param name="xPercent">Procentowa odleg³oœæ od lewej strony ekranu (w przypadku innej proporcji ekranu)</param>
+        /// <param name="percent53aspect"></param>
         /// <returns>Poziome wspó³rzêdne ekranu w pikselach wzglêdem lewego brzegu ekranu</returns>
-        public static int AspectDependentHorizontalProportion(float percent43aspect, float percent54aspect, float percent53aspect,
-                                                              float percentWideAspect, Viewport viewport)
+        public static int AspectDependentHorizontalProportion(float xPercent, Viewport viewport)
         {
-            float viewportAspect = (1.0f*viewport.ActualWidth/viewport.ActualHeight);
-            int left = (int) (percent43aspect*viewport.ActualWidth); // default: 4/3
 
-            if (viewportAspect == 4.0f/3.0f)
-            {
-                // 4/3 - default
-            }
-            else if (viewportAspect == 1280.0f/1024.0f)
-            {
-                // 5/4
-                left = (int) (percent54aspect*viewport.ActualWidth); // inne proporcje ekranu
-            }
-            else if (viewportAspect == 1280.0f / 768.0f)
-            {
-                // 5 / 3
-                left = (int)(percent53aspect * viewport.ActualWidth); // inne proporcje ekranu
-            }
-
-            if (viewportAspect == 1680.0f/1050.0f)
-            {
-                // widescreen (10/6)
-                left = (int) (percentWideAspect*viewport.ActualWidth); // inne proporcje ekranu
-            }
-            return left;
+            return (int)(xPercent * viewport.ActualWidth);
+            
         }
     }
 }
