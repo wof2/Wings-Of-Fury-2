@@ -61,7 +61,7 @@ using FontManager = Wof.Languages.FontManager;
 
 namespace Wof.Controller.Screens
 {
-    internal class StartScreen : AbstractScreen, BetaGUIListener
+    public class StartScreen : AbstractScreen, BetaGUIListener
     {
         private Window guiWindow;
 
@@ -251,7 +251,38 @@ namespace Wof.Controller.Screens
             
         }
         
-      
+      public static bool CheckAvailableUpdatesDo()
+      {
+          string url = EngineConfig.C_WOF_UPDATE_CHECK_PAGE + "?v=" + EngineConfig.C_WOF_VERSION + "&d=" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion;
+          
+          try
+          {
+              WebRequest request = WebRequest.Create(url);
+              using (WebResponse response = request.GetResponse())
+              {
+                  // Ensure that the correct encoding is used. 
+                  // Check the response for the Web server encoding.
+                  // For binary content, use a stream directly rather
+                  // than wrapping it with StreamReader.
+
+                  using (StreamReader reader = new StreamReader
+                     (response.GetResponseStream(), Encoding.UTF8))
+                  {
+
+                      string content = reader.ReadToEnd();
+                      return "1".Equals(content);
+                  }
+                  response.Close();
+
+              }
+          }
+          catch (Exception ex)
+          {
+             
+
+          }
+          return false;
+      }
         
         protected void checkAvailableUpdates()
         {

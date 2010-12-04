@@ -10,6 +10,7 @@
 #define MyAppURL "http://www.wingsoffury2.com"
 #define MyAppExeName "Wof.exe"
 #define MyAppSetupPath "W:\wings\WoF\Setup projects\InnoSetup"
+#define MyAppSourcePath "W:\wings\WoF"
 #define MyDXRedistVer "directx_mar2009_redist_small"
 #define MyDOTNETURL "http://download.microsoft.com/download/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe"
 #define MyDOTNETRequired "2.0"
@@ -71,15 +72,17 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "W:\wings\WoF\WofIcon.ico"; DestDir: "{app}"; Flags: IgnoreVersion
-Source: "W:\wings\WoF\Wof.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: W:\wings\WoF\bin\Release\*; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "\Wof.vshost.exe,\none.xml,\ogre.cfg,\custom_levels\*.xml,\levels\*.xml,\wofconf.dat,\game.dat,\highscores.dat,*.manifest,*.config,*.pdb,*.log,*.manifest,_ReSharper.Wof,_ReSharper.Wof.vshost"
-Source: W:\wings\WoF\media\*; DestDir: {app}\media; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: \materials\textures\ads\*,thumbs.db
-Source: W:\wings\WoF\licenses\*; DestDir: {app}\licenses; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "{#MyAppSourcePath}\WofIcon.ico"; DestDir: "{app}"; Flags: IgnoreVersion
+Source: "{#MyAppSourcePath}\WofIconE.ico"; DestDir: "{app}"; Flags: IgnoreVersion
+Source: "{#MyAppSourcePath}\Wof.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: {#MyAppSourcePath}\bin\Release\*; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "\Wof.vshost.exe,\Wof.exe,\none.xml,\ogre.cfg,\custom_levels\*.xml,\levels\*.xml,\wofconf.dat,\game.dat,\highscores.dat,*.manifest,*.config,*.pdb,*.log,*.manifest,_ReSharper.Wof,_ReSharper.Wof.vshost"
+Source: {#MyAppSourcePath}\bin\Release\wof_secure\Wof.exe; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; 
+Source: {#MyAppSourcePath}\media\*; DestDir: {app}\media; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: \materials\textures\ads\*,thumbs.db
+Source: {#MyAppSourcePath}\licenses\*; DestDir: {app}\licenses; Flags: ignoreversion recursesubdirs createallsubdirs
 
-Source: W:\wings\WoF\COPYING; DestDir: {app}; Flags: ignoreversion
-Source: W:\wings\WoF\readme.txt; DestDir: {app}; Flags: IgnoreVersion
-Source: W:\wings\WoF\app.config; DestDir: {app}; Flags: IgnoreVersion
+Source: {#MyAppSourcePath}\COPYING; DestDir: {app}; Flags: ignoreversion
+Source: {#MyAppSourcePath}\readme.txt; DestDir: {app}; Flags: IgnoreVersion
+Source: {#MyAppSourcePath}\app.config; DestDir: {app}; Flags: IgnoreVersion
 
 ; Dependencies
 
@@ -101,13 +104,14 @@ Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon; IconFilename: "{app}\WofIcon.ico"
 Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: quicklaunchicon;  IconFilename: "{app}\WofIcon.ico"
+Name: "{commondesktop}\Get Enhanced Version"; Filename: "{app}\bin\release\EnhancedVersionHelper.exe"; Tasks: desktopicon; IconFilename: "{app}\WofIconE.ico"
 
 [Run]
 Filename: {app}\vcredist_x86.exe; Parameters: "/q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qb!"""" """; StatusMsg: Installing VC Redistributable 2008
 Filename: {tmp}\DIRECTX\DXSETUP.exe; Parameters: "/SILENT"; Flags: skipifsilent; StatusMsg: Updating DirectX 
 
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, "&", "&&")}}"; Flags: nowait postinstall skipifsilent
-
+;Filename: "{app}\EnhancedVersionHelper.exe"; Description: "{cm:LaunchProgram,{#StringChange("Get Enhanced Version", "&", "&&")}}"; Flags: nowait postinstall skipifsilent
 
 [Code]
 var

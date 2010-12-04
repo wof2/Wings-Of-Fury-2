@@ -572,7 +572,8 @@
   <data name="EnhancedVersion">
     <value>Version améliorée</value>
   </data>
-
+  
+  
   <data name="EnhancedVersionDetails">
     <value>La version améliorée du jeu contient des niveaux de jeux additionnels et bonus. Toutes les publicités sont également retirées. Tout cela est disponible pour les donateurs de WOF2 ainsi qu'aux supporteurs.</value>
   </data>
@@ -593,5 +594,10 @@
    <data name="B25">
     <value>B-25 Mitchell</value>
   </data>
+  
+  <data name="GetEnhancedVersion">
+     <value>Version améliorée</value>
+  </data>
+
 
 </root>
