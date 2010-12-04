@@ -551,6 +551,8 @@
   <data name="EnhancedVersion">
     <value>Розширення</value>
   </data>
+  
+
 
   <data name="EnhancedVersionDetails">
     <value>Розширена версія гри включає в себе нові рівні та бонусні деталі. Крім того, будуть вилучені всі реклами. Ця версія доступна для людей, які внесли пожертвування або підтримали проект.</value>
@@ -573,6 +575,10 @@
   
    <data name="B25">
     <value>B-25 Mitchell</value>
+  </data>
+  
+    <data name="GetEnhancedVersion">
+       <value>Розширення</value>
   </data>
 
   

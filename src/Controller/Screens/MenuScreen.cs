@@ -54,7 +54,7 @@ using System.Windows.Forms;
 
 namespace Wof.Controller.Screens
 {
-    internal interface MenuScreen
+    public interface MenuScreen
     {
         void DisplayGUI(Boolean justMenu);
         

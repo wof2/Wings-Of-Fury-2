@@ -107,7 +107,7 @@ namespace Wof.Controller.Screens
             initButtons(2, 1);
 
             buttons[0] = guiWindow.createButton(new Vector4(5, 6 * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
-                                                LanguageResources.GetString(LanguageKey.EnhancedVersion),
+                                                LanguageResources.GetString(LanguageKey.GetEnhancedVersion),
                                                 cc, 0);
 
 

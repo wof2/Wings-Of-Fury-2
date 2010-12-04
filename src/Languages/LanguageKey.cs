@@ -171,6 +171,8 @@ namespace Wof.Languages
 
         public const string GameOver = @"GameOver";
         public const string Gear = @"Gear";
+        public const string GetEnhancedVersion = @"GetEnhancedVersion";
+        
         public const string Graphics = @"Graphics";
         public const string Gun = @"Gun";
         public const string GunAccuracy = @"GunAccuracy";

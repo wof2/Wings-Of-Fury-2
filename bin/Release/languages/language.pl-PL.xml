@@ -557,7 +557,8 @@
   <data name="EnhancedVersion">
     <value>Wersja rozszerzona</value>
   </data>
-
+  
+ 
   <data name="EnhancedVersionDetails">
     <value>Wersja rozszerzona gry zawiera nowe poziomy oraz bonusową zawartość. Dodatkowo usunięte są wszelkie reklamy. Wersja ta dostępna jest dla osób, które dokonały darowizny lub wspierały projekt.</value>
   </data>
@@ -576,6 +577,10 @@
   
    <data name="B25">
     <value>B-25 Mitchell</value>
+  </data>
+  
+   <data name="GetEnhancedVersion">
+     <value>Zdobądź wersję rozszerzoną</value>
   </data>
 
 

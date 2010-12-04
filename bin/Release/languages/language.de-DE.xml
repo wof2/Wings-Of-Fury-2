@@ -576,6 +576,8 @@
   <data name="EnhancedVersion">
     <value>Erwerbe die erweiterte Version</value>
   </data>
+  
+  
 
   <data name="EnhancedVersionDetails">
     <value>Die erweiterte Version des Spiels enthält zusätzliche Level und Inhalte. Außerdem ist sie werbefrei. Sie ist erhältlich für Spender und Helfer.</value>
@@ -597,5 +599,8 @@
     <value>B-25 Mitchell</value>
   </data>
 
+<data name="GetEnhancedVersion">
+    <value>Erwerbe die erweiterte Version</value>
+  </data>
 
 </root>

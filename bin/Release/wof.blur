@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Assemblur xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:xmlns:metapropeller-com:assemblur">
+  <!--Copyright ©2007 MetaPropeller-->
+  <!--This is an auto-generated file. Do not modify it manually.-->
+  <Project version="1.1">
+    <Properties />
+    <Assemblies>
+      <Assembly override="false">
+        <Path>.\Wof.exe</Path>
+      </Assembly>
+    </Assemblies>
+    <Builds />
+    <ProbingPaths />
+    <Options verbose="false" preset="auto" autoExclusion="false" />
+    <SignWith />
+    <OutputFolder>W:\wings\WoF\bin\Release\wof_secure</OutputFolder>
+    <Analyze>
+      <Analyzer guid="16B7D61B-200C-46D5-BEB2-FAB3BD4D9139" enabled="true" />
+      <Analyzer guid="5052094B-55D3-4A4E-84FE-BF2AB42D4CA3" enabled="true" />
+      <Analyzer guid="C5ECB803-1FD8-437C-B749-80937F4BAAE5" enabled="true" />
+      <Analyzer guid="C377C87C-04FA-4F23-BE57-7FD3D190C7C4" enabled="true" />
+      <Analyzer guid="F0CDA65B-0DCC-4D55-B205-5825AA1C8ED8" enabled="true" />
+      <Analyzer guid="16097210-4D94-4CA2-A574-51578E7BE00E" enabled="true" />
+      <Analyzer guid="3335100F-AA78-4EE1-96AF-DEDDA4FE4326" enabled="true" />
+      <Analyzer guid="24C9358D-470E-4D71-8F1F-5A486CF80DF8" enabled="true" />
+      <Analyzer guid="D6EEEE35-EE7C-46E9-86AA-F8F696B4F9CE" enabled="true" />
+      <Analyzer guid="300F4EFD-9FB1-48F9-B6FB-681DA5872B17" enabled="true" />
+      <Analyzer guid="D543743C-D539-4622-A79E-115F0DE476AA" enabled="true" />
+      <Analyzer guid="B5A41C6E-23B8-43D5-ABC4-F31E42B9309D" enabled="true" />
+      <Analyzer guid="1531F3C1-1996-4E48-AD38-5DEEE879AC45" enabled="true" />
+    </Analyze>
+    <Rename>
+      <Options renamingScheme="Thai" namespaceObfuscationType="remove" />
+      <MappingFile>
+        <Path>C:\Users\Adam\Desktop\wof.renamed.xml</Path>
+      </MappingFile>
+      <ExcludeTypes>
+        <ExcludeNamespace name="FSLOgreCS">
+          <ExcludeType name="FreeSL.FSL_SOUND_SYSTEM">
+            <ExcludeField regEx="true" name=".*" />
+          </ExcludeType>
+        </ExcludeNamespace>
+        <ExcludeNamespace name="Wof">
+          <ExcludeType name="Splash" />
+        </ExcludeNamespace>
+        <ExcludeNamespace name="Wof" preserveName="true">
+          <ExcludeType name="Splash" preserveName="true">
+            <ExcludeProperty regEx="true" name=".*" />
+          </ExcludeType>
+        </ExcludeNamespace>
+        <ExcludeNamespace name="Wof.Model.Configuration" />
+        <ExcludeNamespace name="Wof.Model.Level.LevelTiles.Watercraft">
+          <ExcludeType name="TypeOfEnemyShip">
+            <ExcludeField regEx="true" name=".*" />
+          </ExcludeType>
+        </ExcludeNamespace>
+        <ExcludeNamespace name="Wof.Model.Level.Planes">
+          <ExcludeType name="PlaneType">
+            <ExcludeField regEx="true" name=".*" />
+          </ExcludeType>
+        </ExcludeNamespace>
+        <ExcludeNamespace name="Wof.Properties">
+          <ExcludeType name="Settings">
+            <ExcludeProperty regEx="true" name=".*" />
+          </ExcludeType>
+        </ExcludeNamespace>
+        <ExcludeNamespace name="Wof.Properties" preserveName="true">
+          <ExcludeType name="Resources" preserveName="true">
+            <ExcludeProperty regEx="true" name=".*" />
+          </ExcludeType>
+        </ExcludeNamespace>
+        <ExcludeNamespace name="Wof.src.Controller.Input.Keyboard" />
+        <ExcludeNamespace name="Wof.View.Effects">
+          <ExcludeType name="EffectsManager.EffectType">
+            <ExcludeField regEx="true" name=".*" />
+          </ExcludeType>
+        </ExcludeNamespace>
+        <ExcludeNamespace name="Wof.View.NodeAnimation">
+          <ExcludeType name="PlaneNodeAnimationManager.AnimationType">
+            <ExcludeField regEx="true" name=".*" />
+          </ExcludeType>
+        </ExcludeNamespace>
+      </ExcludeTypes>
+      <ExcludeResources>
+        <ExcludeResource name="$this.Icon" />
+        <ExcludeResource regEx="true" name="\.bmp$" />
+        <ExcludeResource regEx="true" name="\.css$" />
+        <ExcludeResource regEx="true" name="\.cur$" />
+        <ExcludeResource regEx="true" name="\.gif$" />
+        <ExcludeResource regEx="true" name="\.htm$" />
+        <ExcludeResource regEx="true" name="\.html$" />
+        <ExcludeResource regEx="true" name="\.ico$" />
+        <ExcludeResource regEx="true" name="\.jpg$" />
+        <ExcludeResource regEx="true" name="\.licenses$" />
+        <ExcludeResource regEx="true" name="\.mid$" />
+        <ExcludeResource regEx="true" name="\.mp3$" />
+        <ExcludeResource regEx="true" name="\.pdf$" />
+        <ExcludeResource regEx="true" name="\.png$" />
+        <ExcludeResource regEx="true" name="\.rtf$" />
+        <ExcludeResource regEx="true" name="\.txt$" />
+        <ExcludeResource regEx="true" name="\.wav$" />
+        <ExcludeResource regEx="true" name="\.xml$" />
+        <ExcludeResource regEx="true" name="\.xsd$" />
+        <ExcludeResource regEx="true" name="\.xsl$" />
+        <ExcludeResource regEx="true" name="\.xslt$" />
+        <ExcludeResource name="LanguageID" />
+        <ExcludeResource name="newsplash" />
+        <ExcludeResource name="Wof.Splash.resources" />
+        <ExcludeResource name="WofIcon" />
+      </ExcludeResources>
+    </Rename>
+  </Project>
+</Assemblur>

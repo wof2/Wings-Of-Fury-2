@@ -593,6 +593,8 @@
   <data name="EnhancedVersion"><!-- enhanced version of the game -->
     <value>Versión Enhanced</value>
   </data>
+  
+
 
   <data name="EnhancedVersionDetails">
     <value>La versión Enhanced del juego contiene niveles adicionales y contenido bonus. También son retirados todos los anuncios. Esta versión esta disponible para todos aquellos que hayan donado y apoyado el desarrollo del juego.</value>
@@ -617,7 +619,9 @@
     <value>B-25 Mitchell</value>
   </data>
   
-  
+     <data name="GetEnhancedVersion">
+      <value>Versión Enhanced</value>
+  </data>
   
 
 

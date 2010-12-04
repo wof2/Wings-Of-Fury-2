@@ -79,7 +79,7 @@ namespace Wof.Controller
     /// Klasa odpowiedzialna za start aplikacji, przechodzenie miêdzy screenami menu i implementuj¹ca Framework.
     /// <author>Jakub Tê¿yki, Adam Witczak, Micha³ Ziober</author>
     /// </summary>
-    internal class Game : FrameWorkForm, GameEventListener
+    public class Game : FrameWorkForm, GameEventListener
     {
        
 
@@ -1455,11 +1455,26 @@ namespace Wof.Controller
           // ExitGame(GotoDonateWebPageDo);
         }
 
+       
 
-        
-        public void GotoEnhancedVersionWebPageDo()
+        public static string GetEnhancedVersionWebPageUrl()
         {
-            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/enhanced?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash + "#form";
+             return EngineConfig.C_WOF_HOME_PAGE + "/page/enhanced?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash + "#form";
+        }
+
+        public static string GetEnhancedVersionWebPageNakedUrl()
+        {
+            return EngineConfig.C_WOF_HOME_PAGE + "/enhanced_naked.php?naked=1&v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash + "#form";
+        }
+
+        public static string GetEnhancedVersionHelperWebPageNakedUrl()
+        {
+            return EngineConfig.C_WOF_HOME_PAGE + "/enhanced_helper.php?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash + "#form";
+        }
+
+        public static void GotoEnhancedVersionWebPageDo()
+        {
+            string url = GetEnhancedVersionWebPageUrl();
             try
             {
                 // launch default browser
@@ -1469,10 +1484,18 @@ namespace Wof.Controller
             { }
         }
 
-
-        public void GotoDonateWebPageDo()
+        public static string GetDonateWebPageNakedUrl()
         {
-            string url = EngineConfig.C_WOF_HOME_PAGE + "/page/donate?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion;
+            return EngineConfig.C_WOF_HOME_PAGE + "/donate_naked.php?naked=1&v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash + "#form";
+        }
+
+        public static string GetDonateWebPageUrl()
+        {
+            return EngineConfig.C_WOF_HOME_PAGE + "/page/donate?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion;
+        }
+        public static void GotoDonateWebPageDo()
+        {
+            string url = GetDonateWebPageUrl();
             try
             {
                 // launch default browser
