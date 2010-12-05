@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<level dayTime="morning" missionType="assassination" enhancedOnly="1" enemyPlanes="15" timeToFirstEnemyPlane="5000" timeToNextEnemyPlane="10000">
+  
+  
+   <!-- double laguna -->
+  <island-begin mesh="DoubleLaguna"  />    
+  	<terrain variation="1"/>
+    <concrete-bunker num-soldiers="7"/>
+    <fortress-bunker variation="2" num-generals="1" num-soldiers="10"/>
+    <concrete-bunker num-soldiers="7"/>
+    <terrain variation="2"/>
+    <wooden-bunker num-soldiers="5"/>
+  <island-end/>
+  
+  
+  
+  <ocean width="20"/>
+ <island-begin mesh="Island6" variation="3"/>
+  <terrain variation="1"/>
+  <fortress-bunker variation="2" num-generals="1"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <barrels variation="1"/>
+  <terrain variation="2"/>
+  <terrain variation="1"/>
+  <fortress-bunker variation="4" num-generals="1" num-soldiers="10"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <wooden-bunker num-soldiers="4"/>
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <barrack num-soldiers="5" />
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <barrels variation="0"/>
+  <terrain variation="0"/> 
+  <barrack num-soldiers="6" variation="1"/>
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <fortress-bunker variation="4" num-generals="1" num-soldiers="10"/>
+  <terrain variation="0"/>
+  <barrack num-soldiers="5" />
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <concrete-bunker num-soldiers="7"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <fortress-bunker variation="4" num-generals="1" num-soldiers="10"/>
+  <terrain variation="2"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <island-end/> 
+  
+  <ocean width="15"/>
+  <ocean width="2" variation="3"/>
+  <ocean width="7"/>
+  
+  <ocean width="7" variation="2"/>
+  <ocean width="65"/>
+
+   
+  <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="4" traversable="false"/>
+  <ship-end width="1" />
+  
+  <ocean width="7"/>
+  
+  <ocean width="3" variation="1"/>
+  
+  <ocean width="30"/>
+  
+  <island-begin mesh="Island4" variation="2"/>  
+  <terrain variation="2"/>
+  <fortress-bunker variation="4" num-generals="1" num-soldiers="7"/>
+  <terrain variation="0"/>
+  <concrete-bunker num-soldiers="7"/>
+  
+  <barrels variation="0" traversable="false"/>
+  <terrain variation="2"/>
+  <fortress-bunker variation="4" num-generals="1" num-soldiers="5"/>
+  <terrain variation="0"/>
+  <terrain variation="0" traversable="false"/>
+  <wooden-bunker num-soldiers="3"/>
+  <terrain variation="2"/>
+  <island-end/> 
+  
+  
+  <ocean width="20"/>
+    
+  <aircraft-carrier-begin width="1"/>
+  <aircraft-carrier-middle width="3"/>
+  <aircraft-carrier-restore-ammunition width="1"/>
+  <aircraft-carrier-middle width="1"/>
+  <aircraft-carrier-end width="3"/>
+  <ocean width="22"/>
+  
+  <ocean width="1" variation="4"/>
+  <ocean width="22"/>
+  
+  
+  <ocean width="4"/>
+ <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-end width="1" />
+
+  
+    <ocean width="100"/>
+</level>

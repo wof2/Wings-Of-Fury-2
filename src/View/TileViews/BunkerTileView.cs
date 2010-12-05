@@ -66,13 +66,24 @@ namespace Wof.View.TileViews
             get { return gunPlaceNode; }
         }
 
-        
+       
 
         protected bool isConcrete;
 
         public bool IsConcrete
         {
             get { return isConcrete; }
+        }
+
+
+      
+
+        /// <summary>
+        /// Czy posiada wyrzutnie rakiet
+        /// </summary>
+        public bool HasRockets
+        {
+            get { return (levelTile as BunkerTile).HasRockets; }
         }
 
         protected AnimationState barrelState;
@@ -107,6 +118,7 @@ namespace Wof.View.TileViews
                 gunPlaceNode.AttachObject(sandbags);
             }
            
+           
 
             installationNode =
                 gunPlaceNode.CreateChildSceneNode("BunkerNode" + nameSuffix, new Vector3(0.0f, 0.0f, 4.5f));
@@ -136,6 +148,9 @@ namespace Wof.View.TileViews
             flakBarrel = sceneMgr.CreateEntity("FlakBarrel" + nameSuffix, "FlakBarrel.mesh");
             gunNode = gunPlaceNode.CreateChildSceneNode("FlakBarrelNode" + nameSuffix, new Vector3(0.0f, 0.5f, 0.0f));
             gunNode.AttachObject(flakBarrel);
+
+          
+
 
             if (EngineConfig.DisplayingMinimap)
             {

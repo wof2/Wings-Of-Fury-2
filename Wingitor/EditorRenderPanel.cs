@@ -53,7 +53,7 @@ namespace wingitor
             : base()
         {
             mainWindow = window;
-            this.filename = "levels/level-1" + XmlLevelParser.C_LEVEL_POSTFIX;
+            this.filename = "custom_levels/enhanced-4" + XmlLevelParser.C_LEVEL_POSTFIX;
         }
 
         public EditorRenderPanel(string filename) : base()
@@ -452,6 +452,16 @@ namespace wingitor
         public void OnPotentialLanding(Plane p)
         {
         	
+        }
+
+        public void OnSecondaryFireOnCarrier()
+        {
+            
+        }
+
+        public void OnRocketHitPlane(Rocket rocket, Plane plane)
+        {
+            
         }
 
         #endregion

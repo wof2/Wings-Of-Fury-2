@@ -1293,10 +1293,19 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
+                bool locationOK;
+                if(EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Easy)
+                {
+                    locationOK = (locationState == LocationState.Air || locationState == LocationState.AirTurningRound);
+                } else
+                {
+                    locationOK = (locationState == LocationState.Air);
+                }
+
                 return
                     planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed &&
                     RelativeAngle < maxFireBombAngle && RelativeAngle > -maxFireBombAngle
-                    && locationState == LocationState.Air && !isMaxHeightRotate;
+                    && locationOK && !isMaxHeightRotate;
             }
         }
 
@@ -2261,20 +2270,22 @@ namespace Wof.Model.Level.Planes
                 planeState = PlaneState.Damaged;
                 if (hitByPlane) //ma³e trafienie
                 {
+                  
                     oil -= GameConsts.UserPlane.Singleton.HitCoefficient;
                     if(isEnemy)
                     {
-                        oil -= GameConsts.UserPlane.Singleton.HitCoefficient * 1.2f; // przeciwnik dostaje wiecej damage'u
+                        oilLeak += 0.01f * MaxOil;
+                        oil -= GameConsts.UserPlane.Singleton.HitCoefficient * 1.5f; // przeciwnik dostaje wiecej damage'u
                         if (planeType == Planes.PlaneType.B25)
                         {
-                            oil -= GameConsts.UserPlane.Singleton.HitCoefficient; // lepsze dzia³ko
+                            oil -= GameConsts.UserPlane.Singleton.HitCoefficient * 1.5f; // lepsze dzia³ko
                         }
                     }                     
                     if(GameConsts.UserPlane.Singleton.PlaneCheat)
                     {
                         if(isEnemy)
                         {
-                            oil -= GameConsts.UserPlane.Singleton.HitCoefficient / 2.0f; // lepsze dzia³ko
+                            oil -= GameConsts.UserPlane.Singleton.HitCoefficient * 1.5f; // lepsze dzia³ko
                         } else
                         {
                             oil += GameConsts.UserPlane.Singleton.HitCoefficient / 2.0f; // dwa razy mniejsze uszkodzenia

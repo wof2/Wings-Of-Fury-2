@@ -70,6 +70,7 @@ namespace Wof.Model.Level.XmlParser
         public const string EnemyPlanes = @"enemyPlanes";
         public const string Traversable = @"traversable";
         public const string NumSoldiers = @"num-soldiers";
+        public const string HasRockets = @"hasRockets";
         public const string NumGenerals = @"num-generals";
         public const string Type = @"type";
         

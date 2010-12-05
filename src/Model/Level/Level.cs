@@ -756,7 +756,7 @@ namespace Wof.Model.Level
         /// <author>Michal Ziober</author>
         public bool OnFireGun()
         {
-            if (userPlane.LocationState == LocationState.Air &&
+            if ((userPlane.LocationState ==LocationState.AirTurningRound || userPlane.LocationState == LocationState.Air) &&
                 userPlane.PlaneState != PlaneState.Destroyed && userPlane.PlaneState != PlaneState.Crashed)
             {
                 userPlane.Weapon.FireAtAngle(userPlane.RelativeAngle, WeaponType.Gun);
@@ -1040,7 +1040,7 @@ namespace Wof.Model.Level
         /// </summary>
         /// <param name="ammunition">Pocisk do zarejestrowania.</param>
         /// <author>Michal Ziober.</author>
-        public void solder_RegisterWeaponEvent(Ammunition ammunition)
+        public void rocket_RegisterWeaponEvent(Ammunition ammunition)
         {
             if(ammunition!=null) ammunitionList.Add(ammunition);
          

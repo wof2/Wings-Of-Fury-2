@@ -404,11 +404,11 @@ namespace Wof.Model.Level.XmlParser
                 // automatically reencode XML file to DAT file
                 if (EngineConfig.AutoEncodeXMLs && File.Exists(fileName.Replace(C_LEVEL_POSTFIX, ".xml")))
                 {
-                    File.WriteAllText(fileName, RijndaelSimple.Encrypt(File.ReadAllText(fileName.Replace(C_LEVEL_POSTFIX, ".xml"))));
+                    File.WriteAllText(fileName.Replace(".xml", C_LEVEL_POSTFIX), RijndaelSimple.Encrypt(File.ReadAllText(fileName.Replace(C_LEVEL_POSTFIX, ".xml"))));
                 }
+             
 
-
-                string contents = RijndaelSimple.Decrypt(File.ReadAllText(fileName));
+                string contents = RijndaelSimple.Decrypt(File.ReadAllText(fileName.Replace(".xml", C_LEVEL_POSTFIX)));
 
              
 
@@ -785,6 +785,7 @@ namespace Wof.Model.Level.XmlParser
             int numSoldiers = -1;
             int numGenerals = 0;
             int variation = 0;
+            bool hasRockets = false;
             bool traversable = true;
             if (reader.HasAttributes)
             {
@@ -802,7 +803,17 @@ namespace Wof.Model.Level.XmlParser
                             return false;
                         }
                     }
-                    else if (reader.Name.Equals(Attributes.NumGenerals))
+                    if (reader.Name.Equals(Attributes.HasRockets))
+                    {
+                        try
+                        {
+                            hasRockets = Int32.Parse(reader.Value) > 0;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }else if (reader.Name.Equals(Attributes.NumGenerals))
                     {
                         try
                         {
@@ -856,8 +867,12 @@ namespace Wof.Model.Level.XmlParser
                 shipbunker = new ShipWoodBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
                                           node.HitRectangle, numSoldiers, numGenerals, variation, node.CollisionRectangle);
             else if (bunkerName.Equals(Nodes.ShipConcreteBunker))
+            {
                 shipbunker = new ShipConcreteBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
-                                          node.HitRectangle, numSoldiers, numGenerals, variation, node.CollisionRectangle);
+                                                        node.HitRectangle, numSoldiers, numGenerals, variation,
+                                                        node.CollisionRectangle);
+                (shipbunker as ShipConcreteBunkerTile).HasRockets = hasRockets;
+            }
             else if (bunkerName.Equals(Nodes.FortressBunker))
                 bunker = new FortressBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
                                           node.HitRectangle, numSoldiers, numGenerals, variation, node.CollisionRectangle);

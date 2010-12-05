@@ -660,6 +660,11 @@ namespace Wof.Controller
             AddJob(MethodBase.GetCurrentMethod().Name);
         }
 
+        public void OnRocketHitPlane(Rocket rocket, Plane plane)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { rocket, plane });
+        }
+
         #endregion
     }
 }

@@ -64,8 +64,9 @@ namespace Wof.View.TileViews
         private Billboard lightBillboard;
         private Light light;
 
-
+      
         protected Entity installationEntity;
+        
         protected AnimationState animationState;
 
 		protected ParticleSystem smokeParticleSystem = null;

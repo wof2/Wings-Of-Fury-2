@@ -21,12 +21,11 @@ namespace EnhancedVersionHelper
             webBrowser1.Hide();
             DialogResult result =
                 MessageBox.Show(
-                    "This wizard helps you to get Enhanced version quickly and painlessly.\nInternet connection is required to continue.",
+                    "This wizard helps you to get Enhanced version quickly and easily.\nInternet connection is required to continue.",
                     "Get your WOF2 Enhanced Version", MessageBoxButtons.OK, MessageBoxIcon.Information);
             if (result == DialogResult.OK)
             {
-                // show payal stuff
-
+                // show wizard home
                 webBrowser1.Url = new Uri(Game.GetEnhancedVersionHelperWebPageNakedUrl(), UriKind.Absolute);
                 webBrowser1.Show();
             

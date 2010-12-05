@@ -287,12 +287,14 @@ namespace Wof.Model.Level.Weapon
             if (!OutOfFuel())
             {
                 //jesli jest to rakieta samolotu gracza.
-                if (!ammunitionOwner.IsEnemy)
+              /*  if (!ammunitionOwner.IsEnemy)
+                {
+                   
+                }
+                else*/
                 {
                     CheckCollisionWithEnemyPlanes(); //sprawdzam zderzenie z wrogim samolotem.
-                }
-                else
-                {
+
                     //kolizje z samolotami na lotniskowcu
                     if (Position.Y < MinYPositionForAircraft)
                         CheckCollisionWithStoragePlane();
@@ -302,7 +304,7 @@ namespace Wof.Model.Level.Weapon
                 }
 
                 //obsluga zderzenia z ziemia.
-                if(!(ammunitionOwner is Soldier)) 
+                if (!(ammunitionOwner is Soldier) && !(ammunitionOwner is ShipConcreteBunkerTile)) 
                 {
                 	CheckCollisionWithGround();
                 }
@@ -453,6 +455,10 @@ namespace Wof.Model.Level.Weapon
                     if(Owner is Soldier)
                     {
                         p.Hit(p.MaxOil * 0.1f, 0); // trafienie przez bazooke
+                    }else
+                    if (Owner is ShipConcreteBunkerTile)
+                    {
+                        p.Hit(p.MaxOil * 0.1f, 0); // trafienie przez bazooke
                     }
                     else
                     {
@@ -466,7 +472,7 @@ namespace Wof.Model.Level.Weapon
                       
                     }
 
-
+                    refToLevel.Controller.OnRocketHitPlane(this, p);
                     //odrejestruje rakiete.
                     refToLevel.Controller.OnUnregisterRocket(this);
 

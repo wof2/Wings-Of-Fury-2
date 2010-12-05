@@ -56,6 +56,7 @@ using Wof.Controller;
 using Wof.Misc;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
+using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.View.Effects;
 using Wof.View.TileViews;
@@ -279,16 +280,17 @@ namespace Wof.View
            
             float maxX = (Math.Abs(count) - 1) * LevelView.TileWidth / 16;
             BeginShipTile begin = tileViews[0].LevelTile as BeginShipTile;
-
+            Vector3 batteryBasePositon;
             switch (begin.TypeOfEnemyShip)
             {
                 case TypeOfEnemyShip.PatrolBoat: 
                     meshName = "PatrolBoat.mesh";
-                   
+                    batteryBasePositon = new Vector3(0,8.5f, -18.0f);
                     break;
 
                 case TypeOfEnemyShip.WarShip:
                     meshName = "Warship.mesh";
+                    batteryBasePositon = new Vector3(0, 14.5f, -50.0f);
                  
                     break;
 
@@ -303,17 +305,35 @@ namespace Wof.View
 
             staticNode.Translate(new Vector3(UnitConverter.LogicToWorldUnits(tileViews[0].LevelTile.TileIndex), -(tileViews[0].LevelTile as ShipTile).Depth, 0));
             staticNode.SetDirection(Vector3.UNIT_X);
-       
            
+
             //  StaticGeometry sg;
             staticNode.AttachObject(compositeModel);
 
             mainNode.AddChild(staticNode);
-            
+
+            bool rocketBatterySet = false;
             // elementy na statku sa animowalne wiec nie beda w static geometry
             for (int i = 0; i < count; i++)
             {
                 tileViews[i].initOnScene(staticNode, i + 1, tileViews.Count);
+
+                 
+                if (!rocketBatterySet && (tileViews[i] is ShipBunkerTileView) && (tileViews[i] as ShipBunkerTileView).HasRockets)
+                {
+                    rocketBatterySet = true;
+                    for (int k = -3; k <= 3; k++)
+                    {
+                        Entity rocketBatteryEntity = sceneMgr.CreateEntity(name + "_RocketBattery" + k, "Bazooka.mesh");
+                        SceneNode rocketBatteryNode = staticNode.CreateChildSceneNode(rocketBatteryEntity.Name + "Node", batteryBasePositon + new Vector3(k * 0.4f, 0, 0));
+                        rocketBatteryNode.SetScale(3, 3, 3);
+                        rocketBatteryNode.Pitch(new Radian(new Degree(30)));
+                        rocketBatteryNode.AttachObject(rocketBatteryEntity);
+
+                    }
+
+                }
+
             }
              
             string soundFile = SoundManager3D.C_SHIP_SINKING;

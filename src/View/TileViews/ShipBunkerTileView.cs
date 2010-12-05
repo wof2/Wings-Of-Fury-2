@@ -60,9 +60,16 @@ namespace Wof.View.TileViews
 {
     public class ShipBunkerTileView : EnemyInstallationTileView
     {
-       
 
-       
+
+
+        /// <summary>
+        /// Czy posiada wyrzutnie rakiet
+        /// </summary>
+        public bool HasRockets
+        {
+            get { return (levelTile as BunkerTile).HasRockets; }
+        }
 
         protected bool isConcrete;
 
@@ -110,6 +117,20 @@ namespace Wof.View.TileViews
             flakBarrel = sceneMgr.CreateEntity("ShipFlakBarrel" + nameSuffix, "ShipFlakBarrel.mesh");
             gunNode = installationNode.CreateChildSceneNode("ShipFlakBarrelNode" + nameSuffix, new Vector3(0.0f, 0.9f, 0.0f));
             gunNode.AttachObject(flakBarrel);
+
+            if (HasRockets)
+            {
+                for (int i = -1; i <= 1; i+=2)
+                {
+                   
+                    Entity rocketBayEntity = sceneMgr.CreateEntity("RocketBay" + nameSuffix + "_" + i, "RocketBay.mesh");
+                    SceneNode rocketBayNode = installationNode.CreateChildSceneNode(rocketBayEntity.Name + "Node",
+                                                                                    new Vector3(2.0f * i, -0.2f, levelTile.ViewXShift));
+                  //  rocketBayNode.SetScale(1, 4, 1);
+                    rocketBayNode.AttachObject(rocketBayEntity);
+                }
+
+            }
 
             if (EngineConfig.DisplayingMinimap)
             {

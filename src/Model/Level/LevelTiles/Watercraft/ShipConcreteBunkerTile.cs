@@ -46,10 +46,12 @@
  * 
  */
 
+using System;
 using System.Collections.Generic;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+using Wof.Model.Level.Weapon;
 using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft
@@ -60,6 +62,14 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
     ///<author>Michal Ziober</author>
     public class ShipConcreteBunkerTile : ShipBunkerTile
     {
+
+
+        #region Variables
+       
+     
+       
+        #endregion
+
         #region Public Constructor
 
         /// <summary>
@@ -82,25 +92,26 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             //pole razenia Ustawione podczas ustawiania indeksu.
             horizon = null;
             currentTime = 0;
+
+                 	
         }
 
         #endregion
 
         #region Public Method
 
-        /// <summary>
-        /// Odbudowuje betonowy bunkier.
-        /// </summary>
-        public override void Reconstruct()
-        {
-            base.Reconstruct();
-        }
+
+        
+
+       
+
 
         /// <summary>
         /// Prowadzi ostrzal samolotu.
         /// </summary>
         public override void Fire(int time)
         {
+            base.Fire(time);
             //jesli nie jest zniszczony i samolot jeszcze jest caly
             if (!IsDestroyed && UserPlaneNotYetDestroyed)
             {
@@ -125,17 +136,13 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 
                 //wyliczam kat    
                 SetAngle(GameConsts.ShipConcreteBunker.HorizonWidth);
+
+
+             
             }
         }
 
-        /// <summary>
-        /// Funkcja niszczy instalacje obronna.
-        /// </summary>
-        public override void Destroy()
-        {
-            base.Destroy();
-        }
-
+       
         /// <summary>
         /// Zwraca opis obiektu.
         /// </summary>
@@ -171,6 +178,13 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             }
         }
 
+       
+
         #endregion
+
+
+
+
+        
     }
 }

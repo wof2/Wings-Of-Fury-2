@@ -2966,6 +2966,11 @@ namespace Wof.Controller.Screens
             }
         }
 
+        public void OnRocketHitPlane(Rocket rocket, Plane plane)
+        {
+            SoundManager.Instance.PlayExposionSound();
+        }
+
         public void OnChangeAmmunition()
         {
             //currentLevel.OnCheckVictoryConditions();
@@ -3198,4 +3203,5 @@ namespace Wof.Controller.Screens
         #endregion
     }
 
+    
 }
