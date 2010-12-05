@@ -6,9 +6,9 @@
    <!-- double laguna -->
   <island-begin mesh="DoubleLaguna"  />    
   	<terrain variation="1"/>
-    <concrete-bunker num-soldiers="7"/>
+    <concrete-bunker num-soldiers="7"  hasRockets="1"/>
     <fortress-bunker variation="2" num-generals="1" num-soldiers="10"/>
-    <concrete-bunker num-soldiers="7"/>
+    <concrete-bunker num-soldiers="7"  hasRockets="1"/>
     <terrain variation="2"/>
     <wooden-bunker num-soldiers="5"/>
   <island-end/>
@@ -18,7 +18,7 @@
   <ocean width="20"/>
  <island-begin mesh="Island6" variation="3"/>
   <terrain variation="1"/>
-  <fortress-bunker variation="2" num-generals="1"/>
+  <fortress-bunker variation="2" num-generals="1"  hasRockets="1"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <barrels variation="1"/>
@@ -48,7 +48,7 @@
   <terrain variation="0"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
-  <concrete-bunker num-soldiers="7"/>
+  <concrete-bunker num-soldiers="7"  hasRockets="1"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
@@ -69,7 +69,7 @@
    
   <!-- patrolboat -->
   <ship-begin width="1"/>
-  <ship-wooden-bunker num-soldiers="4" traversable="false"/>
+  <ship-wooden-bunker num-soldiers="4" traversable="false" hasRockets="1" />
   <ship-end width="1" />
   
   <ocean width="7"/>
@@ -88,7 +88,7 @@
   <terrain variation="2"/>
   <fortress-bunker variation="4" num-generals="1" num-soldiers="5"/>
   <terrain variation="0"/>
-  <terrain variation="0" traversable="false"/>
+  <terrain variation="0" traversable="false" />
   <wooden-bunker num-soldiers="3"/>
   <terrain variation="2"/>
   <island-end/> 
@@ -110,7 +110,7 @@
   <ocean width="4"/>
  <!-- patrolboat -->
   <ship-begin width="1"/>
-  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"  hasRockets="1" />
   <ship-end width="1" />
 
   

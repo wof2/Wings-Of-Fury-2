@@ -114,7 +114,7 @@ namespace Wof.View.TileViews
 
             if(!(LevelTile is FortressBunkerTile))
             {
-                 Entity sandbags = sceneMgr.CreateEntity("Sandbags" + nameSuffix, "Sandbags.mesh");
+                Entity sandbags = sceneMgr.CreateEntity("Sandbags" + nameSuffix, "Sandbags.mesh");
                 gunPlaceNode.AttachObject(sandbags);
             }
            
@@ -151,6 +151,9 @@ namespace Wof.View.TileViews
 
             if (HasRockets)
             {
+              
+               
+
                 for (int k = -2; k <= 2; k++)
                 {
                     Entity rocketBatteryEntity = sceneMgr.CreateEntity("RocketBattery" + nameSuffix + "_" + k,
@@ -164,18 +167,36 @@ namespace Wof.View.TileViews
 
 
                 }
-
+                Entity rocketBayEntity;
+                SceneNode rocketBayNode;
                 for (int i = -1; i <= 1; i += 2)
                 {
 
-                    Entity rocketBayEntity = sceneMgr.CreateEntity("RocketBay" + nameSuffix + "_" + i, "RocketBay.mesh");
-                    SceneNode rocketBayNode = installationNode.CreateChildSceneNode(rocketBayEntity.Name + "Node",
+                    rocketBayEntity = sceneMgr.CreateEntity("RocketBay" + nameSuffix + "_" + i, "RocketBay.mesh");
+                    rocketBayNode = installationNode.CreateChildSceneNode(rocketBayEntity.Name + "Node",
                                                                                     new Vector3(2.0f*i, -0.2f,
                                                                                                 levelTile.ViewXShift -7.0f));
                     //  rocketBayNode.SetScale(1, 4, 1);
                     rocketBayNode.AttachObject(rocketBayEntity);
                 }
 
+                rocketBayEntity = sceneMgr.CreateEntity("RocketBayTop" + nameSuffix, "RocketBay.mesh");
+                rocketBayNode = installationNode.CreateChildSceneNode(rocketBayEntity.Name + "Node",
+                                                                                new Vector3(0.5f, 1.5f,
+                                                                                            levelTile.ViewXShift));
+                rocketBayNode.SetScale(0.5f, 0.5f, 0.5f);
+                rocketBayNode.AttachObject(rocketBayEntity);
+
+                
+                Entity sandbags = sceneMgr.CreateEntity("Sandbags_2" + nameSuffix, "Sandbags.mesh");
+                SceneNode sandbagsNode = installationNode.CreateChildSceneNode(sandbags.Name + "Node",
+                                                                            new Vector3(0, 0.0f,
+                                                                                        levelTile.ViewXShift + 2));
+
+                sandbagsNode.AttachObject(sandbags);
+                sandbagsNode.SetScale(2, 2, 2);
+                sandbagsNode.Yaw(new Radian(new Degree(180)));
+                
             }
 
 
