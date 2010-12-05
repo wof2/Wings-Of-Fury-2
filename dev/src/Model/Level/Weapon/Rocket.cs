@@ -300,11 +300,11 @@ namespace Wof.Model.Level.Weapon
                         CheckCollisionWithStoragePlane();
 
                     //sprawdzam kolizje z samolotem gracza.
-                    CheckCollisionWithUserPlane();
+                    if (ammunitionOwner.IsEnemy) CheckCollisionWithUserPlane();
                 }
 
                 //obsluga zderzenia z ziemia.
-                if (!(ammunitionOwner is Soldier) && !(ammunitionOwner is ShipConcreteBunkerTile)) 
+                if (!(ammunitionOwner is Soldier) && !(ammunitionOwner is BunkerTile)) 
                 {
                 	CheckCollisionWithGround();
                 }

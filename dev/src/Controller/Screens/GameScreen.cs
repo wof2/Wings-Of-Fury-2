@@ -2856,7 +2856,15 @@ namespace Wof.Controller.Screens
 
         public void OnRegisterRocket(Rocket rocket)
         {
-            SoundManager.Instance.PlayMissleSound();
+            if(rocket.Owner is BunkerTile)
+            {
+                SoundManager.Instance.PlaySmallMissleSound();
+            }
+            else
+            {
+                SoundManager.Instance.PlayMissleSound();
+            }
+            
             levelView.OnRegisterAmmunition(rocket);
         }
 

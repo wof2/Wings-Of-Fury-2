@@ -149,7 +149,34 @@ namespace Wof.View.TileViews
             gunNode = gunPlaceNode.CreateChildSceneNode("FlakBarrelNode" + nameSuffix, new Vector3(0.0f, 0.5f, 0.0f));
             gunNode.AttachObject(flakBarrel);
 
-          
+            if (HasRockets)
+            {
+                for (int k = -2; k <= 2; k++)
+                {
+                    Entity rocketBatteryEntity = sceneMgr.CreateEntity("RocketBattery" + nameSuffix + "_" + k,
+                                                                       "Bazooka.mesh");
+                    SceneNode rocketBatteryNode = gunNode.CreateChildSceneNode(rocketBatteryEntity.Name + "Node",
+                                                                               new Vector3(k*0.3f, 0.3f,
+                                                                                           levelTile.ViewXShift));
+                    rocketBatteryNode.SetScale(3, 3, 3);
+                    //  rocketBatteryNode.Pitch(new Radian(new Degree(30)));
+                    rocketBatteryNode.AttachObject(rocketBatteryEntity);
+
+
+                }
+
+                for (int i = -1; i <= 1; i += 2)
+                {
+
+                    Entity rocketBayEntity = sceneMgr.CreateEntity("RocketBay" + nameSuffix + "_" + i, "RocketBay.mesh");
+                    SceneNode rocketBayNode = installationNode.CreateChildSceneNode(rocketBayEntity.Name + "Node",
+                                                                                    new Vector3(2.0f*i, -0.2f,
+                                                                                                levelTile.ViewXShift -7.0f));
+                    //  rocketBayNode.SetScale(1, 4, 1);
+                    rocketBayNode.AttachObject(rocketBayEntity);
+                }
+
+            }
 
 
             if (EngineConfig.DisplayingMinimap)

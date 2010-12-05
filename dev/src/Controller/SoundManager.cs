@@ -134,6 +134,9 @@ namespace Wof.Controller
         
         private Audio waterExplosionSound;
         private Audio missileSound;
+        private Audio smallMissileSound;
+
+        
        
         private Audio torpedoSound;
         private Buffer torpedoRunSound;
@@ -199,6 +202,7 @@ namespace Wof.Controller
             
                 waterExplosionSound = new Audio("sounds/watersplash.wav");
                 missileSound = new Audio("sounds/missile.wav");
+                smallMissileSound = new Audio("sounds/small_missile.wav");
                
                 torpedoSound = new Audio("sounds/torpedo.wav");
             
@@ -430,6 +434,12 @@ namespace Wof.Controller
             Play(missileSound);
         }
 
+        public void PlaySmallMissleSound()
+        {
+            Play(smallMissileSound);
+        }
+
+        
      
         public void PlayTorpedoSound()
         {

@@ -871,7 +871,7 @@ namespace Wof.Model.Level.XmlParser
                 shipbunker = new ShipConcreteBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
                                                         node.HitRectangle, numSoldiers, numGenerals, variation,
                                                         node.CollisionRectangle);
-                (shipbunker as ShipConcreteBunkerTile).HasRockets = hasRockets;
+               
             }
             else if (bunkerName.Equals(Nodes.FortressBunker))
                 bunker = new FortressBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
@@ -880,14 +880,20 @@ namespace Wof.Model.Level.XmlParser
             else
                 bunker = new ConcreteBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
                                                 node.HitRectangle, numSoldiers, numGenerals, variation, node.CollisionRectangle);
+
+          
+            
             if (bunker != null)
             {
+                bunker.HasRockets = hasRockets;
                 bunker.Traversable = traversable;
                 levelTiles.Add(bunker);
             }
               
             else if (shipbunker != null)
             {
+             
+                shipbunker.HasRockets = hasRockets;
                 shipbunker.Traversable = traversable;
                 levelTiles.Add(shipbunker);
             }
