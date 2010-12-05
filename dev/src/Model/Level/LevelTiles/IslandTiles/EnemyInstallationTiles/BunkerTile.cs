@@ -48,9 +48,11 @@
 
 using System;
 using System.Collections.Generic;
+using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Infantry;
+using Wof.Model.Level.Weapon;
 using Math=Mogre.Math;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
@@ -59,7 +61,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
     /// Klasa abstarkcyjna dla bunkrow.
     /// </summary>
     /// <author>Michal Ziober</author>
-    public abstract class BunkerTile : EnemyInstallationTile
+    public abstract class BunkerTile : EnemyInstallationTile, IObject2D
     {
         #region Const
 
@@ -100,6 +102,9 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 
         #region Protected & Private Fields
 
+
+        private const float valleyFireDistance = 150;
+
         /// <summary>
         /// Czas, ktory uplynal od ostatniego strzalu.
         /// </summary>
@@ -135,6 +140,46 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// </summary>
         private int destroyTime;
 
+
+        private bool hasRockets;
+
+
+        private float preparingToVolleyTime = 0;
+        private float volleyPrepareDelay = 4000;
+
+        private int volleyCount = 6;
+        private int maxVolleyCount = 6;
+
+        private float preparingToNextMissileTime = 0;
+
+        /// <summary>
+        /// Kat o ktory obraca sie pocisk wystrzelony z bazooki w ciagu sekundy w osi Z
+        /// </summary>
+        protected float bazookaRotationPerSecond = (float)System.Math.PI * 0.35f;
+
+
+
+
+        /// <summary>
+        /// Wielokrotnosc nominalnej prêdkoœci rakiety samolotowej
+        /// </summary>
+        protected const float RocketSpeedMultiplier = 0.4f;
+
+        /// <summary>
+        /// Wielokrotnosc nominalnej prêdkoœci rakiety samolotowej
+        /// </summary>
+        protected const float RocketDistanceMultiplier = 0.6f;
+
+
+        /// <summary>
+        /// Obiekt zarzadzajacy bronia 
+        /// </summary>
+        /// <author></author>
+        protected WeaponManager weaponManager;
+
+       
+
+
         #endregion
 
         #region Public Constructor
@@ -166,7 +211,71 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// Prowadzi ostrzal samolotu.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public abstract void Fire(int time);
+        public virtual void Fire(int time)
+        {
+            if (!IsDestroyed && UserPlaneNotYetDestroyed)
+            {
+                if (HasRockets)
+                {
+                    if (ShouldFire && CanFire)
+                    {
+
+                        // rakiety gotowe. zaczynamy liczyc czas
+                        if (volleyCount == maxVolleyCount)
+                        {
+                            preparingToVolleyTime += time;
+                        }
+
+                        if (preparingToVolleyTime >= volleyPrepareDelay)
+                        {
+
+                            if (volleyCount > 0)
+                            {
+                                preparingToNextMissileTime += time;
+                                if (preparingToNextMissileTime > volleyPrepareDelay*0.1f)
+                                {
+                                    // strzal
+
+                                    PointD dir = refToLevel.UserPlane.Position - Center;
+                                    dir.Normalise();
+
+                                    bool inView = (dir.Angle > Math.PI*0.5f - Math.PI*0.3f &&
+                                                   dir.Angle < Math.PI*0.5f + Math.PI*0.3f);
+                                    if (inView)
+                                    {
+                                        PointD moveVector = GameConsts.Rocket.BaseSpeed*RocketSpeedMultiplier*dir;
+                                        dir.X *= (moveVector.X >= 0) ? 1.0f : -1.0f;
+                                        float relative = dir.Angle +
+                                                         Math.RangeRandom(-0.1f*Math.PI,
+                                                                                0.1f*Math.PI);
+                                      
+                                        Rocket rocket = Weapon.RocketFire(relative, moveVector, bazookaRotationPerSecond);
+                                        rocket.MaxDistanceToOwner *= RocketDistanceMultiplier*
+                                                                     Mathematics.RangeRandom(0.8f, 1.2f);
+                                        rocket.MaxHeightDistanceToOwner *= RocketDistanceMultiplier*
+                                                                           Mathematics.RangeRandom(0.8f, 1.2f);
+
+                                        volleyCount--;
+                                        preparingToNextMissileTime = 0;
+
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                volleyCount = maxVolleyCount;
+                                preparingToVolleyTime = 0;
+                            }
+
+                        }
+
+
+                    }
+
+                }
+            }
+
+        }
 
         /// <summary>
         /// Odbudowuje bunkier.
@@ -371,6 +480,100 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         {
             get { return (soldiersCount + generalsCount) < maxInfantryCount; }
         }
+
+
+
+        public virtual PointD Center
+        {
+            get
+            {
+                return Bounds.Center + new PointD(viewXShift, maxY);
+
+            }
+        }
+
+        public Quadrangle Bounds
+        {
+            get
+            {
+                return new Quadrangle(new PointD(Mathematics.IndexToPosition(this.TileIndex), (yBegin + yEnd) / 2.0f), LevelTile.TileWidth, this.MaxY); ;
+            }
+        }
+
+        public Direction Direction
+        {
+            get { return Model.Level.Direction.Right; }
+        }
+
+        public float RelativeAngle
+        {
+            get
+            {
+                return this.angle;
+
+            }
+        }
+
+        public PointD MovementVector
+        {
+            get
+            {
+                return new PointD(0, 0);
+            }
+        }
+
+        public bool IsEnemy
+        {
+            get
+            {
+                return true;
+            }
+        }
+
+
+        public bool HasRockets
+        {
+            get { return hasRockets; }
+            set { hasRockets = value; }
+        }
+
+        public override Level LevelProperties
+        {
+            set
+            {
+                base.LevelProperties = value;
+                weaponManager = new WeaponManager(this.refToLevel, this, maxVolleyCount * 5, 0, 0);
+                weaponManager.RegisterWeaponToModelEvent += refToLevel.rocket_RegisterWeaponEvent;
+                weaponManager.SelectWeapon = WeaponType.Rocket;
+            }
+        }
+
+
+        public WeaponManager Weapon
+        {
+            get { return weaponManager; }
+        }
+
+        protected bool ShouldFire
+        {
+            get
+            {
+                PointD diff = refToLevel.UserPlane.Position - new PointD(Mathematics.IndexToPosition(this.TileIndex), this.MaxY);
+                return diff.EuclidesLength < valleyFireDistance;  // zolnierz musi zbyc zwrocony w strone samolotu
+
+            }
+
+        }
+
+        protected bool CanFire
+        {
+            get
+            {
+                return !IsDestroyed && Weapon.RocketCount > 0;
+
+            }
+        }
+
 
 
         #endregion

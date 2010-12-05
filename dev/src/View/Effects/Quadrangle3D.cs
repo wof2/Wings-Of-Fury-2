@@ -71,6 +71,7 @@ namespace Wof.View.Effects
             get { return quadrangle; }
         }
 
+        private SceneManager sceneMgr;
 
         /// <summary>
         /// Wczorok¹t w view. Klasa pomocnicza
@@ -84,8 +85,9 @@ namespace Wof.View.Effects
                 sceneMgr.DestroyManualObject(name);
             }
         	manualObject = sceneMgr.CreateManualObject(name);
-          
-          
+
+            this.sceneMgr = sceneMgr;
+            this.name = name;
         }
         
         /// <summary>

@@ -109,6 +109,19 @@ namespace Wof.Misc
                 }
             }
         }
+        public static void DetachQuadrangles(SceneManager sceneMgr)
+        {
+            if (EngineConfig.DisplayBoundingQuadrangles)
+            {
+                foreach (DictionaryEntry q in helperQuandrangles)
+                {
+                    sceneMgr.RootSceneNode.DetachObject(((Quadrangle3D)q.Value).ManualObject);
+                 //   sceneMgr.DestroyManualObject((q.Value as Quadrangle3D).ManualObject);
+                    helperQuandrangles.Remove(q);
+                }
+            }
+            helperQuandrangles.Clear();
+        }
 
         public static void DetachQuadrangles(SceneManager sceneMgr, IRenderableQuadrangles target)
         {
@@ -119,7 +132,8 @@ namespace Wof.Misc
                     if (helperQuandrangles.ContainsKey(q))
                     {
                         sceneMgr.RootSceneNode.DetachObject(((Quadrangle3D) helperQuandrangles[q]).ManualObject);
-                       // (helperQuandrangles[q] as Quadrangle3D).Dispose();
+                        sceneMgr.DestroyManualObject((helperQuandrangles[q] as Quadrangle3D).ManualObject);
+                   
                         helperQuandrangles.Remove(q);
                     }
                 }

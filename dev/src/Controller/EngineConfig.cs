@@ -86,9 +86,9 @@ namespace Wof.Controller
         public static readonly String C_OGRE_CFG = "ogre.cfg";
 
         public static readonly String C_WOF_HOME_PAGE = "http://www.wingsoffury2.com";
-        public static readonly String C_WOF_NEWS_PAGE = "http://www.wingsoffury2.com/news.php";
-        public static readonly String C_WOF_UPDATE_CHECK_PAGE = "http://www.wingsoffury2.com/update_chk.php";
-        public static readonly String C_WOF_SUPPORT_PAGE = "http://www.wingsoffury2.com";
+        public static readonly String C_WOF_NEWS_PAGE = C_WOF_HOME_PAGE+"/news.php";
+        public static readonly String C_WOF_UPDATE_CHECK_PAGE = C_WOF_HOME_PAGE+"/update_chk.php";
+        public static readonly String C_WOF_SUPPORT_PAGE = C_WOF_HOME_PAGE;
     
 
         public static readonly bool UseLastHardwareSettings = false;
@@ -96,7 +96,7 @@ namespace Wof.Controller
         
         public static readonly bool DisplayAxes = false;
 
-        public static readonly bool DisplayBoundingQuadrangles = false;
+        public static readonly bool DisplayBoundingQuadrangles = true;
 
         public static readonly bool AutoEncodeXMLs = true;
 

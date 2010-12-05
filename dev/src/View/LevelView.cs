@@ -265,6 +265,9 @@ namespace Wof.View
                 HydraxManager.Singleton.DisposeHydrax();
                 
             }
+
+
+            ViewHelper.DetachQuadrangles(sceneMgr);
         }
 
         private void InitSplashPool(int size)
@@ -839,11 +842,7 @@ namespace Wof.View
 
         public void OnUnregisterPlane(Plane plane)
         {
-            if (EngineConfig.DisplayBoundingQuadrangles)
-            {
-                OnUnregisterBoundingQuadrangle(plane);
-            }
-
+          
             // TODO: na razie samoloty sa ukrywane
             if (plane is StoragePlane)
             {
@@ -2393,6 +2392,10 @@ namespace Wof.View
         /// <param name="posY"></param>
         public void OnGunHit(LevelTile tile, float posX, float posY)
         {
+
+
+            if(this.playerPlaneView.Plane.LocationState == LocationState.AirTurningRound) return; // przypadek kiedy zawracamy i strzelamy - nie pokazuj sladow na wodzie bo kierunek zmienia sie na koniec obrotu wiec nie wyswietlalo by sie to poprawnie
+
             SceneNode splashNode = getSplashNode();
             if (splashNode == null) return; // koniec poola
             Boolean ocean = false;

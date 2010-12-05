@@ -61,6 +61,15 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             : base(yBegin, yEnd, viewXShift, hitBound, soldierNum, generalNum, type, collisionRectangle)
         {
         }
+
+        public override PointD Center
+        {
+            get
+            {
+                return Bounds.Center + new PointD(viewXShift, this.hitBound.HighestY);
+
+            }
+        }
             
     }
 }

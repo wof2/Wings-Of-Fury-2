@@ -289,7 +289,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// <summary>
         /// Ustawia prywatna referencje do planszy.
         /// </summary>
-        public Level LevelProperties
+        public virtual Level LevelProperties
         {
             set { refToLevel = value; }
         }
