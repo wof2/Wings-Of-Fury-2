@@ -481,13 +481,13 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             get { return (soldiersCount + generalsCount) < maxInfantryCount; }
         }
 
-
+      
 
         public virtual PointD Center
         {
             get
             {
-                return Bounds.Center + new PointD(viewXShift, maxY);
+                return Bounds.Center + new PointD(viewXShift + 4.0f, maxY);
 
             }
         }
