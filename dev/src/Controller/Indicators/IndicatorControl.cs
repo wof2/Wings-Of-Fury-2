@@ -374,7 +374,7 @@ namespace Wof.Controller.Screens
                 }
                
                 Plane p = gameScreen.CurrentLevel.UserPlane;
-
+              //  infoElement.Caption = "Oil: " + (int) (p.Oil) + ", leak:"+p.OilLeak;
                 float var, oil, fuel;
                 
                 // fuel

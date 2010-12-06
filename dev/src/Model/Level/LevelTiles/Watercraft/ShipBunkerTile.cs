@@ -62,6 +62,15 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         {
         }
 
+        /// <summary>
+        /// Przesuniecie dzia³ka w widoku od poczatku tile'a bunkra
+        /// </summary>
+        protected override float GetGunXShift()
+        {
+            return viewXShift;
+        }
+
+
         public override PointD Center
         {
             get

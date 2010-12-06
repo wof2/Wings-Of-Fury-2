@@ -243,20 +243,29 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                                                    dir.Angle < Math.PI*0.5f + Math.PI*0.3f);
                                     if (inView)
                                     {
-                                        PointD moveVector = GameConsts.Rocket.BaseSpeed*RocketSpeedMultiplier*dir;
-                                        dir.X *= (moveVector.X >= 0) ? 1.0f : -1.0f;
-                                        float relative = dir.Angle +
-                                                         Math.RangeRandom(-0.1f*Math.PI,
-                                                                                0.1f*Math.PI);
-                                      
-                                        Rocket rocket = Weapon.RocketFire(relative, moveVector, bazookaRotationPerSecond);
-                                        rocket.MaxDistanceToOwner *= RocketDistanceMultiplier*
-                                                                     Mathematics.RangeRandom(0.8f, 1.2f);
-                                        rocket.MaxHeightDistanceToOwner *= RocketDistanceMultiplier*
-                                                                           Mathematics.RangeRandom(0.8f, 1.2f);
 
-                                        volleyCount--;
-                                        preparingToNextMissileTime = 0;
+                                        float dist = refToLevel.UserPlane.DistanceToClosestPlane();
+
+                                        if (dist > valleyFireDistance / 2.0)
+                                        {
+                                            // strzelaj tak zeby nie rozwalic samolotow japonskich
+
+                                            PointD moveVector = GameConsts.Rocket.BaseSpeed*RocketSpeedMultiplier*dir;
+                                            dir.X *= (moveVector.X >= 0) ? 1.0f : -1.0f;
+                                            float relative = dir.Angle +
+                                                             Math.RangeRandom(-0.1f*Math.PI,
+                                                                              0.1f*Math.PI);
+
+                                            Rocket rocket = Weapon.RocketFire(relative, moveVector,
+                                                                              bazookaRotationPerSecond);
+                                            rocket.MaxDistanceToOwner *= RocketDistanceMultiplier*
+                                                                         Mathematics.RangeRandom(0.8f, 1.2f);
+                                            rocket.MaxHeightDistanceToOwner *= RocketDistanceMultiplier*
+                                                                               Mathematics.RangeRandom(0.8f, 1.2f);
+
+                                            volleyCount--;
+                                            preparingToNextMissileTime = 0;
+                                        }
 
                                     }
                                 }
@@ -347,13 +356,21 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         #region Protected & Private Methods
 
         /// <summary>
+        /// Przesuniecie dzia³ka w widoku od poczatku tile'a bunkra
+        /// </summary>
+        protected virtual float GetGunXShift()
+        {
+            return 6 + viewXShift;
+        }
+
+        /// <summary>
         /// Ustawia kat dzialka.
         /// <param name="width">Szerokosc pola widzenia.</param>
         /// </summary>
         /// <author>Michal Ziober</author>
         protected void SetAngle(float width)
         {
-            float interval = refToLevel.UserPlane.Center.X - horizon.Center.X;
+            float interval = refToLevel.UserPlane.Center.X - (horizon.Center.X + GetGunXShift());
 
             //pionowo nad ziemia
             if (interval == 0)

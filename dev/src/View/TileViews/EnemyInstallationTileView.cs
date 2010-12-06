@@ -88,9 +88,67 @@ namespace Wof.View.TileViews
         /// <summary>
         /// Wizualizacja ostrza³u prowadzonego przez instalacjê
         /// </summary>
-        public abstract void GunFire();
+        public virtual void GunFire()
+        {
+            Vector3 gunPos = new Vector3(0, 0, -3.5f);
+            Vector2 expSize = new Vector2(3, 3);
+            float baseWidth = 30;
+            GunFireDo(gunPos, expSize, baseWidth);
+
+        }
+
+        protected virtual void GunFireDo(Vector3 localPos, Vector2 expSize, float baseWidth)
+        {
+
+            Quaternion orient, trailOrient;
+            orient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y);
+            trailOrient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y);
+            trailOrient *= new Quaternion(-Math.HALF_PI, Vector3.UNIT_X);
 
 
+
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.gunNode, "GunHit" + localPos,
+                                                       EffectsManager.EffectType.GUNHIT2,
+                                                       localPos, expSize,
+                                                       orient, false);
+
+
+            float trailWidth = baseWidth * Math.RangeRandom(1.0f, 1.1f);
+            string trailName = EffectsManager.BuildSpriteEffectName(this.gunNode, EffectsManager.EffectType.GUNTRAIL, "GunTrail" + localPos);
+            bool showTrail = EffectsManager.Singleton.EffectEnded(trailName) || !EffectsManager.Singleton.EffectExists(trailName);
+
+
+            showTrail |= (Math.RangeRandom(0.0f, 1.0f) > 0.95f); // czasem przerwij efekt i zacznij od poczatku
+
+            Vector3 trailBase = new Vector3(localPos.x, 0.0f, localPos.z - trailWidth * 0.5f);
+
+            if (showTrail)
+            {
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, this.gunNode, "GunTrail" + localPos,
+                                                           EffectsManager.EffectType.GUNTRAIL,
+                                                           trailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 10.0f)),
+                                                           new Vector2(trailWidth, 1.0f),
+                                                           trailOrient, false);
+            }
+
+            orient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
+            trailOrient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.gunNode, "GunHitTop" + localPos,
+                                                       EffectsManager.EffectType.GUNHIT2,
+                                                       localPos, expSize,
+                                                       orient, false);
+
+
+            if (showTrail)
+            {
+                EffectsManager.Singleton.RectangularEffect(sceneMgr, this.gunNode, "GunTrailTop" + localPos,
+                                                           EffectsManager.EffectType.GUNTRAIL,
+                                                           trailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 10.0f)),
+                                                           new Vector2(trailWidth, 1.0f),
+                                                           trailOrient, false);
+            }
+
+        }
         protected void SetLightFlareVisibility(bool visible)
         {
             if (lightBillboardSet != null)
