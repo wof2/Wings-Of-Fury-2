@@ -150,6 +150,7 @@ namespace Wof.View.TileViews
 
         public override void GunFire()
         {
+            base.GunFire();
             int i = animableElements.IndexOf(barrelState);
             if (i != -1)
             {

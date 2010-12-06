@@ -54,6 +54,7 @@ using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.View.Effects;
+using Math=Mogre.Math;
 
 namespace Wof.View.TileViews
 {
@@ -220,8 +221,11 @@ namespace Wof.View.TileViews
             animableElements.Add(barrelState);
         }
 
+        
         public override void GunFire()
         {
+            base.GunFire();
+            
             int i = animableElements.IndexOf(barrelState);
             if (i != -1)
             {
@@ -239,6 +243,11 @@ namespace Wof.View.TileViews
               false,
               0
             ).TimeScale=2.0f;
+
+          
+            
+           
+        
         }
 
         public override void Restore()

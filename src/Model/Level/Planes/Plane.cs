@@ -802,7 +802,7 @@ namespace Wof.Model.Level.Planes
 
             height = GameConsts.UserPlane.Singleton.Height;
 
-            oilLeak = GameConsts.UserPlane.Singleton.HitCoefficient;
+            oilLeak = 0;
 
             maxRotateValue = GameConsts.UserPlane.Singleton.UserMaxRotateValue;
 
@@ -1713,9 +1713,16 @@ namespace Wof.Model.Level.Planes
 
 
             petrol = System.Math.Max(petrol, 0);
-            if (planeState == PlaneState.Damaged && !IsOnAircraftCarrier)
-                oil -= scaleFactor*GameConsts.UserPlane.Singleton.OilLoss;
-          //  oil = System.Math.Max(oil, 0);
+            oilLeak = System.Math.Min(oilLeak, maxOil * 0.015f);
+
+            if (planeState == PlaneState.Damaged && !IsOnAircraftCarrier )
+            {
+                if (!GameConsts.UserPlane.Singleton.PlaneCheat || isEnemy)
+                {
+                    oil -= scaleFactor * oilLeak;
+                }
+            }
+        
 
             // koniec paliwa
             if (!GameConsts.UserPlane.Singleton.GodMode && planeState != PlaneState.Destroyed &&
@@ -1927,16 +1934,7 @@ namespace Wof.Model.Level.Planes
             }
         }
 
-        /// <summary>
-        /// Odejmuje pewna ilosc oleju.
-        /// Funkcja jest wywolywana po trafieniu pocisku w samolot.
-        /// </summary>
-        public void OilSubtraction()
-        {
-            //ilosc oleju jaka zostanie odjeta po trafieniu.
-            //wartosc zostanie wyznaczona eksperymentalnie.
-            oil -= oilLeak;
-        }
+       
 
         /// <summary>
         /// Nape³nia olej.
@@ -1944,6 +1942,7 @@ namespace Wof.Model.Level.Planes
         public void OilRefuel()
         {
             oil = maxOil;
+            oilLeak = 0;
         }
 
         /// <summary>
@@ -2274,7 +2273,7 @@ namespace Wof.Model.Level.Planes
                     oil -= GameConsts.UserPlane.Singleton.HitCoefficient;
                     if(isEnemy)
                     {
-                        oilLeak += 0.01f * MaxOil;
+                        oilLeak += 0.001f * MaxOil;
                         oil -= GameConsts.UserPlane.Singleton.HitCoefficient * 1.5f; // przeciwnik dostaje wiecej damage'u
                         if (planeType == Planes.PlaneType.B25)
                         {
@@ -2294,17 +2293,12 @@ namespace Wof.Model.Level.Planes
                 }
                 else
                 {
-                    oilLeak += GameConsts.UserPlane.Singleton.HitCoefficient;
-                    if (GameConsts.UserPlane.Singleton.PlaneCheat && !isEnemy)
-                    {
-                        oilLeak -= GameConsts.UserPlane.Singleton.HitCoefficient / 4.0f; // mniejszy wyciek 
-                    }
+                    oilLeak += 0.0007f * MaxOil;
                     if (planeType == Planes.PlaneType.B25)
                     {
-                        oilLeak *= 0.75f; // lepszy pancerz
+                        oilLeak -= 0.0003f * MaxOil; // lepszy pancerz
                     }
 
-                    oil -= oilLeak;
                 }
                // oil = System.Math.Max(oil, 0);
             }
@@ -3464,7 +3458,14 @@ namespace Wof.Model.Level.Planes
             get { return planeType; }
         }
 
-      
+        /// <summary>
+        /// Iloœæ oleju tracona, gdy samolot zostanie trafiony
+        /// 
+        /// </summary>
+        public float OilLeak
+        {
+            get { return oilLeak; }
+        }
 
         #endregion 
     }

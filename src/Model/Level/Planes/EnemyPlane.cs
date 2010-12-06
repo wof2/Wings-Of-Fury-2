@@ -196,7 +196,7 @@ namespace Wof.Model.Level.Planes
 
             height = GameConsts.EnemyPlane.Singleton.Height;
 
-            oilLeak = GameConsts.EnemyPlane.Singleton.HitCoefficient;
+            oilLeak = 0;
 
             maxRotateValue = GameConsts.EnemyPlane.Singleton.UserMaxRotateValue;
 
@@ -934,10 +934,8 @@ namespace Wof.Model.Level.Planes
 
         private void UpdateDamage(float scaleFactor)
         {
-            if (planeState == PlaneState.Damaged)
-                oil -= scaleFactor*GameConsts.EnemyPlane.Singleton.OilLoss;
-           // oil = Math.Max(oil, 0);
-
+            if (planeState == PlaneState.Damaged) oil -= scaleFactor * OilLeak;
+       
             if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed && oil <= 0)
                 OutOfPetrolOrOil(scaleFactor);
         }
