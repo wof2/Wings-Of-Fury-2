@@ -581,6 +581,14 @@
        <value>Розширення</value>
   </data>
 
+
+  <data name="TorpedoesFired">
+    <value>Вистрелених Торпеди:</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>Влучність Торпеди:</value>
+  </data>
   
 
 </root>

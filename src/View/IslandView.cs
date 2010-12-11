@@ -296,6 +296,20 @@ namespace Wof.View
             compositeModel = pPlaneEnt;
             compositeModel.SetMaterialName("Concrete");
 */
+            try
+            {
+               
+                if (LevelView.IsNightScene)
+                {
+                    ViewHelper.ReplaceMaterial(compositeModel ,"Island", "IslandNight");
+                  
+                }
+            }
+            catch (Exception)
+            {
+            }
+            
+            
 
             if (!backgroundDummy)
             {

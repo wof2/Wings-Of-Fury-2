@@ -158,7 +158,7 @@ particle_system Smokes/TrailSmoke
 }
 particle_system Smokes/LightSmoke
 {
-    	material        	Examples/TrailSmoke
+    	material        	Examples/LightSmoke
     	particle_width  	1.6
     	particle_height 	1.6
     	cull_each       	true
@@ -204,10 +204,15 @@ particle_system Smokes/LightSmoke
 	{
 		alpha -0.3
 	}
-
-
 }
 
+particle_system Smokes/LightSmokeNight :  Smokes/LightSmoke
+{   
+	affector ColourImage
+	{
+		image		trailsmokecolors_night.png
+	}
+}
 
 // smoke
 particle_system Smokes/DarkLightSmoke

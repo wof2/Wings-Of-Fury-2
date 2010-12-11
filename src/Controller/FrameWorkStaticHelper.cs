@@ -300,7 +300,6 @@ namespace Wof.Controller
                     return new Vector2(v.x, v.y);
                 } else 
                 {
-                   
                     int num = j.JoyStickState.AxisCount;
                     if(num >= 2)
                     {

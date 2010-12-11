@@ -623,6 +623,13 @@
        <value>Versión mejorada</value>
   </data>
   
+  <data name="TorpedoesFired">
+    <value>Torpedos lanzados:</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>Acierto con torpedos:</value>
+  </data>
 
 
 </root>

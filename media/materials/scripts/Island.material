@@ -7,8 +7,16 @@ material Island: IslandBase
   set_texture_alias DiffuseMap sand.dds
   set_texture_alias DiffuseMap2 sand2.dds
   set_texture_alias AlphaMap island_alpha.png
-
 }
+
+material IslandNight: IslandBase
+{
+  set_texture_alias NormalMap sand_normal.dds
+  set_texture_alias DiffuseMap sand_night.dds
+  set_texture_alias DiffuseMap2 sand2_night.dds
+  set_texture_alias AlphaMap island_alpha.png
+}
+
 
 material Mountain
 {

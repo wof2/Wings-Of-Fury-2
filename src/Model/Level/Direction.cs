@@ -64,6 +64,12 @@ namespace Wof.Model.Level
         Right = 1
     }
 
+    public enum DirectionAxis
+    {  
+        Horizontal, 
+        Vertical
+    }
+
     /// <summary>
     /// Informacja o polozeniu wysp z bunkrami wroga,
     /// wzgledem lotniskowca.

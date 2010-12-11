@@ -51,6 +51,7 @@ using System;
 using Mogre;
 using Wof.Languages;
 using Wof.Misc;
+using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 using FontManager=Wof.Languages.FontManager;
 using Plane=Wof.Model.Level.Planes.Plane;
@@ -112,6 +113,9 @@ namespace Wof.Controller.Screens
         private float lastOilIndicatorDither;
 
 
+        private bool lastOilLedOn;
+        private bool lastFuelLedOn;
+
 
         public IndicatorControl(SceneManager overlayMgr, Viewport viewport,
                                 Viewport minimapViewport, GameScreen gameScreen)
@@ -145,6 +149,33 @@ namespace Wof.Controller.Screens
             oilArrowNode.Orientation = new Quaternion(new Degree(oil*330), Vector3.NEGATIVE_UNIT_Z);
         }
 
+        private WheelsState? lastWheelState = null;
+
+        public void UpdateWheelState(WheelsState state)
+        {
+            if(!EngineConfig.DisplayingMinimap) return;
+            if (lastWheelState!= null && lastWheelState == state)
+            {
+                return;
+            }
+
+            switch (state)
+            {
+                case WheelsState.In:
+                    ViewHelper.ReplaceMaterial(hud, "Panels/Panel5", "Panels/Panel5_gearin");
+                    
+                    break;
+                case WheelsState.Out:
+                    ViewHelper.ReplaceMaterial(hud, "Panels/Panel5_gearin", "Panels/Panel5");
+                   
+                    break;
+
+            }
+            lastWheelState = state;
+        }
+
+
+       
 
         public void ChangeAmmoType(WeaponType weaponType)
         {
@@ -222,11 +253,13 @@ namespace Wof.Controller.Screens
 
 
             CreateAmmoContainer();
+        
             CreateAmmoTypeContainer();
             CreateLivesContainer();
             CreateScoreContainer();
             CreateHighscoreContainer();
             CreateInfoContainer();
+            UpdateWheelState(gameScreen.CurrentLevel.UserPlane.WheelsState);
         }
 
         public void UpdateGUI(float timeSinceLastFrame)
@@ -373,60 +406,99 @@ namespace Wof.Controller.Screens
                      infoElement.Caption = EngineConfig.C_IS_INTERNAL_TEST_INFO + infoElement.Caption;
                 }
                
-                Plane p = gameScreen.CurrentLevel.UserPlane;
-              //  infoElement.Caption = "Oil: " + (int) (p.Oil) + ", leak:"+p.OilLeak;
-                float var, oil, fuel;
-                
-                // fuel
-                fuel = p.Petrol / p.MaxPetrol;
-                lastFuelIndicatorDither += timeSinceLastFrame;
-                if (lastFuelIndicatorDither > 0.04)// 50ms
-                {
-                    if (p.IsEngineWorking)
-                    {
-                        var = (0.7f * p.AirscrewSpeed / 1300.0f) * (random.Next(-1, 2) / 100.0f);
-                    }
-                    else
-                    {
-                        var = 0;
-                    }
-                    if (fuel > 1.01f) fuel = 1.0f;
-                    if (fuel < -0.01f) fuel = 0.0f; 
-                    fuel += var;
-                    lastFuelIndicatorDither = 0;
-                }
+              
 
-                RefreshFuel(fuel);
                
-
-                // oil
-                oil = p.Oil / p.MaxOil;
-                lastOilIndicatorDither += timeSinceLastFrame;
-                if (lastOilIndicatorDither > 0.04) // 50ms
-                {
-                    if (p.IsEngineWorking)
-                    {
-                        var = (0.7f * p.AirscrewSpeed / 1300.0f) * (random.Next(-1, 2) / 100.0f);
-                    }
-                    else
-                    {
-                        var = 0;
-                    } 
-                    oil += var;
-                    if (oil > 1.01f) oil = 1.0f; 
-                    if (oil < -0.01f) oil = 0.0f; 
-                   
-                    lastOilIndicatorDither = 0;
-                }
-                RefreshOil(oil);
-
-
+                UpdateWheelState(this.gameScreen.CurrentLevel.UserPlane.WheelsState);
+                UpdateFuelAndOilState(timeSinceLastFrame);
 
             }
         }
+       
+
+        public void UpdateFuelAndOilState(float timeSinceLastFrame)
+        {
+            Plane p = gameScreen.CurrentLevel.UserPlane;
+            //  infoElement.Caption = "Oil: " + (int) (p.Oil) + ", leak:"+p.OilLeak;
+            float var, oil, fuel;
+
+            // fuel
+            fuel = p.Petrol / p.MaxPetrol;
+            lastFuelIndicatorDither += timeSinceLastFrame;
+            if (lastFuelIndicatorDither > 0.04)// 50ms
+            {
+                if (p.IsEngineWorking)
+                {
+                    var = (0.7f * p.AirscrewSpeed / 1300.0f) * (random.Next(-1, 2) / 100.0f);
+                }
+                else
+                {
+                    var = 0;
+                }
+                if (fuel > 1.01f) fuel = 1.0f;
+                if (fuel < -0.01f) fuel = 0.0f;
+                fuel += var;
+                lastFuelIndicatorDither = 0;
+            }
+
+            RefreshFuel(fuel);
+
+            bool fuelLedOn = fuel < 0.2f;
+            if (lastFuelLedOn != fuelLedOn)
+            {
+                if (fuelLedOn)
+                {
+                    ViewHelper.ReplaceMaterial(hud, "Panels/Panel2", "Panels/Panel2_on");
+                }
+                else
+                {
+                    ViewHelper.ReplaceMaterial(hud, "Panels/Panel2_on", "Panels/Panel2");
+                }
+                lastFuelLedOn = fuelLedOn;
+            }
 
 
-      
+
+            // oil
+            oil = p.Oil / p.MaxOil;
+            lastOilIndicatorDither += timeSinceLastFrame;
+            if (lastOilIndicatorDither > 0.04) // 50ms
+            {
+                if (p.IsEngineWorking)
+                {
+                    var = (0.7f * p.AirscrewSpeed / 1300.0f) * (random.Next(-1, 2) / 100.0f);
+                }
+                else
+                {
+                    var = 0;
+                }
+                oil += var;
+                if (oil > 1.01f) oil = 1.0f;
+                if (oil < -0.01f) oil = 0.0f;
+
+                lastOilIndicatorDither = 0;
+            }
+            RefreshOil(oil);
+
+            
+
+            bool oilLedOn = oil < 0.2f;
+            if (lastOilLedOn != oilLedOn)
+            {
+                if (oilLedOn)
+                {
+                    ViewHelper.ReplaceMaterial(hud, "Panels/Panel4", "Panels/Panel4_on");
+                }
+                else
+                {
+                    ViewHelper.ReplaceMaterial(hud, "Panels/Panel4_on", "Panels/Panel4");
+                }
+                lastOilLedOn = oilLedOn;
+            }
+
+        }
+        
+       
 
         private void CreateAmmoTypeContainer()
         {
@@ -483,6 +555,9 @@ namespace Wof.Controller.Screens
                                (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.272f));
         }
 
+       
+           
+       
 
         private void CreateLivesContainer()
         {
@@ -512,8 +587,8 @@ namespace Wof.Controller.Screens
 
             ConfigureContainer(scoreContainer, scoreElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
-                               UnitConverter.AspectDependentHorizontalProportion(0.860f, viewport),
-                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.31f));
+                               UnitConverter.AspectDependentHorizontalProportion(0.870f, viewport),
+                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.36f));
                               
         }
 
@@ -550,8 +625,8 @@ namespace Wof.Controller.Screens
             
             ConfigureContainer(hiscoreContainer, hiscoreElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
-                               UnitConverter.AspectDependentHorizontalProportion(0.860f, viewport),
-                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.597f));
+                               UnitConverter.AspectDependentHorizontalProportion(0.870f, viewport),
+                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.596f));
         }
         
         public static void ConfigureElement(OverlayElement element, int width, int height, String caption)
@@ -610,18 +685,19 @@ namespace Wof.Controller.Screens
                 scoreContainer.Hide();
                 hiscoreContainer.Hide();
                 infoContainer.Hide();
-
+            
                 OverlayManager.Singleton.DestroyOverlayElement(ammoElement);
                 OverlayManager.Singleton.DestroyOverlayElement(livesElement);
                 OverlayManager.Singleton.DestroyOverlayElement(scoreElement);
                 OverlayManager.Singleton.DestroyOverlayElement(hiscoreElement);
                 OverlayManager.Singleton.DestroyOverlayElement(infoElement);
-
+          
                 ammoContainer.Dispose();
                 livesContainer.Dispose();
                 hiscoreContainer.Dispose();
                 scoreContainer.Dispose();
                 infoContainer.Dispose();
+           
 
                 // sceneMgr.DestroyAllEntities();
 

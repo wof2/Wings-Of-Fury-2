@@ -933,6 +933,12 @@ namespace Wof.Controller.Screens
                                     Button.ResetButtonTimer();
                                 }
                             }
+                            Vector2? inputVector = null;
+                            if(!joyVector.IsZeroLength)
+                            {
+                                inputVector = joyVector;
+                            }
+                            currentLevel.UpdateInputVector(inputVector);
 
                             // nie chcemy, zeby uzytkownik ruszyl sie jednoczesnie
                             // w lewo i w prawo, dlatego pierwszenstwo ma
@@ -2197,36 +2203,48 @@ namespace Wof.Controller.Screens
 
             AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
 
-
+            float i = 4;
             window.createStaticText(
-               new Vector4(left, top + 4 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+               new Vector4(left, top + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                 LanguageResources.GetString(LanguageKey.BombsDropped) + " " + this.currentLevel.Statistics.BombCount);
 
+            i++;
             window.createStaticText(
-              new Vector4(left, top + 5 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+              new Vector4(left, top + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                 LanguageResources.GetString(LanguageKey.BombsAccuracy) + " " + this.currentLevel.Statistics.BombStats + "%");
 
-
+            i++;
             window.createStaticText(
-              new Vector4(left, top + 6 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+              new Vector4(left, top + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                LanguageResources.GetString(LanguageKey.RocketsFired) + " " + this.currentLevel.Statistics.RocketCount);
-
+            i++;
             window.createStaticText(
-              new Vector4(left, top + 7 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+              new Vector4(left, top + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                 LanguageResources.GetString(LanguageKey.RocketsAccuracy) + " " + this.currentLevel.Statistics.RocketStats + "%");
-
-
+            
+            i++;
             window.createStaticText(
-              new Vector4(left, top + 8 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+              new Vector4(left, top + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+               LanguageResources.GetString(LanguageKey.TorpedoesFired) + " " + this.currentLevel.Statistics.TorpedoCount);
+            i++;
+            window.createStaticText(
+              new Vector4(left, top + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+                LanguageResources.GetString(LanguageKey.TorpedoesAccuracy) + " " + this.currentLevel.Statistics.TorpedoStats + "%");
+
+
+            i++;
+            window.createStaticText(
+              new Vector4(left, top + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                 LanguageResources.GetString(LanguageKey.GunShellsFired) + " " + this.currentLevel.Statistics.GunCount);
-
+            i++;
             window.createStaticText(
-              new Vector4(left, top + 9 * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+              new Vector4(left, top + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                LanguageResources.GetString(LanguageKey.GunAccuracy) + " " + this.currentLevel.Statistics.GunStats + "%");
-
+            
+            i+=1.5f;
 
             window.createStaticText(
-                new Vector4(left, top + 10.5f * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+                new Vector4(left, top + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                  LanguageResources.GetString(LanguageKey.PlanesDestroyed) + " " + this.currentLevel.Statistics.PlanesShotDown);
 
            // mGui.mFontSize = oldSize;
@@ -2241,7 +2259,7 @@ namespace Wof.Controller.Screens
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
 
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
-                                                    viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 14.5f * GetTextVSpacing()),
+                                                    viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 16.5f * GetTextVSpacing()),
                                                     "bgui.window", (int)wt.NONE,LanguageResources.GetString(LanguageKey.LevelCompleted));
          
 
@@ -2251,7 +2269,7 @@ namespace Wof.Controller.Screens
             Callback cc = new Callback(this);
             nextLevelButton =
               guiWindow.createButton(
-                  new Vector4(5 + viewport.ActualWidth * 0.1f, 13.50f * GetTextVSpacing(), viewport.ActualWidth / 2.0f, GetTextVSpacing()),
+                  new Vector4(5 + viewport.ActualWidth * 0.1f, 15.50f * GetTextVSpacing(), viewport.ActualWidth / 2.0f, GetTextVSpacing()),
                   "bgui.button",
                   LanguageResources.GetString(LanguageKey.OK), cc);
 
@@ -2277,7 +2295,7 @@ namespace Wof.Controller.Screens
             int left = 20;
             int top = 10;
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
-                                                      viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 14.5f * GetTextVSpacing()), 
+                                                      viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 16.5f * GetTextVSpacing()), 
                                                       "bgui.window", (int)wt.NONE,"");
 
 
@@ -2293,7 +2311,7 @@ namespace Wof.Controller.Screens
 
             gameOverButton =
                 guiWindow.createButton(
-                    new Vector4(left, top + 12.33f * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+                    new Vector4(left, top + 14.33f * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.OK), cc);
 
@@ -2841,6 +2859,7 @@ namespace Wof.Controller.Screens
             levelView.OnRegisterAmmunition(bomb);
         }
 
+
         public void OnToggleGear(Plane plane)
         {
             if (plane.WheelsState == WheelsState.TogglingIn)
@@ -2851,6 +2870,7 @@ namespace Wof.Controller.Screens
             {
                 SoundManager.Instance.PlayGearDownSound();
             }
+           
             levelView.OnToggleGear(plane);
         }
 
@@ -2873,11 +2893,12 @@ namespace Wof.Controller.Screens
             SoundManager.Instance.PlayTorpedoSound();
             levelView.OnRegisterAmmunition(torpedo);
         }
-        
 
-        public void OnGearToggled(object plane)
+       
+        public void OnGearToggleEnd(object plane)
         {
             currentLevel.OnGearToggled((Plane) plane);
+            
         }
 
 

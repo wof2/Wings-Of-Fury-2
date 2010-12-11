@@ -582,6 +582,18 @@
    <data name="GetEnhancedVersion">
      <value>Zdobądź wersję rozszerzoną</value>
   </data>
+  
+  
+    <data name="TorpedoesFired">
+    <value>Wypuszczonych torped:</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>Celność torped:</value>
+  </data>
+
+
+
 
 
 </root>

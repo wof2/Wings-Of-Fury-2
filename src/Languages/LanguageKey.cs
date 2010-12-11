@@ -56,6 +56,8 @@ namespace Wof.Languages
     /// </summary>
     public static class LanguageKey
     {
+       
+
         #region ---A---
 
       
@@ -307,6 +309,8 @@ namespace Wof.Languages
         public const string Target = @"Target";
         public const string TargetNeutralizedLandOnCarrierAndPressX = @"TargetNeutralizedLandOnCarrierAndPressX";
         public const string Torpedoes = @"Torpedoes";
+        public const string TorpedoesFired = @"TorpedoesFired";
+        public const string TorpedoesAccuracy = @"TorpedoesAccuracy";
         public const string TorpedoTooHigh = @"TorpedoTooHigh";
         public const string TorpedoTooLongTravelDistance = @"TorpedoLongTravelDistance";
         public const string TriangleCount = @"TriangleCount";

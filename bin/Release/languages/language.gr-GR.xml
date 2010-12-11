@@ -591,5 +591,13 @@
   <data name="GetEnhancedVersion">
     <value>Get your enhanced version!</value>
   </data>
+  
+    <data name="TorpedoesFired">
+    <value>Τορπίλες που ερίφθησαν:</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>Ευστοχία Τορπίλες:</value>
+  </data>
 
 </root>

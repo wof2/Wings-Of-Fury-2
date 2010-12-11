@@ -563,4 +563,12 @@
     <value>Расширенная версия</value>
   </data>
 
+  <data name="TorpedoesFired">
+    <value>Выстреленных Торпеды:</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>Меткость/точность Торпеды:</value>
+  </data>
+
 </root>

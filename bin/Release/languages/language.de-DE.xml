@@ -603,4 +603,13 @@
     <value>Erwerbe die erweiterte Version</value>
   </data>
 
+
+   <data name="TorpedoesFired">
+    <value>Torpedos abgefeuert:</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>Torpedos-Genauigkeit:</value>
+  </data>
+
 </root>

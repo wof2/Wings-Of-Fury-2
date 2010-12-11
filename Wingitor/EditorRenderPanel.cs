@@ -244,7 +244,7 @@ namespace wingitor
             levelView.OnRegisterAmmunition(torpedo);
         }
 
-        public void OnGearToggled(object plane)
+        public void OnGearToggleEnd(object plane)
         {
             
         }

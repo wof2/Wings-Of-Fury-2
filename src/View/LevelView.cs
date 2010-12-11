@@ -1540,7 +1540,7 @@ namespace Wof.View
                         p.LastWaterTrailTime = Environment.TickCount;
                     }
                 }
-
+               
                 // Dym
                 if (p.Plane.Oil < p.Plane.MaxOil && p.PlaneNode._getDerivedPosition().y >= 0)
                 {
@@ -1554,6 +1554,7 @@ namespace Wof.View
                             p.IsSmokingSlightly = true;
                         }
                     }
+                   
                     // mocny dym
                     if (p.Plane.Oil < (p.Plane.MaxOil*0.25f))
                     {
@@ -1562,8 +1563,7 @@ namespace Wof.View
                             EffectsManager.Singleton.NoSmoke(sceneMgr, p.OuterNode, EffectsManager.SmokeType.LIGHTSMOKE);
                             EffectsManager.Singleton.Smoke(sceneMgr, p.OuterNode, Vector3.ZERO, Vector3.UNIT_Z);
                             p.SmashPaint();
-                           // if (!EngineConfig.LowDetails)
-                          //      ViewHelper.ReplaceMaterial(p.PlaneEntity, "P47/Body", "P47/DestroyedBody");
+                         
                             p.IsSmokingHeavily = true;
                             p.IsSmokingSlightly = false;
                         }
@@ -2138,7 +2138,7 @@ namespace Wof.View
                     material = "Skybox/Night";
                     texture = "night.jpg";
                     texture_low = "night_low.jpg";
-                    ambient = new ColourValue(0.27f, 0.27f, 0.32f);
+                    ambient = new ColourValue(0.20f, 0.20f, 0.27f);
                     InitNightLight();
                     isNightScene = true;
                     break;
@@ -2209,20 +2209,25 @@ namespace Wof.View
             }
             
             m = null;
-
+            ColourValue fogColor = new ColourValue(0.9f, 0.9f, 0.9f);
             // fog
             if (level.DayTime == DayTime.Foggy)
             {
-                sceneMgr.SetFog(FogMode.FOG_LINEAR, new ColourValue(0.8f, 0.8f, 0.8f), 0.00f, 480, 1800);
+                fogColor = new ColourValue(0.8f, 0.8f, 0.8f);
+                sceneMgr.SetFog(FogMode.FOG_LINEAR, fogColor, 0.00f, 480, 1800);
             }
-            else
+            else if (level.DayTime == DayTime.Night)
             {
-              //  sceneMgr.SetFog(FogMode.FOG_LINEAR, new ColourValue(0.9f, 0.9f, 0.9f), 0.0f, 100, 20000);
-                sceneMgr.SetFog(FogMode.FOG_LINEAR, new ColourValue(0.9f, 0.9f, 0.9f), 0.000f, 300, 3600);
-            }
-        
-          
+                fogColor = new ColourValue(0.4f, 0.4f, 0.4f);
+                sceneMgr.SetFog(FogMode.FOG_LINEAR, fogColor - new ColourValue(0.2f,0.2f,0.2f), 0.000f, 600, 3600);
 
+            } else
+            {
+                sceneMgr.SetFog(FogMode.FOG_LINEAR, fogColor, 0.000f, 300, 3600);
+
+            }
+
+          
             sceneMgr.SetSkyBox(true, material, 3000, true);
             sceneMgr.AmbientLight = ambient;
           //  sceneMgr.SetFog(FogMode.FOG_NONE);
@@ -2263,24 +2268,27 @@ namespace Wof.View
                 cloudDist = -4200;
                 EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
                                            new Vector2(5500, 400) + ViewHelper.RandomVector2(1000, 100),
-                                           new Degree(5), 5, lighterClouds, Quaternion.IDENTITY, visibility, ColourValue.White);
+                                           new Degree(5), 5, lighterClouds, Quaternion.IDENTITY, visibility, colour);
+                
                 
                 
                 Quaternion q = new Quaternion(new Radian(Math.HALF_PI), Vector3.UNIT_Y);
                 
                 EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
                                            new Vector2(5500, 400) + ViewHelper.RandomVector2(1000, 100),
-                                           new Degree(5), 5, lighterClouds, q, visibility, ColourValue.White);
+                                           new Degree(5), 5, lighterClouds, q, visibility, colour);
                 
                 Quaternion q2 = new Quaternion(new Radian(-Math.HALF_PI), Vector3.UNIT_Y);
                 
-               EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
+                EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, -100, cloudDist),
                                            new Vector2(5500, 400) + ViewHelper.RandomVector2(1000, 100),
-                                           new Degree(5), 5, lighterClouds, q2, visibility, ColourValue.White);
+                                           new Degree(5), 5, lighterClouds, q2, visibility, colour);
+                
 
                 if (level.DayTime == DayTime.Foggy && !EngineConfig.LowDetails)
                 {
 
+                   
                     Quaternion q3 = new Quaternion(new Radian(0.0001f), Vector3.UNIT_Y);
                     cloudDist = -700; // heavy clouds
                     EffectsManager.Singleton.AddClouds(sceneMgr, new Vector3(currentX, 10, cloudDist),
@@ -2355,8 +2363,8 @@ namespace Wof.View
         //    light.Position = new Vector3(0, 0, 0);
             light.Direction = new Vector3(2, -5, 3);
             light.Direction.Normalise();
-            light.DiffuseColour = new ColourValue(0.6f, 0.6f, 0.80f);
-            light.SpecularColour = new ColourValue(0.05f, 0.05f, 0.07f);
+            light.DiffuseColour = new ColourValue(0.6f, 0.6f, 0.7f);
+            light.SpecularColour = new ColourValue(0.00f, 0.00f, 0.00f);
 
           //  sceneMgr.ShadowColour = new ColourValue(0.65f, 0.65f, 0.75f);
         }
@@ -2380,7 +2388,7 @@ namespace Wof.View
         {
             PlaneView p = FindPlaneView(plane);
             if (p == null) return;
-            p.AnimationMgr.switchToGearUpDown(false, null, controller.OnGearToggled);
+            p.AnimationMgr.switchToGearUpDown(false, null, controller.OnGearToggleEnd);
             p.AnimationMgr.CurrentAnimation.onFinishInfo = plane;
         }
 
