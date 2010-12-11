@@ -39,6 +39,25 @@ material Examples/RocketSmoke
 	}
 }
 
+material Examples/LightSmoke
+{
+	technique
+	{
+		pass
+		{		
+			lighting off
+			scene_blend alpha_blend
+			depth_write off
+
+			texture_unit
+			{
+				texture trailsmoke.png
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
 material Examples/TrailSmoke
 {
 	technique

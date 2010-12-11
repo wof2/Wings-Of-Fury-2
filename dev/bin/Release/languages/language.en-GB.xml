@@ -599,6 +599,14 @@
     <value>Get your enhanced version!</value>
   </data>
   
+  
+  <data name="TorpedoesFired">
+    <value>Torpedoes launched:</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>Torpedoes accuracy:</value>
+  </data>
 
 
 </root>

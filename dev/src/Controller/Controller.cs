@@ -276,7 +276,7 @@ namespace Wof.Controller
         /// animacji zmiany stanu podwozia.
         /// </summary>
         /// <param name="plane"></param>
-        void OnGearToggled(object plane);
+        void OnGearToggleEnd(object plane);
 
 
         /// <summary>

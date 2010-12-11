@@ -91,6 +91,8 @@ namespace Wof.View.Effects
         private ParticleManager rocketSmokeMgr;
         private ParticleManager trailSmokeMgr;
         private ParticleManager lightSmokeMgr;
+        private ParticleManager lightSmokeNightMgr;
+        
         private ParticleManager darkLightSmokeMgr;
 
         private float totalTime = 0;
@@ -261,6 +263,9 @@ namespace Wof.View.Effects
                 effects = new Hashtable();
                 smokeMgr = new ParticleManager("SmokeSystem", "Smokes/Smoke");
                 lightSmokeMgr = new ParticleManager("LightSmokeSystem", "Smokes/LightSmoke");
+                lightSmokeNightMgr = new ParticleManager("LightSmokeNightSystem", "Smokes/LightSmokeNight");
+                
+
                 rocketSmokeMgr = new ParticleManager("RocketSmokeSystem", "Smokes/RocketSmoke");
                 trailSmokeMgr = new ParticleManager("TrailSmokeSystem", "Smokes/TrailSmoke");
                 darkLightSmokeMgr = new ParticleManager("DarkLightSmokeSystem", "Smokes/DarkLightSmoke");
@@ -479,7 +484,15 @@ namespace Wof.View.Effects
             }
             else if (type == SmokeType.LIGHTSMOKE)
             {
-                m = lightSmokeMgr;
+                if(LevelView.IsNightScene)
+                {
+                    m = lightSmokeNightMgr;
+                }
+                else
+                {
+                    m = lightSmokeMgr;
+                }
+                
             }
             else if (type == SmokeType.ROCKET)
             {

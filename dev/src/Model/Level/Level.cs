@@ -49,6 +49,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Mogre;
 using Wof.Controller;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Carriers;
@@ -64,6 +65,8 @@ using Wof.Model.Level.Infantry;
 using Wof.Model.Level.Weapon;
 using Wof.Model.Level.XmlParser;
 using Wof.Statistics;
+using Math=System.Math;
+using Plane=Wof.Model.Level.Planes.Plane;
 
 
 namespace Wof.Model.Level
@@ -688,6 +691,12 @@ namespace Wof.Model.Level
                 userPlane.SetInputFlag(InputFlag.Down);
         }
 
+       
+
+        public void UpdateInputVector(Vector2? inputVector)
+        {
+            userPlane.UpdateInputVector(inputVector);
+        }
         /// <summary>
         /// Funkcja zostanie wywolana po nacisnieciu przycisku odpowiadajacego
         /// za otwarcie ognia ciezka amunicja.
@@ -869,6 +878,7 @@ namespace Wof.Model.Level
         public void OnGearToggled(Plane plane)
         {
             plane.GearToggled();
+         //   controller.OnGearToggled(plane);
         }
 
         /// <summary>
@@ -1744,5 +1754,7 @@ namespace Wof.Model.Level
         }
 
         #endregion
+
+       
     }
 }

@@ -598,6 +598,15 @@
   <data name="GetEnhancedVersion">
      <value>Version améliorée</value>
   </data>
+  
+  
+  <data name="TorpedoesFired">
+    <value>Torpilles tirées:</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>Torpilles destructrices:</value>
+  </data>
 
 
 </root>

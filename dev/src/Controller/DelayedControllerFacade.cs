@@ -349,7 +349,7 @@ namespace Wof.Controller
         /// animacji zmiany stanu podwozia.
         /// </summary>
         /// <param name="plane"></param>
-        public void OnGearToggled(object plane)
+        public void OnGearToggleEnd(object plane)
         {
             AddJob(MethodBase.GetCurrentMethod().Name, new object[] { plane });
         }

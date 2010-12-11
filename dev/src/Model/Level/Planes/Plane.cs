@@ -49,6 +49,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Mogre;
 using Wof.Controller;
 using Wof.Model.Configuration;
 using Wof.Model.Level;
@@ -547,6 +548,28 @@ namespace Wof.Model.Level.Planes
         /// Okreœla czy zosta³a wciœniêta strza³ka w górê od ostatniego odœwie¿enia.
         /// </summary>
         private bool isUpPressed;
+
+        /// <summary>
+        /// Wektor joysticka
+        /// </summary>
+        private Vector2? inputVector;
+
+        private float GetInputVectorValueNormalised(DirectionAxis dir)
+        {
+            if (inputVector == null) return 1;
+            float val;
+            if(dir == DirectionAxis.Horizontal)
+            {
+                val = Math.Abs(inputVector.Value.x);
+            }
+            else
+            {
+                val = Math.Abs(inputVector.Value.y);
+            }
+
+            if (val > 1) val = 1;
+            return val;
+        }
 
         /// <summary>
         /// Okreœla czy klawisz jest zablokowany czy nie.
@@ -1500,6 +1523,8 @@ namespace Wof.Model.Level.Planes
             motorState = info.EngineState;
             planeState = PlaneState.Intact;
             wheelsState = info.WheelsState;
+         
+            
             landingState = LandingState.None;
             if(info.PositionType == StartPositionType.Carrier)
             {
@@ -1810,23 +1835,24 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Porusza samolotem.
         /// </summary>
-        /// <param name="direction"></param>
+        /// <param name="newDirection"></param>
         /// <param name="scaleFactor"></param>
-        /// <author>Tomek , Kamil S³awiñski</author>
-        public void Steer(Direction direction, float scaleFactor)
+        /// <author>Tomek , Kamil S³awiñski, Adam</author>
+        public void SteerHorizontal(Direction newDirection, float scaleFactor)
         {
+            float joyScale = GetInputVectorValueNormalised(DirectionAxis.Horizontal);
             switch (locationState)
             {
                 case LocationState.AircraftCarrier:
                     if (landingState == LandingState.None)
                     {
-                        if (this.direction != direction)
+                        if (this.direction != newDirection)
                         {
                             if (CanChangeDirectionOnAircraft)
                             {
                                // movementVector.X = 0;
                                // movementVector.Y = 0;
-                                TurnRound(direction, TurnType.Carrier);
+                                TurnRound(newDirection, TurnType.Carrier);
                             }
                             //hamowanie samolotu (MOCNE)
                             float subSpeed = GameConsts.UserPlane.Singleton.BreakingPower*scaleFactor*
@@ -1843,7 +1869,7 @@ namespace Wof.Model.Level.Planes
                             {
                                 if(movementVector.EuclidesLength <= slowWheelingSpeed)
                                 {
-                                    movementVector = new PointD((float)direction * slowWheelingSpeed, 0);
+                                    movementVector = new PointD((float)newDirection * slowWheelingSpeed * joyScale, 0);
                                 }
                                 else
                                 {
@@ -1858,12 +1884,12 @@ namespace Wof.Model.Level.Planes
                             }
                             else if (CanFastWheeling)
                             {
-                                float addSpeed = scaleFactor*GameConsts.UserPlane.Singleton.MoveStep;
+                                float addSpeed = joyScale * scaleFactor * GameConsts.UserPlane.Singleton.MoveStep;
                                 float oldSpeed = movementVector.EuclidesLength;
                                 float newSpeed = movementVector.EuclidesLength + addSpeed;
 
                                 if (movementVector.EuclidesLength == 0)
-                                    movementVector.X = (float) direction*addSpeed; //ruszenie samolotem
+                                    movementVector.X = (float) newDirection*addSpeed; //ruszenie samolotem
 
                                 changeAngleWhileWheeling(oldSpeed, newSpeed, scaleFactor); //zmiana nachylenia dziobu
                                 addSpeedToMax(addSpeed, maxFastWheelingSpeed); //przyspieszanie do maxymalnej
@@ -1872,9 +1898,10 @@ namespace Wof.Model.Level.Planes
                     }
                     break;
                 case LocationState.Air:
-                    if (this.direction == direction)
+                    if (this.direction == newDirection)
                     {
-                        float addSpeed = scaleFactor*GameConsts.UserPlane.Singleton.MoveStep;
+                       
+                        float addSpeed = joyScale * scaleFactor * GameConsts.UserPlane.Singleton.MoveStep;
                         if ( (wheelsState == WheelsState.In || wheelsState == WheelsState.TogglingIn) && !isEngineFaulty)
                             addSpeedToMax(addSpeed, GameConsts.UserPlane.Singleton.MaxSpeed); //przyspieszanie do maxymalnej
                         else
@@ -1883,7 +1910,7 @@ namespace Wof.Model.Level.Planes
                     else //kierunek przeciwny do kierunku lotu
                         if (CanTurnAround) //sprawdzam czy mo¿e zawróciæ
                         {
-                            TurnRound(direction, TurnType.Airborne);
+                            TurnRound(newDirection, TurnType.Airborne);
                         }
                     break;
             }
@@ -2160,6 +2187,7 @@ namespace Wof.Model.Level.Planes
             {
                 wheelsState = WheelsState.Out;
             }
+           
         }
         
         
@@ -2432,6 +2460,8 @@ namespace Wof.Model.Level.Planes
 
             bool relativeUp = isUpPressed;
             bool relativeDown = isDownPressed;
+
+            float joyScale = GetInputVectorValueNormalised(DirectionAxis.Vertical);
             float rotationFactor;  
             switch (locationState)
             {
@@ -2468,7 +2498,7 @@ namespace Wof.Model.Level.Planes
                         if (isLeftPressed || isRightPressed)
                         {
                             Direction steerDir = isLeftPressed ? Direction.Left : Direction.Right;
-                            Steer(steerDir, scaleFactor);
+                            SteerHorizontal(steerDir, scaleFactor);
                         }
                         else
                         {
@@ -2486,7 +2516,8 @@ namespace Wof.Model.Level.Planes
                             RelativeAngle < landingAngle ||
                             ((isLeftPressed || isRightPressed) && RelativeAngle < maxWheelOutAngle))
                         {
-                            IncreaseRotateValue(rotationFactor * scaleFactor * (float)direction * rotateStep); //zwyk³y obrót
+
+                            IncreaseRotateValue(joyScale * rotationFactor * scaleFactor * (float)direction * rotateStep); //zwyk³y obrót
                         }
                         else if (!isLeftPressed && !isRightPressed)
                             //je¿eli ¿aden przycisk kierunku nie jest wciœniêty, samolot powinien obni¿yæ lot
@@ -2506,7 +2537,7 @@ namespace Wof.Model.Level.Planes
                      
                         if (wheelsState == WheelsState.In || RelativeAngle > -maxWheelOutAngle)
                         {
-                            IncreaseRotateValue(-rotationFactor * scaleFactor * (float)direction * rotateStep);
+                            IncreaseRotateValue(- joyScale * rotationFactor * joyScale * scaleFactor * (float)direction * rotateStep);
                         }
                         isAfterFlyingDown = false;
                     }
@@ -2533,7 +2564,7 @@ namespace Wof.Model.Level.Planes
                         if (isLeftPressed || isRightPressed)
                         {
                             Direction steerDir = isLeftPressed ? Direction.Left : Direction.Right;
-                            Steer(steerDir, scaleFactor);
+                            SteerHorizontal(steerDir, scaleFactor);
                         }
                         else //hamowanie samolotu (S£ABE)
                         {
@@ -3414,6 +3445,16 @@ namespace Wof.Model.Level.Planes
         }
 
         /// <summary>
+        /// Ustawia ostatni wektor joysticka
+        /// </summary>
+        /// <param name="inputVector"></param>
+        public void UpdateInputVector(Vector2? inputVector)
+        {
+            this.inputVector = inputVector;
+        }
+
+
+        /// <summary>
         /// Zmniejsza (lub zwiêksza zale¿noœci od znaku parametru value) wartoœæ rotateValue.
         /// Nowa wartoœæ nie mo¿e zmieniæ znaku - jest obcinana do wartoœci 0.
         /// </summary>
@@ -3467,7 +3508,10 @@ namespace Wof.Model.Level.Planes
             get { return oilLeak; }
         }
 
-        #endregion 
+        #endregion
+
+        
+      
     }
     #endregion
 }

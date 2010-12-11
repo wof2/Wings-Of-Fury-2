@@ -83,6 +83,20 @@ material Panels/Panel2
 	}
 }
 
+material Panels/Panel2_on : Panels/Panel2
+{
+	technique
+	{
+		pass
+		{			
+			texture_unit 
+			{
+				texture panel2_on.png
+			}
+		}
+	}
+}
+
 
 material Panels/Panel4
 {
@@ -105,6 +119,19 @@ material Panels/Panel4
 	}
 }
 
+material Panels/Panel4_on : Panels/Panel4
+{
+	technique
+	{
+		pass
+		{			
+			texture_unit 
+			{
+				texture panel4_on.png
+			}
+		}
+	}
+}
 
 material Panels/Panel5
 {
@@ -122,6 +149,27 @@ material Panels/Panel5
 			texture_unit 
 			{
 				texture panel5.png
+			}
+		}
+	}
+}
+
+material Panels/Panel5_gearin
+{
+	technique
+	{
+		pass
+		{
+			//depth_write off
+			lighting off
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture panel5_gearin.png
 			}
 		}
 	}
@@ -176,6 +224,27 @@ material Panels/Steel
 			texture_unit 
 			{
 				texture steel.dds
+			}
+		}
+	}
+}
+
+material Panels/Panel1_rocket
+{
+	technique
+	{
+		pass
+		{
+			//depth_write off
+			lighting off
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 0 0 0 
+
+			texture_unit 
+			{
+				texture panel1_rocket.png
 			}
 		}
 	}

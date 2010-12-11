@@ -753,6 +753,7 @@ namespace Wof.Controller
                 SetSplitPointsForMaterial("A6M/Body", splitPointsVect);
                 SetSplitPointsForMaterial("P47/Body", splitPointsVect);
                 SetSplitPointsForMaterial("Island", splitPointsVect);
+                SetSplitPointsForMaterial("IslandNight", splitPointsVect);
                 SetSplitPointsForMaterial("Steel", splitPointsVect);
 
                 SetSplitPointsForMaterial("Ocean2_HLSL", splitPointsVect);
