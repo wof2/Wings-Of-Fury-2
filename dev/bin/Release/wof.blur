@@ -8,10 +8,13 @@
       <Assembly override="false">
         <Path>.\Wof.exe</Path>
       </Assembly>
+      <Assembly override="false">
+        <Path>.\EnhancedVersionHelper.exe</Path>
+      </Assembly>
     </Assemblies>
     <Builds />
     <ProbingPaths />
-    <Options verbose="false" preset="auto" autoExclusion="false" />
+    <Options verbose="false" preset="auto" autoExclusion="true" />
     <SignWith />
     <OutputFolder>W:\wings\WoF\bin\Release\wof_secure</OutputFolder>
     <Analyze>
@@ -32,7 +35,7 @@
     <Rename>
       <Options renamingScheme="Thai" namespaceObfuscationType="remove" />
       <MappingFile>
-        <Path>C:\Users\Adam\Desktop\wof.renamed.xml</Path>
+        <Path>W:\wings\WoF\bin\Release\wof.renamed.xml</Path>
       </MappingFile>
       <ExcludeTypes>
         <ExcludeNamespace name="FSLOgreCS">
@@ -48,6 +51,7 @@
             <ExcludeProperty regEx="true" name=".*" />
           </ExcludeType>
         </ExcludeNamespace>
+        <ExcludeNamespace name="Wof.Languages" />
         <ExcludeNamespace name="Wof.Model.Configuration" />
         <ExcludeNamespace name="Wof.Model.Level.LevelTiles.Watercraft">
           <ExcludeType name="TypeOfEnemyShip">

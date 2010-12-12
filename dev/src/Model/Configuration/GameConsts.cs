@@ -272,8 +272,7 @@ namespace Wof.Model.Configuration
             /// Prędkość samolotu wroga.
             /// </summary>
             public float Speed = 36;
-
-          
+            
 
             /// <summary>
             /// Najmniejszy pułap na jakim może latać samolot wroga.
