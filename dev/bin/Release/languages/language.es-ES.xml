@@ -631,6 +631,9 @@
     <value>Acierto con torpedos:</value>
   </data>
 
+ <data name="SurvivalTime">
+    <value>Survival time:</value>
+  </data>
 
 </root>
 

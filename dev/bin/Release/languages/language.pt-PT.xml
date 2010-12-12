@@ -215,6 +215,10 @@
   <data name="TorpedoesAccuracy">
     <value>Pontaria com torpedos:</value>
   </data>
+  
+   <data name="SurvivalTime">
+    <value>Survival time:</value>
+  </data>
 
 
 

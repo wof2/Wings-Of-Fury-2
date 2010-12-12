@@ -353,7 +353,18 @@ namespace Wof.Controller.Screens
         private DelayedControllerFacade delayedControllerFacade;
 
         protected PlaneType userPlaneType;
-      
+
+        private float survivalTime;
+        private bool CountSurvivalTime
+        {
+            get
+            {
+                return currentLevel != null && currentLevel.UserPlane != null && currentLevel.MissionType == MissionType.Survival &&
+                       !currentLevel.UserPlane.IsOnAircraftCarrier;
+            }
+            
+        }
+
 
         public GameScreen(GameEventListener gameEventListener,
                           IFrameWork framework, Device directSound, int lives, int levelNo, string levelFile, PlaneType userPlaneType)
@@ -381,6 +392,7 @@ namespace Wof.Controller.Screens
             changeAmmoToWhenCanClearRestoreAmmunitionScreen = null;
             loadingLock = new object();
             score = 0;
+            survivalTime = 0;
             if(GameConsts.Game.LivesCheat) 
             {
             	this.lives = 98;	
@@ -451,6 +463,7 @@ namespace Wof.Controller.Screens
                         hintRightFilename = "hint_right_naval.png";
                         break;
 
+                    case MissionType.Survival:
                     case MissionType.Dogfight:
                         hintLeftFilename = "hint_left_dogfight.png";
                         hintRightFilename = "hint_right_dogfight.png";
@@ -1071,6 +1084,9 @@ namespace Wof.Controller.Screens
                                 EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierNormal;
                             }
                         }
+
+                      
+
                     }
 
 
@@ -1096,6 +1112,21 @@ namespace Wof.Controller.Screens
                                 timeInterval = 0;
                                 isFirstFrame = false;
                             }
+
+
+                            if (currentLevel.MissionType == MissionType.Survival)
+                            {
+                                gameMessages.ClearMessages();
+                                IconedMessageEntry message = new IconedMessageEntry(0, 0, String.Format(LanguageResources.GetString(LanguageKey.SurvivalTime) + " {0:f}s.", survivalTime));
+                                message.Icon = "survival.png";
+
+                                gameMessages.AppendMessage(message);
+
+                                UpdateSurvivalTime(evt);
+                            }
+
+                            
+
 
                             currentLevel.Update(timeInterval);
                             _bulletTimeBar.Update(timeInterval);
@@ -1128,6 +1159,28 @@ namespace Wof.Controller.Screens
             else
             {
             	
+            }
+        }
+
+        protected void UpdateSurvivalTime(FrameEvent evt)
+        {
+            if (CountSurvivalTime)
+            {
+                switch (EngineConfig.Difficulty)
+                {
+                    case EngineConfig.DifficultyLevel.Easy:
+                        survivalTime += evt.timeSinceLastFrame;
+                        break;
+
+                    case EngineConfig.DifficultyLevel.Medium:
+                        survivalTime += 1.2f* evt.timeSinceLastFrame;
+                        break;
+
+                    case EngineConfig.DifficultyLevel.Hard:
+                        survivalTime += 1.4f * evt.timeSinceLastFrame;
+                        break;
+                }
+                                   
             }
         }
 
@@ -1999,10 +2052,12 @@ namespace Wof.Controller.Screens
 
                 HighscoreUtil util = new HighscoreUtil();
                 int leastScore = util.FindLeastHighscore();
+                float maxSurvivalTime = util.GetSurvivalTime();
 
-                if (score >= leastScore)
+              
+                if (score >= leastScore || survivalTime > maxSurvivalTime)
                 {
-                    gameEventListener.GotoEnterScoreScreen(score);
+                    gameEventListener.GotoEnterScoreScreen(score, survivalTime);
                     isInGameOverMenu = false;
                     return;
                 }
@@ -2240,12 +2295,25 @@ namespace Wof.Controller.Screens
             window.createStaticText(
               new Vector4(left, top + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                LanguageResources.GetString(LanguageKey.GunAccuracy) + " " + this.currentLevel.Statistics.GunStats + "%");
-            
+
+          
             i+=1.5f;
 
             window.createStaticText(
                 new Vector4(left, top + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                  LanguageResources.GetString(LanguageKey.PlanesDestroyed) + " " + this.currentLevel.Statistics.PlanesShotDown);
+
+
+            if (currentLevel.MissionType == MissionType.Survival)
+            {
+                i += 1.5f;
+                window.createStaticText(
+                  new Vector4(left, top + i * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+                   String.Format(LanguageResources.GetString(LanguageKey.SurvivalTime) + ": {0:f}s.", survivalTime));
+
+            }
+           
+
 
            // mGui.mFontSize = oldSize;
 
@@ -2259,7 +2327,7 @@ namespace Wof.Controller.Screens
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
 
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
-                                                    viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 16.5f * GetTextVSpacing()),
+                                                    viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 17.5f * GetTextVSpacing()),
                                                     "bgui.window", (int)wt.NONE,LanguageResources.GetString(LanguageKey.LevelCompleted));
          
 
@@ -2269,7 +2337,7 @@ namespace Wof.Controller.Screens
             Callback cc = new Callback(this);
             nextLevelButton =
               guiWindow.createButton(
-                  new Vector4(5 + viewport.ActualWidth * 0.1f, 15.50f * GetTextVSpacing(), viewport.ActualWidth / 2.0f, GetTextVSpacing()),
+                  new Vector4(5 + viewport.ActualWidth * 0.1f, 16.50f * GetTextVSpacing(), viewport.ActualWidth / 2.0f, GetTextVSpacing()),
                   "bgui.button",
                   LanguageResources.GetString(LanguageKey.OK), cc);
 
@@ -2295,7 +2363,7 @@ namespace Wof.Controller.Screens
             int left = 20;
             int top = 10;
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
-                                                      viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 16.5f * GetTextVSpacing()), 
+                                                      viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 17.5f * GetTextVSpacing()), 
                                                       "bgui.window", (int)wt.NONE,"");
 
 
@@ -2311,7 +2379,7 @@ namespace Wof.Controller.Screens
 
             gameOverButton =
                 guiWindow.createButton(
-                    new Vector4(left, top + 14.33f * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
+                    new Vector4(left, top + 15.33f * GetTextVSpacing(), viewport.ActualWidth / 2, GetTextVSpacing()),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.OK), cc);
 
@@ -2962,6 +3030,14 @@ namespace Wof.Controller.Screens
                        KeyMap.GetName(KeyMap.Instance.AltFire));
              
             }
+            else if (currentLevel.MissionType == MissionType.Survival)
+            {
+                message =
+                   String.Format(
+                       LanguageResources.GetString(LanguageKey.AllEnemyPlanesDestroyedLandOnCarrierAndPressX),
+                       KeyMap.GetName(KeyMap.Instance.AltFire));
+
+            }
             else if (currentLevel.MissionType == MissionType.Assassination)
             {
                 message =
@@ -3138,6 +3214,14 @@ namespace Wof.Controller.Screens
         {
         	get { return EngineConfig.Difficulty <= EngineConfig.DifficultyLevel.Easy; }
         }
+
+        public float SurvivalTime
+        {
+            get { return survivalTime; }
+         
+          
+        }
+
         public void OnPotentialLanding(Plane p)
         {
         	if (ShowHintMessages)        
@@ -3152,7 +3236,7 @@ namespace Wof.Controller.Screens
         
         public void OnTakeOff()
         {
-        	  
+            
             if (ShowHintMessages && firstTakeOff && levelNo == 1)
             {
                 gameMessages.ClearMessages(GetHintMessage2());

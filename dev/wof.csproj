@@ -547,6 +547,7 @@
     <Compile Include="src\Controller\FrameWorkStaticHelper.cs" />
     <Compile Include="src\Controller\IFrameWork.cs" />
     <Compile Include="src\Controller\Indicators\CenteredMessageEntry.cs" />
+    <Compile Include="src\Controller\Indicators\IconedCenteredMessageEntry.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyCodeConflictException.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyMap.cs" />
     <Compile Include="src\Tests\ModelTest\GunTestForm.cs">

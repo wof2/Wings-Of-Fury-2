@@ -122,6 +122,8 @@ namespace Wof.Controller.Screens
                                     String.Format(@"{0} 2010", LanguageResources.GetString(LanguageKey.Poland)) 
                                  };
 
+        private float survivalTime = 0;
+
         #endregion
 
         /// <summary>
@@ -135,11 +137,11 @@ namespace Wof.Controller.Screens
         /// <param name="speed"></param>
         /// <param name="highscore">Jesli=-1 pokazuje statyczny przewijany credits screen. Po kliknieciu OK przechodzi do ekranu glownego</param>
         public EndingScreen(GameEventListener gameEventListener,
-                              IFrameWork framework, Viewport viewport, Camera camera, bool startFromBottom, float speed, int highscore) :
+                              IFrameWork framework, Viewport viewport, Camera camera, bool startFromBottom, float speed, int highscore, float survivalTime) :
                                  base(gameEventListener, framework, viewport, camera, startFromBottom, speed)
         {
             this.highscore = highscore;
-           
+            this.survivalTime = survivalTime;
         }
 
         public override void CleanUp(Boolean justMenu)
@@ -239,7 +241,7 @@ namespace Wof.Controller.Screens
                 {
                     PlayClickSound();
                   //  gameEventListener.GotoEndingScreen(100);
-                    gameEventListener.GotoEnterScoreScreen(highscore);
+                    gameEventListener.GotoEnterScoreScreen(highscore, survivalTime);
                 } else
                 {
                     PlayClickSound();

@@ -57,7 +57,6 @@ namespace Wof.Languages
     public static class LanguageKey
     {
        
-
         #region ---A---
 
       
@@ -302,6 +301,8 @@ namespace Wof.Languages
         public const string Spin = @"Spin";
         public const string StartFrom = @"StartFrom";
         public const string SupportTeam = @"SupportTeam";
+        public const string SurvivalTime = @"SurvivalTime";
+
 
         #endregion
 

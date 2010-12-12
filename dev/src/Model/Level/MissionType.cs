@@ -28,6 +28,12 @@ namespace Wof.Model.Level
         /// zniszczyæ wszystkie statki
         /// </summary>
         [StringValue("Naval")]
-        Naval
+        Naval,
+
+        /// <summary>
+        /// utrzymac sie najdluzej przy zyciu
+        /// </summary>
+        [StringValue("Survival")]
+        Survival
     }
 }

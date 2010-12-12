@@ -57,17 +57,19 @@ namespace Wof.Controller.Screens
 {
     internal class ScoreEnterScreen : AbstractScreen, BetaGUIListener
     {
-        private int score;
+        private int score; 
+        private float survivalTime;
         private Window guiWindow;
         private TextInput nameInput;
 
 
         public ScoreEnterScreen(GameEventListener gameEventListener,
-                                IFrameWork framework, Viewport viewport, Camera camera, int score) :
+                                IFrameWork framework, Viewport viewport, Camera camera, int score, float survivalTime) :
                                     base(gameEventListener,framework, viewport, camera)
         {
             fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
             this.score = score;
+            this.survivalTime = survivalTime;
         }
 
         protected override void CreateGUI()
@@ -100,7 +102,7 @@ namespace Wof.Controller.Screens
             if (buttons[0] == referer)
             {
                 String name = nameInput.getValue();
-                saveHighscore(name, score);
+                saveHighscore(name, score, survivalTime);
                 PlayClickSound();
                 gameEventListener.GotoHighscoresScreen();
             }
@@ -108,11 +110,22 @@ namespace Wof.Controller.Screens
 
         #endregion
 
-        private void saveHighscore(String name, int score)
+        private void saveHighscore(String name, int score, float survivalTime)
         {
-            HighscoreEntry entry = new HighscoreEntry(name, score);
+            score = 999999;
             HighscoreUtil util = new HighscoreUtil();
-            util.RegisterHighscore(entry);
+            if(score > util.FindLeastHighscore() )
+            {
+                HighscoreEntry entry = new HighscoreEntry(name, score);
+                util.RegisterHighscore(entry);
+            }
+            
+            float maxSurvivalTime = util.GetSurvivalTime();
+            if (survivalTime > maxSurvivalTime)
+            {
+                util.SaveSurvivalTime(survivalTime);
+            }
+           
         }
     }
 }

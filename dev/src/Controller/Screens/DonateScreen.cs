@@ -120,6 +120,8 @@ namespace Wof.Controller.Screens
 
             pinImageToButton(buttons[1], "pin.png", 1.6f);
 
+
+
             buttons[2] = guiWindow.createButton(new Vector4(5, 13*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                LanguageResources.GetString(LanguageKey.Back), cc, 0);
             selectButton(0);
@@ -148,7 +150,7 @@ namespace Wof.Controller.Screens
                 if (referer == buttons[1])
                 {
                     PlayClickSound();
-                    gameEventListener.GotoEnhancedVersionScreen();
+                    if(!EngineConfig.IsEnhancedVersion) gameEventListener.GotoEnhancedVersionScreen();
                 }
             }
         }

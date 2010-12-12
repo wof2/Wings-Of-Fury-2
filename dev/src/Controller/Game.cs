@@ -674,6 +674,10 @@ namespace Wof.Controller
            
 
             int score = ((GameScreen) currentScreen).Score;
+            float survivalTime = ((GameScreen)currentScreen).SurvivalTime;
+
+         
+
             int level = ((GameScreen) currentScreen).LevelNo;
           
             if (File.Exists(XmlLevelParser.GetLevelFileName(level + 1)))
@@ -698,12 +702,12 @@ namespace Wof.Controller
 
                 currentScreen = new GameScreen(this, this, directSound, lives, level + 1, null, EngineConfig.CurrentPlayerPlaneType);
                 ((GameScreen) currentScreen).Score = score;
-
+               
                 currentScreen.DisplayGUI(false);
             }
             else
             {
-                GotoEndingScreen(score);
+                GotoEndingScreen(score, survivalTime);
             }
         }
 
@@ -954,7 +958,7 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoEnterScoreScreen(int score)
+        public void GotoEnterScoreScreen(int score, float survivalTime)
         {
             Boolean justMenu = IsMenuScreen(currentScreen);
 
@@ -967,7 +971,7 @@ namespace Wof.Controller
             initScreenAfter(currentScreen);
            
             SoundManager.Instance.PlayMainTheme();
-            currentScreen = new ScoreEnterScreen(this, this, viewport, camera, score);
+            currentScreen = new ScoreEnterScreen(this, this, viewport, camera, score, survivalTime);
 
             if (ss != null)
             {
@@ -1064,7 +1068,7 @@ namespace Wof.Controller
         }
 
 
-        public void GotoEndingScreen(int highscore)
+        public void GotoEndingScreen(int highscore, float survivalTime)
         {
             Boolean justMenu = IsMenuScreen(currentScreen);
 
@@ -1076,7 +1080,7 @@ namespace Wof.Controller
             initScreenAfter(currentScreen);
             SoundManager.Instance.PlayMainTheme();
 
-            currentScreen = new EndingScreen(this, this, viewport, camera, true, 25, highscore);
+            currentScreen = new EndingScreen(this, this, viewport, camera, true, 25, highscore, survivalTime);
 
             if (ss != null)
             {

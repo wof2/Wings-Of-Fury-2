@@ -223,7 +223,7 @@ namespace Wof.Model.Level.Planes
 
             float x;
 
-            if (level.MissionType == MissionType.Dogfight && level.EnemyPlanesLeft == level.EnemyPlanesPoolCount)
+            if ((level.MissionType == MissionType.Dogfight || level.MissionType == MissionType.Survival) && level.EnemyPlanesLeft == level.EnemyPlanesPoolCount)
             {
                 // pierwszy samolot jest blizej lotniskowca
                 x = atEnd * endPos * 0.6f + (1 - atEnd) * endPos * 0.4f;

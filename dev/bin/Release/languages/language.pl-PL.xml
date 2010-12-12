@@ -591,6 +591,10 @@
   <data name="TorpedoesAccuracy">
     <value>Celność torped:</value>
   </data>
+  
+   <data name="SurvivalTime">
+    <value>Czas Survival'u:</value>
+  </data>
 
 
 

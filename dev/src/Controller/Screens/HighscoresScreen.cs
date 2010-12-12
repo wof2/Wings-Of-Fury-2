@@ -58,12 +58,13 @@ namespace Wof.Controller.Screens
 {
     internal class HighscoresScreen : AbstractScreen, BetaGUIListener
     {
-        public const String C_HIGHSCORES_FILE = "highscores.dat";
+      
 
         private Window guiWindow;
         // private Button exitButton;
 
         private List<HighscoreEntry> highscores;
+        private float survivalTime = 0;
 
         #region GameScreen Members
 
@@ -130,8 +131,36 @@ namespace Wof.Controller.Screens
                     
             }
 
+            if (survivalTime > 0)
+            {
+                y += 2 * GetTextVSpacing();
+
+                OverlayContainer c = guiWindow.createStaticText(new Vector4(5, 2 * GetTextVSpacing() + y, 100, GetTextVSpacing()),
+                                               LanguageResources.GetString(LanguageKey.SurvivalTime));
+
+                foreach (OverlayElement element in c.GetChildIterator())
+                {
+
+                    element.SetParameter("colour_top", "0.8 0.1 0.1");
+                    element.SetParameter("colour_bottom", "0.8 0.2 0.2");
+
+                }
+                c = guiWindow.createStaticText(new Vector4(275, 2 * GetTextVSpacing() + y, 100, GetTextVSpacing()), String.Format("{0:f}s.", survivalTime));
+                foreach (OverlayElement element in c.GetChildIterator())
+                {
+
+                    element.SetParameter("colour_top", "0.8 0.1 0.1");
+                    element.SetParameter("colour_bottom", "0.8 0.2 0.2");
+
+                }
+               
+               
+            }
+
+
+
             initButtons(1, 0);
-            buttons[0] = guiWindow.createButton(new Vector4(0, 13 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[0] = guiWindow.createButton(new Vector4(0, 15 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.OK), cc, 0);
             selectButton(0);
             guiWindow.show();
@@ -141,6 +170,8 @@ namespace Wof.Controller.Screens
         {
             HighscoreUtil util = new HighscoreUtil();
             highscores = util.LoadList();
+
+            survivalTime = util.GetSurvivalTime();
         }
 
         #endregion
