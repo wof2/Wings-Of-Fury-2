@@ -337,8 +337,8 @@ namespace Wof.Model.Level
 		            info.WheelsState = WheelsState.Out;    
 		           
             	break;
-            	
-            	
+
+                case MissionType.Survival:
             	case MissionType.Dogfight:
             	// plane is in the air...
             	    info.Direction = Direction.Left;
@@ -372,7 +372,7 @@ namespace Wof.Model.Level
             //this.enemyPlane = new EnemyPlane(this);
             //this.enemyPlane.RegisterWeaponEvent += new RegisterWeapon(enemyPlane_RegisterWeaponEvent);
             enemyPlanes = new List<Plane>();
-            if(MissionType != Model.Level.MissionType.Dogfight)
+            if (MissionType != MissionType.Dogfight && MissionType != MissionType.Survival)
             {
                 timeToFirstEnemyPlane = LevelParser.TimeToFirstEnemyPlane;
                 timeToNextEnemyPlane = LevelParser.TimeToNextEnemyPlane;
@@ -416,6 +416,10 @@ namespace Wof.Model.Level
 
                 case MissionType.Dogfight:
                     texture = "dogfight.png";
+                    break;
+
+                case MissionType.Survival:
+                    texture = "survival.png";
                     break;
 
                 case MissionType.Naval:
@@ -515,23 +519,30 @@ namespace Wof.Model.Level
                     // kolizje z samolotem gracza
                     if (userPlane.Bounds.Intersects(ep.Bounds))
                     {
-                        // zniszcz samolot gracza przy kolizji tylko w trybie innym ni¿ 'easy'
-                        if (EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Easy) || EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Medium))
+                        // zniszcz samolot gracza przy kolizji
+                        if (!EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Easy) || MissionType == Model.Level.MissionType.Survival)
                         {
-                            // zabierz trochê ¿ycia przy zderzeniu - ten event bêdzie powtrzany kilka razy (w czasie gdy samolot bêd¹ siê dotykaæ)
-                            userPlane.Hit(userPlane.MaxOil * 0.08f, 0.001f * userPlane.MaxOil);
+                            // na easy nie ma zderzeñ
+
+                            if (EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Medium))
+                            {
+
+                                // medium
+                                // zabierz trochê ¿ycia przy zderzeniu - ten event bêdzie powtrzany kilka razy (w czasie gdy samolot bêd¹ siê dotykaæ)
+                                userPlane.Hit(userPlane.MaxOil*0.08f, 0.001f*userPlane.MaxOil);
+                            }
+                            else
+                            {
+                                // hard
+                                userPlane.Destroy();
+                            }
+
+                            if (ep.PlaneState != PlaneState.Destroyed && ep.PlaneState != PlaneState.Crashed)
+                            {
+                                SoundManager.Instance.PlayCollisionPlaneSound();
+                            }
+                            ep.Destroy();
                         }
-                        else
-                        {
-                            userPlane.Destroy(); 
-                        }
-                    
-                        if (ep.PlaneState != PlaneState.Destroyed && ep.PlaneState != PlaneState.Crashed)
-                        {
-                            SoundManager.Instance.PlayCollisionPlaneSound();
-                        }
-                        ep.Destroy();
-                       
                     }
 
                     // kolizje z innymi samolotami 
@@ -572,7 +583,7 @@ namespace Wof.Model.Level
             }
            
             // koniec misji typu dogfight
-            if (this.MissionType == MissionType.Dogfight && EnemyPlanesLeft == 0)
+            if ((MissionType == MissionType.Dogfight || MissionType == MissionType.Survival) && EnemyPlanesLeft == 0)
             {
                 if (!onReadyLevelEndLaunched )
                 {
@@ -1445,7 +1456,7 @@ namespace Wof.Model.Level
                         }
                         break;
 
-
+                    case MissionType.Survival:
                     case MissionType.Dogfight:
                         for (int i = 0; i < enemyPlanes.Count; i++)
                         {

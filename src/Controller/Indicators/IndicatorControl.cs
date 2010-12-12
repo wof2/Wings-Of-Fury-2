@@ -325,7 +325,7 @@ namespace Wof.Controller.Screens
                         gameScreen.CurrentLevel.SoldiersCount,
                         gameScreen.Framework.UpdateStats());
                     }
-                    else if (gameScreen.CurrentLevel.MissionType == MissionType.Dogfight)
+                    else if (gameScreen.CurrentLevel.MissionType == MissionType.Dogfight || gameScreen.CurrentLevel.MissionType == MissionType.Survival)
                     {
                         infoElement.Caption = String.Format(@"{0} | {1} | {2}: {3} | {4}",
                         levelName,

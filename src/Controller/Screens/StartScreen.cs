@@ -183,11 +183,15 @@ namespace Wof.Controller.Screens
                                                           "bgui.button", LanguageResources.GetString(LanguageKey.Donate), cc, i++);
 
 
-            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
-                                                           "bgui.button", LanguageResources.GetString(LanguageKey.EnhancedVersion), cc, i++);
+            if (!EngineConfig.IsEnhancedVersion)
+            {
+                buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2)*h, Viewport.ActualWidth/2, h),
+                                                    "bgui.button",
+                                                    LanguageResources.GetString(LanguageKey.EnhancedVersion), cc, i++);
 
-
-            pinImageToButton(buttons[i-1], "pin.png", 1.6f);
+                pinImageToButton(buttons[i - 1], "pin.png", 1.6f);
+            }
+           
 
           //  if (EngineConfig.IsEnhancedVersion)
             {

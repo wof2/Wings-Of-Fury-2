@@ -167,7 +167,7 @@ namespace Wof.Controller
 
         public static bool UseAlternativeSpinControl = false; // czy uzywac alternatywnego podejscia do sterowania spinem?
 
-      
+        
         public enum DifficultyLevel
         {
             Easy = 0,
@@ -192,9 +192,9 @@ namespace Wof.Controller
 
         public static bool SoundEnabled = true;
         public static FreeSL.FSL_SOUND_SYSTEM SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_DIRECTSOUND;
-        public static int MusicVolume = 40;
+        public static int MusicVolume = 30;
 
-        protected static int soundVolume = 100;
+        protected static int soundVolume = 60;
         public static int SoundVolume
         {
              set 

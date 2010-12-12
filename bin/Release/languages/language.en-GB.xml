@@ -607,6 +607,10 @@
   <data name="TorpedoesAccuracy">
     <value>Torpedoes accuracy:</value>
   </data>
+  
+   <data name="SurvivalTime">
+    <value>Survival time:</value>
+  </data>
 
 
 </root>

@@ -608,6 +608,11 @@
     <value>Torpedo's precisie:</value>
   </data>
   
+  <data name="SurvivalTime">
+    <value>Survival time:</value>
+  </data>
+  
+  
 
 </root>
 

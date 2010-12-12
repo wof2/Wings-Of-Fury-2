@@ -570,5 +570,9 @@
   <data name="TorpedoesAccuracy">
     <value>Меткость/точность Торпеды:</value>
   </data>
+  
+  <data name="SurvivalTime">
+    <value>Survival time:</value>
+  </data>
 
 </root>

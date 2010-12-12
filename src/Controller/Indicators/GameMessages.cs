@@ -75,8 +75,8 @@ namespace Wof.Controller.Indicators
 
         private readonly float xMargin = 0.03f;
         private readonly float yMargin = 0.011f;
-        private Overlay radioIcon;
-		private OverlayElement radioIconElement;
+        private Overlay iconOverlay;
+		private OverlayElement iconElement;
 		
 		private float radioIconWidth 
 		{
@@ -106,12 +106,12 @@ namespace Wof.Controller.Indicators
            // BetaGUI.GUI gui = new GUI();
            // Window w = gui.createWindow();
            // w.createStaticImage()
-            radioIcon = OverlayManager.Singleton.GetByName("Wof/MessageBar");
-            radioIconElement = OverlayManager.Singleton.GetOverlayElement("Wof/MessageBarIcon");     
-            radioIconElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-            radioIconElement.SetDimensions(radioIconWidth, radioIconWidth);      
-       		radioIconElement.Show();
-       		radioIcon.Hide(); // zewnetrzny kontener ukryje wszystko
+            iconOverlay = OverlayManager.Singleton.GetByName("Wof/MessageBar");
+            iconElement = OverlayManager.Singleton.GetOverlayElement("Wof/MessageBarIcon");     
+            iconElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
+            iconElement.SetDimensions(radioIconWidth, radioIconWidth);      
+       		iconElement.Show();
+       		iconOverlay.Hide(); // zewnetrzny kontener ukryje wszystko
        		
             messageElement = OverlayManager.Singleton.CreateOverlayElement(
                 "TextArea", "messageElement " + DateTime.Now.Ticks);
@@ -191,10 +191,10 @@ namespace Wof.Controller.Indicators
         private void DisplayMessage()
         {
         	
-        	if (!radioIcon.IsVisible) 
+        	if (!iconOverlay.IsVisible) 
         	{
-                radioIconElement.SetPosition((currentMessage.X), (currentMessage.Y + currentMessage.CharHeight * 0.25f));   
-        		radioIcon.Show();
+                iconElement.SetPosition((currentMessage.X), (currentMessage.Y + currentMessage.CharHeight * 0.25f));   
+        		iconOverlay.Show();
         	}
             startTime = DateTime.Now;
 
@@ -208,10 +208,41 @@ namespace Wof.Controller.Indicators
             messageElement.SetParameter("colour_bottom", currentMessage.ColourBottom);
 
 
+            // icon
+            string changedIcon = null;
+            if (currentMessage is IconedMessageEntry )
+            {
+                string icon = (currentMessage as IconedMessageEntry).Icon;
+                if (lastIconTexture != icon)
+                {
+                    lastIconTexture = icon;
+                    changedIcon = icon;
+                }
+            }
+            else if(lastIconTexture != null)
+            {
+                changedIcon = "radio.png";
+                lastIconTexture = null;
+            }
 
+            if(changedIcon != null)
+            {
+                try
+                {
+                    MaterialPtr mat = MaterialManager.Singleton.GetByName("MessageBarIcon");
+                    mat.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(changedIcon);
+                }
+                catch (Exception)
+                {
+                }
+               
+            }
+            
             messageElement.Caption = AbstractScreen.Wrap(currentMessage.Message, currentMessage.CharsPerLine); ;
             messageElement.Show();
         }
+
+        private string lastIconTexture; 
 
         private void UpdateMessage()
         {
@@ -269,12 +300,22 @@ namespace Wof.Controller.Indicators
             {
                 messageElement.Caption = "";
             }
-            if(radioIcon != null && radioIcon.IsVisible)  radioIcon.Hide();
+            if(iconOverlay != null && iconOverlay.IsVisible)  iconOverlay.Hide();
         }
 
 
         public void DestroyMessageContainer()
         {
+
+            try
+            {
+                MaterialPtr mat = MaterialManager.Singleton.GetByName("MessageBarIcon");
+                mat.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName("radio.png");
+            }
+            catch (Exception)
+            {
+            }
+
             if (messageOverlay != null)
             {
                 messageOverlay.Hide();
@@ -289,14 +330,14 @@ namespace Wof.Controller.Indicators
             messageContainer.Dispose();
             messageContainer = null;
             
-            if(radioIcon != null)
+            if(iconOverlay != null)
             {
-            	radioIconElement.Hide();
-            	radioIconElement.Dispose();
-	            radioIconElement = null;
-	            radioIcon.Hide();
-	            radioIcon.Dispose();
-	            radioIcon = null;
+            	iconElement.Hide();
+            	iconElement.Dispose();
+	            iconElement = null;
+	            iconOverlay.Hide();
+	            iconOverlay.Dispose();
+	            iconOverlay = null;
             }
            
 

@@ -59,9 +59,9 @@ namespace Wof.Controller
         void GotoStartScreen();
         void GotoNextLevel();
         void GotoHighscoresScreen();
-        void GotoEnterScoreScreen(int score);
+        void GotoEnterScoreScreen(int score, float survivalTime);
         void GotoCreditsScreen();
-        void GotoEndingScreen(int highscore);
+        void GotoEndingScreen(int highscore, float survivalTime);
         void GotoVideoModeScreen();
         void GotoOptionsScreen();
         void GotoAntialiasingOptionsScreen();
