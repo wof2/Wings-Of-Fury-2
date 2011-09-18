@@ -98,3 +98,12 @@ Wof_fr-FR
 	resolution 	96
 	code_points 33-122 193-246
 }
+
+Wof_sv-SV
+{	
+	type 		truetype
+	source 		solo5SV.ttf
+	size 		20
+	resolution 	96
+	code_points 33-376
+}

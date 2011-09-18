@@ -93,6 +93,8 @@ namespace Wof.Controller.Screens
                                     "Jack Flushell",
                                     "Paszmina",
                                     "Sébastien Ligez",
+                                    "Sychospy",
+                                    "tboc.razor",
 
                                     String.Empty,
                                     "Community Support",

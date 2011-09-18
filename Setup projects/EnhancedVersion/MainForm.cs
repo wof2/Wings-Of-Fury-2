@@ -45,11 +45,18 @@ namespace EnhancedVersionHelper
 
         private void webBrowser1_LocationChanged(object sender, EventArgs e)
         {
-
+      
         }
 
         private void webBrowser1_Navigated(object sender, WebBrowserNavigatedEventArgs e)
         {
+            if (webBrowser1.Document.Title.Contains("Internet Explorer cannot display the webpage"))
+            {
+                MessageBox.Show(
+                 "No Internet connection!",
+                 "yaiks!!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             string upd2 = "\nYou WOF2 (v."+ EngineConfig.C_WOF_VERSION+") is not up to date - please visit " + EngineConfig.C_WOF_HOME_PAGE + " to download the newest patch.";
             if (e.Url.ToString().Contains("/page/enhanced?status=ok"))
             {

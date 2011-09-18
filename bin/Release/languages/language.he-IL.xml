@@ -1,0 +1,621 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+
+  <!-- FOR ALL TRANSLATORS: please translate everything between <value> and </value> tags. Leave rest of the stuff unchanged  -->
+  <data name="Antialiasing">
+    <value>Antialiasing</value>
+  </data>
+  <data name="Back">
+    <value>חזרה</value>
+  </data>
+
+  <!-- "bloom" effect -->
+  <data name="Bloom">
+    <value>Bloom</value>
+  </data>
+  <data name="Bombs">
+    <value>פצצות</value>
+  </data>
+  <data name="ChangeOptionMessage1">
+    <value>השינויים יחלו</value>
+  </data>
+  <data name="ChangeOptionMessage2">
+    <value>לאחר אתחול המשחק.</value>
+  </data>
+  <data name="ChooseDifficulty">
+    <value>בחר רמת קושי</value>
+  </data>
+  <data name="CompletedLevels">
+    <value>רמות גמורות</value>
+  </data>
+  <data name="Congratulations">
+    <value>כל הכבוד</value>
+  </data>
+  <data name="Controls">
+    <value>מקשי שליטה</value>
+  </data>
+  <data name="CreatingGameObjects">
+    <value>יוצר את האובייקטים של המשחק</value>
+  </data>
+  <data name="CreatingScene">
+    <value>יוצר את הסצנה</value>
+  </data>
+  <data name="CreatingTheRootObject">
+    <value>יוצר את אובייקט השורש</value>
+  </data>
+  <data name="CreatorOfOriginalWingsOfFury">
+    <value>יוצר כנפי התהילה המקורי(1987)</value>
+  </data>
+  <data name="Credits">
+    <value>קרדיטים</value>
+  </data>
+  <data name="Details">
+    <value>פרטים</value>
+  </data>
+  <data name="Difficulty">
+    <value>רמת קושי</value>
+  </data>
+  <data name="EnterYourName">
+    <value>הכנס את שמך</value>
+  </data>
+  <data name="ExitToMenu">
+    <value>צא  לתפריט ראשי</value>
+  </data>
+  <data name="GameOver">
+    <value>המשחק נגמר</value>
+  </data>
+  <data name="HallOfFame">
+    <value>היכל המפורסמים</value>
+  </data>
+  <data name="Highscores">
+    <value>הנקודות הגבוהות ביותר</value>
+  </data>
+  <data name="InitializingSound">
+    <value>מארגן קולות</value>
+  </data>
+  <!-- ID of the current language -->
+  <data name="LanguageID">
+    <value>Eאנגלית</value>
+  </data>
+  <!-- level / stage of the game -->
+  <data name="Level">
+    <value>רמה</value>
+  </data>
+  <data name="LoadingResources">
+    <value>טוען משאבים</value>
+  </data>
+  <data name="NewGame">
+    <value>משחק חדש</value>
+  </data>
+  <!-- next menu option -->
+  <data name="Next">
+    <value>המשך</value>
+  </data>
+  <data name="OK">
+    <value>או קיי</value>
+  </data>
+  <data name="Options">
+    <value>אפשרויות</value>
+  </data>
+  <data name="Pause">
+    <value>עצור</value>
+  </data>
+  <!-- previous menu option -->
+  <data name="Previous">
+    <value>הקודם</value>
+  </data>
+  <data name="Quit">
+    <value>יציאה</value>
+  </data>
+  <data name="Resume">
+    <value>המשך במשחק</value>
+  </data>
+  <data name="Rockets">
+    <value>רקטות</value>
+  </data>
+  <data name="SelectAmmunition">
+    <value>בחר סוג תחמושת</value>
+  </data>
+  <data name="SetupingResources">
+    <value>מכין משאבים</value>
+  </data>
+  <data name="Sound">
+    <value>קולות</value>
+  </data>
+  <data name="SpecialThanksToSteveWaldo">
+    <value>תודות מיוחדות לסטיב וואלדו</value>
+  </data>
+  <data name="Tutorial">
+    <value>לימוד המשחק</value>
+  </data>
+  <data name="VideoMode">
+    <value>מצב תצוגה</value>
+  </data>
+  <data name="VideoOptions">
+    <value>אפשרויות תצוגה</value>
+  </data>
+  <data name="VSync">
+    <value>VSync</value>
+  </data>
+  <data name="YouWonTheGame">
+    <value>ניצחת את המשחק</value>
+  </data>
+  <data name="AddingCompositors">
+    <value>Adding compositors</value>
+  </data>
+  <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
+    <!--<value>All enemy soldiers eliminated, land on the carrier and press X</value>-->
+    <value>כל חיילי האוייב הושמדו, נחת על נושאת המטוסים ולחץ '{0}'</value>
+  </data>
+  <data name="AverageFPS">
+    <value>ממוצע FPS</value>
+  </data>
+  <data name="BestFPS">
+    <value>הטוב ביותר FPS</value>
+  </data>
+  <data name="ChooseAntialiasingMode">
+    <value>בחר מצב החלקת עקומות</value>
+  </data>
+  <data name="ChooseLevelOfDetail">
+    <value>בחר רמת פרטים</value>
+  </data>
+  <data name="ChooseVideoMode">
+    <value>בחר מצב תצוגה</value>
+  </data>
+  <data name="CreatingInput">
+    <value>יוצר חיבור</value>
+  </data>
+   <data name="CurrentFPS">
+    <value>פפס נוכחי </value>
+  </data>
+  <data name="EnableBloom">
+    <value>אפשר פריחה</value>
+  </data>
+  <data name="EnableSound">
+    <value>אפשר קול</value>
+  </data>
+  <data name="EnableVSync">
+    <value>  אפשר וויסינכ </value>
+  </data>
+
+  <data name="EnemyPlaneApproachingFromTheLeft">
+    <value>מטוס אוייב מתקרב משמאל</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheRight">
+    <value>מטוס אוייב מתקרב מימין</value>
+  </data>
+  <!-- high difficulty / details -->
+  <data name="High">
+    <value>גבוה</value>
+  </data>
+  <data name="InverseKeys">
+    <value>הפוך מקשים</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRefuel">
+    <!--<value>Land on the carrier and press 'X' to refuel</value>-->
+    <value>נחת על נושאת המטוסים ולחץ '{0}' בכדי לתדלק</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRepair">
+    <!--<value>Land on the carrier and press 'X' to repair</value>-->
+    <value>נחת על נושאת המטוסים ולחץ '{0}' בכדי לתקן</value>
+  </data>
+  <!-- low difficulty / details -->
+  <data name="Low">
+    <value>נמוך</value>
+  </data>
+  <data name="LowFuelWarning">
+    <value>אזהרה  הדלק עומד להגמר</value>
+  </data>
+  <data name="LowOilWarning">
+    <value>אזהרת רמת שמן נמוכה</value>
+  </data>
+  
+  <data name="Medium">
+    <value>בינוני</value>
+  </data>
+  <data name="No">
+    <value>לא</value>
+  </data>
+  
+  <data name="PressEToTurnOnTheEngine">
+    <value>החזק ולחץ על '{0}' בכדי להניע את המנוע</value>
+  </data>
+  
+  <data name="PressXToChangeAmmo">
+    <value>לחץ '{0}' לשנות סוג תחמושת </value>
+  </data>
+  
+  
+  <data name="ScreenshotWrittenTo">
+    <value>שקופיות כתובות ל</value>
+  </data>
+  <data name="StartFrom">
+    <value>התחל מ</value>
+  </data>
+  <data name="TriangleCount">
+    <value>ספירה משולשת</value>
+  </data>
+ <data name="WorstFPS">
+    <value>פפס הגרוע ביותר</value>
+  </data>
+  <data name="Yes">
+    <value>כן</value>
+  </data>
+  <data name="AreYouTryingToReachStarsCaptain">
+    <value>אתה מנסה להגיע לכוכבים  סרן?</value>
+  </data>
+  <data name="EnemyInstallationDestroyed">
+    <value>מטרות האויב הושמדו, המפקד!</value>
+  </data>
+  <data name="EnemyInstallationsAreBothSideCaptain">
+    <value>מטרות האוייב בשני הצדדים סרן!</value>
+  </data>
+  <data name="EnemyInstallationsAreLeftCaptain">
+    <value>מטרות האוייב משמאלך סרן!</value>
+  </data>
+  <data name="EnemyInstallationsAreRightCaptain">
+    <value>מטרות האוייב מימינך סרן!</value>
+  </data>
+  <data name="EnemyPlaneDownIRepeat">
+    <value>מטוס האוייב הופל! אני חוזר מטוס האוייב הופל!</value>
+  </data>
+  <data name="KillAllEnemySoldiers">
+    <value>חסל את כל חיילי האוייב, לך  גמור אותם סרן!</value>
+  </data>
+  <data name="OhNoEnemySoldiersAreRebuildingBunker">
+    <value>אוי לא! חיילי האויב מקימים את הבונקר מחדש!</value>
+  </data>
+  <data name="RetractYourLandingGearWithG">
+    <value>משוך את הגלגלים עם '{0}'</value>
+  </data>
+  <data name="WARNINGProtectTheCarrierFromEnemyPlane">
+    <value>אזהרה! הגן על נושאת המטוסים ממטוס האוייב!</value>
+  </data>
+  <data name="WeAreNotLeavingYetCaptain">
+    <value>אנחנו עדיין לא עוזבים סרן!</value>
+  </data>
+  <data name="Languages">
+    <value>שפות</value>
+  </data>
+  <!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
+  <data name="CoreTeam">
+    <value>צוות ליבה</value>
+  </data>
+  <data name="SupportTeam">
+    <value>צוות תמיכה</value>
+  </data>
+  <data name="Graphics">
+    <value>גרפיקה</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>תרגומי קהילה</value>
+  </data>
+  <data name="Poland">
+    <value>פולין</value>
+  </data>
+  <data name="Donate">
+    <value>לתרום</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>בדוק עדכונים</value>
+  </data>
+   <!--
+        Next 5 messages will be concatenated into one.        
+    -->
+  <data name="DonateMessagePart1">   
+    <value>אם אהבת</value>
+  </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
+  <data name="DonateMessagePart2">
+    <value>בבקשה תתרום אם אהבתg</value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>באמצעות פייפאל אנחנו מחפשים</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>מימון לתמיכה בהמשך</value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>פיתוח המשחק.</value>
+  </data>
+  <!-- message displayed after pressing 'c' (change camera) key. -->
+  <data name="CameraChanged">
+    <value>מצלמה שונתה</value>
+  </data>
+
+  <!-- added to rev. 265 -->
+  <data name="EnemySoldiersLeft">
+    <value>חיילי אוייב נשארו</value>
+  </data>
+
+  <!-- added to rev. 305 - Level stats -->
+  <data name="LevelStats">
+    <value>סטטיטיקות ברמה </value>
+  </data>
+
+  <data name="BombsDropped">
+    <value>פצצות הופלו:</value>
+  </data>
+
+  <data name="BombsAccuracy">
+    <value>דיוק הפצצות:</value>
+  </data>
+
+  <data name="RocketsFired">
+    <value>רקטות שנורו:</value>
+  </data>
+
+  <data name="RocketsAccuracy">
+    <value>דיוק הרקטות:</value>
+  </data>
+
+  <data name="GunShellsFired">
+    <value>כדורי מקלע שנורו:</value>
+  </data>
+
+  <data name="GunAccuracy">
+    <value>דיוק מקלע:</value>
+  </data>
+
+  <data name="PlanesDestroyed">
+    <value>מטוסים שהושמדו:</value>
+  </data>
+
+  <data name="LevelCompleted">
+    <value>רמה הסתיימה</value>
+  </data>
+
+  <data name="Engine"><!-- plane engine -->
+    <value>מנוע</value>
+  </data>
+
+  <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
+    <value>האצה/עצירה/סיבוב</value>
+  </data>
+
+  <data name="Pitch"><!-- changing of plane's altitude. -->
+    <value>הגבהה</value>
+  </data>
+
+  <data name="Spin"><!-- rolling the plane around its longwise -->
+    <value>סיבוב</value>
+  </data>
+
+  <data name="Gear"><!-- landing gear -->
+    <value>ציוד</value>
+  </data>
+
+  <data name="Gun">
+    <value>מקלע</value>
+  </data>
+
+  <data name="Camera">
+    <value>מצלמה</value>
+  </data>
+
+  <data name="Zoomin">
+    <value>הגדל זום</value>
+  </data>
+
+
+  <data name="Zoomout">
+    <value>הקטן זום</value>
+  </data>
+
+  <data name="RearmEndMission">
+    <value>התחמש / סיים משימה</value>
+  </data>
+
+  <!-- added 2.01.2009 -->
+
+  <data name="Torpedo">
+    <value>טורפדו</value>
+  </data>
+  <data name="Torpedoes">
+    <value>טורפדו</value>
+  </data>
+
+ <!-- added 25.03.2009 -->
+  <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
+    <value>כל מטוסי ההאוייב הושמדו, נחת על נושאת המטוסים ולחץ '{0}'</value>
+  </data>
+  
+  <data name="EnemyPlanesLeft">
+    <value>מטוסי אוייב נשארו</value>
+  </data>
+  
+  <data name="Target">
+    <value>מטרה</value>
+  </data>
+  
+  <data name="Neutralized">
+    <value>הושמדה</value>
+  </data>
+  
+  <data name="Alive">
+    <value>חי</value>
+  </data> 
+  
+  <data name="TargetNeutralizedLandOnCarrierAndPressX">
+      <value>מטרה הושמדה. נחת על נושאת המטוסים ולחץ '{0}'</value>
+  </data> 
+  
+  <!-- enemy ships left to be sunk -->
+  <data name="EnemyShipsLeft">
+    <value>אניות אוייב נשארו</value>
+  </data>
+  
+  <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
+    <value>Aכל אניות האוייב הוטבעו, נחת על נושאת המטוסים ולחץ '{0}'</value>
+  </data>
+  
+  <data name="EnemyInstallationDamaged">
+    <value>מתקני האוייב ניזוקו!</value>
+  </data>
+  
+  <data name="TorpedoTooHigh">
+    <value>טסת גבוה מדי, הטורפדו נכשל!</value>
+  </data>
+  
+  <data name="TorpedoLongTravelDistance">
+    <value>לטורפדו נגמר הדלק! טוס קרוב יותר</value>
+  </data>
+	
+	<!-- Hydrax is a water effects library -->
+ <data name="HydraxWater">
+    <value>מי הידראקס</value>
+  </data>
+
+  <data name="Blood">
+    <value>דם</value>
+  </data>
+
+  <!-- Used in the options context like so: "shadows: none" -->
+  <data name="None">
+    <value>ללא</value>
+  </data>
+
+ <data name="Shadows">
+    <value>צללים</value>
+  </data>
+
+  <!-- Bullet time effect - like in Matrix :) -->
+  <data name="BulletTime">
+    <value>זמן הגעת קליע</value>
+  </data>
+
+  <data name="MissionType">
+    <value>סוג משימה</value>
+  </data>
+  
+  <!-- available mission types: -->
+  <data name="Dogfight">
+    <value>קרב אוויר</value> <!-- השמדת מטוסים -->
+  </data>
+  
+  
+  <data name="BombingRun">
+    <value>משימת הפצצה</value>
+  </data>
+  
+  
+  <data name="Assassination">
+    <value>התנקשות</value> <!-- "kill the generals" -->
+  </data>
+  
+  
+  <data name="Naval">
+    <value>משימה ימית</value> <!-- sink all ships -->
+  </data>
+
+
+ <data name="KeyboardInfo1">
+    <value>בבקשה השתמש(תיקיית_משחק)\שחרור\ini.מפתחמפה, </value>
+  </data>
+  
+  <data name="KeyboardInfo2">
+    <value>קובץ לשינוי מפתח מפה</value>
+  </data>
+  
+ <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
+  <data name="Tutorial0">
+   <value>
+     Mission types:
+     יש משימות שונות בהן אתה יכול להתקל במשחק:
+     קרב אווירי- הפל את כל מטוסי האוייב בכדי להשלים את המשימה.
+     הפצצה- השמד את כל חיילי האוייב.
+ 
+ 
+     התנקשות- גנרלי האוייב מסתתרים אי שם בבונקרים, השתמש ברקטות להרוג אותם.
+     ימי- השתמש בטורפדו על מנת להשמיד את כל ספינות האויב.
+   </value>
+  </data>
+
+  
+  <data name="EnemyGenerals">
+    <value>גנרלי אוייב שנשארו</value>
+  </data>
+ 
+  <data name="Altitude">
+    <value>גובה</value>
+  </data>
+
+
+  <data name="PressLeftUpToTakeOff">
+    <value>לחץ '{0}','{1}' להמריא</value>
+  </data>
+
+  <data name="CustomLevels">
+    <value>רמות מיוחדות</value>
+  </data>
+
+ <data name="PressUpToLand">
+    <value>לחץ "{0}" כדי לנחות</value>
+  </data>
+
+  <!-- don't worry about the line breaks in the strings below -->
+  <data name="News404_1">
+    <value>תקלה בניווט לחדשות כנפי התהילה 2</value>
+  </data>
+
+  <data name="News404_2">
+    <value>לא יכול להשיג חיבור לאינטרנט</value>
+  </data>
+
+  <data name="News404_3">
+    <value>אפשר את כנפי התהילה 2 דרך חומת האש שלך. תוכל להוריד רמות, עדכונים ולתמוך במשחק באותו הזמן</value>
+  </data>
+
+  <data name="News404_4">
+    <value>איך לעשות את זה?</value>
+  </data>
+
+  <data name="EnhancedVersion">
+    <value>גרסה מורחבת</value>
+  </data>
+
+  <data name="EnhancedVersionDetails">
+    <value>הגרסה המורחבת כוללת רמות נוספות, מטוסים ובונוסים. כל הפרסומות הוסרו. זה פתוח לכל התורמים והמפתחים של כנפי התהילה 2.</value>
+  </data>
+  
+  <data name="Planes">
+    <value>מטוסים</value>
+  </data>
+
+
+  <data name="P47">
+    <value>P47</value>
+  </data>
+
+  <data name="F4U">
+    <value>F4U</value>
+  </data>
+  
+  <data name="B25">
+    <value>B-25 Mitchell</value>
+  </data>
+  
+  
+  <data name="GetEnhancedVersion">
+    <value>השג את הגרסה המורחבת!</value>
+  </data>
+  
+  
+  <data name="TorpedoesFired">
+    <value>טורפדו שוגרו:</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>דיוק טורפדו:</value>
+  </data>
+  
+   <data name="SurvivalTime">
+    <value>זמן השרדות:</value>
+  </data>
+
+
+</root>
+
+

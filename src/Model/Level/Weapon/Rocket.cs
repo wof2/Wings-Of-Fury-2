@@ -419,6 +419,8 @@ namespace Wof.Model.Level.Weapon
             {
                 foreach (EnemyPlane ep in refToLevel.EnemyPlanes)
                 {
+                    if(this.Owner == ep) continue;
+
                     //sprawdzam czy aby nie ma zderzenia.
                     if (boundRectangle.Intersects(ep.Bounds))
                     {
