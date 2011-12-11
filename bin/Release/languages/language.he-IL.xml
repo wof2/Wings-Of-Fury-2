@@ -75,7 +75,7 @@
   </data>
   <!-- ID of the current language -->
   <data name="LanguageID">
-    <value>Eאנגלית</value>
+    <value>Hebrew</value>
   </data>
   <!-- level / stage of the game -->
   <data name="Level">

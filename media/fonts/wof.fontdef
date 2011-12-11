@@ -75,13 +75,31 @@ Wof_pt-PT
 Wof_es-ES
 {	
 	type 		truetype
-	source 		solo5.ttf
+	source 		bodegasansblacksmallcaps.ttf
 	size 		20
 	resolution 	96
 	code_points 33-122 161-161 191-245
 }
 
 Wof_es-AR
+{	
+	type 		truetype
+	source 		bodegasansblacksmallcaps.ttf
+	size 		20
+	resolution 	96
+	code_points 33-122 161-161 191-245
+}
+
+Wof_es-CA
+{	
+	type 		truetype
+	source 		bodegasansblacksmallcaps.ttf
+	size 		20
+	resolution 	96
+	code_points 33-122 161-161 191-245
+}
+
+Wof_it-IT
 {	
 	type 		truetype
 	source 		solo5.ttf
@@ -106,4 +124,13 @@ Wof_sv-SV
 	size 		20
 	resolution 	96
 	code_points 33-376
+}
+
+Wof_he-IL
+{	
+	type 		truetype
+	source 		DejaVuSans.ttf
+	size 		20
+	resolution 	96
+	code_points 33-126 2817-2818 64285-64335
 }
