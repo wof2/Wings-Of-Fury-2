@@ -129,7 +129,7 @@ namespace Wof.Controller.Screens
                               IFrameWork framework, Viewport viewport, Camera camera, bool startFromBottom, float speed) :
                                  base(gameEventListener, framework, viewport, camera, startFromBottom, speed)
         {
-        	
+          //  this.speed = 145;
         
         }
 
@@ -141,7 +141,7 @@ namespace Wof.Controller.Screens
         protected override List<Button> buildButtons()
         {        	
             List<Button> ret = new List<Button>();
-            ret.Add(guiWindow.createButton(new Vector4(20, 40.5f*GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
+            ret.Add(guiWindow.createButton(new Vector4(20, 46.5f*GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
                                            "bgui.button", LanguageResources.GetString(LanguageKey.OK), cc));
             return ret;
         }

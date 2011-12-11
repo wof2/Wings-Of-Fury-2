@@ -1,0 +1,618 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- FOR ALL TRANSLATORS: please translate everything between <value> and </value> tags. Leave rest of the stuff unchanged  -->
+  <data name="Antialiasing">
+    <value>Antialiasing</value>
+  </data>
+  <data name="Back">
+    <value>Enrere</value>
+  </data>
+
+  <!-- "bloom" effect -->
+  <data name="Bloom">
+    <value>Efecte Bloom</value>
+  </data>
+  <data name="Bombs">
+    <value>Bombes</value>
+  </data>
+  <data name="ChangeOptionMessage1">
+    <value>Els canvis en algunes opcions es faran</value>
+  </data>
+  <data name="ChangeOptionMessage2">
+    <value>després de reiniciar el joc.</value>
+  </data>
+  <data name="ChooseDifficulty">
+    <value>Escull dificultat</value>
+  </data>
+  <data name="CompletedLevels">
+    <value>Nivells acabats</value>
+  </data>
+  <data name="Congratulations">
+    <value>Felicitats</value>
+  </data>
+  <data name="Controls">
+    <value>Controls</value>
+  </data>
+  <data name="CreatingGameObjects">
+    <value>Creant objectes del joc</value>
+  </data>
+  <data name="CreatingScene">
+    <value>Creant escena</value>
+  </data>
+  <data name="CreatingTheRootObject">
+    <value>Creant l'objecte arrel</value>
+  </data>
+  <data name="CreatorOfOriginalWingsOfFury">
+    <value>creador del Wings of Fury original (1987)</value>
+  </data>
+  <data name="Credits">
+    <value>Credits</value>
+  </data>
+  <data name="Details">
+    <value>Detalls</value>
+  </data>
+  <data name="Difficulty">
+    <value>Dificultat</value>
+  </data>
+  <data name="EnterYourName">
+    <value>Escriu el teu nom</value>
+  </data>
+  <data name="ExitToMenu">
+    <value>Surt al menú</value>
+  </data>
+  <data name="GameOver">
+    <value>Fi del joc</value>
+  </data>
+  <data name="HallOfFame">
+    <value>Millors jugadors</value>
+  </data>
+  <data name="Highscores">
+    <value>Millors puntuacions</value>
+  </data>
+  <data name="InitializingSound">
+    <value>Iniciant el so</value>
+  </data>
+  <!-- ID of the current language -->
+  <data name="LanguageID">
+    <value>Catala</value>
+  </data>
+  <!-- level / stage of the game -->
+  <data name="Level">
+    <value>Nivell</value>
+  </data>
+  <data name="LoadingResources">
+    <value>Carregant recursos</value>
+  </data>
+  <data name="NewGame">
+    <value>Nova partida</value>
+  </data>
+  <!-- next menu option -->
+  <data name="Next">
+    <value>Següent</value>
+  </data>
+  <data name="OK">
+    <value>D'acord</value>
+  </data>
+  <data name="Options">
+    <value>Opcions</value>
+  </data>
+  <data name="Pause">
+    <value>Pausa</value>
+  </data>
+  <!-- previous menu option -->
+  <data name="Previous">
+    <value>Anterior</value>
+  </data>
+  <data name="Quit">
+    <value>Surt</value>
+  </data>
+  <data name="Resume">
+    <value>Reprèn</value>
+  </data>
+  <data name="Rockets">
+    <value>Coets</value>
+  </data>
+  <data name="SelectAmmunition">
+    <value>Selecciona la munició</value>
+  </data>
+  <data name="SetupingResources">
+    <value>Configurant recursos</value>
+  </data>
+  <data name="Sound">
+    <value>So</value>
+  </data>
+  <data name="SpecialThanksToSteveWaldo">
+    <value>Gràcies especials per a Steve Waldo</value>
+  </data>
+  <data name="Tutorial">
+    <value>Tutorial</value>
+  </data>
+  <data name="VideoMode">
+    <value>Mode de video</value>
+  </data>
+  <data name="VideoOptions">
+    <value>Opcions de video</value>
+  </data>
+  <data name="VSync">
+    <value>VSync</value>
+  </data>
+  <data name="YouWonTheGame">
+    <value>Has guanyat la partida</value>
+  </data>
+  <data name="AddingCompositors">
+    <value>Afegint compositors</value>
+  </data>
+  <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
+    <!--<value>Tots els soldats enemics han estat eliminats, aterra al portaavions i presiona X</value>-->
+    <value>Tots els soldats enemics han estat eliminats, aterra al portaavions i presiona '{0}'</value>
+  </data>
+  <data name="AverageFPS">
+    <value>FPS Mig</value>
+  </data>
+  <data name="BestFPS">
+    <value>FPS Millorat</value>
+  </data>
+  <data name="ChooseAntialiasingMode">
+    <value>Escull mode antialiasing</value>
+  </data>
+  <data name="ChooseLevelOfDetail">
+    <value>Escull nivell de detall</value>
+  </data>
+  <data name="ChooseVideoMode">
+    <value>Escull mode de video</value>
+  </data>
+  <data name="CreatingInput">
+    <value>Creant entrada</value>
+  </data>
+  <data name="CurrentFPS">
+    <value>FPS actual</value>
+  </data>
+  <data name="EnableBloom">
+    <value>Activa bloom</value>
+  </data>
+  <data name="EnableSound">
+    <value>Activa so</value>
+  </data>
+  <data name="EnableVSync">
+    <value>Activa VSync</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheLeft">
+    <value>Avió enemic aproximant-se per l'esquerra</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheRight">
+    <value>Avió enemic aproximant-se per la dreta</value>
+  </data>
+  <!-- high difficulty / details -->
+  <data name="High">
+    <value>Alt</value>
+  </data>
+  <data name="InverseKeys">
+    <value>Invertir tecles</value>
+  </data> 
+  <data name="LandOnTheCarrierAndPressXToRefuel">
+    <!--<value>Aterra al portaavions i prem 'X' per a repostar</value>-->
+    <value>Aterra al portaavions i prem'{0}' per a repostar</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRepair">
+    <!--<value>Aterra al portaavions i prem 'X' per a reparar</value>-->
+    <value>Aterra al portaavions i prem '{0}' per a reparar</value>
+  </data>
+  <!-- low difficulty / details -->
+  <data name="Low">
+    <value>Baix</value>
+  </data>
+  <data name="LowFuelWarning">
+    <value>ALERTA COMBUSTIBLE BAIX</value>
+  </data>
+  <data name="LowOilWarning">
+    <value>ALERTA OLI BAIX</value>
+  </data>
+  
+  <data name="Medium">
+    <value>Mig</value>
+  </data>
+  <data name="No">
+    <value>No</value>
+  </data>
+  
+  <data name="PressEToTurnOnTheEngine">
+    <value>Prem i MANTINGUES '{0}' per a engegar el motor</value>
+  </data>
+  
+  <data name="PressXToChangeAmmo">
+    <value>'{0}' per a canviar la munició, reparar i repostar</value>
+  </data>
+  
+  
+  <data name="ScreenshotWrittenTo">
+    <value>Pantalla capturada a</value>
+  </data>
+  <data name="StartFrom">
+    <value>Comença des de</value>
+  </data>
+  <data name="TriangleCount">
+    <value>Triangle count</value>
+  </data>
+  <data name="WorstFPS">
+    <value>FPS Baix</value>
+  </data>
+  <data name="Yes">
+    <value>Si</value>
+  </data>
+  <data name="AreYouTryingToReachStarsCaptain">
+    <value>Estàs intentant arribar a les estrelles capità?</value>
+  </data>
+  <data name="EnemyInstallationDestroyed">
+    <value>Instal·lació enemiga destruïda, Senyor!</value>
+  </data>
+  <data name="EnemyInstallationsAreBothSideCaptain">
+    <value>Les instal·lacions enemigues són als dos costats capità!</value>
+  </data>
+  <data name="EnemyInstallationsAreLeftCaptain">
+    <value>Les instal·lacions enemigues són a l'esquerra capità!</value>
+  </data>
+  <data name="EnemyInstallationsAreRightCaptain">
+    <value>Les instal·lacions enemigues són a la dreta capità!</value>
+  </data>
+  <data name="EnemyPlaneDownIRepeat">
+    <value>Avió enemic abatut! Repeteixo! Avió enemic abatut!</value>
+  </data>
+  <data name="KillAllEnemySoldiers">
+    <value>Elimina tots els soldats enemics. Endavant capità!</value>
+  </data>
+  <data name="OhNoEnemySoldiersAreRebuildingBunker">
+    <value>Oh, no! Els soldats enemics estan reconstruint el búnquer!</value>
+  </data>
+  <data name="RetractYourLandingGearWithG">
+    <value>Retirar el tren d'aterratge amb '{0}'</value>
+  </data>
+  <data name="WARNINGProtectTheCarrierFromEnemyPlane">
+    <value>ALERTA! Protegeix el portaavions de l'avió enemic!</value>
+  </data>
+  <data name="WeAreNotLeavingYetCaptain">
+    <value>Encara no marxem capità!</value>
+  </data>
+  <data name="Languages">
+    <value>Idiomes</value>
+  </data>
+  <!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
+  <data name="CoreTeam">
+    <value>Equip del nucli</value>
+  </data>
+  <data name="SupportTeam">
+    <value>Equip de suport</value>
+  </data>
+  <data name="Graphics">
+    <value>Grafics</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>Traduccions de la comunitat</value>
+  </data>
+  <data name="Poland">
+    <value>Polònia</value>
+  </data>
+  <data name="Donate">
+    <value>Donatiu</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>Comprova actualitzacions</value>
+  </data>
+   <!--
+        Next 5 messages will be concatenated into one.        
+    -->
+  <data name="DonateMessagePart1">   
+    <value>Si t'ha agradat el</value>
+  </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
+  <data name="DonateMessagePart2">
+    <value>si us plau, considera fer un donatiu</value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>mitjançant Paypal. Estem buscant</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>fons per a un major suport</value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>en el desenvolupament del joc.</value>
+  </data>
+  <!-- message displayed after pressing 'c' (change camera) key. -->
+  <data name="CameraChanged">
+    <value>Càmera canviada</value>
+  </data>
+
+  <!-- added to rev. 265 -->
+  <data name="EnemySoldiersLeft">
+    <value>Soldats enemics restants</value>
+  </data>
+
+  <!-- added to rev. 305 - Level stats -->
+  <data name="LevelStats">
+    <value>Estadístiques del nivell</value>
+  </data>
+
+  <data name="BombsDropped">
+    <value>Bombes llançades:</value>
+  </data>
+
+  <data name="BombsAccuracy">
+    <value>Precisió de les bombes:</value>
+  </data>
+
+  <data name="RocketsFired">
+    <value>Coets llançats:</value>
+  </data>
+
+  <data name="RocketsAccuracy">
+    <value>Precisió dels coets:</value>
+  </data>
+
+  <data name="GunShellsFired">
+    <value>Bales disparades:</value>
+  </data>
+
+  <data name="GunAccuracy">
+    <value>Precisió de les bales:</value>
+  </data>
+
+  <data name="PlanesDestroyed">
+    <value>Avions destruïts:</value>
+  </data>
+
+  <data name="LevelCompleted">
+    <value>Nivell completat</value>
+  </data>
+
+  <data name="Engine"><!-- plane engine -->
+    <value>Motor</value>
+  </data>
+
+  <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
+    <value>Accelerar/Frenar/Girar</value>
+  </data>
+
+  <data name="Pitch"><!-- changing of plane's altitude. -->
+    <value>Inclinació</value>
+  </data>
+
+  <data name="Spin"><!-- rolling the plane around its longwise -->
+    <value>Capgirar</value>
+  </data>
+
+  <data name="Gear"><!-- landing gear -->
+    <value>Tren d'aterratge</value>
+  </data>
+
+  <data name="Gun">
+    <value>Arma</value>
+  </data>
+
+  <data name="Camera">
+    <value>Càmera</value>
+  </data>
+
+  <data name="Zoomin">
+    <value>Apropar zoom</value>
+  </data>
+
+
+  <data name="Zoomout">
+    <value>Allunyar zoom</value>
+  </data>
+
+  <data name="RearmEndMission">
+    <value>Rearmar / Fi de la missió</value>
+  </data>
+
+  <!-- added 2.01.2009 -->
+
+  <data name="Torpedo">
+    <value>Torpede</value>
+  </data>
+  <data name="Torpedoes">
+    <value>Torpedes</value>
+  </data>
+
+ <!-- added 25.03.2009 -->
+  <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
+    <value>Tots els avions enemics han estat eliminats, aterra al portaavions i prem '{0}'</value>
+  </data>
+  
+  <data name="EnemyPlanesLeft">
+    <value>Avions enemics restants</value>
+  </data>
+  
+  <data name="Target">
+    <value>Objectiu</value>
+  </data>
+  
+  <data name="Neutralized">
+    <value>Neutralitzat</value>
+  </data>
+  
+  <data name="Alive">
+    <value>Viu</value>
+  </data> 
+  
+  <data name="TargetNeutralizedLandOnCarrierAndPressX">
+      <value>Objectiu neutralitzat. Aterra al portaavions i prem '{0}'</value>
+  </data> 
+  
+  <!-- enemy ships left to be sunk -->
+  <data name="EnemyShipsLeft">
+    <value>Vaixells enemics restants</value>
+  </data>
+  
+  <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
+    <value>Tots els vaixells enemics han estat destruïts, aterra al portaavions i prem '{0}'</value>
+  </data>
+  
+  <data name="EnemyInstallationDamaged">
+    <value>Instal·lació enemiga danyada, Senyor!</value>
+  </data>
+  
+  <data name="TorpedoTooHigh">
+    <value>Massa alçada! Has fallat el torpede</value>
+  </data>
+  
+  <data name="TorpedoLongTravelDistance">
+    <value>El torpede ha esgotat el combustible! Acosta't més</value>
+  </data>
+	
+	<!-- Hydrax is a water effects library -->
+  <data name="HydraxWater">
+    <value>Aigua Hydrax</value>
+  </data>
+
+  <data name="Blood">
+    <value>Sang</value>
+  </data>
+
+  <!-- Used in the options context like so: "shadows: none" -->
+  <data name="None">
+    <value>Sense</value>
+  </data>
+
+ <data name="Shadows">
+    <value>Ombres</value>
+  </data>
+
+  <!-- Bullet time effect - like in Matrix :) -->
+  <data name="BulletTime">
+    <value>Càmera lenta</value>
+  </data>
+
+  <data name="MissionType">
+    <value>Tipus de missió</value>
+  </data>
+  
+  <!-- available mission types: -->
+  <data name="Dogfight">
+    <value>Combat aeri</value> <!-- destroying planes -->
+  </data>
+  
+  
+  <data name="BombingRun">
+    <value>Bombardeig</value>
+  </data>
+  
+  
+  <data name="Assassination">
+    <value>Assassinat</value> <!-- "kill the generals" -->
+  </data>
+  
+  
+  <data name="Naval">
+    <value>Naval</value> <!-- sink all ships -->
+  </data>
+
+
+  <data name="KeyboardInfo1">
+    <value>Utilitzeu l'arxiu (directori_del_joc)\Release\KeyMap.ini, </value>
+  </data>
+  
+  <data name="KeyboardInfo2">
+    <value>per a canviar les tecles</value>
+  </data>
+  
+  <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
+  <data name="Tutorial0">
+   <value>
+     Tipus de missions:
+     Hi ha varis tipus de missions que podeu trobar al llarg del joc:
+     Combat aeri - abat tots els avions enemics per a acabar la missió.
+     Bombardeig - elimina tots els soldats enemics.
+
+
+     Assassinat - hi ha generals enemics amagats en alguna fortalesa. Fes servir coets per a destruir-los.
+     Naval - enfonsa tots els vaixells enemics amb torpedes. Recorda que necessites volar baix i estabilitzat abans de llançar els torpedes.
+   </value>
+  </data>
+  
+  <data name="EnemyGenerals">
+    <value>Generals enemics restants</value>
+  </data>
+ 
+  <data name="Altitude">
+    <value>Alçada</value>
+  </data>
+
+
+  <data name="PressLeftUpToTakeOff">
+    <value>Prem '{0}','{1}' per a enlairar-te</value>
+  </data>
+
+  <data name="CustomLevels">
+    <value>Nivells modificats</value>
+  </data>
+
+ <data name="PressUpToLand">
+    <value>Prem "{0}" per a aterrar</value>
+  </data>
+
+  <!-- don't worry about the line breaks in the strings below -->
+  <data name="News404_1">
+    <value>Error navegant per les notícies del projecte de WOF2</value>
+  </data>
+
+  <data name="News404_2">
+    <value>Sense poder establir connexió a Internet</value>
+  </data>
+
+  <data name="News404_3">
+    <value>Si us plau, doneu permís a WOF2 a través del tallafocs. Podràs descarregar nous nivells, actualitzacions i tenir suport del joc al mateix temps!</value>
+  </data>
+
+  <data name="News404_4">
+    <value>Com fer-ho?</value>
+  </data>
+
+  <data name="EnhancedVersion">
+    <value>Versió millorada</value>
+  </data>
+
+  <data name="EnhancedVersionDetails">
+    <value>La versió millorada del joc té nivells addicionals, avions i contingut extra. Tota la publicitat s'ha eliminat. Disponible per a qui faci donatius i doni suport al WOF2.</value>
+  </data>
+  
+  <data name="Planes">
+    <value>Avions</value>
+  </data>
+
+
+  <data name="P47">
+    <value>P47</value>
+  </data>
+
+  <data name="F4U">
+    <value>F4U</value>
+  </data>
+  
+  <data name="B25">
+    <value>B-25 Mitchell</value>
+  </data>
+  
+  
+  <data name="GetEnhancedVersion">
+    <value>Aconsegueix la versió millorada!</value>
+  </data>
+  
+  
+  <data name="TorpedoesFired">
+    <value>Torpedes llançats:</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>Precisió dels torpedes:</value>
+  </data>
+  
+   <data name="SurvivalTime">
+    <value>Temps de supervivència:</value>
+  </data>
+
+
+</root>
+
+

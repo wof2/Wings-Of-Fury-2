@@ -194,12 +194,12 @@ namespace Wof.Controller
 	    private bool isOffLine = false;
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-          //  LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "document loaded");
+           
             if(!wofBrowser.ReadyState.Equals(WebBrowserReadyState.Complete))
             {
                 return;
             }
-            
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "webBrowser1_DocumentCompleted");
             switch(wofBrowser.Document.Url.LocalPath)
         	{
         		case  "/navcancl.htm":
@@ -226,9 +226,12 @@ namespace Wof.Controller
             this.wofBrowser.Document.MouseLeave += new HtmlElementEventHandler(Document_MouseLeave);
             this.wofBrowser.Document.Click += new HtmlElementEventHandler(Document_Click);
             SetScale(scalePercent);
-            this.wofBrowser.Navigating += wofBrowser_Navigating;
-            eventsWired = true;
-           
+            if (!eventsWired)
+            {
+                this.wofBrowser.Navigating += wofBrowser_Navigating;
+                eventsWired = true;
+            }
+
         }
 
         void offline_link_Click(object sender, HtmlElementEventArgs e)
@@ -238,7 +241,7 @@ namespace Wof.Controller
 
         void wofBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
-
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "wofBrowser_Navigating:"+e.Url.ToString());
             if (isOffLine)
             {
                 e.Cancel = true;
@@ -251,12 +254,14 @@ namespace Wof.Controller
 
             if (eventsWired)
             {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "wofBrowser_Navigating.eventsWired");
                 this.wofBrowser.Navigating -= wofBrowser_Navigating;
                 eventsWired = false;
             }
            
             if (isInitialState)
             {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "wofBrowser_Navigating.isInitialState");
                 this.WindowState = FormWindowState.Maximized;
                 this.FormBorderStyle = FormBorderStyle.Fixed3D;
                 // this.Activate();
@@ -287,6 +292,7 @@ namespace Wof.Controller
         
         private void Browser_Activated(object sender, EventArgs e)
         {
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Browser_Activated");
         	if(!canActivate)
         	{
         		gameForm.Activate();
@@ -316,15 +322,19 @@ namespace Wof.Controller
 		
         public void ReturnToInitialState()
         {
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "ReturnToInitialState");
+            
             if(!isInitialState)
             {
-             
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "ReturnToInitialState.notIsInitialState");
             	this.Visible = true;
                 this.WindowState = FormWindowState.Normal;
                 this.FormBorderStyle = FormBorderStyle.None;
                 SetPosition();
                 if (eventsWired)
                 {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "ReturnToInitialState.unwiring");
+            	
                     this.wofBrowser.Navigating -= wofBrowser_Navigating;
                     eventsWired = false;
                 }
@@ -333,7 +343,8 @@ namespace Wof.Controller
             isInitialState = true;
         }
 		void BrowserFormClosing(object sender, FormClosingEventArgs e)
-		{
+        {
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "BrowserFormClosing");
 		    ReturnToInitialState();
 			e.Cancel = true;
 			

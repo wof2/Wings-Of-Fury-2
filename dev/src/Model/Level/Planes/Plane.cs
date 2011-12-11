@@ -3284,7 +3284,14 @@ namespace Wof.Model.Level.Planes
                                 this.isJustAfterTakeOff = true;
                             }                          
                             locationState = LocationState.Air;
+                           
                             level.Controller.OnTakeOff();
+
+                            // automatycznie chowaj podwozie na easy 
+                            if (EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Easy && level.UserPlane.WheelsState == WheelsState.Out)
+                            {
+                                level.OnToggleGear();
+                            }
                         }
                     }
                     else
