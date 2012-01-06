@@ -126,7 +126,42 @@ namespace Wof.Languages
 
         #region Methods
 
+
+        public static string ReverseString(string s)
+        {
+            char[] arr = s.ToCharArray();
+            Array.Reverse(arr);
+            return new string(arr);
+        }
+
+        private static string GetStringHebrew(string name)
+        {
+            if (XMLManager.ContainsKey(name))
+            {
+                String x = XMLManager[name];
+                String[] array = x.Split(new char[] { ' ' }, 255);
+                String[] array2 = new string[array.Length];
+
+                for (int i = 0; i < array.Length; i++)
+                {
+                    array2[array.Length - 1 - i] = array[i];
+                }
+
+                for (int i = 0; i < array2.Length; i++)
+                {
+                    array2[i] = ReverseString(array2[i]);
+                }
+                return string.Join(" ", array2);
+
+            }
+            return String.Empty;
+        }
         public static string GetString(string name)
+        {
+            return GetString(name, true);
+        }
+
+        public static string GetString(string name, bool reverseForHebrew)
         {
             /*Pobiera jezyki z resourcow.
             if (Manager == null)
@@ -136,8 +171,17 @@ namespace Wof.Languages
             //pobiera jezyki z XML.
             if (XMLManager == null)
                 return String.Empty;
-            if (XMLManager.ContainsKey(name))
-                return XMLManager[name];
+            if (reverseForHebrew && Settings.Default.Language == "he-IL")
+            {
+                return GetStringHebrew(name);
+            } else
+            {
+                if (XMLManager.ContainsKey(name))
+                    return XMLManager[name];
+            }
+
+
+            
             return String.Empty;
         }
 

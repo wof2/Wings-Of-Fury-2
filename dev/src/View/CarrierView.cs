@@ -235,7 +235,7 @@ namespace Wof.View
                     {
                         // swiatelko
                         lightbillboardset = sceneMgr.CreateBillboardSet(name + "_crewlights1", 1);
-                        lightbillboardset.MaterialName = "Effects/Flare";
+                        lightbillboardset.SetMaterialName("Effects/Flare");
                         lightbillboardset.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_OVERLAY;
                         lightbillboard = lightbillboardset.CreateBillboard(0, 0, 0, new ColourValue(0, 1, 0));
                         lightbillboard.SetDimensions(1, 1);
@@ -251,7 +251,7 @@ namespace Wof.View
                     {
                         // swiatelko
                         lightbillboardset = sceneMgr.CreateBillboardSet(name + "_crewlights2", 1);
-                        lightbillboardset.MaterialName = "Effects/Flare";
+                        lightbillboardset.SetMaterialName("Effects/Flare");
                         lightbillboardset.RenderQueueGroup = (byte) RenderQueueGroupID.RENDER_QUEUE_OVERLAY;
                         lightbillboard = lightbillboardset.CreateBillboard(0, 0, 0, new ColourValue(0, 1, 0));
                         lightbillboard.SetDimensions(1, 1);
@@ -293,7 +293,7 @@ namespace Wof.View
         	
             Billboard lightbillboard;
             BillboardSet lightbillboardset = sceneMgr.CreateBillboardSet(name + "_lights", 1);
-            lightbillboardset.MaterialName = "Effects/Flare";
+            lightbillboardset.SetMaterialName("Effects/Flare");
 		
             if (!EngineConfig.LowDetails)
             {

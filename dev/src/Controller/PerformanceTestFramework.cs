@@ -192,7 +192,7 @@ namespace Wof.Controller
 
         protected override bool Configure()
 		{
-			    RenderSystemList renderSystems = root.GetAvailableRenderers();
+			    Const_RenderSystemList renderSystems = root.GetAvailableRenderers();
                 IEnumerator<RenderSystem> enumerator = renderSystems.GetEnumerator();
 
                 // jako stan startowy moze zostac wybrany tylko directx system

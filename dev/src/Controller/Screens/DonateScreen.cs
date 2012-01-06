@@ -75,7 +75,13 @@ namespace Wof.Controller.Screens
                                                 String.Format(@"{0}", LanguageResources.GetString(LanguageKey.DonateMessagePart5)),
                                                 String.Empty);
 
-
+        private readonly string donateMessageHebrew = String.Format("{0}\r\n{1}\r\n{2}\r\n{3}\r\n{4}\r\n{5}",
+                                               String.Format(@"{1} {0}", LanguageResources.GetString(LanguageKey.DonateMessagePart1), EngineConfig.C_GAME_NAME),
+                                               String.Format(@"{0}", LanguageResources.GetString(LanguageKey.DonateMessagePart2)),
+                                               LanguageResources.GetString(LanguageKey.DonateMessagePart3),
+                                               String.Format(@"{0}", LanguageResources.GetString(LanguageKey.DonateMessagePart4)),
+                                               String.Format(@"{0}", LanguageResources.GetString(LanguageKey.DonateMessagePart5)),
+                                               String.Empty);
         #endregion
 
         #region GameScreen Members
@@ -106,7 +112,7 @@ namespace Wof.Controller.Screens
 
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
             mGui.mFontSize = smallFontSize;
-            guiWindow.createStaticText(new Vector4(5, 1.2f*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, 3 * GetTextVSpacing()), donateMessage);
+            guiWindow.createStaticText(new Vector4(5, 1.2f*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, 3 * GetTextVSpacing()), LanguageManager.ActualLanguageCode == "he-IL" ? donateMessageHebrew : donateMessage);
           
             mGui.mFontSize = fontSize;
             initButtons(3, 2);

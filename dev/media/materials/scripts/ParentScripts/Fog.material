@@ -1,12 +1,12 @@
 material NoFog
 {
-  technique Diffuse
+  technique
 	{
-      pass 0
+      pass
       {
           // disable fog
           fog_override true none 0.0 0.0 0.0 0.0 0 0
-          texture_unit 0
+          texture_unit
           { 
             
           }

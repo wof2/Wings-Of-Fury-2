@@ -964,7 +964,7 @@ namespace Wof.View.Effects
           
             
             TextureUnitState unit = clonedMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
-            billboardSet.MaterialName = clonedMaterial.Name;
+            billboardSet.SetMaterialName(clonedMaterial.Name);
             if(localOrientation != Quaternion.ZERO)
             {
             	billboardSet.BillboardRotationType = BillboardRotationType.BBR_TEXCOORD;
@@ -1196,7 +1196,7 @@ namespace Wof.View.Effects
             if (!sceneMgr.HasBillboardSet("Clouds1"+name))
             {
                 cloudsBS1 = sceneMgr.CreateBillboardSet("Clouds1"+name);
-                cloudsBS1.MaterialName = mat.Name;
+                cloudsBS1.SetMaterialName(mat.Name);
             
                 cloudsBS1.SetBounds(new AxisAlignedBox(new Vector3(-os,0,-os),new Vector3(os,30,os)), 1500);
                 cloudsBS1.BillboardType = BillboardType.BBT_PERPENDICULAR_COMMON;
@@ -1217,7 +1217,7 @@ namespace Wof.View.Effects
             if (!sceneMgr.HasBillboardSet("Clouds2"+name))
             {
                 cloudsBS2 = sceneMgr.CreateBillboardSet("Clouds2"+name);
-                cloudsBS2.MaterialName = mat.Name;
+                cloudsBS2.SetMaterialName(mat.Name);
 
                 //cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,-os,-1),new Vector3(os,os,1)), LevelView.oceanSize );
                 cloudsBS2.SetBounds(new AxisAlignedBox(new Vector3(-os,0,-os),new Vector3(os,30,os)), 1500);

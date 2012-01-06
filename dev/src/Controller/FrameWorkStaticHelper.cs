@@ -15,7 +15,7 @@ namespace Wof.Controller
     	
     	public const String C_VIDEO_MODE = "Video Mode";
         public const String C_VSYNC = "VSync";
-        public const String C_ANTIALIASING = "Anti aliasing";
+        public const String C_ANTIALIASING = "FSAA";
         public const String C_USE_NV_PERFHUD = "Allow NVPerfHUD";
         public const String C_FULLSCREEN = "Full Screen";
         

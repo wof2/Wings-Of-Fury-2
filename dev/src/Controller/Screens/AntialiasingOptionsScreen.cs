@@ -57,7 +57,7 @@ namespace Wof.Controller.Screens
     internal class AntialiasingOptionsScreen : AbstractOptionsScreen//, BetaGUIListener
     {
 
-        public const String C_ANTIALIASING = "Anti aliasing";
+        public const String C_ANTIALIASING = "FSAA";
 
         public AntialiasingOptionsScreen(GameEventListener gameEventListener, IFrameWork framework, Viewport viewport, Camera camera) :
                                              base(gameEventListener, framework, viewport, camera)

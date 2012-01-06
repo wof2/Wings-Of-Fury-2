@@ -541,7 +541,7 @@ namespace Wof.Tests
 
             // CHMURY
             BillboardSet clouds1 = sceneMgr.CreateBillboardSet("Clouds1");
-            clouds1.MaterialName = "Effects/Cloud1";
+            clouds1.SetMaterialName("Effects/Cloud1");
 
             for (int i = -11; i < 11; i += 2)
             {
@@ -553,7 +553,7 @@ namespace Wof.Tests
 
 
             BillboardSet clouds2 = sceneMgr.CreateBillboardSet("Clouds2");
-            clouds2.MaterialName = "Effects/Cloud2";
+            clouds2.SetMaterialName("Effects/Cloud2");
 
             for (int i = -10; i < 10; i += 2)
             {

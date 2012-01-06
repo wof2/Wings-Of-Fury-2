@@ -284,7 +284,7 @@ namespace Wof.Controller
             try
             {
                 splash.Increment(
-                    String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingTheRootObject)));
+                    String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingTheRootObject, false)));
                
 
                 root = new Root();
@@ -294,7 +294,7 @@ namespace Wof.Controller
                 LogManager.Singleton.LogMessage("Starting " + EngineConfig.C_GAME_NAME + " ver. " + EngineConfig.C_WOF_VERSION);
 
 
-                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.SetupingResources)));
+                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.SetupingResources, false)));
                 SetupResources();
 
                
@@ -333,11 +333,11 @@ namespace Wof.Controller
                 // Create any resource listeners (for loading screens)
                 CreateResourceListener();
                 // Load resources
-                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.LoadingResources)));
+                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.LoadingResources, false)));
                 LoadResources();
               
                 splash.Increment(
-                    String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingGameObjects)));
+                    String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingGameObjects, false)));
 
                 if (!EngineConfig.DebugStart)
                 {
@@ -353,7 +353,7 @@ namespace Wof.Controller
 
 
                 // InitializeSound sound
-                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.InitializingSound)));
+                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.InitializingSound, false)));
                 InitDirectSound(splash.Handle);
                 SetupEngineConfig();
                 
@@ -368,18 +368,18 @@ namespace Wof.Controller
 
 
                 // Create the scene
-                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingScene)));
+                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingScene, false)));
                 CreateScene();
 
-           
 
-                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.AddingCompositors)));
+
+                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.AddingCompositors, false)));
                 // AddCompositors();
                 // SetCompositorEnabled(CompositorTypes.OLDMOVIE, true);
 
                 WireEventListeners();
 
-                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingInput)));
+                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingInput, false)));
              
                 CreateInput();
                 
@@ -556,9 +556,9 @@ namespace Wof.Controller
                 return true;
             }
 
-           
-           
-            RenderSystemList renderSystems = root.GetAvailableRenderers();
+
+
+            Const_RenderSystemList renderSystems = root.GetAvailableRenderers();
             IEnumerator<RenderSystem> enumerator = renderSystems.GetEnumerator();
 
             // jako stan startowy moze zostac wybrany tylko directx system
@@ -594,7 +594,7 @@ namespace Wof.Controller
             d3dxSystem.SetConfigOption("Video Mode", videoMode);
             d3dxSystem.SetConfigOption("VSync", vsync);
             
-            if(antialiasing != null) d3dxSystem.SetConfigOption("Anti aliasing", antialiasing);
+            if(antialiasing != null) d3dxSystem.SetConfigOption("FSAA", antialiasing);
             
             root.SaveConfig();
             return Configure();

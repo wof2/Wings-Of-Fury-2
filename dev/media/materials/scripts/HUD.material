@@ -72,9 +72,7 @@ material Panels/Panel2
 			lighting off
 			ambient 0.588235 0.588235 0.588235 
 			diffuse 0.588235 0.588235 0.588235 
-			specular 0 0 0 10
-			emissive 0 0 0 
-
+		
 			texture_unit 
 			{
 				texture panel2.png
