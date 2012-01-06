@@ -129,8 +129,9 @@ Wof_sv-SV
 Wof_he-IL
 {	
 	type 		truetype
-	source 		DejaVuSans.ttf
+	source 		FreeSerif.otf
 	size 		20
 	resolution 	96
-	code_points 33-126 2817-2818 64285-64335
+	#code_points 33-126 224-250 732-733  8211-8249 2817-2818 64285-64335
+	code_points 33-126 1488-1514 1520-1524
 }

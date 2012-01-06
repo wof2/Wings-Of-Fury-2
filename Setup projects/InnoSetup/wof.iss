@@ -5,7 +5,7 @@
 ; isxdl.dll in scripts is a file from IsTool program - required!
 #define MyAppNameShort "WOF2_RotL_"
 #define MyAppName "Wings of Fury 2 - Return of the legend"
-#define MyAppVersion "3.3"
+#define MyAppVersion "3.4"
 #define MyAppPublisher "Ravelore"
 #define MyAppURL "http://www.wingsoffury2.com"
 #define MyAppExeName "Wof.exe"
@@ -41,7 +41,7 @@ MinVersion=,5.1.2600sp1
 VersionInfoCompany=Ravenlore
 VersionInfoDescription=WW2 plane simulator and shooter
 VersionInfoProductName=Wings of Fury 2 - Return of the legend
-VersionInfoProductVersion=3.3
+VersionInfoProductVersion=3.4
 PrivilegesRequired=poweruser
 
 [Languages]
