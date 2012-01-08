@@ -375,7 +375,11 @@ namespace Wof.Controller
                     else if (args[i].Equals("-DebugInfo"))
                     {
                         EngineConfig.DebugInfo = true;
-                    }                    
+                    }
+                    else if (args[i].Equals("-DebugStartFlying"))
+                    {
+                        EngineConfig.DebugStartFlying = true;
+                    }
                     else if (args[i].Equals("-DebugStart"))
                     {
                         EngineConfig.DebugStart = true;
