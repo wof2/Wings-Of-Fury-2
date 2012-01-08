@@ -1,0 +1,73 @@
+// --------------------- Terrain material ------------------------
+
+vertex_program Terrain_VP hlsl
+{
+    source Terrain.hlsl
+    entry_point main_vp
+    target vs_1_1
+
+    default_params
+    {
+    }
+}
+
+fragment_program Terrain_FP hlsl
+{
+    source Terrain.hlsl
+    entry_point main_fp
+    target ps_2_0
+
+    default_params
+    {
+    }
+}
+
+material Terrain
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+
+			depth_write on
+			depth_check on
+			
+			vertex_program_ref Terrain_VP 
+			{
+			 
+                param_named_auto uWorldViewProj worldviewproj_matrix
+            
+         
+			}
+
+			fragment_program_ref Terrain_FP 
+			{ 
+		
+			}
+			
+		
+
+         texture_unit
+         {
+            texture TerrainAmbientMap.jpg
+            tex_coord_set 0
+         }
+
+
+
+         texture_unit
+         {
+            texture TerrainTex0.jpg
+            tex_coord_set 1
+         }
+      
+         
+         texture_unit
+         {
+            texture TerrainTex1.jpg
+            tex_coord_set 1
+         }
+		}
+	}
+}

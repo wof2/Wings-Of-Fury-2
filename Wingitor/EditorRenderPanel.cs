@@ -158,6 +158,10 @@ namespace wingitor
             
         }
 
+        public void OnLevelFinished()
+        {
+
+        }
         public void OnPlanePass(Plane plane)
         {
             
@@ -462,6 +466,11 @@ namespace wingitor
         public void OnRocketHitPlane(Rocket rocket, Plane plane)
         {
             
+        }
+
+        public void OnPlayFanfare()
+        {
+           
         }
 
         #endregion

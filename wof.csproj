@@ -5,7 +5,7 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F101F624-0894-4B82-BE03-002A6D0E94F5}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Wof</RootNamespace>
     <AssemblyName>Wof</AssemblyName>
@@ -937,6 +937,16 @@
     <Compile Include="src\View\Effects\HydraxManager.cs" />
     <Compile Include="src\View\Effects\ParticleManager.cs" />
     <Compile Include="src\View\Effects\Quadrangle3D.cs" />
+    <Compile Include="src\View\Effects\SkyX\AtmosphereManager.cs" />
+    <Compile Include="src\View\Effects\SkyX\CloudLayer.cs" />
+    <Compile Include="src\View\Effects\SkyX\CloudsManager.cs" />
+    <Compile Include="src\View\Effects\SkyX\Enums.cs" />
+    <Compile Include="src\View\Effects\SkyX\GPUManager.cs" />
+    <Compile Include="src\View\Effects\SkyX\MeshManager.cs" />
+    <Compile Include="src\View\Effects\SkyX\MoonManager.cs" />
+    <Compile Include="src\View\Effects\SkyX\ReflectionHelper.cs" />
+    <Compile Include="src\View\Effects\SkyX\SkyManager.cs" />
+    <Compile Include="src\View\Effects\SkyX\VCloudsManager.cs" />
     <Compile Include="src\View\Effects\WaterTrailGenerator.cs" />
     <Compile Include="src\View\IslandView.cs" />
     <Compile Include="src\View\LevelView.cs" />

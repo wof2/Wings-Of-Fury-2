@@ -498,5 +498,7 @@ namespace Wof.Controller
 
         void OnSecondaryFireOnCarrier();
         void OnRocketHitPlane(Rocket rocket, Plane plane);
+        void OnLevelFinished();
+        void OnPlayFanfare();
     }
 }
