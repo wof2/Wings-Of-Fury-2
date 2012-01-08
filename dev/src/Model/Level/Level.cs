@@ -350,16 +350,16 @@ namespace Wof.Model.Level
             	
             }
             
-            // TEST TEST TEST
-            /*  info.Direction = Direction.Left;
-		            info.EngineState = EngineState.Working;
-		            info.Position = null;
-		            info.PositionType = StartPositionType.Airborne;
-		            info.WheelsState = WheelsState.In;      
-		    */    
-		            
-		            
-                 
+            // Wymuœ aby samolot byl w powietrzu
+            if (EngineConfig.DebugStartFlying)
+            {
+                info.Direction = Direction.Left;
+                info.EngineState = EngineState.Working;
+                info.Position = null;
+                info.PositionType = StartPositionType.Airborne;
+                info.WheelsState = WheelsState.In;      
+            }
+            
             info.MissionType = MissionType;
             userPlane = new Plane(this, false, info, userPlaneType);
             userPlane.RegisterWeaponEvent += userPlane_RegisterWeaponEvent;
