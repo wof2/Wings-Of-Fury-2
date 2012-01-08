@@ -204,8 +204,8 @@ namespace Wof.Controller.Indicators
             
             messageContainer.SetPosition(radioIconWidth + currentMessage.X, currentMessage.Y);
             messageElement.SetParameter("char_height", currentMessage.getCharHeightString());
-            messageElement.SetParameter("colour_top", currentMessage.ColourTop);
-            messageElement.SetParameter("colour_bottom", currentMessage.ColourBottom);
+            messageElement.SetParameter("colour_top", currentMessage.ColourTopString);
+            messageElement.SetParameter("colour_bottom", currentMessage.ColourBottomString);
 
 
             // icon

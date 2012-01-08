@@ -9,6 +9,12 @@ namespace Wof.Controller.Indicators
         private string icon = "";
 
 
+        public IconedMessageEntry(MessageEntry entry, String icon) : this(entry.X, entry.Y, entry.Time, entry.Message, entry.CharHeight, entry.ColourTop, entry.ColourBottom, entry.Blinking, entry.Permanent)
+        {
+            this.icon = icon;
+
+        }
+
         public IconedMessageEntry(float x, float y, uint time, string message, float charHeight, ColourValue colourTop, ColourValue colourBottom, bool blinking, bool permanent) : base(x, y, time, message, charHeight, colourTop, colourBottom, blinking, permanent)
         {
      

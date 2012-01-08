@@ -983,7 +983,7 @@ namespace Wof.Model.Level.Planes
         }
 
         /// <summary>
-        /// Pobiera lub ustawia licznik prob uruchomien silnika.
+        /// Pobiera lub ustawia licznik czasowy uruchomienia silnika.
         /// </summary>
         /// <author>Michal Ziober</author>
         public int StartEngineCounter
@@ -2864,7 +2864,7 @@ namespace Wof.Model.Level.Planes
                     StartEngineCounter = 0; //zeruje licznik.
                     StartEngine(); //uruchamiam silnik.
                     isEngineJustStarted = true;
-                    level.Controller.OnTurnOnEngine(true);
+                    level.Controller.OnTurnOnEngine(true, this);
                 }
                 else
                 {

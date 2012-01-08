@@ -79,8 +79,12 @@ namespace Wof.Controller.Indicators
         }
 
         private ColourValue colourTop;
+        public ColourValue ColourTop
+        {
+            get { return colourTop; }
+        }
 
-        public String ColourTop
+        public String ColourTopString
         {
 
             get { return String.Format("{0:f} {1:f} {2:f}", StringConverter.ToString(colourTop.r), StringConverter.ToString(colourTop.g), StringConverter.ToString(colourTop.b)); }
@@ -88,7 +92,11 @@ namespace Wof.Controller.Indicators
 
         private ColourValue colourBottom;
 
-        public String ColourBottom
+        public ColourValue ColourBottom
+        {
+            get { return colourBottom; }
+        }
+        public String ColourBottomString
         {
             get { return String.Format("{0:f} {1:f} {2:f}", StringConverter.ToString(colourBottom.r), StringConverter.ToString(colourBottom.g), StringConverter.ToString(colourBottom.b)); }
         }

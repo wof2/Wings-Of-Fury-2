@@ -118,6 +118,7 @@ namespace Wof.Controller.Screens
         public const string C_AD_LOADING_ZONE = "pregame";
         public const string C_AD_GAME_ZONE = "ingame";
         public const string C_DEFAULT_AD_IMAGE_NAME = "Intro1.jpg";
+        public const string C_HINT_ICON = "hint_engine.png";
 
         private int changingAmmoAdId = 0;
 
@@ -573,7 +574,7 @@ namespace Wof.Controller.Screens
                         gameMessages.AppendMessage(message);
 
                         message =
-                            new CenteredMessageEntry(viewport, GetHintMessage(), true, true);
+                            new IconedMessageEntry(new CenteredMessageEntry(viewport, GetHintMessage(), true, true), C_HINT_ICON);
                         gameMessages.AppendMessage(message);
 
 
@@ -1147,8 +1148,8 @@ namespace Wof.Controller.Screens
                             {
                                 LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "!!! Game started !!!");
                             	if(currentLevel.UserPlane.IsEngineWorking) 
-				                {  
-									OnTurnOnEngine(false);				                	
+				                {
+                                    OnTurnOnEngine(false, currentLevel.UserPlane);				                	
 				                }
             	
                                 // w pierwszej klatce chcemy wyzerowaæ czas
@@ -2694,7 +2695,7 @@ namespace Wof.Controller.Screens
             if (p.IsEngineFaulty && p.CanTryToStartEngine)
             {
                 gameMessages.ClearMessages();
-                MessageEntry message = new CenteredMessageEntry(viewport, GetHintMessage(), true, true);
+                MessageEntry message = new IconedMessageEntry(new CenteredMessageEntry(viewport, GetHintMessage(), true, true), C_HINT_ICON);
                 gameMessages.AppendMessage(message);
             }
             SoundManager.Instance.PlayStopEngineSound();
@@ -2703,7 +2704,7 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Funkcja zglasza o rozpoczeciu pracy silnika.
         /// </summary>
-        public void OnTurnOnEngine(bool engineStartSound)
+        public void OnTurnOnEngine(bool engineStartSound, Plane userPlane)
         {
             mayPlaySound = true;
             if (engineStartSound)
@@ -2721,9 +2722,8 @@ namespace Wof.Controller.Screens
             gameMessages.ClearMessages(GetHintMessage());
           
 
-            if (ShowHintMessages && LevelNo == 1 && firstTakeOff)
+            if (ShowHintMessages && LevelNo == 1 && firstTakeOff && userPlane.LocationState == LocationState.AircraftCarrier)
             {
-               
                 MessageEntry message = new CenteredMessageEntry(viewport, GetHintMessage2(), true, true);
                 gameMessages.AppendMessage(message);
                 
@@ -2733,7 +2733,7 @@ namespace Wof.Controller.Screens
         }
         public void OnEngineFaulty(Plane p)
         {
-            MessageEntry message = new CenteredMessageEntry(viewport, GetHintMessage(), true, true);
+            MessageEntry message = new IconedMessageEntry(new CenteredMessageEntry(viewport, GetHintMessage(), true, true), C_HINT_ICON);
             gameMessages.AppendMessage(message);
             SoundManager.Instance.OnEngineFaulty(p);
 
@@ -3288,13 +3288,19 @@ namespace Wof.Controller.Screens
         
         public void OnTakeOff()
         {
-            
-            if (ShowHintMessages && firstTakeOff && levelNo == 1)
+           
+            if (firstTakeOff && levelNo == 1)
             {
                 gameMessages.ClearMessages(GetHintMessage2());
 
-                gameMessages.AppendMessage(String.Format(LanguageResources.GetString(LanguageKey.RetractYourLandingGearWithG), KeyMap.GetName(KeyMap.Instance.Gear)));
-                gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.KillAllEnemySoldiers));
+                if(EngineConfig.Difficulty > EngineConfig.DifficultyLevel.Easy)
+                {
+                    gameMessages.AppendMessage(String.Format(LanguageResources.GetString(LanguageKey.RetractYourLandingGearWithG), KeyMap.GetName(KeyMap.Instance.Gear)));
+                }
+                if (EngineConfig.Difficulty <= EngineConfig.DifficultyLevel.Easy)
+                {
+                    gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.KillAllEnemySoldiers));
+                }
             }
 
             string message;
