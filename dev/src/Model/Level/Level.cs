@@ -565,6 +565,8 @@ namespace Wof.Model.Level
             //zmiana pozycji samolotu
             userPlane.Move(time, timeUnit);
 
+           
+
             if (enemyPlanes.Count > 0)
             {
                 Plane ep;
@@ -581,26 +583,19 @@ namespace Wof.Model.Level
 
                 }
             }
-           
-            // koniec misji typu dogfight
-            if ((MissionType == MissionType.Dogfight || MissionType == MissionType.Survival) && EnemyPlanesLeft == 0)
+
+          
+            // koniec poziomu
+            if (userPlane.IsOnAircraftCarrier && userPlane.Speed < 0.001f * GameConsts.UserPlane.Singleton.MaxSpeed)
             {
-                if (!onReadyLevelEndLaunched )
+                if (onReadyLevelEndLaunched)// odtr¹biono ju¿ fanfary
                 {
-                    onReadyLevelEndLaunched = true;
-                    controller.OnReadyLevelEnd();
+                    userPlane.StopEngine(time / timeUnit);
+                    controller.OnPlayFanfare();
+                    controller.OnLevelFinished();
                 }
             }
 
-            // Koniec misji typu naval
-            if (this.MissionType == MissionType.Naval && ShipsLeft == 0)
-            {
-                if (!onReadyLevelEndLaunched)
-                {
-                    onReadyLevelEndLaunched = true;
-                    controller.OnReadyLevelEnd();
-                }
-            }
 
             //zmienia pozycje zolnierzy.
             SoldiersMove(time);
@@ -784,8 +779,9 @@ namespace Wof.Model.Level
             }
         	return false;
         }
-        
-        
+
+
+     
 
         /// <summary>
         /// Funkcja zostanie wywolana jesli widkok zakonczyl procedure
@@ -793,44 +789,63 @@ namespace Wof.Model.Level
         /// </summary>
         public void OnCheckVictoryConditions()
         {
-        	
-        
-        		
-            //sprawdzam stan wrogich instalacji.
-            if (enemyInstallationTiles != null)
+
+            // koniec misji typu dogfight
+            if ((MissionType == MissionType.Dogfight || MissionType == MissionType.Survival))
             {
-                EnemyInstallationTile enemyTile;
-                for (int i = 0 ; i < enemyInstallationTiles.Count ; i++)
+                if(EnemyPlanesLeft == 0)
                 {
-                    enemyTile = enemyInstallationTiles[i] as EnemyInstallationTile;
-                    if (enemyTile != null)
+                    onReadyLevelEndLaunched = true;
+                    controller.OnReadyLevelEnd();
+                }
+                
+            }else
+            // Koniec misji typu naval
+            if (MissionType == MissionType.Naval)
+            {
+                if (ShipsLeft == 0)
+                {
+                    onReadyLevelEndLaunched = true;
+                    controller.OnReadyLevelEnd();
+                }
+               
+            }else
+            if (MissionType == MissionType.BombingRun)
+            {
+                //sprawdzam stan wrogich instalacji.
+                if (enemyInstallationTiles != null)
+                {
+                    EnemyInstallationTile enemyTile;
+                    for (int i = 0; i < enemyInstallationTiles.Count; i++)
                     {
-                        if (this.MissionType == MissionType.BombingRun)
+                        enemyTile = enemyInstallationTiles[i] as EnemyInstallationTile;
+                        if (enemyTile != null)
                         {
-                            if (!enemyTile.IsDestroyed && enemyTile.SoldierCount > 0)
+                            if (this.MissionType == MissionType.BombingRun)
                             {
-                                return;
+                                if (!enemyTile.IsDestroyed && enemyTile.SoldierCount > 0)
+                                {
+                                    return;
+                                }
                             }
-                        }
-                        if (this.MissionType == MissionType.Assassination)
-                        {
-                            if (!enemyTile.IsDestroyed && enemyTile.GeneralCount > 0)
+                            if (this.MissionType == MissionType.Assassination)
                             {
-                                return;
+                                if (!enemyTile.IsDestroyed && enemyTile.GeneralCount > 0)
+                                {
+                                    return;
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            //sprawdzam zolnierzy.
-            if (this.MissionType == MissionType.BombingRun)
-            {
+                //sprawdzam zolnierzy.
+
                 if (soldierList != null)
                 {
                     for (int i = 0; i < soldierList.Count; i++)
                     {
-                        if (soldierList[i].IsAlive )
+                        if (soldierList[i].IsAlive)
                         {
                             return;
                         }
@@ -839,9 +854,9 @@ namespace Wof.Model.Level
                 //zolnierze nie zyja. konczymy poziom
                 onReadyLevelEndLaunched = true;
                 controller.OnReadyLevelEnd();
-            }
+            }else
             //sprawdzam genera³ów.
-            else if(this.MissionType == MissionType.Assassination)
+            if(MissionType == MissionType.Assassination)
             {
                 if (generalList != null)
                 {

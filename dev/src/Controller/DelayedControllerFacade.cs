@@ -664,6 +664,15 @@ namespace Wof.Controller
         {
             AddJob(MethodBase.GetCurrentMethod().Name, new object[] { rocket, plane });
         }
+        public void OnLevelFinished()
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name);
+        }
+
+        public void OnPlayFanfare()
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name);
+        }
 
         #endregion
     }

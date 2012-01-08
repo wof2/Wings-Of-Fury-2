@@ -141,14 +141,15 @@ namespace Wof.Controller
                     string type;
                     string quality;
                   
-                    if (match.Groups[1].Value.Equals("NonMaskable"))
+                    if (match.Success && match.Groups[2].Value.Equals("[Quality]"))
                     {
-                        type = "1"; //D3DMULTISAMPLE_NONMASKABLE
-                        quality = (int.Parse(match.Groups[2].Value) - 1).ToString();
+                        quality = "0"; 
+                       // quality = (int.Parse(match.Groups[2].Value) - 1).ToString();
+                        type = match.Groups[1].Value;
                     }
                     else
                     {
-                        type = match.Groups[2].Value; // D3DMULTISAMPLE_X_SAMPLES 
+                        type = str; // D3DMULTISAMPLE_X_SAMPLES 
                         if(type.Length == 0) type = "0";
                         quality = "0";
                     }

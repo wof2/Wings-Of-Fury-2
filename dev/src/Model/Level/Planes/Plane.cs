@@ -1742,7 +1742,7 @@ namespace Wof.Model.Level.Planes
 
             petrol = System.Math.Max(petrol, 0);
             oilLeak = System.Math.Min(oilLeak, maxOil * 0.015f);
-
+            
             if (planeState == PlaneState.Damaged && !IsOnAircraftCarrier )
             {
                 if (!GameConsts.UserPlane.Singleton.PlaneCheat || isEnemy)
@@ -1762,7 +1762,6 @@ namespace Wof.Model.Level.Planes
 
             if (motorState == EngineState.Working)
             {
-                
                 //zmiana wektora ruchu przy zawracaniu (TURN)
                 if (planeState != PlaneState.Destroyed && locationState == LocationState.AirTurningRound &&
                     isChangingDirection)
