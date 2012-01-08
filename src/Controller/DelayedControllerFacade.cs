@@ -165,9 +165,9 @@ namespace Wof.Controller
         /// Funkcja zglasza o rozpoczeciu pracy silnika.
         /// </summary>
         /// <author>Michal Ziober</author>
-        public void OnTurnOnEngine(bool engineStartSound)
+        public void OnTurnOnEngine(bool engineStartSound, Plane userPlane)
         {
-            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { engineStartSound });
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { engineStartSound, userPlane });
         }
 
         public void OnEngineFaulty(Plane p)
