@@ -53,6 +53,7 @@ using Mogre;
 using Wof.Controller.Screens;
 using Wof.Languages;
 using FontManager=Wof.Languages.FontManager;
+using Math=Mogre.Math;
 
 namespace Wof.Controller.Indicators
 {
@@ -73,23 +74,47 @@ namespace Wof.Controller.Indicators
         private Overlay messageOverlay;
         private Viewport mainViewport;
 
-        private readonly float xMargin = 0.03f;
-        private readonly float yMargin = 0.011f;
+        private static readonly float xMargin = 0.03f;
+        private static readonly float yMargin = 0.015f;
+        private readonly float bgAnimationLength = 1.00f;
+
+        private const float bgAnimationMaxOpacity = 0.5f;
+      
         private Overlay iconOverlay;
 		private OverlayElement iconElement;
-		
+        private Overlay messageBgOverlay;
+
+        private Vector2 iconDefaultDimesions;
+
 		private float radioIconWidth 
 		{
 			get {  return 0.05f; }
 			
 		}
 
+        public static float XMargin
+        {
+            get { return xMargin; }
+        }
 
-        public GameMessages(Viewport mainViewport, float xMargin, float yMargin) : this(mainViewport)
+        public static float YMargin
+        {
+            get { return yMargin; }
+        }
+
+        private float currentBgOpacity = 0.0f;
+        private bool isIncreasingBgOpacity = false;
+        private bool isDecreasingBgOpacity = false;
+
+        private OverlayElement backgroundElement;
+       
+
+       // HasCustomIconPosition
+       /* public GameMessages(Viewport mainViewport, float xMargin, float yMargin) : this(mainViewport)
         {
             this.xMargin = xMargin;
             this.yMargin = yMargin;
-        }
+        }*/
 
         public GameMessages(Viewport mainViewport)
         {
@@ -97,6 +122,9 @@ namespace Wof.Controller.Indicators
             this.mainViewport = mainViewport;
 
             messageOverlay = OverlayManager.Singleton.GetByName("Wof/HUD");
+            messageBgOverlay = OverlayManager.Singleton.GetByName("Wof/MessageBarBg");
+            backgroundElement = OverlayManager.Singleton.GetOverlayElement("Wof/MessageBarIconBg");
+         
             CreateMessageContainer();
         }
 
@@ -106,12 +134,18 @@ namespace Wof.Controller.Indicators
            // BetaGUI.GUI gui = new GUI();
            // Window w = gui.createWindow();
            // w.createStaticImage()
+
+            backgroundElement.Hide();
             iconOverlay = OverlayManager.Singleton.GetByName("Wof/MessageBar");
-            iconElement = OverlayManager.Singleton.GetOverlayElement("Wof/MessageBarIcon");     
+            iconElement = OverlayManager.Singleton.GetOverlayElement("Wof/MessageBarIcon");
             iconElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             iconElement.SetDimensions(radioIconWidth, radioIconWidth);      
        		iconElement.Show();
        		iconOverlay.Hide(); // zewnetrzny kontener ukryje wszystko
+
+
+            iconDefaultDimesions.x = Mogre.StringConverter.ParseReal(iconElement.GetParameter("width"));
+            iconDefaultDimesions.y = Mogre.StringConverter.ParseReal(iconElement.GetParameter("height"));
        		
             messageElement = OverlayManager.Singleton.CreateOverlayElement(
                 "TextArea", "messageElement " + DateTime.Now.Ticks);
@@ -120,7 +154,7 @@ namespace Wof.Controller.Indicators
 
             messageElement.SetDimensions(mainViewport.ActualWidth, mainViewport.ActualHeight);
             messageElement.MetricsMode = GuiMetricsMode.GMM_PIXELS;
-
+           
             messageElement.SetParameter("font_name", FontManager.CurrentFont);
 
             messageElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
@@ -128,10 +162,10 @@ namespace Wof.Controller.Indicators
             messageElement.SetParameter("colour_top", "0.6 0.34 0.34");
             messageElement.SetParameter("colour_bottom", "0.5 0.1 0.1");
             messageElement.Caption = "";
-         
 
+       
             messageContainer.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
-            messageContainer.SetDimensions(1.0f, 1.0f);
+            messageContainer.SetDimensions(1.0f, 0.05f);
            // messageContainer.SetPosition(0.055f, 0.015f);
 
             messageContainer.AddChild(messageElement);
@@ -160,16 +194,34 @@ namespace Wof.Controller.Indicators
             messageQueue.Add(messageEntry);
         }
 
+        protected void ShowCurrentMessage()
+        {
+            messageElement.Show();
+            if (!iconOverlay.IsVisible)
+            {
+                iconOverlay.Show();
+            }
+            
+            startTime = DateTime.Now;
+        }
+      
 
-        public void UpdateControl()
+        public void UpdateControl(float timeSinceLastFrame)
         {
             if (currentMessage == null)
             {
                 if (messageQueue.Count != 0)
                 {
+                 //   Console.WriteLine("Enqueuing");
                     currentMessage = messageQueue[0];
-                    DisplayMessage();
+                    PrepareMessage();
                     messageQueue.RemoveAt(0);
+                    
+                    if(!currentMessage.NoBackground)
+                    {
+                        backgroundElement.Show();
+                        isIncreasingBgOpacity = true;
+                    }
                 }
                 else
                 {
@@ -178,51 +230,136 @@ namespace Wof.Controller.Indicators
             }
             else
             {
-                UpdateMessage();
+                if(!currentMessage.NoBackground)
+                {
+                    if (isIncreasingBgOpacity)
+                    {
+                        if (currentBgOpacity < bgAnimationMaxOpacity)
+                        {
+                            SetBgOpacity(currentBgOpacity);
+                            currentBgOpacity += timeSinceLastFrame / bgAnimationLength;
+                            return;
+                        }
+                        else
+                        {
+                            isIncreasingBgOpacity = false;
+                            currentBgOpacity = bgAnimationMaxOpacity;
 
+                            // pokaz
+                            ShowCurrentMessage();
+                            backgroundElement.Show();
+                        }
+                    }
+                    else
+                        if (isDecreasingBgOpacity)
+                        {
+                            if (currentBgOpacity > 0.0f)
+                            {
+                                SetBgOpacity(currentBgOpacity);
+                                currentBgOpacity -= timeSinceLastFrame / bgAnimationLength;
+                                return;
+                            }
+                            else
+                            {
+                                isDecreasingBgOpacity = false;
+                                currentBgOpacity = 0;
+                                // ukryj
+                                backgroundElement.Hide();
+                                ClearMessage();
+                                return;
+                            }
+
+
+                        }
+                        else
+                        {
+                            UpdateMessage();
+                        }
+                }
+                else
+                { // no background
+
+                    // show
+                  //  Console.WriteLine("Showing");
+                    if(!messageElement.IsVisible)
+                    {
+                        ShowCurrentMessage();
+                    }
+                    isDecreasingBgOpacity = false;
+                    isIncreasingBgOpacity = false;
+                    
+                }
+                
+              
                 TimeSpan diff = DateTime.Now.Subtract(startTime);
                 if (!currentMessage.Permanent && diff.TotalMilliseconds > currentMessage.Time)
                 {
-                    ClearMessage();
+               //     Console.WriteLine("Clearing");
+                    isDecreasingBgOpacity = true;
+                    messageElement.Hide();
+                    if (iconOverlay.IsVisible)
+                    {
+                        iconOverlay.Hide();
+                    } 
+                    if(currentMessage.NoBackground)
+                    {
+                        ClearMessage();
+                        isDecreasingBgOpacity = false;
+                        isIncreasingBgOpacity = false;
+                    }
+
                 }
             }
         }
 
-        private void DisplayMessage()
+      
+        private void SetBgOpacity(float val)
         {
-        	
-        	if (!iconOverlay.IsVisible) 
-        	{
-                iconElement.SetPosition((currentMessage.X), (currentMessage.Y + currentMessage.CharHeight * 0.25f));   
-        		iconOverlay.Show();
-        	}
-            startTime = DateTime.Now;
+            if (val > 1) val = 1.0f;
+            if (val < 0) val = 0;
+           
 
-            currentMessage.IncreaseX(xMargin);
-            currentMessage.IncreaseY(yMargin);
+            MaterialPtr bgMaterial = backgroundElement.GetMaterial();
+            bgMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetAlphaOperation(LayerBlendOperationEx.LBX_SOURCE1, LayerBlendSource.LBS_MANUAL, LayerBlendSource.LBS_CURRENT, val);
+                //alpha_op_ex source1 src_manual src_current 0.3
+            messageBgOverlay.Show();
+        }
 
+        private void PrepareMessage()
+        {
+            messageElement.Hide();
             
-            messageContainer.SetPosition(radioIconWidth + currentMessage.X, currentMessage.Y);
-            messageElement.SetParameter("char_height", currentMessage.getCharHeightString());
-            messageElement.SetParameter("colour_top", currentMessage.ColourTopString);
-            messageElement.SetParameter("colour_bottom", currentMessage.ColourBottomString);
-
-
             // icon
             string changedIcon = null;
             if (currentMessage is IconedMessageEntry )
             {
                 string icon = (currentMessage as IconedMessageEntry).Icon;
+                Vector2 dim = (currentMessage as IconedMessageEntry).CustomIconDimensions;
                 if (lastIconTexture != icon)
                 {
                     lastIconTexture = icon;
                     changedIcon = icon;
+                    if(!dim.IsZeroLength)
+                    {
+                        iconElement.Width = dim.x;
+                        iconElement.Height = dim.y;
+                       
+                    } else
+                    {
+                       
+                        iconElement.Width = iconDefaultDimesions.x;
+                        iconElement.Height = iconDefaultDimesions.y;
+                       
+                    }
                 }
             }
             else if(lastIconTexture != null)
             {
+                
                 changedIcon = "radio.png";
                 lastIconTexture = null;
+                iconElement.Width = iconDefaultDimesions.x;
+                iconElement.Height = iconDefaultDimesions.y;
             }
 
             if(changedIcon != null)
@@ -237,9 +374,24 @@ namespace Wof.Controller.Indicators
                 }
                
             }
+
+            iconOverlay.Hide();
+            if (!iconOverlay.IsVisible)
+            {
+                iconElement.SetPosition((currentMessage.X), (currentMessage.Y + currentMessage.CharHeight * 0.25f));
+            }
+
+
+            currentMessage.IncreaseX(XMargin);
+            currentMessage.IncreaseY(YMargin);
+
+            messageContainer.SetPosition(iconElement.Width + currentMessage.X, currentMessage.Y);
+            messageElement.SetParameter("char_height", currentMessage.getCharHeightString());
+            messageElement.SetParameter("colour_top", currentMessage.ColourTopString);
+            messageElement.SetParameter("colour_bottom", currentMessage.ColourBottomString);
             
             messageElement.Caption = AbstractScreen.Wrap(currentMessage.Message, currentMessage.CharsPerLine); ;
-            messageElement.Show();
+            
         }
 
         private string lastIconTexture; 
@@ -265,12 +417,12 @@ namespace Wof.Controller.Indicators
             {
                 return currentMessage.Message;
             }
-            else return "";
+            else return null;
         }
-
+        
         public void ClearMessages(String messageTxt)
         {
-            if (PeekMessage().Equals(messageTxt))
+            if (PeekMessage()  != null && PeekMessage().Equals(messageTxt))
             {
                 ClearMessage();
             }
@@ -290,6 +442,7 @@ namespace Wof.Controller.Indicators
         {
          	ClearMessage();
          	messageQueue.Clear();
+            
         }
 
         public void ClearMessage()
@@ -301,6 +454,9 @@ namespace Wof.Controller.Indicators
                 messageElement.Caption = "";
             }
             if(iconOverlay != null && iconOverlay.IsVisible)  iconOverlay.Hide();
+            isDecreasingBgOpacity = false;
+            isIncreasingBgOpacity = false;
+            backgroundElement.Hide();
         }
 
 
@@ -321,6 +477,13 @@ namespace Wof.Controller.Indicators
                 messageOverlay.Hide();
                 messageOverlay.Dispose();
                 messageOverlay = null;
+            }
+
+            if(backgroundElement != null)
+            {
+                backgroundElement.Hide();
+                backgroundElement.Dispose();
+                backgroundElement = null;
             }
 
             messageContainer.Hide();

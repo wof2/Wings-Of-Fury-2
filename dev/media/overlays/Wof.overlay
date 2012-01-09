@@ -124,16 +124,32 @@ Wof/LoadingAd
 Wof/MessageBar
 {
 	
+	zorder 550
 	container BorderPanel(Wof/MessageBarIcon)
 	{
 
 		metrics_mode pixels		
 		left 0 
 		top 0
-		width 64
-		height 64
+		width 50
+		height 50
 		material MessageBarIcon
 
+	}
+}
+
+
+Wof/MessageBarBg
+{	
+	zorder 1
+	container Panel(Wof/MessageBarIconBg)
+	{
+		metrics_mode relative		
+		left 0 
+		top 0
+		width 1
+		height 0.07
+		material Panels/MessageBarIconBg
 	}
 }
 
@@ -231,7 +247,7 @@ Wof/Quit
 
 Wof/HUD
 {
-	zorder 1
+	zorder 2
 	
 }
 

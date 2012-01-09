@@ -353,11 +353,12 @@ namespace Wof.Model.Level
             // Wymuœ aby samolot byl w powietrzu
             if (EngineConfig.DebugStartFlying)
             {
-                info.Direction = Direction.Left;
+                info.Direction = Direction.Right;
                 info.EngineState = EngineState.Working;
-                info.Position = null;
+                info.Position = new PointD(1150, 40);
                 info.PositionType = StartPositionType.Airborne;
-                info.WheelsState = WheelsState.In;      
+                info.WheelsState = WheelsState.Out;     
+ 
             }
             
             info.MissionType = MissionType;

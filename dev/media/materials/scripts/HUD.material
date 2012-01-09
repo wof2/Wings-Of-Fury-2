@@ -247,3 +247,26 @@ material Panels/Panel1_rocket
 		}
 	}
 }
+
+material Panels/MessageBarIconBg
+{
+	technique
+	{
+		pass
+		{
+			scene_blend alpha_blend		
+			//depth_write off
+			lighting off
+			ambient 0.588235 0.588235 0.588235 
+			diffuse 0.588235 0.588235 0.588235 
+			specular 0 0 0 10
+			emissive 0 0 0 
+			
+			texture_unit 
+			{				
+				texture panelBg.png
+				alpha_op_ex source1 src_manual src_current 0.3
+			}
+		}
+	}
+}
