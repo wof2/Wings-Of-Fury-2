@@ -500,5 +500,6 @@ namespace Wof.Controller
         void OnRocketHitPlane(Rocket rocket, Plane plane);
         void OnLevelFinished();
         void OnPlayFanfare();
+        void OnPotentialBadLanding(Plane p);
     }
 }

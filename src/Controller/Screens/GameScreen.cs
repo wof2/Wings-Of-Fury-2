@@ -118,7 +118,10 @@ namespace Wof.Controller.Screens
         public const string C_AD_LOADING_ZONE = "pregame";
         public const string C_AD_GAME_ZONE = "ingame";
         public const string C_DEFAULT_AD_IMAGE_NAME = "Intro1.jpg";
-        public const string C_HINT_ICON = "hint_engine.png";
+        public const string C_ENGINE_HINT_ICON = "hint_engine.png";
+        public const string C_BAD_LANDING_HINT_ICON = "hint_bad_landing.png";
+
+        
 
         private int changingAmmoAdId = 0;
 
@@ -569,12 +572,12 @@ namespace Wof.Controller.Screens
                     {
 
                         MessageEntry message =
-                              new CenteredMessageEntry(viewport, GetChangeAmmoMessage(), 5000);
+                              new CenteredMessageEntry(viewport, 5000, GetChangeAmmoMessage());
                        
                         gameMessages.AppendMessage(message);
 
                         message =
-                            new IconedMessageEntry(new CenteredMessageEntry(viewport, GetHintMessage(), true, true), C_HINT_ICON);
+                            new IconedMessageEntry(new CenteredMessageEntry(viewport, GetHintMessage(), true, true), C_ENGINE_HINT_ICON);
                         gameMessages.AppendMessage(message);
 
 
@@ -619,7 +622,10 @@ namespace Wof.Controller.Screens
                                                           KeyMap.GetName(KeyMap.Instance.Left),
                                                           KeyMap.GetName(KeyMap.Instance.Up));
         }
-
+        private static String GetBadLandingHintMessage()
+        {
+            return "";
+        }
         private static String GetLandingHintMessage()
         {
             return String.Format(LanguageResources.GetString(LanguageKey.PressUpToLand),
@@ -747,7 +753,7 @@ namespace Wof.Controller.Screens
                 if(n >= 0)
                 {
                     imageName = baseName + n + lang + ".jpg";
-                    TextureManager.Singleton.Load(imageName, "General").Load(false); // preload
+                    TextureManager.Singleton.Load(imageName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME).Load(false); // preload
                 }
 
             }
@@ -1063,8 +1069,8 @@ namespace Wof.Controller.Screens
                                 levelView.SkyManager.TimeMultiplier -= evt.timeSinceLastFrame * 0.01f;
                             }
 
-                            Console.Clear();
-                            Console.Write(GetConfigString(levelView.SkyManager));
+                            //Console.Clear();
+                          //  Console.Write(GetConfigString(levelView.SkyManager));
                            
 
                             isStillFireGun = false;
@@ -1785,7 +1791,7 @@ namespace Wof.Controller.Screens
                         else
                         {
                             indicatorControl.UpdateGUI(evt.timeSinceLastFrame);
-                            gameMessages.UpdateControl();
+                            gameMessages.UpdateControl(evt.timeSinceLastFrame);
                         }
 
                         ControlGunFireSound();
@@ -2695,7 +2701,7 @@ namespace Wof.Controller.Screens
             if (p.IsEngineFaulty && p.CanTryToStartEngine)
             {
                 gameMessages.ClearMessages();
-                MessageEntry message = new IconedMessageEntry(new CenteredMessageEntry(viewport, GetHintMessage(), true, true), C_HINT_ICON);
+                MessageEntry message = new IconedMessageEntry(new CenteredMessageEntry(viewport, GetHintMessage(), true, true), C_ENGINE_HINT_ICON);
                 gameMessages.AppendMessage(message);
             }
             SoundManager.Instance.PlayStopEngineSound();
@@ -2733,7 +2739,7 @@ namespace Wof.Controller.Screens
         }
         public void OnEngineFaulty(Plane p)
         {
-            MessageEntry message = new IconedMessageEntry(new CenteredMessageEntry(viewport, GetHintMessage(), true, true), C_HINT_ICON);
+            MessageEntry message = new IconedMessageEntry(new CenteredMessageEntry(viewport, GetHintMessage(), true, true), C_ENGINE_HINT_ICON);
             gameMessages.AppendMessage(message);
             SoundManager.Instance.OnEngineFaulty(p);
 
@@ -3274,15 +3280,39 @@ namespace Wof.Controller.Screens
           
         }
 
+
+        public void OnPotentialBadLanding(Plane p)
+        {
+            if (ShowHintMessages)
+            {
+                if (!GetBadLandingHintMessage().Equals(gameMessages.PeekMessage()))
+                {
+                    IconedMessageEntry message =
+                        new IconedMessageEntry(new CenteredMessageEntry(viewport, GetBadLandingHintMessage(), false, false), C_BAD_LANDING_HINT_ICON);
+                   
+                    message.UseAutoDectetedIconDimesions(viewport);
+                    message.CenterIconOnScreen(viewport);
+                    message.IncreaseY(-message.Y);
+                    message.IncreaseY(0.2f);
+                    gameMessages.ClearMessages();
+                    gameMessages.AppendMessage(message);
+                }
+
+            }
+        }
+
         public void OnPotentialLanding(Plane p)
         {
         	if (ShowHintMessages)        
             {
-        		MessageEntry message = new CenteredMessageEntry(viewport, GetLandingHintMessage(), true, false);
-                message.IncreaseY(-message.CharHeight/2.0f);
-                
-        		gameMessages.ClearMessages();
-        		gameMessages.AppendMessage(message);        		
+                if(!GetLandingHintMessage().Equals(gameMessages.PeekMessage()))
+                {
+                    MessageEntry message = new CenteredMessageEntry(viewport, GetLandingHintMessage(), true, false);
+                    message.IncreaseY(-message.CharHeight / 2.0f);
+                    gameMessages.ClearMessages();
+                    gameMessages.AppendMessage(message);     
+                }
+        		   		
         	}
         }
         

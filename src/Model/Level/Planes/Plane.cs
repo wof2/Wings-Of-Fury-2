@@ -160,7 +160,9 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Maksymalna odleglosc od lotniskowca ktora moze spowodowac wyswietlenie hintu o ladowaniu
         /// </summary>
-        protected const float potentiallyLandingMaxDistance = 70;
+        protected const float potentiallyLandingMaxDistance = 200;
+
+        protected const float potentiallyBadLandingMaxDistance = 100;
 
         /// <summary>
         /// K¹t o jaki bêdzie siê zmienia³o nachylenie samolotu po jednokrotnym naciœniêciu strza³ki.
@@ -2979,14 +2981,28 @@ namespace Wof.Model.Level.Planes
             	bool cond1 = this.IsEngineWorking && this.locationState == LocationState.Air && wheelsState == WheelsState.Out && direction == Direction.Left;
             	Carrier c = Carrier;            	
             	if(!cond1) return false;
-                PointD dist = Center - c.GetEndPosition();
-                float distX = dist.X;
-              
-                return distX > 0 && distX <= potentiallyLandingMaxDistance && dist.Y > 0;
+
+                float dist = Center.X - c.GetEndPosition().X; // c.GetEndPosition().Y jest liczone jak dla widoku
+               // Console.WriteLine((Center.Y - c.Height) + "  > 0 ");
+                return dist > 0 && dist <= potentiallyLandingMaxDistance && (Center.Y - c.Height) > 0;
             	
             }
         }
-        
+
+        private bool IsPotentiallyBadLanding
+        {
+            get
+            {
+            	bool cond1 = this.IsEngineWorking && this.locationState == LocationState.Air && wheelsState == WheelsState.Out && direction == Direction.Right;
+            	Carrier c = Carrier;            	
+            	if(!cond1) return false;
+
+                float dist = c.GetBeginPosition().X - Center.X; // c.GetEndPosition().Y jest liczone jak dla widoku
+               // Console.WriteLine((Center.Y - c.Height) + "  > 0 ");
+                return dist > 0 && dist <= potentiallyBadLandingMaxDistance;
+            	
+            }
+        }
         
         /// <summary>
         /// Proces l¹dowania na lotniskowcu.
@@ -3003,6 +3019,12 @@ namespace Wof.Model.Level.Planes
         	{
         		level.Controller.OnPotentialLanding(this);
         	}
+
+            if(IsPotentiallyBadLanding)        		
+        	{
+                level.Controller.OnPotentialBadLanding(this);
+        	}
+            
         	
         	// schowanie podwozia powoduje ze mozliwe jest ponowne pokazanie komunikatu o ladowaniu
         	if(this.wheelsState == WheelsState.In)

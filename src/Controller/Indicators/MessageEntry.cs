@@ -11,6 +11,8 @@ namespace Wof.Controller.Indicators
     /// </summary>
     public class MessageEntry
     {
+        protected bool noBackground = false;
+
         private bool blinking;
 
         public bool Blinking
@@ -124,13 +126,18 @@ namespace Wof.Controller.Indicators
             set { charsPerLine = value; }
         }
 
+        public bool NoBackground
+        {
+            get { return noBackground; }
+        }
+
         protected virtual void Init()
         {
             
         }
 
         public MessageEntry(float x, float y, uint time, String message, float charHeight, ColourValue colourTop,
-                            ColourValue colourBottom, bool blinking, bool permanent)
+                            ColourValue colourBottom, bool blinking, bool permanent, bool noBackground)
         {
             this.x = x;
             this.y = y;
@@ -141,12 +148,13 @@ namespace Wof.Controller.Indicators
             this.colourBottom = colourBottom;
             this.blinking = blinking;
             this.permanent = permanent;
+            this.noBackground = noBackground;
             Init();
                     
         }
 
         public MessageEntry(uint time, String message, float charHeight, ColourValue colourTop, ColourValue colourBottom)
-            : this(0, 0, time, message, charHeight, colourTop, colourBottom, false, false)
+            : this(0, 0, time, message, charHeight, colourTop, colourBottom, false, false, false)
 
         {
         }
@@ -154,14 +162,19 @@ namespace Wof.Controller.Indicators
       
 
         public MessageEntry(uint time, String message)
-            : this(0, 0, time, message, EngineConfig.CurrentFontSize, DefaultColourTop, DefaultColourBottom, false, false)
+            : this(0, 0, time, message, EngineConfig.CurrentFontSize, DefaultColourTop, DefaultColourBottom, false, false, false)
         {
         }
 
     
 
         public MessageEntry(float x, float y, String message, bool blinking, bool permanent)
-            : this(x, y, 3000, message, EngineConfig.CurrentFontSize, DefaultColourTop, DefaultColourBottom, blinking, permanent)
+            : this(x, y, 3000, message, EngineConfig.CurrentFontSize, DefaultColourTop, DefaultColourBottom, blinking, permanent, false)
+        {
+        }
+
+        public MessageEntry(float x, float y, String message, bool blinking, bool permanent, bool noBackground)
+            : this(x, y, 3000, message, EngineConfig.CurrentFontSize, DefaultColourTop, DefaultColourBottom, blinking, permanent, false)
         {
         }
 
@@ -171,7 +184,7 @@ namespace Wof.Controller.Indicators
         }
 
         public MessageEntry(float x, float y, String message, uint time)
-            : this(x, y, time, message, EngineConfig.CurrentFontSize, DefaultColourTop, DefaultColourBottom, false, false)
+            : this(x, y, time, message, EngineConfig.CurrentFontSize, DefaultColourTop, DefaultColourBottom, false, false, false)
         {
         }
 

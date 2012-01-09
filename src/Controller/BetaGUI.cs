@@ -601,7 +601,7 @@ namespace BetaGUI
 
         public OverlayContainer createStaticImage(Vector2 pos, String imageName)
         {
-            TexturePtr t = TextureManager.Singleton.Load(imageName, "General");
+            TexturePtr t = TextureManager.Singleton.Load(imageName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
             uint width = t.SrcWidth;
             uint height = t.SrcHeight;
             t = null;

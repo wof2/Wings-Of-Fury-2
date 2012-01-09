@@ -458,6 +458,11 @@ namespace wingitor
         	
         }
 
+        public void OnPotentialBadLanding(Plane p)
+        {
+
+        }
+
         public void OnSecondaryFireOnCarrier()
         {
             
