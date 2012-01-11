@@ -291,6 +291,7 @@ namespace Wof.Controller
               
                 //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
                 // LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
+                LogManager.Singleton.DefaultLog.MessageLogged += new LogListener.MessageLoggedHandler(DefaultLog_MessageLogged);
                 LogManager.Singleton.LogMessage("Starting " + EngineConfig.C_GAME_NAME + " ver. " + EngineConfig.C_WOF_VERSION);
 
 
@@ -395,6 +396,11 @@ namespace Wof.Controller
                 }
             }
             return true;
+        }
+
+        void DefaultLog_MessageLogged(string message, LogMessageLevel lml, bool maskDebug, string logName)
+        {
+            Console.WriteLine(message);
         }
 
         private void SetupEngineConfig()

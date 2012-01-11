@@ -242,68 +242,79 @@ namespace Wof.Controller
             if (currentScreen != null)
             {
                 currentScreen.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoystick);
-              
                 
-                if(browser != null && browser.Visible && browser.IsInitialState)
-                {   
-                	
-                    Point screenPos = (currentScreen as AbstractScreen).MousePosScreen;                   
+                
+                if(browser != null)  
+                { 
+                    Point screenPos = (currentScreen as AbstractScreen).MousePosScreen;
                     if (screenPos.X >= 0 && screenPos.Y >= 0)
                     {
-                        bool activateMain = false;
-
-                        lock (browserLock)
+                        browser.SetLastMouseScreenPos(screenPos);
+                        if (browser.Visible && browser.IsInitialState)
                         {
-                            if (browser.IsActivated)
+                       
+                            bool activateMain = false;
+
+                            lock (browserLock)
                             {
-                                // uzywamy wspolrzednych myszy z browsera
-                                if (!browser.IsMouseOver())
+                                if (browser.IsActivated)
                                 {
-                                    // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "!browser.IsMouseOver() - > activateMain");
-                                    // mysz wyszla na zewnatrz browsera
-                                    activateMain = true;
+
+                                    //   LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "browser.IsActivated");
+
+                                    // uzywamy wspolrzednych myszy z browsera
+                                    if (!browser.IsMouseOver(screenPos))
+                                    {
+                                        
+                                        LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL,
+                                                                        "!browser.IsMouseOver() - > activateMain. ScreenPos: " + screenPos+ ", lastPos: "+browser.LastScreenPos);
+                                        // mysz wyszla na zewnatrz browsera
+                                        activateMain = true;
+                                    }
                                 }
-                            }
-                            else if (isActivated)
-                            {
-                                // okno glowne
-                                if (browser.IsMouseOver(screenPos))
+                                else if (isActivated)
                                 {
-                                    activateMain = false;
+                                    // okno glowne
+                                    if (browser.IsMouseOver(screenPos))
+                                    {
+                                        activateMain = false;
+                                    }
+                                    else
+                                    {
+                                        activateMain = true;
+                                    }
                                 }
                                 else
                                 {
+                                    // zadne nie jest aktywne?
                                     activateMain = true;
                                 }
-                            }
-                            else
-                            {
-                                // zadne nie jest aktywne?
-                                activateMain = true;
-                            }
 
-                            // faktyczna aktywacja
-                            if (!activateMain)
-                            {
-                                if (!browser.IsActivated)
+                                // faktyczna aktywacja
+                                if (!activateMain)
                                 {
-                                    //(currentScreen as AbstractScreen).MGui.injectMouse((uint)( viewport.ActualWidth + 1),(uint)(viewport.ActualHeight + 1), false);
-                                    isActivated = false;
-                                    browser.IsActivated = true;
-                                    browser.Activate();
-                                    //Console.WriteLine("Browser");
+                                    if (!browser.IsActivated)
+                                    {
+                                        //(currentScreen as AbstractScreen).MGui.injectMouse((uint)( viewport.ActualWidth + 1),(uint)(viewport.ActualHeight + 1), false);
+                                        isActivated = false;
+                                        browser.IsActivated = true;
+                                        browser.Activate();
+                                        //Console.WriteLine("Browser");
+                                    }
                                 }
-                            }
-                            else
-                            {
-
-                                if (!isActivated)
+                                else
                                 {
-                                    isActivated = true;
-                                    browser.IsActivated = false;
-                                    Activate();
-                                }
 
+                                    if (!isActivated)
+                                    {
+                                        LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "game.Activate");
+
+                                        isActivated = true;
+                                        browser.IsActivated = false;
+                                        Activate();
+                                    }
+
+                                }
                             }
                         }
                     }
@@ -824,17 +835,22 @@ namespace Wof.Controller
             {
                 Thread.Sleep(100);
             }
+            if(browser.Visible)
+            {
+                return;
+            }
            
             lock(browserLock)
             {
                 LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Game.ShowBrowser");
                 Vector2 res = FrameWorkStaticHelper.GetCurrentVideoMode();
-                int scale = (int)(100 * (res.x * res.y) / (1024.0f * 768.0f));
+                int scale = (int) (100*(res.x*res.y)/(1024.0f*768.0f));
                 browser.ReturnToInitialState();
                 browser.ShowBrowserAndTopMostScale(scale);
+              //    game.Game_Activated(game, new EventArgs());
             }
-            
-        	
+
+
         }
         public void HideBrowser()
         {
@@ -957,14 +973,11 @@ namespace Wof.Controller
               
                 if ((browser == null && (currentScreen as AbstractScreen).Viewport != null))
                 {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "creating start screen, game.activated");
                     StartBrowser();
-                    game.Game_Activated(game, new EventArgs());
                 }
 
             }
-          
-
-            
 
             if (ss != null)
             {
@@ -973,6 +986,10 @@ namespace Wof.Controller
 
             if (!shutDown && !shouldReload)
             {
+                if (ss != null && browser!=null && browser.IsReady)
+                {
+                    browser.SetLastMouseScreenPos(ss.MousePos);
+                }
                 ShowBrowser();
                 
             }
