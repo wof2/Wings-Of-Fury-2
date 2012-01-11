@@ -34,12 +34,26 @@ namespace Wof.Controller
 		/// </summary>
 		private void InitializeComponent()
 		{
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Browser));
+            this.homeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
+            // 
+            // homeButton
+            // 
+            this.homeButton.AutoSize = true;
+            this.homeButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("homeButton.BackgroundImage")));
+            this.homeButton.FlatAppearance.BorderSize = 0;
+            this.homeButton.Location = new System.Drawing.Point(2, 0);
+            this.homeButton.Name = "homeButton";
+            this.homeButton.Size = new System.Drawing.Size(75, 23);
+            this.homeButton.TabIndex = 0;
+            this.homeButton.UseVisualStyleBackColor = true;
+            this.homeButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // Browser
             // 
-		    this.Visible = false;
-            this.ClientSize = new System.Drawing.Size(1, 1);
+            this.ClientSize = new System.Drawing.Size(100, 100);
+            this.Controls.Add(this.homeButton);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Browser";
@@ -47,9 +61,11 @@ namespace Wof.Controller
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 		private System.Windows.Forms.WebBrowser wofBrowser;
+        private Button homeButton;
 
 	}
 }
