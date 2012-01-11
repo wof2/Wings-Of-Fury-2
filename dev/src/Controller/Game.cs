@@ -1563,7 +1563,7 @@ namespace Wof.Controller
 
         public void GotoEnhancedVersionWebPageDo()
         {
-            string url = GetEnhancedVersionWebPageUrl();
+            string url = GetEnhancedVersionHelperWebPageNakedUrl();
             try
             {
                 // launch default browser
@@ -1585,7 +1585,7 @@ namespace Wof.Controller
         }
         public void GotoDonateWebPageDo()
         {
-            string url = GetDonateWebPageUrl();
+            string url = GetDonateWebPageNakedUrl();
             try
             {
                 // launch default browser

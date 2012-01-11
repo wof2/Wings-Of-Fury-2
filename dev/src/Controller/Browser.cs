@@ -89,9 +89,10 @@ namespace Wof.Controller
         
 
 	    public bool IsMouseOver(Point screen)
-		{            
+		{     
+       
             if(!isReady) return false;
-            
+           
 	        Point client;
             if (InvokeRequired)
             {
@@ -128,6 +129,7 @@ namespace Wof.Controller
 			InitializeComponent();
 
             CreateBrowser();
+            
             this.Activated += new System.EventHandler(this.Browser_Activated); // dopiero po zakonczeniu i po zrobieniu Show() (ktore z kolei wywoła onLoad, potem Hide)
             this.Load += new System.EventHandler(this.Browser_Load);
             this.Shown += new System.EventHandler(this.Browser_Shown);
@@ -208,7 +210,7 @@ namespace Wof.Controller
             this.wofBrowser.WebBrowserShortcutsEnabled = false;
             this.wofBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
             this.wofBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WofBrowserNavigated);
-            this.wofBrowser.Dock = DockStyle.Fill;
+            this.wofBrowser.Dock = DockStyle.Bottom;
            // 284, 262
             // 
             // Browser
@@ -278,7 +280,7 @@ namespace Wof.Controller
                 return;
             }
             SetBounds((int)(origin.x), (int)(origin.y), (int)dimensions.x, (int)dimensions.y);
-           // this.wofBrowser.SetBounds(0, 0, (int)dimensions.x, (int)dimensions.y);
+            this.wofBrowser.SetBounds(0, (int)(homeButton.Height * 1.2f), (int)dimensions.x, (int)dimensions.y - (int)(homeButton.Height * 1.2f));
         }
 
 
@@ -522,14 +524,6 @@ namespace Wof.Controller
                 this.WindowState = FormWindowState.Normal;
                 this.FormBorderStyle = FormBorderStyle.None;
                 SetPosition();
-                if (eventsWired)
-                {
-                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "ReturnToInitialState.unwiring");
-            	
-                    this.wofBrowser.Navigating -= wofBrowser_Navigating;
-                    eventsWired = false;
-                }
-                this.wofBrowser.Navigate(new Uri(GetNewsUrl(), UriKind.Absolute));
             }
             isInitialState = true;
         }
@@ -564,6 +558,20 @@ namespace Wof.Controller
           //  ReturnToInitialState();
          //   
             Hide();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(this.Visible)
+            {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "GoHome");
+                if (eventsWired)
+                {
+                    this.wofBrowser.Navigating -= wofBrowser_Navigating;
+                    eventsWired = false;
+                }
+                this.wofBrowser.Navigate(new Uri(GetNewsUrl(), UriKind.Absolute));
+            }
         }
 
        
