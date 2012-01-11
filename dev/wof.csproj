@@ -541,6 +541,12 @@
     <Compile Include="src\Controller\EffectBars\AltitudeBar.cs" />
     <Compile Include="src\Controller\EffectBars\BulletTimeBar.cs" />
     <Compile Include="src\Controller\Firewall.cs" />
+    <Compile Include="src\Controller\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Controller\Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Controller\FrameWorkForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -550,6 +556,7 @@
     <Compile Include="src\Controller\Indicators\IconedCenteredMessageEntry.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyCodeConflictException.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyMap.cs" />
+    <Compile Include="src\Controller\Taskbar.cs" />
     <Compile Include="src\Tests\ModelTest\GunTestForm.cs">
       <SubType>Form</SubType>
     </Compile>

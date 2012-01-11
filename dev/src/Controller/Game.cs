@@ -63,6 +63,7 @@ using Wof.Languages;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.XmlParser;
+using Wof.src.Controller;
 using Wof.Tools;
 using Wof.View;
 using Wof.View.Effects;
@@ -104,10 +105,15 @@ namespace Wof.Controller
             
         }
         
-         private Browser browser;
+       // private Browser browser;
+        private Browser browser;
+        private static Object browserLock = new object();
 
         private static Boolean shouldReload = false;
         private DelegateVoidVoid afterExit = null;
+
+        private Thread browserThread;
+        protected bool browserNotNull = false;
 
         [DllImport("shell32.dll")]
         private static extern long ShellExecute(Int32 hWnd, string lpOperation,
@@ -139,7 +145,8 @@ namespace Wof.Controller
                           
                         currentScreen = new StartScreen(this, this, viewport, camera);
                         StartBrowser();
-                        ShowBrowser();    
+                        ShowBrowser();
+                       
                     }  
                 }
              
@@ -176,11 +183,15 @@ namespace Wof.Controller
            
             if(browser != null)
             {
-                int BorderWidth = (this.Width - this.ClientSize.Width) /2;
-                int TitlebarHeight = this.Height - this.ClientSize.Height - 2 * BorderWidth;
-                BorderWidth = 0;
+                lock (browserLock)
+                {
+                    int BorderWidth = (this.Width - this.ClientSize.Width)/2;
+                    int TitlebarHeight = this.Height - this.ClientSize.Height - 2*BorderWidth;
+                    BorderWidth = 0;
 
-                browser.SetParentOrigin(new Vector2(Location.X + BorderWidth, Location.Y + TitlebarHeight), currentScreen as AbstractScreen);
+                    browser.SetParentOrigin(new Vector2(Location.X + BorderWidth, Location.Y + TitlebarHeight),
+                                            currentScreen as AbstractScreen);
+                }
             }
            
         }
@@ -193,12 +204,17 @@ namespace Wof.Controller
         protected void Game_Activated(object sender, EventArgs e)
         {
             // przegladarka reklam wraca na swoje miejsce
-            if(browser != null)
+            lock (browserLock)
             {
-                browser.ReturnToInitialState();
-                browser.IsActivated = false;
+                if(browser != null && browser.IsReady && browser.Visible)
+                {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Game.Game_Activated - ReturnToInitialState");
+                    browser.ReturnToInitialState();
+                    browser.IsActivated = false;
+                }
+                isActivated = true;
             }
-            isActivated = true;
+           
         }
 
         private void Game_Deactivate(object sender, EventArgs e)
@@ -235,56 +251,60 @@ namespace Wof.Controller
                     if (screenPos.X >= 0 && screenPos.Y >= 0)
                     {
                         bool activateMain = false;
-                        if (browser.IsActivated)
+
+                        lock (browserLock)
                         {
-                            // uzywamy wspolrzednych myszy z browsera
-                            if (!browser.IsMouseOver())
+                            if (browser.IsActivated)
                             {
-                                // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "!browser.IsMouseOver() - > activateMain");
-                                // mysz wyszla na zewnatrz browsera
-                                activateMain = true;
+                                // uzywamy wspolrzednych myszy z browsera
+                                if (!browser.IsMouseOver())
+                                {
+                                    // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "!browser.IsMouseOver() - > activateMain");
+                                    // mysz wyszla na zewnatrz browsera
+                                    activateMain = true;
+                                }
                             }
-                        }
-                        else if (isActivated)
-                        {                            
-                            // okno glowne
-                            if (browser.IsMouseOver(screenPos))
+                            else if (isActivated)
                             {
-                                activateMain = false;
+                                // okno glowne
+                                if (browser.IsMouseOver(screenPos))
+                                {
+                                    activateMain = false;
+                                }
+                                else
+                                {
+                                    activateMain = true;
+                                }
                             }
                             else
-                            {                            
+                            {
+                                // zadne nie jest aktywne?
                                 activateMain = true;
                             }
-                        }
-                        else
-                        {
-                            // zadne nie jest aktywne?
-                            activateMain = true;
-                        }
-                        
-                        // faktyczna aktywacja
-                        if (!activateMain)
-                        {
-                            if (!browser.IsActivated)
-                            {
-                            	//(currentScreen as AbstractScreen).MGui.injectMouse((uint)( viewport.ActualWidth + 1),(uint)(viewport.ActualHeight + 1), false);
-                                isActivated = false;
-                                browser.IsActivated = true;
-                                browser.Activate();
-                                //Console.WriteLine("Browser");
-                            }
-                        }
-                        else
-                        {                     
-                        	                        	
-                            if (!isActivated)
-                            {                                                     
-                                isActivated = true;
-                                browser.IsActivated = false;                           
-                                Activate();                                 
-                            }
 
+                            // faktyczna aktywacja
+                            if (!activateMain)
+                            {
+                                if (!browser.IsActivated)
+                                {
+                                    //(currentScreen as AbstractScreen).MGui.injectMouse((uint)( viewport.ActualWidth + 1),(uint)(viewport.ActualHeight + 1), false);
+                                    isActivated = false;
+                                    browser.IsActivated = true;
+                                    browser.Activate();
+                                    //Console.WriteLine("Browser");
+                                }
+                            }
+                            else
+                            {
+
+                                if (!isActivated)
+                                {
+                                    isActivated = true;
+                                    browser.IsActivated = false;
+                                    Activate();
+                                }
+
+                            }
                         }
                     }
                 }
@@ -422,7 +442,7 @@ namespace Wof.Controller
         {
             try
             {
-            	
+                Taskbar.Hide();
                 bool firstInstance;
                 Mutex mutex = new Mutex(false, @"Wings_Of_Fury", out firstInstance);
              //   if (firstInstance)
@@ -433,7 +453,7 @@ namespace Wof.Controller
                 {
                    
                 }  
-                SoundManager3D.Instance.Dispose();
+               
                 mutex.Close();
               
             }
@@ -441,16 +461,28 @@ namespace Wof.Controller
             {
              	
 	            try{
-            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, exc.Message + " " + exc.StackTrace);
-	                getGame().window.Destroy();
+                    getGame().window.Destroy(); 
+                        
+	                try
+                    {
+                        SoundManager3D.Instance.Dispose();
+                    }
+                    catch(Exception ex)
+                    {
+                        
+                    }
 	                FrameWorkStaticHelper.ShowWofException(exc);	                
-	                Debug.WriteLine(exc.ToString());
+	                
 	            }
             	catch
             	{
             		
             	}
 
+            }
+            finally
+            {
+                Taskbar.Show();
             }
         }
 
@@ -507,11 +539,12 @@ namespace Wof.Controller
                 
                
                 game.Go();
-
-                if(game.browser != null)
+               
+                if (game.browser != null)
                 {
                     game.DisposeBrowser();
                 }
+              
             }
             catch (SEHException)
             {
@@ -754,43 +787,87 @@ namespace Wof.Controller
             } else
             {
 
-            
-				
             }
         }
-        
-       
 
+      
         public void StartBrowser()
-        { 
-        	browser = new Browser(this, currentScreen as AbstractScreen);
-            browser.SetPosition();
-        	HideBrowser();
+        {
+            // przegladarka i jej forma powstania w osobnyn w¹tku
+            lock (browserLock)
+            {
+                browserThread = new Thread(new ThreadStart(StartBrowserDo));
+                browserThread.SetApartmentState(ApartmentState.STA);
+                browserThread.Start();
+            }
+         //   StartBrowserDo();
         }
-        
-        public void ShowBrowser()
+
+       
+        protected void StartBrowserDo()
+        {
+        	browser = new Browser(this, currentScreen as AbstractScreen);
+          //  browser.SetPosition();
+            browser.Hide();
+            browserNotNull = true;
+           // Application.DoEvents();
+           
+            Application.Run(browser); // przetwarzaj dalej okno przegladarki. Watek dalej musi pracowaæ
+         
+          
+        }
+       
+        protected void ShowBrowser()
         {
         	if(browser == null) StartBrowser();
-        	Vector2 res = FrameWorkStaticHelper.GetCurrentVideoMode();
-        	int scale = (int)(100 * (res.x * res.y) / (1024.0f * 768.0f));
+            while (!browserNotNull && !browser.IsReady)
+            {
+                Thread.Sleep(100);
+            }
+           
+            lock(browserLock)
+            {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Game.ShowBrowser");
+                Vector2 res = FrameWorkStaticHelper.GetCurrentVideoMode();
+                int scale = (int)(100 * (res.x * res.y) / (1024.0f * 768.0f));
+                browser.ReturnToInitialState();
+                browser.ShowBrowserAndTopMostScale(scale);
+            }
+            
         	
-        	browser.SetScale(scale);
-        	browser.TopMost = true;
-        	if(!browser.Visible) browser.Show();
         }
         public void HideBrowser()
         {
+
         	 if(browser == null) return;
-        	 browser.Visible = false;
+             lock (browserLock)
+             {
+                 browser.HideBrowser();
+             }
+            
         }
         public void DisposeBrowser()
         {
+
         	if(browser != null)
-        	{	   
-        		browser.Hide();
-            	browser.Close();
-        		browser.Dispose();
-        		browser = null;
+        	{
+                lock (browserLock)
+                {
+                    browser.KillBrowser();
+                    browser = null;
+                    browserThread.Join(200);
+                    if(browserThread.IsAlive)
+                    {
+                        try
+                        {
+                            browserThread.Abort();
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                    browserThread = null;
+                }
         	}
         }
 
@@ -887,17 +964,18 @@ namespace Wof.Controller
             }
           
 
-            if (!shutDown && !shouldReload)
-            {
-                ShowBrowser();
-            }
+            
 
             if (ss != null)
             {
                 (currentScreen as AbstractScreen).SetMousePosition(ss);
             }
 
-
+            if (!shutDown && !shouldReload)
+            {
+                ShowBrowser();
+                
+            }
         }
 
 
@@ -1406,7 +1484,10 @@ namespace Wof.Controller
         	if(browser != null && browser.Visible) 
         	{
         	//	browser.IsInitialState = false;
-        		browser.Hide();
+                lock (browserLock)
+                {
+                    browser.Hide();
+                }
         	}
         	this.WindowState = FormWindowState.Minimized;
            // window.SetVisible(false);
@@ -1451,13 +1532,13 @@ namespace Wof.Controller
 
         public void GotoEnhancedVersionWebPage()
         {
-        	MinimizeWindow();
+        //	MinimizeWindow();
             GotoEnhancedVersionWebPageDo();
         }
 
         public void GotoDonateWebPage()
         {
-        	MinimizeWindow();
+        	//MinimizeWindow();
         	GotoDonateWebPageDo();
         	
           // ExitGame(GotoDonateWebPageDo);
@@ -1480,13 +1561,14 @@ namespace Wof.Controller
             return EngineConfig.C_WOF_HOME_PAGE + "/enhanced_helper.php?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash + "#form";
         }
 
-        public static void GotoEnhancedVersionWebPageDo()
+        public void GotoEnhancedVersionWebPageDo()
         {
             string url = GetEnhancedVersionWebPageUrl();
             try
             {
                 // launch default browser
-                Process.Start(GetDefaultBrowserPath(), url);
+                if (browser != null) browser.Navigate(new System.Uri(url, System.UriKind.Absolute));
+              //  Process.Start(GetDefaultBrowserPath(), url);
             }
             catch (Exception)
             { }
@@ -1501,13 +1583,14 @@ namespace Wof.Controller
         {
             return EngineConfig.C_WOF_HOME_PAGE + "/page/donate?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion;
         }
-        public static void GotoDonateWebPageDo()
+        public void GotoDonateWebPageDo()
         {
             string url = GetDonateWebPageUrl();
             try
             {
                 // launch default browser
-                Process.Start(GetDefaultBrowserPath(), url);
+                if (browser != null) browser.Navigate(new System.Uri(url, System.UriKind.Absolute));
+              //  Process.Start(GetDefaultBrowserPath(), url);
             }
             catch (Exception)
             { }
@@ -1516,7 +1599,8 @@ namespace Wof.Controller
 
         public void GotoUpdateWebPage()
         {
-        	MinimizeWindow();
+           
+        	//MinimizeWindow();
         	GotoUpdateWebPageDo();
         	
            // ExitGame(GotoUpdateWebPageDo);
@@ -1529,7 +1613,9 @@ namespace Wof.Controller
             try
             {
                 // launch default browser
-                Process.Start(GetDefaultBrowserPath(), url);
+                if(browser!=null) browser.Navigate(new System.Uri(url, System.UriKind.Absolute));
+
+                //Process.Start(GetDefaultBrowserPath(), url);
             }
             catch (Exception)
             { }

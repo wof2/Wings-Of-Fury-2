@@ -23,6 +23,9 @@ namespace Wof.Controller
         {
             if (OgreException.IsThrown)
             {
+
+                LogManager.Singleton.LogMessage("Ogre exception thrown: " + OgreException.LastException.FullDescription + " File:" + OgreException.LastException.File + " Line:" + OgreException.LastException.Line + " Source:" + OgreException.LastException.Source);
+                        
                 string info = "";
                 if (OgreException.LastException.Description.Contains("failed to draw primitive") || OgreException.LastException.FullDescription.Contains("failed to draw primitive"))
                 {
@@ -32,7 +35,8 @@ namespace Wof.Controller
                 }
 
                 info += "\r\nSupport: " + EngineConfig.C_WOF_SUPPORT_PAGE;
-
+                info += "\r\nError has been logged to: " + Environment.CurrentDirectory+"\\ogre.log\r\n. Please attach the file in case of reporting a bug\r\n";
+               
                 MessageBox.Show(OgreException.LastException.FullDescription + info, EngineConfig.C_GAME_NAME + " - Engine error",
                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
@@ -41,7 +45,13 @@ namespace Wof.Controller
 
         public static void ShowWofException(Exception ex)
         {
-            MessageBox.Show(ex.Message + "\r\n" + "Stack trace: "+ex.StackTrace, EngineConfig.C_GAME_NAME + " - Runtime error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, ex.Message + " " + ex.StackTrace);
+            
+            string info = "\r\nSupport: " + EngineConfig.C_WOF_SUPPORT_PAGE;
+            info += "\r\nError has been logged to: " + Environment.CurrentDirectory + "\\ogre.log\r\n. Please attach the file in case of reporting a bug\r\n";
+            info += ex.Message + "\r\n" + "Stack trace: " + ex.StackTrace;
+                    
+            MessageBox.Show(info, EngineConfig.C_GAME_NAME + " - Runtime error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public static List<String> GetAntialiasingModes()
