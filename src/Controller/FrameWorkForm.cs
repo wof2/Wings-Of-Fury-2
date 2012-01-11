@@ -261,7 +261,7 @@ namespace Wof.Controller
             root.Dispose();
             root = null;
 
-        
+            SoundManager3D.Instance.Dispose();
             //Console.ReadLine();
         }
 
