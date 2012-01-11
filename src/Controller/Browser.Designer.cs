@@ -60,6 +60,8 @@ namespace Wof.Controller
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
+            this.MouseEnter += new System.EventHandler(this.Browser_MouseEnter);
+            this.MouseLeave += new System.EventHandler(this.Browser_MouseLeave);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -37,7 +37,8 @@ namespace Wof.Controller
 		public bool MouseOver {
 			get { return mouseOver; }
 		}
-	    protected Point lastScreenPos = new Point(-1,-1);
+
+	    private Point lastScreenPos = new Point(-1,-1);
 	    
 	    protected bool isInitialState = true;
         protected Mutex mutCache;
@@ -71,12 +72,15 @@ namespace Wof.Controller
 	    public Point MousePos
 	    {
 	        get { return mousePos; }
+           
 	    }
 
+     
+        /*
 	    public bool IsMouseOver()
         {           
 	        return mouseOver;    
-        }
+        }*/
         public bool IsReady
         {
             get { return isReady; }
@@ -88,26 +92,7 @@ namespace Wof.Controller
 
         
 
-	    public bool IsMouseOver(Point screen)
-		{     
-       
-            if(!isReady) return false;
-           
-	        Point client;
-            if (InvokeRequired)
-            {
-                PointDelegate deleg = new PointDelegate(IsMouseOver);
-                Object o = this.Invoke(deleg, new object[] { screen });
-                if(o==null) return false;
-               
-                return (bool)o;
-            } 
-            
-            client = this.wofBrowser.PointToClient(screen);
-            
-            lastScreenPos = screen;         
-            return this.wofBrowser.Bounds.Contains(client);
-		}		
+	    
 		
 	    private Form gameForm;
 
@@ -142,6 +127,8 @@ namespace Wof.Controller
                 this.Invoke(new VoidDelegate(HideBrowser));
                 return;
             }
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "HideBrowser");
+		   
             Visible = false;
         }
 
@@ -210,7 +197,7 @@ namespace Wof.Controller
             this.wofBrowser.WebBrowserShortcutsEnabled = false;
             this.wofBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser1_DocumentCompleted);
             this.wofBrowser.Navigated += new System.Windows.Forms.WebBrowserNavigatedEventHandler(this.WofBrowserNavigated);
-            this.wofBrowser.Dock = DockStyle.Bottom;
+           // this.wofBrowser.Dock = DockStyle.Bottom;
            // 284, 262
             // 
             // Browser
@@ -243,8 +230,13 @@ namespace Wof.Controller
             }
         }
 
-	    
-        public void Navigate(Uri uri)
+	    public Point LastScreenPos
+	    {
+	        get { return lastScreenPos; }
+	    }
+
+
+	    public void Navigate(Uri uri)
         {
            
             if(isReady && Visible)
@@ -285,25 +277,9 @@ namespace Wof.Controller
 
 
 
-	    private void Document_MouseLeave(object sender, HtmlElementEventArgs e)
-	    {
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "browser Document_MouseLeave");
-	        mouseOver = false;           
-	    }
-
-	    private void Document_MouseOver(object sender, HtmlElementEventArgs e)
-	    {
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "browser Document_MouseOver");
-            mouseOver = true;
-	        mousePos = e.MousePosition;         
-	    }
-
        
 
-	    void Document_MouseMove(object sender, HtmlElementEventArgs e)
-        {
-	        mousePos = e.MousePosition;  
-	    }
+	    
 
 	    private int scalePercent = 100;
 	    public void SetScale(int percent)
@@ -453,10 +429,11 @@ namespace Wof.Controller
             {
                 this.Invoke(new VoidDelegate(Activate));
                 return;
-            }
+            } 
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Browser_Activate explicid");
             canActivate = true;
         	base.Activate();
-	        base.Focus();
+	   //     base.Focus();
         }
 
         
@@ -464,11 +441,14 @@ namespace Wof.Controller
         {
             if(!Visible)
             {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Browser_Activated -> not visible so returning");
+               
                 return;
             }
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Browser_Activated");
+            
         	if(!canActivate)
         	{
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Browser_Activated -> Can't activate browser -> game.Activate");
                 if(gameForm.InvokeRequired)
                 {
                     gameForm.BeginInvoke(new VoidDelegate(gameForm.Activate));
@@ -479,7 +459,9 @@ namespace Wof.Controller
         		
         		return;
         	}
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Browser_Activated:" + lastScreenPos);
            // Console.WriteLine(" !!!!!!!!!!!!!! ACTIVATED !!!!!!!!!!!!!!");
+         
             if(lastScreenPos.X >= 0)
             {
                 Cursor.Position = lastScreenPos;
@@ -513,17 +495,20 @@ namespace Wof.Controller
                 this.Invoke(new VoidDelegate(ReturnToInitialState));
                 return;
             }
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "ReturnToInitialState");
+           
             
            
-            if(!isInitialState)
+            if(!isInitialState || !this.Visible)
             {
                
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "ReturnToInitialState.notIsInitialState");
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "ReturnToInitialState.notIsInitialState or not visible");
             	this.Show();
                 this.WindowState = FormWindowState.Normal;
                 this.FormBorderStyle = FormBorderStyle.None;
                 SetPosition();
+            }else
+            {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "ReturnToInitialState -> no need");
             }
             isInitialState = true;
         }
@@ -557,6 +542,8 @@ namespace Wof.Controller
         {
           //  ReturnToInitialState();
          //   
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Browser_Shown -> hide");
+            	
             Hide();
         }
 
@@ -572,6 +559,85 @@ namespace Wof.Controller
                 }
                 this.wofBrowser.Navigate(new Uri(GetNewsUrl(), UriKind.Absolute));
             }
+        }
+
+
+      
+        public void SetLastMouseScreenPos(Point screen)
+        {
+            lastScreenPos = screen;
+           // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "lastScreenPos=" + lastScreenPos);
+        }
+
+        public bool IsMouseOver(Point screen)
+        {
+
+            if (!isReady) return false;
+
+            Point client;
+            if (InvokeRequired)
+            {
+                PointDelegate deleg = new PointDelegate(IsMouseOver);
+                Object o = this.Invoke(deleg, new object[] { screen });
+                if (o == null) return false;
+
+                return (bool)o;
+            }
+
+            client = this.PointToClient(screen);
+           
+            bool over = this.ClientRectangle.Contains(client);
+            if (!over)
+            {
+               // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "IsMouseOver=false");
+            }
+           
+            return over;
+        }		
+
+        private void Document_MouseLeave(object sender, HtmlElementEventArgs e)
+        {
+
+         /*   if (!this.Bounds.Contains(PointToScreen(mousePos)))
+            {
+                mouseOver = false;
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "browser Document_MouseLeave: " + Bounds + " mouse:" + PointToScreen(mousePos));
+            } else
+            {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "browser Document_MouseLeave [cancelled]: " + Bounds + " mouse:" + PointToScreen(mousePos));
+            }*/
+           
+            
+        }
+
+        private void Document_MouseOver(object sender, HtmlElementEventArgs e)
+        {/*
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "browser Document_MouseOver");
+            mouseOver = true;*/
+            mousePos = e.MousePosition;
+        }
+
+        
+        private void Browser_MouseEnter(object sender, EventArgs e)
+        {
+        //    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "browser Browser_MouseEnter");
+        //    mouseOver = true;
+     
+        }
+
+        private void Browser_MouseLeave(object sender, EventArgs e)
+        {/*
+            if (!this.Bounds.Contains(PointToScreen(mousePos)))
+            {
+                mouseOver = false;
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "browser Browser_MouseLeave");
+            }*/
+
+        }
+        void Document_MouseMove(object sender, HtmlElementEventArgs e)
+        {
+         //   LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "mouse:" + e.MousePosition);
+            mousePos = e.MousePosition;
         }
 
        
