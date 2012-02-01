@@ -1262,6 +1262,9 @@ namespace Wof.Controller
             IntPtr windowHnd;
             window.GetCustomAttribute("WINDOW", out windowHnd);
             pl.Insert("WINDOW", windowHnd.ToString());
+           // pl.Insert("w32_mouse", "DISCL_FOREGROUND");
+           // pl.Insert("w32_mouse", "DISCL_NONEXCLUSIVE");
+
 
             inputManager = InputManager.CreateInputSystem(pl);
 

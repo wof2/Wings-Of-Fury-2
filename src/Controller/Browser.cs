@@ -435,17 +435,17 @@ namespace Wof.Controller
         	base.Activate();
 	   //     base.Focus();
         }
-
         
         private void Browser_Activated(object sender, EventArgs e)
         {
+            
             if(!Visible)
             {
                 LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Browser_Activated -> not visible so returning");
                
                 return;
             }
-            
+            /*
         	if(!canActivate)
         	{
                 LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Browser_Activated -> Can't activate browser -> game.Activate");
@@ -458,7 +458,7 @@ namespace Wof.Controller
                 }
         		
         		return;
-        	}
+        	}*/
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Browser_Activated:" + lastScreenPos);
            // Console.WriteLine(" !!!!!!!!!!!!!! ACTIVATED !!!!!!!!!!!!!!");
          

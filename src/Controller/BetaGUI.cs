@@ -127,6 +127,17 @@ namespace BetaGUI
 	    {
 	    	return injectMouse((uint)p.X, (uint)p.Y, LMB);
 	    }
+	    public void showMousePointer()
+	    {
+	    	 if(!mMP.IsVisible) mMP.Show();
+               
+	    }
+	    public void hideMousePointer()
+	    {
+	    	if(mMP!=null && mMP.IsVisible) {
+	    		mMP.Hide();
+	    	}
+	    }
         public int injectMouse(uint x, uint y, bool LMB)
         {
             
@@ -261,13 +272,14 @@ namespace BetaGUI
                 e.SetParameter("font_name", mFont);
                 e.SetParameter("char_height", StringConverter.ToString(mFontSize));
             }
+           
             OverlayContainer c =
                 (OverlayContainer)
                 OverlayManager.Singleton.CreateOverlayElement("Panel", name + "ContainerHack" + (oc++).ToString());
             c.MetricsMode = GuiMetricsMode.GMM_PIXELS;
             c.SetDimensions(D.x, D.y);
-            c.SetPosition(P.x, P.y);        
-                      
+            c.SetPosition(P.x, P.y);
+                   
             if (M != "")
                 c.MaterialName = M;
             c.AddChild(e);
