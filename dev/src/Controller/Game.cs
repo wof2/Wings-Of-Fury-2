@@ -242,9 +242,9 @@ namespace Wof.Controller
             if (currentScreen != null)
             {
                 currentScreen.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoystick);
-                
-                
-                if(browser != null)  
+
+
+                if (browser != null && !browser.IsDisposed && browser.Visible)  
                 { 
                     Point screenPos = (currentScreen as AbstractScreen).MousePosScreen;
                     if (screenPos.X >= 0 && screenPos.Y >= 0)
@@ -847,7 +847,8 @@ namespace Wof.Controller
                 int scale = (int) (100*(res.x*res.y)/(1024.0f*768.0f));
                 browser.ReturnToInitialState();
                 browser.ShowBrowserAndTopMostScale(scale);
-              //    game.Game_Activated(game, new EventArgs());
+                this.Activate();
+               // game.Game_Activated(game, new EventArgs());
             }
 
 
