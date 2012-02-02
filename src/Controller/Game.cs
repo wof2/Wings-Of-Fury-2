@@ -206,7 +206,7 @@ namespace Wof.Controller
             // przegladarka reklam wraca na swoje miejsce
             lock (browserLock)
             {
-                if(browser != null && browser.IsReady && browser.Visible)
+                if(browser != null && browser.IsReady() && browser.Visible)
                 {
                     LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Game.Game_Activated - ReturnToInitialState");
                     browser.ReturnToInitialState();
@@ -453,7 +453,7 @@ namespace Wof.Controller
         {
             try
             {
-                Taskbar.Hide();
+               
                 bool firstInstance;
                 Mutex mutex = new Mutex(false, @"Wings_Of_Fury", out firstInstance);
              //   if (firstInstance)
@@ -493,7 +493,7 @@ namespace Wof.Controller
             }
             finally
             {
-                Taskbar.Show();
+                //Taskbar.Show();
             }
         }
 
@@ -805,24 +805,25 @@ namespace Wof.Controller
         public void StartBrowser()
         {
             // przegladarka i jej forma powstania w osobnyn w¹tku
-            lock (browserLock)
-            {
+          
                 browserThread = new Thread(new ThreadStart(StartBrowserDo));
                 browserThread.SetApartmentState(ApartmentState.STA);
                 browserThread.Start();
-            }
+           
          //   StartBrowserDo();
         }
 
        
         protected void StartBrowserDo()
         {
-        	browser = new Browser(this, currentScreen as AbstractScreen);
-          //  browser.SetPosition();
-            browser.Hide();
-            browserNotNull = true;
-           // Application.DoEvents();
-           
+            lock (browserLock)
+            {
+                browser = new Browser(this, currentScreen as AbstractScreen);
+                //  browser.SetPosition();
+                browser.Hide();
+                browserNotNull = true;
+                // Application.DoEvents();
+            }
             Application.Run(browser); // przetwarzaj dalej okno przegladarki. Watek dalej musi pracowaæ
          
           
@@ -830,15 +831,16 @@ namespace Wof.Controller
        
         protected void ShowBrowser()
         {
-        	if(browser == null) StartBrowser();
-            while (!browserNotNull && !browser.IsReady)
+        	//if(browser == null) StartBrowser();
+            while (!browserNotNull || !browser.IsReady())
             {
                 Thread.Sleep(100);
             }
-            if(browser.Visible)
+
+          /*  if(browser.Visible)
             {
                 return;
-            }
+            }*/
            
             lock(browserLock)
             {
@@ -960,7 +962,7 @@ namespace Wof.Controller
             SoundManager.Instance.PlayMainTheme();
            
             currentScreen = new StartScreen(this, this, viewport, camera);
-            if (browser == null) StartBrowser();
+           // if (!browserNotNull) StartBrowser();
 
             if (ss != null)
             {
@@ -972,9 +974,9 @@ namespace Wof.Controller
             if (currentScreen != null && currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
               
-                if ((browser == null && (currentScreen as AbstractScreen).Viewport != null))
+                if ((!browserNotNull && (currentScreen as AbstractScreen).Viewport != null))
                 {
-                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "creating start screen, game.activated");
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "creating start screen");
                     StartBrowser();
                 }
 
@@ -987,7 +989,7 @@ namespace Wof.Controller
 
             if (!shutDown && !shouldReload)
             {
-                if (ss != null && browser!=null && browser.IsReady)
+                if (ss != null && browser!=null && browser.IsReady())
                 {
                     browser.SetLastMouseScreenPos(ss.MousePos);
                 }
@@ -1499,7 +1501,7 @@ namespace Wof.Controller
 
         public void MinimizeWindow()
         {
-        	if(browser != null && browser.Visible) 
+        	if(!browserNotNull && browser.Visible) 
         	{
         	//	browser.IsInitialState = false;
                 lock (browserLock)

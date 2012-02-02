@@ -207,6 +207,8 @@ namespace Wof.Controller
             if (!Setup())
                 return;
 
+            try
+            {
 
             // po wczytaniu poziomu odswiezmy polozenie okna
             this.OnMove(new EventArgs());
@@ -252,7 +254,7 @@ namespace Wof.Controller
             window.RemoveAllListeners();
             window.RemoveAllViewports(); 
             //  Root.Singleton.RenderSystem.DestroyRenderWindow(window.Name);
-         
+           
             window.Dispose();
             window = null;
 
@@ -262,6 +264,11 @@ namespace Wof.Controller
             root = null;
 
             SoundManager3D.Instance.Dispose();
+            }
+            finally
+            {
+                Taskbar.Show();
+            }
             //Console.ReadLine();
         }
 
@@ -392,7 +399,15 @@ namespace Wof.Controller
                 splash.Dispose();
                 if (carryOn) 
                 {
-                    window.SetVisible(true);                	
+                    window.SetVisible(true);
+                    try
+                    {
+                        Taskbar.Hide();
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    
                 }
             }
             return true;

@@ -281,7 +281,7 @@ namespace Wof.Controller.Indicators
 
                     // show
                   //  Console.WriteLine("Showing");
-                    if(!messageElement.IsVisible)
+                    if(messageElement != null &&!messageElement.IsVisible)
                     {
                         ShowCurrentMessage();
                     }
@@ -296,7 +296,7 @@ namespace Wof.Controller.Indicators
                 {
                //     Console.WriteLine("Clearing");
                     isDecreasingBgOpacity = true;
-                    messageElement.Hide();
+                    if (messageElement != null) messageElement.Hide();
                     if (iconOverlay.IsVisible)
                     {
                         iconOverlay.Hide();

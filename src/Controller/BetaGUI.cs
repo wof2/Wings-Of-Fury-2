@@ -56,6 +56,8 @@ namespace BetaGUI
             mO = OverlayManager.Singleton.Create("BetaGUI" + DateTime.Now.Ticks);         
             name = "BetaGUI" + DateTime.Now.Ticks;
             mO.Show();
+
+            createWindow(new Vector4(0, 0, 0, 0), "", (int)wt.NONE, " "); // hack na pierwsze okno :(
         }
 
         public GUI(String font, uint fontSize, String name)
