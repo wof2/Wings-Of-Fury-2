@@ -753,7 +753,7 @@ namespace Wof.Controller.Screens
            
 
             mGui.mFontSize = (uint)(fontSize * 0.7f);
-            Window infoWindow = mGui.createWindow(new Vector4(viewport.ActualWidth - 5 * h, viewport.ActualHeight - 0.8f * h, 4.33f * h, 0.83f * h), "bgui.window", (int)wt.NONE, version);
+            Window infoWindow = mGui.createWindow(new Vector4(viewport.ActualWidth - 5 * h, viewport.ActualHeight - 1.2f * h, 4.33f * h,  h), "bgui.window", (int)wt.NONE, version);
             infoWindow.show();
 
 

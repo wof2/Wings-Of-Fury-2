@@ -121,13 +121,14 @@ namespace Wof.Controller.Screens
             {
                 gameName += " Demo";
             }
+
            
-            
             guiWindow = mGui.createWindow(new Vector4(m.x,
                                                       m.y, Viewport.ActualWidth/2,
                                                       Viewport.ActualHeight - m.y - h ),
                                           			  "bgui.window", (int)wt.NONE, gameName);
 
+         
 
             if (EngineConfig.IsEnhancedVersion)
             {

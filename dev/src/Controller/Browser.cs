@@ -81,15 +81,20 @@ namespace Wof.Controller
         {           
 	        return mouseOver;    
         }*/
-        public bool IsReady
-        {
-            get { return isReady; }
+        public bool IsReady()
+        { 
+            if(this.InvokeRequired)
+            {
+                return (bool)this.Invoke(new BoolDelegate(IsReady));
+            }
+            return isReady; 
+           
         }
         protected delegate bool PointDelegate(Point p);
         protected delegate void IntDelegate(int i);
         protected delegate void VoidDelegate();
         protected delegate void UriDelegate(Uri uri);
-
+        protected delegate bool BoolDelegate();
         
 
 	    
