@@ -297,7 +297,7 @@ namespace Wof.Controller.Indicators
                //     Console.WriteLine("Clearing");
                     isDecreasingBgOpacity = true;
                     if (messageElement != null) messageElement.Hide();
-                    if (iconOverlay.IsVisible)
+                    if (iconOverlay!= null && iconOverlay.IsVisible)
                     {
                         iconOverlay.Hide();
                     } 
