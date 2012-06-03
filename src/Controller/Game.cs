@@ -137,21 +137,15 @@ namespace Wof.Controller
                     if (EngineConfig.ShowIntro)
                     {
                         currentScreen = new IntroScreen(this, this, viewport, camera);
-                       // StartBrowser();
+                        StartBrowser();
                     }
                     else
                     {
                         SoundManager.Instance.PlayMainTheme();
-
-
-
-                        currentScreen = new IntroScreen(this, this, viewport, camera);
-
-                        initScreenAfter(currentScreen);
+                          
                         currentScreen = new StartScreen(this, this, viewport, camera);
-                     //   
-                      //  StartBrowser();
-                      //  ShowBrowser();
+                        StartBrowser();
+                        ShowBrowser();
                        
                     }  
                 }
@@ -168,22 +162,22 @@ namespace Wof.Controller
 
         public Game() : base()
         {
-        //	this.Text = EngineConfig.C_GAME_NAME + " " +EngineConfig.C_WOF_VERSION;
-       //     this.BackColor = Color.Black;
-        //    this.Icon = Wof.Properties.Resources.WofIcon;
+        	this.Text = EngineConfig.C_GAME_NAME + " " +EngineConfig.C_WOF_VERSION;
+            this.BackColor = Color.Black;
+            this.Icon = Wof.Properties.Resources.WofIcon;
         }
 
         protected override void WireEventListeners()
         {
 
             base.WireEventListeners();
-        //    this.Move += new EventHandler(Game_Move);
-       //     this.Activated += new EventHandler(Game_Activated);
-       //     this.Deactivate += new EventHandler(Game_Deactivate);
-       //     this.Closing += new System.ComponentModel.CancelEventHandler(Game_Closing);
+            this.Move += new EventHandler(Game_Move);
+            this.Activated += new EventHandler(Game_Activated);
+            this.Deactivate += new EventHandler(Game_Deactivate);
+            this.Closing += new System.ComponentModel.CancelEventHandler(Game_Closing);
 
         }
-        /*
+
         protected virtual void Game_Move(object sender, EventArgs e)
         {
            
@@ -201,7 +195,7 @@ namespace Wof.Controller
             }
            
         }
-        */
+
         void Game_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
            
@@ -317,7 +311,7 @@ namespace Wof.Controller
 
                                         isActivated = true;
                                         browser.IsActivated = false;
-                                     //   Activate();
+                                        Activate();
                                     }
 
                                 }
@@ -339,9 +333,9 @@ namespace Wof.Controller
 
             if(!base.FrameStarted(evt)) return false;
 
-         //   if(IsDisposed)
+            if(IsDisposed)
             {
-          //      return false;
+                return false;
             }
 
         	evt.timeSinceLastFrame *= EngineConfig.CurrentGameSpeedMultiplier;
@@ -597,7 +591,7 @@ namespace Wof.Controller
 				
 				//User32.SetForegroundWindow(exeProcess.Handle);
 				//SetFocusToPreviousInstance();
-			//	game.Hide();
+				game.Hide();
 			
             }
         }
@@ -822,10 +816,9 @@ namespace Wof.Controller
        
         protected void StartBrowserDo()
         {
-            return;
             lock (browserLock)
             {
-               // browser = new Browser(this, currentScreen as AbstractScreen);
+                browser = new Browser(this, currentScreen as AbstractScreen);
                 //  browser.SetPosition();
                 browser.Hide();
                 browserNotNull = true;
@@ -838,7 +831,6 @@ namespace Wof.Controller
        
         protected void ShowBrowser()
         {
-            return;
         	//if(browser == null) StartBrowser();
             while (!browserNotNull || !browser.IsReady())
             {
@@ -857,7 +849,7 @@ namespace Wof.Controller
                 int scale = (int) (100*(res.x*res.y)/(1024.0f*768.0f));
                 browser.ReturnToInitialState();
                 browser.ShowBrowserAndTopMostScale(scale);
-               // this.Activate();
+                this.Activate();
                // game.Game_Activated(game, new EventArgs());
             }
 
@@ -1517,7 +1509,7 @@ namespace Wof.Controller
                     browser.Hide();
                 }
         	}
-        //	this.WindowState = FormWindowState.Minimized;
+        	this.WindowState = FormWindowState.Minimized;
            // window.SetVisible(false);
          //   window.SetFullscreen(false, 0, 0);
           //  window.Resize(0, 0);

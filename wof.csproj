@@ -160,7 +160,7 @@
     <Reference Include="MHydrax, Version=0.5.0.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="Microsoft.DirectX.AudioVideoPlayback" />
     <Reference Include="Microsoft.DirectX.DirectSound" />
-    <Reference Include="Mogre, Version=1.7.3.0, Culture=neutral, PublicKeyToken=96bb577564343f16, processorArchitecture=x86">
+    <Reference Include="Mogre, Version=1.6.4.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Release\Mogre.dll</HintPath>
     </Reference>
@@ -548,6 +548,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Controller\FrameWorkForm.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\Controller\FrameWorkStaticHelper.cs" />
     <Compile Include="src\Controller\IFrameWork.cs" />
@@ -565,6 +566,7 @@
     <Compile Include="src\Tests\ModelTest\GunTest.cs" />
     <Compile Include="src\Tools\Licensing.cs" />
     <Compile Include="src\Controller\PerformanceTestFramework.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\Controller\RootInitializationException.cs" />
     <Compile Include="src\Controller\Screens\BloodOptionsScreen.cs" />
@@ -587,6 +589,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\Controller\Game.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\Controller\GameEventListener.cs">
       <SubType>Code</SubType>
@@ -924,6 +927,7 @@
     </Compile>
     <Compile Include="src\Tests\ModelTest\PlaneTest\PlaneTest.cs" />
     <Compile Include="src\Tests\SceneTest.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\View\AmmunitionViews\AmmunitionView.cs" />
     <Compile Include="src\View\AmmunitionViews\BombView.cs" />
