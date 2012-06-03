@@ -811,7 +811,7 @@ namespace Wof.Model.Level
                 }
                
             }else
-            if (MissionType == MissionType.BombingRun)
+            if (MissionType == MissionType.BombingRun || this.MissionType == MissionType.Assassination)
             {
                 //sprawdzam stan wrogich instalacji.
                 if (enemyInstallationTiles != null)
@@ -841,22 +841,25 @@ namespace Wof.Model.Level
                 }
 
                 //sprawdzam zolnierzy.
-
-                if (soldierList != null)
+                if (MissionType == MissionType.BombingRun)
                 {
-                    for (int i = 0; i < soldierList.Count; i++)
+                    if (soldierList != null)
                     {
-                        if (soldierList[i].IsAlive)
+                        for (int i = 0; i < soldierList.Count; i++)
                         {
-                            return;
+                            if (soldierList[i].IsAlive)
+                            {
+                                return;
+                            }
                         }
                     }
+                    //zolnierze nie zyja. konczymy poziom
+                    onReadyLevelEndLaunched = true;
+                    controller.OnReadyLevelEnd();
                 }
-                //zolnierze nie zyja. konczymy poziom
-                onReadyLevelEndLaunched = true;
-                controller.OnReadyLevelEnd();
-            }else
-            //sprawdzam genera³ów.
+            }
+
+            //sprawdzam genera³ów biegajacych
             if(MissionType == MissionType.Assassination)
             {
                 if (generalList != null)

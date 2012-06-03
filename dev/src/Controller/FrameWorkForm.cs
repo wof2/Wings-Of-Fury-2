@@ -210,60 +210,82 @@ namespace Wof.Controller
             try
             {
 
-            // po wczytaniu poziomu odswiezmy polozenie okna
-            this.OnMove(new EventArgs());
+                // po wczytaniu poziomu odswiezmy polozenie okna
+                this.OnMove(new EventArgs());
 
-            if (EngineConfig.UseAsyncModel)
-            {
-                modelWorker.WorkerSupportsCancellation = true;
-                modelWorker.RunWorkerAsync();
-            }
-        
+                if (EngineConfig.UseAsyncModel)
+                {
+                    modelWorker.WorkerSupportsCancellation = true;
+                    modelWorker.RunWorkerAsync();
+                }
             
-            root.StartRendering();
-            
-            // clean up
-            if (EngineConfig.UseAsyncModel)
-            {
-                modelWorker.CancelAsync();
+                
+                root.StartRendering();
+                
+                // clean up
+                if (EngineConfig.UseAsyncModel)
+                {
+                    modelWorker.CancelAsync();
+                }
+               
+
+                if (Game.getGame() != null && Game.getGame().CurrentScreen != null)
+                {
+                    Game.getGame().CurrentScreen.CleanUp(false);
+                }
+                            
+                
+
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
+               
+                if(!(this is PerformanceTestFramework))
+                {
+                    EffectsManager.Singleton.Clear();
+                }
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Destroying scenes");
+                FrameWorkStaticHelper.DestroyScenes(this);
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unloading textures and materials");
+                TextureManager.Singleton.UnloadAll();
+                MaterialManager.Singleton.UnloadAll();
+                CompositorManager.Singleton.RemoveAll();
+                CompositorManager.Singleton.UnloadAll();
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unloading meshes");
+                MeshManager.Singleton.UnloadAll();
+                FontManager.Singleton.UnloadAll();
+                GpuProgramManager.Singleton.UnloadAll();
+                HighLevelGpuProgramManager.Singleton.UnloadAll();
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Removing listeners");
+                window.RemoveAllListeners();
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Removing viewports");
+                window.RemoveAllViewports(); 
+                //  Root.Singleton.RenderSystem.DestroyRenderWindow(window.Name);
+
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Killing window");
+                window.Dispose();
+                window = null;
+
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Disposing resouce group manager");
+                ResourceGroupManager.Singleton.Dispose();
+
+                try
+                {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Disposing sound manager 3D");
+                    SoundManager3D.Instance.Dispose();
+                }
+                catch(Exception ex)
+                {
+                    
+                }
+               
+
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Disposing Root object");
+                root.Shutdown();
+                root.Dispose();
+                root = null;
             }
-           
-
-            if (Game.getGame() != null && Game.getGame().CurrentScreen != null)
+            catch(Exception ex)
             {
-                Game.getGame().CurrentScreen.CleanUp(false);
-            }
-                        
-            
-
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
-           
-            if(!(this is PerformanceTestFramework))
-            {
-                EffectsManager.Singleton.Clear();
-            }
-            FrameWorkStaticHelper.DestroyScenes(this);
-            TextureManager.Singleton.UnloadAll();
-            MaterialManager.Singleton.UnloadAll();
-            CompositorManager.Singleton.RemoveAll();
-            CompositorManager.Singleton.UnloadAll();
-            MeshManager.Singleton.UnloadAll();
-            FontManager.Singleton.UnloadAll();
-            GpuProgramManager.Singleton.UnloadAll();
-            HighLevelGpuProgramManager.Singleton.UnloadAll();
-            window.RemoveAllListeners();
-            window.RemoveAllViewports(); 
-            //  Root.Singleton.RenderSystem.DestroyRenderWindow(window.Name);
-           
-            window.Dispose();
-            window = null;
-
-            ResourceGroupManager.Singleton.Dispose();
-            root.Shutdown();
-            root.Dispose();
-            root = null;
-
-            SoundManager3D.Instance.Dispose();
+                
             }
             finally
             {

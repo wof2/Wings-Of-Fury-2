@@ -312,6 +312,8 @@ namespace FSLOgreCS
 
                 for (int i = 0; i < SoundObjectVector.Count; i++)
                 {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Disposing sound object: " + SoundObjectVector[i].Name);
+                  
                     SoundObjectVector[i].Destroy();
                 }
                 SoundObjectVector.Clear();
