@@ -290,19 +290,19 @@ namespace Wof.Controller
         public void PlayIngameMusic(int no, int volume, bool preloadOnly)
         {
             string music = "music/music" + no + ".ogg";
-            SoundManager3D.Instance.PlayAmbient(music, volume, preloadOnly);
+            SoundManager3D.Instance.PlayAmbientMusic(music, volume, preloadOnly);
         }
 
         public void PlayMainTheme()
         {
-            SoundManager3D.Instance.PlayAmbient("music/themesong.ogg", EngineConfig.MusicVolume, false, true, EngineConfig.AudioStreaming);
+            SoundManager3D.Instance.PlayAmbientMusic("music/themesong.ogg", 100, false, true, EngineConfig.AudioStreaming);
             // Play(mainTheme);
         }
 
         public void StopMusic()
         {
             // Stop(mainTheme);
-            SoundManager3D.Instance.StopAmbient();
+            SoundManager3D.Instance.StopAmbientMusic();
         }
 
 

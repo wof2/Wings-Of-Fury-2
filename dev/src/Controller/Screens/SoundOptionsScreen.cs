@@ -221,7 +221,7 @@ namespace Wof.Controller.Screens
                 {
                     SoundManager.Instance.SoundDisabled = false;
                     SoundManager.Instance.PlayMainTheme();
-                    SoundManager3D.Instance.PlayAmbient(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
+                    SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, 100);
                 }
 
                 EngineConfig.SaveEngineConfig();
