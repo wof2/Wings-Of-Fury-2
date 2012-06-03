@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Mogre;
 using Wof.Controller;
 
 namespace FSLOgreCS
@@ -107,7 +108,8 @@ namespace FSLOgreCS
         {
             if(EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
             // dzwieki powinny miec ustawiona lokalna glosnosc (niezalezna od muzyki) przed rozpoczeciem pierwszego odtworzenia
-            SetGain(GetBaseGain() * EngineConfig.SoundVolume / 100.0f);
+          //  SetGain(GetBaseGain() * EngineConfig.SoundVolume / 100.0f);
+            ApplyGain();
             FreeSL.fslSoundPlay(_sound);
             _shouldBePlaying = true;
             _playing = true;
@@ -174,18 +176,20 @@ namespace FSLOgreCS
         }
         public void SetBaseGain(float baseGain)
         {
-           
+           // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "SETTING BASE GAIN: " + this.Name + "Base: " + baseGain+ "\nStack trace:"+System.Environment.StackTrace);
             this._baseGain = baseGain;
-            SetGain(baseGain * EngineConfig.SoundVolume / 100.0f);
+            ApplyGain();
         }
 
-        private void SetGain(float gain)
+        protected void SetGain(float gain)
         {
             if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
+            //LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "SETTING GAIN: " + this.Name + " Base: " + this.GetBaseGain() + ", final gain:" + gain);
+               
             FreeSL.fslSoundSetGain(_sound, gain);
         }
 
-        public void ApplyGain()
+        public virtual void ApplyGain()
         {
             SetGain(_baseGain * EngineConfig.SoundVolume / 100.0f);
         }
@@ -198,7 +202,7 @@ namespace FSLOgreCS
         		if(_loop && _shouldBePlaying && !IsPlaying())
 	        	{
 	        		this.SetSound(_soundFile, _loop, _streaming);
-                    SetGain(GetBaseGain() * EngineConfig.SoundVolume / 100.0f);
+	        	    ApplyGain();
 	        		Play();
                     
 	        	}

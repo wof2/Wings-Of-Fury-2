@@ -303,7 +303,7 @@ namespace Wof.Controller.Screens
 
             if(i == 1)
             {
-                SoundManager3D.Instance.PlayAmbient("sounds/raven.wav", EngineConfig.SoundVolume, false, false);
+                SoundManager3D.Instance.PlayAmbientMusic("sounds/raven.wav", EngineConfig.SoundVolume, false, false);
             }
 
             textureDimensions = unit.GetTextureDimensions();

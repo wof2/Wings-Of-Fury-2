@@ -82,7 +82,7 @@ namespace Wof.Controller
             {
            
             }
-            SoundManager3D.Instance.PlayAmbient(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
+            SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, 100);
             EngineConfig.SaveEngineConfig();          
         }
         
@@ -137,14 +137,14 @@ namespace Wof.Controller
         }
 
 
-        public void PlayAmbient(String sound, int volume)
+        public void PlayAmbientMusic(String sound, int volume)
         {
-            PlayAmbient(sound, volume, false);
+            PlayAmbientMusic(sound, volume, false);
         }
 
-        public void PlayAmbient(String sound, int volume, bool preloadOnly, bool loop)
+        public void PlayAmbientMusic(String sound, int volume, bool preloadOnly, bool loop)
         {
-            PlayAmbient(sound, volume, preloadOnly, loop, false);
+            PlayAmbientMusic(sound, volume, preloadOnly, loop, false);
         }
 
         /// <summary>
@@ -155,7 +155,7 @@ namespace Wof.Controller
         /// <param name="preloadOnly">czy tylko preloadowaæ muzykê</param>
         /// <param name="loop">zapêtlenie dziêku</param>
         /// <param name="streaming"></param>
-        public void PlayAmbient(String sound, int volume, bool preloadOnly, bool loop, bool streaming)
+        public void PlayAmbientMusic(String sound, int volume, bool preloadOnly, bool loop, bool streaming)
         {
             streaming = false;
 
@@ -175,13 +175,13 @@ namespace Wof.Controller
                 }
                 else
                 {
-                    ambientSound = CreateAmbientSound(sound, sound + "_Ambient", loop, streaming);
+                    ambientSound = CreateAmbientSoundMusic(sound, sound + "_Ambient", loop, streaming);
                     ambientSounds[sound] = ambientSound;
                 }
 
                
                 ambientSound.SetBaseGain(volume / 100.0f);
-                ambientSound.ApplyGain();
+               // ambientSound.ApplyGain();
                 //Create Ambient sound  
                 if (!preloadOnly)
                 {
@@ -207,22 +207,22 @@ namespace Wof.Controller
         }
 
 
-        public void PlayAmbient(String sound, int volume, bool preloadOnly)
+        public void PlayAmbientMusic(String sound, int volume, bool preloadOnly)
         {
-            PlayAmbient(sound, volume, preloadOnly, true, EngineConfig.AudioStreaming);
+            PlayAmbientMusic(sound, volume, preloadOnly, true, EngineConfig.AudioStreaming);
         }
 
-        public void PlayAmbient(String sound, bool loop)
+        public void PlayAmbientMusic(String sound, bool loop)
         {
-            PlayAmbient(sound, EngineConfig.MusicVolume, false, loop, true);
+            PlayAmbientMusic(sound, 100, false, loop, true);
         }
 
-        public void PlayAmbient(String sound)
+        public void PlayAmbientMusic(String sound)
         {
-            PlayAmbient(sound, EngineConfig.MusicVolume);
+            PlayAmbientMusic(sound, 100);
         }
 
-        public void StopAmbient()
+        public void StopAmbientMusic()
         {
             if (ambientSound != null)
             {

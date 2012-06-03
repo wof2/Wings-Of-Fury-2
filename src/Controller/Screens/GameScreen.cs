@@ -3188,7 +3188,7 @@ namespace Wof.Controller.Screens
             
             if(plane is StoragePlane)
             {
-                SoundManager3D.Instance.PlayAmbient(SoundManager3D.C_STORAGE_PLANE_DESTROYED, false);
+                SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.C_STORAGE_PLANE_DESTROYED, false);
             }
             SoundManager.Instance.PlayExposionSound();
         }

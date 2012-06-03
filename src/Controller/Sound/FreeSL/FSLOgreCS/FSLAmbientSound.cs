@@ -1,5 +1,10 @@
+using Wof.Controller;
+
 namespace FSLOgreCS
 {
+    /// <summary>
+    /// Reprezentuje obiekt ktory nie zalezy od polozenia kamery
+    /// </summary>
     public class FSLAmbientSound : FSLSoundObject
     {
         public FSLAmbientSound(string soundFile, string name, bool loop, bool streaming)
@@ -13,7 +18,7 @@ namespace FSLOgreCS
         {
             FreeSL.fslSoundSetSourceRelative(_sound, true);
         }
-
+        
         public override void Update()
         { 
         	base.Update();
