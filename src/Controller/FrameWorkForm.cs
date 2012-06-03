@@ -50,6 +50,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using FSLOgreCS;
@@ -72,7 +73,7 @@ namespace Wof.Controller
     /// Framework zapewniaj¹cy podstawow¹ funkcjonalnoœæ silnika
     /// <author>Adam Witczak</author>
     /// </summary>
-    public abstract class FrameWorkForm : Form, IFrameWork
+    public abstract class FrameWorkForm : IFrameWork
     {
 
     
@@ -211,16 +212,17 @@ namespace Wof.Controller
             {
 
             // po wczytaniu poziomu odswiezmy polozenie okna
-            this.OnMove(new EventArgs());
+          //  this.OnMove(new EventArgs());
 
             if (EngineConfig.UseAsyncModel)
             {
                 modelWorker.WorkerSupportsCancellation = true;
                 modelWorker.RunWorkerAsync();
             }
-        
+            while (root != null && root.RenderOneFrame())
+                Application.DoEvents();
             
-            root.StartRendering();
+           // root.StartRendering();
             
             // clean up
             if (EngineConfig.UseAsyncModel)
@@ -399,10 +401,22 @@ namespace Wof.Controller
                 splash.Dispose();
                 if (carryOn) 
                 {
-                    window.SetVisible(true);
+                    IntPtr hwndW = new IntPtr(); ;
+                   window.SetVisible(true);
+                 //   root.AutoCreatedWindow.GetCustomAttribute("WINDOW", out hwndW);
+
+                 //   int style = GetWindowLong(hwndW, GWL_STYLE);
+
+                //    style &= ~(WS_EX_TOPMOST);
+
+                   // SetWindowLong(hwndW, GWL_STYLE, (style));
+
+
+                  //  SetWindowPos(process.Handle, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE);
+                 //   SetWindowPos(hwndW, (IntPtr)0, 0, 0, 500, 500, HWND_NOTOPMOST);
                     try
                     {
-                        Taskbar.Hide();
+                       // Taskbar.Hide();
                     }
                     catch (Exception)
                     {
@@ -412,6 +426,44 @@ namespace Wof.Controller
             }
             return true;
         }
+
+        #region Constants
+        //Finds a window by class name
+        [DllImport("USER32.DLL")]
+        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        //Sets a window to be a child window of another window
+        [DllImport("USER32.DLL")]
+        public static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
+
+        //Sets window attributes
+        [DllImport("USER32.DLL")]
+        public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+        //Gets window attributes
+        [DllImport("USER32.DLL")]
+        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
+        //assorted constants needed
+        public static uint MF_BYPOSITION = 0x400;
+        public static uint MF_REMOVE = 0x1000;
+        public static int GWL_STYLE = -16;
+        public static int WS_CHILD = 0x40000000; //child window
+        public static int WS_BORDER = 0x00800000; //window with border
+        public static int WS_DLGFRAME = 0x00400000; //window with double border but no title
+        public static int WS_CAPTION = WS_BORDER | WS_DLGFRAME; //window with a title bar 
+        public static int WS_SYSMENU = 0x00080000; //window menu  
+        public static int HWND_TOPMOST = (-1);
+        public static int HWND_NOTOPMOST = (-2);
+        public static int WS_EX_TOPMOST = 0x00000008;
+
+       // static readonly IntPtr HWND_NOTOPMOST = new IntPtr(-2);
+        #endregion
+
 
         void DefaultLog_MessageLogged(string message, LogMessageLevel lml, bool maskDebug, string logName)
         {
@@ -466,7 +518,7 @@ namespace Wof.Controller
         public int hwnd;
         /// <summary>
         /// Configures the application - returns false if the user chooses to abandon configuration.
-        /// </summary>
+        /// </summary>  
         protected virtual bool Configure()
         {
             if (root.RestoreConfig())
@@ -475,49 +527,55 @@ namespace Wof.Controller
              
                 try
                 {
-                    //window  = root.Initialise(true, EngineConfig.C_GAME_NAME);
-                   // return true;
-
-                    root.Initialise(false, EngineConfig.C_GAME_NAME);
-
-                    this.FormBorderStyle = FormBorderStyle.None;
+                 //   Hide();
+                  
+                    window  = root.Initialise(true, EngineConfig.C_GAME_NAME);
+                    
+                    
+                    /*
                     ConfigFile config = new ConfigFile();
                     config.LoadDirect(EngineConfig.C_OGRE_CFG);
+                    root.Initialise(false, EngineConfig.C_GAME_NAME);
+                    */
+                //    this.FormBorderStyle = FormBorderStyle.None;
+                  
 
                    
                   //  return true;
+                    /*
                     NameValuePairList misc = new NameValuePairList();
-	                misc["externalWindowHandle"] = Handle.ToString();
+	              //  misc["externalWindowHandle"] = Handle.ToString();
                     misc["colourDepth"] = FrameWorkStaticHelper.GetCurrentColourDepth();
                   misc["vsync"] = FrameWorkStaticHelper.GetCurrentVsync().ToString();
                    int[] fsaa =  FrameWorkStaticHelper.GetCurrentFSAA();
                    misc["FSAA"] = fsaa[0].ToString();
                    misc["FSAAQuality"] = fsaa[1].ToString();
+                   misc["Video Mode"] = "1680 x 1050 @ 32-bit colour";
+                    */
                    /*
                                     misc["useNVPerfHUD"] = FrameWorkStaticHelper.GetCurrentUseNVPerfHUD(root).ToString();*/
 		//	misc["gamma"] = StringConverter::toString(hwGamma);
                   
                     
-                    
+                    /*
                    MaterialManager.Singleton.SetDefaultTextureFiltering(filtering);
                    MaterialManager.Singleton.DefaultAnisotropy = aniso;
 
 
 	                Vector2 dim = FrameWorkStaticHelper.GetCurrentVideoMode();
-                   // this.ClientSize
-                    this.ClientSize = new Size((int) dim.x, (int)dim.y);
+                   // this.Show();
+                    
                     //this.ClientSize.Height = ;
-	                window = root.CreateRenderWindow(EngineConfig.C_GAME_NAME,0,0, false, misc.ReadOnlyInstance);
+	                window = root.CreateRenderWindow(EngineConfig.C_GAME_NAME,1680,1050, true, misc.ReadOnlyInstance);
                  
                     
                    // window.GetCustomAttribute("WINDOW",out hwnd);
-                    
-                   
-                    Show();
-                    window.Resize((uint)dim.x, (uint)dim.y);
-                    hwnd = Handle.ToInt32();
 
-                    //window.SetDeactivateOnFocusChange(true);
+
+                  
+                  //  hwnd = Handle.ToInt32();
+
+                    //window.SetDeactivateOnFocusChange(true);*/
                     
                 }
                 catch (Exception ex)
@@ -543,17 +601,14 @@ namespace Wof.Controller
 				{
                     if(FrameWorkStaticHelper.GetCurrentFullscreen())
                     {
-                        IntPtr ptr = new IntPtr(hwnd);
-                        this.WindowState = FormWindowState.Maximized;
-                        User32.SetWinFullScreen(ptr);
-                        
+                   
                     }
                     else
                     {
-                        this.WindowState = FormWindowState.Normal;
+                       /* this.WindowState = FormWindowState.Normal;
                         this.FormBorderStyle = FormBorderStyle.FixedSingle;
                         this.Left = 0;
-                        this.Top = 0;
+                        this.Top = 0;*/
                     }
 		           
 		            
@@ -567,7 +622,7 @@ namespace Wof.Controller
 	        		//User32.SetWindowLong(ptr, GWL_EXSTYLE, style);
 	        		
 	        		
-					LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "AAAAA " +string.Format( "{0:X}", hwnd ));*/
+					LogManager.Singleton.LogMessage(LogMessa geLevel.LML_CRITICAL, "AAAAA " +string.Format( "{0:X}", hwnd ));*/
 				}
         
             

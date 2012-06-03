@@ -293,13 +293,13 @@ namespace Wof.Controller.Screens
         }
         public void SetMousePosition(Point pos)
         {
-         	Cursor.Position = GetContainer().PointToScreen(new Point((int)( pos.X / XScale), (int)( pos.Y / YScale)));  	  
+         	//Cursor.Position = GetContainer().PointToScreen(new Point((int)( pos.X / XScale), (int)( pos.Y / YScale)));  	  
                  	
         }
         
         public void SetMousePosition(Vector2 viewportPos)
         {
-        	  Cursor.Position = GetContainer().PointToScreen(new Point((int)( viewportPos.x / XScale), (int)( viewportPos.y / YScale)));  	  
+        	//  Cursor.Position = GetContainer().PointToScreen(new Point((int)( viewportPos.x / XScale), (int)( viewportPos.y / YScale)));  	  
         
         }
 
@@ -322,7 +322,7 @@ namespace Wof.Controller.Screens
         {
         	get
             {
-        		Control container = GetContainer();
+        	/*	Control container = GetContainer();
         		Point p = container.PointToClient(Cursor.Position);
         	 	int x =  p.X;
                 if (x >= container.ClientSize.Width)
@@ -338,8 +338,8 @@ namespace Wof.Controller.Screens
                 }
                 if (y < 0) y = 0;
                                
-
-                return new Point((int) (x * XScale),(int)  (y * YScale));
+                */
+                return new Point((int)(Cursor.Position.X), (int)(Cursor.Position.Y));
         	 	
         	}
         	
@@ -804,7 +804,11 @@ namespace Wof.Controller.Screens
             {
                 skyManager.Dispose();
                 SoundManager3D.Instance.UpdaterRunning = false;
-            	HydraxManager.Singleton.DisposeHydrax();
+                if(EngineConfig.UseHydrax)
+                {
+                    HydraxManager.Singleton.DisposeHydrax();
+                }
+            	
             	if(planeViews != null)
             	{
             	    foreach (var list in PlaneViews)
@@ -887,6 +891,8 @@ namespace Wof.Controller.Screens
           
             if (initialized)
             {
+                
+
                 FrameStarted(evt);
                 if (planeViews != null)
                 {
