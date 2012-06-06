@@ -244,7 +244,7 @@ namespace Wof.Misc
                 {
                     // subenity found
                     if (mat == null) mat = CloneMaterial(orgMatName, cloneMatName);
-                    e.SetMaterialName(mat.Name);
+                    e.MaterialName = mat.Name;
                 }
             }
             bool ret = (mat != null);
@@ -297,28 +297,9 @@ namespace Wof.Misc
                 e = entity.GetSubEntity(i);
                 if (String.Compare(e.MaterialName, findMatName) == 0)
                 {
-                    e.SetMaterialName(replaceMatName);
+                    e.MaterialName = replaceMatName;
                 }
             }
-        }
-
-        public static void SetDepthCheckEnabled(SceneNode node, bool enabled)
-        {
-            SubEntity e;
-            for(ushort j=0; j < node.NumAttachedObjects(); j++)
-            {
-                Entity entity = ((Entity) node.GetAttachedObject(j));
-               
-                for (uint i = 0; i < entity.NumSubEntities; i++)
-                {
-                    e = entity.GetSubEntity(i);
-                    e.GetMaterial().SetDepthCheckEnabled(enabled);
-                   
-                }
-            }
-            
-
-          
         }
 
         public static MaterialPtr BuildPreloaderMaterial(int maxTextures)
@@ -329,7 +310,7 @@ namespace Wof.Misc
             MaterialPtr mptr;
             if(MaterialManager.Singleton.ResourceExists(name))
             {
-                mptr = (MaterialPtr)MaterialManager.Singleton.Load(name, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+            	mptr = (MaterialPtr)MaterialManager.Singleton.Load(name, MaterialManager.DEFAULT_SCHEME_NAME);
             	if(mptr.GetBestTechnique().NumPasses > 1)            		
             	{
             		// material jest juz gotowy

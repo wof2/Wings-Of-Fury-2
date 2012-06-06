@@ -320,7 +320,6 @@ namespace Wof.Controller
               
                 //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
                 // LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
-                LogManager.Singleton.DefaultLog.MessageLogged += new LogListener.MessageLoggedHandler(DefaultLog_MessageLogged);
                 LogManager.Singleton.LogMessage("Starting " + EngineConfig.C_GAME_NAME + " ver. " + EngineConfig.C_WOF_VERSION);
 
 
@@ -433,11 +432,6 @@ namespace Wof.Controller
                 }
             }
             return true;
-        }
-
-        void DefaultLog_MessageLogged(string message, LogMessageLevel lml, bool maskDebug, string logName)
-        {
-            Console.WriteLine(message);
         }
 
         private void SetupEngineConfig()
@@ -601,7 +595,7 @@ namespace Wof.Controller
 
 
 
-            Const_RenderSystemList renderSystems = root.GetAvailableRenderers();
+            RenderSystemList renderSystems = root.GetAvailableRenderers();
             IEnumerator<RenderSystem> enumerator = renderSystems.GetEnumerator();
 
             // jako stan startowy moze zostac wybrany tylko directx system
@@ -637,7 +631,7 @@ namespace Wof.Controller
             d3dxSystem.SetConfigOption("Video Mode", videoMode);
             d3dxSystem.SetConfigOption("VSync", vsync);
             
-            if(antialiasing != null) d3dxSystem.SetConfigOption("FSAA", antialiasing);
+            if(antialiasing != null) d3dxSystem.SetConfigOption("Anti aliasing", antialiasing);
             
             root.SaveConfig();
             return Configure();
@@ -1299,9 +1293,6 @@ namespace Wof.Controller
             IntPtr windowHnd;
             window.GetCustomAttribute("WINDOW", out windowHnd);
             pl.Insert("WINDOW", windowHnd.ToString());
-           // pl.Insert("w32_mouse", "DISCL_FOREGROUND");
-           // pl.Insert("w32_mouse", "DISCL_NONEXCLUSIVE");
-
 
             inputManager = InputManager.CreateInputSystem(pl);
 

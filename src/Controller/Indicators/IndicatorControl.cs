@@ -221,9 +221,7 @@ namespace Wof.Controller.Screens
             hudNode.SetScale(UnitConverter.xscale(viewport) * 0.01505f, 0.0155f, 0.01f);
             hudNode.AttachObject(hud);
             hudNode.Position = new Vector3(-0.01f, -0.408f, -1f);
-      
-         //   hud.GetSubEntity(0).GetMaterial().SetDepthCheckEnabled(false);
-          //  hudNode.GetMaterial().SetDepthCheckEnabled(false);
+            hudNode.GetMaterial().SetDepthCheckEnabled(false);
 
             // ARROW
             fuelArrow = sceneMgr.CreateEntity("FuelArrow", "Arrow.mesh");
@@ -233,8 +231,8 @@ namespace Wof.Controller.Screens
             fuelArrowNode.SetScale(0.16f, 0.16f, 0.16f);
             fuelArrowNode.AttachObject(fuelArrow);
             fuelArrowNode.Position = new Vector3(UnitConverter.xscale(viewport) * -0.214f, -0.255f, -0.7f);
-          //  fuelArrowNode.GetMaterial().SetDepthCheckEnabled(false);
-          //  fuelArrow.GetSubEntity(0).GetMaterial().SetDepthCheckEnabled(false);
+            fuelArrowNode.GetMaterial().SetDepthCheckEnabled(false);
+
 
             // ARROW
             oilArrow = sceneMgr.CreateEntity("OilArrow", "Arrow.mesh");
@@ -244,8 +242,8 @@ namespace Wof.Controller.Screens
             oilArrowNode.SetScale(0.16f, 0.16f, 0.16f);
             oilArrowNode.AttachObject(oilArrow);
             oilArrowNode.Position = new Vector3(UnitConverter.xscale(viewport) * 0.214f, -0.255f, -0.7f);
-           // oilArrowNode.GetMaterial().SetDepthCheckEnabled(false);
-         //   oilArrow.GetSubEntity(0).GetMaterial().SetDepthCheckEnabled(false);
+            oilArrowNode.GetMaterial().SetDepthCheckEnabled(false);
+
 
             hudOverlay.Add3D(fuelArrowNode);
             hudOverlay.Add3D(oilArrowNode);
@@ -262,10 +260,6 @@ namespace Wof.Controller.Screens
             CreateHighscoreContainer();
             CreateInfoContainer();
             UpdateWheelState(gameScreen.CurrentLevel.UserPlane.WheelsState);
-
-           // ViewHelper.SetDepthCheckEnabled(hudNode, false);
-          //  ViewHelper.SetDepthCheckEnabled(fuelArrowNode, false);
-          //  ViewHelper.SetDepthCheckEnabled(oilArrowNode, false);
         }
 
         public void UpdateGUI(float timeSinceLastFrame)

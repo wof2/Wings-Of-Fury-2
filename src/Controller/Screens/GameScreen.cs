@@ -59,7 +59,6 @@ using BetaGUI;
 using Microsoft.DirectX.DirectSound;
 using Mogre;
 using MOIS;
-using SkyX;
 using Wof.Controller.AdAction;
 using Wof.Controller.EffectBars;
 using Wof.Controller.Indicators;
@@ -910,34 +909,7 @@ namespace Wof.Controller.Screens
             return hiscoreCache;
         }
 
-        private String GetConfigString(SkyManager skyManager)
-        {
-          
-            AtmosphereManager atmo = skyManager.AtmosphereManager;
-            int hour = (int)atmo.Time.x;
-
-            int min = (int)((atmo.Time.x - hour) * 60);
-
-
-            String timeStr = Mogre.StringConverter.ToString(hour) + ":" + Mogre.StringConverter.ToString(min);
-            String str = "SkyX Plugin demo (Press F1 to show/hide information)";
-
-            
-            if (true)
-            {
-                str += "-------------------------------------------------------------\n";
-                str += "Time: " + timeStr + " [. ,] (+/-).\n";
-                str += "Rayleigh multiplier: " + Mogre.StringConverter.ToString(atmo.RayleighMultiplier) + " [2, Shift+2] (+/-).\n";
-                str += "Mie multiplier: " + Mogre.StringConverter.ToString(atmo.MieMultiplier) + " [3, Shift+3] (+/-).\n";
-                str += "Exposure: " + Mogre.StringConverter.ToString(atmo.Exposure) + " [4, Shift+4] (+/-).\n";
-                str += "Inner radius: " + Mogre.StringConverter.ToString(atmo.InnerRadius) + " [5, Shift+5] (+/-).\n";
-                str += "Outer radius: " + Mogre.StringConverter.ToString(atmo.OuterRadius) + " [6, Shift+6] (+/-).\n";
-                str += "Number of samples: " + Mogre.StringConverter.ToString(atmo.NumberOfSamples) + " [7, Shift+7] (+/-).\n";
-                str += "Height position: " + Mogre.StringConverter.ToString(atmo.HeightPosition) + " [8, Shift+8] (+/-).\n";
-            }
-
-            return str;
-        }
+        
 
 
         public void OnUpdateModel(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
@@ -1057,22 +1029,7 @@ namespace Wof.Controller.Screens
                             {
                                 currentLevel.OnFireSecondaryWeapon();
                             }
-
-                            AtmosphereManager atmo = levelView.SkyManager.AtmosphereManager;
-                    
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_PERIOD))
-                            {
-                                levelView.SkyManager.TimeMultiplier += evt.timeSinceLastFrame*0.01f;
-                            }
-                            if (inputKeyboard.IsKeyDown(KeyCode.KC_COMMA))
-                            {
-                                levelView.SkyManager.TimeMultiplier -= evt.timeSinceLastFrame * 0.01f;
-                            }
-
-                            //Console.Clear();
-                          //  Console.Write(GetConfigString(levelView.SkyManager));
-                           
-
+                            
                             isStillFireGun = false;
                             // strzal z dzialka
                             if (inputKeyboard.IsKeyDown(KeyMap.Instance.GunFire) ||

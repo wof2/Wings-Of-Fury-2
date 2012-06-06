@@ -15,7 +15,7 @@ namespace Wof.Controller
     	
     	public const String C_VIDEO_MODE = "Video Mode";
         public const String C_VSYNC = "VSync";
-        public const String C_ANTIALIASING = "FSAA";
+        public const String C_ANTIALIASING = "Anti aliasing";
         public const String C_USE_NV_PERFHUD = "Allow NVPerfHUD";
         public const String C_FULLSCREEN = "Full Screen";
         
@@ -151,15 +151,14 @@ namespace Wof.Controller
                     string type;
                     string quality;
                   
-                    if (match.Success && match.Groups[2].Value.Equals("[Quality]"))
+                    if (match.Success && match.Groups[1].Value.Equals("NonMaskable"))
                     {
-                        quality = "0"; 
-                       // quality = (int.Parse(match.Groups[2].Value) - 1).ToString();
-                        type = match.Groups[1].Value;
+                        type = "1"; //D3DMULTISAMPLE_NONMASKABLE
+                        quality = (int.Parse(match.Groups[2].Value) - 1).ToString();
                     }
                     else
                     {
-                        type = str; // D3DMULTISAMPLE_X_SAMPLES 
+                        type = match.Groups[2].Value; // D3DMULTISAMPLE_X_SAMPLES 
                         if(type.Length == 0) type = "0";
                         quality = "0";
                     }
