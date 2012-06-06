@@ -33,6 +33,7 @@ namespace Wof.Controller.Screens
         public float Speed
         {
             get { return speed; }
+            set { speed = value; }
         }
 
         protected bool enabled = false;
@@ -74,11 +75,12 @@ namespace Wof.Controller.Screens
             guiWindow = mGui.createWindow(new Vector4(0, 0, Viewport.ActualWidth, Viewport.ActualHeight),
                                           "bgui.window", (int)wt.NONE, message);
             cc = new Callback(this);
+            messages = buildMessages();
             List<Button> temp = buildButtons();
 
             initButtons(temp.Count, (int)getBackButtonIndex());
             buttons = temp.ToArray();
-            messages = buildMessages();
+            
             
             float y = 0;
             

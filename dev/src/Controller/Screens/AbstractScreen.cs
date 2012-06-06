@@ -830,7 +830,7 @@ namespace Wof.Controller.Screens
         public virtual void MouseReceived(String button)
         {
         }
-        public void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        public virtual void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
             if (EngineConfig.UseHydrax)
             {

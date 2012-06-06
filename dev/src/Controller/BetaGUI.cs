@@ -778,8 +778,8 @@ namespace BetaGUI
                 mAB = mB[i];
                 ret = i;
                 mAB.activate(true); // activated manually here: AbstractScreen.selectButton()
-             
-                if (mATI != null)
+
+                if (LMB && mATI != null) // deaktywacja pola tekstowego
                 {
                     mATI.activate(false);
                     mATI = null;

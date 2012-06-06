@@ -408,10 +408,10 @@ namespace Wof.Controller.Screens
             if(showRestartRequiredMessage)
             {
             	guiWindow.createStaticText(
-                    new Vector4(GetMargin().x, C_MAX_OPTIONS * GetTextVSpacing() + 5 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
+                    new Vector4(GetMargin().x, exitButton.y + 2 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
 	                LanguageResources.GetString(LanguageKey.ChangeOptionMessage1));
 	            guiWindow.createStaticText(
-                    new Vector4(GetMargin().x, C_MAX_OPTIONS * GetTextVSpacing() + 6 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
+                    new Vector4(GetMargin().x, exitButton.y + 3 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
 	                LanguageResources.GetString(LanguageKey.ChangeOptionMessage2));
             }
          

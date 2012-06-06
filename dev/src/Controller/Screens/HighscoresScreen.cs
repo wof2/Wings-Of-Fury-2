@@ -133,34 +133,34 @@ namespace Wof.Controller.Screens
 
             if (survivalTime > 0)
             {
-                y += 2 * GetTextVSpacing();
+                y += 3 * GetTextVSpacing();
 
-                OverlayContainer c = guiWindow.createStaticText(new Vector4(5, 2 * GetTextVSpacing() + y, 100, GetTextVSpacing()),
+                OverlayContainer c = guiWindow.createStaticText(new Vector4(5,  y, 100, GetTextVSpacing()),
                                                LanguageResources.GetString(LanguageKey.SurvivalTime));
 
                 foreach (OverlayElement element in c.GetChildIterator())
                 {
 
-                    element.SetParameter("colour_top", "0.8 0.1 0.1");
-                    element.SetParameter("colour_bottom", "0.8 0.2 0.2");
+                    element.SetParameter("colour_top", "0.6 0.1 0.1");
+                    element.SetParameter("colour_bottom", "0.6 0.2 0.2");
 
                 }
-                c = guiWindow.createStaticText(new Vector4(275, 2 * GetTextVSpacing() + y, 100, GetTextVSpacing()), String.Format("{0:f}s.", survivalTime));
+                c = guiWindow.createStaticText(new Vector4(275,  y, 100, GetTextVSpacing()), String.Format("{0:f}s.", survivalTime));
                 foreach (OverlayElement element in c.GetChildIterator())
                 {
 
-                    element.SetParameter("colour_top", "0.8 0.1 0.1");
-                    element.SetParameter("colour_bottom", "0.8 0.2 0.2");
+                    element.SetParameter("colour_top", "0.6 0.1 0.1");
+                    element.SetParameter("colour_bottom", "0.6 0.2 0.2");
 
                 }
                
                
             }
 
-
+            y += 2 * GetTextVSpacing();
 
             initButtons(1, 0);
-            buttons[0] = guiWindow.createButton(new Vector4(0, 15 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[0] = guiWindow.createButton(new Vector4(0, y, Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.OK), cc, 0);
             selectButton(0);
             guiWindow.show();

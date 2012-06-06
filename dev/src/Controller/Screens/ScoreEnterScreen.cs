@@ -84,11 +84,11 @@ namespace Wof.Controller.Screens
                                           String.Format("{0}!", LanguageResources.GetString(LanguageKey.Congratulations)));
             Callback cc = new Callback(this);
             initButtons(1, 0);
-            guiWindow.createStaticText(new Vector4(0, 2 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
+            guiWindow.createStaticText(new Vector4(GetTextVSpacing(), 2 * GetTextVSpacing(),  - 2*GetTextVSpacing() +Viewport.ActualWidth / 2, GetTextVSpacing()),
                                        String.Format("{0}: ", LanguageResources.GetString(LanguageKey.EnterYourName)));
             nameInput =
-                guiWindow.createTextInput(new Vector4(0, 3 * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.textinput", "aaa", 3);
-            buttons[0] = guiWindow.createButton(new Vector4(0, 4*GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+                guiWindow.createTextInput(new Vector4(GetTextVSpacing(), 3 * GetTextVSpacing(), -2 * GetTextVSpacing() + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.textinput", "aaa", 3);
+            buttons[0] = guiWindow.createButton(new Vector4(GetTextVSpacing(), 4 * GetTextVSpacing(), -2 * GetTextVSpacing() + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.OK), cc);
             nameInput.activate(true);
             guiWindow.mATI = nameInput;
@@ -112,7 +112,7 @@ namespace Wof.Controller.Screens
 
         private void saveHighscore(String name, int score, float survivalTime)
         {
-            score = 999999;
+            // score = 999999;
             HighscoreUtil util = new HighscoreUtil();
             if(score > util.FindLeastHighscore() )
             {
