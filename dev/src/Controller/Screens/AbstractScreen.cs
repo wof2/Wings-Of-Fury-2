@@ -58,7 +58,6 @@ using FSLOgreCS;
 using MHydrax;
 using Mogre;
 using MOIS;
-using SkyX;
 using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
 using Wof.Misc;
@@ -70,7 +69,6 @@ using Wof.View.NodeAnimation;
 using Button = BetaGUI.Button;
 using FontManager = Wof.Languages.FontManager;
 using Math = Mogre.Math;
-using MeshManager=Mogre.MeshManager;
 using Plane=Mogre.Plane;
 using Timer = Mogre.Timer;
 using Vector3 = Mogre.Vector3;
@@ -145,7 +143,7 @@ namespace Wof.Controller.Screens
         protected int C_MAX_OPTIONS = 12;
         protected int currentScreen;
 
-        protected SkyManager skyManager;
+
         protected uint fontSize;
        
         public void SetFontSize(uint fontSize)
@@ -456,11 +454,6 @@ namespace Wof.Controller.Screens
          //   }
             
             keyDelay = new Timer();
-
-            skyManager = new SkyManager(sceneMgr, camera);
-         
-
-         
         }
 
 
@@ -511,15 +504,8 @@ namespace Wof.Controller.Screens
 
         protected virtual void CreateSkybox()
         {
-
-            skyManager.Create();
-
-            // Add a basic cloud layer
-            skyManager.CloudsManager.Add(new CloudLayer.LayerOptions());
-
-
             // Set the material
-          //  sceneMgr.SetSkyBox(true, "Skybox/Morning", 5000);
+            sceneMgr.SetSkyBox(true, "Skybox/Morning", 5000);
             sceneMgr.AmbientLight = new ColourValue(0.5f, 0.5f, 0.5f);
             // create a default point light
 
@@ -802,7 +788,6 @@ namespace Wof.Controller.Screens
 
             if (!justMenu)
             {
-                skyManager.Dispose();
                 SoundManager3D.Instance.UpdaterRunning = false;
             	HydraxManager.Singleton.DisposeHydrax();
             	if(planeViews != null)
@@ -1241,7 +1226,6 @@ namespace Wof.Controller.Screens
         {
             
             EffectsManager.Singleton.UpdateTimeAndAnimateAll(evt.timeSinceLastFrame);
-            skyManager.Update(evt.timeSinceLastFrame);
           //  Console.WriteLine("-");
             foreach(SceneNode cloud in cloudNodes)
             {

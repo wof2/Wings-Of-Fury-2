@@ -52,7 +52,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Mogre;
-using SkyX;
 using Wof.Controller;
 using Wof.Controller.AdAction;
 using Wof.Misc;
@@ -92,12 +91,8 @@ namespace Wof.View
 
         private const float C_AD_MAX_DISPLAY_TIME = 35.0f;
         public const int C_AD_DYNAMIC_ADS_COUNT = 3;
-        protected SkyManager skyManager;
-        public SkyManager SkyManager
-        {
-            get { return skyManager; }
-        }
         
+
         /*
         private AdManager.Ad ad = null;
         public AdManager.Ad Ad
@@ -271,7 +266,7 @@ namespace Wof.View
                 
             }
 
-            skyManager.Dispose();
+
             ViewHelper.DetachQuadrangles(sceneMgr);
         }
 
@@ -384,9 +379,6 @@ namespace Wof.View
             ammunitionViews = new List<AmmunitionView>();
             backgroundViews = new List<CompositeModelView>();
             dynamicAds = new List<AdQuadrangle3D>();
-
-           
-           
         }
 
         public PlaneView FindPlaneView(Plane p)
@@ -1862,8 +1854,7 @@ namespace Wof.View
          
 
             HandleDynamicAds(evt);
-          
-            skyManager.Update(evt.timeSinceLastFrame);
+            
             if (EngineConfig.UseHydrax)
             {
                 HydraxManager.Singleton.Update(evt);
@@ -2086,7 +2077,6 @@ namespace Wof.View
             // OCEAN
         }
 
-       
         private void InitSkies()
         {
             // Set the material
@@ -2236,30 +2226,12 @@ namespace Wof.View
                 sceneMgr.SetFog(FogMode.FOG_LINEAR, fogColor, 0.000f, 300, 3600);
 
             }
-            sceneMgr.AmbientLight = ambient;
 
-            skyManager = new SkyManager(sceneMgr, framework.Camera); 
-            skyManager.Create();
-            // Add a basic cloud layer
-            skyManager.CloudsManager.Add(new CloudLayer.LayerOptions());
-            skyManager.TimeMultiplier = 1.0f;
           
-        //    sceneMgr.SetSkyBox(true, material, 3000, true);
-           
-            sceneMgr.SetFog(FogMode.FOG_NONE);
-            /*
-            skyManager.LightingMode = LightingMode.HDR;
-            String[] materials = { "Island", "IslandNight", "Palmtree", "Steel2Simple" };
-            foreach (string mtl in materials)
-            {
-                MaterialPtr mtlPtr = MaterialManager.Singleton.GetByName(mtl);
-                mtlPtr.Load();
-               
-                skyManager.GPUManager.AddGroundPass(mtlPtr.GetBestTechnique().CreatePass(), 0, SceneBlendType.SBT_TRANSPARENT_COLOUR);
-              
-          
-            }*/
-          
+            sceneMgr.SetSkyBox(true, material, 3000, true);
+            sceneMgr.AmbientLight = ambient;
+          //  sceneMgr.SetFog(FogMode.FOG_NONE);
+
           
             // mewy
             if (!EngineConfig.LowDetails)
