@@ -77,6 +77,7 @@ namespace Wof.Controller.Screens
 
             // staram sie znalezc opcje konfiguracyjna Video Mode
             ConfigOptionMap map = Root.Singleton.RenderSystem.GetConfigOptions();
+           
             foreach (KeyValuePair<string, ConfigOption_NativePtr> m in map)
             {
                 if (m.Value.name.Equals(C_VSYNC))
@@ -92,7 +93,7 @@ namespace Wof.Controller.Screens
             {
                 availableModes.Add(LanguageResources.GetString(s));
             }
-
+            availableModes.Sort();
 
             return availableModes;
         }

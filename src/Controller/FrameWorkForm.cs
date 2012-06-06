@@ -229,9 +229,9 @@ namespace Wof.Controller
                 }
                
 
-                if (Game.getGame() != null && Game.getGame().CurrentScreen != null)
+                if (Game.getGame() != null && Game.getGame().GetCurrentScreen() != null)
                 {
-                    Game.getGame().CurrentScreen.CleanUp(false);
+                    Game.getGame().GetCurrentScreen().CleanUp(false);
                 }
                             
                 

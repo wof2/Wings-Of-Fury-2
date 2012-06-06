@@ -121,7 +121,7 @@ namespace Wof.Controller.Screens
                                     String.Empty,
                                     LanguageResources.GetString(LanguageKey.SpecialThanksToSteveWaldo),
                                     LanguageResources.GetString(LanguageKey.CreatorOfOriginalWingsOfFury),
-                                    String.Format(@"{0} 2010", LanguageResources.GetString(LanguageKey.Poland)) 
+                                    String.Format(@"{0} 2012", LanguageResources.GetString(LanguageKey.Poland)) 
                                  };
 
         private float survivalTime = 0;
@@ -138,6 +138,7 @@ namespace Wof.Controller.Screens
         /// <param name="startFromBottom"></param>
         /// <param name="speed"></param>
         /// <param name="highscore">Jesli=-1 pokazuje statyczny przewijany credits screen. Po kliknieciu OK przechodzi do ekranu glownego</param>
+        /// <param name="survivalTime"></param>
         public EndingScreen(GameEventListener gameEventListener,
                               IFrameWork framework, Viewport viewport, Camera camera, bool startFromBottom, float speed, int highscore, float survivalTime) :
                                  base(gameEventListener, framework, viewport, camera, startFromBottom, speed)
@@ -201,7 +202,8 @@ namespace Wof.Controller.Screens
         protected override List<Button> buildButtons()
         {
             List<Button> ret = new List<Button>();
-            ret.Add(guiWindow.createButton(new Vector4(20, 33*GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
+
+            ret.Add(guiWindow.createButton(new Vector4(20, (this.messages.Count + 1 )* GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
                                            "bgui.button", LanguageResources.GetString(LanguageKey.Quit), cc));
             return ret;
         }
@@ -234,8 +236,6 @@ namespace Wof.Controller.Screens
         {
             if (referer == buttons[0])
             {
-
-             
                 
               //  this.forceRebuild = true;
 

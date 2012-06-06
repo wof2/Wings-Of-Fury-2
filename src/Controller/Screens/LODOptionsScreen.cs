@@ -70,10 +70,9 @@ namespace Wof.Controller.Screens
         protected override List<string> GetAvailableOptions()
         {
             List<string> availableModes = new List<string>();
-
-            availableModes.Add(LanguageResources.GetString(LanguageKey.High));
             availableModes.Add(LanguageResources.GetString(LanguageKey.Low));
-
+            availableModes.Add(LanguageResources.GetString(LanguageKey.High));
+            
             return availableModes;
         }
 

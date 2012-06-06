@@ -46,6 +46,7 @@
  * 
  */
 
+using Wof.Controller.Screens;
 using Wof.Model.Level.Planes;
 
 namespace Wof.Controller
@@ -90,5 +91,7 @@ namespace Wof.Controller
         //void MaximizeWindow();
         void GotoDonateWebPage();
         void GotoUpdateWebPage();
+
+        MenuScreen GetCurrentScreen();
     }
 }

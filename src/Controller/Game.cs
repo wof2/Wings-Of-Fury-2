@@ -93,10 +93,6 @@ namespace Wof.Controller
 
         private MenuScreen currentScreen;
 
-        public MenuScreen CurrentScreen
-        {
-            get { return currentScreen;  }
-        }
 
         public static bool ShouldReload
         {
@@ -1063,7 +1059,7 @@ namespace Wof.Controller
         public void GotoEnterScoreScreen(int score, float survivalTime)
         {
             Boolean justMenu = IsMenuScreen(currentScreen);
-
+            HideBrowser();
             ScreenState ss = null;
             if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
@@ -1173,7 +1169,7 @@ namespace Wof.Controller
         public void GotoEndingScreen(int highscore, float survivalTime)
         {
             Boolean justMenu = IsMenuScreen(currentScreen);
-
+            HideBrowser();
             ScreenState ss = null;
             if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
@@ -1624,6 +1620,11 @@ namespace Wof.Controller
         	GotoUpdateWebPageDo();
         	
            // ExitGame(GotoUpdateWebPageDo);
+        }
+
+        public MenuScreen GetCurrentScreen()
+        {
+            return currentScreen;
         }
 
 

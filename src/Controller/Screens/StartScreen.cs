@@ -56,6 +56,7 @@ using System.Threading;
 
 using BetaGUI;
 using Mogre;
+using MOIS;
 using Wof.Languages;
 using FontManager = Wof.Languages.FontManager;
 
@@ -244,7 +245,27 @@ namespace Wof.Controller.Screens
           	
         }
      
-      
+        
+        public override void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        {
+            base.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoystick);
+            
+            /*            
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_H))
+            {
+                gameEventListener.GotoEnterScoreScreen(123456, 654321);
+
+            }
+
+            if (inputKeyboard.IsKeyDown(KeyCode.KC_E))
+            {
+                gameEventListener.GotoEndingScreen(1234567, 7654321);
+
+                (gameEventListener.GetCurrentScreen() as EndingScreen).Speed *= 10;
+
+            }*/
+        }
+
         protected void onNewUpdates() 
         {
             uint index = updateButtonIndex;
