@@ -67,7 +67,15 @@ namespace Wof.Controller.Screens
         {
             return String.Format("{0}?", LanguageResources.GetString(LanguageKey.HydraxWater));
         }
+        protected override void CreateGUI()
+        {
+            base.CreateGUI();
+            int h = (int)GetTextVSpacing();
+            float width = 3*guiWindow.w/4 - h;
 
+            guiWindow.createStaticImage(new Vector4(guiWindow.w / 6, (2 + availableOptions.Count) * h, width, 32.0f / 52.0f * width), EngineConfig.UseHydrax ? "hydrax.png" : "hydrax_off.png");
+                                         
+        }
         protected override List<string> GetAvailableOptions()
         {
             List<String> availableModes = new List<String>();
