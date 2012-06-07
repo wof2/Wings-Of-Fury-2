@@ -176,4 +176,16 @@ Navale – affonda tutte le navi nemiche usando i siluri. Ricorda che devi volar
 <data name="TorpedoesFired"><value>Siluri lanciati:</value></data>
 <data name="TorpedoesAccuracy"><value>Precisione con i siluri:</value></data>
 <data name="SurvivalTime"><value>Sopravvissuto per:</value></data>
+
+<data name="CommunitySupport">
+    <value>Community Support</value>
+  </data>
+  
+   <data name="Hold"> <!-- to hold the button / key. Shown in controls screen -->
+       <value>Hold</value>
+  </data>
+  
+    <data name="WinnerOfFirstDogfight"> <!-- credits screen -->
+       <value>The Winner of the first dogfight competition</value>
+  </data>
 </root>

@@ -97,7 +97,7 @@ namespace Wof.Controller.Screens
                                     "tboc.razor",
 
                                     String.Empty,
-                                    "Community Support",
+                                    LanguageResources.GetString(LanguageKey.CommunitySupport),
                                     "Sandy Siegel",
                                     "Jonathan Rae",
                                     "Winnow Driscoll",
@@ -106,7 +106,7 @@ namespace Wof.Controller.Screens
                                     "Chompson",
                                     "k3fir",
                                     String.Empty,
-                                    "The Winner of the first dogfight competition",
+                                    LanguageResources.GetString(LanguageKey.WinnerOfFirstDogfight),
                                     "Jack Flushell",
                                     String.Empty,
                                     LanguageResources.GetString(LanguageKey.SpecialThanksToSteveWaldo),

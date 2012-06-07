@@ -354,7 +354,7 @@
   </data>
 
   <data name="Engine">
-    <value>Engine</value>
+    <value>Silnik</value>
   </data>
 
   <data name="AccelerateBreakTurn">
@@ -596,7 +596,17 @@
     <value>Czas Survival'u:</value>
   </data>
 
-
+<data name="CommunitySupport">
+    <value>Tłumaczenia od Społeczności</value>
+  </data>
+  
+   <data name="Hold"> <!-- to hold the button / key. Shown in controls screen -->
+       <value>Trzymaj</value>
+  </data>
+  
+    <data name="WinnerOfFirstDogfight"> <!-- credits screen -->
+       <value>Zwycięzca pierwszego konkursu w walce powietrznej</value>
+  </data>
 
 
 

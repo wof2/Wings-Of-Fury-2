@@ -614,7 +614,18 @@
    <data name="SurvivalTime">
     <value>זמן השרדות:</value>
   </data>
-
+  
+	<data name="CommunitySupport">
+    <value>Community Support</value>
+  </data>
+  
+   <data name="Hold"> <!-- to hold the button / key. Shown in controls screen -->
+       <value>Hold</value>
+  </data>
+  
+    <data name="WinnerOfFirstDogfight"> <!-- credits screen -->
+       <value>The Winner of the first dogfight competition</value>
+  </data>
 
 </root>
 
