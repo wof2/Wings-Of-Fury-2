@@ -88,14 +88,14 @@ namespace Wof.Controller.Screens
    		protected bool showRestartRequiredMessage = true;
         protected bool autoGoBack = true;
 
-        private List<ButtonHolder> options;
+        protected List<ButtonHolder> options;
 
      
 
         protected Window guiWindow;
-        private Button exitButton;
-        private Button nextButton;
-        private Button prevButton;
+        protected Button exitButton;
+        protected Button nextButton;
+        protected Button prevButton;
         
        
         public AbstractOptionsScreen(GameEventListener gameEventListener,
