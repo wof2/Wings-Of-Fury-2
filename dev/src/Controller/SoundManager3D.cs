@@ -32,9 +32,9 @@ namespace Wof.Controller
         public static readonly string C_SHIP_SINKING_2 = "sounds/ship_sinking2.ogg";
         public static readonly string C_GUN = "sounds/machinegun.wav"; 
 
-        public static readonly string C_MISSILE_LOCK = "sounds/missile_lock.wav"; 
-  
-
+        public static readonly string C_MISSILE_LOCK = "sounds/missile_lock.wav";
+        public static readonly string C_RAVEN = "sounds/raven.wav";
+       
         
        
 

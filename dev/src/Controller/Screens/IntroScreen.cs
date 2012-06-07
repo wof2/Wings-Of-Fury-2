@@ -51,6 +51,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using AdManaged;
+using FSLOgreCS;
 using Mogre;
 using Wof.Controller.AdAction;
 using Wof.Languages;
@@ -108,8 +109,9 @@ namespace Wof.Controller.Screens
         public const string C_AD_MATERIAL = "AdMaterial";
         private AdManager.Ad currentAd = null;
 		Queue<int> adIds = new Queue<int>();
-       
-       
+        private FSLSoundObject ravenSound;
+
+
         private int getFirstNonAdIndex()
         {
             int i = 1;
@@ -303,7 +305,11 @@ namespace Wof.Controller.Screens
 
             if(i == 1)
             {
-                SoundManager3D.Instance.PlayAmbientMusic("sounds/raven.wav", EngineConfig.SoundVolume, false, false);
+                if(EngineConfig.SoundEnabled)
+                {
+                    if (ravenSound == null || !ravenSound.HasSound()) ravenSound = SoundManager3D.Instance.CreateAmbientSound(SoundManager3D.C_RAVEN, "ravenSound", false, false); // destroyed together with SoundManager3D singleton
+                    ravenSound.Play();
+                }
             }
 
             textureDimensions = unit.GetTextureDimensions();
@@ -386,6 +392,8 @@ namespace Wof.Controller.Screens
             if (currentScreen > maxScreens)
             {
                 hideAdText();
+                ravenSound.Destroy();
+                ravenSound = null;
                 GotoStartScreen();
                 return;
             }

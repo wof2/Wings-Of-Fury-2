@@ -221,7 +221,15 @@ namespace Wof.Controller
                 }
             
                 
-                root.StartRendering();
+                try
+                {
+                    root.StartRendering();
+                }
+                catch(Exception ex)
+                {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while rendering. Going to kill the game. Reason:"+ex.Message+" "+ex.InnerException+" "+ex.Source+". Stack was:"+ex.StackTrace);
+                    
+                }
                 
                 // clean up
                 if (EngineConfig.UseAsyncModel)
@@ -275,6 +283,7 @@ namespace Wof.Controller
                 }
                 catch(Exception ex)
                 {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error while disposing sound manager 3D: "+ex);
                     
                 }
                
@@ -427,7 +436,11 @@ namespace Wof.Controller
                     window.SetVisible(true);
                     try
                     {
-                        Taskbar.Hide();
+                        if(FrameWorkStaticHelper.GetCurrentFullscreen())
+                        {
+                            Taskbar.Hide();
+                        }
+                        
                     }
                     catch (Exception)
                     {
