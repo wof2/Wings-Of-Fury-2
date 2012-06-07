@@ -33,6 +33,8 @@ namespace Wof.Controller
             set;
         }
 
+        CameraListenerBase CameraListener { get;  }
+
         void ChooseSceneManager();
   
       

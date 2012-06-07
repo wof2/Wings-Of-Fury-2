@@ -195,7 +195,7 @@ namespace Wof.Controller.Screens
             try
             {
                 
-                if (SoundManager3D.Instance.InitializeSound(camera, EngineConfig.SoundSystem))
+                if (SoundManager3D.Instance.InitializeSound(framework.CameraListener, EngineConfig.SoundSystem))
                 {
                     EngineConfig.SoundEnabled = true;
                 }

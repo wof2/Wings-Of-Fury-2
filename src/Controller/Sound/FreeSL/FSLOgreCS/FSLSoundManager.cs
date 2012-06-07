@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Mogre;
+using Wof.Controller;
 
 namespace FSLOgreCS
 {
@@ -76,10 +77,11 @@ namespace FSLOgreCS
         {
             Console.WriteLine("Error: " + s);   
         }
-        public bool InitializeSound(Camera listener, FreeSL.FSL_SOUND_SYSTEM soundSystem)
+        public bool InitializeSound(CameraListenerBase listener, FreeSL.FSL_SOUND_SYSTEM soundSystem)
         {
             lock(this)
             {
+              
                 _listener = new FSLListener(listener);
                 if (_initSound)
                     return true;
@@ -104,7 +106,7 @@ namespace FSLOgreCS
 
         public void SetUserPlane(Wof.Model.Level.Planes.Plane plane)
         {
-            SetListener(_listener.Renderable, plane);
+            SetListener(_listener.Listener, plane);
         }
 
         public void ShutDown()
@@ -221,11 +223,11 @@ namespace FSLOgreCS
            
         }
 
-        public void SetListener(Camera listener)
+        public void SetListener(CameraListenerBase listener)
         {
             _listener = new FSLListener(listener);
         }
-        public void SetListener(Camera listener, Wof.Model.Level.Planes.Plane plane)
+        public void SetListener(CameraListenerBase listener, Wof.Model.Level.Planes.Plane plane)
         {
             _listener = new FSLListener(listener, plane);
         }

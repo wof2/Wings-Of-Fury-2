@@ -1,40 +1,41 @@
 using System;
 using Mogre;
+using Wof.Controller;
 
 namespace FSLOgreCS
 {
     public class FSLListener
     {
-        private Camera _renderable;
+        private CameraListenerBase _listener;
         public bool ZFlipped = true; // reversed stereo hack
 
         private Wof.Model.Level.Planes.Plane _plane = null;
 
-        public Camera Renderable
+        public CameraListenerBase Listener
         {
-            get { return _renderable; }
+            get { return _listener; }
         }
         
         public FSLListener()
         {
-            _renderable = null;
+            _listener = null;
         }
 
 
-        public FSLListener(Camera renderable)
+        public FSLListener(CameraListenerBase listener)
         {
-            _renderable = renderable;
+            _listener = listener;
         }
 
-        public FSLListener(Camera renderable, Wof.Model.Level.Planes.Plane plane)
+        public FSLListener(CameraListenerBase listener, Wof.Model.Level.Planes.Plane plane)
         {
-            _renderable = renderable;
+            _listener = listener;
             _plane = plane;
         }
 
-        public void SetListener(Camera renderable, Wof.Model.Level.Planes.Plane plane)
+        public void SetListener(CameraListenerBase listener, Wof.Model.Level.Planes.Plane plane)
         {
-            _renderable = renderable;
+            _listener = listener;
             _plane = plane;
         }
 
@@ -43,35 +44,36 @@ namespace FSLOgreCS
         {
             unsafe
             {
-                if (_renderable == null || _renderable.NativePtr == null) return;
+                if (_listener == null || _listener.NativePtr == null) return;
             }
 
+            if(!_listener.IsReady())
+            {
+                return;
+            }
             try
             {
-                int zflip = (ZFlipped) ? -1 : 1; // added
+               int zflip = (ZFlipped) ? -1 : 1; // added
 
-                FreeSL.fslSetListenerPosition(_renderable.RealPosition.x,
-                                              _renderable.RealPosition.y,
-                                              _renderable.RealPosition.z);
+               FreeSL.fslSetListenerPosition(_listener.CameraLastRealPosition.Value.x,
+                                              _listener.CameraLastRealPosition.Value.y,
+                                              _listener.CameraLastRealPosition.Value.z);
 
                 Mogre.Vector3 yVec, zVec;
-                yVec = _renderable.RealOrientation.YAxis;
-                zVec = _renderable.RealOrientation.ZAxis * zflip;// change
-
+                yVec = _listener.CameraLastRealOrientation.Value.YAxis;
+                zVec = _listener.CameraLastRealOrientation.Value.ZAxis *zflip;// change
+               
                 FreeSL.fslSetListenerOrientation(zVec.x, zVec.y, zVec.z, yVec.x, yVec.y, yVec.z); 
 
             }
-            catch (Exception)
+            catch (Exception exception)
             {
 
-               
+             //   Console.WriteLine("AAAA " + exception.Message + " " + exception.InnerException + " " + exception.Source);
             }
           
         } 
 
-        public Vector3 GetPosition()
-        {
-            return _renderable.Position;
-        }
+       
     }
 }
