@@ -104,18 +104,18 @@ namespace Wof.Controller
             EngineConfig.SaveEngineConfig();
         }
 
-        public new bool InitializeSound(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)
+        public new bool InitializeSound(CameraListenerBase listener, FreeSL.FSL_SOUND_SYSTEM ss)
         {
 
             if (Instance.Initialized && ss == soundSystem) 
             {
-                this.SetListener(camera); 
+                this.SetListener(listener); 
                 return true;
             }
 
             if(Instance.Initialized) Instance.Destroy();
-            
-            bool ok = base.InitializeSound(camera, ss); //InitializeSound sound system
+
+            bool ok = base.InitializeSound(listener, ss); //InitializeSound sound system
             if (ok)
             {
                 soundSystem = ss;

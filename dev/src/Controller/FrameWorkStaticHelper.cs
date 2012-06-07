@@ -274,9 +274,9 @@ namespace Wof.Controller
             return GetVideoModes(false, 0,0);
         }
 
-        public static bool CreateSoundSystem(Camera camera, FreeSL.FSL_SOUND_SYSTEM ss)
+        public static bool CreateSoundSystem(CameraListenerBase listener, FreeSL.FSL_SOUND_SYSTEM ss)
         {
-            return SoundManager3D.Instance.InitializeSound(camera, ss);
+            return SoundManager3D.Instance.InitializeSound(listener, ss);
         }
 
         public static bool GetJoystickButton(JoyStick j, int button)

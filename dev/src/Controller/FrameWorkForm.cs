@@ -102,6 +102,7 @@ namespace Wof.Controller
             get { return root; }
         }
         protected Camera camera, minimapCamera, minimapNoseCamera, overlayCamera;
+        protected CameraListener cameraListener;
 
         public Camera Camera
         {
@@ -383,14 +384,17 @@ namespace Wof.Controller
 
                 // InitializeSound sound
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.InitializingSound, false)));
-                InitDirectSound(splash.Handle);
+
                 SetupEngineConfig();
+              
+                
+              
                 
                 
                 if (!EngineConfig.DebugStart)
                 {
                     // Jesli jest debugstart to nie ma jeszcze kamery wiec nie moge zrobic sound system. Zrobi sie samo przy StartGame()
-                    if (!FrameWorkStaticHelper.CreateSoundSystem(camera, EngineConfig.SoundSystem))
+                    if (!FrameWorkStaticHelper.CreateSoundSystem(cameraListener, EngineConfig.SoundSystem))
                         EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
                 }
             
@@ -437,6 +441,10 @@ namespace Wof.Controller
         private void SetupEngineConfig()
         {
             EngineConfig.LoadEngineConfig();
+            if (EngineConfig.SoundEnabled)
+            {
+                InitDirectSound(this.Handle);
+            }
             SoundManager.Instance.SoundDisabled = !EngineConfig.SoundEnabled;
 
             switch (EngineConfig.Difficulty)
@@ -640,6 +648,11 @@ namespace Wof.Controller
         }
 
 
+        public CameraListenerBase CameraListener
+        {
+            get { return cameraListener; }
+        }
+
         public virtual void ChooseSceneManager()
         {
             // Get the SceneManager, in this case a generic one
@@ -691,8 +704,9 @@ namespace Wof.Controller
 
             camera.NearClipDistance = 3.0f;
             camera.FarClipDistance = 8600.0f;
-
-
+            cameraListener = new CameraListener(camera);
+            camera.SetListener(cameraListener);
+            
             if (EngineConfig.DisplayingMinimap)
             {
                 CreateMinimapCamera();

@@ -2514,7 +2514,7 @@ namespace Wof.View
             playerPlaneView.HideCrossHair();
       
             //  EffectsManager.Singleton.NoSprite();
-            SoundManager3D.Instance.SetListener(framework.Camera);
+            SoundManager3D.Instance.SetListener(framework.CameraListener);
             return lastIndex;
         }
 
@@ -2555,7 +2555,7 @@ namespace Wof.View
 
 
           //  EffectsManager.Singleton.NoSprite();
-            SoundManager3D.Instance.SetListener(framework.Camera);
+            SoundManager3D.Instance.SetListener(framework.CameraListener);
             return lastIndex;
         }
 

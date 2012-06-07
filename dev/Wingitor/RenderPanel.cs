@@ -208,13 +208,19 @@ namespace wingitor
            
         }
 
-     
+
+        public CameraListenerBase CameraListener
+        {
+            get { return cameraListener; }
+        }
+
         public void ChooseSceneManager()
         {
             // Get the SceneManager, in this case a generic one
             sceneMgr = root.CreateSceneManager(SceneType.ST_GENERIC, "SceneMgr");
         }
 
+        protected CameraListener cameraListener;
 
         protected void CreateCamera()
         {
@@ -223,6 +229,8 @@ namespace wingitor
             camera.NearClipDistance = 1.0f;
             camera.FarClipDistance = 8600.0f;
             camera.AutoAspectRatio = false;
+            cameraListener = new CameraListener(camera);
+            camera.SetListener(cameraListener);
         }
 
         protected virtual void CreateFrameListeners()
