@@ -1,77 +1,82 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
+  <!-- FOR ALL TRANSLATORS: please translate everything between <value> and </value> tags. Leave rest of the stuff unchanged  -->
   <data name="Antialiasing">
-    <value>Антиалиясинг</value>
+    <value>Сглаживание</value>
   </data>
   <data name="Back">
     <value>Назад</value>
   </data>
+
+  <!-- "bloom" effect -->
   <data name="Bloom">
-    <value>Цветение</value>
+    <value>Bloom эффект</value>
   </data>
   <data name="Bombs">
     <value>Бомбы</value>
   </data>
   <data name="ChangeOptionMessage1">
-    <value>Изменения некоторых опций происходят</value>
+    <value>Изменения некоторых настроек вступят</value>
   </data>
   <data name="ChangeOptionMessage2">
-    <value>только после возобновления игры.</value>
+    <value>в силу после перезапуска игры.</value>
   </data>
   <data name="ChooseDifficulty">
-    <value>Выберите трудность игры</value>
+    <value>Выберите уровень сложности</value>
   </data>
   <data name="CompletedLevels">
-    <value>Законченные уровни</value>
+    <value>Завершенные уровни</value>
   </data>
   <data name="Congratulations">
-    <value>Поздравления</value>
+    <value>Поздравляем</value>
   </data>
   <data name="Controls">
-    <value>Параметры клавиатури</value>
+    <value>Настройки клавиатуры</value>
   </data>
   <data name="CreatingGameObjects">
     <value>Создание объектов игры</value>
   </data>
   <data name="CreatingScene">
-    <value>Создание сцены</value>
+    <value>Создание окружения</value>
   </data>
   <data name="CreatingTheRootObject">
     <value>Создание главного объекта</value>
   </data>
   <data name="CreatorOfOriginalWingsOfFury">
-    <value>создателю оригинальной Wings of Fury (1987)</value>
+    <value>создателю оригинальной игры Wings of Fury (1987)</value>
   </data>
   <data name="Credits">
     <value>Создатели</value>
   </data>
   <data name="Details">
-    <value>Подробности</value>
+    <value>Детализация</value>
   </data>
   <data name="Difficulty">
-    <value>Трудность</value>
+    <value>Уровень сложности</value>
   </data>
   <data name="EnterYourName">
-    <value>Введите своё имя</value>
+    <value>Введите свое имя</value>
   </data>
   <data name="ExitToMenu">
-    <value>Вернуться к меню</value>
+    <value>Выйти в меню</value>
   </data>
   <data name="GameOver">
     <value>Игра закончена</value>
   </data>
   <data name="HallOfFame">
-    <value>Комната славы</value>
+    <value>Зал Славы</value>
   </data>
   <data name="Highscores">
     <value>Рекорды</value>
   </data>
   <data name="InitializingSound">
-    <value>Создание звука</value>
+    <value>Инициализация звука</value>
   </data>
+  <!-- ID of the current language -->
   <data name="LanguageID">
     <value>Russian</value>
   </data>
+  <!-- level / stage of the game -->
   <data name="Level">
     <value>Уровень</value>
   </data>
@@ -81,20 +86,22 @@
   <data name="NewGame">
     <value>Новая игра</value>
   </data>
+  <!-- next menu option -->
   <data name="Next">
     <value>Следующий</value>
   </data>
   <data name="OK">
-    <value>ОК</value>
+    <value>OK</value>
   </data>
   <data name="Options">
-    <value>Варианты</value>
+    <value>Настройки</value>
   </data>
   <data name="Pause">
     <value>Пауза</value>
   </data>
+  <!-- previous menu option -->
   <data name="Previous">
-    <value>Предыдущая</value>
+    <value>Предыдущий</value>
   </data>
   <data name="Quit">
     <value>Выйти</value>
@@ -124,91 +131,101 @@
     <value>Режим видео</value>
   </data>
   <data name="VideoOptions">
-    <value>Видео Параметры</value>
+    <value>Настройки видео</value>
   </data>
   <data name="VSync">
-    <value>Всинк</value>
+    <value>Вертикальная синхронизация</value>
   </data>
   <data name="YouWonTheGame">
-    <value>Вы выиграли игру</value>
+    <value>Вы прошли игру</value>
   </data>
   <data name="AddingCompositors">
-    <value>Добавление данных</value>
+    <value>Загрузка шейдеров</value>
   </data>
   <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
-    <value>Все солдаты уничтожны, прилети на авианосец и нажьми X</value>
+    <!--<value>All enemy soldiers eliminated, land on the carrier and press X</value>-->
+    <value>Все вражеские солдаты уничтожены, приземлитесь на авианосец и нажмите "{0}"</value>
   </data>
   <data name="AverageFPS">
-    <value>Средний ФПС</value>
+    <value>Средний FPS</value>
   </data>
   <data name="BestFPS">
-    <value>Самый хороший ФПС</value>
+    <value>Наилучший FPS</value>
   </data>
   <data name="ChooseAntialiasingMode">
     <value>Выберите режим сглаживания</value>
   </data>
   <data name="ChooseLevelOfDetail">
-    <value>Выберите уровень деталей</value>
+    <value>Выберите уровень детализации</value>
   </data>
   <data name="ChooseVideoMode">
     <value>Выберите режим видео</value>
   </data>
   <data name="CreatingInput">
-    <value>Создание входа</value>
+    <value>Загрузка входных параметров</value>
   </data>
   <data name="CurrentFPS">
-    <value>Aктуальный ФПС</value>
+    <value>Текущий FPS</value>
   </data>
   <data name="EnableBloom">
-    <value>Включить цветение</value>
+    <value>Включить эффект bloom</value>
   </data>
   <data name="EnableSound">
     <value>Включить звук</value>
   </data>
   <data name="EnableVSync">
-    <value>Включить Всинк</value>
+    <value>Включить вертикальную синхронизацию</value>
   </data>
   <data name="EnemyPlaneApproachingFromTheLeft">
-    <value>Самолёт неприятеля приближается с левой стороны</value>
+    <value>Вражеский самолет приближается с левой стороны</value>
   </data>
   <data name="EnemyPlaneApproachingFromTheRight">
-    <value>Самолёт неприятеля приближается с правой стороны</value>
+    <value>Вражеский самолет приближается с правой стороны</value>
   </data>
+  <!-- high difficulty / details -->
   <data name="High">
     <value>Высокий</value>
   </data>
   <data name="InverseKeys">
-    <value>Противоположные кнопки</value>
+    <value>Противоположные клавиши</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
-    <value>Прилети на авианосец и нажьми "{0}" чтобы наремонтировать двигатель</value>
+    <!--<value>Land on the carrier and press 'X' to refuel</value>-->
+    <value>Приземлитесь на авианосец и нажмите "{0}" для дозаправки</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRepair">
-    <value>Прилети на авианосец и нажьми "{0}" чтобы пополнить топливо</value>
+    <!--<value>Land on the carrier and press 'X' to repair</value>-->
+    <value>Приземлитесь на авианосец и нажмите "{0}" для починки</value>
   </data>
+  <!-- low difficulty / details -->
   <data name="Low">
     <value>Низкий</value>
   </data>
   <data name="LowFuelWarning">
-    <value>ВНИМАНИЕ : Низкий уровень топлива</value>
+    <value>ПРЕДУПРЕЖДЕНИЕ: НИЗКИЙ УРОВЕНЬ ТОПЛИВА</value>
   </data>
   <data name="LowOilWarning">
-    <value>ВНИМАНИЕ : Низкий уровень нефти</value>
+    <value>ПРЕДУПРЕЖДЕНИЕ: НИЗКИЙ УРОВЕНЬ МАСЛА</value>
   </data>
+  
   <data name="Medium">
     <value>Средний</value>
   </data>
   <data name="No">
     <value>Нет</value>
   </data>
+  
   <data name="PressEToTurnOnTheEngine">
-    <value>Нажьми "{0}", чтобы началась работа двигателя</value>
+    <value>Нажмите и удерживайте "{0}" для запуска двигателя</value>
   </data>
+  
   <data name="PressXToChangeAmmo">
-    <value>Нажьми "{0}", чтобы пополнить боеприпасы,  пополнить топливо, и наремонтировать двигатель</value>
+    <value>Нажмите "{0}" для изменения боеприпасов, починки и дозаправки</value>
   </data>
+  
+  
   <data name="ScreenshotWrittenTo">
-    <value>Записать в</value>
+    <value>Скриншот записан в</value>
   </data>
   <data name="StartFrom">
     <value>Начать с</value>
@@ -217,59 +234,61 @@
     <value>Количество треугольников</value>
   </data>
   <data name="WorstFPS">
-    <value>Самый плохой ФПС</value>
+    <value>Наихудший FPS</value>
   </data>
   <data name="Yes">
     <value>Да</value>
   </data>
   <data name="AreYouTryingToReachStarsCaptain">
-    <value>Командир! Выше невозможно!</value>
+    <value>Пытаетесь долететь до звезд, командир?</value>
   </data>
   <data name="EnemyInstallationDestroyed">
-    <value>Командир! Бункер уничтожен!</value>
+    <value>Командир, вражеский объект уничтожен!</value>
   </data>
   <data name="EnemyInstallationsAreBothSideCaptain">
-    <value>Командир! Бункера находятся с обоих сторон!</value>
+    <value>Командир, вражеские объекты с двух сторон!</value>
   </data>
   <data name="EnemyInstallationsAreLeftCaptain">
-    <value>Командир! Бункера находятся справа!</value>
+    <value>Командир, вражеские объекты с левой стороны!</value>
   </data>
   <data name="EnemyInstallationsAreRightCaptain">
-    <value>Командир! Бункера находятся слева!</value>
+    <value>Командир, вражеские объекты с правой стороны!</value>
   </data>
   <data name="EnemyPlaneDownIRepeat">
-    <value>Самолёт неприятеля уничтохен! Повторяю! Самолёт неприятеля уничтохен!</value>
+    <value>Вражеский самолет сбит! Повторяю! Вражеский самолет сбит!</value>
   </data>
   <data name="KillAllEnemySoldiers">
-    <value>Командир! Ликвидируй всех солдатов. Вперёд!</value>
+    <value>Убейте вражеских солдат. Никакой пощады, командир!</value>
   </data>
   <data name="OhNoEnemySoldiersAreRebuildingBunker">
-    <value>ВНИМАНИЕ! Солдаты неприятеля построили заного бункер!</value>
+    <value>О, нет! Вражеские солдаты восстановили бункер!</value>
   </data>
   <data name="RetractYourLandingGearWithG">
-    <value>Чтобы сохронить шассы нажьми "{0}"</value>
+    <value>Уберите шасси с помощью "{0}"</value>
   </data>
   <data name="WARNINGProtectTheCarrierFromEnemyPlane">
-    <value>ВНИМАНИЕ! Защищай авианосец от самолёта неприятеля!</value>
+    <value>ВНИМАНИЕ! Защищайте авианосец от вражеского самолета!</value>
   </data>
   <data name="WeAreNotLeavingYetCaptain">
-    <value>Командир! Там нечего нет!</value>
+    <value>Дальше только море, командир!</value>
   </data>
   <data name="Languages">
     <value>Языки</value>
   </data>
-  <!-- Add: 23.05.2008 -->
+  <!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
   <data name="CoreTeam">
-    <value>Основная группа</value>
+    <value>Основная команда программистов</value>
   </data>
   <data name="SupportTeam">
-    <value>Группа поддержки</value>
+    <value>Вспомогательная команда программистов</value>
   </data>
   <data name="Graphics">
     <value>Графика</value>
   </data>
   <data name="CommunityTranslations">
-    <value>переводчики</value>
+    <value>Переводчики</value>
   </data>
   <data name="Poland">
     <value>Польша</value>
@@ -278,100 +297,114 @@
     <value>Поддержка проекта</value>
   </data>
   <data name="CheckForUpdates">
-    <value>Проверка наличия обновлений</value>
+    <value>Проверить обновления</value>
   </data>
-  <!--
-   Next 5 translations must create one message.
-  -->
-  <data name="DonateMessagePart1">
-    <!--
-        Full question: If you liked Wings of Fury 2.
-        But You will translate only: If you liked.
-        Wings of Fury 2 - added by developers
+   <!--
+        Next 5 messages will be concatenated into one.        
     -->
-    <value>Если Вам понравилась наша игра</value>
+  <data name="DonateMessagePart1">   
+    <value>Если Вам понравилась эта игра,</value>
   </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
   <data name="DonateMessagePart2">
-    <value>тогда пажалуйста рассмотрите поддержку нашево проекта</value>
+    <value>пожалуйста, рассмотрите вопрос о поддержке</value>
   </data>
   <data name="DonateMessagePart3">
-    <value>Мы ищем средства для поддержки</value>
+    <value>нашего проекта с помощью Paypal. Мы ищем</value>
   </data>
   <data name="DonateMessagePart4">
-    <value>дальнейшего развития игры.</value>
+    <value>средства для поддержки дальнейшего</value>
   </data>
   <data name="DonateMessagePart5">
-    <value>.</value>
+    <value>развития игры.</value>
   </data>
+  <!-- message displayed after pressing 'c' (change camera) key. -->
   <data name="CameraChanged">
-    <value>Модификация камеры</value>
-  </data>
-  
-  <!-- added to rev. 265 -->
-  <data name="EnemySoldiersLeft">
-    <value>Вражеских солдат</value>
+    <value>Камера изменена</value>
   </data>
 
+  <!-- added to rev. 265 -->
+  <data name="EnemySoldiersLeft">
+    <value>Осталось вражеских солдат</value>
+  </data>
 
   <!-- added to rev. 305 - Level stats -->
   <data name="LevelStats">
-    <value>Статистики</value>
+    <value>Статистика уровня</value>
   </data>
+
   <data name="BombsDropped">
-    <value>Брошенных бомб:</value>
+    <value>Бомб сброшено:</value>
   </data>
+
   <data name="BombsAccuracy">
-    <value>Меткость/точность бомб:</value>
+    <value>Точность бомб:</value>
   </data>
+
   <data name="RocketsFired">
-    <value>Выстреленных ракет:</value>
+    <value>Выпущено ракет:</value>
   </data>
+
   <data name="RocketsAccuracy">
-    <value>Меткость/точность ракет:</value>
+    <value>Точность ракет:</value>
   </data>
+
   <data name="GunShellsFired">
-    <value>Выстреленных снарядов:</value>
+    <value>Патронов выстреляно:</value>
   </data>
+
   <data name="GunAccuracy">
-    <value>Меткость/точность пулемета:</value>
+    <value>Точность пулемета:</value>
   </data>
+
   <data name="PlanesDestroyed">
-    <value>Уничтоженных самолётов:</value>
+    <value>Самолетов уничтожено:</value>
   </data>
+
   <data name="LevelCompleted">
-    <value>Уровень окончен</value>
+    <value>Уровень завершен</value>
   </data>
-  <data name="Engine">
+
+  <data name="Engine"><!-- plane engine -->
     <value>Двигатель</value>
   </data>
-  <data name="AccelerateBreakTurn">
-    <value>Ускорение / тормоз / заворачивание</value>
+
+  <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
+    <value>Ускорение/Торможение/Разворот</value>
   </data>
-  <data name="Pitch">
-    <value>Высота</value>
+
+  <data name="Pitch"><!-- changing of plane's altitude. -->
+    <value>Наклон</value>
   </data>
-  <data name="Spin">
-    <value>Оборот</value>
+
+  <data name="Spin"><!-- rolling the plane around its longwise -->
+    <value>Вращение</value>
   </data>
-  <data name="Gear">
+
+  <data name="Gear"><!-- landing gear -->
     <value>Шасси</value>
   </data>
+
   <data name="Gun">
     <value>Пулемет</value>
   </data>
+
   <data name="Camera">
     <value>Камера</value>
   </data>
+
   <data name="Zoomin">
-    <value>Приближи</value>
-  </data>
-  <data name="Zoomout">
-    <value>Отдали</value>
-  </data>
-  <data name="RearmEndMission">
-    <value>Изменение вооружения/Конец миссии</value>
+    <value>Приблизить</value>
   </data>
 
+
+  <data name="Zoomout">
+    <value>Отдалить</value>
+  </data>
+
+  <data name="RearmEndMission">
+    <value>Перевооружиться / Завершить миссию</value>
+  </data>
 
   <!-- added 2.01.2009 -->
 
@@ -381,77 +414,83 @@
   <data name="Torpedoes">
     <value>Торпеды</value>
   </data>
-  
-  <!-- added 25.03.2009 -->
+
+ <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>Все вражеские самолеты уничтожены, приземлись и приткни X</value>
-  </data>
-  <data name="EnemyPlanesLeft">
-    <value>Осталось самолетов</value>
+    <value>Все вражеские самолеты уничтожены, приземлитесь на авианосец и нажмите "{0}"</value>
   </data>
   
-    <data name="Target">
+  <data name="EnemyPlanesLeft">
+    <value>Осталось вражеских самолетов</value>
+  </data>
+  
+  <data name="Target">
     <value>Цель</value>
   </data>
   
   <data name="Neutralized">
-    <value>Нейтрализовано</value>
+    <value>Нейтрализована</value>
   </data>
   
   <data name="Alive">
-    <value>Неповрежден</value>
-  </data> 
-    <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Цель уничтожин, приземлись и приткни X</value>
+    <value>Жива</value>
   </data> 
   
+  <data name="TargetNeutralizedLandOnCarrierAndPressX">
+      <value>Цель нейтрализована. Приземлитесь на авианосец и нажмите "{0}"</value>
+  </data> 
+  
+  <!-- enemy ships left to be sunk -->
   <data name="EnemyShipsLeft">
-    <value>Осталось суд</value>
+    <value>Осталось вражеских кораблей</value>
   </data>
   
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>Враждебные суда стали уничтожены, приземлись и приткни X</value>
+    <value>Все вражеские корабли уничтожены, приземлитесь на авианосец и нажмите "{0}"</value>
   </data>
   
   <data name="EnemyInstallationDamaged">
-    <value>Бункер стал поврежден, Капитане!</value>
+    <value>Командир, вражеский объект поврежден!</value>
   </data>
   
   <data name="TorpedoTooHigh">
-    <value>Слишком высоко! Торпеда стала повреждена.</value>
+    <value>Слишком большая высота! Неудачный запуск торпеды</value>
   </data>
   
   <data name="TorpedoLongTravelDistance">
-    <value>Слишком далеко! Попробуй ближе.</value>
+    <value>Торпеда израсходовала топливо! Переместитесь ближе</value>
   </data>
-
+	
+	<!-- Hydrax is a water effects library -->
   <data name="HydraxWater">
-    <value>Вода "Хидракс"</value>
+    <value>Вода Hydrax</value>
   </data>
 
   <data name="Blood">
     <value>Кровь</value>
   </data>
 
+  <!-- Used in the options context like so: "shadows: none" -->
   <data name="None">
-    <value>Брак</value>
+    <value>Нет</value>
   </data>
 
  <data name="Shadows">
     <value>Тени</value>
   </data>
 
- <data name="BulletTime">
+  <!-- Bullet time effect - like in Matrix :) -->
+  <data name="BulletTime">
     <value>Замедление времени</value>
   </data>
 
   <data name="MissionType">
-    <value>Виды заданий</value>
+    <value>Вид миссии</value>
   </data>
-      
+  
   <!-- available mission types: -->
   <data name="Dogfight">
-    <value>Борьба</value> <!-- destroying planes -->
+    <value>Воздушный бой</value> <!-- destroying planes -->
   </data>
   
   
@@ -461,7 +500,7 @@
   
   
   <data name="Assassination">
-    <value>Уничтожение</value> <!-- "kill the generals" -->
+    <value>Убийство</value> <!-- "kill the generals" -->
   </data>
   
   
@@ -469,83 +508,79 @@
     <value>Морской бой</value> <!-- sink all ships -->
   </data>
 
-  <data name="KeyboardInfo1">
-    <value>Если вы хотите изменить клавиши,</value>
-  </data>
 
+  <data name="KeyboardInfo1">
+    <value>Пожалуйста, используйте файл (папка_с_игрой)\Release\KeyMap.ini, </value>
+  </data>
+  
   <data name="KeyboardInfo2">
-    <value>пожалуста, измените этот файл (каталог_игры)\Release\KeyMap.ini</value>
+    <value>чтобы изменить раскладку клавиатуры</value>
   </data>
   
   <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
   <data name="Tutorial0">
    <value>
-     Виды заданий:
-     Есть несколько видов миссий, с которыми придется/предстоит столкнуться в ходе игры.
-     Борьба - сбейте все вражеские самолеты.
-     Бомбардировка - уничтожьте всю вражескую пехоту.
+     Виды миссий:
+     Есть несколько видов миссий, которые вы можете встретить в ходе игры:
+     Воздушный бой - сбейте все вражеские самолеты, чтобы завершить миссию.
+     Бомбардировка - уничтожьте всех вражеских солдат.
 
 
-     Уничтожение - вражеские генералы скрываются в укреплениях, находящихся в этой области. Используй ракеты что бы уничтожить их.
-     Морской бой - потопите все вражеские корабли используя торпеды. Помните, для запуска торпед необходимо лететь низко и плавно.
+     Убийство  - вражеские генералы скрываются в крепости, находящейся в этой области. Используйте ракеты, чтобы уничтожить их.
+     Морской бой - потопите все вражеские корабли, используя торпеды. Помните, что вам нужно лететь низко и плавно перед запуском торпед.
    </value>
   </data>
   
-   
   <data name="EnemyGenerals">
-    <value>вражеские генералы</value>
+    <value>Осталось вражеских генералов</value>
   </data>
-  
- <data name="Altitude">
-    <value>высота полета</value>
+ 
+  <data name="Altitude">
+    <value>Высота</value>
   </data>
 
 
   <data name="PressLeftUpToTakeOff">
-    <value>Нажмите "{0}","{1}", чтобы самолет взлетел</value>
+    <value>Нажмите "{0}","{1}" для взлета</value>
   </data>
-
 
   <data name="CustomLevels">
     <value>Дополнительные уровни</value>
   </data>
 
  <data name="PressUpToLand">
-    <value>Нажмите "{0}", чтобы приземлиться</value>
+    <value>Нажмите "{0}" для приземления</value>
   </data>
-
 
   <!-- don't worry about the line breaks in the strings below -->
   <data name="News404_1">
-    <value>Невозможно открыть сайта с последними новостями WOF2</value>
+    <value>Не удается открыть страницу с новостями о проекте WOF2</value>
   </data>
 
   <data name="News404_2">
-    <value>Невозможно установить соединение с сайтом</value>
+    <value>Не удается установить Интернет соединение</value>
   </data>
 
   <data name="News404_3">
-    <value>Пожалуйста, "позволь" игре пройты ваш брандмауэр а также антивирус. Таким образом, вы сможете скачать обновления, исправления и поддерживать его дальнейшее развитие!</value>
+    <value>Пожалуйста, добавьте игру WOF2 в исключения вашего брандмауэра. Благодаря этому Вы сможете скачать новые уровни, обновления и поддержать игру!</value>
   </data>
 
   <data name="News404_4">
     <value>Как это сделать?</value>
   </data>
 
-
   <data name="EnhancedVersion">
     <value>Расширенная версия</value>
   </data>
 
-
-
   <data name="EnhancedVersionDetails">
-    <value>Расширенная версия игры включает в себя новые уровни. Кроме того удалены все рекламы. Эта версия доступна для тех, кто финансировал и поддержал проект.</value>
+    <value>Расширенная версия игры содержит дополнительные уровни, самолеты и бонусный контент. Вся реклама удалена. Эта версия доступна для всех людей, которые внесли пожертвования или поддержали проект WOF2.</value>
   </data>
-
+  
   <data name="Planes">
     <value>Самолеты</value>
   </data>
+
 
   <data name="P47">
     <value>P47</value>
@@ -555,24 +590,39 @@
     <value>F4U</value>
   </data>
   
-   <data name="B25">
+  <data name="B25">
     <value>B-25 Mitchell</value>
   </data>
   
+  
   <data name="GetEnhancedVersion">
-    <value>Расширенная версия</value>
+    <value>Получить расширенную версию!</value>
   </data>
-
+  
+  
   <data name="TorpedoesFired">
-    <value>Выстреленных Торпеды:</value>
+    <value>Торпед выпущено:</value>
   </data>
 
   <data name="TorpedoesAccuracy">
-    <value>Меткость/точность Торпеды:</value>
+    <value>Точность торпед:</value>
   </data>
   
-  <data name="SurvivalTime">
-    <value>Survival time:</value>
+   <data name="SurvivalTime">
+    <value>Время выживания:</value>
+  </data>
+
+
+  <data name="CommunitySupport">
+    <value>Поддержка сообщества</value>
+  </data>
+  
+   <data name="Hold"> <!-- to hold the button / key. Shown in controls screen -->
+       <value>удерживать</value>
+  </data>
+  
+    <data name="WinnerOfFirstDogfight"> <!-- credits screen -->
+       <value>Победитель первого соревнования по воздушному бою</value>
   </data>
 
 </root>

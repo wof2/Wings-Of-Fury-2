@@ -140,7 +140,7 @@ namespace Wof.Controller.Screens
     public class AbstractScreen : MenuScreen
     {
 
-        protected int C_MAX_OPTIONS = 12;
+        protected int C_MAX_OPTIONS = 11;
         protected int currentScreen;
 
 

@@ -107,6 +107,7 @@ namespace Wof.Languages
         public const string ChooseVideoMode = @"ChooseVideoMode";
         public const string Congratulations = @"Congratulations";
         public const string CommunityTranslations = @"CommunityTranslations";
+        public const string CommunitySupport = @"CommunitySupport";
         public const string CompletedLevels = @"CompletedLevels";
         public const string CreatingGameObjects = @"CreatingGameObjects";
         public const string CreatingInput = @"CreatingInput";
@@ -187,6 +188,7 @@ namespace Wof.Languages
         public const string HallOfFame = @"HallOfFame";
         public const string High = @"High";
         public const string Highscores = @"Highscores";
+        public const string Hold = @"Hold";
         public const string HydraxWater = @"HydraxWater";
         
 
@@ -331,8 +333,9 @@ namespace Wof.Languages
 
         public const string WARNINGProtectTheCarrierFromEnemyPlane = @"WARNINGProtectTheCarrierFromEnemyPlane";
         public const string WeAreNotLeavingYetCaptain = @"WeAreNotLeavingYetCaptain";
+        public const string WinnerOfFirstDogfight = @"WinnerOfFirstDogfight";
         public const string WorstFPS = @"WorstFPS";
-
+        
         #endregion
 
         #region ---Y---

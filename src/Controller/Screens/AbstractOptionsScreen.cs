@@ -133,7 +133,7 @@ namespace Wof.Controller.Screens
             y += (int)h;
             c =
                 guiWindow.createStaticText(new Vector4(left, top + y, width, h),
-            	                           LanguageResources.GetString(LanguageKey.Engine) + ": (" + KeyMap.GetName(KeyMap.Instance.Engine)+ " hold)");
+                                           LanguageResources.GetString(LanguageKey.Engine) + ": " + KeyMap.GetName(KeyMap.Instance.Engine) + " (" + LanguageResources.GetString(LanguageKey.Hold) + ")");
             
             // "Engine: E (hold)");
             y += (int)(h * 0.83f);
@@ -408,10 +408,10 @@ namespace Wof.Controller.Screens
             if(showRestartRequiredMessage)
             {
             	guiWindow.createStaticText(
-                    new Vector4(GetMargin().x, exitButton.y + 2 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
+                    new Vector4(GetMargin().x, exitButton.y + 1 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
 	                LanguageResources.GetString(LanguageKey.ChangeOptionMessage1));
 	            guiWindow.createStaticText(
-                    new Vector4(GetMargin().x, exitButton.y + 3 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
+                    new Vector4(GetMargin().x, exitButton.y + 2 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
 	                LanguageResources.GetString(LanguageKey.ChangeOptionMessage2));
             }
          

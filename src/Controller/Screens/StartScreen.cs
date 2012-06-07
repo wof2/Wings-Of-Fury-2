@@ -250,7 +250,7 @@ namespace Wof.Controller.Screens
         {
             base.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoystick);
             
-            /*            
+                   
             if (inputKeyboard.IsKeyDown(KeyCode.KC_H))
             {
                 gameEventListener.GotoEnterScoreScreen(123456, 654321);
@@ -263,7 +263,7 @@ namespace Wof.Controller.Screens
 
                 (gameEventListener.GetCurrentScreen() as EndingScreen).Speed *= 10;
 
-            }*/
+            }
         }
 
         protected void onNewUpdates() 
