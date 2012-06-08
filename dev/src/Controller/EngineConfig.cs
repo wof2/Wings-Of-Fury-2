@@ -83,6 +83,7 @@ namespace Wof.Controller
 
 
         public static readonly String C_ENGINE_CONFIG = "wofconf.dat";
+        public static readonly String C_FIRST_RUN = "firstrun.dat";
         public static readonly String C_OGRE_CFG = "ogre.cfg";
 
         public static readonly String C_WOF_HOME_PAGE = "http://www.wingsoffury2.com";
@@ -252,8 +253,18 @@ namespace Wof.Controller
         public static float CurrentFontSize = 0.035f;
 
 
-       
 
+        protected static bool AutoDetectLanguage()
+        {
+            String inputLanguage = System.Windows.Forms.InputLanguage.CurrentInputLanguage.Culture.IetfLanguageTag;
+            if(LanguageManager.AvailableLanguages.ContainsValue(inputLanguage))
+            {
+                LanguageManager.SetLanguage(inputLanguage);
+                return true;
+            }
+
+            return false;
+        }
 
 
       
@@ -265,8 +276,35 @@ namespace Wof.Controller
         {
             try
             {
+              
+                // test to see if the file exists
+                if (!File.Exists(C_FIRST_RUN))
+                {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Game is running for the first time - auto detecting language");
+                    File.Create(C_FIRST_RUN).Close();
+                    try
+                    {
+                        if (AutoDetectLanguage())
+                        {
+                            LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Language has been detected: " + LanguageManager.ActualLanguageName);
+                        }
+                        else
+                        {
+                            LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Unable to detect language for: " + System.Windows.Forms.InputLanguage.CurrentInputLanguage.Culture.IetfLanguageTag);
+                        }
+                        
+                    }
+                    catch (Exception)
+                    {
+                      
+                    }
+                    
+                }
+               
                 if (File.Exists(C_ENGINE_CONFIG))
                 {
+                  //  string inputLanguage = .;
+                    
                     String[] configOptions = File.ReadAllLines(C_ENGINE_CONFIG);
 
                     BloomEnabled = bool.Parse(configOptions[0]);
