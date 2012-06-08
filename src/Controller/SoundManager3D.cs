@@ -82,7 +82,12 @@ namespace Wof.Controller
             {
            
             }
-            SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, 100);
+            if (SoundManager3D.Instance.CurrentMusic != null)
+            {
+                SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, 100);
+            }
+
+            
             EngineConfig.SaveEngineConfig();          
         }
         
@@ -113,12 +118,17 @@ namespace Wof.Controller
                 return true;
             }
 
-            if(Instance.Initialized) Instance.Destroy();
+            if(Instance.Initialized)
+            {
+                this.ambientSounds.Clear();
+                Instance.Destroy();
+            }
 
             bool ok = base.InitializeSound(listener, ss); //InitializeSound sound system
             if (ok)
             {
                 soundSystem = ss;
+                StopAmbientMusic();
                 currentMusic = null;
                 ambientSound = null;
                 return true;
