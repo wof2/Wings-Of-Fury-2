@@ -19,10 +19,11 @@ Wof_pl-PL
 Wof_ru-RU
 {	
 	type 		truetype
-	source 	        ru.ttf
+	source 	     Archangelsk.ttf
 	size 		20
 	resolution 	96
         code_points     33-122 1040-1103
+        
 }
 
 Wof_ua-UA
