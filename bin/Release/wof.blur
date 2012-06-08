@@ -51,6 +51,10 @@
             <ExcludeProperty regEx="true" name=".*" />
           </ExcludeType>
         </ExcludeNamespace>
+        <ExcludeNamespace name="Wof.Controller" preserveName="true">
+          <ExcludeType regEx="true" name="Browser.*" />
+          <ExcludeType regEx="true" name="EngineConfig.*" />
+        </ExcludeNamespace>
         <ExcludeNamespace name="Wof.Languages" />
         <ExcludeNamespace name="Wof.Model.Configuration" />
         <ExcludeNamespace name="Wof.Model.Level.LevelTiles.Watercraft">
@@ -87,6 +91,7 @@
       </ExcludeTypes>
       <ExcludeResources>
         <ExcludeResource name="$this.Icon" />
+        <ExcludeResource name=".*" />
         <ExcludeResource regEx="true" name="\.bmp$" />
         <ExcludeResource regEx="true" name="\.css$" />
         <ExcludeResource regEx="true" name="\.cur$" />
@@ -107,8 +112,11 @@
         <ExcludeResource regEx="true" name="\.xsd$" />
         <ExcludeResource regEx="true" name="\.xsl$" />
         <ExcludeResource regEx="true" name="\.xslt$" />
+        <ExcludeResource name="EnhancedVersionHelper.MainForm.resources" />
+        <ExcludeResource name="EnhancedVersionHelper.Properties.Resources.resources" />
         <ExcludeResource name="LanguageID" />
         <ExcludeResource name="newsplash" />
+        <ExcludeResource regEx="true" name="Wof.Controller.Browser.*" />
         <ExcludeResource name="Wof.Splash.resources" />
         <ExcludeResource name="WofIcon" />
       </ExcludeResources>
