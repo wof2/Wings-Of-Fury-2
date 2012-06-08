@@ -194,6 +194,12 @@ namespace Wof.Controller.Screens
 
             try
             {
+                String currentMusicBefore = null;
+                
+                if(SoundManager3D.Instance.CurrentMusic!=null)
+                {
+                    currentMusicBefore = (String)SoundManager3D.Instance.CurrentMusic.Clone();
+                }
                 
                 if (SoundManager3D.Instance.InitializeSound(framework.CameraListener, EngineConfig.SoundSystem))
                 {
@@ -220,14 +226,18 @@ namespace Wof.Controller.Screens
                 else
                 {
                     SoundManager.Instance.SoundDisabled = false;
+                  
+                   
                     SoundManager.Instance.PlayMainTheme();
                     SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, 100);
                 }
 
                 EngineConfig.SaveEngineConfig();
             }
-            catch (Exception)
+            catch (Exception ex )
             {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Exception while changing sound system: "+ ex+", stack: "+ex.StackTrace);
+
             }
         }
     }
