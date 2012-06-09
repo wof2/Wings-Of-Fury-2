@@ -607,7 +607,17 @@
     <data name="WinnerOfFirstDogfight"> <!-- credits screen -->
        <value>Zwycięzca pierwszego konkursu w walce powietrznej</value>
   </data>
-
-
+  
+   <data name="LanguageDebugMode"> 
+       <value>Narzędzia tłumacza</value>
+  </data>
+  
+  <data name="TranslationCompleteness"> 
+       <value>Przetłumaczone zwroty {0}/{1}</value>
+  </data>
+   
+  <data name="PossibleCharacters"> 
+       <value>Możliwe znaki</value>
+  </data>
 
 </root>

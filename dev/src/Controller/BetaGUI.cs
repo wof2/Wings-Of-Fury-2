@@ -9,6 +9,11 @@ using System.Collections.Generic;
 using Mogre;
 using System.Drawing;
 using Wof.Controller;
+using Wof.Languages;
+using Wof.Misc;
+using Font=Mogre.Font;
+using FontManager=Mogre.FontManager;
+using Math=System.Math;
 
 namespace BetaGUI
 {
@@ -273,6 +278,7 @@ namespace BetaGUI
                 e.Caption = C;
                 e.SetParameter("font_name", mFont);
                 e.SetParameter("char_height", StringConverter.ToString(mFontSize));
+              
             }
            
             OverlayContainer c =
@@ -305,12 +311,15 @@ namespace BetaGUI
         }
     } // class GUI
 
+   
     public class Button
     {
         public OverlayContainer mO, mCP;
         public String mmn, mma;
         public Callback callback;
-        public float x, y, w, h;
+        protected float x;
+        protected float y;
+        public float w, h;
 
         protected Window window;
 
@@ -319,8 +328,20 @@ namespace BetaGUI
             get { return window; }
         }
 
+        public virtual float X
+        {
+            get { return x; }
+            set { x = value; }
+        }
 
-        public void Translate(Vector2 move)
+        public virtual float Y
+        {
+            get { return y; }
+            set { y = value; }
+        }
+
+
+        public virtual void Translate(Vector2 move)
         {
             x += move.x;
             mO.SetParameter("left", StringConverter.ToString(x));
@@ -560,6 +581,20 @@ namespace BetaGUI
             return x;
         }
 
+        public Button createInmovableButton(Vector4 D, String M, String T, Callback C, uint ID)
+        {
+            Button x = new InmovableButton(D, M, T, C, this, ID, this);
+            mB.Add(x);
+            return x;
+        }
+
+
+        public Button createInmovableButton(Vector4 D, String M, String T, Callback C)
+        {
+            Button x = new InmovableButton(D, M, T, C, this, this);
+            mB.Add(x);
+            return x;
+        }
 
         public TextInput createTextInput(Vector4 D, String M, String V, uint L)
         {
@@ -573,6 +608,27 @@ namespace BetaGUI
         {
         	return createStaticText(D, T, ColourValue.White);
         }
+
+        /// <summary>
+        /// Tworzy tekst statyczny ale string zostanie automatycznie podzielony na nowe linie tak aby pasowal do okienka w ktorym ma byc wyswietlony
+        /// </summary>
+        /// <param name="D"></param>
+        /// <param name="T"></param>
+        /// <returns></returns>
+        public OverlayContainer createStaticTextAutoSplit(Vector4 D, String T)
+        {
+            h = this.mGUI.mFontSize; // margin and font size
+            Font font = (Font)(Mogre.FontManager.Singleton.GetByName(this.mGUI.mFont).Target);
+            Vector2 averageSize = ViewHelper.GetTextAverageSize(T, font, h);
+
+            
+            int charsPerLine = (int)Math.Floor((D.z - 2 * h) / averageSize.x);
+            string multiline = LanguageResources.SplitInsertingNewLinesByLength(T, charsPerLine);
+            return createStaticText(D, multiline, ColourValue.White);
+        }
+
+     
+           
         
         public static void ChangeContainerColour(OverlayContainer cont,  ColourValue c)
         {
@@ -802,7 +858,7 @@ namespace BetaGUI
                         return ret;
                     case 4:
                         mO.SetDimensions(w = px - x + 8, h = py - y + 8);
-                        mRZ.mO.SetPosition(mRZ.x = w - 16, mRZ.y = h - 16);
+                        mRZ.mO.SetPosition(mRZ.X = w - 16, mRZ.Y = h - 16);
                         if (mTB != null)
                         {
                             mTB.mO.Width = mTB.w = w;
@@ -855,6 +911,34 @@ namespace BetaGUI
                 element.Caption = mATI.value;
             mGUI.keyDelay.Reset();
             return true;
+        }
+    }
+
+    public class InmovableButton : Button
+    {
+        public InmovableButton(Vector4 D, string M, string T, Callback C, Window P, uint ID, Window w) : base(D, M, T, C, P, ID, w)
+        {
+
+        }
+
+        public InmovableButton(Vector4 D, string M, string T, Callback C, Window P, Window window) : base(D, M, T, C, P, window)
+        {
+        }
+
+        public override void Translate(Vector2 move)
+        {
+            // do nothing
+        }
+        public override float X
+        {
+            get { return x; }
+            set {}
+        }
+
+        public override float Y
+        {
+            get { return y; }
+            set {  }
         }
     }
 

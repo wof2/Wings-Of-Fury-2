@@ -474,7 +474,7 @@ namespace Wof.Controller.Screens
                     offset = -new Vector2(b.h * (scale - 1) * 0.5f, b.h * (scale - 1) * 0.5f);
                 }
                 Window pinupWindow = mGui.createWindow(new Vector4(w.x, w.y, w.w, w.h), String.Empty, (int)wt.NONE, String.Empty);
-                pinupWindow.createStaticImage(new Vector4(b.x + b.w - 2 * b.h + offset.x, b.y + offset.y, b.h * scale, b.h * scale), image, 100);
+                pinupWindow.createStaticImage(new Vector4(b.X + b.w - 2 * b.h + offset.x, b.Y + offset.y, b.h * scale, b.h * scale), image, 100);
             }
 
         }
@@ -830,6 +830,8 @@ namespace Wof.Controller.Screens
         public virtual void MouseReceived(String button)
         {
         }
+
+        protected float lastTimeSinceLastFrame;
         public virtual void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
             if (EngineConfig.UseHydrax)
@@ -865,7 +867,7 @@ namespace Wof.Controller.Screens
         	
         }
         
-        public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        public virtual void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
         	
             screenTime += evt.timeSinceLastFrame;            
@@ -1224,7 +1226,7 @@ namespace Wof.Controller.Screens
 
         public virtual void FrameStarted(FrameEvent evt)
         {
-            
+            lastTimeSinceLastFrame = evt.timeSinceLastFrame;
             EffectsManager.Singleton.UpdateTimeAndAnimateAll(evt.timeSinceLastFrame);
           //  Console.WriteLine("-");
             foreach(SceneNode cloud in cloudNodes)
@@ -1694,7 +1696,7 @@ namespace Wof.Controller.Screens
 
         }
 
-
+        
         public static string Wrap(string text, int maxLength)
         {
             text = text.Replace("\n", " ");

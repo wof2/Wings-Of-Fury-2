@@ -52,7 +52,9 @@ using System.Collections.Generic;
 using BetaGUI;
 using Mogre;
 using Wof.Languages;
+using Wof.Misc;
 using FontManager=Wof.Languages.FontManager;
+using Math=System.Math;
 
 namespace Wof.Controller.Screens
 {
@@ -67,7 +69,7 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Wiadomosc
         /// </summary>
-        private readonly string donateMessage = String.Format("{0}\r\n{1}\r\n{2}\r\n{3}\r\n{4}\r\n{5}",
+        private readonly string donateMessage = String.Format("{0} {1} {2} {3} {4} {5}",
                                                 String.Format(@"{0} {1}", LanguageResources.GetString(LanguageKey.DonateMessagePart1), EngineConfig.C_GAME_NAME),
                                                 String.Format(@"{0}", LanguageResources.GetString(LanguageKey.DonateMessagePart2)),
                                                 LanguageResources.GetString(LanguageKey.DonateMessagePart3),
@@ -75,7 +77,7 @@ namespace Wof.Controller.Screens
                                                 String.Format(@"{0}", LanguageResources.GetString(LanguageKey.DonateMessagePart5)),
                                                 String.Empty);
 
-        private readonly string donateMessageHebrew = String.Format("{0}\r\n{1}\r\n{2}\r\n{3}\r\n{4}\r\n{5}",
+        private readonly string donateMessageHebrew = String.Format("{0} {1} {2} {3} {4} {5}",
                                                String.Format(@"{1} {0}", LanguageResources.GetString(LanguageKey.DonateMessagePart1), EngineConfig.C_GAME_NAME),
                                                String.Format(@"{0}", LanguageResources.GetString(LanguageKey.DonateMessagePart2)),
                                                LanguageResources.GetString(LanguageKey.DonateMessagePart3),
@@ -101,34 +103,38 @@ namespace Wof.Controller.Screens
 
             Vector2 m = GetMargin();
             int h = (int)GetTextVSpacing();
-
+         
             
             guiWindow = mGui.createWindow(new Vector4(m.x,
                                                       m.y, Viewport.ActualWidth / 2,
                                                       Viewport.ActualHeight - m.y - h),
                                                       "bgui.window", (int)wt.NONE, LanguageResources.GetString(LanguageKey.Donate));
 
-   
 
+          
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
-            mGui.mFontSize = smallFontSize;
-            guiWindow.createStaticText(new Vector4(5, 1.2f*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, 3 * GetTextVSpacing()), LanguageManager.ActualLanguageCode == "he-IL" ? donateMessageHebrew : donateMessage);
+            mGui.mFontSize = fontSize;
+
+            string message = LanguageManager.ActualLanguageCode == "he-IL" ? donateMessageHebrew : donateMessage;
+          
+           
+            guiWindow.createStaticTextAutoSplit(new Vector4(h, 1.2f * h, -2 * h + Viewport.ActualWidth / 2, 3 * GetTextVSpacing()), message);
           
             mGui.mFontSize = fontSize;
             initButtons(3, 2);
 
-            buttons[0] = guiWindow.createButton(new Vector4(5, 6*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[0] = guiWindow.createButton(new Vector4(h, 7 * h, -2*h + Viewport.ActualWidth / 2, h), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Donate), 
                                                 cc, 0);
 
-            buttons[1] = guiWindow.createButton(new Vector4(5, 8 * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[1] = guiWindow.createButton(new Vector4(h, 9 * h, -2*h + Viewport.ActualWidth / 2, h), "bgui.button",
                                                LanguageResources.GetString(LanguageKey.EnhancedVersion), cc, 0);
 
             pinImageToButton(buttons[1], "pin.png", 1.6f);
 
 
 
-            buttons[2] = guiWindow.createButton(new Vector4(5, 13*GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[2] = guiWindow.createButton(new Vector4(h, 13 * h, -2*h + Viewport.ActualWidth / 2, h), "bgui.button",
                                                LanguageResources.GetString(LanguageKey.Back), cc, 0);
             selectButton(0);
             guiWindow.show();

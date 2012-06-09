@@ -2480,7 +2480,7 @@ namespace Wof.Controller.Screens
                     
                     Mogre.Pair<uint, uint> pair = new Mogre.Pair<uint, uint>(adTexture.SrcWidth, adTexture.SrcHeight);
                     float targetWidth = guiWindow.w;
-                    float targetHeight = guiWindow.h - GetTextVSpacing() - torpedoesButton.y;
+                    float targetHeight = guiWindow.h - GetTextVSpacing() - torpedoesButton.Y;
 
                     PointD adSurface = new PointD(targetWidth, targetHeight);
 

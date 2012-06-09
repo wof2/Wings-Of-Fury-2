@@ -141,6 +141,7 @@ namespace Wof.Controller
      
         
         public static bool ShowIntro = true; // czy ma byæ odgrywane intro? (nadpisywane przez wofconf.dat)
+        public static bool LanguageDebugMode = false;
 
         public static PlaneType CurrentPlayerPlaneType;
 
@@ -250,7 +251,7 @@ namespace Wof.Controller
         /// <summary>
         /// Bazowa wysokoœæ czcionki wyra¿ona w procentowej wysokoœci wzglêdem ekranu. Wykorzystywane przez AbstractScreen
         /// </summary>
-        public static float CurrentFontSize = 0.035f;
+        public static float CurrentFontSize = 0.028f;
 
 
 

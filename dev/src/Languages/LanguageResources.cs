@@ -151,7 +151,7 @@ namespace Wof.Languages
                 {
                     array2[i] = ReverseString(array2[i]);
                 }
-                return string.Join(" ", array2);
+                return String.Join(" ", array2);
 
             }
             return String.Empty;
@@ -293,5 +293,53 @@ namespace Wof.Languages
         }
 
         #endregion
+        public static string SplitInsertingNewLinesByLength(string str, int maxLength)
+        {
+            return String.Join("\n", new List<string>(SplitByLength(str, maxLength)).ToArray());
+        }
+
+        public static IEnumerable<string> SplitByLength(string str, int maxLength)
+        {/*
+            for (int index = 0; index < str.Length; index += maxLength)
+            {
+                yield return str.Substring(index, Math.Min(maxLength, str.Length - index));
+            }*/
+            
+            string[] words = str.Split(' ');
+            var parts = new Dictionary<int, string>();
+            string part = String.Empty;
+            int partCounter = 0;
+            foreach (var word in words)
+            {
+                if (part.Length + word.Length < maxLength)
+                {
+                    part += String.IsNullOrEmpty(part) ? word : " " + word;
+                }
+                else
+                {
+                    parts.Add(partCounter, part);
+                    part = word;
+                    partCounter++;
+                }
+            }
+            parts.Add(partCounter, part);
+            return new List<String>(parts.Values);
+        }
+
+        public static char[] BuildCharmap(String fullString)
+        {
+            char[] arr = fullString.ToCharArray();
+
+            Dictionary<char, bool> dic = new Dictionary<char, bool>();
+
+            foreach (char s in arr)
+            {
+                dic[s] = true;
+            }
+
+            List<char> list = new List<char>(dic.Keys);
+            list.Sort();
+            return  list.ToArray();
+        }
     }
 }

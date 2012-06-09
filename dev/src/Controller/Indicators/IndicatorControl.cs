@@ -608,7 +608,7 @@ namespace Wof.Controller.Screens
                                                833, 5),
                                viewport.ActualHeight - minimapViewport.ActualHeight +
                                CountProportion(minimapViewport.ActualHeight,
-                                               84, -15));
+                                               84, -12));
         }
 
 

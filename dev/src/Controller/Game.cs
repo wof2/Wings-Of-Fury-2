@@ -399,6 +399,10 @@ namespace Wof.Controller
                     {
                         EngineConfig.ShowIntro = false;                        
                     } 
+                    else if (args[i].Equals("-LanguageDebugMode"))
+                    {
+                        EngineConfig.LanguageDebugMode = true;                        
+                    } 
                     else if (args[i].Equals("-DebugInfo"))
                     {
                         EngineConfig.DebugInfo = true;
@@ -1189,7 +1193,7 @@ namespace Wof.Controller
             }
 
             currentScreen.DisplayGUI(justMenu);
-        }
+        } 
 
         public void GotoCreditsScreen()
         {
@@ -1213,6 +1217,26 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
+        public void GotoLanguageDebugScreen()
+        {
+            Boolean justMenu = IsMenuScreen(currentScreen);
+			HideBrowser();
+            ScreenState ss = null;
+            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
+            {
+                ss = (currentScreen as AbstractScreen).GetScreenState();
+            }
+            initScreenAfter(currentScreen);
+           
+            currentScreen = new LanguageDebugScreen(this, this, viewport, camera, false, 75);
+
+            if (ss != null)
+            {
+                ((AbstractScreen)currentScreen).SetScreenState(ss);
+            }
+
+            currentScreen.DisplayGUI(justMenu);
+        }
         public void GotoOptionsScreen()
         {
             Boolean justMenu = IsMenuScreen(currentScreen);

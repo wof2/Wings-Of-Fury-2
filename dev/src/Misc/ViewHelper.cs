@@ -419,6 +419,69 @@ namespace Wof.Misc
 
         }
 
+        public static float MeasureText(string fontName, string text, float charHeight)
+        {
+            Font font = (Font)FontManager.Singleton.GetByName(fontName).Target;
+            float left = 0;
+            const uint UNICODE_ZERO = 0x0030;
+            const uint UNICODE_SPACE = 0x0020;
+
+            if (font != null)
+            {
+                float fHeight = charHeight;
+                float aspectRatio = 0;
+                float width = 0;
+
+                float viewportAspectCoef = OverlayManager.Singleton.ViewportHeight;
+                viewportAspectCoef /= OverlayManager.Singleton.ViewportWidth;
+                viewportAspectCoef = 1.0f;
+                float spaceWidth = font.GetGlyphAspectRatio(UNICODE_ZERO) * fHeight * viewportAspectCoef;
+
+                for (int i = 0; i < text.Length; i++)
+                {
+                    if (text[i] == UNICODE_SPACE)
+                        left += spaceWidth;
+                    else
+                    {
+                        aspectRatio = font.GetGlyphAspectRatio(text[i]);
+                        width = (aspectRatio * viewportAspectCoef);
+                        left += width * fHeight;
+                    }
+                }
+            }
+
+            return left;
+        }
+
+        public static int GetMaximumCharsPerLine(String fontName, String text, float containerWidth, float fontHeight)
+        {
+            Font font = (Font)(Mogre.FontManager.Singleton.GetByName(fontName).Target);
+            Vector2 averageSize = ViewHelper.GetTextAverageSize(text, font, fontHeight);
+            
+            return (int)System.Math.Floor((containerWidth - 2 * fontHeight) / averageSize.x);
+        }
+
+        public static Vector2 GetTextAverageSize(String text, Font font, float charHeight)
+        {   
+            if(string.IsNullOrEmpty(text))
+            {
+                return Vector2.ZERO;
+            }
+           //charHeight = Mogre.StringConverter.ParseReal(font.GetParameter("size"));
+            float width = MeasureText(font.Name, text, charHeight);
+
+            return  new Vector2(width / text.Length, charHeight);
+
+        
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="text"></param>
+        /// <param name="font"></param>
+        /// <param name="viewport"></param>
+        /// <remarks>Deprecated!</remarks>
+        /// <returns></returns>
         public static Vector2 GetTextDimensions(String text, Font font, Viewport viewport)
         {
 

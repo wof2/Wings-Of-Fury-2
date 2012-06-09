@@ -46,6 +46,9 @@
  * 
  */
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Wof.Controller;
 
 namespace Wof.Languages
@@ -214,6 +217,7 @@ namespace Wof.Languages
         public const string LandOnTheCarrierAndPressXToRefuel = @"LandOnTheCarrierAndPressXToRefuel";
         public const string LandOnTheCarrierAndPressXToRepair = @"LandOnTheCarrierAndPressXToRepair";
         public const string LanguageID = @"LanguageID";
+        public const string LanguageDebugMode = @"LanguageDebugMode";
         public const string Languages = @"Languages";
         public const string Level = @"Level";
         public const string LevelCompleted = @"LevelCompleted";
@@ -267,6 +271,7 @@ namespace Wof.Languages
         public const string Planes = @"Planes";
         public const string PlanesDestroyed = @"PlanesDestroyed";
         public const string Poland = @"Poland";
+        public const string PossibleCharacters = @"PossibleCharacters";
         public const string PressEToTurnOnTheEngine = @"PressEToTurnOnTheEngine";
         public const string PressLeftUpToTakeOff = @"PressLeftUpToTakeOff";
         public const string PressUpToLand = @"PressUpToLand";
@@ -316,6 +321,8 @@ namespace Wof.Languages
         public const string TorpedoesAccuracy = @"TorpedoesAccuracy";
         public const string TorpedoTooHigh = @"TorpedoTooHigh";
         public const string TorpedoTooLongTravelDistance = @"TorpedoLongTravelDistance";
+        public const string TranslationCompleteness = @"TranslationCompleteness";
+        
         public const string TriangleCount = @"TriangleCount";
         public const string Tutorial = @"Tutorial";
 
@@ -352,7 +359,25 @@ namespace Wof.Languages
 
         #endregion
 
+        public static String[] GetAllLanguageKyes(){
+            Type type = typeof(LanguageKey); // Get type pointer
+            FieldInfo[] fields = type.GetFields(); // Obtain all fields
+            List<String> arr = new List<String>();
+            foreach (var field in fields) // Loop through fields
+            {
+                string name = field.Name; // Get string name
+                object temp = field.GetValue(null); // Get value
+                if (temp is int) // See if it is an integer.
+                {
+		   
+                }
+                else if (temp is string) // See if it is a string.
+                {
+                    arr.Add(temp as string);
+                }
+            }
 
-        
+            return arr.ToArray();
+        }
     }
 }

@@ -93,5 +93,7 @@ namespace Wof.Controller
         void GotoUpdateWebPage();
 
         MenuScreen GetCurrentScreen();
+        void GotoLanguageDebugScreen();
+
     }
 }

@@ -615,5 +615,17 @@
     <data name="WinnerOfFirstDogfight"> <!-- credits screen -->
        <value>The Winner of the first dogfight competition</value>
   </data>
+  
+   <data name="LanguageDebugMode"> 
+       <value>Language debug mode</value>
+  </data>
+  
+  <data name="TranslationCompleteness"> 
+       <value>Translation completeness {0}/{1}</value>
+  </data>
+   
+  <data name="PossibleCharacters"> 
+       <value>Possible characters</value>
+  </data>
 
 </root>

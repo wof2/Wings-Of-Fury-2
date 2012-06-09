@@ -52,6 +52,7 @@ using BetaGUI;
 using Mogre;
 using Wof.Controller.Screens;
 using Wof.Languages;
+using Wof.Misc;
 using FontManager=Wof.Languages.FontManager;
 using Math=Mogre.Math;
 
@@ -75,7 +76,7 @@ namespace Wof.Controller.Indicators
         private Viewport mainViewport;
 
         private static readonly float xMargin = 0.03f;
-        private static readonly float yMargin = 0.015f;
+        private static readonly float yMargin = 0.005f;
         private readonly float bgAnimationLength = 1.00f;
 
         private const float bgAnimationMaxOpacity = 0.5f;
@@ -159,7 +160,7 @@ namespace Wof.Controller.Indicators
 
             messageElement.MetricsMode = GuiMetricsMode.GMM_RELATIVE;
             messageElement.SetParameter("char_height",  StringConverter.ToString(EngineConfig.CurrentFontSize));
-            messageElement.SetParameter("colour_top", "0.6 0.34 0.34");
+            messageElement.SetParameter("colour_top", "0.1 0.1 0.1");
             messageElement.SetParameter("colour_bottom", "0.5 0.1 0.1");
             messageElement.Caption = "";
 
@@ -389,8 +390,10 @@ namespace Wof.Controller.Indicators
             messageElement.SetParameter("char_height", currentMessage.getCharHeightString());
             messageElement.SetParameter("colour_top", currentMessage.ColourTopString);
             messageElement.SetParameter("colour_bottom", currentMessage.ColourBottomString);
-            
-            messageElement.Caption = AbstractScreen.Wrap(currentMessage.Message, currentMessage.CharsPerLine); ;
+          
+
+            messageElement.Caption = currentMessage.GetMessageAdjustedByContainerWidth(mainViewport.ActualWidth * 0.8f, OverlayManager.Singleton.ViewportHeight);
+           // messageElement.Caption = AbstractScreen.Wrap(currentMessage.Message, currentMessage.CharsPerLine); ;
             
         }
 

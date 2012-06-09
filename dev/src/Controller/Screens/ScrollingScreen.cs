@@ -43,6 +43,11 @@ namespace Wof.Controller.Screens
             get { return enabled; }
         }
 
+        public bool OutOfBounds
+        {
+            get { return outOfBounds; }
+        }
+
         protected List<PositionedMessage> messages;
         private List<OverlayContainer> messageOverlays;
 
@@ -125,26 +130,23 @@ namespace Wof.Controller.Screens
         protected abstract List<PositionedMessage> buildMessages();
         
 
-        /// <summary>
-        /// Przewija wszystkie elementy
-        /// </summary>
-        /// <param name="evt"></param>
-        public override void FrameStarted(FrameEvent evt)
+        protected virtual void Translate(float timeSinceLastFrame, bool reverse)
         {
-           
-            if (!Enabled) return;
-            base.FrameStarted(evt);
            
             float newTop;
             float maxY = float.MinValue;
-            float step = (speed*evt.timeSinceLastFrame) * (Viewport.ActualHeight / 1050.0f); // normalizacja do szybkosci scrollowania na ekranie 1680/1050
+           // float minY = float.MaxValue;
+            float step = (speed * timeSinceLastFrame) * (Viewport.ActualHeight / 1050.0f); // normalizacja do szybkosci scrollowania na ekranie 1680/1050
+            if (reverse)
+            {
+                step *= -1;
+            }
 
-
-            foreach(OverlayContainer o in messageOverlays)
+            foreach (OverlayContainer o in messageOverlays)
             {
                 float top = StringConverter.ParseReal(o.GetParameter("top"));
                 newTop = (top - step);
-                o.SetParameter("top",  StringConverter.ToString(newTop));
+                o.SetParameter("top", StringConverter.ToString(newTop));
 
                 if (newTop + StringConverter.ParseReal(o.GetParameter("height")) + bottomMargin > maxY)
                 {
@@ -152,23 +154,42 @@ namespace Wof.Controller.Screens
                 }
             }
 
-            for (int j = 0; j < buttons.Length; j++ )
+            for (int j = 0; j < buttons.Length; j++)
             {
                 Button b = buttons[j];
-                if (b.y + b.h < 0  && j != backButtonIndex)
+                if (b.Y + b.h < 0 && j != backButtonIndex)
                 {
                     buttons[j].killButton();
                     continue;
                 }
                 b.Translate(new Vector2(0, -step));
-                if (b.y + b.h > maxY + bottomMargin)
+                if (b.Y + b.h > maxY + bottomMargin)
                 {
-                    maxY = b.y + b.h + bottomMargin;
+                    maxY = b.Y + b.h + bottomMargin;
                 }
             }
 
             // stop condition
-            if(maxY < guiWindow.h) enabled = false;
+            if (maxY < guiWindow.h)
+            {
+                enabled = false;
+                outOfBounds = true;
+            }
+            
+        }
+
+        private bool outOfBounds = false;
+        /// <summary>
+        /// Przewija wszystkie elementy
+        /// </summary>
+        /// <param name="evt"></param>
+        public override void FrameStarted(FrameEvent evt)
+        {
+           
+           
+            base.FrameStarted(evt);
+            if (!Enabled) return;
+            Translate(evt.timeSinceLastFrame, false);
 
         }
 

@@ -48,6 +48,7 @@
 
 
 using System.Collections.Generic;
+using BetaGUI;
 using Mogre;
 using Wof.Languages;
 
@@ -60,6 +61,11 @@ namespace Wof.Controller.Screens
                                           base(gameEventListener, framework, viewport, camera)
         {
     		showRestartRequiredMessage = false;
+            if(EngineConfig.LanguageDebugMode)
+            {
+                autoGoBack = false;
+            }
+            
         }
 
         protected override string getTitle()
@@ -87,11 +93,28 @@ namespace Wof.Controller.Screens
                 if (lang.Key.Equals(holder.Value))
                 {
                     LanguageManager.SetLanguage(lang.Value);
+                    if (EngineConfig.LanguageDebugMode)
+                    {
+                        gameEventListener.GotoLanguageDebugScreen();
+                    }
                     //EngineConfig.SaveEngineConfig();
                     break;
                 }
             }
         }
+        /*
+        public void onButtonPress(Button referer)
+        {
+            if (screenTime > C_RESPONSE_DELAY)
+            {
+                PlayClickSound();
+                if (referer == buttons[0])
+                {
+                  
+                }
+
+            }
+        }*/
 
         protected override bool IsOptionSelected(string option)
         {

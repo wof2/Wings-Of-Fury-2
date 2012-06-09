@@ -163,7 +163,7 @@ namespace Wof.Controller.Screens
                                                 LanguageResources.GetString(LanguageKey.P47),
                                                 cc, 0);
 
-            buttons[1] = guiWindow.createButton(new Vector4(buttons[0].x + buttons[0].w, 1.5f * GetTextVSpacing(), buttons[0].w, GetTextVSpacing()), matf4u,
+            buttons[1] = guiWindow.createButton(new Vector4(buttons[0].X + buttons[0].w, 1.5f * GetTextVSpacing(), buttons[0].w, GetTextVSpacing()), matf4u,
                                               LanguageResources.GetString(LanguageKey.F4U),
                                               cc, 1);
 
@@ -171,9 +171,9 @@ namespace Wof.Controller.Screens
                                                 LanguageResources.GetString(LanguageKey.B25),
                                                 cc, 2);
 
-            Vector4 p47img = new Vector4(buttons[0].x, buttons[0].y + buttons[0].h, buttons[0].w, guiWindow.h*0.3f);
-            Vector4 f4uimg = new Vector4(buttons[1].x, buttons[1].y + buttons[1].h, buttons[1].w, guiWindow.h*0.3f);
-            Vector4 b25img = new Vector4(buttons[2].x, buttons[2].y + buttons[2].h, buttons[2].w, guiWindow.h*0.3f);
+            Vector4 p47img = new Vector4(buttons[0].X, buttons[0].Y + buttons[0].h, buttons[0].w, guiWindow.h*0.3f);
+            Vector4 f4uimg = new Vector4(buttons[1].X, buttons[1].Y + buttons[1].h, buttons[1].w, guiWindow.h*0.3f);
+            Vector4 b25img = new Vector4(buttons[2].X, buttons[2].Y + buttons[2].h, buttons[2].w, guiWindow.h*0.3f);
 
 
 
