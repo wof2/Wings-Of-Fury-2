@@ -1,6 +1,8 @@
 using System;
 using System.Globalization;
 using Mogre;
+using Wof.Languages;
+using Wof.Misc;
 
 namespace Wof.Controller.Indicators
 {
@@ -58,6 +60,7 @@ namespace Wof.Controller.Indicators
         public String Message
         {
             get { return message; }
+             //set {  message = value; }
         }
 
         private uint time;
@@ -113,19 +116,24 @@ namespace Wof.Controller.Indicators
 
         private static ColourValue defaultColourBottom = new ColourValue(0.8f, 0.1f, 0.1f);
        
-        protected int charsPerLine = 55;
+       // protected int charsPerLine = 55;
 
         public static ColourValue DefaultColourBottom
         {
             get { return defaultColourBottom; }
         }
 
-        public int CharsPerLine
+        public int GetCharsPerLine(float containerWidth, float screenHeight)
         {
-            get { return charsPerLine; }
-            set { charsPerLine = value; }
+            return ViewHelper.GetMaximumCharsPerLine(Languages.FontManager.CurrentFont, Message, containerWidth, screenHeight*charHeight);
         }
 
+        public String GetMessageAdjustedByContainerWidth(float containerWidth,  float screenHeight)
+        {
+            return LanguageResources.SplitInsertingNewLinesByLength(Message, GetCharsPerLine(containerWidth, screenHeight));
+        }
+
+       
         public bool NoBackground
         {
             get { return noBackground; }

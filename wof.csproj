@@ -558,6 +558,7 @@
     <Compile Include="src\Controller\Indicators\IconedCenteredMessageEntry.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyCodeConflictException.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyMap.cs" />
+    <Compile Include="src\Controller\Screens\LanguageDebugScreen.cs" />
     <Compile Include="src\Controller\Sound\FreeSL\FSLOgreCS\FSLAmbientSoundMusic.cs" />
     <Compile Include="src\Controller\Taskbar.cs" />
     <Compile Include="src\Tests\ModelTest\GunTestForm.cs">

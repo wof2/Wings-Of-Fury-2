@@ -47,73 +47,35 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
 using BetaGUI;
 using Mogre;
+using MOIS;
 using Wof.Languages;
+using FontManager=Wof.Languages.FontManager;
+using Math=System.Math;
+using Type=System.Type;
 
 
 namespace Wof.Controller.Screens
 {
-    internal class CreditsScreen : ScrollingScreen
+    internal class LanguageDebugScreen : ScrollingScreen
     {
         #region Private Fields
-
-        /// <summary>
-        /// Format wyswietlanych napisow
-        /// </summary>
-        private const string NamesFormat = @"{0}:";
-
         /// <summary>
         /// Wyswietlany tekst
         /// </summary>
-        private string[] names = {  EngineConfig.C_GAME_NAME, 
-                                    String.Empty,
-                                    String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.CoreTeam)),
-                                    "Adam Witczak",
-                                    String.Empty,
-                                    String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.SupportTeam)),
-                                    "Kamil Slawinski",  
-                                    "Michal Ziober",
-                                    "Jakub Tezycki",
-                                    "Emil Hornung",
-                                    "Tomasz Bilski",
-                                    String.Empty, 
-                                    String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.Graphics)),
-                                    "Adam Witczak",
-                                    String.Empty,
-                                    String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.Sound)),
-                                    "Jakub Tezycki",
-                                    String.Empty,
-                                    String.Format(@"WOF2 {0}:", LanguageResources.GetString(LanguageKey.CommunityTranslations)),
-                                    "Makis", 
-                                    "Joao Andre Colaco Caine da Silva", 
-                                    "Beauty",
-                                    "RedFox2879",
-                                    "Jack Flushell",
-                                    "Paszmina",
-                                    "Sébastien Ligez",
-                                    "Sychospy",
-                                    "tboc.razor",
+        private string[] names;
 
-                                    String.Empty,
-                                    LanguageResources.GetString(LanguageKey.CommunitySupport),
-                                    "Sandy Siegel",
-                                    "Jonathan Rae",
-                                    "Winnow Driscoll",
-                                    "Detlef Spengler",
-                                    "Mr. B.",
-                                    "Chompson",
-                                    "k3fir",
-                                    String.Empty,
-                                    LanguageResources.GetString(LanguageKey.WinnerOfFirstDogfight),
-                                    "Jack Flushell",
-                                    String.Empty,
-                                    LanguageResources.GetString(LanguageKey.SpecialThanksToSteveWaldo),
-                                    LanguageResources.GetString(LanguageKey.CreatorOfOriginalWingsOfFury),
-                                    String.Format(@"{0} 2010", LanguageResources.GetString(LanguageKey.Poland)) 
-                                };
+        int translatedStrings = 0;
+        int totalStrings = 0;
 
+        private int charsLimitPerLine = 80;
+
+        private float scrollAmountOnClick = 2.0f;
         #endregion
 
         /// <summary>
@@ -125,12 +87,61 @@ namespace Wof.Controller.Screens
         /// <param name="camera"></param>
         /// <param name="startFromBottom"></param>
         /// <param name="speed"></param>
-        public CreditsScreen(GameEventListener gameEventListener,
+        public LanguageDebugScreen(GameEventListener gameEventListener,
                               IFrameWork framework, Viewport viewport, Camera camera, bool startFromBottom, float speed) :
                                  base(gameEventListener, framework, viewport, camera, startFromBottom, speed)
         {
-          //  this.speed = 145;
-        
+            this.fontSize = (uint)(0.63f * fontSize); // mniejsza czcionka 
+           
+            List<String> arr = new List<String>();
+            List<String> arrFull = new List<String>();
+            String[] keys = LanguageKey.GetAllLanguageKyes();
+            StringBuilder fullString = new StringBuilder();
+            foreach (string key in keys)
+            {
+               totalStrings++;
+               arr.Add(""+key+":");
+               if (String.Empty.Equals(LanguageResources.GetString(key)))
+               {
+                   arr.Add("!!!");
+               } else
+               {
+                   translatedStrings++;
+
+                   IEnumerable<string> multiline = LanguageResources.SplitByLength(LanguageResources.GetString(key), charsLimitPerLine);
+
+                   foreach (string line in multiline)
+                   {
+                       arr.Add(line);
+                   }
+
+                   fullString.Append(LanguageResources.GetString(key));
+               }
+               arr.Add(""); // new line
+            }
+           
+            
+            // all possible chars 
+            arrFull.Add(LanguageResources.GetString(LanguageKey.PossibleCharacters));
+            char[] allchars = LanguageResources.BuildCharmap(fullString.ToString());
+
+            IEnumerable<string> lines = LanguageResources.SplitByLength(new string(allchars), charsLimitPerLine);
+           
+            foreach (string line in lines)
+            {
+                arrFull.Add(line);
+            }
+            arrFull.Add(""); arrFull.Add("");
+            arrFull.AddRange(arr);
+
+            names = arrFull.ToArray();
+        }
+
+
+        public float ScrollAmountOnClick
+        {
+            get { return scrollAmountOnClick; }
+            set { scrollAmountOnClick = value; }
         }
 
         protected override int getBackButtonIndex()
@@ -138,37 +149,107 @@ namespace Wof.Controller.Screens
             return 0;
         }
 
+        protected override void CreateGUI()
+        {
+            base.CreateGUI();
+            enabled = false; // not moving at the moment
+        }
+
         protected override List<Button> buildButtons()
-        {        	
+        {
+            float h = GetTextVSpacing();
             List<Button> ret = new List<Button>();
-            ret.Add(guiWindow.createButton(new Vector4(20, (this.messages.Count + 1) * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
-                                           "bgui.button", LanguageResources.GetString(LanguageKey.OK), cc));
+         
+            ret.Add(guiWindow.createInmovableButton(new Vector4(Viewport.ActualWidth * 0.25f, Viewport.ActualHeight - 3 * h, Viewport.ActualWidth / 2, h),
+                                          "bgui.button", LanguageResources.GetString(LanguageKey.OK), cc));
+
+            ret.Add(guiWindow.createInmovableButton(new Vector4(Viewport.ActualWidth - 6*h, 2*h, 5*h, 2*h),
+                                          "bgui.button", "UP", cc));
+            ret.Add(guiWindow.createInmovableButton(new Vector4(Viewport.ActualWidth - 6*h, Viewport.ActualHeight - 4 * h, 5 * h, 2 * h),
+                                          "bgui.button", "DOWN", cc));
+
+           
             return ret;
         }
 
         protected override List<PositionedMessage> buildMessages()
         {
-            
+
+            float y = 2*GetTextVSpacing();
             List<PositionedMessage> ret = new List<PositionedMessage>();
             ret.Add(
-            new PositionedMessage(20, 2*GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing(),
-                                 LanguageResources.GetString(LanguageKey.Credits)));
+            new PositionedMessage(20, y, Viewport.ActualWidth / 2, GetTextVSpacing(),
+                                 LanguageResources.GetString(LanguageKey.LanguageDebugMode)));
+
+          //  y += GetTextVSpacing();
+            ret.Add(
+            new PositionedMessage(20, y, Viewport.ActualWidth / 2, GetTextVSpacing(),
+                                 LanguageResources.GetString(LanguageKey.LanguageID)));
+
+         
+           /* y += GetTextVSpacing();
+            ret.Add(
+            new PositionedMessage(20, y, Viewport.ActualWidth / 2, GetTextVSpacing(),
+                                 LanguageResources.GetString(LanguageKey.LanguageID)));*/
+
+            FontPtr font = (FontPtr)Mogre.FontManager.Singleton.GetByName(FontManager.CurrentFont);
+          //  y += GetTextVSpacing();
+            ret.Add(
+            new PositionedMessage(20, y, Viewport.ActualWidth / 2, GetTextVSpacing(),
+                                 font.Name));
+
+            ret.Add(new PositionedMessage(20, GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing(), String.Format(LanguageResources.GetString(LanguageKey.TranslationCompleteness), translatedStrings, totalStrings), ColourValue.Green, ColourValue.Green));
+            ret.Add(new PositionedMessage(20, GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing(), ""));
+            //     font.g
 
             foreach (string s in names)
             {
-                ret.Add(new PositionedMessage(20, GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing(), s));
+                if("!!!".Equals(s))
+                {
+                    ret.Add(new PositionedMessage(20, GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing(), s, ColourValue.Red, ColourValue.Red));
+                } else
+                {
+                    ret.Add(new PositionedMessage(20, GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing(), s));
+                }
+                
             }
+           
             return ret;
         }
          
         #region BetaGUIListener Members
 
+        public override void KeyReceived(String key)
+        {
+            if (OutOfBounds)
+            {
+                return;
+            }
+            if ("UP".Equals(key))
+            {
+                Translate(ScrollAmountOnClick * lastTimeSinceLastFrame, true);
+            }
+            if ("DOWN".Equals(key))
+            {
+                Translate(ScrollAmountOnClick * lastTimeSinceLastFrame, false);
+            }
+        }
+
         public override void onButtonPress(Button referer)
         {
             if (referer == buttons[backButtonIndex])
-            {
+            { 
                 PlayClickSound();
-                gameEventListener.GotoStartScreen();
+                gameEventListener.GotoLanguagesOptionsScreen();
+            }
+            if (referer == buttons[1] && !OutOfBounds)
+            {
+                Translate(ScrollAmountOnClick, true);
+            }
+            if (referer == buttons[2] && !OutOfBounds)
+            {
+               
+                Translate(ScrollAmountOnClick, false);
             }
         }
 

@@ -119,7 +119,7 @@ namespace Wof.Controller.Screens
             {
                 Button b = buttons[12];
                 float size = 2.0f * GetTextVSpacing();
-                guiWindow.createStaticImage(new Vector4(b.x + b.w * 0.5f - 0.5f*size,  buttons[12].y + GetTextVSpacing(), size, size), "restart.png");
+                guiWindow.createStaticImage(new Vector4(b.X + b.w * 0.5f - 0.5f*size,  buttons[12].Y + GetTextVSpacing(), size, size), "restart.png");
             }
             selectButton(12);
             guiWindow.show();
