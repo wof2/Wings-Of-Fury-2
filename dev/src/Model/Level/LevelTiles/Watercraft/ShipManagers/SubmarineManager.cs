@@ -47,27 +47,48 @@
  */
 
 using System;
+using Wof.Model.Level.Weapon;
 
-namespace Wof.Model.Level.LevelTiles.Watercraft
+namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 {
     /// <summary>
-    /// Definiuje typy wrogich statkow.
+    /// Zarzadza statkiem typu PatrolBoat
     /// </summary>
-    public enum TypeOfEnemyShip : byte
+    /// <author>Michal Ziober</author>
+    public sealed class SubmarineManager : ShipManager
     {
-        /// <summary>
-        /// Lodz patrolujaca.
-        /// </summary>
-        PatrolBoat = 0,
+        #region Public Constructor
 
         /// <summary>
-        /// Okret wojenny.
+        /// Konstruktor jednoparametrowy, tworzy nowa instancje managera statku.
         /// </summary>
-        WarShip = 1,
+        /// <param name="typeOfEnemyShip">Typ wrogiego statku.</param>
+        public SubmarineManager(TypeOfEnemyShip typeOfEnemyShip)
+            : base(typeOfEnemyShip)
+        { }
 
-        /// <summary>
-        /// Okręt podwodny
-        /// </summary>
-        Submarine = 2
+        #endregion
+
+        #region Override Methods
+
+        public override void TorpedoHit(Ammunition ammo, ShipTile tile)
+        {
+            _shipState = ShipState.Destroyed;
+            //niszczymy obiekt
+            _shipTiles[0].Destroy();
+            //wysylamy informacje do Controllera.
+            _refToLevel.Controller.OnShipBeginSinking(_shipTiles[0]); 
+        }
+
+        #endregion
+
+        #region Properties
+
+        public override bool IsLastHit
+        {   //tylko jedno trafienie potrzeba aby zatopic ten okret.
+            get { return true; }
+        }
+
+        #endregion
     }
 }

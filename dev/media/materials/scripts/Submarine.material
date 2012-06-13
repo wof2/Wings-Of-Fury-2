@@ -1,0 +1,17 @@
+import * from "0NormalMappedSpecular.material"
+
+material SubmarineTower : NormalMappedSpecular
+{
+  set_texture_alias NormalMap submarine_normal.dds
+  set_texture_alias DiffuseMap submarine.dds
+}
+
+material SubmarineBody : SubmarineTower
+{  
+}
+
+material Deck : NormalMappedSpecular
+{
+  set_texture_alias NormalMap deck_normal.dds
+  set_texture_alias DiffuseMap deck.dds
+}
