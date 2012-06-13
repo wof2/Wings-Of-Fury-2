@@ -64,6 +64,8 @@ namespace Wof.View.TileViews
         {
         }
 
+       
+
         public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
             base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);

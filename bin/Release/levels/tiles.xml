@@ -207,6 +207,20 @@
     <!-- dzialko -->
   </tile>
 
+    <!-- wariacja dla submarine-->
+  <tile name="ship-wooden-bunker" y-start="0.8" y-end="0.8" variation="1" view-x-shift="-3.3">
+  
+    <collision-rect rectangle="[3.2, 2.8 ][4.0][2.6]" />
+    <!-- prawa czesc wiezy -->
+
+    <collision-rect rectangle="[4.5, 5.1 ][0.8  ][3.0]" />
+    <!-- peryskop -->
+	
+	
+    <collision-rect rectangle="[-3.7, 2.2 ][1.4  ][1.3]" />
+    <!-- dzialko -->
+  </tile>
+
 
 
   <tile name="ship-concrete-bunker" y-start="1.9" y-end="1.9" variation="0" view-x-shift="-3.3">
@@ -240,7 +254,11 @@
   <tile name="ship-begin" y-start="1.8" y-end="1.8" variation="0" ></tile>
   <tile name="ship-end" y-start="1.9" y-end=" 1.9" variation="0" ></tile>
   <tile name="ship-deck" y-start="1.8" y-end="1.8" variation="0" ></tile>
+ 
 
+ <!-- low deck - reversed orientation (variation acts as a flag only) -->
+ <!-- <tile name="ship-begin" y-start="1.8" y-end="1.8" variation="9999" ></tile>
+-->
 
   <!-- high deck-->
   <tile name="ship-begin" y-start="4.5" y-end="4.5" variation="1" ></tile>
@@ -266,6 +284,12 @@
     <collision-rect rectangle="[5.50, 18.5 ][1.0  ][4.1]" />
   </tile>
   
+  
+   <!-- submarine -->
+  <tile name="ship-begin" y-start="0.8" y-end="0.8" variation="2" ></tile>
+  <tile name="ship-end" y-start="0.9" y-end=" 0.9" variation="2" ></tile>
+  <tile name="ship-deck" y-start="0.8" y-end="0.8" variation="2" ></tile>
+ 
 
   <!-- Aircraft carrier -->
   <tile name="aircraft-carrier-begin" y-start="5.3" y-end="5.3"/>

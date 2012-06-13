@@ -60,16 +60,21 @@ using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.View.Effects;
 using Wof.View.TileViews;
+using Wof.View.VertexAnimation;
 using Math = Mogre.Math;
 
 namespace Wof.View
 {
-    public class ShipView : CompositeModelView, IDisposable
+    public class ShipView : CompositeModelView, IDisposable, VertexAnimable
     {
        
         private static int shipCounter = 0;
         protected SceneNode staticNode;
 
+        private SceneNode animationNode;
+        private SceneNode positionNode;
+        
+        
         protected float adjust;
 
         public SceneNode StaticNode
@@ -89,6 +94,8 @@ namespace Wof.View
         {
             get { return minimapItem; }
         }
+
+      
 
         #endregion
 
@@ -273,50 +280,69 @@ namespace Wof.View
             String meshName; //Nazwa modelu  
 
            
-            staticNode = sceneMgr.CreateSceneNode(mainNode.Name + "Static");
-            
+            positionNode = sceneMgr.CreateSceneNode(mainNode.Name + "Static");
+           
             count = tileViews.Count;
           
            
             float maxX = (Math.Abs(count) - 1) * LevelView.TileWidth / 16;
             BeginShipTile begin = tileViews[0].LevelTile as BeginShipTile;
+            
+          
+            positionNode.Translate(new Vector3(UnitConverter.LogicToWorldUnits(tileViews[0].LevelTile.TileIndex), -(tileViews[0].LevelTile as ShipTile).Depth, 0));
+            positionNode.SetDirection(Vector3.UNIT_X);
+
+            animationNode = positionNode.CreateChildSceneNode(mainNode.Name + "Animation");
+            staticNode = animationNode.CreateChildSceneNode(mainNode.Name + "StaticNode");
+
+            Vector3 localTranslation;
             Vector3 batteryBasePositon;
+
+           
+
+           
+
+
+            mainNode.AddChild(positionNode);
+
+
             switch (begin.TypeOfEnemyShip)
             {
-                case TypeOfEnemyShip.PatrolBoat: 
+                case TypeOfEnemyShip.PatrolBoat:
                     meshName = "PatrolBoat.mesh";
-                    batteryBasePositon = new Vector3(0,8.5f, -18.0f);
+                    batteryBasePositon = new Vector3(0, 8.5f, -18.0f);
+                    localTranslation = Vector3.ZERO;
+                    buildFloatAnimation(animationNode, 10, false);
                     break;
 
                 case TypeOfEnemyShip.WarShip:
                     meshName = "Warship.mesh";
                     batteryBasePositon = new Vector3(0, 14.5f, -50.0f);
-                 
+                    localTranslation = Vector3.ZERO;
+                    buildFloatAnimation(animationNode, 10, true);
                     break;
 
+                case TypeOfEnemyShip.Submarine:
+                    meshName = "Submarine.mesh";
+                    batteryBasePositon = new Vector3(0, 8.5f, -18.0f);
+                    localTranslation = new Vector3(0, 0, -15); // okret ma srodek ciezkosci w srodku zeby animacja fajniej wygladala. Trzeba przesunac
+                    buildFloatAnimation(animationNode, 10, false);
+                    break;
 
                 default:
                     return;
             }
 
             compositeModel = sceneMgr.CreateEntity(name, meshName);
-            compositeModel.CastShadows = EngineConfig.ShadowsQuality > 0; 
-
-
-            staticNode.Translate(new Vector3(UnitConverter.LogicToWorldUnits(tileViews[0].LevelTile.TileIndex), -(tileViews[0].LevelTile as ShipTile).Depth, 0));
-            staticNode.SetDirection(Vector3.UNIT_X);
-           
-
-            //  StaticGeometry sg;
+            compositeModel.CastShadows = EngineConfig.ShadowsQuality > 0;
             staticNode.AttachObject(compositeModel);
-
-            mainNode.AddChild(staticNode);
+            staticNode.Translate(localTranslation);
 
             bool rocketBatterySet = false;
             // elementy na statku sa animowalne wiec nie beda w static geometry
             for (int i = 0; i < count; i++)
             {
-                tileViews[i].initOnScene(staticNode, i + 1, tileViews.Count);
+                tileViews[i].initOnScene(positionNode, i + 1, tileViews.Count);
 
                  
                 if (!rocketBatterySet && (tileViews[i] is ShipBunkerTileView) && (tileViews[i] as ShipBunkerTileView).HasRockets)
@@ -356,16 +382,58 @@ namespace Wof.View
             }
            
         }
-      
+
+        protected void buildFloatAnimation(SceneNode animationNode, float duration, bool sidewaysOnly)
+        {
+            Animation animation = framework.SceneMgr.CreateAnimation(animationNode.Name + "_FloatAnimation", duration);
+		    animation.SetInterpolationMode(Animation.InterpolationMode.IM_SPLINE);
+            NodeAnimationTrack track = animation.CreateNodeTrack(0, animationNode);
+            TransformKeyFrame key;
+
+            Radian depth;
+            depth = sidewaysOnly ? new Radian(new Degree(0)) : new Radian(new Degree(-2));
+
+
+            Quaternion baseQ = Quaternion.IDENTITY;
+            key = track.CreateNodeKeyFrame(0.0f);
+            key.Rotation = Quaternion.IDENTITY * baseQ;
+          
+
+            key = track.CreateNodeKeyFrame(2.0f);
+            key.Rotation = new Quaternion(new Radian(new Degree(-5)), Vector3.UNIT_Z) * baseQ; // bok
+          
+
+
+            key = track.CreateNodeKeyFrame(5.0f);
+            key.Rotation = new Quaternion(new Radian(new Degree(0)), Vector3.UNIT_Z) * new Quaternion(depth, Vector3.UNIT_X) * baseQ; // gora / dol
+          
+
+            key = track.CreateNodeKeyFrame(7.0f);
+            key.Rotation = new Quaternion(new Radian(new Degree(4)), Vector3.UNIT_Z) * new Quaternion(new Radian(new Degree(-0)), Vector3.UNIT_X) * baseQ; // bok
+       
+
+            key = track.CreateNodeKeyFrame(10.0f);
+            key.Rotation = Quaternion.IDENTITY * baseQ;
+        
+
+            shipAnimationState = framework.SceneMgr.CreateAnimationState(animationNode.Name + "_FloatAnimation");
+            shipAnimationState.Enabled = true;
+            shipAnimationState.Loop = true;
+           
+            
+        }
+
+        private AnimationState shipAnimationState;
+
         public virtual void refreshPosition()
         {
-
+           
             if (tileViews.Count > 0)
             {
                 LevelTile t = tileViews[0].LevelTile;
                 Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(t.TileIndex), -(t as ShipTile).Depth));
 
-                staticNode.SetPosition(v.x, v.y, 0.0f);
+                positionNode.SetPosition(v.x, v.y, 0.0f);
             }
         }
 
@@ -392,13 +460,53 @@ namespace Wof.View
                 parkedPlanes[i].
             }*/
         }
-    	
-		public void Dispose()
-		{
-		    if (dieSound != null)
+
+      
+
+     
+        #region Implementation of VertexAnimable
+
+        public void updateTime(float timeSinceLastFrame)
+        {
+            if (shipAnimationState!=null)
             {
-                 SoundManager3D.Instance.RemoveSound(dieSound.Name); 
+                shipAnimationState.AddTime(timeSinceLastFrame);
             }
-		}
+            
+        }
+        public void rewind()
+        {
+            if (shipAnimationState != null)
+            {
+                shipAnimationState.TimePosition = 0;
+            }
+        }
+
+        public void enableAnimation()
+        {
+            if (shipAnimationState != null)
+            {
+                shipAnimationState.Enabled = true;
+            }
+        }
+
+        public void disableAnimation()
+        {
+            if (shipAnimationState != null)
+            {
+                shipAnimationState.Enabled = false;
+            }
+        }
+
+        #endregion
+
+        public void Dispose()
+        {
+            if (dieSound != null)
+            {
+                SoundManager3D.Instance.RemoveSound(dieSound.Name);
+            }
+        }
+
     }
 }

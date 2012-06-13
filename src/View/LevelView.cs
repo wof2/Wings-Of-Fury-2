@@ -1924,16 +1924,21 @@ namespace Wof.View
             }
 
             //Carrier
-            if (carrierView != null)
-            {
-                carrierView.updateTime(evt.timeSinceLastFrame);
-            }
+          //  if (carrierView != null)
+          //  {
+          //      carrierView.updateTime(evt.timeSinceLastFrame);
+          //  }
 
             foreach(CompositeModelView cv in this.compositeModelViews)
             {
                 if(cv is ShipView)
                 {
                     (cv as ShipView).refreshPosition();
+                }
+
+                if(cv is VertexAnimable)
+                {
+                    (cv as VertexAnimable).updateTime(evt.timeSinceLastFrame);
                 }
             }
 

@@ -60,6 +60,7 @@ using Wof.Model.Level.Planes;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;
 using Wof.View.TileViews;
+using Wof.View.VertexAnimation;
 using Math=Mogre.Math;
 using Plane=Wof.Model.Level.Planes.Plane;
 
@@ -69,7 +70,7 @@ namespace Wof.View
     /// Widok lotniskowca 
     /// <author>Kamil S³awiñski, Adam Witczak</author>
     /// </summary>
-    internal class CarrierView : CompositeModelView
+    internal class CarrierView : CompositeModelView, VertexAnimable
     {
         private static int carrierCounter = 0;
 
@@ -740,7 +741,7 @@ namespace Wof.View
             this.hangaringDirection = hangaringDirection;
         }
 
-      
+        #region Implementation of VertexAnimable
         public void updateTime(float timeSinceLastFrameUpdate)
         {
             aerialAnimation1.updateTime(timeSinceLastFrameUpdate);
@@ -755,10 +756,10 @@ namespace Wof.View
             }
             else
             {
-                for (int i = 0; i < storagePlanes.Count; i++ )
+                for (int i = 0; i < storagePlanes.Count; i++)
                 {
                     storagePlanes[i].updateTime(timeSinceLastFrameUpdate);
-                    if(storagePlanes[i].AnimationState.AnimationName == "die" && storagePlanes[i].AnimationState.HasEnded)
+                    if (storagePlanes[i].AnimationState.AnimationName == "die" && storagePlanes[i].AnimationState.HasEnded)
                     {
                         storagePlanes[i].MinimapItem.Hide();
                         storagePlanes.Remove(storagePlanes[i]);
@@ -769,16 +770,16 @@ namespace Wof.View
                 {
                     crewAnimationStates[i].AddTime(timeSinceLastFrameUpdate);
                 }
-               
+
                 // hangar
-                if(isHangaringPlane)
+                if (isHangaringPlane)
                 {
                     float targetDepth = hangarDepth * hangaringDirection;
-                    float progress =  1 - (targetDepth - carrierHangarNode.Position.y)/targetDepth;
+                    float progress = 1 - (targetDepth - carrierHangarNode.Position.y) / targetDepth;
                     float step = 3.0f * timeSinceLastFrameUpdate * hangaringDirection; //* Math.Cos(Math.HALF_PI * progress);
-                    
+
                     progress = Math.Abs(progress);
-                    step *= 1 / (1 +  (float)System.Math.Pow((-1.5f + 3.0f * progress), 2)) * 0.75f; // p³ynne przyspieszenie i hamowanie wg. pochodniej arctan ktora wynosi 1 / (1 + x^2)
+                    step *= 1 / (1 + (float)System.Math.Pow((-1.5f + 3.0f * progress), 2)) * 0.75f; // p³ynne przyspieszenie i hamowanie wg. pochodniej arctan ktora wynosi 1 / (1 + x^2)
 
                     carrierHangarNode.Position = carrierHangarNode.Position + new Vector3(0, step, 0);
                     hangarPlane.Plane.Bounds.Move(0, step);
@@ -798,14 +799,14 @@ namespace Wof.View
                         // podnoszenie 
                         if (carrierHangarNode.Position.y >= 0)
                         {
-                            carrierHangarNode.SetPosition(0,0,0);
+                            carrierHangarNode.SetPosition(0, 0, 0);
                             hangarPlane.Plane.Bounds.Move(0, -carrierHangarNode.Position.y);
                             isHangaringFinished = true;
                             isHangaringPlane = false;
                         }
 
                     }
-                   
+
                 }
 
 
@@ -830,8 +831,8 @@ namespace Wof.View
                                 activeArrestingWires[i],
                                 activeArrestingWires[i]._getDerivedPosition().x - arrestingWiresH[i]
                                 );
-                            arrestingWiresH[i] *= (1 - 10*timeSinceLastFrameUpdate);
-                                // 0.99f; - wymuszamy zmniejszenie wysokosci trojkatow
+                            arrestingWiresH[i] *= (1 - 10 * timeSinceLastFrameUpdate);
+                            // 0.99f; - wymuszamy zmniejszenie wysokosci trojkatow
                         }
                     }
                     else
@@ -842,5 +843,24 @@ namespace Wof.View
                 }
             }
         }
+
+      
+
+        public void rewind()
+        {
+            
+        }
+
+        public void enableAnimation()
+        {
+           
+        }
+
+        public void disableAnimation()
+        {
+
+        }
+
+        #endregion
     }
 }

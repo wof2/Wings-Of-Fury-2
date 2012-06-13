@@ -75,6 +75,8 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
                 ShipOwner = new PatrolBoatManager(typeOfEnemyShip);
             else if (typeOfEnemyShip == TypeOfEnemyShip.WarShip)
                 ShipOwner = new WarShipManager(typeOfEnemyShip);
+            else if (typeOfEnemyShip == TypeOfEnemyShip.Submarine)
+                ShipOwner = new SubmarineManager(typeOfEnemyShip);
             else
                 throw new ArgumentException("Nie dozwolona wartosc dla parametru", "typeOfEnemyShip");
             ShipOwner.AddShipTile(this);
