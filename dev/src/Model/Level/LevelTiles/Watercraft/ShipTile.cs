@@ -46,6 +46,7 @@
  * 
  */
 
+using System;
 using System.Collections.Generic;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
@@ -56,11 +57,11 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
     /// <summary>
     /// Klasa abstarkcyjna implementujaca czesci lotniskowca.
     /// </summary>
-    public abstract class ShipTile : LevelTile, IDestroyable, IRefsToLevel
+    public abstract class ShipTile : LevelTile, IDestroyable, IRefsToLevel, ISinkComponent
     {  
         #region Private Fields
 
-        private float sinkingTime;
+       
 
         /// <summary>
         /// Zmienna informujaca czy na dane pole moze wejsc zolnierz.
@@ -78,8 +79,12 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         /// Obiekt zarzadzajacy tym elementem.
         /// </summary>
         protected ShipManager _shipManager;
+        protected SinkComponent sinkComponent;
+    
 
         #endregion;
+
+       
 
         #region Public Constructor
 
@@ -96,7 +101,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         {
             this.type = type;
             this.traversable = traversable;
-      
+            sinkComponent = new SinkComponent(this);
         }
 
         #endregion
@@ -121,13 +126,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             get { return this.traversable; }
         }
 
-        /// <summary>
-        /// Zwraca informacje o zanurzeniu statku.
-        /// </summary>
-        public float Depth
-        {
-            get { return this.depth; }
-        }
+      
 
 
         /// <summary>
@@ -142,55 +141,56 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         #endregion
 
 
+     
+
+
+
+      
+
+        
+
         public bool IsDestroyed
         {
             get { return (_shipManager.State == ShipState.Destroyed); }
         }
 
-        public float SinkingTime
-        {
-            get { return sinkingTime; }
-        }
-
+      
         public virtual void Destroy()
         {
             StartSinking();
         }
 
-        
 
-        public override float Sink(float time, float timeUnit)
+      
+
+
+       
+
+
+        public float Submerge(float time, float timeUnit)
         {
-            float amount = base.Sink(time, timeUnit);
+            float amount = sinkComponent.DoSubmerge(time, timeUnit);
 
-            sinkingTime = SinkingTime + time;
+          
             attractorForce.X = 0;
             attractorForce.Y = -amount;
-            
-            if(amount > 0)
+
+            if (amount > 0)
             {
-            	// TODO: nie dzia³a jak nale¿y. znalezc bardziej eleganckie rozwi¹zanie
-            	/*if(this.depth > this.MaxY)
-	            {
-	            	// under water
-	            	  refToLevel.Controller.OnShipUnderWater(this);
-	            }
-            	*/
-            	
                 // toniêcie siê nie zakoñczy³o
-                refToLevel.Controller.OnShipSinking(this);
+              //  refToLevel.Controller.OnShipSubmerging(this);
                 return amount;
             }
-            if(this is BeginShipTile)
+            if (this is BeginShipTile)
             {
-            	this.attractorForce = new PointD(0,0);
-                refToLevel.Controller.OnShipSunk(this as BeginShipTile);
-               
+                this.attractorForce = new PointD(0, 0);
+              //  refToLevel.Controller.OnShipSubmerged(this as BeginShipTile);
+
             }
-          
+
             return 0;
         }
-        
+
         protected bool DestroyAndSinkShipElement(LevelTile t)
         {
             if (t is ShipTile && !(t as ShipTile).IsSinking)
@@ -213,6 +213,129 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             return true;
         }
 
+      
+
+        #region Implementation of ISinkComponent
+
+        public float DoSinking(float time, float timeUnit)
+        {
+            float amount = sinkComponent.DoSinking(time, timeUnit);
+            
+            attractorForce.X = 0;
+            attractorForce.Y = -amount;
+
+            if (amount > 0)
+            {
+                // TODO: nie dzia³a jak nale¿y. znalezc bardziej eleganckie rozwi¹zanie
+                /*if(this.depth > this.MaxY)
+                {
+                    // under water
+                      refToLevel.Controller.OnShipUnderWater(this);
+                }
+                */
+
+                // toniêcie siê nie zakoñczy³o
+                refToLevel.Controller.OnShipSinking(this);
+                return amount;
+            }
+            if (this is BeginShipTile)
+            {
+                this.attractorForce = new PointD(0, 0);
+                refToLevel.Controller.OnShipSunk(this as BeginShipTile);
+
+            }
+
+            return 0;
+        }
+
+        public float DoSubmerge(float time, float timeUnit)
+        {
+            float amount = sinkComponent.DoSubmerge(time, timeUnit);
+            return amount;
+        }
+
+        public float DoEmerge(float time, float timeUnit)
+        {
+            float amount = sinkComponent.DoEmerge(time, timeUnit);
+            return amount;
+        }
+
+        public float Depth
+        {
+            get { return sinkComponent.Depth; }
+        }
+
+        public bool IsSinking
+        {
+            get { return sinkComponent.IsSinking; }
+        }
+
+        public bool IsSunkDown
+        {
+            get { return sinkComponent.IsSunkDown; }
+        }
+
+        public float SinkingTime
+        {
+            get { return sinkComponent.SinkingTime; }
+        }
+
+        public float SubmergeTime
+        {
+            get { return sinkComponent.SubmergeTime; }
+        }
+
+        public bool IsSubmerged
+        {
+            get { return sinkComponent.IsSubmerged; }
+        }
+
+        public bool IsSubmerging
+        {
+            get { return sinkComponent.IsSubmerging; }
+        }
+
+        public bool IsEubmerging
+        {
+            get { return sinkComponent.IsEubmerging; }
+        }
+
+        public void StartSinking()
+        {
+            sinkComponent.StartSinking();
+        }
+
+        public void StopSinking()
+        {
+            sinkComponent.StopSinking();
+        }
+
+
+
+        public void StartSubmerging()
+        {
+            sinkComponent.StartSubmerging();
+        }
+
+        public void StopSubmerging()
+        {
+            sinkComponent.StopSubmerging();
+        }
+
+
+
+        public void StartEmerging()
+        {
+            sinkComponent.StartEmerging();
+        }
+
+        public void StopEmerging()
+        {
+            sinkComponent.StopEmerging();
+        }
+
+
+        #endregion
 
     }
 }

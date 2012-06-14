@@ -51,15 +51,19 @@ using System.Collections.Generic;
 using System.Text;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.Infantry;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft
 {
-    public abstract class ShipBunkerTile : BunkerTile
+    public abstract class ShipBunkerTile : BunkerTile, ISinkComponent
     {
+
+        protected SinkComponent sinkComponent;
         protected ShipBunkerTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int soldierNum, int generalNum, int type, List<Quadrangle> collisionRectangle)
             : base(yBegin, yEnd, viewXShift, hitBound, soldierNum, generalNum, type, collisionRectangle)
         {
+            sinkComponent = new SinkComponent(this);
         }
 
         /// <summary>
@@ -68,6 +72,37 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         protected override float GetGunXShift()
         {
             return viewXShift;
+        }
+
+        public float DoSubmerge(float time, float timeUnit)
+        {
+            float amount = sinkComponent.DoSubmerge(time, timeUnit);
+            return amount;
+        }
+
+        public float DoEmerge(float time, float timeUnit)
+        {
+            float amount = sinkComponent.DoEmerge(time, timeUnit);
+            return amount;
+        }
+
+        public float DoSinking(float time, float timeUnit)
+        {
+            float amount = sinkComponent.DoSinking(time, timeUnit);
+            if (amount > 0)
+            {
+
+                List<Soldier> soldiers = refToLevel.SoldiersList.FindAll(Predicates.FindSoldierFromStartingIndex(TileIndex));
+
+                foreach (Soldier s in soldiers)
+                {
+                    s.YPosition -= amount;
+                    //   Console.WriteLine("model Y: " + s.Position.Y);
+                }
+                return amount;
+            }
+            return 0;
+
         }
 
 
@@ -79,6 +114,83 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 
             }
         }
-            
+
+        #region Implementation of ISinkComponent
+
+        public float Depth
+        {
+            get { return sinkComponent.Depth; }
+        }
+
+        public bool IsSinking
+        {
+            get { return sinkComponent.IsSinking; }
+        }
+
+        public bool IsSunkDown
+        {
+            get { return sinkComponent.IsSunkDown; }
+        }
+
+        public float SinkingTime
+        {
+            get { return sinkComponent.SinkingTime; }
+        }
+
+        public float SubmergeTime
+        {
+            get { return sinkComponent.SubmergeTime; }
+        }
+
+        public bool IsSubmerged
+        {
+            get { return sinkComponent.IsSubmerged; }
+        }
+
+        public bool IsSubmerging
+        {
+            get { return sinkComponent.IsSubmerging; }
+        }
+
+        public bool IsEubmerging
+        {
+            get { return sinkComponent.IsEubmerging; }
+        }
+
+        public void StartSinking()
+        {
+            sinkComponent.StartSinking();
+        }
+
+        public void StopSinking()
+        {
+            sinkComponent.StopSinking();
+        }
+
+       
+
+        public void StartSubmerging()
+        {
+            sinkComponent.StartSubmerging();
+        }
+
+        public void StopSubmerging()
+        {
+            sinkComponent.StopSubmerging();
+        }
+
+      
+
+        public void StartEmerging()
+        {
+            sinkComponent.StartEmerging();
+        }
+
+        public void StopEmerging()
+        {
+            sinkComponent.StopEmerging();
+        }
+
+        #endregion
     }
 }
