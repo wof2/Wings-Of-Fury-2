@@ -50,7 +50,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+
 using Wof.Model.Level.Common;
+using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
@@ -65,9 +67,23 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
         #region Protected Fields
 
         /// <summary>
-        /// Elementy skladajace sie na statek
+        /// Elementy skladajace sie na statek - poklad i elementy
         /// </summary>
         protected List<ShipTile> _shipTiles;
+        
+        
+        /// <summary>
+        /// Elementy skladajace sie na statek - dzialka
+        /// </summary>
+        protected List<ShipBunkerTile> _shipBunkerTiles;
+        
+        
+        /// <summary>
+        /// Elementy skladajace sie na statek - wszystkie tonące
+        /// </summary>
+        protected List<ISinkComponent> _sinkComponents;
+        
+        
 
         /// <summary>
         /// Typ statku wroga
@@ -100,9 +116,14 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
             _shipState = ShipState.Intact;
             _typeOfEnemyShip = typeOfEnemyShip;
             _shipTiles = new List<ShipTile>();
+            _shipBunkerTiles = new List<ShipBunkerTile>();
+            _sinkComponents = new List<ISinkComponent>();
         }
 
         #endregion
+        
+        
+        
 
         #region Public Properies
 
@@ -129,9 +150,27 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
         {
             get { return _shipTiles.AsReadOnly(); }
         }
+        
+          /// <summary>
+        /// Zwraca elementy statku tylko do odczytu.
+        /// </summary>
+        public ReadOnlyCollection<ShipBunkerTile> ShipBunkerTiles
+        {
+            get { return _shipBunkerTiles.AsReadOnly(); }
+        }
+   
+        /// <summary>
+        /// Zwraca elementy statku tylko do odczytu.
+        /// </summary>
+        public ReadOnlyCollection<ISinkComponent> SinkComponents
+        {
+            get { return _sinkComponents.AsReadOnly(); }
+        }
+        
+        
 
         /// <summary>
-        /// Zwraca liczbe elementow statku
+        /// Zwraca liczbe elementow statku (bez dzialek)
         /// </summary>
         public int Count
         {
@@ -149,7 +188,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
         #region Indexer
 
         /// <summary>
-        /// Zwraca element statku o podanym indeksie.
+        /// Zwraca element statku o podanym indeksie (bez dzialek)
         /// </summary>
         /// <param name="i">Indeks statku</param>
         /// <returns>Element statku</returns>
@@ -171,12 +210,46 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
         public void AddShipTile(ShipTile tile)
         {
             _shipTiles.Add(tile);
+            if(tile is ISinkComponent)
+            {
+            	_sinkComponents.Add(tile as ISinkComponent);
+            }
         }
-
+        
+		public void AddShipBunkerTile(ShipBunkerTile tile)
+		{
+			_shipBunkerTiles.Add(tile);
+			if(tile is ISinkComponent)
+            {
+            	_sinkComponents.Add(tile as ISinkComponent);
+            }
+		}
         /// <summary>
         /// Obsluga trafienia przez torpede.
         /// </summary>
         public abstract void TorpedoHit(Ammunition ammo, ShipTile tile);
+        
+        
+        public virtual void Update(Plane userPlane, float time, float timeUnit)
+        {
+        	SinkTiles(time, timeUnit);        	
+        	ManageSubmergence(userPlane, time, timeUnit);
+        	
+        	
+        }
+        
+        protected abstract void ManageSubmergence(Plane userPlane, float time, float timeUnit);
+        
+        
+        protected void SinkTiles(float time, float timeUnit) 
+        { 
+        	ShipTile shipTile;
+            foreach(ISinkComponent tile in _sinkComponents)
+	        {	 
+            	if(tile.IsSinking) tile.DoSinking(time, timeUnit);
+            }
+        	
+        }
 
         #endregion
 
@@ -191,5 +264,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
         }
 
         #endregion
+    	
+		
     }
 }

@@ -49,6 +49,7 @@
 using System;
 using Wof.Controller;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
@@ -73,6 +74,10 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 
         #region Override Methods
 
+        protected override void ManageSubmergence(Plane userPlane, float time, float timeUnit)
+        { 
+        }
+        
         public override void TorpedoHit(Ammunition ammo, ShipTile tile)
         {
             _shipState++;

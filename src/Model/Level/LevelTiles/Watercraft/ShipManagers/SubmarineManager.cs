@@ -47,6 +47,7 @@
  */
 
 using System;
+using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
@@ -55,7 +56,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
     /// Zarzadza statkiem typu PatrolBoat
     /// </summary>
     /// <author>Michal Ziober</author>
-    public sealed class SubmarineManager : ShipManager
+    public class SubmarineManager : ShipManager
     {
         #region Public Constructor
 
@@ -81,10 +82,45 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
         }
 
 
-        public void BeginSubmerge(ShipTile tile)
-        {
-            tile.StartSubmerging();
-          //  _refToLevel.Controller.OnShipBeginSubmerging(_shipTiles[0]);
+        
+        protected override void ManageSubmergence(Plane userPlane, float time, float timeUnit)
+        {        
+        	if(State == ShipState.Destroyed) 
+        	{
+        		return;
+        	}
+        	
+        	if(this[0].IsSinking) return;
+        	
+        	      		
+			 foreach(ISinkComponent tile in _sinkComponents)
+			 {	  
+			 	if(tile.IsSubmerging)
+			 	{
+			 		tile.DoSubmerge(time, timeUnit);
+			 	}else if(!tile.IsSubmerging)   		 
+			    {
+					if(userPlane.XDistanceToTile(this[0]) < 10) 
+			    	{        		 	
+			    		tile.StartSubmerging();
+			    	}
+			 	}
+			 	
+			 	if(tile.IsEmerging)
+				{ 
+			 		tile.DoEmerge(time, timeUnit);       		
+			 	}
+			 	
+			 	if(tile.IsSubmerged)
+				{ 
+			 		if(userPlane.XDistanceToTile(this[0]) > 100) 
+	        		{
+			 			tile.StartEmerging();
+			 		}
+			 	}
+			 	
+			 }	         	        	
+        	
         }
 
         #endregion

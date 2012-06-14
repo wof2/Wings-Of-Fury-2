@@ -47,6 +47,7 @@
  */
 
 using System;
+using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 
 namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
@@ -80,6 +81,9 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
             _refToLevel.Controller.OnShipBeginSinking(_shipTiles[0]); 
         }
 
+        protected override void ManageSubmergence(Plane userPlane, float time, float timeUnit)
+        { 
+        }
         #endregion
 
         #region Properties

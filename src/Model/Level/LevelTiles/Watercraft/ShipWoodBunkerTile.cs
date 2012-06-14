@@ -101,6 +101,12 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         public override void Fire(int time)
         {
             base.Fire(time);
+            if(this.Center.Y < 0)
+        	{ 
+        		// pod woda
+        		return;
+        	}
+           
             //jesli nie jest zniszczony i samolot jeszcze jest caly
             if (!IsDestroyed && UserPlaneNotYetDestroyed)
             {
