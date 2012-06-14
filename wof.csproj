@@ -561,7 +561,9 @@
     <Compile Include="src\Controller\Screens\LanguageDebugScreen.cs" />
     <Compile Include="src\Controller\Sound\FreeSL\FSLOgreCS\FSLAmbientSoundMusic.cs" />
     <Compile Include="src\Controller\Taskbar.cs" />
+    <Compile Include="src\Model\Level\LevelTiles\Watercraft\ISinkComponent.cs" />
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipManagers\SubmarineManager.cs" />
+    <Compile Include="src\Model\Level\LevelTiles\Watercraft\SinkComponent.cs" />
     <Compile Include="src\Tests\ModelTest\GunTestForm.cs">
       <SubType>Form</SubType>
     </Compile>

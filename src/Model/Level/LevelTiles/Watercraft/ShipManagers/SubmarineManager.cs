@@ -80,6 +80,13 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
             _refToLevel.Controller.OnShipBeginSinking(_shipTiles[0]); 
         }
 
+
+        public void BeginSubmerge(ShipTile tile)
+        {
+            tile.StartSubmerging();
+          //  _refToLevel.Controller.OnShipBeginSubmerging(_shipTiles[0]);
+        }
+
         #endregion
 
         #region Properties

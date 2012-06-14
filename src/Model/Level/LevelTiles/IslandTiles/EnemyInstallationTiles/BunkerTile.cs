@@ -330,26 +330,6 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             generalsCount++;
         }
 
-        public override float Sink(float time, float timeUnit)
-        {
-            float amount = base.Sink(time, timeUnit);
-            if(amount > 0)
-            {
-                
-                List<Soldier> soldiers = refToLevel.SoldiersList.FindAll(Predicates.FindSoldierFromStartingIndex(TileIndex));
-
-                foreach(Soldier s in soldiers)
-                {
-                    s.YPosition -= amount;
-                 //   Console.WriteLine("model Y: " + s.Position.Y);
-                }
-                return amount;
-            }
-
-            return 0;
-            
-        }
-
 
         #endregion
 

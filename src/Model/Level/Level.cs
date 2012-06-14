@@ -616,11 +616,15 @@ namespace Wof.Model.Level
                     {
                         bunker.Fire(time);
                         
-                        // toniêcie (bunkry na statkach ton¹)
-                        if (bunker.IsSinking)
+                        if(bunker is ISinkComponent)
                         {
-                            bunker.Sink(time, timeUnit);
+                            // toniêcie (bunkry na statkach ton¹)
+                            if ((bunker as ISinkComponent).IsSinking)
+                            {
+                                (bunker as ISinkComponent).DoSinking(time, timeUnit);
+                            }
                         }
+                       
                     }
                         
 
@@ -634,9 +638,13 @@ namespace Wof.Model.Level
                 for (int i = 0; i < shipsList.Count; i++)
                 {
                     shipTile = shipsList[i] as ShipTile;
-                    if (shipTile.IsSinking)
+
+                    if (shipTile is ISinkComponent)
                     {
-                       shipTile.Sink(time, timeUnit);
+                        if ((shipTile as ISinkComponent).IsSinking)
+                        {
+                            (shipTile as ISinkComponent).DoSinking(time, timeUnit);
+                        }
                     }
                     
                    
