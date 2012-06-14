@@ -2825,7 +2825,7 @@ namespace Wof.Controller.Screens
             levelView.OnShipSinking(tile);
 
 
-            if(tile.SinkingTime > 5000) // maksymalny czas trwania dzwieku toniecia
+            if(tile.SinkingTimeElapsed > 5000) // maksymalny czas trwania dzwieku toniecia
             {
                 OnStopWaterBubblesSound();
             }

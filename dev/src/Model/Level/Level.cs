@@ -615,41 +615,18 @@ namespace Wof.Model.Level
                     if (bunker != null)
                     {
                         bunker.Fire(time);
-                        
-                        if(bunker is ISinkComponent)
-                        {
-                            // toniêcie (bunkry na statkach ton¹)
-                            if ((bunker as ISinkComponent).IsSinking)
-                            {
-                                (bunker as ISinkComponent).DoSinking(time, timeUnit);
-                            }
-                        }
-                       
                     }
                         
 
                 }
+            }
+            
+            foreach(ShipManager sm in shipManagers)
+            {
+            	sm.Update(userPlane, time, timeUnit);
             }
 		
-            // zatop statki
-            if (shipsList.Count > 0)
-            {
-                ShipTile shipTile;
-                for (int i = 0; i < shipsList.Count; i++)
-                {
-                    shipTile = shipsList[i] as ShipTile;
-
-                    if (shipTile is ISinkComponent)
-                    {
-                        if ((shipTile as ISinkComponent).IsSinking)
-                        {
-                            (shipTile as ISinkComponent).DoSinking(time, timeUnit);
-                        }
-                    }
-                    
-                   
-                }
-            }
+          
         }
         
       /*  public void UnregisterShip()
@@ -1061,7 +1038,14 @@ namespace Wof.Model.Level
         private void UpdateEnemyShipInformation()
         {
             for (int i = 0; i < LevelTiles.Count; i++)
-            {   //jesli jest to poczatek wrogiego statku.
+            {   
+            	if (LevelTiles[i] is ShipBunkerTile)
+                {
+            		
+            		
+            	}
+            	
+            	//jesli jest to poczatek wrogiego statku.
                 if (LevelTiles[i] is BeginShipTile)
                 {   //zapamietujemy poczatek statku
                     BeginShipTile bst = LevelTiles[i] as BeginShipTile;
@@ -1077,6 +1061,12 @@ namespace Wof.Model.Level
                             st.ShipOwner = bst.ShipOwner;//przepisuje referencje na managera statku.
                             bst.ShipOwner.AddShipTile(st);//dodaje ten element na liste managera statku.
                         }
+                        if(LevelTiles[i] is ShipBunkerTile)
+                        {
+                        	bst.ShipOwner.AddShipBunkerTile(LevelTiles[i] as ShipBunkerTile);                        
+                        }
+                        
+                        
                     } while (!(LevelTiles[i] is EndShipTile));
                     //dopoki nie doszlismy do konca statku.
                 }

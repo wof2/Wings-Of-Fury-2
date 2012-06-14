@@ -230,6 +230,16 @@ namespace Wof.Model.Level.Common
             get { return Mathematics.MinCordinate(false, peaks[0], peaks[1], peaks[2], peaks[3]).Y; }
         }
         
+        public float Height
+        {
+            get { return height; }
+        }
+        
+         public float Width
+        {
+            get { return width; }
+        }
+        
          /// <summary>
         /// Zwraca najwiêksz¹ wartoœæ Y, któr¹ posiada jeden z punktów.
         /// </summary>

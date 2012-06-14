@@ -365,17 +365,9 @@ namespace Wof.Model.Level.Weapon
                     //jesli nie ma kolizji z zadnym obiektem
                     if (refToLevel.LevelTiles[index].InCollision(this.boundRectangle) == CollisionType.None) return;
 
-
-
-
                     //jesli nie da sie zniszczyc dany obiekt torpeda.
                     if (this.IsInWater)
                     {
-
-                        
-
-                            
-
                         if (!CanBeDestroyed(index) && !(refToLevel.LevelTiles[index] is OceanTile))
                         {
                             refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
@@ -392,7 +384,7 @@ namespace Wof.Model.Level.Weapon
 		                        }
                             	
                                 ShipTile st = destroyTile as ShipTile;
-                                if (!st.IsDestroyed && !st.IsSunkDown)
+                                if (!st.IsDestroyed && !st.IsSunkDown && st.Depth <= this.Bounds.Height)
                                 {
                                     if (st.ShipOwner.IsLastHit)//jesli mozemy zatopic okret
                                         refToLevel.Controller.OnTileDestroyed(destroyTile, this);

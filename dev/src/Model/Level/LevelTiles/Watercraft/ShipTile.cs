@@ -275,15 +275,6 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             get { return sinkComponent.IsSunkDown; }
         }
 
-        public float SinkingTime
-        {
-            get { return sinkComponent.SinkingTime; }
-        }
-
-        public float SubmergeTime
-        {
-            get { return sinkComponent.SubmergeTime; }
-        }
 
         public bool IsSubmerged
         {
@@ -295,9 +286,9 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             get { return sinkComponent.IsSubmerging; }
         }
 
-        public bool IsEubmerging
+        public bool IsEmerging
         {
-            get { return sinkComponent.IsEubmerging; }
+            get { return sinkComponent.IsEmerging; }
         }
 
         public void StartSinking()
@@ -334,8 +325,29 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             sinkComponent.StopEmerging();
         }
 
-
+		public bool IsEmerged {
+			get {
+				return sinkComponent.IsEmerged;
+			}
+		}
+    	
+        public float SubmergeTimeElapsed {
+			get {
+				return sinkComponent.SubmergeTimeElapsed;
+			}
+		}
+    	
+		public float SinkingTimeElapsed {
+			get {
+				return sinkComponent.SinkingTimeElapsed;
+			}
+		}
         #endregion
 
+    	
+		
+		
+    	
+		
     }
 }
