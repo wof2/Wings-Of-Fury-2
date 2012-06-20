@@ -401,7 +401,7 @@ namespace Wof.View
             return tileViews.Find(delegate(TileView tv) { return tv.LevelTile == l; });
         }
 
-        public ShipView FindShipView(ShipTile t)
+        public ShipView FindShipView(LevelTile t)
         {
             return compositeModelViews.Find(delegate(CompositeModelView c) { 
                 if(c is ShipView)
@@ -1337,7 +1337,57 @@ namespace Wof.View
             if(sv == null) return;
             sv.OnShipSinking(tile);
         }
-        
+
+        public void OnShipBeginSubmerging(LevelTile tile)
+        {
+            ShipView sv = FindShipView(tile);
+
+            if (sv == null) return;
+            sv.OnShipBeginSubmerging(tile);
+        }
+
+        public void OnShipBeginEmerging(LevelTile tile)
+        {
+            ShipView sv = FindShipView(tile);
+
+            if (sv == null) return;
+            sv.OnShipBeginEmerging(tile);
+
+        }
+
+        public void OnShipSubmerging(LevelTile tile)
+        {
+            ShipView sv = FindShipView(tile);
+
+            if (sv == null) return;
+            sv.OnShipSubmerging(tile);
+        }
+
+        public void OnShipEmerging(LevelTile tile)
+        {
+            ShipView sv = FindShipView(tile);
+
+            if (sv == null) return;
+            sv.OnShipEmerging(tile);
+        }
+
+
+        public void OnShipEmerged(LevelTile tile)
+        {
+            ShipView sv = FindShipView(tile);
+
+            if (sv == null) return;
+            sv.OnShipEmerged(tile);
+        }
+
+        public void OnShipSubmerged(LevelTile tile)
+        {
+            ShipView sv = FindShipView(tile);
+
+            if (sv == null) return;
+            sv.OnShipSubmerged(tile);
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -2575,5 +2625,8 @@ namespace Wof.View
         {
             HydraxManager.Singleton.ReCreateHydrax(framework.SceneMgr, framework.Camera, framework.Viewport);
         }
+
+
+       
     }
 }

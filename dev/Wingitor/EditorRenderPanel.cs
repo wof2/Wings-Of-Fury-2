@@ -24,6 +24,8 @@ namespace wingitor
         private LevelView levelView;
         private Level currentLevel;
 
+        private IGameTest gameTest;
+
         protected string filename;
         public LevelView LevelView
         {
@@ -56,11 +58,17 @@ namespace wingitor
             this.filename = "custom_levels/enhanced-4" + XmlLevelParser.C_LEVEL_POSTFIX;
         }
 
+        public void SetGameTest(IGameTest gameTest)
+        {
+            this.gameTest = gameTest;
+            this.filename = gameTest.LevelFilename;
+        }
+        /*
         public EditorRenderPanel(string filename) : base()
         {
             this.filename = filename;
            
-        }
+        }*/
 
         private string levelToLoad;
 
@@ -71,10 +79,18 @@ namespace wingitor
                 currentLevel = new Level(filename, this, EngineConfig.CurrentPlayerPlaneType);
                 levelView = new LevelView(this, this);
                 levelView.OnRegisterLevel(currentLevel);
+            
+                foreach (ISceneTest test in this.gameTest.SceneTests)
+                {
+                    test.Framework = this;
+                    test.OnRegisterLevel(currentLevel);
+                }
                 levelView.SetVisible(true);
             }
             
         }
+
+       
        
         protected override void OnUpdateModel(FrameEvent evt)
         {
@@ -100,6 +116,18 @@ namespace wingitor
         }
         public delegate void InvokeDelegate(XmlLevelParser parser);
 
+        protected override bool FrameEnded(FrameEvent evt)
+        {
+            bool result = base.FrameEnded(evt);
+            if(this.reloadAllReourcesNextFrame)
+            {
+                reloadAllReourcesNextFrame = false;
+
+                FrameWorkStaticHelper.ReloadAllReources(this);
+            }
+
+            return result;
+        }
         protected override bool FrameStarted(Mogre.FrameEvent evt)
         {
 
@@ -463,6 +491,35 @@ namespace wingitor
 
         }
 
+        public void OnShipBeginSubmerging(LevelTile tile)
+        {
+            
+        }
+
+        public void OnShipBeginEmerging(LevelTile tile)
+        {
+           
+        }
+
+        public void OnShipSubmerging(LevelTile tile)
+        {
+            
+        }
+
+        public void OnShipEmerging(LevelTile tile)
+        {
+           
+        }
+
+        public void OnShipEmerged(LevelTile tile)
+        {
+            
+        }
+
+        public void OnShipSubmerged(LevelTile tile)
+        { 
+        }
+
         public void OnSecondaryFireOnCarrier()
         {
             
@@ -479,5 +536,11 @@ namespace wingitor
         }
 
         #endregion
+
+        protected bool reloadAllReourcesNextFrame = false;
+        public void ReloadAllResourcesNextFrame()
+        {
+            reloadAllReourcesNextFrame = true;
+        }
     }
 }

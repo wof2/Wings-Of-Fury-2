@@ -2814,6 +2814,39 @@ namespace Wof.Controller.Screens
             SoundManager.Instance.HaltWaterBubblesSound();
         }
 
+
+        public void OnShipBeginSubmerging(LevelTile tile)
+        {
+            OnStartWaterBubblesSound();
+            levelView.OnShipBeginSubmerging(tile);
+        }
+
+        public void OnShipBeginEmerging(LevelTile tile)
+        {
+            OnStartWaterBubblesSound();
+            levelView.OnShipBeginEmerging(tile);
+        }
+
+        public void OnShipSubmerging(LevelTile tile)
+        {
+            levelView.OnShipSubmerging(tile);
+        }
+
+        public void OnShipEmerging(LevelTile tile)
+        {
+            levelView.OnShipEmerging(tile);
+        }
+
+        public void OnShipEmerged(LevelTile tile)
+        {
+            levelView.OnShipEmerged(tile); 
+        }
+
+        public void OnShipSubmerged(LevelTile tile)
+        {
+            levelView.OnShipSubmerged(tile);
+        }
+
         public void OnShipBeginSinking(ShipTile tile)
         {
              OnStartWaterBubblesSound();
@@ -3258,6 +3291,8 @@ namespace Wof.Controller.Screens
             }
         }
 
+      
+
         public void OnPotentialLanding(Plane p)
         {
         	if (ShowHintMessages)        
@@ -3361,5 +3396,5 @@ namespace Wof.Controller.Screens
         #endregion
     }
 
-    
+   
 }

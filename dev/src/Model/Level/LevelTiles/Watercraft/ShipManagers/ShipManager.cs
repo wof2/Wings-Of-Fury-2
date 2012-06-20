@@ -261,6 +261,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
         public Level LevelProperties
         {
             set { _refToLevel = value; }
+            get { return _refToLevel; }
         }
 
         #endregion

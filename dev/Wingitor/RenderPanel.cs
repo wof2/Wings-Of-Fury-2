@@ -229,6 +229,7 @@ namespace wingitor
             camera.NearClipDistance = 1.0f;
             camera.FarClipDistance = 8600.0f;
             camera.AutoAspectRatio = false;
+            camera.SetPosition(0, 50, 100);
             cameraListener = new CameraListener(camera);
             camera.SetListener(cameraListener);
         }
@@ -238,12 +239,15 @@ namespace wingitor
             Disposed += new EventHandler(OgreForm_Disposed);
             Resize += new EventHandler(OgreForm_Resize);
             root.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
-
+            root.FrameEnded += new FrameListener.FrameEndedHandler(FrameEnded);
             root.RenderSystem.EventOccurred +=
                 new RenderSystem.Listener.EventOccurredHandler(RenderSystem_EventOccurred);
 
         }
-
+        protected virtual bool FrameEnded(FrameEvent evt)
+        {
+            return true;
+        }
         protected virtual bool FrameStarted(FrameEvent evt)
         {
             if (window.IsClosed)
