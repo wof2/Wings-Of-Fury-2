@@ -543,6 +543,10 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                 weaponManager.RegisterWeaponToModelEvent += refToLevel.rocket_RegisterWeaponEvent;
                 weaponManager.SelectWeapon = WeaponType.Rocket;
             }
+            get
+            {
+                return base.LevelProperties;
+            }
         }
 
 

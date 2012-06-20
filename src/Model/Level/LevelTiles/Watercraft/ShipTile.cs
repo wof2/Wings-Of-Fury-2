@@ -101,7 +101,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         {
             this.type = type;
             this.traversable = traversable;
-            sinkComponent = new SinkComponent(this);
+            sinkComponent = new SinkComponent(this,this);
         }
 
         #endregion
@@ -135,8 +135,8 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         public Level LevelProperties
         {
             set { refToLevel = value; }
+            get { return refToLevel; }
         }
-
 
         #endregion
 
@@ -342,6 +342,15 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 				return sinkComponent.SinkingTimeElapsed;
 			}
 		}
+
+        public LevelTile Tile
+        {
+            get
+            {
+                return sinkComponent.Tile;
+            }
+        }
+	
         #endregion
 
     	

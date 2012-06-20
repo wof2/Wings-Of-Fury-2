@@ -63,7 +63,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         protected ShipBunkerTile(float yBegin, float yEnd, float viewXShift, Quadrangle hitBound, int soldierNum, int generalNum, int type, List<Quadrangle> collisionRectangle)
             : base(yBegin, yEnd, viewXShift, hitBound, soldierNum, generalNum, type, collisionRectangle)
         {
-            sinkComponent = new SinkComponent(this);
+            sinkComponent = new SinkComponent(this, this);
         }
         
         public override void Fire(int time)
@@ -207,7 +207,15 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 			get {
 				return sinkComponent.SinkingTimeElapsed;
 			}
-		}
+        }
+
+        public LevelTile Tile
+        {
+            get
+            {
+                return sinkComponent.Tile;
+            }
+        }
 	
 
         #endregion

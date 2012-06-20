@@ -7,6 +7,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 {
 	public interface ISinkComponent
 	{
+
 		void StartSinking();
 		void StopSinking();
 		float DoSinking(float time, float timeUnit);
@@ -25,5 +26,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 		float SinkingTimeElapsed { get; }
 		bool IsSubmerging { get; }
 		bool IsEmerging { get; }
+
+        LevelTile Tile { get; }
 	}
 }

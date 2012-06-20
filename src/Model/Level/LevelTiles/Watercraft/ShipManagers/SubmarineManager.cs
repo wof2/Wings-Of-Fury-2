@@ -70,6 +70,9 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 
         #endregion
 
+        protected const int SubmergingDistanceToPlane = 200;
+        protected const int EmergingDistanceToPlane = 2000;
+
         #region Override Methods
 
         public override void TorpedoHit(Ammunition ammo, ShipTile tile)
@@ -97,24 +100,29 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 			 {	  
 			 	if(tile.IsSubmerging)
 			 	{
+                    _refToLevel.Controller.OnShipSubmerging(tile.Tile); 
 			 		tile.DoSubmerge(time, timeUnit);
-			 	}else if(!tile.IsSubmerging)   		 
+			 	}else if(tile.IsEmerged)   		 
 			    {
-					if(userPlane.XDistanceToTile(this[0]) < 10) 
-			    	{        		 	
+					if(userPlane.XDistanceToTile(this[0]) < SubmergingDistanceToPlane) 
+			    	{
+                        _refToLevel.Controller.OnShipBeginSubmerging(_shipTiles[0]); 
 			    		tile.StartSubmerging();
 			    	}
 			 	}
 			 	
 			 	if(tile.IsEmerging)
-				{ 
-			 		tile.DoEmerge(time, timeUnit);       		
+				{
+                    _refToLevel.Controller.OnShipEmerging(tile.Tile); 
+                    tile.DoEmerge(time, timeUnit);     
+  		
 			 	}
 			 	
 			 	if(tile.IsSubmerged)
 				{ 
-			 		if(userPlane.XDistanceToTile(this[0]) > 100) 
-	        		{
+			 		if(userPlane.XDistanceToTile(this[0]) > EmergingDistanceToPlane)
+                    {
+                        _refToLevel.Controller.OnShipBeginEmerging(_shipTiles[0]); 
 			 			tile.StartEmerging();
 			 		}
 			 	}

@@ -58,7 +58,7 @@ material AEffect:NoFog
         
         texture_unit 0
         { 
-            
+
         }
      
       }
@@ -99,8 +99,6 @@ material Effects/WaterTrail : AEffect
 	
 }
 
-
-
 material Effects/Flare : AEffect
 {
    technique Diffuse
@@ -117,6 +115,7 @@ material Effects/Flare : AEffect
 }
 
 
+
 material Effects/Explosion1 : AEffect
 {
    technique Diffuse
@@ -125,6 +124,7 @@ material Effects/Explosion1 : AEffect
        {
           texture_unit 0
           { 
+		   //anim_texture explosion3.png 33 0	
               anim_texture explosion1.png 16 0				
           }
        }
@@ -140,11 +140,60 @@ material Effects/Explosion2 : AEffect
        {
           texture_unit 0
           { 
+		   //anim_texture explosion3.png 33 0	
               anim_texture explosion2.png 19 0						
           }
        }
    }
 	
+}
+
+material Effects/Explosion3 : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {		 
+          texture_unit 0
+          { 
+              anim_texture explosion3.png 33 0	
+			  // colour_op modulate			  
+          }
+       }
+   }
+	
+}
+
+
+material Effects/Explosion4 : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {		 
+          texture_unit 0
+          { 
+              anim_texture explosion4.png 40 0 
+          }
+       }
+   }
+	
+}
+
+
+
+material Effects/Bubbles : AEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+              anim_texture Bubbles.png 32 0			
+          }
+       }
+   }
 }
 
 
@@ -639,4 +688,45 @@ material Effects/Seagull : ABEffect
    }
 }
 
+///////////////
 
+vertex_program explodeVertexProgramHLSL hlsl
+{
+	source Explosion.hlsl
+	entry_point main_vp
+	target vs_2_0
+}
+ 
+vertex_program explodeVertexProgramGLSL glsl
+{
+	source Explosion_vp.glsl
+}
+ 
+vertex_program explodeVertexProgram unified
+{
+	delegate explodeVertexProgramHLSL
+	delegate explodeVertexProgramGLSL
+}
+ 
+fragment_program explodeFragmentProgramHLSL hlsl
+{
+	source Explosion.hlsl
+	entry_point main_fp
+	target ps_2_0
+}
+ 
+fragment_program explodeFragmentProgramGLSL glsl
+{
+	source Explosion_fp.glsl
+	default_params
+	{
+		param_named tex int 0
+	}
+}
+ 
+fragment_program explodeFragmentProgram unified
+{
+	delegate explodeFragmentProgramHLSL
+	delegate explodeFragmentProgramGLSL
+}
+ 

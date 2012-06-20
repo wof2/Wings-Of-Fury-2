@@ -358,6 +358,25 @@ namespace Wof.Controller
             }
 
         }
+        public static void ReloadAllReources(IFrameWork framework)
+        {
+            /*
+            ResourceGroupManager.ResourceManagerIterator it = ResourceGroupManager.Singleton.GetResourceManagerIterator();
+            while(it.MoveNext())
+            {
+                LogManager.Singleton.LogMessage("Reloading Resource manager: " + it.CurrentKey);
+                it.Current.ReloadAll();
+                LogManager.Singleton.LogMessage("Resource manager: " + it.CurrentKey+ " reloaded");
+            }
+            */
+            TextureManager.Singleton.ReloadAll();
+            MaterialManager.Singleton.ReloadAll();
+
+            //   MeshManager.Singleton.ReloadAll();
+          //  HighLevelGpuProgramManager.Singleton.ReloadAll();
+           // GpuProgramManager.Singleton.ReloadAll();
+           
+        }
 
         public static void DestroyScenes(IFrameWork framework)
         {

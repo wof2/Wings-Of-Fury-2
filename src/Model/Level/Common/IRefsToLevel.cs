@@ -10,8 +10,8 @@ namespace Wof.Model.Level.Common
         /// Ustawia prywatna referencje do planszy.
         /// </summary>
         Level LevelProperties
-        { 
-            set;
+        {
+            set; get;
         }
 
 

@@ -292,6 +292,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         public virtual Level LevelProperties
         {
             set { refToLevel = value; }
+            get { return refToLevel; }
         }
 
         /// <summary>

@@ -429,6 +429,9 @@ namespace Wof.View
                 mainNode.Translate(new Vector3(-800.0f, 5, UnitConverter.LogicToWorldUnits(firstTileIndex) + 1000));
                 InitLights(new ColourValue(0.9f, 0.2f, 0.0f), new ColourValue(0.0f, 0.9f, 0.1f));
             }
+
+
+      
         }
 
         protected void initFlag(Vector3 position)

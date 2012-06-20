@@ -81,9 +81,11 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 		private bool isEmerging = false;
 		private bool isEmerged = true;
 
-		public SinkComponent(LevelTile tile)
+        protected IRefsToLevel irefsToLevel;
+		public SinkComponent(LevelTile tile, IRefsToLevel irefsToLevel)
 		{
 			this.tile = tile;
+            this.irefsToLevel = irefsToLevel;
 		}
 
 		/// <summary>
@@ -135,7 +137,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 			sinkingTimeElapsed += time;
 			return YVal;
 		}
-
+        float YVal = 0;
 
 		public virtual float DoSubmerge(float time, float timeUnit)
 		{
@@ -147,7 +149,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 			}
 
 
-			float YVal = 0;
+			
 			//aktualizacja movmentVector.Y
 			YVal = (YVal >= 0) ? SubmergingSpeed : System.Math.Min(YVal + waterYBreakingPower, -SubmergingSpeed);
 			YVal = YVal * (time / timeUnit);
@@ -205,7 +207,11 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 
 		public void StopEmerging()
 		{
-			isEmerging = false;
+            isEmerging = false;
+            if(this.irefsToLevel.LevelProperties != null)
+            {
+                this.irefsToLevel.LevelProperties.Controller.OnShipEmerged(tile);
+            }
 		}
 
 		public void StartSubmerging()
@@ -217,7 +223,12 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 
 		public void StopSubmerging()
 		{
-			isSubmerging = false;
+            isSubmerging = false;
+            if (this.irefsToLevel.LevelProperties != null)
+            {
+                this.irefsToLevel.LevelProperties.Controller.OnShipSubmerged(tile);
+            }
+			
 		}
 
 		public bool IsEmerged {
@@ -244,7 +255,12 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 			get { return isEmerging; }
 		}
 
-
-
+	    public LevelTile Tile
+	    {
+	        get
+	        {
+	            return tile;   
+	        }
+	    }
 	}
 }

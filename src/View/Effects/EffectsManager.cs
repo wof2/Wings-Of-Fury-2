@@ -183,6 +183,8 @@ namespace Wof.View.Effects
         {
             EXPLOSION1,
             EXPLOSION2,
+            EXPLOSION3,
+            EXPLOSION4,
             EXPLOSION1_SLOW,
             EXPLOSION2_SLOW,
             WATERIMPACT1,
@@ -208,7 +210,9 @@ namespace Wof.View.Effects
             CLOUD1,
             CLOUD2,
             CLOUD1_TRANSPARENT,
-            CLOUD2_TRANSPARENT
+            CLOUD2_TRANSPARENT,
+            BUBBLES
+            
         }
 
         private enum MaterialToPreload
@@ -237,10 +241,11 @@ namespace Wof.View.Effects
             totalTime = 0;
             if (effects != null)
             {
-                /* foreach (EffectTextureAnimation a in effects.Values)
+                foreach (NodeAnimation.NodeAnimation a in effects.Values)
                 {
-                    a.Destroy();
-                }*/
+                    a.Enabled = false;
+                    //a.Destroy();
+                }
                 effects.Clear();
             }
             if (smokeSystems != null)
@@ -660,7 +665,15 @@ namespace Wof.View.Effects
                     info.duration = 1.0f;
                     info.material = "Effects/Explosion2";
                     break;
-
+                case EffectType.EXPLOSION3:
+                    info.duration = 0.9f;
+                    info.material = "Effects/Explosion3";
+                    break;
+                case EffectType.EXPLOSION4:
+                    info.duration = 0.7f;
+                    info.material = "Effects/Explosion4";
+                    break;
+                    
                 case EffectType.EXPLOSION1_SLOW:
                     info.duration = 2.0f;
                     info.material = "Effects/Explosion1";
@@ -791,9 +804,14 @@ namespace Wof.View.Effects
 	           case EffectType.CLOUD2_TRANSPARENT:
 	                info.duration = 0.0f;
 	                info.material = "Effects/Cloud2T";
+	                break;
+
+               case EffectType.BUBBLES:
+	                info.duration = 5.0f;
+	                info.material = "Effects/Bubbles";
 	                break;  
-	                
-                    
+
+            
                 default:
                     info.duration = 0.0f;
                     info.material = "";
@@ -975,7 +993,7 @@ namespace Wof.View.Effects
                 
                 // obracany jest node a nie billboard
                 node.SetOrientation(localOrientation.w,localOrientation.x,localOrientation.y,localOrientation.z);
-              
+                ViewHelper.AttachAxes(sceneMgr, node, 0.05f);
             }
     		
 

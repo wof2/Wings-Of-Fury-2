@@ -59,6 +59,7 @@ using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.View.Effects;
+using Wof.View.NodeAnimation;
 using Wof.View.TileViews;
 using Wof.View.VertexAnimation;
 using Math = Mogre.Math;
@@ -82,8 +83,8 @@ namespace Wof.View
             get { return staticNode; }
         }
 
-        
-        private FSLSoundEntity dieSound = null;
+
+        private FSLSoundEntity dieSound, submergingSound, emergingSound = null;
         private int count;
 
         #region Minimap representation
@@ -158,6 +159,102 @@ namespace Wof.View
             }
         }
 
+
+        public void OnShipBeginSubmerging(LevelTile tile)
+        {
+           
+            if (EngineConfig.SoundEnabled)
+            {
+                submergingSound.Play();
+            }
+
+            Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(tile.TileIndex), 1.5f));
+
+            BubblesWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), tile.GetHashCode().ToString(), 8, new Vector2(6, 6), new Vector2(8, 8));
+            BubblesWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), tile.GetHashCode()+"2", 8, new Vector2(10, 10), new Vector2(20, 20));
+           
+            SinkingWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), tile.GetHashCode().ToString(), 3, new Vector2(6, 6), new Vector2(10, 10));
+            
+            
+        }
+        public void OnShipSubmerging(LevelTile tile)
+        {
+            Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(tile.TileIndex), 1.5f));
+            BubblesWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), tile.GetHashCode().ToString(), 8, new Vector2(6, 6), new Vector2(6, 6));
+            BubblesWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), tile.GetHashCode() + "2", 8, new Vector2(10, 10), new Vector2(20, 20));
+
+            SinkingWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), tile.GetHashCode().ToString(), 3, new Vector2(6, 6), new Vector2(10, 10));
+
+        }
+
+        public void OnShipEmerging(LevelTile tile)
+        {
+            Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(tile.TileIndex), 1.5f));
+            BubblesWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), tile.GetHashCode().ToString(), 8, new Vector2(6, 6), new Vector2(8, 8));
+            BubblesWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), tile.GetHashCode() + "2", 8, new Vector2(10, 10), new Vector2(20, 20));
+
+            SinkingWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), tile.GetHashCode().ToString(), 3, new Vector2(6, 6), new Vector2(10, 10));
+
+        }
+
+        public void OnShipBeginEmerging(LevelTile tile)
+        {
+            if (EngineConfig.SoundEnabled)
+            {
+                emergingSound.Play();
+            }
+        }
+
+        protected void WaterSplashes(int splashesCount, LevelTile tile)
+        {
+            Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(tile.TileIndex), 1.5f));
+            string name;
+            for (uint i = 0; i < splashesCount; i++)
+            {
+
+                Vector2 rand = ViewHelper.RandomVector2(8, 8);
+                Vector3 posView = new Vector3(v.x + rand.x, v.y, 0 + rand.y);
+                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.SUBMERGE, tile.GetHashCode() + "_" + i);
+                if (!EffectsManager.Singleton.EffectExists(name) || EffectsManager.Singleton.EffectEnded(name))
+                {
+                    EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
+                                                               tile.GetHashCode() + "_" + i,
+                                                               EffectsManager.EffectType.SUBMERGE, posView,
+                                                               new Vector2(25, 25), Quaternion.IDENTITY, false);
+                }
+
+                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.WATERIMPACT1, "WaterImpact1_" + tile.GetHashCode() + "_" + i);
+                if (!EffectsManager.Singleton.EffectExists(name))
+                {
+                    EffectsManager.Singleton.WaterImpact(sceneMgr, sceneMgr.RootSceneNode, posView, new Vector2(20, 32), false, tile.GetHashCode() + "_" + i);
+                }
+
+
+                EffectsManager.EffectType type;
+                if (((uint)tile.GetHashCode() + i) % 2 == 0)
+                {
+                    type = EffectsManager.EffectType.EXPLOSION2_SLOW;
+                }
+                else
+                {
+                    type = EffectsManager.EffectType.EXPLOSION1_SLOW;
+                }
+
+                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type, (tile.GetHashCode() + i).ToString());
+                if (!EffectsManager.Singleton.EffectExists(name))
+                {
+                    if (Math.RangeRandom(0, 1) > 0.8f)
+                    {
+                        EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, posView + ViewHelper.UnsignedRandomVector3(0, 10, 0), new Vector2(15, 15) + ViewHelper.RandomVector2(5, 5),
+                                                   type, false,
+                                                   (tile.GetHashCode() + i).ToString());
+
+                    }
+
+                }
+            }
+        }
+
         public void OnShipBeginSinking(LevelTile shipTile)
         {
             if (EngineConfig.SoundEnabled)
@@ -172,83 +269,68 @@ namespace Wof.View
             		tv.MinimapItem.Hide();
             	}
             }
-        	LevelTile tile = shipTile;
-        	Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(tile.TileIndex), 1.5f));
-            string name;
-            
-			if (!EngineConfig.LowDetails)
+        	
+            if (!EngineConfig.LowDetails)
             {
-	            for (uint i = 0; i < 3; i++ )
-	            {
-	
-	                Vector2 rand = ViewHelper.RandomVector2(8, 8);
-	                Vector3 posView = new Vector3(v.x + rand.x, v.y, 0 + rand.y);
-	                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.SUBMERGE, tile.GetHashCode() + "_" + i);
-	                if (!EffectsManager.Singleton.EffectExists(name) || EffectsManager.Singleton.EffectEnded(name))
-	                {
-	                    EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
-	                                                               tile.GetHashCode() + "_" + i,
-	                                                               EffectsManager.EffectType.SUBMERGE, posView,
-	                                                               new Vector2(25, 25), Quaternion.IDENTITY, false);
-	                }
-	
-	                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.WATERIMPACT1,"WaterImpact1_" + tile.GetHashCode() + "_" + i);
-	                if (!EffectsManager.Singleton.EffectExists(name))
-	                {
-	                    EffectsManager.Singleton.WaterImpact(sceneMgr, sceneMgr.RootSceneNode, posView, new Vector2(20, 32), false, tile.GetHashCode() + "_" + i);
-	                }
-	
-	
-	                EffectsManager.EffectType type;
-	                if (((uint)tile.GetHashCode() + i) % 2 == 0)
-	                {
-	                    type = EffectsManager.EffectType.EXPLOSION2_SLOW;
-	                } else
-	                {
-	                    type = EffectsManager.EffectType.EXPLOSION1_SLOW;
-	                }
-	
-	                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, type, (tile.GetHashCode() + i).ToString());
-	                if (!EffectsManager.Singleton.EffectExists(name))
-	                {
-	                    if(Math.RangeRandom(0,1) > 0.8f)
-	                    {
-	                         EffectsManager.Singleton.Sprite(sceneMgr, sceneMgr.RootSceneNode, posView + ViewHelper.UnsignedRandomVector3(0,10,0), new Vector2(15, 15) + ViewHelper.RandomVector2(5,5),
-	                                                    type, false,
-	                                                    (tile.GetHashCode() + i).ToString());
-	
-	                    }
-	                   
-	                }
-	            }
-
+                WaterSplashes(3, shipTile);
             }
         
         	
         }
-        
-     
+
+
+        public static void BubblesWaterAnimation(SceneManager sceneMgr, Vector3 pos, string baseName, int count, Vector2 range, Vector2 size)
+        {
+            Vector2 sizeRand;
+            string name;
+            for (uint i = 0; i < count; i++)
+            {
+                float h = Mogre.Math.RangeRandom(-20, -5);
+                float angle = Mogre.Math.RangeRandom(-10, 10);
+                Vector2 rand = ViewHelper.RandomVector2(range.x, range.y);
+                Vector3 posView = new Vector3(pos.x + rand.x, pos.y + h, pos.z + rand.y);
+                name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.BUBBLES, baseName + "_bubbles_" + i);
+                NodeAnimation.NodeAnimation node = EffectsManager.Singleton.GetEffect(name);
+                if (!EffectsManager.Singleton.EffectExists(name) || (node != null && node.Ended))
+                {
+                    sizeRand = size*Math.RangeRandom(0.9f, 1.1f);
+                    VisibilityNodeAnimation  ani = EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
+                                                               baseName + "_bubbles_" + i,
+                                                               EffectsManager.EffectType.BUBBLES, posView,
+                                                               sizeRand, new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_X) * new Quaternion(new Radian(new Degree(angle)), Vector3.UNIT_Y), false);
+
+                    ani.Duration = Mogre.Math.RangeRandom(ani.Duration, 2*ani.Duration);
+                    ani.TimeScale = Mogre.Math.RangeRandom(0.5f, 1.5f);
+                }
+
+            }
+        }
 
         public static void SinkingWaterAnimation(SceneManager sceneMgr, Vector3 pos, string baseName, int count, Vector2 range, Vector2 size)
         {
             string name;
-
-
+            Vector2 sizeRand;
             for (uint i = 0; i < count; i++)
             {
+               
                 Vector2 rand = ViewHelper.RandomVector2(range.x, range.y);
                 Vector3 posView = new Vector3(pos.x + rand.x, pos.y, pos.z + rand.y);
                 name = EffectsManager.BuildSpriteEffectName(sceneMgr.RootSceneNode, EffectsManager.EffectType.SUBMERGE, baseName + "_" + i);
                 NodeAnimation.NodeAnimation node = EffectsManager.Singleton.GetEffect(name);
                 if (!EffectsManager.Singleton.EffectExists(name) || (node != null && node.getPercent() > 0.6f))
                 {
-                    EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
+                    sizeRand = size * Math.RangeRandom(0.9f, 1.1f);
+                    VisibilityNodeAnimation ani = EffectsManager.Singleton.RectangularEffect(sceneMgr, sceneMgr.RootSceneNode,
                                                                baseName + "_" + i,
                                                                EffectsManager.EffectType.SUBMERGE, posView,
-                                                               size, Quaternion.IDENTITY, false);
+                                                               sizeRand, Quaternion.IDENTITY, false);
+                    ani.Duration = Mogre.Math.RangeRandom(ani.Duration, 2 * ani.Duration);
+                    ani.TimeScale = Mogre.Math.RangeRandom(0.5f, 1.5f);
                 }
 
             }
+
+           
         }
        
         public void OnShipSinking(LevelTile shipTile) 
@@ -272,8 +354,16 @@ namespace Wof.View
         		
         	}
         }
-        
-        
+
+        public void OnShipEmerged(LevelTile tile)
+        {
+           
+        }
+
+        public void OnShipSubmerged(LevelTile tile)
+        {
+
+        }
 
         protected override void initOnScene()
         {
@@ -369,6 +459,13 @@ namespace Wof.View
             }
             dieSound = SoundManager3D.Instance.CreateSoundEntity(soundFile, mainNode, false, false);
             dieSound.SetBaseGain(0.25f);
+
+            submergingSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_SHIP_SUBMERGING, mainNode, false, false);
+            submergingSound.SetBaseGain(0.25f);
+
+            emergingSound = SoundManager3D.Instance.CreateSoundEntity( SoundManager3D.C_SHIP_EMERGING, mainNode, false, false);
+            emergingSound.SetBaseGain(0.25f);
+
 
             // minimapa
             if (EngineConfig.DisplayingMinimap)
@@ -506,7 +603,18 @@ namespace Wof.View
             {
                 SoundManager3D.Instance.RemoveSound(dieSound.Name);
             }
+            if (submergingSound != null)
+            {
+                SoundManager3D.Instance.RemoveSound(submergingSound.Name);
+            }
+            if (emergingSound != null)
+            {
+                SoundManager3D.Instance.RemoveSound(emergingSound.Name);
+            }
+           
         }
 
+
+        
     }
 }

@@ -30,6 +30,9 @@ namespace Wof.Controller
         public static readonly string C_PLANE_PASS = "sounds/plane_pass.wav"; 
         public static readonly string C_SHIP_SINKING = "sounds/ship_sinking.ogg"; 
         public static readonly string C_SHIP_SINKING_2 = "sounds/ship_sinking2.ogg";
+        public static readonly string C_SHIP_SUBMERGING = "sounds/ship_submerging.ogg";
+        public static readonly string C_SHIP_EMERGING = "sounds/ship_emerging.ogg";
+
         public static readonly string C_GUN = "sounds/machinegun.wav"; 
 
         public static readonly string C_MISSILE_LOCK = "sounds/missile_lock.wav";
@@ -37,6 +40,7 @@ namespace Wof.Controller
        
         
        
+        
 
         private FreeSL.FSL_SOUND_SYSTEM soundSystem;
         private string currentMusic;
@@ -73,8 +77,10 @@ namespace Wof.Controller
         {
             get { return SingletonCreator.instance; }
         }
-        
-        
+
+   
+
+
         public static void SetMusicVolume(uint volume)
         {
         	EngineConfig.MusicVolume = (int)volume;

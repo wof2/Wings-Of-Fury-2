@@ -501,5 +501,11 @@ namespace Wof.Controller
         void OnLevelFinished();
         void OnPlayFanfare();
         void OnPotentialBadLanding(Plane p);
+        void OnShipBeginSubmerging(LevelTile tile);
+        void OnShipBeginEmerging(LevelTile tile);
+        void OnShipSubmerging(LevelTile tile);
+        void OnShipEmerging(LevelTile tile);
+        void OnShipEmerged(LevelTile tile);
+        void OnShipSubmerged(LevelTile tile);
     }
 }

@@ -660,6 +660,36 @@ namespace Wof.Controller
             AddJob(MethodBase.GetCurrentMethod().Name, new object[] { p });
         }
 
+        public void OnShipBeginSubmerging(LevelTile tile)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { tile });
+        }
+
+        public void OnShipBeginEmerging(LevelTile tile)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { tile });
+        }
+
+        public void OnShipSubmerging(LevelTile tile)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { tile });
+        }
+
+        public void OnShipEmerging(LevelTile tile)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { tile });
+        }
+
+        public void OnShipEmerged(LevelTile tile)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { tile });
+        }
+
+        public void OnShipSubmerged(LevelTile tile)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { tile });
+        }
+
         public void OnSecondaryFireOnCarrier()
         {
             AddJob(MethodBase.GetCurrentMethod().Name);

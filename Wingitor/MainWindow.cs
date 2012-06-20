@@ -23,10 +23,10 @@ namespace Wingitor
             get { return editorRenderPanel; }
         }
 
-        public MainWindow()
+        public MainWindow(IGameTest gameTest)
         {
             InitializeComponent();
-
+            editorRenderPanel.SetGameTest(gameTest);
             if(!editorRenderPanel.Setup())
             {
                 return;
@@ -96,6 +96,11 @@ namespace Wingitor
            }
 
         }
+        private void reload(object sender, EventArgs e)
+        {
+            editorRenderPanel.ReloadAllResourcesNextFrame();
+        }
+
         private void save(object sender, EventArgs e)
         {
             saveFileDialog.Filter = "WOF2 level file (*" + XmlLevelParser.C_LEVEL_POSTFIX + ")|*" + XmlLevelParser.C_LEVEL_POSTFIX;
