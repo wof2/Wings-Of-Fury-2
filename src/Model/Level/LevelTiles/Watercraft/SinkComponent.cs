@@ -148,10 +148,11 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 				return 0;
 			}
 
-
+			float progress = submergeTimeElapsed/ maxSubmergeTime;
 			
-			//aktualizacja movmentVector.Y
-			YVal = (YVal >= 0) ? SubmergingSpeed : System.Math.Min(YVal + waterYBreakingPower, -SubmergingSpeed);
+		
+			YVal = SubmergingSpeed * Mogre.Math.Sin(progress* Mogre.Math.PI);
+			
 			YVal = YVal * (time / timeUnit);
 			depth += YVal;
 			ChangeTileDepth(tile, YVal);
@@ -173,10 +174,11 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 				}
 				return 0;
 			}
-
-			float YVal = 0;
-			//aktualizacja movmentVector.Y
-			YVal = (YVal >= 0) ? EmergingSpeed : System.Math.Min(YVal + waterYBreakingPower, -EmergingSpeed);
+			float progress = emergeTimeElapsed / maxEmergeTime;
+			
+		
+			YVal = EmergingSpeed * Mogre.Math.Sin(progress* Mogre.Math.PI);
+		
 			YVal = YVal * (time / timeUnit);
 			YVal *= -1;
 

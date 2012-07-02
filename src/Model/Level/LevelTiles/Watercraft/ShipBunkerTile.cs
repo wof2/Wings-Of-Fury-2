@@ -68,7 +68,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         
         public override void Fire(int time)
         {
-        	if(this.Center.Y < 0)
+        	if(!IsEmerged)
         	{ 
         		// pod woda
         		return;

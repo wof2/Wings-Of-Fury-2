@@ -48,12 +48,13 @@
 
 using System;
 using Wof.Model.Level;
+using Wof.Model.Level.Common;
+using Wof.Model.Level.Infantry;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
-using Wof.Model.Level.Infantry;
 using Wof.Model.Level.Weapon;
 
 namespace Wof.Controller
@@ -73,7 +74,7 @@ namespace Wof.Controller
         /// <param name="bunker">Bunkier ktory strzelil.</param>
         /// <param name="plane">Samolot gracza.</param>
         /// <author>Michal Ziober</author>
-        void OnBunkerFire(BunkerTile bunker, Plane plane);
+        void OnBunkerFire(BunkerTile bunker, Plane plane, bool planeHit);
 
         /// <summary>
         /// Funkcja rejestruje na planszy nowego zolnierza.
@@ -259,6 +260,13 @@ namespace Wof.Controller
         /// <param name="rocket">Rakieta, ktora zostala wystrzelona.</param>
         /// <author>Michal Ziober</author>
         void OnRegisterRocket(Rocket rocket);
+        
+        /// <summary>
+        /// Funkcja informuje o wystrzeleniu rakiety przez samolot.
+        /// </summary>
+        /// <param name="flakBullet">pocisk falk, ktory zostal wystrzelony.</param>
+        /// <author>Adam Witczak</author>
+        void OnRegisterFlakBullet(FlakBullet flakBullet);
 
 
         
@@ -507,5 +515,7 @@ namespace Wof.Controller
         void OnShipEmerging(LevelTile tile);
         void OnShipEmerged(LevelTile tile);
         void OnShipSubmerged(LevelTile tile);
+        
+        void OnFlakFire(FlakBunkerTile bunker, Plane plane, PointD pos, bool hit);
     }
 }

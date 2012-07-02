@@ -120,6 +120,9 @@ namespace Wof.Controller
         private Audio failedEngineSound;
         private Audio bunkerFireSound;
         private Audio bunkerFireSound2;
+        private Audio flakBunkerFireSound;
+        private Audio flakBunkerFireSound2;
+        
         private Audio fortressFireSound;
         private Audio ricochetSound;
         
@@ -146,6 +149,7 @@ namespace Wof.Controller
         private Audio collisionSound;
 
         private Audio bunkerRebuild;
+        private Audio startSubmergingSound;        
         private Audio reloadSound;
         private Audio buzzerSound;
         private Audio bombSound;
@@ -188,7 +192,10 @@ namespace Wof.Controller
                 
                 failedEngineSound = new Audio("sounds/startengine.wav");
                 bunkerFireSound = new Audio("sounds/cannon.wav");
-                bunkerFireSound2 = new Audio("sounds/cannon2.wav");
+                bunkerFireSound2 = new Audio("sounds/cannon2.wav");                
+                flakBunkerFireSound = new Audio("sounds/flak.wav");
+                flakBunkerFireSound2 = new Audio("sounds/flak2.wav");
+                
                 ricochetSound = new Audio("sounds/ricochet.wav");
                 
                 fortressFireSound = new Audio("sounds/fortress_cannon.wav");
@@ -208,6 +215,8 @@ namespace Wof.Controller
             
                 catchPlaneSound = new Audio("sounds/landing.wav");
                 bunkerRebuild = new Audio("sounds/construction.wav");
+                
+                startSubmergingSound = new Audio("sounds/ship_siren.wav");
                 reloadSound = new Audio("sounds/reload.wav");
                 buzzerSound = new Audio("sounds/buzzer.wav");
                 bombSound = new Audio("sounds/bombwhistle.wav");
@@ -381,6 +390,19 @@ namespace Wof.Controller
           
             Play(bunkerFireSound2);
         }
+        public void PlayFlakBunkerFireSound()
+        {          	
+            if(this.random.NextDouble() > 0.5)
+            {
+                Play(flakBunkerFireSound);
+            }
+            else
+            {
+                Play(flakBunkerFireSound2);
+            }
+            
+          
+        }
         
  		public void PlayFortressFireSound()
         {
@@ -468,7 +490,10 @@ namespace Wof.Controller
             Play(collisionSound, 500);
         }
 
-        
+        public void PlayStartSubmergingSound()
+        {  
+        	Play(startSubmergingSound);             
+        }
 
         public void PlayBunkerRebuild()
         {
@@ -727,6 +752,10 @@ namespace Wof.Controller
          {
              PlayDXSound(waterBubblesBuffer, 0, BufferPlayFlags.Default);
          }
+         
+     
+         
+         
 
         public void LoopWaterBubblesSound()
         {

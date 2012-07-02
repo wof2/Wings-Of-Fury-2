@@ -758,6 +758,12 @@ namespace Wof.View
             {
                 ammunitionViews.Add(TorpedoView.GetInstance(ammunition, this));
             }
+            else if (ammunition is FlakBullet)
+            {
+               // ammunitionViews.Add(FlakView.GetInstance(ammunition, this));
+            }
+            
+            
         }
 
         public void OnLoopEnemyPlaneEngineSound(EnemyPlane plane)
@@ -872,11 +878,31 @@ namespace Wof.View
                 // error
             }
         }
+        
+		public void OnFlakFire(FlakBunkerTile bunker, Plane plane, Vector2 position, bool planeHit)
+        {
+	     
+			Vector3 pos =
+				new Vector3(position.x + ModelToViewAdjust, position.y, Mogre.Math.RangeRandom(-5,5));
+					
+        
+            EffectsManager.Singleton.Sprite(
+               sceneMgr,
+               sceneMgr.RootSceneNode,
+               pos,               
+               new Vector2(GameConsts.FlakBunker.DamageRange, GameConsts.FlakBunker.DamageRange) + ViewHelper.RandomVector2(4),
+               EffectsManager.EffectType.FLAK,
+               false,
+               bunker.GetHashCode().ToString()+" "+position.ToString()
+               );
 
-        public void OnBunkerFire(BunkerTile bunker, Plane plane)
+           
+
+		}
+        public void OnBunkerFire(BunkerTile bunker, Plane plane, bool planeHit)
         {
             PlaneView p = FindPlaneView(plane);
-            if (p != null)
+            if (p != null && planeHit)
             {
                 EffectsManager.Singleton.Sprite(
                    sceneMgr,
@@ -1408,7 +1434,7 @@ namespace Wof.View
         public void OnTileDestroyed(LevelTile tile)
         {
         	
-            if (tile is ConcreteBunkerTile || tile is WoodBunkerTile || tile is ShipBunkerTile || tile is FortressBunkerTile)
+            if (tile is ConcreteBunkerTile || tile is WoodBunkerTile || tile is ShipBunkerTile || tile is FortressBunkerTile || tile is FlakBunkerTile)
             {
                 EnemyInstallationTileView bunker = (EnemyInstallationTileView)FindTileView(tile);
                 if (bunker == null) return; // error

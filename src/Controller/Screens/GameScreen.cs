@@ -2565,18 +2565,30 @@ namespace Wof.Controller.Screens
 
         #region IController Members
 
+	
+	 	public void OnFlakFire(FlakBunkerTile bunker, Plane plane, PointD pos, bool hit)
+        {
+	 		SoundManager.Instance.PlayFlakBunkerFireSound();
+        
+	 		levelView.OnFlakFire(bunker, plane, new Vector2(pos.X, pos.Y), hit);
+	 		
+	 		OnBunkerFire(bunker, plane, hit); // slad wybuchu
+	 		
+	 		
+	
+		}
+		
         /// <summary>
         /// Funkcja rejestruje strzal do samolotu.
         /// </summary>
         /// <param name="bunker">Bunkier ktory strzelil.</param>
         /// <param name="plane">Samolot gracza.</param>
-        public void OnBunkerFire(BunkerTile bunker, Plane plane)
+        public void OnBunkerFire(BunkerTile bunker, Plane plane, bool planeHit)
         {
         	if(bunker is FortressBunkerTile)
         	{
         		SoundManager.Instance.PlayFortressFireSound();
-        	}         	
-        	else if(bunker is ShipBunkerTile && Mogre.Math.RangeRandom(0,1) > 0.5f)
+        	} else if(bunker is ShipBunkerTile && Mogre.Math.RangeRandom(0,1) > 0.5f)
         	{
         		SoundManager.Instance.PlayShipFireSound();
         	} else {
@@ -2588,7 +2600,7 @@ namespace Wof.Controller.Screens
         			SoundManager.Instance.PlayBunkerFireSound2();
         		}
         	}
-            levelView.OnBunkerFire(bunker, plane);
+            levelView.OnBunkerFire(bunker, plane, planeHit);
             // Console.WriteLine("OnBunkerFire " + " BunkerTile bunker " + " Plane plane");
         }
 
@@ -2818,6 +2830,7 @@ namespace Wof.Controller.Screens
         public void OnShipBeginSubmerging(LevelTile tile)
         {
             OnStartWaterBubblesSound();
+            SoundManager.Instance.PlayStartSubmergingSound();
             levelView.OnShipBeginSubmerging(tile);
         }
 
@@ -2839,11 +2852,13 @@ namespace Wof.Controller.Screens
 
         public void OnShipEmerged(LevelTile tile)
         {
+        	 OnStopWaterBubblesSound();
             levelView.OnShipEmerged(tile); 
         }
 
         public void OnShipSubmerged(LevelTile tile)
         {
+        	OnStopWaterBubblesSound();
             levelView.OnShipSubmerged(tile);
         }
 
@@ -3001,6 +3016,10 @@ namespace Wof.Controller.Screens
             levelView.OnRegisterAmmunition(torpedo);
         }
 
+        public void OnRegisterFlakBullet(FlakBullet flakBullet)
+		{
+			levelView.OnRegisterAmmunition(flakBullet);
+		}
        
         public void OnGearToggleEnd(object plane)
         {
@@ -3392,8 +3411,12 @@ namespace Wof.Controller.Screens
         {
             SoundManager.Instance.PlayIncorrectStart();
         }
+        
+      
 
         #endregion
+    	
+		
     }
 
    

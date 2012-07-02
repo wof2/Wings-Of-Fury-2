@@ -344,14 +344,18 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         }
 
         /// <summary>
-        /// Ustawia kat dzialka.
-        /// <param name="width">Szerokosc pola widzenia.</param>
+        /// Ustawia kat dzialka.    
         /// </summary>
         /// <author>Michal Ziober</author>
-        protected void SetAngle(float width)
+        protected void SetAngle()
         {
-            float interval = refToLevel.UserPlane.Center.X - (horizon.Center.X + GetGunXShift());
-
+        	
+            float interval = refToLevel.UserPlane.Center.X;
+			if(horizon!= null)
+        	{
+				interval -= horizon.Center.X + GetGunXShift();        		
+        	}
+        	
             //pionowo nad ziemia
             if (interval == 0)
                 angle = NinetyDegree;

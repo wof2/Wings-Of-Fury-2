@@ -211,7 +211,8 @@ namespace Wof.View.Effects
             CLOUD2,
             CLOUD1_TRANSPARENT,
             CLOUD2_TRANSPARENT,
-            BUBBLES
+            BUBBLES,
+            FLAK
             
         }
 
@@ -812,6 +813,11 @@ namespace Wof.View.Effects
 	                break;  
 
             
+               case EffectType.FLAK:
+	                info.duration = 5.0f;
+	                info.material = "Examples/TrailSmoke";
+	                break;  
+	                
                 default:
                     info.duration = 0.0f;
                     info.material = "";

@@ -123,13 +123,19 @@ namespace Wof.View.TileViews
 
             installationNode =
                 gunPlaceNode.CreateChildSceneNode("BunkerNode" + nameSuffix, new Vector3(0.0f, 0.0f, 4.5f));
-            if (!(LevelTile is FortressBunkerTile))
+           
+
+            if (LevelTile is FortressBunkerTile)
             {
-                installationEntity = sceneMgr.CreateEntity("Bunker" + nameSuffix, "Bunker.mesh");
+            	installationEntity = sceneMgr.CreateEntity("Fortress" + nameSuffix, "Fortress.mesh");
+            }else if (LevelTile is FlakBunkerTile)
+            {
+            	 installationEntity = sceneMgr.CreateEntity("Bunker" + nameSuffix, "Bunker.mesh");
+              //  installationEntity = sceneMgr.CreateEntity("Flak" + nameSuffix, "Flak.mesh");
             }
             else
             {
-                installationEntity = sceneMgr.CreateEntity("Fortress" + nameSuffix, "Fortress.mesh");
+                installationEntity = sceneMgr.CreateEntity("Bunker" + nameSuffix, "Bunker.mesh");
             }
            
             isConcrete = false;
@@ -152,8 +158,6 @@ namespace Wof.View.TileViews
 
             if (HasRockets)
             {
-              
-               
 
                 for (int k = -2; k <= 2; k++)
                 {
@@ -244,10 +248,7 @@ namespace Wof.View.TileViews
               0
             ).TimeScale=2.0f;
 
-          
-            
-           
-        
+                  
         }
 
         public override void Restore()
