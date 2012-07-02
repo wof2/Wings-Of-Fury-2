@@ -78,6 +78,8 @@ namespace Wof.Model.Configuration
         private Dictionary<String, float> mSoldierConfig = null;
         private Dictionary<String, float> mWoodenBunker = null;
         private Dictionary<String, float> mConcreteBunker = null;
+        private Dictionary<String, float> mFlakBunker = null;
+               
         private Dictionary<String, float> mShipWoodenBunker = null;
         private Dictionary<String, float> mShipConcreteBunker = null;
         private Dictionary<String, float> mBomb = null;
@@ -140,6 +142,8 @@ namespace Wof.Model.Configuration
                 return mWoodenBunker;
             else if (type.Equals(ConfigurationNames.ConcreteBunker))
                 return mConcreteBunker;
+            else if (type.Equals(ConfigurationNames.FlakBunker))
+                return mFlakBunker;
             else if (type.Equals(ConfigurationNames.ShipConcreteBunker))
                 return mShipConcreteBunker;
             else if (type.Equals(ConfigurationNames.ShipWoodenBunker))
@@ -170,6 +174,8 @@ namespace Wof.Model.Configuration
             mB25PlaneConfig = InitConfig(typeof(ConfigurationAttributes.UserPlane));
 
             mConcreteBunker = InitConfig(typeof (ConfigurationAttributes.Bunker));
+            mFlakBunker = InitConfig(typeof (ConfigurationAttributes.FlakBunker));
+           
             mSoldierConfig = InitConfig(typeof (ConfigurationAttributes.Soldier));
             mWoodenBunker = InitConfig(typeof (ConfigurationAttributes.Bunker));
             mShipConcreteBunker = InitConfig(typeof (ConfigurationAttributes.Bunker));
@@ -233,6 +239,11 @@ namespace Wof.Model.Configuration
                     {
                         if (!ReadConfig(reader, mConcreteBunker))
                             throw new XmlException("Concrete bunker jest niepoprawny !");
+                    }
+                    else if (reader.Name.Equals(ConfigurationNames.FlakBunker))
+                    {
+                        if (!ReadConfig(reader, mFlakBunker))
+                            throw new XmlException("Flak bunker jest niepoprawny !");
                     }
                     else if (reader.Name.Equals(ConfigurationNames.WoodenBunker))
                     {
@@ -318,6 +329,8 @@ namespace Wof.Model.Configuration
             builder.Append(ConfigToString(mWoodenBunker));
             builder.AppendLine("Concrete bunker:");
             builder.Append(ConfigToString(mConcreteBunker));
+            builder.AppendLine("Flak bunker:");
+            builder.Append(ConfigToString(mFlakBunker));
             builder.AppendLine("Ship Wooden bunker:");
             builder.Append(ConfigToString(mShipWoodenBunker));
             builder.AppendLine("Ship Concrete bunker:");

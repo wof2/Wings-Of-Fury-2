@@ -70,8 +70,11 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 
         #endregion
 
-        protected const int SubmergingDistanceToPlane = 200;
-        protected const int EmergingDistanceToPlane = 2000;
+        protected const int SubmergingDistanceToPlane = 100;
+        protected const int EmergingDistanceToPlane = 200;
+        
+        protected float timeSinceLastSubmerge = 0.0f;
+        protected float timeSinceLastSubmergeMin = 15.0f;
 
         #region Override Methods
 
@@ -96,6 +99,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
         	if(this[0].IsSinking) return;
         	
         	      		
+        	bool doSubmerge = false;
 			 foreach(ISinkComponent tile in _sinkComponents)
 			 {	  
 			 	if(tile.IsSubmerging)
@@ -103,12 +107,20 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
                     _refToLevel.Controller.OnShipSubmerging(tile.Tile); 
 			 		tile.DoSubmerge(time, timeUnit);
 			 	}else if(tile.IsEmerged)   		 
-			    {
-					if(userPlane.XDistanceToTile(this[0]) < SubmergingDistanceToPlane) 
+			    {			 		
+			 		if(userPlane.XDistanceToTile(this[0]) < SubmergingDistanceToPlane)
 			    	{
-                        _refToLevel.Controller.OnShipBeginSubmerging(_shipTiles[0]); 
-			    		tile.StartSubmerging();
-			    	}
+			 			if(timeSinceLastSubmerge >= timeSinceLastSubmergeMin)
+			 			{
+							doSubmerge = true;                     
+			 			} else 
+			 			{
+			 				timeSinceLastSubmerge += (1.0f * time / timeUnit) / _sinkComponents.Count;
+			 			}
+			 		} else 
+			 		{
+			 			timeSinceLastSubmerge = 0;
+			 		}
 			 	}
 			 	
 			 	if(tile.IsEmerging)
@@ -127,7 +139,23 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 			 		}
 			 	}
 			 	
-			 }	         	        	
+			 	
+			 	
+			 }	
+
+				if(doSubmerge)
+			 	{
+			 		timeSinceLastSubmerge = 0;
+                    _refToLevel.Controller.OnShipBeginSubmerging(_shipTiles[0]); 
+			    		    
+			 		foreach(ISinkComponent tile in _sinkComponents)
+			 		{	  
+						tile.StartSubmerging();
+			    	}
+			 		
+			 		doSubmerge = false;
+			 		
+			 	}			 
         	
         }
 

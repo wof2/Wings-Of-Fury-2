@@ -136,6 +136,10 @@ namespace Wof.Model.Configuration
                       configurations.GetConfiguration(ConfigurationNames.ConcreteBunker),
                       new GameConsts.ConcreteBunker());
             
+            //Flak Bunker
+            SetConsts(typeof (GameConsts.FlakBunker),
+                      configurations.GetConfiguration(ConfigurationNames.FlakBunker), new GameConsts.FlakBunker());
+
             SetConsts(typeof (GameConsts.ShipWoodenBunker),
                       configurations.GetConfiguration(ConfigurationNames.ShipWoodenBunker), new GameConsts.ShipWoodenBunker());
 

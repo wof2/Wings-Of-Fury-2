@@ -45,6 +45,10 @@
 	<collision-rect rectangle="[6, 2.5 ][1.5][1  ]"/> <!-- dzialko -->	
   </tile>
 
+   <tile name="flak-bunker" y-start="1.5" y-end="1.5" variation="0">
+	<collision-rect rectangle="[0, 3.1 ][5  ][1.6]"/> <!-- bunkier -->
+	<collision-rect rectangle="[6, 2.5 ][1.5][1  ]"/> <!-- dzialko -->	
+  </tile>
   
   <!-- wersja uniesiona -->
   <tile name="wooden-bunker" y-start="8.0" y-end="8.0" variation="10">

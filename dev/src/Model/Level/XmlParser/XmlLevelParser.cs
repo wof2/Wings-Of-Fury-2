@@ -455,6 +455,7 @@ namespace Wof.Model.Level.XmlParser
                             //WoodenBunker, Barracks,Concretebunker,Fortress bunker
                         else if (reader.Name.Equals(Nodes.WoodenBunker) ||
                                  reader.Name.Equals(Nodes.Barrack) ||
+                                 reader.Name.Equals(Nodes.FlakBunker) ||
                                  reader.Name.Equals(Nodes.ShipWoodenBunker) ||
                                  reader.Name.Equals(Nodes.ShipConcreteBunker) ||
                                  reader.Name.Equals(Nodes.ConcreteBunker) ||
@@ -848,7 +849,7 @@ namespace Wof.Model.Level.XmlParser
                     }
                 }
             }
-            else return false;
+           // else return false;
             if (variation < 0) variation = 0;
             TilesNode node = GetTilesForID(TilesNode.GenerateID(bunkerName, variation));
             if (node == null) return false;
@@ -869,6 +870,12 @@ namespace Wof.Model.Level.XmlParser
             else if (bunkerName.Equals(Nodes.ShipConcreteBunker))
             {
                 shipbunker = new ShipConcreteBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
+                                                        node.HitRectangle, numSoldiers, numGenerals, variation,
+                                                        node.CollisionRectangle);
+               
+            }  else if (bunkerName.Equals(Nodes.FlakBunker))
+            {
+                bunker = new FlakBunkerTile(node.YStart, node.YEnd, node.ViewXShift,
                                                         node.HitRectangle, numSoldiers, numGenerals, variation,
                                                         node.CollisionRectangle);
                

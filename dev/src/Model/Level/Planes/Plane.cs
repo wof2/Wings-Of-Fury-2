@@ -2283,6 +2283,16 @@ namespace Wof.Model.Level.Planes
         {
             if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed)
             {
+            	if(GameConsts.UserPlane.Singleton.PlaneCheat)
+                {
+            	 	oilTaken *= 0.5f; 
+            	 	oilLeak *= 0.5f;
+            	}
+            	if (planeType == Planes.PlaneType.B25)
+                {
+            	 	oilTaken *= 0.5f;
+            	 	oilLeak *= 0.5f;            	   	
+            	}
                 this.oilLeak += oilLeak;
                 oil -= oilTaken;
                // oil = System.Math.Max(oil, 0);

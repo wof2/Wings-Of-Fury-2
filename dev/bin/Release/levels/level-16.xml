@@ -23,6 +23,23 @@
   <aircraft-carrier-restore-ammunition width="1"/>
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
+  
+  <ocean width="5"/>
+  
+  
+    <island-begin mesh="Island4" variation="6"/>
+  <terrain variation="1"/>
+  <terrain variation="2"/>
+  <flak-bunker />
+  <terrain variation="0"/>
+  <barrels variation="0"/>
+  <terrain variation="2"/>
+  <terrain variation="0"/><terrain variation="0"/>
 
+  <terrain variation="0"/>
+ <terrain variation="0"/><terrain variation="2"/>
+  <island-end/> 
+  
+  
   <ocean width="100"/>
 </level>

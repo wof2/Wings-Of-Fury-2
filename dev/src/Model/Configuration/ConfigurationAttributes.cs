@@ -114,6 +114,20 @@ namespace Wof.Model.Configuration
             public const string horizonHeight = @"horizonHeight";
             public const string horizonWidth = "horizonWidth";
         }
+        
+        public class FlakBunker
+        {
+            public const string fireDelay = @"fireDelay";
+            public const string horizonMinDistance = @"horizonMinDistance";
+            public const string horizonMaxDistance = @"horizonMaxDistance";
+            public const string fireSpreadX = @"fireSpreadX";
+            public const string fireSpreadY = @"fireSpreadY";
+            public const string maxDamagePerHit = @"maxDamagePerHit";
+            public const string damageRange = @"damageRange";
+               
+            
+        }
+
 
         public class Bomb
         {

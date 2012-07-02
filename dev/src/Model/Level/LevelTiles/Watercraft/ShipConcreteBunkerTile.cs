@@ -113,7 +113,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         {        	
             base.Fire(time);
             
-            if(this.Center.Y < 0)
+           if(!IsEmerged)
         	{ 
         		// pod woda
         		return;
@@ -131,7 +131,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
                         refToLevel.UserPlane.Hit(false);
 
                         //powiadamia controler o trafieniu.
-                        refToLevel.Controller.OnBunkerFire(this, refToLevel.UserPlane);
+                        refToLevel.Controller.OnBunkerFire(this, refToLevel.UserPlane, true);
 
                         //Zeruje licznik.
                         currentTime = 0;
@@ -141,7 +141,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
                     currentTime += time;
 
                 //wyliczam kat    
-                SetAngle(GameConsts.ShipConcreteBunker.HorizonWidth);
+                SetAngle();
 
 
              

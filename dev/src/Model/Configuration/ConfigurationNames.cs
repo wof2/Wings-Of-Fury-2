@@ -63,6 +63,8 @@ namespace Wof.Model.Configuration
         public const string ConcreteBunker = @"ConcreteBunker";
         public const string ShipConcreteBunker = @"ShipConcreteBunker";
         public const string ShipWoodenBunker = @"ShipWoodenBunker";
+        public const string FlakBunker = @"FlakBunker";
+       
         public const string Effects = @"Effects";
 
 

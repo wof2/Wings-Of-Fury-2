@@ -113,7 +113,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                         refToLevel.UserPlane.Hit(false);
 
                         //powiadamia controler o trafieniu.
-                        refToLevel.Controller.OnBunkerFire(this, refToLevel.UserPlane);
+                        refToLevel.Controller.OnBunkerFire(this, refToLevel.UserPlane, true);
 
                         //Zeruje licznik. Czekam kolejna sekunde.
                         currentTime = 0;
@@ -123,7 +123,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                     currentTime += time;
 
                 //wyliczam kat
-                SetAngle(GameConsts.WoodenBunker.HorizonWidth);
+                SetAngle();
             }
         }
 

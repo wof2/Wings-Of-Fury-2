@@ -182,12 +182,12 @@ namespace Wof.Controller.AdAction
             timer.Reset();
             adAction = new CommercialAdAction();
             adHelper3D = new AdHelper3D(0.02f, 80, 2000, 2);
-            int result = AdAction.Init(C_AD_KEY, C_ADS_DIR, C_CONNECT_TIMEOUT);
-            if (result == 0)
-            {
+           // int result = AdAction.Init(C_AD_KEY, C_ADS_DIR, C_CONNECT_TIMEOUT);
+           // if (result == 0)
+           // {
 
 
-            }
+           // }
            
         }
         public void AdDownloaded(Ad ad)

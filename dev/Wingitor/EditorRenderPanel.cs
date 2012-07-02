@@ -542,5 +542,20 @@ namespace wingitor
         {
             reloadAllReourcesNextFrame = true;
         }
+    	
+		public void OnBunkerFire(BunkerTile bunker, Plane plane, bool planeHit)
+		{
+		
+		}
+    	
+		public void OnRegisterFlakBullet(FlakBullet flakBullet)
+		{
+			
+		}
+    	
+		public void OnFlakFire(FlakBunkerTile bunker, Plane plane, Wof.Model.Level.Common.PointD pos, bool hit)
+		{
+			
+		}
     }
 }

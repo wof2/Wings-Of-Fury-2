@@ -102,9 +102,9 @@ namespace Wof.Controller
         /// <param name="bunker">Bunkier ktory strzelil.</param>
         /// <param name="plane">Samolot gracza.</param>
         /// <author>Michal Ziober</author>
-        public void OnBunkerFire(BunkerTile bunker, Plane plane)
+        public void OnBunkerFire(BunkerTile bunker, Plane plane, bool planeHit)
         {
-            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { bunker, plane });
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { bunker, plane, planeHit });
         }
 
         /// <summary>
@@ -709,6 +709,20 @@ namespace Wof.Controller
             AddJob(MethodBase.GetCurrentMethod().Name);
         }
 
-        #endregion
+        
+    	
+		public void OnFlakFire(FlakBunkerTile bunker, Plane plane, Wof.Model.Level.Common.PointD pos, bool hit)
+		{
+			AddJob(MethodBase.GetCurrentMethod().Name, new object[] { bunker, plane, pos, hit });			
+		}
+		
+	    public void OnRegisterFlakBullet(FlakBullet flakBullet)
+		{
+			AddJob(MethodBase.GetCurrentMethod().Name, new object[] { flakBullet });			
+		}
+		
+		#endregion
+    	
+	
     }
 }

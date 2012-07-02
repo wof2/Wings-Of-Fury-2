@@ -385,6 +385,58 @@ namespace Wof.Model.Configuration
 
             #endregion
         }
+        
+         public class FlakBunker
+        {
+            #region Consts
+
+            /// <summary>
+            /// Odstep pomiedzy strzalami.
+            /// </summary>
+            public static float FireDelay = 100;
+
+            /// <summary>
+            /// Minimalna odleglosc aby oddac strzal
+            /// </summary>
+            public static float HorizonMinDistance = 150;
+
+            /// <summary>
+            /// Maksymalny zasieg
+            /// </summary>
+            public static float HorizonMaxDistance = 250;
+            
+            /// <summary>
+            /// Minimalna wysokosc samolotu aby mozna bylo oddac strzal
+            /// </summary>
+            public static float HorizonMinAltitude = 20;
+
+            
+            /// <summary>
+            /// FireSpreadX
+            /// </summary>
+            public static float FireSpreadX = 10.0f;
+            
+            /// <summary>
+            /// FireSpreadY
+            /// </summary>
+            public static float FireSpreadY = 5.0f;
+            
+            
+            /// <summary>
+            /// Maksymalne obrazenie przy trafieniu bezposrednio w samolot
+            /// </summary>
+            public static float MaxDamagePerHit = 5.0f;
+            
+              
+            /// <summary>
+            /// Obszar obrazen
+            /// </summary>
+            public static float DamageRange = 5.0f;
+            
+
+            #endregion
+        }
+
 
 
         public class ShipWoodenBunker

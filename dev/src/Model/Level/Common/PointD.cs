@@ -210,7 +210,7 @@ namespace Wof.Model.Level.Common
         /// <returns>Roznice dwoch punktow.</returns>
         public static PointD operator -(PointD pointA, PointD pointB)
         {
-            return new PointD(pointA.mX - pointB.mX, pointA.mY + pointB.mY);
+            return new PointD(pointA.mX - pointB.mX, pointA.mY - pointB.mY);
         }
 
         /// <summary>

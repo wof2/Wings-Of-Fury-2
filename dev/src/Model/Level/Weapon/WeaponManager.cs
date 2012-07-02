@@ -49,12 +49,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
+using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
+using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
 using Wof.Model.Level.Planes;
 using LevelRef = Wof.Model.Level.Level;
-using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
 
 namespace Wof.Model.Level.Weapon
 {
@@ -187,6 +189,7 @@ namespace Wof.Model.Level.Weapon
             this.torpedoCount = MaxTorpedoes;
             actualWeapon = WeaponType.Gun;
             ammunitionOwner = owner;
+            mRand = new System.Random(System.Environment.TickCount);
             gun = new Gun(refLevel);
         }
 
@@ -491,6 +494,38 @@ namespace Wof.Model.Level.Weapon
                     this.refToLevel.Statistics.HitByGun += refToLevel.KillVulnerableSoldiers(index, 0, false);
             }
         }
+        
+        
+        /// <summary>
+        /// Generator liczb pseudolosowych.
+        /// </summary>
+        protected System.Random mRand;
+
+        
+        public FlakBullet FlakFire(IObject2D obj)
+        {
+        
+        	float speedCoeff = 2 * obj.MovementVector.EuclidesLength /  GameConsts.UserPlane.Singleton.MaxSpeed;
+        	float distanceCoeff = FlakBunkerTile.GetAccuracyCoefficient((obj.Bounds.Center - ammunitionOwner.Center).EuclidesLength);
+        	
+        	//Console.WriteLine("Speed coef:"+speedCoeff+" "+GameConsts.UserPlane.Singleton.MaxSpeed);
+        	Console.WriteLine("dist coef:"+distanceCoeff+" "+((obj.Bounds.Center - ammunitionOwner.Center).EuclidesLength));
+        	
+        	
+        	float xSpread = distanceCoeff * speedCoeff * obj.Bounds.Width * GameConsts.FlakBunker.FireSpreadX;
+            float ySpread = distanceCoeff * speedCoeff * obj.Bounds.Height * GameConsts.FlakBunker.FireSpreadY;
+            
+            float xPos  = this.mRand.Next((int)(obj.Bounds.Center.X - xSpread * 0.5f), (int)(obj.Bounds.Center.X + xSpread * 0.5f));
+            float yPos  = this.mRand.Next((int)(obj.Bounds.Center.Y - ySpread * 0.5f), (int)(obj.Bounds.Center.Y + ySpread * 0.5f));
+            PointD flakPosition = new PointD(xPos, yPos);
+            FlakBullet flak =  new FlakBullet(xPos,yPos, refToLevel, ammunitionOwner);;
+            
+            RegisterWeaponToModelEvent(flak);
+            refToLevel.Controller.OnRegisterFlakBullet(flak);
+            
+            return flak;
+                                	
+        }
 
         public Rocket RocketFire(float fireAngle, PointD movementVector, float zRotationPerSec)
 		{
@@ -522,7 +557,8 @@ namespace Wof.Model.Level.Weapon
 			return RocketFire(fireAngle, (PointD) ammunitionOwner.MovementVector.Clone(), 0);
 		 	
 		}
-		
+		       
+        
         /// <summary>
         /// Wystrzeliwuje rakiete.
         /// </summary>
