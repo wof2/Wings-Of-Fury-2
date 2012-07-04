@@ -47,6 +47,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Management;
 using System.Text;
@@ -68,6 +69,8 @@ namespace Wof.Tools
        {
            try
            {
+           	 //  BuildLicenseFile(Hash);
+             //  IsEhnancedVersion();
                if(args.Length != 1)
                {
                    Console.WriteLine("License builder for WOF. Usage: ");
@@ -86,6 +89,20 @@ namespace Wof.Tools
        }
 
 
+       private static string DecryptLicense(string licenseContents)
+       {
+        
+           return RijndaelSimple.Decrypt(licenseContents, Hash, RijndaelSimple.saltValue,
+                                  RijndaelSimple.hashAlgorithm, RijndaelSimple.passwordIterations,
+                                  RijndaelSimple.initVector, RijndaelSimple.keySize);
+
+            
+       }
+       private static string DecryptLicensePHP(string licenseContents, string key)
+       {
+       		return RijndaelSimple.AES_decrypt(licenseContents, key, RijndaelSimple.AES_IV);
+       }
+      
        
 
        public static bool BuildLicenseFile(string inputHash)
@@ -94,13 +111,17 @@ namespace Wof.Tools
                                  RijndaelSimple.hashAlgorithm, RijndaelSimple.passwordIterations,
                                  RijndaelSimple.initVector, RijndaelSimple.keySize);
 
-           File.WriteAllText(C_LICENSE_FILE, encrypted);
-
-           return true;
           
+           
+       	   string desEncryptedHash = RijndaelSimple.AES_encrypt(inputHash, RijndaelSimple.AES_Key, RijndaelSimple.AES_IV);
+       	   string licenseKey = desEncryptedHash.Substring(0, 32);
+       	   
+       	   string encryptedLicense = RijndaelSimple.AES_encrypt(C_ENHANCED_VERSION_LICENSE, licenseKey, RijndaelSimple.AES_IV);
+
+           File.WriteAllText(C_LICENSE_FILE, encrypted+"\r\n"+desEncryptedHash+"\r\n"+encryptedLicense); // pojedyncza licencja
+           
+           return true;          
        }
-
-
 
 
        public static string Hash
@@ -156,12 +177,60 @@ namespace Wof.Tools
            string contents = File.ReadAllText(C_LICENSE_FILE);
            try
            {
-               string plain = DecryptLicense(contents);
-
-               if (plain.Equals(C_ENHANCED_VERSION_LICENSE))
-               {
-                   return true;
-               }
+           	
+           	   string[] licenses = contents.Split(new String[]{"\r\n"}, StringSplitOptions.None);
+           	                                   
+           	   int i = 0;  
+           	   if(licenses.Length == 1)
+           	   {
+           	   	   string plain = DecryptLicense(licenses[0]);
+	               if (plain.Equals(C_ENHANCED_VERSION_LICENSE))
+	               {
+	                    return true;
+	               } else {
+	               		return false;
+	               }
+           	   }else if(licenses.Length == 3) {
+           	   	
+           	   	   try{
+	           	   	   // old fashion license
+	           	   	   if(licenses[0].Length >0)
+	           	   	   {
+		           	   	   string plain = DecryptLicense(licenses[0]);
+		           	   	   if (plain.Equals(C_ENHANCED_VERSION_LICENSE))
+			               {
+			                   return true;
+			               } 
+	           	   	   }
+	           	   	   
+	           	   	   // new PHP license
+	           	   	   string encryptedHash = licenses[1];
+	           	   	   string plainHash = DecryptLicensePHP(encryptedHash, RijndaelSimple.AES_Key);
+		               if (plainHash.Equals(Hash))
+		               { 		               	   
+			               string license = DecryptLicensePHP(licenses[2], encryptedHash.Substring(0, 32));
+			               if (license.Equals(C_ENHANCED_VERSION_LICENSE))
+			               {
+			                   return true;
+			               }
+		                   
+		               }	               
+	           	   	   return false;
+	           	   	
+           	   	   }
+	           	   catch(Exception ex)
+	           	   {
+	           	   	
+	           	   		return false;
+	           	    }
+	           	   	
+           	   }
+           	   return false;
+           	   
+		     
+		            
+		     
+              
            }
            catch (Exception)
            {
@@ -173,14 +242,7 @@ namespace Wof.Tools
        }
        
 
-        private static string DecryptLicense(string licenseContents)
-       {
-           return RijndaelSimple.Decrypt(licenseContents, Hash, RijndaelSimple.saltValue,
-                                  RijndaelSimple.hashAlgorithm, RijndaelSimple.passwordIterations,
-                                  RijndaelSimple.initVector, RijndaelSimple.keySize);
-
-            
-       }
+      
 
        private static void BuildHash()
        {
