@@ -69,13 +69,13 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// Minimalny kat nachylenia dzialka.
         /// </summary>
         /// <author>Michal Ziober</author>
-        private const float MinAngle = Math.PI / 4.0f;
+        protected float MinAngle = Math.PI / 4.0f;
 
         /// <summary>
         /// Maksymalny kat nachylenia dzialka.
         /// </summary>
         /// <author>Michal Ziober</author>
-        private const float MaxAngle = 3 * Math.PI / 4.0f;
+        protected float MaxAngle = 3 * Math.PI / 4.0f;
 
         /// <summary>
         /// Dziewiedziesiat stopni w radianach.
@@ -369,6 +369,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             //Ustawiam kat.
             angle = System.Math.Min(MaxAngle, System.Math.Max(evaluateAngle, MinAngle));
 
+          //  Console.WriteLine("Kat:" +angle+ " "+(angle / (Math.PI)));
             //Ustawiam kat reflectora
             SetReflectorAngle();
         }

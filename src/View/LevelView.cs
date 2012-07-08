@@ -51,6 +51,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+
 using Mogre;
 using Wof.Controller;
 using Wof.Controller.AdAction;
@@ -67,6 +68,7 @@ using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
+using Wof.View.AmmunitionViews;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;
 using Wof.View.TileViews;
@@ -198,6 +200,7 @@ namespace Wof.View
             RocketView.DestroyPool(); 
             TorpedoView.DestroyPool();
             BombView.DestroyPool();
+            FlakBulletView.DestroyPool();
 
             if (backgroundViews != null)
             {
@@ -760,7 +763,7 @@ namespace Wof.View
             }
             else if (ammunition is FlakBullet)
             {
-               // ammunitionViews.Add(FlakView.GetInstance(ammunition, this));
+                ammunitionViews.Add(FlakBulletView.GetInstance(ammunition));
             }
             
             
@@ -879,26 +882,28 @@ namespace Wof.View
             }
         }
         
-		public void OnFlakFire(FlakBunkerTile bunker, Plane plane, Vector2 position, bool planeHit)
+		protected  NodeAnimation.NodeAnimation DoFlakExplosion(FlakBullet flak)
         {
 	     
 			Vector3 pos =
-				new Vector3(position.x + ModelToViewAdjust, position.y, Mogre.Math.RangeRandom(-5,5));
+				new Vector3(flak.Position.X + ModelToViewAdjust, flak.Position.Y, Mogre.Math.RangeRandom(-5,5));
 					
         
-            EffectsManager.Singleton.Sprite(
+            return EffectsManager.Singleton.Sprite(
                sceneMgr,
                sceneMgr.RootSceneNode,
                pos,               
                new Vector2(GameConsts.FlakBunker.DamageRange, GameConsts.FlakBunker.DamageRange) + ViewHelper.RandomVector2(4),
                EffectsManager.EffectType.FLAK,
                false,
-               bunker.GetHashCode().ToString()+" "+position.ToString()
+               flak.GetHashCode().ToString()+" "+pos.ToString()
                );
 
            
 
 		}
+		
+		
         public void OnBunkerFire(BunkerTile bunker, Plane plane, bool planeHit)
         {
             PlaneView p = FindPlaneView(plane);
@@ -1074,6 +1079,12 @@ namespace Wof.View
         {
             OnAmmunitionExplode(null, torpedo);
         }
+        public void OnUnregisterFlakBullet(FlakBullet flak)
+        {
+            OnAmmunitionExplode(null, flak);
+        }
+        
+        
 
         public void OnEnemyPlaneBombed(Plane plane, Ammunition ammunition)
         {
@@ -1169,6 +1180,9 @@ namespace Wof.View
             else if (av is TorpedoView)
             {
                 TorpedoView.FreeInstance(ammunition);
+            } else if (av is FlakBulletView)
+            {
+                FlakBulletView.FreeInstance(ammunition);
             }
             else
             {
@@ -1230,6 +1244,10 @@ namespace Wof.View
             }
             else
             {
+            	if(ammunition is FlakBullet) {
+            		na =  DoFlakExplosion(ammunition as FlakBullet);
+            		
+            	} else {
                 na = EffectsManager.Singleton.Sprite(
                     sceneMgr,
                     av.AmmunitionNode,
@@ -1239,6 +1257,7 @@ namespace Wof.View
                     false,
                     hash.ToString()
                     );
+            	}
             }
 
             ammunitionViews.RemoveAt(index);
@@ -1284,7 +1303,7 @@ namespace Wof.View
             Boolean ocean = (Boolean) args[1];
             uint hash = (uint) args[2];
             Ammunition ammunition = (Ammunition) args[3];
-
+			
             EffectsManager.Singleton.HideSprite(
                 sceneMgr,
                 av.AmmunitionNode,
@@ -1298,6 +1317,9 @@ namespace Wof.View
             }else if (av is TorpedoView)
             {
                 TorpedoView.FreeInstance(ammunition);
+            }else if (av is FlakBulletView)
+            {
+                FlakBulletView.FreeInstance(ammunition);
             }
             else
             {
@@ -2072,6 +2094,7 @@ namespace Wof.View
 
             BombView.InitPool(100, framework);
             RocketView.InitPool(80, framework);
+            FlakBulletView.InitPool(200, framework);
             TorpedoView.InitPool(10, framework);
             SoldierView.InitPool(80, framework);
 

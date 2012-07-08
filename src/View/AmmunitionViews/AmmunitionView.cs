@@ -46,6 +46,7 @@
  * 
  */
 
+using System;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
@@ -54,7 +55,7 @@ using Wof.Model.Level.Weapon;
 
 namespace Wof.View
 {
-    internal class AmmunitionView
+	internal abstract class AmmunitionView : IDisposable
     {
         protected static int ammunitionCounter = 1;
 
@@ -65,10 +66,22 @@ namespace Wof.View
         public Ammunition Ammunition
         {
             get { return ammunition; }
+            set { this.ammunition = value; }
         }
 
         protected SceneManager sceneMgr;
         protected IFrameWork framework;
+        
+        protected IFrameWork Framework
+        {
+            set { 
+        		
+        		framework = value;        	
+           		sceneMgr = framework.SceneMgr;
+        	
+        	}
+        }
+
 
         protected Entity ammunitionModel;
         protected Light explosionFlash;
@@ -98,18 +111,16 @@ namespace Wof.View
 
         public AmmunitionView(Ammunition ammunition, IFrameWork framework)
         {
-            this.ammunition = ammunition;
-            this.framework = framework;
-            sceneMgr = framework.SceneMgr;
+        	this.Framework = framework;
+            this.ammunition = ammunition;           
             ammunitionID = ammunitionCounter++;
         }
 
-        protected AmmunitionView(IFrameWork framework)
-        {
-            this.framework = framework;
-            sceneMgr = framework.SceneMgr;
-            ammunitionID = ammunitionCounter++;
-        }
+//        protected AmmunitionView()
+//		{
+//          
+//            ammunitionID = ammunitionCounter++;
+//        }
 
         public virtual void refreshPosition()
         {
@@ -117,11 +128,11 @@ namespace Wof.View
             {
                 if (ammunition.Direction == Direction.Right)
                 {
-                    ammunitionNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
+                    ammunitionNode.Orientation = new Quaternion(Mogre.Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
                 }
                 else
                 {
-                    ammunitionNode.Orientation = new Quaternion(Math.HALF_PI, Vector3.UNIT_Y);
+                    ammunitionNode.Orientation = new Quaternion(Mogre.Math.HALF_PI, Vector3.UNIT_Y);
                 }
 
                 ammunitionNode.Orientation *= new Quaternion((Radian)ammunition.Angle, Vector3.UNIT_X);
@@ -134,7 +145,7 @@ namespace Wof.View
                 {
                     minimapItem.Refresh();
                 }
-
+                
 
 
             }
@@ -144,13 +155,11 @@ namespace Wof.View
         {
         }
 
-        protected void preInitOnScene()
-        {
-           
-        }
+        protected abstract void preInitOnScene();
+       
 
 
-        protected virtual void postInitOnScene()
+        public virtual void postInitOnScene()
         {
         	if (EngineConfig.ExplosionLights && LevelView.IsNightScene)
             {
@@ -231,5 +240,8 @@ namespace Wof.View
         {
             sceneMgr.RootSceneNode.RemoveChild(ammunitionNode);
         }
+		
+		public abstract void Dispose();
+		
     }
 }

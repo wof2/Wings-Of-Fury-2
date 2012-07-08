@@ -124,7 +124,9 @@ namespace Wof.Model.Configuration
             public const string fireSpreadY = @"fireSpreadY";
             public const string maxDamagePerHit = @"maxDamagePerHit";
             public const string damageRange = @"damageRange";
-               
+            public const string initialFlakSpeed = @"initialFlakSpeed";  
+            
+            
             
         }
 
