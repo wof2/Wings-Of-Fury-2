@@ -201,6 +201,7 @@ namespace Wof.View
             TorpedoView.DestroyPool();
             BombView.DestroyPool();
             FlakBulletView.DestroyPool();
+			GunBulletView.DestroyPool();
 
             if (backgroundViews != null)
             {
@@ -765,6 +766,15 @@ namespace Wof.View
             {
                 ammunitionViews.Add(FlakBulletView.GetInstance(ammunition));
             }
+            else if (ammunition is GunBullet)
+            {
+                ammunitionViews.Add(GunBulletView.GetInstance(ammunition));
+                
+                if (EngineConfig.DisplayBoundingQuadrangles)
+	            {
+	                OnRegisterBoundingQuadrangle(ammunition, sceneMgr);
+	            }
+            }
             
             
         }
@@ -1084,6 +1094,11 @@ namespace Wof.View
             OnAmmunitionExplode(null, flak);
         }
         
+        public void OnUnregisterGunBullet(GunBullet gun)
+        {
+            OnAmmunitionExplode(null, gun);
+        }
+        
         
 
         public void OnEnemyPlaneBombed(Plane plane, Ammunition ammunition)
@@ -1183,8 +1198,10 @@ namespace Wof.View
             } else if (av is FlakBulletView)
             {
                 FlakBulletView.FreeInstance(ammunition);
-            }
-            else
+            } else if (av is GunBulletView)
+            {
+                GunBulletView.FreeInstance(ammunition);
+            } else
             {
                 BombView.FreeInstance(ammunition);
             }
@@ -1247,7 +1264,20 @@ namespace Wof.View
             	if(ammunition is FlakBullet) {
             		na =  DoFlakExplosion(ammunition as FlakBullet);
             		
-            	} else {
+            	} else if(ammunition is GunBullet) {
+            		
+            		 na = EffectsManager.Singleton.Sprite(
+                    sceneMgr,
+                    av.AmmunitionNode,
+                    new Vector3(0, 0.0f, 0),
+                    new Vector2(1, 1),
+                    EffectsManager.EffectType.DEBRIS,
+                    false,
+                    hash.ToString()
+                    );
+            		
+            	} else            	
+            	{
                 na = EffectsManager.Singleton.Sprite(
                     sceneMgr,
                     av.AmmunitionNode,
@@ -1275,15 +1305,19 @@ namespace Wof.View
                 ani.Looped = false;
                 av.ExplosionFlash.Visible = true;
             }
+            
+            if(na!= null) 
+            {
 
-            na.onFinishInfo = new Object[4];
-            Object[] args = (Object[]) na.onFinishInfo;
-            args[0] = av;
-            args[1] = ocean;
-            args[2] = hash;
-            args[3] = ammunition;
-
-            na.onFinish = onAmmunitionExplodeFinish;
+	            na.onFinishInfo = new Object[4];
+	            Object[] args = (Object[]) na.onFinishInfo;
+	            args[0] = av;
+	            args[1] = ocean;
+	            args[2] = hash;
+	            args[3] = ammunition;
+	
+	            na.onFinish = onAmmunitionExplodeFinish;
+            }
             
             
         }
@@ -1320,6 +1354,9 @@ namespace Wof.View
             }else if (av is FlakBulletView)
             {
                 FlakBulletView.FreeInstance(ammunition);
+            }else if (av is GunBulletView)
+            {
+                GunBulletView.FreeInstance(ammunition);
             }
             else
             {
@@ -2095,6 +2132,7 @@ namespace Wof.View
             BombView.InitPool(100, framework);
             RocketView.InitPool(80, framework);
             FlakBulletView.InitPool(200, framework);
+            GunBulletView.InitPool(250, framework);
             TorpedoView.InitPool(10, framework);
             SoldierView.InitPool(80, framework);
 

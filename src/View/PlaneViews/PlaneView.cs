@@ -665,12 +665,7 @@ namespace Wof.View
                                                        gun2Pos, expSize,
                                                        orient, false);
 
-            float trailWidth = baseWidth * Math.RangeRandom(1.0f, 1.1f);
-            string leftTrailName = EffectsManager.BuildSpriteEffectName(this.OuterNode, EffectsManager.EffectType.GUNTRAIL, "LeftGunTrail" + gun1Pos);
-            string rightTrailName = EffectsManager.BuildSpriteEffectName(this.OuterNode, EffectsManager.EffectType.GUNTRAIL, "RightGunTrail" + gun2Pos);
-            bool showLeftTrail = EffectsManager.Singleton.EffectEnded(leftTrailName) || !EffectsManager.Singleton.EffectExists(leftTrailName);
-            bool showRightTrail = EffectsManager.Singleton.EffectEnded(rightTrailName) || !EffectsManager.Singleton.EffectExists(rightTrailName);
-
+        /*
             if (this is PlayerPlaneView)
             {
                 // nie odpalaj za kazdym razem 
@@ -691,26 +686,7 @@ namespace Wof.View
 
 
             }
-
-
-
-            if (showLeftTrail)
-            {
-                EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "LeftGunTrail" + gun1Pos,
-                                                           EffectsManager.EffectType.GUNTRAIL,
-                                                           leftTrailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 10.0f)),
-                                                           new Vector2(trailWidth, 1.0f),
-                                                           trailOrient, false);
-            }
-
-            if (showRightTrail)
-            {
-                EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "RightGunTrail" + gun2Pos,
-                                                           EffectsManager.EffectType.GUNTRAIL,
-                                                           rightTrailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 10.0f)),
-                                                           new Vector2(trailWidth, 1.0f),
-                                                           trailOrient, false);
-            }
+*/
 
             orient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
             trailOrient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
@@ -724,22 +700,6 @@ namespace Wof.View
                                                        gun2Pos, expSize,
                                                        orient, false);
 
-            if (showLeftTrail)
-            {
-                EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "LeftGunTrailTop" + gun1Pos,
-                                                           EffectsManager.EffectType.GUNTRAIL,
-                                                           leftTrailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 10.0f)),
-                                                           new Vector2(trailWidth, 1.0f),
-                                                           trailOrient, false);
-            }
-            if (showRightTrail)
-            {
-                EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "RightGunTrailTop" + gun2Pos,
-                                                           EffectsManager.EffectType.GUNTRAIL,
-                                                           rightTrailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 10.0f)),
-                                                           new Vector2(trailWidth, 1.0f),
-                                                           trailOrient, false);
-            }
         }
     }
 }

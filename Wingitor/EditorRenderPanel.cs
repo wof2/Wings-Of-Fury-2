@@ -562,5 +562,10 @@ namespace wingitor
 		{
 			
 		}
+    	
+		public void OnRegisterGunBullet(GunBullet gunBullet)
+		{
+		
+		}
     }
 }

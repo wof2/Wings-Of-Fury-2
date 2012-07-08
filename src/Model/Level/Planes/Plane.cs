@@ -3553,6 +3553,15 @@ namespace Wof.Model.Level.Planes
 
         
       
+    	
+		public float AbsoluteAngle {
+			get {
+				 float realAngle = Bounds.IsObverse
+                            ? -RelativeAngle
+                            : RelativeAngle;
+				 return realAngle;
+			}
+		}
     }
     #endregion
 }

@@ -583,5 +583,14 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 
 
         #endregion
+    	
+		public float AbsoluteAngle {
+			get {
+				 float realAngle = Bounds.IsObverse
+                            ? -RelativeAngle
+                            : RelativeAngle;
+				 return realAngle;
+			}
+		}
     }
 }

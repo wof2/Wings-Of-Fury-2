@@ -34,6 +34,10 @@ namespace Wof.View
 		
 			if(type==typeof(FlakBulletView)) {
 				return new FlakBulletView(frameWork);
+			}
+			
+			if(type==typeof(GunBulletView)) {
+				return new GunBulletView(frameWork);
 			}			
 			
 			

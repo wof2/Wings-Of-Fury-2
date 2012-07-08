@@ -94,6 +94,7 @@ namespace Wof.View
 
         public static AmmunitionView GetInstance(Ammunition missile)
         {
+        //	Console.WriteLine("Biore pocisk ":+missile);
             T rv = missileAvailablePool.Pop();
             rv.Ammunition = missile;
             rv.postInitOnScene();
