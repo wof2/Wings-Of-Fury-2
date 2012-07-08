@@ -379,6 +379,9 @@ namespace Wof.Controller
         /// <param name="torpedo">Torpeda do odrejestrowania.</param>
         /// <author>Adam Witczak</author>
         void OnUnregisterTorpedo(Torpedo torpedo);
+        
+        
+        void OnUnregisterAmmunition(Ammunition ammo);
 
         /// <summary>
         /// Funkcja zostaje wywolana gdy zolnierz odbudowuje bunkier.
@@ -515,7 +518,6 @@ namespace Wof.Controller
         void OnShipEmerging(LevelTile tile);
         void OnShipEmerged(LevelTile tile);
         void OnShipSubmerged(LevelTile tile);
-        
-        void OnFlakFire(FlakBunkerTile bunker, Plane plane, PointD pos, bool hit);
+     
     }
 }

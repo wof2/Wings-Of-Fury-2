@@ -58,7 +58,7 @@ using Math=Mogre.Math;
 
 namespace Wof.View
 {
-    internal class TorpedoView : AmmunitionView, IDisposable, WaterTrailGenerator
+    internal class TorpedoView : AmmunitionView, WaterTrailGenerator
     {
 
         public bool IsReadyForLastWaterTrail
@@ -154,8 +154,8 @@ namespace Wof.View
         private SceneNode innerNode;
 
         protected TorpedoView(IFrameWork framework)
-            : base(framework)
-        {
+            : base(null, framework)
+        {        	
             preInitOnScene();
         }
 
@@ -188,7 +188,7 @@ namespace Wof.View
             
         }
        
-        protected new void preInitOnScene()
+        protected override void preInitOnScene()
         {
             ammunitionModel = sceneMgr.CreateEntity("Torpedo" + ammunitionID.ToString(), "Torpedo.mesh");
             ammunitionNode =
@@ -217,10 +217,10 @@ namespace Wof.View
 
             ammunitionNode.SetVisible(false);
             innerNode.SetVisible(false);
-            base.preInitOnScene();
+           
         }
 
-        protected override void postInitOnScene()
+        public override void postInitOnScene()
         {
             base.postInitOnScene();
             innerNode.SetVisible(true);
@@ -290,7 +290,7 @@ namespace Wof.View
 
       
 
-        public void Dispose()
+        public override void Dispose()
         {
             if (EngineConfig.DisplayingMinimap)
             {

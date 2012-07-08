@@ -41,6 +41,9 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             //pole razenia Ustawione podczas ustawiania indeksu.
             horizon = null;
             currentTime = 0;
+            
+            MinAngle = Mogre.Math.PI / 6.0f;
+        	MaxAngle = 5 * Mogre.Math.PI / 6.0f;
         }
 
         #endregion
@@ -97,30 +100,27 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             //jesli nie jest zniszczony i samolot jeszcze jest caly
             if (!IsDestroyed && UserPlaneNotYetDestroyed)
             {
-                //jesli uplynela 1 sek od ostatniego strzalu.
+            	bool fireCondition = IsFireConditionMet;
+            	//wyliczam kat
+                SetAngle();
+                
+                //jesli uplynal czas od ostatniego strzalu.
                 if (currentTime > GameConsts.FlakBunker.FireDelay)
                 {
                     //jesli samolot jest w polu razenia.
                     
-                    if (IsFireConditionMet)
+                    if (fireCondition)
                     {
                         //zadaje uszkodzenia.
-                        FlakBullet bullet = weaponManager.FlakFire(refToLevel.UserPlane);
-                                                
-                        bool hit = false;
-                        float damage = bullet.GetDamage(refToLevel.UserPlane);
-                        Console.WriteLine("Damage: "+damage);
-                        if(damage>0)
-                        {                        
-                           	refToLevel.UserPlane.Hit(damage, 0);     
-                           	hit=true;	                       
-                        }
                         
-                        //powiadamia controler o trafieniu.
-                        refToLevel.Controller.OnFlakFire(this, refToLevel.UserPlane, bullet.Position, hit);
-	                    
-	                    
- 						//Zeruje licznik. Czekam kolejna sekunde.
+                        if (angle > Mogre.Math.HALF_PI)
+		                {
+		                    angle = Mogre.Math.PI - angle;
+		                }		                
+
+                        FlakBullet bullet = weaponManager.FlakFire(refToLevel.UserPlane, angle);
+                        Console.WriteLine("ANGLE: "+angle);
+                      	//Zeruje licznik. Czekam kolejna sekunde.
 	                    currentTime = 0;
                         
                     }
@@ -128,8 +128,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                 else //zwiekszam odstep czasu od ostatniego strzalu
                     currentTime += time;
 
-                //wyliczam kat
-                SetAngle();
+                
             }
         }
 
@@ -165,6 +164,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                                          GameConsts.FlakBunker.HorizonMinDistance);                
             }
         }
+      
 
         #endregion
 		

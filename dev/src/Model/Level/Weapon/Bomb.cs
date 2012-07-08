@@ -102,7 +102,7 @@ namespace Wof.Model.Level.Weapon
         /// <param name="level">Referencja do obiektu Level.</param>
         /// <author>Michal Ziober</author>
         public Bomb(float x, float y, PointD planeSpeed, Level level, float angle, IObject2D owner)
-            : base(planeSpeed, level, angle, owner)
+            : base(level, angle, owner)
         {
             //prostokat opisujacy obiekt.
             boundRectangle = new Quadrangle(new PointD(x, y - 1), BombWidth, BombHeight);

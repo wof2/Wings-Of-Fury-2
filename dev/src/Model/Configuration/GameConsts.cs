@@ -433,6 +433,9 @@ namespace Wof.Model.Configuration
             /// </summary>
             public static float DamageRange = 5.0f;
             
+            public static float InitialFlakSpeed = 5.0f;
+            
+            
 
             #endregion
         }

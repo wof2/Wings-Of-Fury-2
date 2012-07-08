@@ -112,14 +112,14 @@ namespace Wof.View
         //Deprecated
         public BombView(Ammunition bomb, IFrameWork framework)
             : base(bomb, framework)
-        {
+        {        	
             initOnScene();
             fly();
             refreshPosition();
         }
 
         protected BombView(IFrameWork framework)
-            : base(framework)
+            : base(null, framework)
         {
             preInitOnScene();
             //fly();
@@ -133,7 +133,7 @@ namespace Wof.View
             animationState.Enabled = true;
         }
 
-        protected new void preInitOnScene()
+        protected override void preInitOnScene()
         {
             ammunitionModel = sceneMgr.CreateEntity("Bomb" + ammunitionID.ToString(), "Bomb.mesh");
             ammunitionNode =
@@ -141,7 +141,7 @@ namespace Wof.View
                                                             new Vector3(-100000, -100000, 0));
             ammunitionNode.AttachObject(ammunitionModel);
             ammunitionNode.SetVisible(false);
-            base.preInitOnScene();
+           
 
             if (EngineConfig.DisplayingMinimap)
             {
@@ -154,7 +154,7 @@ namespace Wof.View
             }
         }
 
-        protected override void postInitOnScene()
+        public override void postInitOnScene()
         {
             base.postInitOnScene();
             fly();
@@ -216,7 +216,7 @@ namespace Wof.View
         }
 
 
-        public void Dispose()
+        public override void Dispose()
         {
             if (EngineConfig.DisplayingMinimap)
             {

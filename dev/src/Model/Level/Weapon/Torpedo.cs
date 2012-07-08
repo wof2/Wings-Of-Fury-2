@@ -165,7 +165,7 @@ namespace Wof.Model.Level.Weapon
         /// <param name="owner"></param>
         /// <author>Michal Ziober</author>
         public Torpedo(float x, float y, PointD planeSpeed, Level level, float angle, IObject2D owner)
-            : base(planeSpeed, level, angle, owner)
+            : base(level, angle, owner)
         {
             dropAngle = owner.RelativeAngle;
             //prostokat opisujacy obiekt.

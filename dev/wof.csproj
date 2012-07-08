@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Wof</RootNamespace>
     <AssemblyName>Wof</AssemblyName>
-    <StartupObject>Wof.Tools.Licensing</StartupObject>
+    <StartupObject>Wof.Controller.Game</StartupObject>
     <ApplicationIcon>WofIcon.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -569,6 +569,7 @@
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipManagers\SubmarineManager.cs" />
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\SinkComponent.cs" />
     <Compile Include="src\Model\Level\Weapon\FlakBullet.cs" />
+    <Compile Include="src\Model\Level\Weapon\MissileBase.cs" />
     <Compile Include="src\Tests\ModelTest\GunTestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -942,7 +943,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\View\AmmunitionViews\AmmunitionView.cs" />
+    <Compile Include="src\View\AmmunitionViews\AmmunitionViewFactory.cs" />
     <Compile Include="src\View\AmmunitionViews\BombView.cs" />
+    <Compile Include="src\View\AmmunitionViews\FlakBulletView.cs" />
+    <Compile Include="src\View\AmmunitionViews\MissibleBaseView.cs" />
     <Compile Include="src\View\AmmunitionViews\TorpedoView.cs" />
     <Compile Include="src\View\AmmunitionViews\RocketView.cs" />
     <Compile Include="src\View\BackGroundDummyIslandView.cs" />

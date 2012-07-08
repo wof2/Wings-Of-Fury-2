@@ -1,5 +1,5 @@
-/*
- * Copyright 2008 Adam Witczak, Jakub Tê¿ycki, Kamil S³awiñski, Tomasz Bilski, Emil Hornung, Micha³ Ziober
+ï»¿/*
+ * Copyright 2008 Adam Witczak, Jakub TÄ™Å¼ycki, Kamil SÅ‚awiÅ„ski, Tomasz Bilski, Emil Hornung, MichaÅ‚ Ziober
  *
  * This file is part of Wings Of Fury 2.
  * 
@@ -58,86 +58,118 @@ using Math=Mogre.Math;
 
 namespace Wof.View
 {
-    internal class RocketView : MissileBaseView<RocketView>
+    internal abstract class MissileBaseView<T>: AmmunitionView		 
+    	where T : AmmunitionView
     {
-      
-        internal RocketView(IFrameWork frameWork) : base(frameWork)
-        {
+        protected static Stack<T> missileAvailablePool;
+        protected static Dictionary<Ammunition, T> missileUsedPool;
         
-        }
-
-        
+                
        
-        protected override void preInitOnScene()
+        protected static AmmunitionViewFactory factory;
+        
+        
+
+          protected MissileBaseView(IFrameWork frameWork)
+            : base(null, frameWork)
         {
-            ammunitionModel = sceneMgr.CreateEntity("Rocket" + ammunitionID.ToString(), "Rocket.mesh");
-            ammunitionNode =
-                sceneMgr.RootSceneNode.CreateChildSceneNode("Rocket" + ammunitionID.ToString(),
-                                                            new Vector3(-120000, -100000, 0));
-
-            Vector3 oVector = new Vector3(0, 0, -1);
-
-            innerNode =
-                ammunitionNode.CreateChildSceneNode("RocketInner" + ammunitionID.ToString(), new Vector3(0, 0, 0));
-            innerNode.AttachObject(ammunitionModel);
-
-            missileAnimation = new ConstRotateNodeAnimation(innerNode, 75, oVector, "ConstRot");
-            missileAnimation.Enabled = true;
-            missileAnimation.Looped = true;
-
-            if (EngineConfig.DisplayingMinimap)
-            {
-                minimapItem =
-                    new MinimapItem(ammunitionNode, framework.MinimapMgr, "Cube.mesh", ColourValue.White,
-                                    ammunitionModel);
-                minimapItem.ScaleOverride = new Vector2(4, 2);
-                minimapItem.Refresh();
-                minimapItem.Hide();
-            }
-
-            ammunitionNode.SetVisible(false);
-            innerNode.SetVisible(false);
-          
+            preInitOnScene();            
+            //initOnScene();
+            //initSmoke();
         }
+          
+       
+        public static void InitPool(int poolSize, IFrameWork framework)
+        {
+        	factory = new AmmunitionViewFactory(typeof(T));
+            missileAvailablePool = new Stack<T>(poolSize);
+            missileUsedPool = new Dictionary<Ammunition, T>(poolSize);
+			// overrride with init...
+            for (int i = 0; i < poolSize; i++)
+            {
+            	T dummyView = (T)factory.GetAmmunitionView(framework);             
+                missileAvailablePool.Push(dummyView);
+            }
+        }
+
+        public static AmmunitionView GetInstance(Ammunition missile)
+        {
+            T rv = missileAvailablePool.Pop();
+            rv.Ammunition = missile;
+            rv.postInitOnScene();
+            missileUsedPool.Add(missile, rv);
+            return rv;
+        }
+
+        public static void FreeInstance(Ammunition missile)
+        {
+            T rv = missileUsedPool[missile];
+            //rv.SetVisibility(false);
+            missileUsedPool.Remove(missile);
+            missileAvailablePool.Push(rv);
+        }
+
+        public static void DestroyPool()
+        {
+            while (missileAvailablePool.Count > 0)
+            {
+                missileAvailablePool.Pop().Dispose();
+            }
+            missileAvailablePool.Clear();
+
+            Dictionary<Ammunition, T>.Enumerator e = missileUsedPool.GetEnumerator();
+            while (e.MoveNext())
+            {
+                e.Current.Value.Dispose();
+            }
+            missileUsedPool.Clear();
+        }
+
+
+        protected ConstRotateNodeAnimation missileAnimation;
+        protected SceneNode innerNode;
+
+      
+
 
         public override void postInitOnScene()
         {
-            base.postInitOnScene();
-            innerNode.SetVisible(true);
-
-            if (!EngineConfig.LowDetails)
-            {
-                initSmoke(true);
-            }
+            base.postInitOnScene();            
         }
 
-        protected void initSmoke(bool enabled)
+        public override void Hide()
         {
-            EffectsManager.Singleton.Smoke(sceneMgr, innerNode, EffectsManager.SmokeType.ROCKET,
-                                           new Vector3(0, 0, 0.25f), Vector3.UNIT_Z, new Vector2(1f, 1f), enabled);
         }
-        
-        
-      	public override void Hide()
-        {
-            EffectsManager.Singleton.NoSmoke(sceneMgr, innerNode, EffectsManager.SmokeType.ROCKET);
-
-            innerNode.SetVisible(false, false);
-            if (EngineConfig.ExplosionLights && LevelView.IsNightScene) explosionFlash.Visible = false;
-
-            if (EngineConfig.DisplayingMinimap)
-            {
-                minimapItem.Hide();
-            }
-        }
+		
+ 
 
         public override void updateTime(float timeSinceLastFrameUpdate)
         {
             missileAnimation.updateTime(timeSinceLastFrameUpdate);
             missileAnimation.animate();
         }
+
         
-    	
-		
+
+        public override void Dispose()
+        {
+            if (EngineConfig.DisplayingMinimap)
+            {
+                minimapItem.Dispose();
+                minimapItem = null;
+            }
+            innerNode.DetachAllObjects();
+            innerNode.Dispose();
+            innerNode = null;
+            ammunitionModel.Dispose();
+            ammunitionModel = null;
+
+            missileAnimation = null;
+            ammunitionNode.DetachAllObjects();
+            ammunitionNode.Dispose();
+            ammunitionNode = null;
+        }
+    		
+			
     }
 }

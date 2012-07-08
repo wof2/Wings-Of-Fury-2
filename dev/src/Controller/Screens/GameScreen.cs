@@ -2566,17 +2566,7 @@ namespace Wof.Controller.Screens
         #region IController Members
 
 	
-	 	public void OnFlakFire(FlakBunkerTile bunker, Plane plane, PointD pos, bool hit)
-        {
-	 		SoundManager.Instance.PlayFlakBunkerFireSound();
-        
-	 		levelView.OnFlakFire(bunker, plane, new Vector2(pos.X, pos.Y), hit);
-	 		
-	 		OnBunkerFire(bunker, plane, hit); // slad wybuchu
-	 		
-	 		
-	
-		}
+	 
 		
         /// <summary>
         /// Funkcja rejestruje strzal do samolotu.
@@ -3258,7 +3248,22 @@ namespace Wof.Controller.Screens
             levelView.OnReleasePlane(plane, carrierTile);
             currentLevel.OnReleaseLine(carrierTile);
         }
-
+        
+  		public void OnUnregisterAmmunition(Ammunition ammo)
+        {
+  			if(ammo is Rocket) {
+  				OnUnregisterRocket(ammo as Rocket);
+  			}else
+            if(ammo is Torpedo) {
+  				OnUnregisterTorpedo(ammo as Torpedo);
+  			}else
+  			if(ammo is FlakBullet) {
+  				SoundManager.Instance.PlayFlakBunkerFireSound();
+  				OnUnregisterFlakBullet(ammo as FlakBullet);
+  			}//else
+        }
+  		
+  		
         public void OnUnregisterRocket(Rocket rocket)
         {
             levelView.OnUnregisterRocket(rocket);
@@ -3267,6 +3272,11 @@ namespace Wof.Controller.Screens
         public void OnUnregisterTorpedo(Torpedo torpedo)
         {
             levelView.OnUnregisterTorpedo(torpedo);
+        }
+        
+        public void OnUnregisterFlakBullet(FlakBullet flak)
+        {
+            levelView.OnUnregisterFlakBullet(flak);
         }
 
 

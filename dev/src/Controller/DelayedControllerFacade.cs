@@ -711,18 +711,22 @@ namespace Wof.Controller
 
         
     	
-		public void OnFlakFire(FlakBunkerTile bunker, Plane plane, Wof.Model.Level.Common.PointD pos, bool hit)
-		{
-			AddJob(MethodBase.GetCurrentMethod().Name, new object[] { bunker, plane, pos, hit });			
-		}
+		
 		
 	    public void OnRegisterFlakBullet(FlakBullet flakBullet)
 		{
 			AddJob(MethodBase.GetCurrentMethod().Name, new object[] { flakBullet });			
 		}
+	    
+	    public void OnUnregisterAmmunition(Ammunition ammo)
+		{
+			AddJob(MethodBase.GetCurrentMethod().Name, new object[] { ammo });			
+		}
 		
 		#endregion
     	
 	
+    	
+		
     }
 }

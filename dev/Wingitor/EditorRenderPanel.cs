@@ -557,5 +557,10 @@ namespace wingitor
 		{
 			
 		}
+    	
+		public void OnUnregisterAmmunition(Ammunition ammo)
+		{
+			
+		}
     }
 }

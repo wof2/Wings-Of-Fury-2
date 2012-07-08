@@ -67,116 +67,12 @@ namespace Wof.Model.Level.Weapon
     /// Klasa implementujaca zachownie rakiet na planszy.
     /// </summary>
     /// <author>Michal Ziober</author>
-    public class Rocket : Ammunition
+    public class Rocket : MissileBase
     {
         #region Fields
 
-        /// <summary>
-        /// Pole widzenia.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const int ViewRange = 70;
-
-        /// <summary>
-        /// Szerokosc wrazliwego pola na trafienia.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const float HitShift = 1.05f;
-
-        /// <summary>
-        /// Wspolczynnik zmiany pozycji.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] public const int MoveInterval = 6000;
-
-        /// <summary>
-        /// Szerokosc prostokata opisujacego rakiete.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const float RocketWidth = 0.2f;
-
-        /// <summary>
-        /// Wysokosc prostokata opisujacego rakiete.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const float RocketHeight = 1.62f;
-
-        /// <summary>
-        /// Czas opadania w milisekundach.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const int dropTime = 200;
-
-        /// <summary>
-        /// Predkosc spradania.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const int DropSpeed = -70;
-
-        /// <summary>
-        /// Przesuniecie pionowe rakiety wzgledem samolotu
-        /// przy starcie.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const float HeightShift = 0.9f;
-
-        /// <summary>
-        /// Przesuniecie poziome rakiety wzgledem samolotu
-        /// przy starcie.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const float WidthShift = 0.9f;
-
-        /// <summary>
-        /// Wspolrzedna y, po przekroczeniu ktorej sprawdzana jest kolizja z lotniskowcem. 
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private const float MinYPositionForAircraft = 9;
-
-        /// <summary>
-        /// Licznik czasu.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] private int timeCounter;
-
-        /// <summary>
-        /// Wektor ruchu z napedem silnika.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        private PointD flyVector;
-
-        /// <summary>
-        /// Pocz¹tkowy wektor ruchu z napedem silnika.
-        /// </summary>
-        /// <author>Adam Witczak</author>
-        private PointD initPlaneSpeed;
 
 
-        /// <summary>
-        /// Okresla kat (w radianach) o jaki pocisk obroci sie w osi Z (czyli "podkreci" sie w gore lub dol ekranu ) w czasie sekundy lotu
-        /// </summary>
-        private float zRotationPerSecond = 0;
-
-
-
-
-        /// <summary>
-        /// Maksymalny dopuszczalny dystans pomiedzy samolotem rodzicem a rakieta.
-        /// Jesli dystans bedzie wiekszy rakieta bedzie odrejestrowana.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private float maxDistanceToOwner = 600;
-
-        /// <summary>
-        /// Maksymalny dopuszczalny pionowy dystans 
-        /// pomiedzy rakieta a samolotem rodzicem.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private float maxHeightDistanceToOwner = 200;
-
-        
 
         #endregion
 
@@ -194,37 +90,9 @@ namespace Wof.Model.Level.Weapon
         /// <param name="owner">Wlasciciel amunicji.</param>
         /// <author>Michal Ziober</author>
         public Rocket(float x, float y, PointD initialVelocity, Level level, float angle, IObject2D owner)
-            : base(initialVelocity, level, angle, owner)
+            : base(x,y,initialVelocity, level, angle, owner)
         {
-            timeCounter = 0;
-
-            //prostokat opisujacy obiekt.
-            if (initialVelocity.X >= 0)
-                boundRectangle = new Quadrangle(new PointD(x - WidthShift, y - HeightShift), RocketWidth, RocketHeight);
-            else
-                boundRectangle = new Quadrangle(new PointD(x + WidthShift, y - HeightShift), RocketWidth, RocketHeight);
-
-            float yDropSpeed;
-
-            yDropSpeed = owner.Bounds.IsObverse ? -DropSpeed : DropSpeed;
-
-
-            //kierunek ruchu podczas lotu z silnikiem.
-            float speedX = initialVelocity.X >= 0 ? GameConsts.Rocket.BaseSpeed : -GameConsts.Rocket.BaseSpeed;
-
-            //wektor ruchu podczas spadania.
-            moveVector = new PointD(initialVelocity.X, yDropSpeed);
-            
-            //weektor ruchu podczas pracy silnika.
-            if (initialVelocity.X >= 0)
-            {
-                flyVector = new PointD(initialVelocity.X * 0.7f * GameConsts.Rocket.BaseSpeed, initialVelocity.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
-            } else
-            {
-                flyVector = new PointD(initialVelocity.X * 0.7f * GameConsts.Rocket.BaseSpeed, initialVelocity.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
-            }
-
-            initPlaneSpeed = initialVelocity;
+           
             
            
            
@@ -245,27 +113,7 @@ namespace Wof.Model.Level.Weapon
         {
         }
 
-        /// <summary>
-        /// Maksymalny dopuszczalny dystans pomiedzy samolotem rodzicem a rakieta.
-        /// Jesli dystans bedzie wiekszy rakieta bedzie odrejestrowana.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        public float MaxDistanceToOwner
-        {
-            get { return maxDistanceToOwner; }
-            set { maxDistanceToOwner = value; }
-        }
-
-        /// <summary>
-        /// Maksymalny dopuszczalny pionowy dystans 
-        /// pomiedzy rakieta a samolotem rodzicem.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        public float MaxHeightDistanceToOwner
-        {
-            get { return maxHeightDistanceToOwner; }
-            set { maxHeightDistanceToOwner = value; }
-        }
+        
 
         #endregion
 
@@ -280,132 +128,19 @@ namespace Wof.Model.Level.Weapon
         public override void Move(int time)
         {
             base.Move(time);
-            //zmienia pozycje.
-            ChangePosition(time);
-
-            //jesli nie zostala odrejstrowana.
-            if (!OutOfFuel())
-            {
-                //jesli jest to rakieta samolotu gracza.
-              /*  if (!ammunitionOwner.IsEnemy)
-                {
-                   
-                }
-                else*/
-                {
-                    CheckCollisionWithEnemyPlanes(); //sprawdzam zderzenie z wrogim samolotem.
-
-                    //kolizje z samolotami na lotniskowcu
-                    if (Position.Y < MinYPositionForAircraft)
-                        CheckCollisionWithStoragePlane();
-
-                    //sprawdzam kolizje z samolotem gracza.
-                    if (ammunitionOwner.IsEnemy) CheckCollisionWithUserPlane();
-                }
-
-                //obsluga zderzenia z ziemia.
-                if (!(ammunitionOwner is Soldier) && !(ammunitionOwner is BunkerTile)) 
-                {
-                	CheckCollisionWithGround();
-                }
-
-                //sprawdzam kolizje z lotniskowce.
-                CheckCollisionWithCarrier(this);
-            }
+            //zmienia pozycje.            
         }
 
-        /// <summary>
-        /// Sprawdzam kolizje z samolotami na lotniskowcu.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        private void CheckCollisionWithStoragePlane()
-        {
-            List<StoragePlane> storageToRemove = new List<StoragePlane>();
-
-            if (refToLevel.StoragePlanes != null && refToLevel.StoragePlanes.Count > 0)
-            {
-                foreach (StoragePlane storagePlane in refToLevel.StoragePlanes)
-                    if (boundRectangle.Intersects(storagePlane.Bounds))
-                    {
-                        //niszczy samolot na lotniskowcu.
-                        storagePlane.Destroy();
-
-                        //zmniejsza liczbe zyc.
-                        refToLevel.SubtractionLive();
-
-                        //odrejestruje samolot na lotniskowcu.
-                        refToLevel.Controller.OnUnregisterPlane(storagePlane);
-
-                        //niszcze rakiete.
-                        state = MissileState.Destroyed;
-
-                        //odrejestruje rakiete
-                        refToLevel.Controller.OnUnregisterRocket(this);
-
-                        storageToRemove.Add(storagePlane);
-                        break;
-                    }
-
-                if (storageToRemove.Count > 0)
-                {
-                    foreach (StoragePlane sp in storageToRemove)
-                    {
-                        refToLevel.StoragePlanes.Remove(sp);
-                    }
-                    storageToRemove.Clear();
-                }
-            }
-        }
-
-        
-
-        public void SetZRotationPerSecond(float f)
-        {
-            zRotationPerSecond = f;
-        }
+      
 
         /// <summary> 
         /// Zmienia pozycje rakiety.
         /// </summary>
         /// <param name="time">Czas od ostatniego przesuniecia.</param>
         /// <author>Michal Ziober</author>
-        private void ChangePosition(int time)
+        protected override void ChangePosition(int time)
         {
-            float coefficient = Mathematics.GetMoveFactor(time, MoveInterval);
-
-            timeCounter += time;
-            if (timeCounter <= dropTime) //swobodne spadanie
-            {
-                PointD vector = new PointD(moveVector.X * coefficient * 6, moveVector.Y * coefficient);
-                boundRectangle.Move(vector);
-            }
-            else //naped silnikowy
-            {
-               // Console.WriteLine(flyVector.X);
-
-                float minFlyingSpeed = Owner.IsEnemy ? GameConsts.EnemyPlane.Singleton.RangeFastWheelingMaxSpeed * GameConsts.EnemyPlane.Singleton.MaxSpeed : GameConsts.UserPlane.Singleton.RangeFastWheelingMaxSpeed * GameConsts.UserPlane.Singleton.MaxSpeed;
-
-
-                // rakieta wytraca prêdkoœæ uzyskan¹ od samolotu
-                if (Math.Abs(flyVector.X) > Math.Abs(minFlyingSpeed * GameConsts.Rocket.BaseSpeed))
-                {
-                    flyVector.X *= 0.995f;
-                }
-
-                if (Math.Abs(flyVector.Y) > Math.Abs(minFlyingSpeed * GameConsts.Rocket.BaseSpeed))
-                {
-                    flyVector.Y *= 0.995f;
-                }
-
-                float angle = zRotationPerSecond * coefficient;
-                //  boundRectangle.Rotate(angle);
-                //  moveVector.Rotate(PointD.ZERO, angle);
-                relativeAngle += angle * (int)Direction;
-                flyVector.Rotate(PointD.ZERO, angle);
-
-                PointD vector = new PointD(flyVector.X * coefficient, flyVector.Y * coefficient);
-                boundRectangle.Move(vector);
-            }
+        	base.ChangePosition(time);
         }
 
         /// <summary> 
@@ -413,41 +148,14 @@ namespace Wof.Model.Level.Weapon
         /// oraz obsluguje zderzania z nimi.
         /// </summary>
         /// <author>Michal Ziober</author>
-        private void CheckCollisionWithEnemyPlanes()
+        protected override  void CheckCollisionWithEnemyPlanes()
         {
-            if (refToLevel.EnemyPlanes.Count > 0)
-            {
-                foreach (EnemyPlane ep in refToLevel.EnemyPlanes)
-                {
-                    if(this.Owner == ep) continue;
-
-                    //sprawdzam czy aby nie ma zderzenia.
-                    if (boundRectangle.Intersects(ep.Bounds))
-                    {
-                        //niszczy wrogi samolot
-                        ep.Destroy();
-
-                        //wyslam sygnal do controllera aby usunal samolot z widoku.
-                        refToLevel.Controller.OnEnemyPlaneBombed(ep, this);
-
-                        //zwiekszam liczbe trafionych obiektow przez rakiete
-                        refToLevel.Statistics.HitByRocket++;
-
-                        //niszcze rakiete.
-                        state = MissileState.Destroyed;
-                    }
-                }
-            }
+        	base.CheckCollisionWithEnemyPlanes();
         }
-
-        /// <summary>
-        /// Sprawdza kolizje z samolotem gracza.
-        /// </summary>
-        /// <remarks>Tylko dla rakiety wroga.</remarks>
-        /// <author>Michal Ziober</author>
-        private void CheckCollisionWithUserPlane()
+        
+        protected override  void CheckCollisionWithUserPlane()
         {
-            Plane p = refToLevel.UserPlane;
+        	Plane p = refToLevel.UserPlane;
             if (p != null)
             {
                 if (boundRectangle.Intersects(p.Bounds))
@@ -476,7 +184,7 @@ namespace Wof.Model.Level.Weapon
 
                     refToLevel.Controller.OnRocketHitPlane(this, p);
                     //odrejestruje rakiete.
-                    refToLevel.Controller.OnUnregisterRocket(this);
+                    refToLevel.Controller.OnUnregisterAmmunition(this);
 
                     //niszcze rakiete.
                     state = MissileState.Destroyed;
@@ -484,13 +192,9 @@ namespace Wof.Model.Level.Weapon
             }
         }
 
-        /// <summary>
-        /// Sprawdza kolizje z podlozem.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        private void CheckCollisionWithGround()
+ 		protected override  void CheckCollisionWithGround()
         {
-            int index = Mathematics.PositionToIndex(Position.X);
+        	int index = Mathematics.PositionToIndex(Position.X);
             LevelTile tile;
             if (index > -1 && index < refToLevel.LevelTiles.Count)
             {
@@ -575,105 +279,17 @@ namespace Wof.Model.Level.Weapon
             }
         }
 
+
      
-        public void Destroy()
-        {
-            refToLevel.Controller.OnUnregisterRocket(this);
-            state = MissileState.Destroyed;
-        }
+        
 
-        /// <summary>
-        /// Funkcja sprawdza czy mozna odrejestrowac rakiete. Jesli mozna
-        /// odrejetrowuje ja.
-        /// </summary>
-        /// <returns>Jesli rakieta zostanie odrejestrowana, zwroci true,
-        /// false w przeciwnym przupadku.</returns>
-        /// <author>Michal Ziober</author>
-        private bool OutOfFuel()
-        {
-        	//&&
-           //      flyVector.Y > 0
-           
-            if ((System.Math.Abs(Center.X - ammunitionOwner.Center.X) > MaxDistanceToOwner) ||
-                ((System.Math.Abs(Center.Y - ammunitionOwner.Center.Y) > MaxHeightDistanceToOwner)))
-            {
-                Destroy();
-                return true;
-            }
-            else
-                return false;
-           
-           
-        }
-
+        
         #endregion
 
         #region Static Method
 
-        public static bool CanHitEnemyPlane(Plane plane, Plane enemyPlane)
-        {
-            return CanHitEnemyPlane(plane, enemyPlane, 0);
-        }
-
-        /// <summary>
-        /// Funkcja sprawdza czy samolot bedzie mogl trafic rakieta w inny obiekt.
-        /// </summary>
-        /// <param name="plane">Samolot strzelajacy.</param>
-        /// <param name="enemyPlane">Samolot, ktory chemy trafic.</param>
-        /// <returns>Zwraca true jesli moze trafic wrogi samolot; false - w przeciwnym
-        /// przypadku.</returns> 
-        /// <author>Michal Ziober</author>
-        public static bool CanHitEnemyPlane(Plane plane, Plane enemyPlane, float tolerance)
-        {
-            if (plane.Direction == Direction.Right && plane.Center.X > enemyPlane.Center.X)
-                return false;
-
-            if (plane.Direction == Direction.Left && plane.Center.X < enemyPlane.Center.X)
-                return false;
-
-            if (System.Math.Abs(plane.Center.X - enemyPlane.Center.X) < 10 &&
-                System.Math.Abs(plane.Center.Y - enemyPlane.Center.Y) < 10)
-                return false;
-
-            Quadrangle planeQuad = new Quadrangle(plane.Bounds.Peaks);
-            planeQuad.Move(0, -HeightShift);
-            Line lineA = new Line(planeQuad.Peaks[1], planeQuad.Peaks[2]);
-            for (int i = 0; i < enemyPlane.Bounds.Peaks.Count - 1; i++)
-            {
-                PointD start = enemyPlane.Bounds.Peaks[i];
-                start += new PointD(Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f), Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f));
-
-                PointD finish = enemyPlane.Bounds.Peaks[i + 1];
-                finish += new PointD(Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f), Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f));
-
-                Line lineB = new Line(start, finish);
-
-                PointD cut = lineA.Intersect(lineB);
-                if (cut == null)
-                    continue;
-
-                if (InEnemyRange(cut, planeQuad.Center, enemyPlane.Center))
-                    return true;
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Sprawdza czy punkt przeciecia jest w zasiegu samolotu.
-        /// </summary>
-        /// <param name="cut">Punkt przeciecia dwoch prostych.</param>
-        /// <param name="plane">Pozycja samolotu.</param>
-        /// <returns>true jesli punkt przeciecia jest w zasiegu, false
-        /// w przeciwnym przypadku.</returns>
-        /// <author>Michal Ziober</author>
-        private static bool InEnemyRange(PointD cut, PointD plane, PointD enemyPlane)
-        {
-            return
-                System.Math.Abs(cut.X - plane.X) < ViewRange &&
-                ((cut.Y > enemyPlane.Y - HitShift) && (cut.Y < enemyPlane.Y + HitShift));
-        }
-
+       
+     
         #endregion
 
      
