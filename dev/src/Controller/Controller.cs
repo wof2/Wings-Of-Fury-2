@@ -262,12 +262,18 @@ namespace Wof.Controller
         void OnRegisterRocket(Rocket rocket);
         
         /// <summary>
-        /// Funkcja informuje o wystrzeleniu rakiety przez samolot.
+        /// Funkcja informuje o wystrzeleniu pocisku typu flak 
         /// </summary>
         /// <param name="flakBullet">pocisk falk, ktory zostal wystrzelony.</param>
         /// <author>Adam Witczak</author>
         void OnRegisterFlakBullet(FlakBullet flakBullet);
 
+   	    /// <summary>
+        /// Funkcja informuje o wystrzeleniu pocisku typu dzialko 
+        /// </summary>
+        /// <param name="flakBullet">pocisk dzialka, ktory zostal wystrzelony.</param>
+        /// <author>Adam Witczak</author>
+        void OnRegisterGunBullet(GunBullet gunBullet);
 
         
         /// <summary>

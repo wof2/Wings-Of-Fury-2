@@ -21,25 +21,21 @@ namespace Wof.Model.Level.Weapon
 	/// <summary>
 	/// Description of FlakBullet.
 	/// </summary>
-	public class FlakBullet : MissileBase
+	public class GunBullet : MissileBase
 	{
 		
-		protected IObject2D target;
 		protected static Random mRand  = new Random();
 		protected readonly float maxFlyingDistance;
 		
 		protected float travelledDistance = 0;
+	
+		protected const float baseMaxDistance = 200;
 		
-		public FlakBullet(float x, float y, Level level, IObject2D owner, IObject2D target, float fireAngle, float initialSpeed)
-			: base(x,y, GetInitialVector(owner, target, initialSpeed) , level, fireAngle, owner)
-        {
-			 this.target = target;
-             boundRectangle = new Quadrangle(new PointD(x, y), 1, 1);  
-			 PointD diffVector = (target.Center - owner.Center);             
-             maxFlyingDistance = diffVector.EuclidesLength * mRand.Next(90, 110) / 100.0f;
-             diffVector.Normalise();      
-             diffVector.X *= -1;                        	
-             SetZRotationPerSecond(diffVector.X * 0.9f); // zaginanie toru lotu do ziemi
+		public GunBullet(float x, float y, Level level, IObject2D owner, float fireAngle, float initialSpeed)
+			: base(x,y, initialSpeed * owner.MovementVector, level, fireAngle, owner)
+        {			
+             boundRectangle = new Quadrangle(new PointD(x, y), 1, 1);  			  
+             maxFlyingDistance = baseMaxDistance * mRand.Next(90, 110) / 100.0f;                               	
         }
 		
 		
@@ -53,27 +49,7 @@ namespace Wof.Model.Level.Weapon
 			}
 			return false;
 		}
-		protected static PointD GetInitialVector(IObject2D owner, IObject2D target, float initialSpeed) {
-			
-			
-        	float speedCoeff = 2 * target.MovementVector.EuclidesLength /  GameConsts.UserPlane.Singleton.MaxSpeed;
-        	float distanceCoeff = FlakBunkerTile.GetAccuracyCoefficient((target.Bounds.Center - owner.Center).EuclidesLength);
-       
-        	float xSpread = distanceCoeff * speedCoeff * target.Bounds.Width * GameConsts.FlakBunker.FireSpreadX;
-            float ySpread = distanceCoeff * speedCoeff * target.Bounds.Height * GameConsts.FlakBunker.FireSpreadY;
-            
-            float xPos  = mRand.Next((int)(target.Bounds.Center.X - xSpread * 0.5f), (int)(target.Bounds.Center.X + xSpread * 0.5f));
-            float yPos  = mRand.Next((int)(target.Bounds.Center.Y*1.2f - ySpread * 0.5f), (int)(target.Bounds.Center.Y*1.2f + ySpread * 0.5f));
-            PointD flakPosition = new PointD(xPos, yPos);
-            
-          	PointD direction = (flakPosition - owner.Center);
-            
-            direction.Normalise();
-            
-            return initialSpeed *direction;
-		}
-		
-		
+				
 		public float GetDamage(IObject2D obj) {
 			
 			float dist = (obj.Bounds.Center - Position).EuclidesLength;                
@@ -123,6 +99,8 @@ namespace Wof.Model.Level.Weapon
             moveVector = vector; // orientacyjnie bo inne metody z tego korzystaja
             
             travelledDistance += vector.EuclidesLength;
+            
+            Console.WriteLine("Bullet:"+this.Center);
            
         }
 		
@@ -154,8 +132,6 @@ namespace Wof.Model.Level.Weapon
 		
 		protected override void CheckCollisionWithGround()
 		{
-			
-			/*
 			if(this.Position.Y >= 15) {
 				return;	
 			}
@@ -189,14 +165,13 @@ namespace Wof.Model.Level.Weapon
                 } 
                 else if(c == CollisionType.Altitude) 
                 {
-                	refToLevel.Controller.OnTileBombed(tile, this);
+                	//refToLevel.Controller.OnTileBombed(tile, this);
                 }
                 
             	refToLevel.Controller.OnGunHit(refToLevel.LevelTiles[index], Position.X, Math.Max(this.Position.Y, 1));
 
                
-               
-            }*/
+            }
 		}
 	}
 }

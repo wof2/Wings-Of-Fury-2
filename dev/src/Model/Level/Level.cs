@@ -760,7 +760,7 @@ namespace Wof.Model.Level
             if ((userPlane.LocationState ==LocationState.AirTurningRound || userPlane.LocationState == LocationState.Air) &&
                 userPlane.PlaneState != PlaneState.Destroyed && userPlane.PlaneState != PlaneState.Crashed)
             {
-                userPlane.Weapon.FireAtAngle(userPlane.RelativeAngle, WeaponType.Gun);
+                userPlane.Weapon.FireAtAngle(userPlane.AbsoluteAngle, WeaponType.Gun);
                 return true;
             }
         	return false;

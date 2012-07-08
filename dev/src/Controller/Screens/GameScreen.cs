@@ -3010,6 +3010,11 @@ namespace Wof.Controller.Screens
 		{
 			levelView.OnRegisterAmmunition(flakBullet);
 		}
+        
+        public void OnRegisterGunBullet(GunBullet gunBullet)
+		{
+			levelView.OnRegisterAmmunition(gunBullet);
+		}
        
         public void OnGearToggleEnd(object plane)
         {
@@ -3260,7 +3265,10 @@ namespace Wof.Controller.Screens
   			if(ammo is FlakBullet) {
   				SoundManager.Instance.PlayFlakBunkerFireSound();
   				OnUnregisterFlakBullet(ammo as FlakBullet);
-  			}//else
+  			}else
+  			if(ammo is GunBullet) {  				
+  				OnUnregisterGunBullet(ammo as GunBullet);
+  			}
         }
   		
   		
@@ -3277,6 +3285,11 @@ namespace Wof.Controller.Screens
         public void OnUnregisterFlakBullet(FlakBullet flak)
         {
             levelView.OnUnregisterFlakBullet(flak);
+        }
+        
+        public void OnUnregisterGunBullet(GunBullet gun)
+        {
+            levelView.OnUnregisterGunBullet(gun);
         }
 
 
@@ -3425,6 +3438,8 @@ namespace Wof.Controller.Screens
       
 
         #endregion
+    	
+		
     	
 		
     }

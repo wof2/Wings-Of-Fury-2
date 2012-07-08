@@ -91,6 +91,14 @@ namespace Wof.Model.Level.Weapon
 	        }
 	        
 	        
+	        /// <summary>
+	        /// Uwzglednia fakt ze obiekt moze byc do gory nogami
+	        /// </summary>
+	        float AbsoluteAngle
+	        {
+	        	get;
+	        }
+	        
 	
 	}
 	

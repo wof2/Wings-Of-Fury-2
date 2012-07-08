@@ -709,6 +709,10 @@ namespace Wof.Controller
             AddJob(MethodBase.GetCurrentMethod().Name);
         }
 
+        public void OnRegisterGunBullet(GunBullet gunBullet)
+		{
+        	AddJob(MethodBase.GetCurrentMethod().Name, new object[] { gunBullet });		
+		}
         
     	
 		
@@ -726,6 +730,8 @@ namespace Wof.Controller
 		#endregion
     	
 	
+    	
+		
     	
 		
     }
