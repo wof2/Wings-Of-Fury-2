@@ -168,7 +168,7 @@
     horizonWidth ="35"/>
 	
   <FlakBunker
-    fireDelay = "2000"
+    fireDelay = "1500"
     horizonMinDistance = "100"
     horizonMaxDistance ="300"
 	horizonMinAltitude = "20"
@@ -176,7 +176,7 @@
 	fireSpreadY = "8.0"
 	maxDamagePerHit = "5.0"
 	damageRange = "10.0" 
-	initialFlakSpeed = "30.0"
+	initialFlakSpeed = "40.0"
 	/>
   
   <WoodenBunker

@@ -61,7 +61,10 @@ namespace Wof.Model.Level
         /// <summary>
         /// Porusza sie w prawo.
         /// </summary>
-        Right = 1
+        Right = 1,
+
+        Changing = 2,
+
     }
 
     public enum DirectionAxis

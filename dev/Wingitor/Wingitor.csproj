@@ -20,7 +20,7 @@
     <AssemblyName>Wingitor</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>wingitor.Tests.ExplosionsGameTest</StartupObject>
+    <StartupObject>wingitor.Tests.FlakBunkerGameTest</StartupObject>
     <SourceAnalysisOverrideSettingsFile>C:\Documents and Settings\Adam\Application Data\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
     <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
     <NoStdLib>False</NoStdLib>
@@ -78,6 +78,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tests\FlakBunkerGameTest.cs" />
+    <Compile Include="Tests\FlakBunkerTestScene.cs" />
     <Compile Include="Tests\ExplosionsGameTest.cs" />
     <Compile Include="EditorRenderPanel.cs">
       <SubType>Component</SubType>

@@ -22,12 +22,10 @@ namespace Wof.View.AmmunitionViews
 		{			
          
         }
-
         
-       
         protected override void preInitOnScene()
         {
-            ammunitionModel = sceneMgr.CreateEntity("Flak" + ammunitionID.ToString(), "Rocket.mesh");
+            ammunitionModel = sceneMgr.CreateEntity("Flak" + ammunitionID.ToString(), "FlakBullet.mesh");
             ammunitionNode =
                 sceneMgr.RootSceneNode.CreateChildSceneNode("Flak" + ammunitionID.ToString(),
                                                             new Vector3(-120000, -110000, 0));
