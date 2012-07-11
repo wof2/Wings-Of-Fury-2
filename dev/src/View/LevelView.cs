@@ -201,6 +201,7 @@ namespace Wof.View
             TorpedoView.DestroyPool();
             BombView.DestroyPool();
             FlakBulletView.DestroyPool();
+            BunkerShellBulletView.DestroyPool();
 			GunBulletView.DestroyPool();
 
             if (backgroundViews != null)
@@ -766,6 +767,10 @@ namespace Wof.View
             {
                 ammunitionViews.Add(FlakBulletView.GetInstance(ammunition));
             }
+            else if (ammunition is BunkerShellBullet)
+            {
+                ammunitionViews.Add(BunkerShellBulletView.GetInstance(ammunition));
+            }
             else if (ammunition is GunBullet)
             {
                 ammunitionViews.Add(GunBulletView.GetInstance(ammunition));
@@ -916,9 +921,10 @@ namespace Wof.View
 		
         public void OnBunkerFire(BunkerTile bunker, Plane plane, bool planeHit)
         {
-            PlaneView p = FindPlaneView(plane);
+            /*PlaneView p = FindPlaneView(plane);
             if (p != null && planeHit)
             {
+                // wybuch wokol samolotu
                 EffectsManager.Singleton.Sprite(
                    sceneMgr,
                    p.OuterNode,
@@ -929,7 +935,7 @@ namespace Wof.View
                    bunker.GetHashCode().ToString()
                    );
 
-            }
+            }*/
 
            
 
@@ -1093,6 +1099,11 @@ namespace Wof.View
         {
             OnAmmunitionExplode(null, flak);
         }
+
+        public void OnUnregisterBunkerShellBullet(BunkerShellBullet bullet)
+        {
+            OnAmmunitionExplode(null, bullet);
+        }
         
         public void OnUnregisterGunBullet(GunBullet gun)
         {
@@ -1188,6 +1199,11 @@ namespace Wof.View
             ammunitionViews.RemoveAt(index);
             av.Hide();
 
+            if (EngineConfig.DisplayBoundingQuadrangles && ammunition != null)
+            {
+                OnUnregisterBoundingQuadrangle(ammunition);
+            }
+
             if (av is RocketView)
             {
                 RocketView.FreeInstance(ammunition);
@@ -1198,7 +1214,12 @@ namespace Wof.View
             } else if (av is FlakBulletView)
             {
                 FlakBulletView.FreeInstance(ammunition);
-            } else if (av is GunBulletView)
+            }
+            else if (av is BunkerShellBulletView)
+            {
+                BunkerShellBulletView.FreeInstance(ammunition);
+            } 
+            else if (av is GunBulletView)
             {
                 GunBulletView.FreeInstance(ammunition);
             } else
@@ -1222,6 +1243,10 @@ namespace Wof.View
         /// <param name="ammunition"></param>
         public void OnAmmunitionExplode(LevelTile tile, Ammunition ammunition)
         {
+            if (EngineConfig.DisplayBoundingQuadrangles && ammunition != null)
+            {
+                OnUnregisterBoundingQuadrangle(ammunition);
+            }
             if (ammunition == null)
             {
                 OnAmmunitionExplode(tile);
@@ -1246,15 +1271,17 @@ namespace Wof.View
             }
 
             NodeAnimation.NodeAnimation na;
+            EffectsManager.EffectType effectType;
 
             if (ocean)
             {
+                effectType = EffectsManager.EffectType.WATERIMPACT2;
                 na = EffectsManager.Singleton.Sprite(
                     sceneMgr,
                     av.AmmunitionNode,
                     new Vector3(0, 0.5f, (ammunition.Direction == Direction.Left) ? -1.55f : -1.65f),
                     new Vector2(3, 3) + ViewHelper.UnsignedRandomVector2(5),
-                    EffectsManager.EffectType.WATERIMPACT2,
+                    effectType,
                     false,
                     hash.ToString()
                     );
@@ -1262,40 +1289,79 @@ namespace Wof.View
             else
             {
             	if(ammunition is FlakBullet) {
+                    effectType = EffectsManager.EffectType.FLAK;
             		na =  DoFlakExplosion(ammunition as FlakBullet);
             		
             	} else if(ammunition is GunBullet) {
-            		
-            		 na = EffectsManager.Singleton.Sprite(
+
+                    effectType = EffectsManager.EffectType.DEBRIS;
+            		na = EffectsManager.Singleton.Sprite(
                     sceneMgr,
                     av.AmmunitionNode,
                     new Vector3(0, 0.0f, 0),
                     new Vector2(1, 1),
-                    EffectsManager.EffectType.DEBRIS,
+                    effectType,
                     false,
                     hash.ToString()
                     );
             		
             	} else            	
             	{
-                na = EffectsManager.Singleton.Sprite(
-                    sceneMgr,
-                    av.AmmunitionNode,
-                    new Vector3(0, 0.5f, 0),
-                    new Vector2(3, 3) + ViewHelper.UnsignedRandomVector2(5),
-                    EffectsManager.EffectType.EXPLOSION2,
-                    false,
-                    hash.ToString()
-                    );
+
+                    if (tile == null)
+                    {
+                        // powietrze
+                        effectType = EffectsManager.EffectType.EXPLOSION3;
+                        na = EffectsManager.Singleton.Sprite(
+                        sceneMgr,
+                        av.AmmunitionNode,
+                        new Vector3(0, 0.5f, 0),
+                        new Vector2(4, 4) + ViewHelper.UnsignedRandomVector2(5),
+                        effectType,
+                        false,
+                        hash.ToString()
+                        );
+                       
+
+                    }else
+            	    if(tile != null && tile is EnemyInstallationTile)
+                    {
+                        // budynki
+                       effectType = EffectsManager.EffectType.EXPLOSION2;
+                       na = EffectsManager.Singleton.Sprite(
+                       sceneMgr,
+                       av.AmmunitionNode,
+                       new Vector3(0, 0.5f, 0),
+                       new Vector2(8, 8) + ViewHelper.UnsignedRandomVector2(5),
+                       effectType,
+                       false,
+                       hash.ToString()
+                       );
+                    } else
+                    {
+                        // ziemia
+                      effectType = EffectsManager.EffectType.EXPLOSION4;
+                      na = EffectsManager.Singleton.Sprite(
+                      sceneMgr,
+                      av.AmmunitionNode,
+                      new Vector3(0, 0.5f, 0),
+                      new Vector2(6, 6) + ViewHelper.UnsignedRandomVector2(5),
+                      effectType,
+                      false,
+                      hash.ToString()
+                      );
+                    }
+                    
+                   
             	}
             }
-
+          //  Console.WriteLine("Effect: " + effectType);
             ammunitionViews.RemoveAt(index);
             av.Hide();
             
             if (!ocean && EngineConfig.ExplosionLights && IsNightScene)
             {
-                // TODO: czas œwiecenia taki jak d³ugoœæ efektu EffectsManager.EffectType.EXPLOSION2
+                // TODO: czas œwiecenia taki jak d³ugoœæ efektu EffectsManager.EffectType.EXPLOSION3
                 NodeAnimation.NodeAnimation ani =
                     EffectsManager.Singleton.AddCustomEffect(
                         new SinLightAttenuationAnimation(av.ExplosionFlash, 1.0f, 1.0f, Math.PI,
@@ -1309,13 +1375,13 @@ namespace Wof.View
             if(na!= null) 
             {
 
-	            na.onFinishInfo = new Object[4];
+	            na.onFinishInfo = new Object[5];
 	            Object[] args = (Object[]) na.onFinishInfo;
 	            args[0] = av;
 	            args[1] = ocean;
 	            args[2] = hash;
 	            args[3] = ammunition;
-	
+                args[4] = effectType;
 	            na.onFinish = onAmmunitionExplodeFinish;
             }
             
@@ -1337,11 +1403,14 @@ namespace Wof.View
             Boolean ocean = (Boolean) args[1];
             uint hash = (uint) args[2];
             Ammunition ammunition = (Ammunition) args[3];
+
+
+            EffectsManager.EffectType effectType = (EffectsManager.EffectType) args[4];
 			
             EffectsManager.Singleton.HideSprite(
                 sceneMgr,
                 av.AmmunitionNode,
-                ocean ? EffectsManager.EffectType.WATERIMPACT2 : EffectsManager.EffectType.EXPLOSION2,
+                effectType,
                 hash
                 );
 
@@ -1354,7 +1423,12 @@ namespace Wof.View
             }else if (av is FlakBulletView)
             {
                 FlakBulletView.FreeInstance(ammunition);
-            }else if (av is GunBulletView)
+            }
+            else if (av is BunkerShellBulletView)
+            {
+                BunkerShellBulletView.FreeInstance(ammunition);
+            }
+            else if (av is GunBulletView)
             {
                 GunBulletView.FreeInstance(ammunition);
             }
@@ -2132,6 +2206,7 @@ namespace Wof.View
             BombView.InitPool(100, framework);
             RocketView.InitPool(80, framework);
             FlakBulletView.InitPool(200, framework);
+            BunkerShellBulletView.InitPool(200, framework);
             GunBulletView.InitPool(250, framework);
             TorpedoView.InitPool(10, framework);
             SoldierView.InitPool(80, framework);
@@ -2714,6 +2789,6 @@ namespace Wof.View
         }
 
 
-       
+        
     }
 }

@@ -1657,6 +1657,18 @@ namespace Wof.Controller.Screens
                                 }
 
 
+
+                                if (EngineConfig.DebugInfo && inputKeyboard.IsKeyDown(KeyMap.Instance.PausePlane) &&
+                                   Button.CanChangeSelectedButton(3.0f))
+                                {
+
+                                    currentLevel.UserPlane.PlanePaused = !currentLevel.UserPlane.PlanePaused;
+                                  
+                                  
+                                    Button.ResetButtonTimer();
+                                }
+
+
                                 // przeladuj hydrax jesli nacisnieto H
                                 if (EngineConfig.DebugInfo && inputKeyboard.IsKeyDown(KeyCode.KC_H) && Button.CanChangeSelectedButton(3.0f))
                                 {
@@ -3000,6 +3012,11 @@ namespace Wof.Controller.Screens
             levelView.OnRegisterAmmunition(rocket);
         }
 
+        public void OnRegisterBunkerShellBullet(BunkerShellBullet shellBullet)
+        {
+            levelView.OnRegisterAmmunition(shellBullet);
+        }
+
         public void OnRegisterTorpedo(Torpedo torpedo)
         {
             SoundManager.Instance.PlayTorpedoSound();
@@ -3265,7 +3282,12 @@ namespace Wof.Controller.Screens
   			if(ammo is FlakBullet) {
   				SoundManager.Instance.PlayFlakBunkerFireSound();
   				OnUnregisterFlakBullet(ammo as FlakBullet);
-  			}else
+            }
+            else
+            if (ammo is BunkerShellBullet)
+            {
+                OnUnregisterBunkerShellBullet(ammo as BunkerShellBullet);
+            } else
   			if(ammo is GunBullet) {  				
   				OnUnregisterGunBullet(ammo as GunBullet);
   			}
@@ -3286,6 +3308,12 @@ namespace Wof.Controller.Screens
         {
             levelView.OnUnregisterFlakBullet(flak);
         }
+        public void OnUnregisterBunkerShellBullet(BunkerShellBullet shellBullet)
+        {
+            levelView.OnUnregisterBunkerShellBullet(shellBullet);
+        }
+
+        
         
         public void OnUnregisterGunBullet(GunBullet gun)
         {

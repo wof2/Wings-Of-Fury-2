@@ -81,6 +81,9 @@ namespace Wof.Controller
 
         public static readonly bool IsEnhancedVersion = Licensing.IsEhnancedVersion();
 
+        public static readonly bool AdManagerDisabled = true;
+        
+
 
         public static readonly String C_ENGINE_CONFIG = "wofconf.dat";
         public static readonly String C_FIRST_RUN = "firstrun.dat";

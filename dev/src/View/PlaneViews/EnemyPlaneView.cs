@@ -137,10 +137,10 @@ namespace Wof.View
 
         public void PlayGunSound()
         {
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "START");
+            //LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "START");
             if (EngineConfig.SoundEnabled && !gunSound.IsPlaying())
             {
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, " -NEW LOOP");
+               // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, " -NEW LOOP");
                 gunSound.SetBaseGain(1.0f);
                 gunSound.Play();
                 //SoundManager3D.Instance.UpdateSoundObjects();

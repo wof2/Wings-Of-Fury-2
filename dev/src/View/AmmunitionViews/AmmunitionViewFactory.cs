@@ -38,8 +38,12 @@ namespace Wof.View
 			
 			if(type==typeof(GunBulletView)) {
 				return new GunBulletView(frameWork);
-			}			
-			
+			}
+
+            if (type == typeof(BunkerShellBulletView))
+            {
+                return new BunkerShellBulletView(frameWork);
+            }			
 			
 			
 			throw new NotImplementedException();

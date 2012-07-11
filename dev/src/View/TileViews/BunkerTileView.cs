@@ -83,7 +83,21 @@ namespace Wof.View.TileViews
         }
 
 
-      
+        protected override Vector3 NozzleLocation
+        {
+            get {
+                if (levelTile is FlakBunkerTile)
+                {
+                    return new Vector3(0, 1.0f, -9.0f);
+                    
+                } else
+                {
+                    return base.NozzleLocation;
+                }
+                
+            
+            }
+        }
 
         /// <summary>
         /// Czy posiada wyrzutnie rakiet
@@ -308,10 +322,10 @@ namespace Wof.View.TileViews
 
 
 
-          /*  barrelState = flakBarrel.GetAnimationState("manual");
+            barrelState = flakBarrel.GetAnimationState("manual");
             barrelState.Enabled = true;
             barrelState.Loop = true;
-            animableElements.Add(barrelState);*/
+            animableElements.Add(barrelState);
 
 
 
@@ -323,7 +337,7 @@ namespace Wof.View.TileViews
         public override void GunFire()
         {
             base.GunFire();
-            /*
+            
             int i = animableElements.IndexOf(barrelState);
             if (i != -1)
             {
@@ -331,7 +345,9 @@ namespace Wof.View.TileViews
                 animableElements[i].TimePosition = 0.0f;
                 animableElements[i].Enabled = true;
                 animableElements[i].Loop = false;
-            } */
+            } 
+
+            /*
             EffectsManager.Singleton.Sprite(
               sceneMgr,
               GunNode,
@@ -340,7 +356,7 @@ namespace Wof.View.TileViews
               EffectsManager.EffectType.EXPLOSION1,
               false,
               0
-            ).TimeScale=2.0f;
+            ).TimeScale=2.0f;*/
 
                   
         }

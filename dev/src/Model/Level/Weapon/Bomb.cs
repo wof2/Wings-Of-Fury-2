@@ -280,7 +280,7 @@ namespace Wof.Model.Level.Weapon
                 refToLevel.Statistics.HitByBomb += refToLevel.KillVulnerableSoldiers(index, 1, true);
 
                 //niszcze bombe.
-                state = MissileState.Destroyed;
+                Destroy();
             }
         }
 

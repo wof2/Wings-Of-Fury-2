@@ -277,6 +277,11 @@ namespace wingitor
             levelView.OnRegisterAmmunition(rocket);
         }
 
+        public void OnRegisterBunkerShellBullet(BunkerShellBullet shellBullet)
+        {
+            
+        }
+
         public void OnRegisterTorpedo(Torpedo torpedo)
         {
             levelView.OnRegisterAmmunition(torpedo);
@@ -383,6 +388,11 @@ namespace wingitor
         public void OnUnregisterTorpedo(Torpedo torpedo)
         {
             levelView.OnUnregisterTorpedo(torpedo);
+        }
+
+        public void OnUnregisterBunkerShellBullet(BunkerShellBullet shellBullet)
+        {
+            levelView.OnUnregisterBunkerShellBullet(shellBullet);
         }
 
         public void OnTileRestored(BunkerTile restoredBunker)

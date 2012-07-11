@@ -334,6 +334,11 @@ namespace Wof.Controller
             AddJob(MethodBase.GetCurrentMethod().Name, new object[] { rocket });
         }
 
+        public void OnRegisterBunkerShellBullet(BunkerShellBullet shellBullet)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { shellBullet });
+        }
+
         /// <summary>
         /// Funkcja informuje o wystrzeleniu torpedy przez samolot.
         /// </summary>
@@ -481,6 +486,11 @@ namespace Wof.Controller
         public void OnUnregisterTorpedo(Torpedo torpedo)
         {
             AddJob(MethodBase.GetCurrentMethod().Name, new object[] { torpedo });
+        }
+
+        public void OnUnregisterBunkerShellBullet(BunkerShellBullet shellBullet)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { shellBullet });
         }
 
         /// <summary>

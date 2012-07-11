@@ -922,6 +922,8 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         public int LastFireTick = Environment.TickCount;
 
+        private bool _planePaused;
+
 
         /// <summary>
         /// Zwraca lewy dolny wierzcho³ek, jeœli samolot jest skierowany w prawo lub prawy dolny
@@ -1723,6 +1725,11 @@ namespace Wof.Model.Level.Planes
         {
             //Console.WriteLine(Speed);
             float scaleFactor = time/timeUnit;
+
+            if (planePaused)
+            {
+                scaleFactor = 0;
+            }
            
             // atraktory
             // TODO: czy to nie koliduje z innymi rzeczami
@@ -3562,6 +3569,18 @@ namespace Wof.Model.Level.Planes
 				 return realAngle;
 			}
 		}
+
+        protected bool planePaused = false;
+
+        public bool PlanePaused
+        {
+            get {
+                return planePaused;
+            }
+            set {
+                planePaused = value;
+            }
+        }
     }
     #endregion
 }

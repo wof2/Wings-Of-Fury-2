@@ -47,8 +47,10 @@
  */
 
 using System.Collections.Generic;
+using Mogre;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
+using Wof.Model.Level.Weapon;
 using Wof.Model.Level.XmlParser;
 
 
@@ -94,6 +96,8 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             base.Reconstruct();
         }
 
+       
+
         /// <summary>
         /// Prowadzi ostrzal samolotu.
         /// </summary>
@@ -106,6 +110,25 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                 //jesli uplynela 1 sek od ostatniego strzalu.
                 if (currentTime > GameConsts.WoodenBunker.FireDelay)
                 {
+                    bool fireCondition = IsFireConditionMet;
+                    if (fireCondition)
+                    {
+                        //zadaje uszkodzenia.
+                        float localAngle = angle;
+                        if (localAngle > Mogre.Math.HALF_PI)
+                        {
+                            localAngle = Mogre.Math.PI - localAngle;
+                        }
+
+                        weaponManager.BunkerShellFire(refToLevel.UserPlane, localAngle);
+
+                        //powiadamia controler o strzale.
+                        refToLevel.Controller.OnBunkerFire(this, refToLevel.UserPlane, false);
+
+                        currentTime = 0;
+
+                    }
+                    /*
                     //jesli samolot jest w polu razenia.
                     if (horizon.Intersects(refToLevel.UserPlane.Bounds))
                     {
@@ -117,7 +140,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 
                         //Zeruje licznik. Czekam kolejna sekunde.
                         currentTime = 0;
-                    }
+                    }*/
                 }
                 else //zwiekszam odstep czasu od ostatniego strzalu
                     currentTime += time;

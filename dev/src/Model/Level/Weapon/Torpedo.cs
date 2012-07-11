@@ -273,7 +273,7 @@ namespace Wof.Model.Level.Weapon
             if (index > -1 && index < refToLevel.LevelTiles.Count)
             {
                 refToLevel.Controller.OnTorpedoSunk(refToLevel.LevelTiles[index], this, torpedoFailure);
-                state = MissileState.Destroyed;
+                Destroy();
                 return;
             }
         }
@@ -428,8 +428,9 @@ namespace Wof.Model.Level.Weapon
                     ((System.Math.Abs(Center.Y - refToLevel.UserPlane.Center.Y) > MaxHeightDistanceToPlane)
                      ))
                 {
-                    refToLevel.Controller.OnUnregisterTorpedo(this);
-                    state = MissileState.Destroyed;
+                    Destroy();
+                   // refToLevel.Controller.OnUnregisterTorpedo(this);
+                   // state = MissileState.Destroyed;
                     return true;
                 }
                 else
@@ -439,8 +440,9 @@ namespace Wof.Model.Level.Weapon
             {
                 if (System.Math.Abs(refToLevel.UserPlane.Center.X - Center.X) > MaxDistanceToPlane)
                 {
-                    refToLevel.Controller.OnUnregisterTorpedo(this);
-                    state = MissileState.Destroyed;
+                    Destroy();
+                    //refToLevel.Controller.OnUnregisterTorpedo(this);
+                   // state = MissileState.Destroyed;
                     return true;
                 }
                 else

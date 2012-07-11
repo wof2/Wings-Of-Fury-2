@@ -658,20 +658,20 @@ namespace Wof.View.Effects
             switch (type)
             {
                 case EffectType.EXPLOSION1:
-                    info.duration = 1.0f;
+                    info.duration = 0.9f;
                     info.material = "Effects/Explosion1";
                     break;
 
                 case EffectType.EXPLOSION2:
-                    info.duration = 1.0f;
+                    info.duration = 0.9f;
                     info.material = "Effects/Explosion2";
                     break;
                 case EffectType.EXPLOSION3:
-                    info.duration = 0.9f;
+                    info.duration = 0.6f;
                     info.material = "Effects/Explosion3";
                     break;
                 case EffectType.EXPLOSION4:
-                    info.duration = 0.7f;
+                    info.duration = 0.5f;
                     info.material = "Effects/Explosion4";
                     break;
                     

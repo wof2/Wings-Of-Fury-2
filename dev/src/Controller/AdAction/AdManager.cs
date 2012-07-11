@@ -112,7 +112,10 @@ namespace Wof.Controller.AdAction
         	{
         		try
         		{
-        			
+                    if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
+                    {
+                        return;
+                    }
         			adAction.Work();
             		adHelper3D.Work(adAction);
             		if(c != null) UpdateCamera(c);
@@ -175,19 +178,19 @@ namespace Wof.Controller.AdAction
 
         private AdManager()
         {
-            if (EngineConfig.IsEnhancedVersion)
+            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
             {
                 return;
             }
             timer.Reset();
             adAction = new CommercialAdAction();
             adHelper3D = new AdHelper3D(0.02f, 80, 2000, 2);
-           // int result = AdAction.Init(C_AD_KEY, C_ADS_DIR, C_CONNECT_TIMEOUT);
-           // if (result == 0)
-           // {
+            int result = AdAction.Init(C_AD_KEY, C_ADS_DIR, C_CONNECT_TIMEOUT);
+            if (result == 0)
+            {
 
 
-           // }
+            }
            
         }
         public void AdDownloaded(Ad ad)
@@ -213,7 +216,7 @@ namespace Wof.Controller.AdAction
 
         public void RegisterImpression(Ad ad)
         {
-            if (EngineConfig.IsEnhancedVersion)
+            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
             {
                 return;
             }
@@ -292,8 +295,8 @@ namespace Wof.Controller.AdAction
         /// <returns></returns>
         public AdStatus GetAd(string zone, int downloadMsTimeout, float ratio, AdManaged.AdDownloaded adDownloadedCallback, out Ad outAd)
         {
-            outAd = null;   
-            if (EngineConfig.IsEnhancedVersion)
+            outAd = null;
+            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
             {
                 return AdStatus.ADS_DISABLED;
             }
@@ -367,7 +370,7 @@ namespace Wof.Controller.AdAction
         public AdStatus GatherAsyncResult(int id, int downloadMsTimeout, out Ad outAd)
         {
             outAd = null;
-            if (EngineConfig.IsEnhancedVersion)
+            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
             {
                 return AdStatus.ADS_DISABLED;
             }
@@ -412,7 +415,7 @@ namespace Wof.Controller.AdAction
         
         public void ClearDynamicAds()
         {
-            if (EngineConfig.IsEnhancedVersion)
+            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
             {
                 return;
             }
@@ -423,7 +426,7 @@ namespace Wof.Controller.AdAction
       
         public void RemoveDynamicAd(AdQuadrangle3D quadrangle3D)
         {
-            if (EngineConfig.IsEnhancedVersion)
+            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
             {
                 return;
             }
@@ -432,7 +435,7 @@ namespace Wof.Controller.AdAction
         }
         public AdQuadrangle3D AddDynamicAd(SceneManager sceneMgr, int id, Vector3 origin, Vector2 size, bool isPersistent)
         {
-            if (EngineConfig.IsEnhancedVersion)
+            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
             {
                 return null;
             }
@@ -461,7 +464,7 @@ namespace Wof.Controller.AdAction
         
         public void UpdateCamera(Camera c)
         {
-            if (EngineConfig.IsEnhancedVersion)
+            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
             {
                 return;
             }
@@ -494,7 +497,7 @@ namespace Wof.Controller.AdAction
         /// <returns></returns>
         public bool IsDynamicAdVisible(AdQuadrangle3D quadrangle3D)
         {
-            if (EngineConfig.IsEnhancedVersion)
+            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
             {
                 return false;
             }
@@ -521,7 +524,7 @@ namespace Wof.Controller.AdAction
         public AdStatus GetAdAsync(string zone, float ratio, out int id, AdDownloadedAsync adDownloadedAsyncCallback)
         {
             id = 0;
-            if (EngineConfig.IsEnhancedVersion)
+            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
             {
                 return AdStatus.ADS_DISABLED;
             }
@@ -587,7 +590,7 @@ namespace Wof.Controller.AdAction
         
         public void CloseAd(Ad ad)
         {
-            if (EngineConfig.IsEnhancedVersion)
+            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
             {
                 return;
             }
