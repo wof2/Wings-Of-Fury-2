@@ -365,6 +365,12 @@ namespace Wof.Model.Level.LevelTiles
 
         #region Public Method
 
+
+        public virtual void Update(int time, float timeUnit)
+        {
+            
+        } 
+
         /// <summary>
         /// Zwraca opis danego elementu.
         /// </summary>

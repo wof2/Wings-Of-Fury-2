@@ -155,11 +155,12 @@ namespace Wof.Model.Level.Weapon
 		protected override void CheckCollisionWithGround()
 		{
 			
-			/*
-			if(this.Position.Y >= 15) {
-				return;	
+			
+			if(this.Position.Y < 0) {
+				Destroy();
+
 			}
-		
+		/*
             LevelTile tile;
 			int index = Mathematics.PositionToIndex(Position.X);
             if (index >= 0 && index < refToLevel.LevelTiles.Count)

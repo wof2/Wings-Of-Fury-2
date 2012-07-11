@@ -30,9 +30,9 @@ namespace Wof.View.AmmunitionViews
        
         protected override void preInitOnScene()
         {
-        	Vector3 gun1Pos = new Vector3(0,0, -10);
-            Vector3 gun2Pos = new Vector3(0,0, 10);
-            float baseWidth = 10;
+        	Vector3 gun1Pos = new Vector3(-1.5f, -0.3f, -0.3f);
+            Vector3 gun2Pos = new Vector3(1.5f, -0.3f, -0.3f);
+            float baseWidth = 1.5f;
         
          	prepareGunEffect(gun1Pos, gun2Pos, baseWidth);
 			Hide();
@@ -56,9 +56,9 @@ namespace Wof.View.AmmunitionViews
             float trailWidth = baseWidth * Math.RangeRandom(1.0f, 1.1f);
             string leftTrailName = EffectsManager.BuildSpriteEffectName(ammunitionNode, EffectsManager.EffectType.GUNTRAIL, "LeftGunTrail" + ammunitionID);
             string rightTrailName = EffectsManager.BuildSpriteEffectName(ammunitionNode, EffectsManager.EffectType.GUNTRAIL, "RightGunTrail" + ammunitionID);
-       
-            Vector3 leftTrailBase = new Vector3(gun1Pos.x, 0.1f, gun1Pos.z - trailWidth * 0.5f);
-            Vector3 rightTrailBase = new Vector3(gun2Pos.x, 0.1f, gun2Pos.z - trailWidth * 0.5f);
+
+            Vector3 leftTrailBase = new Vector3(gun1Pos.x, gun1Pos.y, gun1Pos.z);
+            Vector3 rightTrailBase = new Vector3(gun2Pos.x, gun2Pos.y, gun2Pos.z);
           
 			bool  showLeftTrail = true, showRightTrail =true;
            
@@ -68,7 +68,7 @@ namespace Wof.View.AmmunitionViews
             	animations.Add(
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, ammunitionNode, "LeftGunTrail" + ammunitionID,
                                                            EffectsManager.EffectType.GUNTRAIL,
-                                                           leftTrailBase - new Vector3(0, 0, Math.RangeRandom(0.0f, 2.0f)),
+                                                           leftTrailBase - new Vector3(0, 0, Math.RangeRandom(-0.5f, 0.5f)),
                                                            new Vector2(trailWidth, 1.0f),
                                                            trailOrient, false)
             	);
@@ -79,7 +79,7 @@ namespace Wof.View.AmmunitionViews
             	animations.Add(
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, ammunitionNode, "RightGunTrail" + ammunitionID,
                                                            EffectsManager.EffectType.GUNTRAIL,
-                                                           rightTrailBase - new Vector3(0, 0, Math.RangeRandom(0f, 2.0f)),
+                                                           rightTrailBase - new Vector3(0, 0, Math.RangeRandom(-0.5f, 0.5f)),
                                                            new Vector2(trailWidth, 1.0f),
                                                            trailOrient, false)
             	);

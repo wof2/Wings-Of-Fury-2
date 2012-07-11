@@ -625,6 +625,11 @@ namespace Wof.Model.Level
             {
             	sm.Update(userPlane, time, timeUnit);
             }
+
+            foreach(LevelTile tile in this.LevelTiles)
+            {
+                tile.Update(time, timeUnit);
+            }
 		
           
         }

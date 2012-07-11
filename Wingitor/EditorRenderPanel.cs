@@ -153,6 +153,12 @@ namespace wingitor
                 reloadLevel = false;
                 levelToLoad = null;
                 mainWindow.BeginInvoke(new InvokeDelegate(mainWindow.OnLevelLoaded),(currentLevel.LevelParser));
+
+                foreach (ISceneTest test in this.gameTest.SceneTests)
+                {
+                    test.Framework = this;
+                    test.OnRegisterLevel(currentLevel);
+                }
                 
             }
 

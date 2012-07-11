@@ -18,48 +18,77 @@ namespace wingitor.Tests
         public void OnRegisterLevel(Level currentLevel)
         {
 
+            int i = -70;
+            int space = 30;
+
+            EffectsManager.Singleton.Sprite(
+             Framework.SceneMgr,
+             Framework.SceneMgr.RootSceneNode,
+             new Vector3(i, 50, 0),
+             new Vector2(20, 20),
+             EffectsManager.EffectType.GUNTRAIL,
+             true,
+             0
+             );
+            i += space;
+
+          EffectsManager.Singleton.Sprite(
+           Framework.SceneMgr,
+           Framework.SceneMgr.RootSceneNode,
+           new Vector3(i, 50, 0),
+           new Vector2(20, 20),
+           EffectsManager.EffectType.FLAK,
+           true,
+           0
+           );
+          i += space;
+
             EffectsManager.Singleton.Sprite(
             Framework.SceneMgr,
             Framework.SceneMgr.RootSceneNode,
-            new Vector3(-40, 50, 0),
+            new Vector3(i, 50, 0),
             new Vector2(20, 20),
             EffectsManager.EffectType.EXPLOSION1,
             true,
             0
             );
-
+            i += space;
 
 
             EffectsManager.Singleton.Sprite(
               Framework.SceneMgr,
               Framework.SceneMgr.RootSceneNode,
-              new Vector3(-10, 50, 0),
+              new Vector3(i, 50, 0),
               new Vector2(20, 20),
               EffectsManager.EffectType.EXPLOSION2,
               true,
               0
               );
-
+            i += space;
 
             EffectsManager.Singleton.Sprite(
                 Framework.SceneMgr,
                 Framework.SceneMgr.RootSceneNode,
-                new Vector3(20, 50, 0),
+                new Vector3(i, 50, 0),
                 new Vector2(20, 20),
                 EffectsManager.EffectType.EXPLOSION3,
                 true,
                 0
                 );
+            i += space;
 
             EffectsManager.Singleton.Sprite(
                Framework.SceneMgr,
                Framework.SceneMgr.RootSceneNode,
-               new Vector3(50, 50, 0),
+               new Vector3(i, 50, 0),
                new Vector2(20, 20),
                EffectsManager.EffectType.EXPLOSION4,
                true,
                0
                );
+            i += space;
+
+
             /*
             float angle;
             angle = Mogre.Math.RangeRandom(-20, 20);

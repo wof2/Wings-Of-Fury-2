@@ -180,6 +180,21 @@ material Effects/Explosion4 : ABEffect
 	
 }
 
+material Effects/Flak : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {		 
+          texture_unit 0
+          { 
+              anim_texture Flak.png 36 0	
+			  // colour_op modulate			  
+          }
+       }
+   }
+	
+}
 
 
 material Effects/Bubbles : AEffect

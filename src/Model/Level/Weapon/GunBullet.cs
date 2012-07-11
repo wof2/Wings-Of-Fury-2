@@ -100,7 +100,7 @@ namespace Wof.Model.Level.Weapon
             
             travelledDistance += vector.EuclidesLength;
             
-            Console.WriteLine("Bullet:"+this.Center);
+        //   Console.WriteLine("Bullet:"+this.Center);
            
         }
 		
@@ -133,11 +133,11 @@ namespace Wof.Model.Level.Weapon
 		protected override void CheckCollisionWithGround()
 		{
 			if(this.Position.Y >= 15) {
-				return;	
-			}
-		
+				return;
+            } 
             LevelTile tile;
-			int index = Mathematics.PositionToIndex(Position.X);
+            int index = Mathematics.PositionToIndex(Position.X);
+            
             if (index >= 0 && index < refToLevel.LevelTiles.Count)
             {
             	tile = refToLevel.LevelTiles[index];
@@ -168,6 +168,7 @@ namespace Wof.Model.Level.Weapon
                 	//refToLevel.Controller.OnTileBombed(tile, this);
                 }
                 
+                this.Destroy();
             	refToLevel.Controller.OnGunHit(refToLevel.LevelTiles[index], Position.X, Math.Max(this.Position.Y, 1));
 
                

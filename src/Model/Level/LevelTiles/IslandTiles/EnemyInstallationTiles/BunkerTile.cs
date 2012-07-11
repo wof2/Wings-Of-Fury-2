@@ -340,14 +340,14 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// </summary>
         protected virtual float GetGunXShift()
         {
-            return 6 + viewXShift;
+            return viewXShift + (Direction == Direction.Right ? 1 : -1) * 6;
         }
 
         /// <summary>
         /// Ustawia kat dzialka.    
         /// </summary>
         /// <author>Michal Ziober</author>
-        protected void SetAngle()
+        protected virtual void SetAngle()
         {
         	
             float interval = refToLevel.UserPlane.Center.X;
@@ -502,7 +502,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             }
         }
 
-        public Direction Direction
+        public virtual Direction Direction
         {
             get { return Model.Level.Direction.Right; }
         }

@@ -50,6 +50,7 @@ using System;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
+using Wof.Model.Level;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
@@ -67,7 +68,12 @@ namespace Wof.View.TileViews
             get { return gunPlaceNode; }
         }
 
-       
+        protected SceneNode yawGunPlaceNode;
+
+        public SceneNode YawGunPlaceNode
+        {
+            get { return yawGunPlaceNode; }
+        }
 
         protected bool isConcrete;
 
@@ -97,114 +103,195 @@ namespace Wof.View.TileViews
             animationState = null;
         }
 
-        protected void rotateGun(float radians)
+        protected void rotateGun(float pitch, float yaw)
         {
-            gunNode.Orientation = new Quaternion(radians, Vector3.UNIT_X);
+            gunNode.Orientation = new Quaternion(pitch, Vector3.UNIT_X);
+
+            if (yawGunPlaceNode != null)
+            {
+                if(Math.PI - yaw >= 0.0001f )
+                {
+                    yawGunPlaceNode.Orientation = new Quaternion(yaw, Vector3.UNIT_Y);
+                } else
+                {
+                    yawGunPlaceNode.Orientation = new Quaternion(new Degree(180), Vector3.UNIT_Y);
+                }
+                
+            }
+            
         }
-        
-        
 
-
-        private void initBunker(SceneNode islandNode, float positionOnIsland)
+        protected virtual void initRegularBunker(SceneNode islandNode, float positionOnIsland)
         {
             String nameSuffix = tileID.ToString();
 
             gunPlaceNode = islandNode.CreateChildSceneNode("GunEmplacement" + nameSuffix, new Vector3(0.0f, 0.1f, -7.0f));
-            //gunPlaceNode.Translate(new Vector3(0.0f, 0.0f, positionOnIsland));
             gunPlaceNode.Translate(new Vector3(0.0f, levelTile.HitBound.LowestY, positionOnIsland));
 
-            if(!(LevelTile is FortressBunkerTile))
+            if (!(LevelTile is FortressBunkerTile))
             {
                 Entity sandbags = sceneMgr.CreateEntity("Sandbags" + nameSuffix, "Sandbags.mesh");
                 gunPlaceNode.AttachObject(sandbags);
             }
-           
-           
+
+
 
             installationNode =
                 gunPlaceNode.CreateChildSceneNode("BunkerNode" + nameSuffix, new Vector3(0.0f, 0.0f, 4.5f));
-           
+
 
             if (LevelTile is FortressBunkerTile)
             {
-            	installationEntity = sceneMgr.CreateEntity("Fortress" + nameSuffix, "Fortress.mesh");
-            }else if (LevelTile is FlakBunkerTile)
-            {
-            	 installationEntity = sceneMgr.CreateEntity("Bunker" + nameSuffix, "Bunker.mesh");
-              //  installationEntity = sceneMgr.CreateEntity("Flak" + nameSuffix, "Flak.mesh");
+                installationEntity = sceneMgr.CreateEntity("Fortress" + nameSuffix, "Fortress.mesh");
             }
             else
             {
                 installationEntity = sceneMgr.CreateEntity("Bunker" + nameSuffix, "Bunker.mesh");
             }
-           
+
             isConcrete = false;
             if (LevelTile is ConcreteBunkerTile || LevelTile is FortressBunkerTile)
             {
                 isConcrete = true;
-               
+
             }
 
             if (LevelTile is ConcreteBunkerTile && !(LevelTile is FortressBunkerTile)) installationEntity.SetMaterialName("Concrete"); // aby by³ betonowy
 
             installationNode.AttachObject(installationEntity);
 
-            Entity flakBase = sceneMgr.CreateEntity("FlakBase" + nameSuffix, "FlakBase.mesh");
+            string flakBaseMesh = "FlakBase.mesh";
+            string flakbarrelMesh = "FlakBarrel.mesh";
+           
+
+            Entity flakBase = sceneMgr.CreateEntity("FlakBase" + nameSuffix, flakBaseMesh);
             gunPlaceNode.AttachObject(flakBase);
 
-            flakBarrel = sceneMgr.CreateEntity("FlakBarrel" + nameSuffix, "FlakBarrel.mesh");
+            flakBarrel = sceneMgr.CreateEntity("FlakBarrel" + nameSuffix, flakbarrelMesh);
             gunNode = gunPlaceNode.CreateChildSceneNode("FlakBarrelNode" + nameSuffix, new Vector3(0.0f, 0.5f, 0.0f));
             gunNode.AttachObject(flakBarrel);
 
-            if (HasRockets)
+           
+        }
+
+        protected virtual void  initFlakBunker(SceneNode islandNode, float positionOnIsland)
+        {
+            String nameSuffix = tileID.ToString();
+
+            gunPlaceNode = islandNode.CreateChildSceneNode("GunEmplacement" + nameSuffix, new Vector3(0.0f, 0.1f, -3.5f));
+            gunPlaceNode.Translate(new Vector3(0.0f, levelTile.HitBound.LowestY, positionOnIsland));
+            gunPlaceNode.Scale(1.2f, 1.2f, 1.2f);
+
+            yawGunPlaceNode = gunPlaceNode.CreateChildSceneNode("YawGunPlaceNode" + nameSuffix);
+
+
+
+            SceneNode sandbagsNode = islandNode.CreateChildSceneNode("Sandbags1" + nameSuffix, gunPlaceNode.Position + new Vector3(0.0f, 0.1f, 3.0f));
+            sandbagsNode.Scale(2, 2, 2);
+            sandbagsNode.Yaw(new Radian(new Degree(180)));
+            sandbagsNode.AttachObject(sceneMgr.CreateEntity("Sandbags1" + nameSuffix, "Sandbags.mesh"));
+
+            SceneNode sandbagsNode2 = islandNode.CreateChildSceneNode("Sandbags2" + nameSuffix, gunPlaceNode.Position + new Vector3(0.0f, 0.1f, -5.0f));
+            sandbagsNode2.Scale(2, 2, 2);
+            sandbagsNode2.AttachObject(sceneMgr.CreateEntity("Sandbags2" + nameSuffix, "Sandbags.mesh"));
+            
+           
+            isConcrete = true;
+
+        
+
+            string flakBaseMesh = "MegaFlakBase.mesh";
+            string flakbarrelMesh = "MegaFlakBarrel.mesh";
+           
+            Entity flakBase = sceneMgr.CreateEntity("FlakBase" + nameSuffix, flakBaseMesh);
+            yawGunPlaceNode.AttachObject(flakBase);
+
+            flakBarrel = sceneMgr.CreateEntity("FlakBarrel" + nameSuffix, flakbarrelMesh);
+            gunNode = yawGunPlaceNode.CreateChildSceneNode("FlakBarrelNode" + nameSuffix, new Vector3(0.0f, 1.0f, 0.0f));
+            gunNode.AttachObject(flakBarrel);
+
+
+            installationNode =
+             gunPlaceNode.CreateChildSceneNode("BunkerNode" + nameSuffix, new Vector3(0.0f, 0.0f, 4.5f));
+
+            installationNode.Scale(0.5f, 0.5f, 0.5f);
+
+            installationEntity = sceneMgr.CreateEntity("Sandbags" + nameSuffix, "Sandbags.mesh");
+            installationNode.AttachObject(installationEntity);
+        }
+
+
+        protected virtual void initRockets(SceneNode islandNode, float positionOnIsland)
+        {
+            String nameSuffix = tileID.ToString();
+            for (int k = -2; k <= 2; k++)
+            {
+                Entity rocketBatteryEntity = sceneMgr.CreateEntity("RocketBattery" + nameSuffix + "_" + k,
+                                                                   "Bazooka.mesh");
+                SceneNode rocketBatteryNode = gunNode.CreateChildSceneNode(rocketBatteryEntity.Name + "Node",
+                                                                           new Vector3(k * 0.3f, 0.3f,
+                                                                                       levelTile.ViewXShift));
+                rocketBatteryNode.SetScale(3, 3, 3);
+                //  rocketBatteryNode.Pitch(new Radian(new Degree(30)));
+                rocketBatteryNode.AttachObject(rocketBatteryEntity);
+
+
+            }
+            Entity rocketBayEntity;
+            SceneNode rocketBayNode;
+            for (int i = -1; i <= 1; i += 2)
             {
 
-                for (int k = -2; k <= 2; k++)
-                {
-                    Entity rocketBatteryEntity = sceneMgr.CreateEntity("RocketBattery" + nameSuffix + "_" + k,
-                                                                       "Bazooka.mesh");
-                    SceneNode rocketBatteryNode = gunNode.CreateChildSceneNode(rocketBatteryEntity.Name + "Node",
-                                                                               new Vector3(k*0.3f, 0.3f,
-                                                                                           levelTile.ViewXShift));
-                    rocketBatteryNode.SetScale(3, 3, 3);
-                    //  rocketBatteryNode.Pitch(new Radian(new Degree(30)));
-                    rocketBatteryNode.AttachObject(rocketBatteryEntity);
-
-
-                }
-                Entity rocketBayEntity;
-                SceneNode rocketBayNode;
-                for (int i = -1; i <= 1; i += 2)
-                {
-
-                    rocketBayEntity = sceneMgr.CreateEntity("RocketBay" + nameSuffix + "_" + i, "RocketBay.mesh");
-                    rocketBayNode = installationNode.CreateChildSceneNode(rocketBayEntity.Name + "Node",
-                                                                                    new Vector3(2.0f*i, -0.2f,
-                                                                                                levelTile.ViewXShift -7.0f));
-                    //  rocketBayNode.SetScale(1, 4, 1);
-                    rocketBayNode.AttachObject(rocketBayEntity);
-                }
-
-                rocketBayEntity = sceneMgr.CreateEntity("RocketBayTop" + nameSuffix, "RocketBay.mesh");
+                rocketBayEntity = sceneMgr.CreateEntity("RocketBay" + nameSuffix + "_" + i, "RocketBay.mesh");
                 rocketBayNode = installationNode.CreateChildSceneNode(rocketBayEntity.Name + "Node",
-                                                                                new Vector3(0.5f, 1.5f,
-                                                                                            levelTile.ViewXShift));
-                rocketBayNode.SetScale(0.5f, 0.5f, 0.5f);
+                                                                                new Vector3(2.0f * i, -0.2f,
+                                                                                            levelTile.ViewXShift - 7.0f));
+                //  rocketBayNode.SetScale(1, 4, 1);
                 rocketBayNode.AttachObject(rocketBayEntity);
+            }
 
-                
+            rocketBayEntity = sceneMgr.CreateEntity("RocketBayTop" + nameSuffix, "RocketBay.mesh");
+            rocketBayNode = installationNode.CreateChildSceneNode(rocketBayEntity.Name + "Node",
+                                                                            new Vector3(0.5f, 1.5f,
+                                                                                        levelTile.ViewXShift));
+            rocketBayNode.SetScale(0.5f, 0.5f, 0.5f);
+            rocketBayNode.AttachObject(rocketBayEntity);
+
+            if (!(LevelTile is FlakBunkerTile))
+            {
                 Entity sandbags = sceneMgr.CreateEntity("Sandbags_2" + nameSuffix, "Sandbags.mesh");
                 SceneNode sandbagsNode = installationNode.CreateChildSceneNode(sandbags.Name + "Node",
-                                                                            new Vector3(0, 0.0f,
-                                                                                        levelTile.ViewXShift + 2));
+                                                                               new Vector3(0, 0.0f,
+                                                                                           levelTile.ViewXShift + 2));
 
                 sandbagsNode.AttachObject(sandbags);
                 sandbagsNode.SetScale(2, 2, 2);
                 sandbagsNode.Yaw(new Radian(new Degree(180)));
-                
+            }
+
+        }
+
+        private void initBunker(SceneNode islandNode, float positionOnIsland)
+        {
+
+            if (LevelTile is FlakBunkerTile)
+            {
+                initFlakBunker(islandNode, positionOnIsland);
+            } else
+            {
+                initRegularBunker(islandNode, positionOnIsland);
             }
 
 
+            // init rockets
+            if (HasRockets)
+            {
+                initRockets(islandNode, positionOnIsland);
+
+            }
+
+
+            String nameSuffix = tileID.ToString();
             if (EngineConfig.DisplayingMinimap)
             {
             	ColourValue col = ColourValue.Red;
@@ -219,17 +306,24 @@ namespace Wof.View.TileViews
                 minimapItem.Refresh();
             }
 
-            barrelState = flakBarrel.GetAnimationState("manual");
+
+
+          /*  barrelState = flakBarrel.GetAnimationState("manual");
             barrelState.Enabled = true;
             barrelState.Loop = true;
-            animableElements.Add(barrelState);
+            animableElements.Add(barrelState);*/
+
+
+
+
+           
         }
 
         
         public override void GunFire()
         {
             base.GunFire();
-            
+            /*
             int i = animableElements.IndexOf(barrelState);
             if (i != -1)
             {
@@ -237,7 +331,7 @@ namespace Wof.View.TileViews
                 animableElements[i].TimePosition = 0.0f;
                 animableElements[i].Enabled = true;
                 animableElements[i].Loop = false;
-            } 
+            } */
             EffectsManager.Singleton.Sprite(
               sceneMgr,
               GunNode,
@@ -253,9 +347,9 @@ namespace Wof.View.TileViews
 
         public override void Restore()
         {
-            animationState = installationEntity.GetAnimationState("manual");
-            animationState.Enabled = true;
-            animationState.Loop = false;
+          //  animationState = installationEntity.GetAnimationState("manual");
+         //   animationState.Enabled = true;
+         //   animationState.Loop = false;
 
             if (isConcrete)
             {
@@ -359,9 +453,23 @@ namespace Wof.View.TileViews
         public override void updateTime(float timeSinceLastFrameUpdate)
         {
             base.updateTime(timeSinceLastFrameUpdate);
-
             BunkerTile bunkerTile = (BunkerTile) levelTile;
-            rotateGun((float) bunkerTile.Angle);
+            float yaw = 0;
+            float pitch = bunkerTile.Angle;
+            if(bunkerTile is FlakBunkerTile)
+            {
+                FlakBunkerTile fbt = (bunkerTile as FlakBunkerTile);
+                yaw = fbt.YAngle;
+                if(fbt.Direction == Direction.Left) // jesli dzialko jest w polowie obrotu
+                {
+                    pitch = Math.PI - pitch;
+                }
+            }
+
+            rotateGun(pitch, yaw);
+
+           
+
         }
     }
 }

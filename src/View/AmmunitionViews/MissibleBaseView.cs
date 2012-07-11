@@ -159,16 +159,26 @@ namespace Wof.View
                 minimapItem.Dispose();
                 minimapItem = null;
             }
-            innerNode.DetachAllObjects();
-            innerNode.Dispose();
-            innerNode = null;
-            ammunitionModel.Dispose();
-            ammunitionModel = null;
+            if (innerNode != null)
+            {
 
+                innerNode.DetachAllObjects();
+                innerNode.Dispose();
+                innerNode = null;
+            }
+            if (ammunitionModel != null)
+            {
+                ammunitionModel.Dispose();
+                ammunitionModel = null;
+            }
             missileAnimation = null;
-            ammunitionNode.DetachAllObjects();
-            ammunitionNode.Dispose();
-            ammunitionNode = null;
+
+            if (ammunitionNode != null)
+            {
+                ammunitionNode.DetachAllObjects();
+                ammunitionNode.Dispose();
+                ammunitionNode = null;
+            }
         }
     		
 			

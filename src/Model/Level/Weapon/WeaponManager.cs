@@ -392,7 +392,7 @@ namespace Wof.Model.Level.Weapon
 	
 	
 	            //nowy pocisk
-	            bullet = new GunBullet(position.X, position.Y,refToLevel,ammunitionOwner, angle, 0.5f);//FIXME
+	            bullet = new GunBullet(position.X, position.Y,refToLevel,ammunitionOwner, angle, 2.5f);//FIXME
 	 
 	            bullet.SetZRotationPerSecond(0.09f);
 	

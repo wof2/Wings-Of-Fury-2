@@ -814,8 +814,8 @@ namespace Wof.View.Effects
 
             
                case EffectType.FLAK:
-	                info.duration = 5.0f;
-	                info.material = "Examples/TrailSmoke";
+	                info.duration = 0.5f;
+                    info.material = "Effects/Flak";
 	                break;  
 	                
                 default:

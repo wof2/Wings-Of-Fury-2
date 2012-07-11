@@ -20,7 +20,29 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 	/// </summary>
 	public class FlakBunkerTile : BunkerTile
 	{
-		   #region Public Constructor
+	    #region Public Constructor
+
+        protected const float  MinAngleRight = 1 * Mogre.Math.PI / 20.0f;
+        protected const float  MaxAngleRight = 3 * Mogre.Math.PI / 6.0f;
+       
+        
+        protected const float MinAngleLeft = 3 * Mogre.Math.PI / 6;
+        protected const float MaxAngleLeft = 19 * Mogre.Math.PI / 20.0f;
+        
+        protected const float DirectionChangePerSecond = 2 * Mogre.Math.PI / 10.0f;
+
+	    protected float yAngle = 0;
+
+	    protected bool adjustingBarrelAfterDirectionChange = false;
+
+        private const float Epislon = 0.001f;
+        private Model.Level.Direction direction = Model.Level.Direction.Right;
+
+        protected Model.Level.Direction initialDirection;
+
+        protected const float BarrelAdjustmentSpeed = 0.001f;
+      
+         
 
         /// <summary>
         /// Konstruktor szescioparametrowy. Tworzy 
@@ -41,10 +63,33 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             //pole razenia Ustawione podczas ustawiania indeksu.
             horizon = null;
             currentTime = 0;
-            
-            MinAngle = Mogre.Math.PI / 6.0f;
-        	MaxAngle = 5 * Mogre.Math.PI / 6.0f;
+
+
+            initialDirection = Model.Level.Direction.Right;
+
+            direction = initialDirection;
+            OnDirectionChanged();
         }
+
+        protected void OnDirectionChanged()
+        {
+            if (direction == Model.Level.Direction.Right)
+            {
+                MinAngle = MinAngleRight;
+                MaxAngle = MaxAngleRight;
+            }
+
+            if (direction == Model.Level.Direction.Left)
+            {
+                MinAngle = MinAngleLeft;
+                MaxAngle = MaxAngleLeft;
+            }
+
+           // MinAngle = 0;
+           // MaxAngle = Mogre.Math.PI;
+        }
+
+
 
         #endregion
 
@@ -79,19 +124,107 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         {
         	get 
         	{
+
+                if (direction == Direction.Changing)
+                {
+                    return false;
+                }
+
+                if(adjustingBarrelAfterDirectionChange)
+                {
+                    return false;
+                }
+
         		if(GameConsts.FlakBunker.HorizonMinAltitude > refToLevel.UserPlane.Bounds.LowestY) 
         		{
         			return false;
         		}
+                if (Math.Abs(angle) >= MaxAngle || Math.Abs(angle) <= MinAngle)
+                {
+                    return false;
+                }
+
         		float dist = refToLevel.UserPlane.DistanceToTile(this);
         		return dist >=	GameConsts.FlakBunker.HorizonMinDistance && dist <=	GameConsts.FlakBunker.HorizonMaxDistance;
         		
         	}
         }
-        
-      
 
-        /// <summary>
+       
+
+        protected  void  YRotation(int time, float timeUnit)
+        {
+            if(this.IsDestroyed)
+            {
+                return;
+            }
+            if (direction == Direction.Right)
+            {
+                if (Mathematics.IndexToPosition(this.TileIndex) > this.refToLevel.UserPlane.Position.X)
+                {
+                    direction = Direction.Changing;
+                    changeDirection = Direction.Left;
+                }
+            }
+
+            if (direction == Direction.Left)
+            {
+                if (Mathematics.IndexToPosition(this.TileIndex) < this.refToLevel.UserPlane.Position.X)
+                {
+                    direction = Direction.Changing;
+                    changeDirection = Direction.Right;
+                }
+            }
+            float scaleFactor = time / timeUnit;
+
+            if (direction == Direction.Changing)
+            {
+                float dir = changeDirection != initialDirection ? 1 : -1;
+
+                yAngle += dir * DirectionChangePerSecond * scaleFactor;
+                bool completed = false;
+                if (dir == 1 && yAngle >= Mogre.Math.PI)
+                {
+                    completed = true;
+                    yAngle = Mogre.Math.PI;
+                }
+
+                if (dir == -1 && yAngle <= 0)
+                {
+                    completed = true;
+                    yAngle = 0;
+                } 
+                
+                if(completed)
+                {
+                      adjustingBarrelAfterDirectionChange = true;
+                      if (changeDirection.HasValue)
+                      {
+                          if (changeDirection == Direction.Left)
+                          {
+                              direction = Model.Level.Direction.Left;
+                          }
+                          else if(changeDirection == Direction.Right)
+                          {
+                              direction = Model.Level.Direction.Right;
+                          }
+                          OnDirectionChanged();
+                      }
+                    changeDirection = null;
+                }
+            }
+
+         //   Console.WriteLine("direction: " + direction + ";  changeDirection: " + changeDirection + "; yAngle:" + yAngle+"; adjustingBarrelAfterDirectionChange: " + adjustingBarrelAfterDirectionChange );
+        }
+
+        public override void Update(int time, float timeUnit)
+        {
+            base.Update(time, timeUnit);
+            YRotation(time, timeUnit);
+        }
+
+	    
+	    /// <summary>
         /// Prowadzi ostrzal samolotu.
         /// </summary>
         public override void Fire(int time)
@@ -101,8 +234,29 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             if (!IsDestroyed && UserPlaneNotYetDestroyed)
             {
             	bool fireCondition = IsFireConditionMet;
-            	//wyliczam kat
-                SetAngle();
+            	
+                //wyliczam kat tylko jesli nie obracamy
+                if(!changeDirection.HasValue)
+                {
+                    float angleBefore = angle;
+                    SetAngle();
+                    if (adjustingBarrelAfterDirectionChange)
+                    {
+                        float diff = angle - angleBefore;
+                        angle = angleBefore + diff * BarrelAdjustmentSpeed * time;
+                       // Console.WriteLine("angle:" + angle + "; diff:" + diff);
+                        if (Math.Abs(angle - angleBefore) < Epislon)
+                        {
+                            adjustingBarrelAfterDirectionChange = false;
+                        }
+                    }
+                } else
+                {
+                    adjustingBarrelAfterDirectionChange = false; // przerwij
+                }
+
+               
+                
                 
                 //jesli uplynal czas od ostatniego strzalu.
                 if (currentTime > GameConsts.FlakBunker.FireDelay)
@@ -112,14 +266,14 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                     if (fireCondition)
                     {
                         //zadaje uszkodzenia.
-                        
-                        if (angle > Mogre.Math.HALF_PI)
+                        float localAngle = angle;
+                        if (localAngle > Mogre.Math.HALF_PI)
 		                {
-		                    angle = Mogre.Math.PI - angle;
-		                }		                
+                            localAngle = Mogre.Math.PI - localAngle;
+		                }
 
-                        FlakBullet bullet = weaponManager.FlakFire(refToLevel.UserPlane, angle);
-                        Console.WriteLine("ANGLE: "+angle);
+                        FlakBullet bullet = weaponManager.FlakFire(refToLevel.UserPlane, localAngle);
+                       // Console.WriteLine("ANGLE: "+angle);
                       	//Zeruje licznik. Czekam kolejna sekunde.
 	                    currentTime = 0;
                         
@@ -137,6 +291,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// </summary>
         public override void Destroy()
         {
+
             base.Destroy();
         }
 
@@ -164,9 +319,29 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                                          GameConsts.FlakBunker.HorizonMinDistance);                
             }
         }
-      
 
-        #endregion
+        /// <summary>
+        /// Kat obrotu wzgledem osi Y (czyli Yaw)
+        /// </summary>
+	    public float YAngle
+	    {
+	        get { return yAngle; }
+	    }
+
+        public override Direction Direction
+        {
+            get { return direction; }
+        }
+
+        private Model.Level.Direction? changeDirection = null;
+
+        public Direction? ChangeDirection
+        {
+            get { return changeDirection; }
+
+        }
+
+	    #endregion
 		
 	}
 }
