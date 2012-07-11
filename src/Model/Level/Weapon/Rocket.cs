@@ -148,9 +148,31 @@ namespace Wof.Model.Level.Weapon
         /// oraz obsluguje zderzania z nimi.
         /// </summary>
         /// <author>Michal Ziober</author>
-        protected override  void CheckCollisionWithEnemyPlanes()
+        protected override void CheckCollisionWithEnemyPlanes()
         {
-        	base.CheckCollisionWithEnemyPlanes();
+            if (refToLevel.EnemyPlanes.Count > 0)
+            {
+                foreach (EnemyPlane ep in refToLevel.EnemyPlanes)
+                {
+                    if (this.Owner == ep) continue;
+
+                    //sprawdzam czy aby nie ma zderzenia.
+                    if (boundRectangle.Intersects(ep.Bounds))
+                    {
+                        //niszczy wrogi samolot
+                        ep.Destroy();
+
+                        //wyslam sygnal do controllera aby usunal samolot z widoku.
+                        refToLevel.Controller.OnEnemyPlaneBombed(ep, this);
+
+                        //zwiekszam liczbe trafionych obiektow przez rakiete
+                        refToLevel.Statistics.HitByRocket++;
+
+                        //niszcze pocisk.
+                        Destroy();
+                    }
+                }
+            }
         }
         
         protected override  void CheckCollisionWithUserPlane()
@@ -184,10 +206,7 @@ namespace Wof.Model.Level.Weapon
 
                     refToLevel.Controller.OnRocketHitPlane(this, p);
                     //odrejestruje rakiete.
-                    refToLevel.Controller.OnUnregisterAmmunition(this);
-
-                    //niszcze rakiete.
-                    state = MissileState.Destroyed;
+                    Destroy();
                 }
             }
         }
@@ -275,7 +294,7 @@ namespace Wof.Model.Level.Weapon
                 refToLevel.Statistics.HitByRocket += refToLevel.KillVulnerableSoldiers(index, 1, true);
 
                 //niszcze rakiete
-                state = MissileState.Destroyed;
+                Destroy();
             }
         }
 

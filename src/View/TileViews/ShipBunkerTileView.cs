@@ -160,7 +160,7 @@ namespace Wof.View.TileViews
                 animableElements[i].Loop = false;
                
             }
-            
+            /*
             EffectsManager.Singleton.Sprite(
                  sceneMgr,
                  GunNode,
@@ -169,7 +169,7 @@ namespace Wof.View.TileViews
                  EffectsManager.EffectType.EXPLOSION1,
                  false,
                  0
-                 ).TimeScale = 2.0f; 
+                 ).TimeScale = 2.0f; */
         }
 
         public override void Restore()

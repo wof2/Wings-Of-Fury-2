@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
+using Wof.Model.Level.Weapon;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;
 using Math = Mogre.Math;
@@ -28,25 +29,55 @@ namespace Wof.View.AmmunitionViews
 
         
        
+       
+        
+   //     protected List<NodeAnimation.NodeAnimation> animations = new List<NodeAnimation.NodeAnimation>();
+
+
+        protected string getEffectName(Vector3 gunPos)
+        {
+            return "GunTrail" + ammunitionID + "_" + gunPos;
+        }
+
+        protected string getEffectNameTop(Vector3 gunPos)
+        {
+            return "GunTrailTop" + ammunitionID + "_" + gunPos;
+        }
+
+        protected void hideEffect(Vector3 gunPos)
+        {
+            EffectsManager.Singleton.HideSprite(sceneMgr, ammunitionNode, EffectsManager.EffectType.GUNTRAIL, getEffectName(gunPos));
+            EffectsManager.Singleton.HideSprite(sceneMgr, ammunitionNode, EffectsManager.EffectType.GUNTRAIL, getEffectNameTop(gunPos));
+         }
+
         protected override void preInitOnScene()
         {
-        	Vector3 gun1Pos = new Vector3(-1.5f, -0.3f, -0.3f);
-            Vector3 gun2Pos = new Vector3(1.5f, -0.3f, -0.3f);
+            // showaj poprzednio skaszowane sprajty.
+           
             float baseWidth = 1.5f;
-        
-         	prepareGunEffect(gun1Pos, gun2Pos, baseWidth);
-			Hide();
+            // FIXME: przesuwac nodey zamiast tworzyc wiecej niepotrzebnie
+            prepareGunEffect(gunPosLeft, baseWidth);
+            prepareGunEffect(gunPosRight, baseWidth);
+            prepareGunEffect(gunPosMiddle, baseWidth);
+            
+            hideEffect(gunPosLeft);
+            hideEffect(gunPosRight);
+            hideEffect(gunPosMiddle);
+            Hide();
+          
         }
         
-        protected List<NodeAnimation.NodeAnimation> animations = new List<NodeAnimation.NodeAnimation>();
- 
-        
-        protected void prepareGunEffect(Vector3 gun1Pos, Vector3 gun2Pos, float baseWidth)
+
+        protected void prepareGunEffect(Vector3 gunPos, float baseWidth)
 		{
-		 	  Quaternion orient, trailOrient;
-         
-		 	ammunitionNode = sceneMgr.RootSceneNode.CreateChildSceneNode("AmmunitionNode"+ammunitionID);
+		 	Quaternion orient, trailOrient;
+
+            if (ammunitionNode == null)
+            {
+                ammunitionNode = sceneMgr.RootSceneNode.CreateChildSceneNode("AmmunitionNode" + ammunitionID);
 		 	 
+            }
+            
 		 	  
             orient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y);
             trailOrient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y);
@@ -54,76 +85,77 @@ namespace Wof.View.AmmunitionViews
           
 
             float trailWidth = baseWidth * Math.RangeRandom(1.0f, 1.1f);
-            string leftTrailName = EffectsManager.BuildSpriteEffectName(ammunitionNode, EffectsManager.EffectType.GUNTRAIL, "LeftGunTrail" + ammunitionID);
-            string rightTrailName = EffectsManager.BuildSpriteEffectName(ammunitionNode, EffectsManager.EffectType.GUNTRAIL, "RightGunTrail" + ammunitionID);
-
-            Vector3 leftTrailBase = new Vector3(gun1Pos.x, gun1Pos.y, gun1Pos.z);
-            Vector3 rightTrailBase = new Vector3(gun2Pos.x, gun2Pos.y, gun2Pos.z);
-          
-			bool  showLeftTrail = true, showRightTrail =true;
            
-           
-            if (showLeftTrail)
-            {
-            	animations.Add(
-                EffectsManager.Singleton.RectangularEffect(sceneMgr, ammunitionNode, "LeftGunTrail" + ammunitionID,
-                                                           EffectsManager.EffectType.GUNTRAIL,
-                                                           leftTrailBase - new Vector3(0, 0, Math.RangeRandom(-0.5f, 0.5f)),
-                                                           new Vector2(trailWidth, 1.0f),
-                                                           trailOrient, false)
-            	);
-            }
+        
+            Vector3 trailBase = new Vector3(gunPos.x, gunPos.y, gunPos.z);
 
-            if (showRightTrail)
-            {
-            	animations.Add(
-                EffectsManager.Singleton.RectangularEffect(sceneMgr, ammunitionNode, "RightGunTrail" + ammunitionID,
-                                                           EffectsManager.EffectType.GUNTRAIL,
-                                                           rightTrailBase - new Vector3(0, 0, Math.RangeRandom(-0.5f, 0.5f)),
-                                                           new Vector2(trailWidth, 1.0f),
-                                                           trailOrient, false)
-            	);
-            }
+            
+           
+        	//animations.Add(
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, ammunitionNode,
+                                                       getEffectName(gunPos),
+                                                       EffectsManager.EffectType.GUNTRAIL,
+                                                       trailBase - new Vector3(0, 0, Math.RangeRandom(-0.5f, 0.5f)),
+                                                       new Vector2(trailWidth, 1.0f),
+                                                       trailOrient, false);
+        	//);
+       
 
             orient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
             trailOrient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
         
 
-            if (showLeftTrail)
-            {
-            	animations.Add(
-                EffectsManager.Singleton.RectangularEffect(sceneMgr, ammunitionNode, "LeftGunTrailTop" + ammunitionID,
-                                                           EffectsManager.EffectType.GUNTRAIL,
-                                                           leftTrailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 2.0f)),
-                                                           new Vector2(trailWidth, 1.0f),
-                                                           trailOrient, false)
-            	);
-            }
-            if (showRightTrail)
-            {
-            	animations.Add(
-                EffectsManager.Singleton.RectangularEffect(sceneMgr, ammunitionNode, "RightGunTrailTop" + ammunitionID,
-                                                           EffectsManager.EffectType.GUNTRAIL,
-                                                           rightTrailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 2.0f)),
-                                                           new Vector2(trailWidth, 1.0f),
-                                                           trailOrient, false)
-            	);
-            }
+            
+        	//animations.Add(
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, ammunitionNode,
+                                                       getEffectNameTop(gunPos),
+                                                       EffectsManager.EffectType.GUNTRAIL,
+                                                       trailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 2.0f)),
+                                                       new Vector2(trailWidth, 1.0f),
+                                                       trailOrient, false);
+        	//);
+           
         	
 		}
-        
+
+        private readonly Vector3 gunPosLeft = new Vector3(-1.5f, -0.3f, -0.3f);
+        private readonly Vector3 gunPosRight = new Vector3(1.5f, -0.3f, -0.3f);
+        private readonly Vector3 gunPosMiddle = new Vector3(0.0f, 0.3f, -0.3f);
+
         public override void postInitOnScene()
         {
+            if (ammunition is GunBullet)
+            {
+               
+                if ((ammunition as GunBullet).IsDoubleView)
+                {
+                    float baseWidth = 1.5f;
+                    prepareGunEffect(gunPosLeft, baseWidth);
+                    prepareGunEffect(gunPosRight, baseWidth);
+                }
+                else
+                {
+                    
+                    float baseWidth = 1.5f;
+                    prepareGunEffect(gunPosMiddle, baseWidth);
+
+                }
+
+
+            }
+
+
+            //Hide();
           //  base.postInitOnScene();         
             refreshPosition();         
-            ammunitionNode.SetVisible(true, true);
+            //ammunitionNode.SetVisible(true, true);
         }
 
         
                
       	public override void Hide()
         {
-      		ammunitionNode.SetVisible(false, true);
+            if (ammunitionNode != null) ammunitionNode.SetVisible(false, true);
       		//for(NodeAnimation.VisibilityNodeAnimation ani : animations) {
       		//	ani.
       		//}

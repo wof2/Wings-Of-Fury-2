@@ -195,8 +195,8 @@ namespace Wof.View
         	  	explosionFlash.SpecularColour = new ColourValue(0.3f, 0.3f, 0.3f);
         	  	
             }
-           
-            if (EngineConfig.DisplayingMinimap)
+
+            if (EngineConfig.DisplayingMinimap && minimapItem != null)
             {
                 minimapItem.Show();
             }

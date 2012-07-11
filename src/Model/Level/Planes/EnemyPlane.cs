@@ -593,7 +593,7 @@ namespace Wof.Model.Level.Planes
                     level.Controller.OnWarCry(this);
                     warCryTimer = 0;
                 }
-                weaponManager.FireAtAngle(Angle, WeaponType.Gun);
+                weaponManager.FireAtAngle(Angle, WeaponType.Gun, this.locationState == LocationState.AirTurningRound);
             }
                
         }

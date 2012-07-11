@@ -194,6 +194,8 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             sb.AppendLine("_cam5:" + _cam5);
             sb.AppendLine("_cam6:" + _cam6);
             sb.AppendLine("_resetCamera:" + _resetCamera);
+            sb.AppendLine("_pausePlane:" + _pausePlane);
+            
             
 
             sb.AppendLine("_altFire:" + _altFire);
@@ -240,7 +242,8 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 k._cam5 = GetKeyCode("_cam5", "KC_F5");
                 k._cam6 = GetKeyCode("_cam6", "KC_F6");
                 k._resetCamera = GetKeyCode("_resetCamera", "KC_V");
-                
+                k._pausePlane = GetKeyCode("_pausePlane", "KC_P");
+ 
                 k._altFire = GetKeyCode("_altFire", "KC_X");
                 k._gunFire = GetKeyCode("_gunFire", "KC_Z");
                 k._up = GetKeyCode("_up", "KC_UP");
@@ -294,8 +297,8 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 WriteString("_cam5", _cam5.ToString());
                 WriteString("_cam6", _cam6.ToString());
                 WriteString("_resetCamera", _resetCamera.ToString());
+                WriteString("_pausePlane", _pausePlane.ToString());
                 
-
                 WriteString("_altFire", _altFire.ToString());
                 WriteString("_gunFire", _gunFire.ToString());
                 WriteString("_up", _up.ToString());
@@ -421,6 +424,18 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             set { _resetCamera = value; }
         }
 
+
+        private KeyCode _pausePlane = KeyCode.KC_P;
+        
+        /// <summary>
+        /// Pobiera lub ustawia kod klawisza, ktory odpowiada za reset kamery
+        /// </summary>
+        public KeyCode PausePlane
+        {
+            get { return _pausePlane; }
+            set { _pausePlane = value; }
+        }
+        
        
         
 

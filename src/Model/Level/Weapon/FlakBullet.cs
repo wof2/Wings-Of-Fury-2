@@ -141,17 +141,17 @@ namespace Wof.Model.Level.Weapon
 	             	refToLevel.UserPlane.Hit(damage, 0);     
 	               	hit=true;	   
 	                //powiadamia controler o trafieniu.	               
-                   
-                    //odrejestruje pocisk
-                    refToLevel.Controller.OnUnregisterAmmunition(this);
 
-                    //niszcze rakiete.
-                    state = MissileState.Destroyed;
+                    Destroy();
                 }
                               
             }
 		}
-		
+
+	    protected override void CheckCollisionWithEnemyPlanes()
+	    {
+	      
+	    }
 		protected override void CheckCollisionWithGround()
 		{
 			

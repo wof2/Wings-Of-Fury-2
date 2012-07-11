@@ -344,10 +344,7 @@ namespace Wof.Model.Level.Weapon
                         refToLevel.Controller.OnUnregisterPlane(storagePlane);
 
                         //niszcze rakiete.
-                        state = MissileState.Destroyed;
-
-                        //odrejestruje rakiete
-                        refToLevel.Controller.OnUnregisterAmmunition(this);
+                        Destroy();
 
                         storageToRemove.Add(storagePlane);
                         break;
@@ -415,37 +412,13 @@ namespace Wof.Model.Level.Weapon
             }
         }
 
-        /// <summary> 
-        /// Sprawdza kolizje z wrogimi samolotami 
-        /// oraz obsluguje zderzania z nimi.
-        /// </summary>
-        /// <author>Michal Ziober</author>
-        protected virtual void CheckCollisionWithEnemyPlanes()
-        {
-            if (refToLevel.EnemyPlanes.Count > 0)
-            {
-                foreach (EnemyPlane ep in refToLevel.EnemyPlanes)
-                {
-                    if(this.Owner == ep) continue;
-
-                    //sprawdzam czy aby nie ma zderzenia.
-                    if (boundRectangle.Intersects(ep.Bounds))
-                    {
-                        //niszczy wrogi samolot
-                        ep.Destroy();
-
-                        //wyslam sygnal do controllera aby usunal samolot z widoku.
-                        refToLevel.Controller.OnEnemyPlaneBombed(ep, this);
-
-                        //zwiekszam liczbe trafionych obiektow przez rakiete
-                        refToLevel.Statistics.HitByRocket++;
-
-                        //niszcze rakiete.
-                        state = MissileState.Destroyed;
-                    }
-                }
-            }
-        }
+	    /// <summary> 
+	    /// Sprawdza kolizje z wrogimi samolotami 
+	    /// oraz obsluguje zderzania z nimi.
+	    /// </summary>
+	    /// <author>Michal Ziober</author>
+	    protected abstract void CheckCollisionWithEnemyPlanes();
+      
 
         /// <summary>
         /// Sprawdza kolizje z samolotem gracza.
@@ -462,11 +435,7 @@ namespace Wof.Model.Level.Weapon
        
 
      
-        public virtual void Destroy()
-        {
-            refToLevel.Controller.OnUnregisterAmmunition(this);
-            state = MissileState.Destroyed;
-        }
+        
 
         /// <summary>
         /// Funkcja sprawdza czy mozna odrejestrowac rakiete. Jesli mozna

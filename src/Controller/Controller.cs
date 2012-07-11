@@ -271,9 +271,15 @@ namespace Wof.Controller
    	    /// <summary>
         /// Funkcja informuje o wystrzeleniu pocisku typu dzialko 
         /// </summary>
-        /// <param name="flakBullet">pocisk dzialka, ktory zostal wystrzelony.</param>
+        /// <param name="gunBullet">pocisk dzialka, ktory zostal wystrzelony.</param>
         /// <author>Adam Witczak</author>
         void OnRegisterGunBullet(GunBullet gunBullet);
+
+        /// <summary>
+        /// Funkcja informuje o wystrzeleniu pocisku typu pocisk bunkra 
+        /// </summary>
+        /// <param name="shellBullet"></param>
+        void OnRegisterBunkerShellBullet(BunkerShellBullet shellBullet);
 
         
         /// <summary>
@@ -385,6 +391,9 @@ namespace Wof.Controller
         /// <param name="torpedo">Torpeda do odrejestrowania.</param>
         /// <author>Adam Witczak</author>
         void OnUnregisterTorpedo(Torpedo torpedo);
+
+
+        void OnUnregisterBunkerShellBullet(BunkerShellBullet shellBullet);
         
         
         void OnUnregisterAmmunition(Ammunition ammo);
@@ -524,6 +533,7 @@ namespace Wof.Controller
         void OnShipEmerging(LevelTile tile);
         void OnShipEmerged(LevelTile tile);
         void OnShipSubmerged(LevelTile tile);
-     
+
+        
     }
 }

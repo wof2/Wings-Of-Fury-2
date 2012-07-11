@@ -30,16 +30,38 @@ namespace Wof.Model.Level.Weapon
 		protected float travelledDistance = 0;
 	
 		protected const float baseMaxDistance = 200;
+
+	    private bool isReversed;
+
+	    private bool isDoubleView;
 		
-		public GunBullet(float x, float y, Level level, IObject2D owner, float fireAngle, float initialSpeed)
-			: base(x,y, initialSpeed * owner.MovementVector, level, fireAngle, owner)
-        {			
+		public GunBullet(float x, float y, Level level, IObject2D owner, float fireAngle, float initialSpeed, bool reversed, bool doubleView)
+            : base(x, y, (reversed ? -1 : 1) * initialSpeed * owner.MovementVector, level, (reversed ? Mogre.Math.PI - fireAngle : fireAngle), owner)
+        {
+		     isReversed = reversed;
+		     isDoubleView = doubleView;
              boundRectangle = new Quadrangle(new PointD(x, y), 1, 1);  			  
              maxFlyingDistance = baseMaxDistance * mRand.Next(90, 110) / 100.0f;                               	
         }
-		
-		
-		protected override bool OutOfFuel() {
+
+        /// <summary>
+        /// Czy kierunek lotu poczatkowo byl przeciwny do wlasciciela pocisku? (B25)
+        /// </summary>
+	    public bool IsReversed
+	    {
+	        get { return isReversed; }
+        }
+
+        /// <summary>
+        /// Czy w widoku ma byc 2krotny pocisk
+        /// </summary>
+        public bool IsDoubleView
+        {
+            get { return isDoubleView; }
+        }
+
+
+	    protected override bool OutOfFuel() {
 			if(!base.OutOfFuel()) {
 				
 				if(travelledDistance >= maxFlyingDistance) {
@@ -119,17 +141,40 @@ namespace Wof.Model.Level.Weapon
 	             	refToLevel.UserPlane.Hit(damage, 0);     
 	               	hit=true;	   
 	                //powiadamia controler o trafieniu.	               
-                   
-                    //odrejestruje pocisk
-                    refToLevel.Controller.OnUnregisterAmmunition(this);
 
-                    //niszcze rakiete.
-                    state = MissileState.Destroyed;
+                    Destroy();
                 }
                               
             }
 		}
-		
+
+        protected override void CheckCollisionWithEnemyPlanes()
+        {
+            if (refToLevel.EnemyPlanes.Count > 0)
+            {
+                foreach (EnemyPlane ep in refToLevel.EnemyPlanes)
+                {
+                    if (this.Owner == ep) continue;
+
+                    //sprawdzam czy aby nie ma zderzenia.
+                    if (boundRectangle.Intersects(ep.Bounds))
+                    {
+                        //niszczy wrogi samolot
+                        //ubytek paliwa.
+                        ep.Hit(true);
+
+                        //komunikat do controllera.
+                        refToLevel.Controller.OnGunHitPlane(ep);
+
+                        //zwiekszam liczbe trafionych obiektow przez rakiete
+                        refToLevel.Statistics.HitByGun++;
+
+                        //niszcze pocisk
+                        Destroy();
+                    }
+                }
+            }
+        }
 		protected override void CheckCollisionWithGround()
 		{
 			if(this.Position.Y >= 15) {

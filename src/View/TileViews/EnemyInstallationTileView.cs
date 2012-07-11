@@ -73,6 +73,11 @@ namespace Wof.View.TileViews
         
         protected SceneNode gunNode;
 
+        protected virtual Vector3 NozzleLocation
+        {
+            get { return new Vector3(0, 0, -3.5f); }
+        }
+
         public SceneNode GunNode
         {
             get { return gunNode; }
@@ -90,16 +95,14 @@ namespace Wof.View.TileViews
         /// </summary>
         public virtual void GunFire()
         {
-            Vector3 gunPos = new Vector3(0, 0, -3.5f);
             Vector2 expSize = new Vector2(3, 3);
-            float baseWidth = 30;
-            GunFireDo(gunPos, expSize, baseWidth);
+            float baseWidth = 5;
+            GunFireDo(NozzleLocation, expSize, baseWidth);
 
         }
 
         protected virtual void GunFireDo(Vector3 localPos, Vector2 expSize, float baseWidth)
         {
-
             Quaternion orient, trailOrient;
             orient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y);
             trailOrient = new Quaternion(-Math.HALF_PI, Vector3.UNIT_Y);
@@ -126,8 +129,8 @@ namespace Wof.View.TileViews
             {
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, this.gunNode, "GunTrail" + localPos,
                                                            EffectsManager.EffectType.GUNTRAIL,
-                                                           trailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 10.0f)),
-                                                           new Vector2(trailWidth, 1.0f),
+                                                           trailBase - new Vector3(0, -1.0f, Math.RangeRandom(0.2f, 3.0f)),
+                                                           new Vector2(trailWidth, 1.2f),
                                                            trailOrient, false);
             }
 
@@ -143,8 +146,8 @@ namespace Wof.View.TileViews
             {
                 EffectsManager.Singleton.RectangularEffect(sceneMgr, this.gunNode, "GunTrailTop" + localPos,
                                                            EffectsManager.EffectType.GUNTRAIL,
-                                                           trailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 10.0f)),
-                                                           new Vector2(trailWidth, 1.0f),
+                                                           trailBase - new Vector3(0, -1.0f, Math.RangeRandom(0.2f, 3.0f)),
+                                                           new Vector2(trailWidth, 1.2f),
                                                            trailOrient, false);
             }
 

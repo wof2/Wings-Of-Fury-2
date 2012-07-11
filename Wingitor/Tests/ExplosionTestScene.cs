@@ -89,6 +89,52 @@ namespace wingitor.Tests
             i += space;
 
 
+
+            // mixed
+            EffectsManager.Singleton.Sprite(
+               Framework.SceneMgr,
+               Framework.SceneMgr.RootSceneNode,
+               new Vector3(i, 50, 0),
+               new Vector2(20, 20),
+               EffectsManager.EffectType.EXPLOSION4,
+               true,
+               1
+               );
+
+            EffectsManager.Singleton.Sprite(
+              Framework.SceneMgr,
+              Framework.SceneMgr.RootSceneNode,
+              new Vector3(i, 50, 0),
+              new Vector2(15, 15),
+              EffectsManager.EffectType.EXPLOSION1,
+              true,
+              1
+              );
+            i += space;
+
+            // mixed
+            EffectsManager.Singleton.Sprite(
+               Framework.SceneMgr,
+               Framework.SceneMgr.RootSceneNode,
+               new Vector3(i, 50, 0),
+               new Vector2(20, 20),
+               EffectsManager.EffectType.EXPLOSION4,
+               true,
+               2
+               );
+
+            EffectsManager.Singleton.Sprite(
+              Framework.SceneMgr,
+              Framework.SceneMgr.RootSceneNode,
+              new Vector3(i, 50, 0),
+              new Vector2(15, 15),
+              EffectsManager.EffectType.EXPLOSION2,
+              true,
+              2
+              );
+            i += space;
+
+
             /*
             float angle;
             angle = Mogre.Math.RangeRandom(-20, 20);

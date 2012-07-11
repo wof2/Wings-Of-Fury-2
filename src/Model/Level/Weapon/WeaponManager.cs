@@ -321,14 +321,13 @@ namespace Wof.Model.Level.Weapon
         /// <summary>
         /// Oddaje strzal z dzialka.
         /// </summary>
-        private void GunFire(float angle)
+        private void GunFire(float angle, bool isTurningAround)
         {
             if (ammunitionOwner is EnemyPlane)
-                EnemyPlaneFire(angle);
+                EnemyPlaneFire(angle, isTurningAround);
             else
-            {         
-
-                UserPlaneFire(angle);
+            {
+                UserPlaneFire(angle, isTurningAround);
             }
         }
 
@@ -336,7 +335,7 @@ namespace Wof.Model.Level.Weapon
         /// Symuluje strzal z samolotu przeciwnika.
         /// </summary>
         /// <param name="angle"></param>
-        private void EnemyPlaneFire(float angle)
+        private void EnemyPlaneFire(float angle, bool isTurningAround)
         {
         	if(!(ammunitionOwner is Plane))
         	{
@@ -371,15 +370,16 @@ namespace Wof.Model.Level.Weapon
         /// Symuluje strzal z samolotu gracza.
         /// </summary>
         /// <param name="angle">Kat nachylenia samolotu.</param>
-        
-        private GunBullet UserPlaneFire(float angle)
+
+        private IList<GunBullet> UserPlaneFire(float angle, bool isTurningAround)
         {
             //dzwiek strzalu.
             refToLevel.Controller.OnFireGun(refToLevel.UserPlane);
-
+            IList<GunBullet> bullets = new List<GunBullet>();
             
             if (Environment.TickCount - lastFireTick >= Gun.FireInterval)
             {
+
                 //zwieksza liczve wystrzelonych pociskow
                 
                 this.refToLevel.Statistics.GunCount++;
@@ -392,32 +392,53 @@ namespace Wof.Model.Level.Weapon
 	
 	
 	            //nowy pocisk
-	            bullet = new GunBullet(position.X, position.Y,refToLevel,ammunitionOwner, angle, 2.5f);//FIXME
-	 
+                bool biDirectional = refToLevel.UserPlane.PlaneType == PlaneType.B25 && !ammunitionOwner.IsEnemy; ;
+
+
+                // forward
+	            bullet = new GunBullet(position.X, position.Y,refToLevel,ammunitionOwner, angle, 2.5f, false, true);
+
 	            bullet.SetZRotationPerSecond(0.09f);
+                bullets.Add(bullet);
+
+                RegisterWeaponToModelEvent(bullet);
+                refToLevel.Controller.OnRegisterGunBullet(bullet);
+
+
+                if (biDirectional)
+                {
+                    // backward
+                    float tailShift = -5.0f;
+                    if (ammunitionOwner.Direction == Direction.Left)
+                    {
+                        tailShift = 5.0f;
+                    }
+                    bullet = new GunBullet(position.X + tailShift, position.Y, refToLevel, ammunitionOwner, angle, 2.0f, true, false);
+                    bullet.SetZRotationPerSecond(0.09f);
+                    bullets.Add(bullet);
+
+                    RegisterWeaponToModelEvent(bullet);
+                    refToLevel.Controller.OnRegisterGunBullet(bullet);
+                }
 	
 	            //zwieksza liczbe uzytych rakiet
-	            if (!this.ammunitionOwner.IsEnemy)
-	                this.refToLevel.Statistics.GunCount++;
-	
-	            
-	            RegisterWeaponToModelEvent(bullet);
-	            refToLevel.Controller.OnRegisterGunBullet(bullet);
+                if (!this.ammunitionOwner.IsEnemy)
+                {
+                    this.refToLevel.Statistics.GunCount++;
+                    if (biDirectional)
+                    {
+                        this.refToLevel.Statistics.GunCount++;
+                    }
+                }
+
+
+              
 	           
 	            //ustawiam nowy czas
                 lastFireTick = Environment.TickCount;
-                
-	            return bullet;
-        	
-/*
-                CheckEnemyPlaneHits();
 
-                // trafienia w lecace rakiety
-                CheckRocketHits(); 
-
-                //trafi w ziemie.
-                CheckGroundHits();
-*/
+                return bullets;
+    
               
             }
             
@@ -531,6 +552,16 @@ namespace Wof.Model.Level.Weapon
                                 	
         }
 
+        public BunkerShellBullet BunkerShellFire(IObject2D obj, float fireAngle)
+        {
+            // Console.WriteLine("Flak fire angle:"+fireAngle);
+            BunkerShellBullet shell = new BunkerShellBullet(ammunitionOwner.Center.X, ammunitionOwner.Center.Y, refToLevel, ammunitionOwner, obj, fireAngle, GameConsts.FlakBunker.InitialFlakSpeed);
+            RegisterWeaponToModelEvent(shell);
+            refToLevel.Controller.OnRegisterBunkerShellBullet(shell);
+
+            return shell;
+        }
+
         public Rocket RocketFire(float fireAngle, PointD movementVector, float zRotationPerSec)
 		{
         	Rocket rocket = null;
@@ -628,7 +659,7 @@ namespace Wof.Model.Level.Weapon
         /// obiekt otwiera ogien.
         /// </summary>
         /// <param name="planeAngle">Kat nachylenia samolotu.</param>
-        public void FireAtAngle(float fireAngle, WeaponType weaponType)
+        public void FireAtAngle(float fireAngle, WeaponType weaponType, bool isTurningAround)
         {
             switch (weaponType)
             {
@@ -636,7 +667,7 @@ namespace Wof.Model.Level.Weapon
                     BombFire();
                     break;
                 case WeaponType.Gun:
-                    GunFire(fireAngle);
+                    GunFire(fireAngle, isTurningAround);
                     break;
                 case WeaponType.Rocket:                    
                     RocketFire(fireAngle);
@@ -657,7 +688,7 @@ namespace Wof.Model.Level.Weapon
                     BombFire();
                     break;
                 case WeaponType.Gun:
-                    GunFire(0);
+                    GunFire(0, false);
                     break;
                 case WeaponType.Rocket:
                     RocketFire();

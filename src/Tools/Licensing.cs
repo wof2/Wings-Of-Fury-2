@@ -69,6 +69,7 @@ namespace Wof.Tools
        {
            try
            {
+               Console.WriteLine("Wof license builder v. " + EngineConfig.C_WOF_VERSION);
            	 //  BuildLicenseFile(Hash);
              //  IsEhnancedVersion();
                if(args.Length != 1)

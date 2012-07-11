@@ -6,12 +6,13 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-using System;
 using System.Collections.Generic;
+using Mogre;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.Weapon;
 using Wof.Model.Level.XmlParser;
+using Math=System.Math;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 {
@@ -41,7 +42,8 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         protected Model.Level.Direction initialDirection;
 
         protected const float BarrelAdjustmentSpeed = 0.001f;
-      
+
+       
          
 
         /// <summary>
@@ -273,6 +275,10 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 		                }
 
                         FlakBullet bullet = weaponManager.FlakFire(refToLevel.UserPlane, localAngle);
+
+                        //powiadamia controler o strzale.
+                        refToLevel.Controller.OnBunkerFire(this, refToLevel.UserPlane, false);
+
                        // Console.WriteLine("ANGLE: "+angle);
                       	//Zeruje licznik. Czekam kolejna sekunde.
 	                    currentTime = 0;

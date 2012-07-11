@@ -207,6 +207,19 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 
         #region Abstarct & Virtual & Public Method
 
+
+        protected virtual bool IsFireConditionMet
+        {
+            get
+            {
+                if (horizon.Intersects(refToLevel.UserPlane.Bounds))
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         /// <summary>
         /// Prowadzi ostrzal samolotu.
         /// </summary>
