@@ -65,12 +65,7 @@ namespace Wof.Model.Level.Weapon
     {
         #region Public Const
 
-        /// <summary>
-        /// Czas jaki musi uplynac od ostatniego strzalu z dzialka.
-        /// </summary>
-        /// <remarks>Podany w milisekundach.</remarks>
-        /// <author>Michal Ziober</author>
-        public const int FireInterval = 100;
+      
 
         /// <summary>
         /// Zasieg dzialka w poziomie.

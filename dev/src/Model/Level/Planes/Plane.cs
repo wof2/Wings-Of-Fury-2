@@ -1726,7 +1726,8 @@ namespace Wof.Model.Level.Planes
         public virtual void Move(float time, float timeUnit)
         {
             //Console.WriteLine(Speed);
-            float scaleFactor = time/timeUnit;
+            float scaleFactor  = time / timeUnit;
+            float scaleFactor2 = time/timeUnit;
 
             if (planePaused)
             {
@@ -1828,7 +1829,7 @@ namespace Wof.Model.Level.Planes
                     
                 //if(locationState != LocationState.AirTurningRound)
                 {
-                	UpdatePlaneAngle(scaleFactor);
+                	UpdatePlaneAngle(scaleFactor2);
                 }
                 	
                 

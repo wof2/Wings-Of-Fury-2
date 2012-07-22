@@ -3039,10 +3039,13 @@ namespace Wof.Controller.Screens
             
         }
 
-
+        public PlaneView FindPlaneView(Plane p)
+        {
+            return levelView.FindPlaneView(p);
+        }
         public void OnFireGun(IObject2D plane)
         {
-            if (Environment.TickCount - lastFireTick >= Gun.FireInterval)
+            if (Environment.TickCount - lastFireTick >= GameConsts.Gun.FireInterval)
             {
                 levelView.OnFireGun(plane);
                 lastFireTick = Environment.TickCount;

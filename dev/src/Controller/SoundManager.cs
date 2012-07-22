@@ -517,6 +517,7 @@ namespace Wof.Controller
 
         public void PlayIncorrectStart()
         {
+            Console.WriteLine("Incorrect");
             Play(incorrectStart);
         }
 

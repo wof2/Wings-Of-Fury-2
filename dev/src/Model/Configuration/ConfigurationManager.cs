@@ -148,6 +148,9 @@ namespace Wof.Model.Configuration
                       configurations.GetConfiguration(ConfigurationNames.ShipConcreteBunker),
                       new GameConsts.ShipConcreteBunker());
 
+            SetConsts(typeof(GameConsts.Gun),
+                   configurations.GetConfiguration(ConfigurationNames.Gun), new GameConsts.Gun());
+
             SetConsts(typeof(GameConsts.Bomb),
                       configurations.GetConfiguration(ConfigurationNames.Bomb), new GameConsts.Bomb());
 

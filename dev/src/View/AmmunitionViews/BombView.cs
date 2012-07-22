@@ -133,8 +133,17 @@ namespace Wof.View
             animationState.Enabled = true;
         }
 
+        protected float visualRotation = 0;
+        public override void refreshPosition()
+        {
+            base.refreshPosition();
+            ammunitionNode.Pitch(new Radian(visualRotation));
+		
+		
+        }
         protected override void preInitOnScene()
         {
+
             ammunitionModel = sceneMgr.CreateEntity("Bomb" + ammunitionID.ToString(), "Bomb.mesh");
             ammunitionNode =
                 sceneMgr.RootSceneNode.CreateChildSceneNode("Bomb" + ammunitionID.ToString(),
@@ -165,6 +174,7 @@ namespace Wof.View
         //Deprecated
         protected void initOnScene()
         {
+            visualRotation = 0;
             ammunitionModel = sceneMgr.CreateEntity("Bomb" + ammunitionID.ToString(), "Bomb.mesh");
             ammunitionNode =
                 sceneMgr.RootSceneNode.CreateChildSceneNode("Bomb" + ammunitionID.ToString(),
@@ -180,7 +190,7 @@ namespace Wof.View
             }
 
             ammunitionNode.Orientation *= new Quaternion((float) ammunition.Angle, Vector3.UNIT_X);
-
+           
 
             if (EngineConfig.DisplayingMinimap)
             {
@@ -198,6 +208,8 @@ namespace Wof.View
         public override void updateTime(float timeSinceLastFrame)
         {
             animationState.AddTime(timeSinceLastFrame);
+            visualRotation += timeSinceLastFrame * Mogre.Math.RangeRandom(3.0f,5.0f);
+           
         }
 
         public void rewind()

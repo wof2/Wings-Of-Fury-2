@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
+using Wof.Misc;
 using Wof.Model.Level;
 using Wof.Model.Level.Weapon;
 using Wof.View.Effects;
@@ -160,6 +161,9 @@ namespace Wof.View.AmmunitionViews
       	public override void Hide()
         {
             if (ammunitionNode != null) ammunitionNode.SetVisible(false, true);
+            hideEffect(gunPosLeft);
+            hideEffect(gunPosRight);
+            hideEffect(gunPosMiddle);
       		//for(NodeAnimation.VisibilityNodeAnimation ani : animations) {
       		//	ani.
       		//}
@@ -173,52 +177,31 @@ namespace Wof.View.AmmunitionViews
       
         public override void refreshPosition()
         {
-        	base.refreshPosition();
             if (ammunition != null)
             {
-            	if((ammunition is GunBullet)) 
-            	{
-            		
-            		GunBullet gb = ammunition as GunBullet;
-            	
-            		float yawAmount = getYawAmount();        
-        			float z =  gb.TimeCounter * yawAmount * 0.1f;
-        		
-        			if(gb.Owner.Direction == Direction.Right){
-        				z *= -1;
-        			}
 
-       			
-        			
-        			/*
-        				
-        			Vector3 v = new Vector3(ammunition.MovementVector.X, ammunition.MovementVector.Y, yawAmount);
-        			v.Normalise();
-        			if(z>0)
-        			{
-        			Console.WriteLine(v);
-        			}
-        			v = new Vector3(1, (float)System.Math.Tan(ammunition.AbsoluteAngle), yawAmount / Mogre.Math.HALF_PI);
-        			v.Normalise();
-        			if(z>0)
-        			{
-        			Console.WriteLine(v);
-        			}*/
-        		
-                	ammunitionNode.SetPosition(ammunitionNode.Position.x, ammunitionNode.Position.y, 0 );
-               	            	
-            	//ammunitionNode.Orientation = ;
-            			//ammunitionNode.Orientation *= new Quaternion(initialViewOwnerOrientation.Yaw, Vector3.UNIT_Z);
+                Vector3 axis;
+                if (ammunition.Direction == Direction.Right)
+                {
+                    axis = Vector3.NEGATIVE_UNIT_Y;
+                }
+                else
+                {
+                    axis = Vector3.UNIT_Y;
+                }
 
-            			//Console.WriteLine(initialViewOwnerOrientation.Pitch.ValueDegrees+"; "+initialViewOwnerOrientation.Yaw.ValueDegrees+"; "+initialViewOwnerOrientation.Roll.ValueDegrees);
-            			
-            		//gb.TravelledDistance
-            		
-           			
-            			
-            	
-            	}
+
+                GunBullet gb = ammunition as GunBullet;
+                Vector2 v = UnitConverter.LogicToWorldUnits(ammunition.Center);
+                ammunitionNode.Orientation = gb.LaunchOrientation;
+                ammunitionNode.SetPosition((float)(v.x), (float)(v.y), gb.Position3.z);
+               
+
+
+
             }
+        	
+           
         }
         
 	}

@@ -56,6 +56,7 @@ using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
+using Wof.View;
 
 namespace Wof.Controller
 {
@@ -68,6 +69,10 @@ namespace Wof.Controller
         /// <param name="plane"></param>
         void OnRegisterPlane(Plane plane);
 
+        PlaneView FindPlaneView(Plane plane);
+        
+
+     
         /// <summary>
         /// Funkcja rejestruje strzal do samolotu.
         /// </summary>

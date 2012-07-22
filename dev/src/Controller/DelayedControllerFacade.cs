@@ -12,6 +12,7 @@ using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 using Wof.Controller.Screens;
+using Wof.View;
 
 namespace Wof.Controller
 {
@@ -95,6 +96,17 @@ namespace Wof.Controller
         {
             AddJob(MethodBase.GetCurrentMethod().Name, new object[]{plane});
         }
+
+        /// <summary>
+        /// Immediate call to FindPlaneView
+        /// </summary>
+        /// <param name="plane"></param>
+        /// <returns></returns>
+        public PlaneView FindPlaneView(Plane plane)
+        {
+            return controller.FindPlaneView(plane);
+        }
+
 
         /// <summary>
         /// Funkcja rejestruje strzal do samolotu.

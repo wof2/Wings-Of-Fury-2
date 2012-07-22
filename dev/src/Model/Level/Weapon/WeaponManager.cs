@@ -49,14 +49,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-
+using Mogre;
+using Wof.Controller.Screens;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
 using Wof.Model.Level.Planes;
+using Wof.View;
 using LevelRef = Wof.Model.Level.Level;
+using Math=System.Math;
+using Plane=Wof.Model.Level.Planes.Plane;
 
 namespace Wof.Model.Level.Weapon
 {
@@ -345,7 +349,7 @@ namespace Wof.Model.Level.Weapon
         	
             refToLevel.Controller.OnFireGun(ammunitionOwner);
 
-            if (Environment.TickCount - lastFireTick >= Gun.FireInterval)
+            if (Environment.TickCount - lastFireTick >= GameConsts.Gun.FireInterval)
             {
                 if (refToLevel.UserPlane != null && ammunitionOwner != null)
                 {
@@ -376,10 +380,13 @@ namespace Wof.Model.Level.Weapon
             //dzwiek strzalu.
              refToLevel.Controller.OnFireGun(refToLevel.UserPlane);
             IList<GunBullet> bullets = new List<GunBullet>();
-            
-            if (Environment.TickCount - lastFireTick >= Gun.FireInterval * 1 )
+
+            if (Environment.TickCount - lastFireTick >= GameConsts.Gun.FireInterval * 1)
             {
 
+                PlaneView pv = refToLevel.Controller.FindPlaneView(refToLevel.UserPlane); // na razie hardkod przez DelayedControllerFacade
+
+               
                 //zwieksza liczve wystrzelonych pociskow
                
                 GunBullet bullet = null;
@@ -391,10 +398,11 @@ namespace Wof.Model.Level.Weapon
 	            
 	            //nowy pocisk
                 bool biDirectional = refToLevel.UserPlane.PlaneType == PlaneType.B25 && !ammunitionOwner.IsEnemy; ;
+                Quaternion q = pv.InnerNode._getDerivedOrientation();
 
 	
                 // forward
-	            bullet = new GunBullet(position.X, position.Y,refToLevel, ammunitionOwner, angle, 2.5f, false, true, refToLevel.UserPlane.GetTurningProgress());
+	            bullet = new GunBullet(position.X, position.Y, q, refToLevel, ammunitionOwner, false, true);
 
 	            bullet.SetZRotationPerSecond(0.09f);
                 bullets.Add(bullet);
@@ -408,12 +416,12 @@ namespace Wof.Model.Level.Weapon
                 if (biDirectional)
                 {
                     // backward
-                    float tailShift = -5.0f;
-                    if (ammunitionOwner.Direction == Direction.Left)
-                    {
-                        tailShift = 5.0f;
-                    }
-                    bullet = new GunBullet(position.X + tailShift, position.Y, refToLevel, ammunitionOwner, angle, 2.0f, true, false, refToLevel.UserPlane.GetTurningProgress());
+                    float tailShift = 4.0f;
+                    q =  q * new Quaternion(new Radian(new Degree(180)),  Vector3.UNIT_X );
+                    Vector3 displacement = q * new Vector3(0, 0, -tailShift) ;
+
+
+                    bullet = new GunBullet(position.X + displacement.x, position.Y + displacement.y, q, refToLevel, ammunitionOwner, true, false);
                     bullet.SetZRotationPerSecond(0.09f);
                     bullets.Add(bullet);
 			//		if(!isTurningAround)

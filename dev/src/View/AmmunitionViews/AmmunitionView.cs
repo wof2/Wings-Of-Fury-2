@@ -55,7 +55,7 @@ using Wof.Model.Level.Weapon;
 
 namespace Wof.View
 {
-	internal abstract class AmmunitionView : IDisposable, IOwnedBySceneNode
+	internal abstract class AmmunitionView : IDisposable
 	{
 		protected static int ammunitionCounter = 1;
 
@@ -94,32 +94,10 @@ namespace Wof.View
 			get { return ammunitionNode; }
 		}
 
-		protected SceneNode ownerSceneNode;
 		
-	    protected Quaternion initialViewOwnerOrientation;
-       
+	 
 	    	
 
-		public SceneNode OwnerSceneNode {
-			get { return ownerSceneNode; }
-			set { 
-				ownerSceneNode = value;
-				if(ownerSceneNode != null) 
-	        	{
-					//Quaternion q = ownerSceneNode._getDerivedOrientation();
-					
-					//ownerSceneNode.Orientation.
-	        		initialViewOwnerOrientation = ownerSceneNode.Orientation; //q;///new Quaternion(.w, ownerSceneNode.Orientation.x, ownerSceneNode.Orientation.y, ownerSceneNode.Orientation.z);
-	        	
-	        	//	Console.WriteLine(getYaw());
-    			
-				}else
-				{
-					initialViewOwnerOrientation = Quaternion.IDENTITY;
-				}
-			}
-		}
-		
 	
 
 		#region Minimap representation
@@ -140,22 +118,6 @@ namespace Wof.View
 		}
 
 
-
-   	   protected float getYawAmount() {
-        	float yawAmount = initialViewOwnerOrientation.Yaw.ValueRadians;        	
-        	return yawAmount;        
-        }
-		
-/*
-		protected float getYaw() {
-				float z =  initialViewOwnerOrientation.Yaw.ValueRadians; //( yawAmount / Mogre.Math.HALF_PI  + Mogre.Math.HALF_PI  );
-        		if(float.IsNaN(z)) {
-        			z = 0;
-        		}
-				
-				return z + Mogre.Math.HALF_PI;
-		}*/
-
 		public virtual void refreshPosition()
 		{
 			if (ammunition != null) {
@@ -173,8 +135,7 @@ namespace Wof.View
 				ammunitionNode.Orientation = new Quaternion(Mogre.Math.HALF_PI, axis); // pocisk bylby bokiem w stosunku do samolotu. Ma byc w kierunku w ktorym jest samolot
 				ammunitionNode.Orientation *= new Quaternion((Radian)ammunition.Angle, Vector3.UNIT_X); // pion
 				
-				ammunitionNode.Orientation *= initialViewOwnerOrientation; //new Quaternion(pv.OuterNode.Orientation.w,pv.OuterNode.Orientation.x,pv.OuterNode.Orientation.y,pv.OuterNode.Orientation.z);
-				
+			
 				
 				Vector2 v = UnitConverter.LogicToWorldUnits(ammunition.Center);
 				ammunitionNode.SetPosition((float)(v.x), (float)(v.y), 0);

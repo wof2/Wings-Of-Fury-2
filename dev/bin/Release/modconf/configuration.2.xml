@@ -198,6 +198,14 @@
     horizonHeight = "65"
     horizonWidth ="85"/>
 
+
+  <!-- działka samolotów -->
+  <Gun
+    fireInterval = "100"
+    baseSpeed = "50"
+    baseDamage = "5"
+    />
+
   <!--Bomby:
   fireInterval - Przedzial czasu, jaki musi uplynac, aby gracz mogl zrzucic nastepna bombe. Podany w milisekundach(ms). Typ: int
   gravitation - Przyciaganie ziemskie. Typ: Double.
