@@ -683,6 +683,8 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         /// <author>Emil</author>
         protected float turningTimeLeft;
+        
+        
 
         protected Level level;
 
@@ -1775,6 +1777,8 @@ namespace Wof.Model.Level.Planes
                 if (planeState != PlaneState.Destroyed && locationState == LocationState.AirTurningRound &&
                     isChangingDirection)
                 {
+                //	Console.WriteLine("TURN:"+GetTurningProgress());
+                	
                     turningTimeLeft -= time;
                     if (!(Speed >= minFlyingSpeed && movementVector.SignX != turningVector.SignX))
                     { 
@@ -2923,6 +2927,17 @@ namespace Wof.Model.Level.Planes
         private PointD GetStartingPosition()
         {
             return Carrier.GetRestoreAmunitionPosition();
+        }
+        
+        /// <summary>
+        /// Procentowy (0-1) postep zawracania
+        /// </summary>
+        /// <returns></returns>
+        public float GetTurningProgress() {
+        	if(this.IsChangingDirection) {
+        		return (turningTime - turningTimeLeft) / turningTime;
+        	}
+        	return 0;
         }
 
         /// <summary>

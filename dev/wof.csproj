@@ -950,6 +950,7 @@
     <Compile Include="src\View\AmmunitionViews\BunkerShellBulletView.cs" />
     <Compile Include="src\View\AmmunitionViews\FlakBulletView.cs" />
     <Compile Include="src\View\AmmunitionViews\GunBulletView.cs" />
+    <Compile Include="src\View\AmmunitionViews\IOwnedBySceneNode.cs" />
     <Compile Include="src\View\AmmunitionViews\MissileBaseView.cs" />
     <Compile Include="src\View\AmmunitionViews\TorpedoView.cs" />
     <Compile Include="src\View\AmmunitionViews\RocketView.cs" />

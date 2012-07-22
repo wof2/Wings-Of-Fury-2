@@ -28,7 +28,7 @@ namespace Wof.Model.Level.Weapon
 		protected static Random mRand  = new Random();
 		protected readonly float maxFlyingDistance;
 		
-		protected float travelledDistance = 0;
+	
 		
 		public FlakBullet(float x, float y, Level level, IObject2D owner, IObject2D target, float fireAngle, float initialSpeed)
 			: base(x,y, GetInitialVector(owner, target, initialSpeed) , level, fireAngle, owner)
@@ -123,7 +123,7 @@ namespace Wof.Model.Level.Weapon
             moveVector = vector; // orientacyjnie bo inne metody z tego korzystaja
             
             travelledDistance += vector.EuclidesLength;
-           
+          
         }
 		
 		protected override void CheckCollisionWithUserPlane()

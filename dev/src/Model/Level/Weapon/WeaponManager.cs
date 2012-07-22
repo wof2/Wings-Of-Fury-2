@@ -374,36 +374,36 @@ namespace Wof.Model.Level.Weapon
         private IList<GunBullet> UserPlaneFire(float angle, bool isTurningAround)
         {
             //dzwiek strzalu.
-            refToLevel.Controller.OnFireGun(refToLevel.UserPlane);
+             refToLevel.Controller.OnFireGun(refToLevel.UserPlane);
             IList<GunBullet> bullets = new List<GunBullet>();
             
-            if (Environment.TickCount - lastFireTick >= Gun.FireInterval)
+            if (Environment.TickCount - lastFireTick >= Gun.FireInterval * 1 )
             {
 
                 //zwieksza liczve wystrzelonych pociskow
-                
-                this.refToLevel.Statistics.GunCount++;
-                
+               
                 GunBullet bullet = null;
 	            PointD position = null;
 	       
 	            //startowa pozycja pocisku
 	            position = new PointD(ammunitionOwner.Center.X, ammunitionOwner.Center.Y);
 	
-	
+	            
 	            //nowy pocisk
                 bool biDirectional = refToLevel.UserPlane.PlaneType == PlaneType.B25 && !ammunitionOwner.IsEnemy; ;
 
-
+	
                 // forward
-	            bullet = new GunBullet(position.X, position.Y,refToLevel,ammunitionOwner, angle, 2.5f, false, true);
+	            bullet = new GunBullet(position.X, position.Y,refToLevel, ammunitionOwner, angle, 2.5f, false, true, refToLevel.UserPlane.GetTurningProgress());
 
 	            bullet.SetZRotationPerSecond(0.09f);
                 bullets.Add(bullet);
 
-                RegisterWeaponToModelEvent(bullet);
                 refToLevel.Controller.OnRegisterGunBullet(bullet);
-
+			//	if(!isTurningAround)
+                {
+					RegisterWeaponToModelEvent(bullet);               
+                }
 
                 if (biDirectional)
                 {
@@ -413,16 +413,18 @@ namespace Wof.Model.Level.Weapon
                     {
                         tailShift = 5.0f;
                     }
-                    bullet = new GunBullet(position.X + tailShift, position.Y, refToLevel, ammunitionOwner, angle, 2.0f, true, false);
+                    bullet = new GunBullet(position.X + tailShift, position.Y, refToLevel, ammunitionOwner, angle, 2.0f, true, false, refToLevel.UserPlane.GetTurningProgress());
                     bullet.SetZRotationPerSecond(0.09f);
                     bullets.Add(bullet);
-
-                    RegisterWeaponToModelEvent(bullet);
+			//		if(!isTurningAround)
+	                {
+						RegisterWeaponToModelEvent(bullet);                	
+	                }                   
                     refToLevel.Controller.OnRegisterGunBullet(bullet);
                 }
 	
 	            //zwieksza liczbe uzytych rakiet
-                if (!this.ammunitionOwner.IsEnemy)
+                if (!this.ammunitionOwner.IsEnemy && !isTurningAround)
                 {
                     this.refToLevel.Statistics.GunCount++;
                     if (biDirectional)

@@ -773,13 +773,25 @@ namespace Wof.View
             }
             else if (ammunition is GunBullet)
             {
-                ammunitionViews.Add(GunBulletView.GetInstance(ammunition));
+            	AmmunitionView av = GunBulletView.GetInstance(ammunition);
+                ammunitionViews.Add(av);
+          
+			    if(ammunition.Owner is Plane) {
+            	   	PlaneView pv = FindPlaneView((ammunition.Owner as Plane));
+            		av.OwnerSceneNode = pv.OuterNode; 
+            		av.refreshPosition();
+            	
+            	}
                 
                 if (EngineConfig.DisplayBoundingQuadrangles)
 	            {
 	                OnRegisterBoundingQuadrangle(ammunition, sceneMgr);
 	            }
+                
+          		     
             }
+            
+          
             
             
         }

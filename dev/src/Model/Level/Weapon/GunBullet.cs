@@ -7,6 +7,7 @@
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
 using System;
+using Mogre;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.Infantry;
@@ -34,14 +35,26 @@ namespace Wof.Model.Level.Weapon
 	    private bool isReversed;
 
 	    private bool isDoubleView;
+	    
+	    protected float planeTurningProgress;
+	    
+		public float PlaneTurningProgress {
+			get { return planeTurningProgress; }
+		}
+	    
+	    protected Vector3 direction = new Vector3(1,0,0);
 		
-		public GunBullet(float x, float y, Level level, IObject2D owner, float fireAngle, float initialSpeed, bool reversed, bool doubleView)
+		public GunBullet(float x, float y, Level level, IObject2D owner, float fireAngle, float initialSpeed, bool reversed, bool doubleView, float planeTurningProgress)
             : base(x, y, (reversed ? -1 : 1) * initialSpeed * owner.MovementVector, level, (reversed ? Mogre.Math.PI - fireAngle : fireAngle), owner)
         {
+			 direction.Normalise();
+			// flyVector = new PointD(GameConsts.Rocket.BaseSpeed, GameConsts.Rocket.BaseSpeed);
+        
 		     isReversed = reversed;
 		     isDoubleView = doubleView;
              boundRectangle = new Quadrangle(new PointD(x, y), 1, 1);  			  
-             maxFlyingDistance = baseMaxDistance * mRand.Next(90, 110) / 100.0f;                               	
+             maxFlyingDistance = baseMaxDistance * mRand.Next(90, 110) / 100.0f;      
+			 this.planeTurningProgress = planeTurningProgress;             
         }
 
         /// <summary>
@@ -92,35 +105,17 @@ namespace Wof.Model.Level.Weapon
             float coefficient = Mathematics.GetMoveFactor(time, MoveInterval);
 
             timeCounter += time;
-           
-           
-               // Console.WriteLine(flyVector.X);
-
-            float minFlyingSpeed = Owner.IsEnemy ? GameConsts.EnemyPlane.Singleton.RangeFastWheelingMaxSpeed * GameConsts.EnemyPlane.Singleton.MaxSpeed : GameConsts.UserPlane.Singleton.RangeFastWheelingMaxSpeed * GameConsts.UserPlane.Singleton.MaxSpeed;
-
-
-            // rakieta wytraca prędkość uzyskaną od samolotu
-            if (Math.Abs(flyVector.X) > Math.Abs(minFlyingSpeed * GameConsts.Rocket.BaseSpeed))
-            {
-                flyVector.X *= 0.995f;
-            }
-
-            if (Math.Abs(flyVector.Y) > Math.Abs(minFlyingSpeed * GameConsts.Rocket.BaseSpeed))
-            {
-                flyVector.Y *= 0.995f;
-            }
-
-            float angle = zRotationPerSecond * coefficient;
-            //  boundRectangle.Rotate(angle);
-            //  moveVector.Rotate(PointD.ZERO, angle);
-            relativeAngle += angle * (int)Direction;
-            flyVector.Rotate(PointD.ZERO, angle);
-
-            PointD vector = new PointD(flyVector.X * coefficient, flyVector.Y * coefficient);
-            boundRectangle.Move(vector);
-            moveVector = vector; // orientacyjnie bo inne metody z tego korzystaja
+                     
+                   
+            Vector3 v3d = new Vector3(GameConsts.Rocket.BaseSpeed  * 5, GameConsts.Rocket.BaseSpeed* 5, GameConsts.Rocket.BaseSpeed* 5);
+            v3d *= direction;
+            v3d *=  coefficient;
+                 
+            boundRectangle.Move(v3d.x, v3d.y);
             
-            travelledDistance += vector.EuclidesLength;
+            moveVector = new PointD(v3d.x, v3d.y); // orientacyjnie bo inne metody z tego korzystaja
+            
+            travelledDistance += v3d.Length;
             
         //   Console.WriteLine("Bullet:"+this.Center);
            
@@ -128,7 +123,7 @@ namespace Wof.Model.Level.Weapon
 		
 		protected override void CheckCollisionWithUserPlane()
 		{
-			Plane p = refToLevel.UserPlane;
+			Wof.Model.Level.Planes.Plane p = refToLevel.UserPlane;
             if (p != null)
             {
             	
@@ -214,7 +209,7 @@ namespace Wof.Model.Level.Weapon
                 }
                 
                 this.Destroy();
-            	refToLevel.Controller.OnGunHit(refToLevel.LevelTiles[index], Position.X, Math.Max(this.Position.Y, 1));
+            	refToLevel.Controller.OnGunHit(refToLevel.LevelTiles[index], Position.X, System.Math.Max(this.Position.Y, 1));
 
                
             }
