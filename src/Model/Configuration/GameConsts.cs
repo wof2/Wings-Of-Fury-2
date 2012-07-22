@@ -576,7 +576,6 @@ namespace Wof.Model.Configuration
 
             #endregion
         }
-
         public class Torpedo
         {
             #region Consts
@@ -591,6 +590,31 @@ namespace Wof.Model.Configuration
             /// Maksymalna predkosc pozioma rakiety.
             /// </summary>
             public static int BaseSpeed = 30;
+
+            #endregion
+        }
+
+
+        public class Gun
+        {
+            #region Consts
+
+            /// <summary>
+            /// Przedzial czasu, jaki musi uplynac przed kolejnym strzalem
+            /// Podany w milisekundach(ms).
+            /// </summary>
+            public static int FireInterval = 100;
+
+            /// <summary>
+            /// predkosc wylotowa pocisków.
+            /// </summary>
+            public static int BaseSpeed = 60;
+
+            /// <summary>
+            /// Bazowy damage
+            /// </summary>
+            public static int BaseDamage = 5;
+            
 
             #endregion
         }

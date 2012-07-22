@@ -167,9 +167,10 @@ namespace Wof.Model.Level.Weapon
                 timer = Environment.TickCount;
             }
 
+
             //wyliczam o ile przesunac bombe.
             PointD vector = new PointD(moveVector.X*coefficient, moveVector.Y*coefficient);
-
+         
             //przesuwam prostokat.
             boundRectangle.Move(vector);
         }

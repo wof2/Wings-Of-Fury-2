@@ -93,7 +93,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
             }
             else
             {
-            	SoundManager.Instance.PlayExposionSound();
+            //	SoundManager.Instance.PlayExposionSound();
 
             	
 

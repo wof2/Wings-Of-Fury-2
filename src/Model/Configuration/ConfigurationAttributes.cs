@@ -131,6 +131,13 @@ namespace Wof.Model.Configuration
         }
 
 
+        public class Gun
+        {
+             public const string fireInterval = @"fireInterval";
+             public const string baseSpeed = @"baseSpeed";
+             public const string baseDamage = @"baseDamage";
+        }
+
         public class Bomb
         {
             public const string accelerationInterval = @"accelerationInterval";

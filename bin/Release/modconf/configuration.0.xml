@@ -153,6 +153,9 @@
     
   />
 
+  
+    
+  
   <!--Żołnierze:
     minSpeed - Minimalna prędkość żołnierza. Typ: int
     maxSpeed - Maksymalna prędkość żołnierza. Typ: int
@@ -200,6 +203,12 @@
     horizonHeight = "40"
     horizonWidth ="50"/>
 
+  <!-- działka samolotów -->
+  <Gun
+    fireInterval = "100"
+    baseSpeed = "380"
+    baseDamage = "5"
+    />
   <!--Bomby:
   fireInterval - Przedzial czasu, jaki musi uplynac, aby gracz mogl zrzucic nastepna bombe. Podany w milisekundach(ms). Typ: int
   gravitation - przyciaganie ziemskie. Typ: Double

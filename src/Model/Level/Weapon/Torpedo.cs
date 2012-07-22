@@ -272,8 +272,13 @@ namespace Wof.Model.Level.Weapon
             int index = Mathematics.PositionToIndex(Center.X);
             if (index > -1 && index < refToLevel.LevelTiles.Count)
             {
-                refToLevel.Controller.OnTorpedoSunk(refToLevel.LevelTiles[index], this, torpedoFailure);
-                Destroy();
+                if (this.state == MissileState.Intact)
+                {
+                   
+                    refToLevel.Controller.OnTorpedoSunk(refToLevel.LevelTiles[index], this, torpedoFailure);
+                    Destroy();
+                }
+                
                 return;
             }
         }
@@ -371,6 +376,7 @@ namespace Wof.Model.Level.Weapon
                         if (!CanBeDestroyed(index) && !(refToLevel.LevelTiles[index] is OceanTile))
                         {
                             refToLevel.Controller.OnTileBombed(refToLevel.LevelTiles[index], this);
+                            Destroy();
                         }
                         else
                         {
@@ -393,6 +399,7 @@ namespace Wof.Model.Level.Weapon
                                     //refToLevel.KillVulnerableSoldiers(index, 6);
                                 }
                                 //niszcze bombe.
+                                //Destroy();
                                 state = MissileState.Destroyed;
 
                             }

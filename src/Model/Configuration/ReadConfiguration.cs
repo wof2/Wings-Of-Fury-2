@@ -85,6 +85,8 @@ namespace Wof.Model.Configuration
         private Dictionary<String, float> mBomb = null;
         private Dictionary<String, float> mRocket = null;
         private Dictionary<String, float> mTorpedo = null;
+         private Dictionary<String, float> mGun = null;
+
 
         /// <summary>
         /// Ustawienia dla efektow
@@ -150,6 +152,8 @@ namespace Wof.Model.Configuration
                 return mShipWoodenBunker;
             else if (type.Equals(ConfigurationNames.Bomb))
                 return mBomb;
+            else if (type.Equals(ConfigurationNames.Gun))
+                return mGun;
             else if (type.Equals(ConfigurationNames.Rocket))
                 return mRocket;
             else if (type.Equals(ConfigurationNames.Torpedo))
@@ -183,6 +187,7 @@ namespace Wof.Model.Configuration
             mRocket = InitConfig(typeof (ConfigurationAttributes.Rocket));
             mTorpedo = InitConfig(typeof(ConfigurationAttributes.Torpedo));
             mBomb = InitConfig(typeof (ConfigurationAttributes.Bomb));
+            mGun = InitConfig(typeof(ConfigurationAttributes.Gun));
             mEffects = InitConfig(typeof(ConfigurationAttributes.Effects));
         }
 
@@ -275,6 +280,11 @@ namespace Wof.Model.Configuration
                         if (!ReadConfig(reader, mBomb))
                             throw new XmlException("Bomb jest niepoprawny !");
                     }
+                    else if (reader.Name.Equals(ConfigurationNames.Gun))
+                    {
+                        if (!ReadConfig(reader, mGun))
+                            throw new XmlException("Gun jest niepoprawny !");
+                    }
                     else if (reader.Name.Equals(ConfigurationNames.Effects))
                     {
                         if (!ReadConfig(reader, mEffects))
@@ -339,6 +349,8 @@ namespace Wof.Model.Configuration
             builder.Append(ConfigToString(mRocket));
             builder.AppendLine("Torpedo:");
             builder.Append(ConfigToString(mTorpedo));
+            builder.AppendLine("Gun:");
+            builder.Append(ConfigToString(mGun));
             builder.AppendLine("Bomb:");
             builder.Append(ConfigToString(mBomb));
             builder.AppendLine("Effects:");
@@ -414,6 +426,12 @@ namespace Wof.Model.Configuration
             {
                 mBomb.Clear();
                 mBomb = null;
+            }
+
+            if (mGun != null)
+            {
+                mGun.Clear();
+                mGun = null;
             }
         }
 

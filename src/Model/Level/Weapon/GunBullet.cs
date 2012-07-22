@@ -41,20 +41,24 @@ namespace Wof.Model.Level.Weapon
 		public float PlaneTurningProgress {
 			get { return planeTurningProgress; }
 		}
-	    
-	    protected Vector3 direction = new Vector3(1,0,0);
-		
-		public GunBullet(float x, float y, Level level, IObject2D owner, float fireAngle, float initialSpeed, bool reversed, bool doubleView, float planeTurningProgress)
-            : base(x, y, (reversed ? -1 : 1) * initialSpeed * owner.MovementVector, level, (reversed ? Mogre.Math.PI - fireAngle : fireAngle), owner)
+
+	    private Quaternion launchOrientation;
+
+        // (reversed ? Mogre.Math.PI - fireAngle : fireAngle)
+
+		public GunBullet(float x, float y, Quaternion launchOrientation, Level level, IObject2D owner, bool reversed, bool doubleView)
+            : base(x, y, (reversed ? -1 : 1) * owner.MovementVector, level, 0, owner)
         {
-			 direction.Normalise();
+
+		    this.launchOrientation = launchOrientation;
 			// flyVector = new PointD(GameConsts.Rocket.BaseSpeed, GameConsts.Rocket.BaseSpeed);
         
 		     isReversed = reversed;
 		     isDoubleView = doubleView;
              boundRectangle = new Quadrangle(new PointD(x, y), 1, 1);  			  
              maxFlyingDistance = baseMaxDistance * mRand.Next(90, 110) / 100.0f;      
-			 this.planeTurningProgress = planeTurningProgress;             
+			 this.planeTurningProgress = planeTurningProgress;  
+             position3 = new Vector3(x,y,0);
         }
 
         /// <summary>
@@ -73,6 +77,16 @@ namespace Wof.Model.Level.Weapon
             get { return isDoubleView; }
         }
 
+	    public Vector3 Position3
+	    {
+	        get { return position3; }
+	    }
+
+	    public Quaternion LaunchOrientation
+	    {
+	        get { return launchOrientation; }
+	    }
+
 
 	    protected override bool OutOfFuel() {
 			if(!base.OutOfFuel()) {
@@ -87,12 +101,12 @@ namespace Wof.Model.Level.Weapon
 				
 		public float GetDamage(IObject2D obj) {
 			
-			float dist = (obj.Bounds.Center - Position).EuclidesLength;                
-      
-            if(dist < GameConsts.FlakBunker.DamageRange)
-            {
-            	float damageCoeff = ((GameConsts.FlakBunker.DamageRange - dist) / GameConsts.FlakBunker.DamageRange);
-            	float damage = GameConsts.FlakBunker.MaxDamagePerHit * damageCoeff * GameConsts.UserPlane.Singleton.HitCoefficient;
+          
+			float dist = (obj.Bounds.Center - Position).EuclidesLength;
+
+            if (obj.Bounds.Intersects(this.Bounds)){
+
+                float damage = GameConsts.Gun.BaseDamage * GameConsts.UserPlane.Singleton.HitCoefficient;
             	return damage;
             }
             
@@ -105,21 +119,23 @@ namespace Wof.Model.Level.Weapon
             float coefficient = Mathematics.GetMoveFactor(time, MoveInterval);
 
             timeCounter += time;
-                     
-                   
-            Vector3 v3d = new Vector3(GameConsts.Rocket.BaseSpeed  * 5, GameConsts.Rocket.BaseSpeed* 5, GameConsts.Rocket.BaseSpeed* 5);
-            v3d *= direction;
+
+
+            Vector3 v3d =  Vector3.NEGATIVE_UNIT_Z* GameConsts.Gun.BaseSpeed;
+            v3d = launchOrientation * v3d;
             v3d *=  coefficient;
                  
             boundRectangle.Move(v3d.x, v3d.y);
             
             moveVector = new PointD(v3d.x, v3d.y); // orientacyjnie bo inne metody z tego korzystaja
-            
+            position3 += v3d;
             travelledDistance += v3d.Length;
-            
-        //   Console.WriteLine("Bullet:"+this.Center);
+   
            
         }
+
+	    private Vector3 position3 = new Vector3();
+
 		
 		protected override void CheckCollisionWithUserPlane()
 		{

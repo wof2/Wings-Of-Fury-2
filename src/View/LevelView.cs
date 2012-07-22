@@ -776,13 +776,6 @@ namespace Wof.View
             	AmmunitionView av = GunBulletView.GetInstance(ammunition);
                 ammunitionViews.Add(av);
           
-			    if(ammunition.Owner is Plane) {
-            	   	PlaneView pv = FindPlaneView((ammunition.Owner as Plane));
-            		av.OwnerSceneNode = pv.OuterNode; 
-            		av.refreshPosition();
-            	
-            	}
-                
                 if (EngineConfig.DisplayBoundingQuadrangles)
 	            {
 	                OnRegisterBoundingQuadrangle(ammunition, sceneMgr);

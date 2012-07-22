@@ -53,6 +53,7 @@ namespace Wof.Model.Configuration
     /// </summary>
     public static class ConfigurationNames
     {
+        public const string Gun = @"Gun";
         public const string Bomb = @"Bomb";
         public const string Rocket = @"Rocket";
         public const string Torpedo = @"Torpedo";

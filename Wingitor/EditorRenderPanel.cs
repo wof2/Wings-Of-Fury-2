@@ -187,6 +187,11 @@ namespace wingitor
             levelView.OnRegisterPlane(plane);
         }
 
+        public PlaneView FindPlaneView(Plane plane)
+        {
+            return levelView.FindPlaneView(plane);
+        }
+
         public void OnBunkerFire(BunkerTile bunker, Plane plane)
         {
             
