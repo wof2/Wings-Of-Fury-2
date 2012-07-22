@@ -137,6 +137,10 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <author>Michal Ziober</author>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)] protected int timeCounter;
+        
+		public int TimeCounter {
+			get { return timeCounter; }
+		}
 
         /// <summary>
         /// Wektor ruchu z napedem silnika.
@@ -157,7 +161,12 @@ namespace Wof.Model.Level.Weapon
         protected float zRotationPerSecond = 0;
 
 
-
+		protected float travelledDistance = 0;
+		
+		public float TravelledDistance {
+			get { return travelledDistance; }
+		}
+		
 
         /// <summary>
         /// Maksymalny dopuszczalny dystans pomiedzy samolotem rodzicem a rakieta.
@@ -180,6 +189,12 @@ namespace Wof.Model.Level.Weapon
 		public bool CanDestroyStoragePlanes {
 			get { return canDestroyStoragePlanes; }
 		}
+        
+        protected PointD initialVelocity;
+        
+		public PointD InitialVelocity {
+			get { return initialVelocity; }
+		}
 
         #endregion
 
@@ -200,6 +215,7 @@ namespace Wof.Model.Level.Weapon
             : base(level, angle, owner)
         {
             timeCounter = 0;
+            this.initialVelocity = initialVelocity;
 
             //prostokat opisujacy obiekt.
             if (initialVelocity.X >= 0)
@@ -367,7 +383,7 @@ namespace Wof.Model.Level.Weapon
         {
             zRotationPerSecond = f;
         }
-
+  
         /// <summary> 
         /// Zmienia pozycje rakiety.
         /// </summary>
@@ -409,9 +425,12 @@ namespace Wof.Model.Level.Weapon
 
                 PointD vector = new PointD(flyVector.X * coefficient, flyVector.Y * coefficient);
                 boundRectangle.Move(vector);
+                travelledDistance += vector.EuclidesLength;
+               
             }
         }
-
+        
+      
 	    /// <summary> 
 	    /// Sprawdza kolizje z wrogimi samolotami 
 	    /// oraz obsluguje zderzania z nimi.

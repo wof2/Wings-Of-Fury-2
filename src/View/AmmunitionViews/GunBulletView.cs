@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
+using Wof.Model.Level;
 using Wof.Model.Level.Weapon;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;
@@ -97,7 +98,7 @@ namespace Wof.View.AmmunitionViews
                                                        EffectsManager.EffectType.GUNTRAIL,
                                                        trailBase - new Vector3(0, 0, Math.RangeRandom(-0.5f, 0.5f)),
                                                        new Vector2(trailWidth, 1.0f),
-                                                       trailOrient, false);
+                                                       trailOrient, true);
         	//);
        
 
@@ -112,7 +113,7 @@ namespace Wof.View.AmmunitionViews
                                                        EffectsManager.EffectType.GUNTRAIL,
                                                        trailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 2.0f)),
                                                        new Vector2(trailWidth, 1.0f),
-                                                       trailOrient, false);
+                                                       trailOrient, true);
         	//);
            
         	
@@ -122,9 +123,12 @@ namespace Wof.View.AmmunitionViews
         private readonly Vector3 gunPosRight = new Vector3(1.5f, -0.3f, -0.3f);
         private readonly Vector3 gunPosMiddle = new Vector3(0.0f, 0.3f, -0.3f);
 
+        
         public override void postInitOnScene()
         {
-            if (ammunition is GunBullet)
+        	
+
+        	if (ammunition is GunBullet)
             {
                
                 if ((ammunition as GunBullet).IsDoubleView)
@@ -164,6 +168,57 @@ namespace Wof.View.AmmunitionViews
 
         public override void updateTime(float timeSinceLastFrameUpdate)
         {          
+        }
+        
+      
+        public override void refreshPosition()
+        {
+        	base.refreshPosition();
+            if (ammunition != null)
+            {
+            	if((ammunition is GunBullet)) 
+            	{
+            		
+            		GunBullet gb = ammunition as GunBullet;
+            	
+            		float yawAmount = getYawAmount();        
+        			float z =  gb.TimeCounter * yawAmount * 0.1f;
+        		
+        			if(gb.Owner.Direction == Direction.Right){
+        				z *= -1;
+        			}
+
+       			
+        			
+        			/*
+        				
+        			Vector3 v = new Vector3(ammunition.MovementVector.X, ammunition.MovementVector.Y, yawAmount);
+        			v.Normalise();
+        			if(z>0)
+        			{
+        			Console.WriteLine(v);
+        			}
+        			v = new Vector3(1, (float)System.Math.Tan(ammunition.AbsoluteAngle), yawAmount / Mogre.Math.HALF_PI);
+        			v.Normalise();
+        			if(z>0)
+        			{
+        			Console.WriteLine(v);
+        			}*/
+        		
+                	ammunitionNode.SetPosition(ammunitionNode.Position.x, ammunitionNode.Position.y, 0 );
+               	            	
+            	//ammunitionNode.Orientation = ;
+            			//ammunitionNode.Orientation *= new Quaternion(initialViewOwnerOrientation.Yaw, Vector3.UNIT_Z);
+
+            			//Console.WriteLine(initialViewOwnerOrientation.Pitch.ValueDegrees+"; "+initialViewOwnerOrientation.Yaw.ValueDegrees+"; "+initialViewOwnerOrientation.Roll.ValueDegrees);
+            			
+            		//gb.TravelledDistance
+            		
+           			
+            			
+            	
+            	}
+            }
         }
         
 	}

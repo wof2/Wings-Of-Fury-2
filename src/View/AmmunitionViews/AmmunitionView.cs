@@ -55,193 +55,224 @@ using Wof.Model.Level.Weapon;
 
 namespace Wof.View
 {
-	internal abstract class AmmunitionView : IDisposable
-    {
-        protected static int ammunitionCounter = 1;
+	internal abstract class AmmunitionView : IDisposable, IOwnedBySceneNode
+	{
+		protected static int ammunitionCounter = 1;
 
-        protected int ammunitionID;
+		protected int ammunitionID;
 
-        protected Ammunition ammunition;
+		protected Ammunition ammunition;
 
-        public Ammunition Ammunition
-        {
-            get { return ammunition; }
-            set { this.ammunition = value; }
-        }
+		public Ammunition Ammunition {
+			get { return ammunition; }
+			set { this.ammunition = value; }
+		}
 
-        protected SceneManager sceneMgr;
-        protected IFrameWork framework;
-        
-        protected IFrameWork Framework
-        {
-            set { 
-        		
-        		framework = value;        	
-           		sceneMgr = framework.SceneMgr;
-        	
-        	}
-        }
+		protected SceneManager sceneMgr;
+		protected IFrameWork framework;
+
+		protected IFrameWork Framework {
+			set {
+
+				framework = value;
+				sceneMgr = framework.SceneMgr;
+
+			}
+		}
 
 
-        protected Entity ammunitionModel;
-        protected Light explosionFlash;
+		protected Entity ammunitionModel;
+		protected Light explosionFlash;
 
-        public Light ExplosionFlash
-        {
-            get { return explosionFlash; }
-        }
+		public Light ExplosionFlash {
+			get { return explosionFlash; }
+		}
 
-        protected SceneNode ammunitionNode;
+		protected SceneNode ammunitionNode;
 
-        public SceneNode AmmunitionNode
-        {
-            get { return ammunitionNode; }
-        }
+		public SceneNode AmmunitionNode {
+			get { return ammunitionNode; }
+		}
 
-        #region Minimap representation
-
-        protected MinimapItem minimapItem;
-
-        public MinimapItem MinimapItem
-        {
-            get { return minimapItem; }
-        }
-
-        #endregion
-
-        public AmmunitionView(Ammunition ammunition, IFrameWork framework)
-        {
-        	this.Framework = framework;
-            this.ammunition = ammunition;           
-            ammunitionID = ammunitionCounter++;
-        }
-
-//        protected AmmunitionView()
-//		{
-//          
-//            ammunitionID = ammunitionCounter++;
-//        }
-
-        public virtual void refreshPosition()
-        {
-            if (ammunition != null)
-            {
-                if (ammunition.Direction == Direction.Right)
-                {
-                    ammunitionNode.Orientation = new Quaternion(Mogre.Math.HALF_PI, Vector3.NEGATIVE_UNIT_Y);
-                }
-                else
-                {
-                    ammunitionNode.Orientation = new Quaternion(Mogre.Math.HALF_PI, Vector3.UNIT_Y);
-                }
-
-                ammunitionNode.Orientation *= new Quaternion((Radian)ammunition.Angle, Vector3.UNIT_X);
-
-                Vector2 v = UnitConverter.LogicToWorldUnits(ammunition.Center);
-
-                ammunitionNode.SetPosition((float) (v.x), (float) (v.y), 0);
-                // refresh minimap
-                if (minimapItem != null)
-                {
-                    minimapItem.Refresh();
-                }
-                
-
-
-            }
-        }
-
-        public virtual void updateTime(float timeSinceLastFrameUpdate)
-        {
-        }
-
-        protected abstract void preInitOnScene();
+		protected SceneNode ownerSceneNode;
+		
+	    protected Quaternion initialViewOwnerOrientation;
        
+	    	
 
-
-        public virtual void postInitOnScene()
-        {
-        	if (EngineConfig.ExplosionLights && LevelView.IsNightScene)
-            {
-                string lightName = "Ammunition" + GetHashCode() + "_light";
-               
-                if (sceneMgr.HasLight(lightName))
-                {
-                    explosionFlash = sceneMgr.GetLight(lightName);
-                }
-                else
-                {
-                    explosionFlash = sceneMgr.CreateLight(lightName);
-                }
-               
-                explosionFlash.Type = Light.LightTypes.LT_POINT;
-                explosionFlash.SetAttenuation(15.0f, 0.0f, 1.0f, 0.00f);
-                explosionFlash.DiffuseColour = new ColourValue(0.7f, 0.7f, 0.7f);
-                explosionFlash.SpecularColour = new ColourValue(0.3f, 0.3f, 0.3f);
-                explosionFlash.Visible = false;
-                explosionFlash.CastShadows = false;
-            }
-            else explosionFlash = null;
-
-            SceneNode flashNode = ammunitionNode.CreateChildSceneNode(new Vector3(0.0f, 2.5f, 0.0f));
-           
-            
-            if (EngineConfig.ExplosionLights && LevelView.IsNightScene)
-            {
-                if (!explosionFlash.IsAttached) flashNode.AttachObject(explosionFlash);
-            
-            	explosionFlash.SetAttenuation(15.0f, 0.0f, 1.0f, 0.00f);
-        	  	explosionFlash.DiffuseColour = new ColourValue(0.7f, 0.7f, 0.7f);
-        	  	explosionFlash.SpecularColour = new ColourValue(0.3f, 0.3f, 0.3f);
-        	  	
-            }
-
-            if (EngineConfig.DisplayingMinimap && minimapItem != null)
-            {
-                minimapItem.Show();
-            }
-            refreshPosition();
-
-            ammunitionNode.SetVisible(true, false);
-            if (EngineConfig.ExplosionLights && LevelView.IsNightScene) explosionFlash.Visible = false;
-            
-            ammunitionNode._update(true, false); // inaczej bounding box zajmuje cala przestrzen zawarta miedzy starym polozeniem pocisku (-100000, -1000 costam) a nowym. Niszczy to cienie
-            
-            
-        }
-        public virtual void DestroyExplosionFlash()
-        {
-        	if(explosionFlash != null)
-        	{
-        		explosionFlash.Visible = false;
-	        	explosionFlash.SetDiffuseColour(0,0,0);
-	        	explosionFlash.SetSpecularColour(0,0,0);
-	        	explosionFlash.SetAttenuation(0,0,0,0);
+		public SceneNode OwnerSceneNode {
+			get { return ownerSceneNode; }
+			set { 
+				ownerSceneNode = value;
+				if(ownerSceneNode != null) 
+	        	{
+					//Quaternion q = ownerSceneNode._getDerivedOrientation();
+					
+					//ownerSceneNode.Orientation.
+	        		initialViewOwnerOrientation = ownerSceneNode.Orientation; //q;///new Quaternion(.w, ownerSceneNode.Orientation.x, ownerSceneNode.Orientation.y, ownerSceneNode.Orientation.z);
 	        	
-	        	sceneMgr.DestroyLight(explosionFlash);
-	        	explosionFlash = null;
-        	}
-    		
-        }
+	        	//	Console.WriteLine(getYaw());
+    			
+				}else
+				{
+					initialViewOwnerOrientation = Quaternion.IDENTITY;
+				}
+			}
+		}
+		
+	
 
-        public virtual void Hide()
-        {
-        	            	
-            	
-            ammunitionNode.SetVisible(false);
+		#region Minimap representation
 
-            if (EngineConfig.DisplayingMinimap)
-            {
-                minimapItem.Hide();
-            }
-        }
+		protected MinimapItem minimapItem;
 
-        public void RemoveNode()
-        {
-            sceneMgr.RootSceneNode.RemoveChild(ammunitionNode);
+		public MinimapItem MinimapItem {
+			get { return minimapItem; }
+		}
+
+		#endregion
+
+		public AmmunitionView(Ammunition ammunition, IFrameWork framework)
+		{
+			this.Framework = framework;
+			this.ammunition = ammunition;
+			ammunitionID = ammunitionCounter++;
+		}
+
+
+
+   	   protected float getYawAmount() {
+        	float yawAmount = initialViewOwnerOrientation.Yaw.ValueRadians;        	
+        	return yawAmount;        
         }
 		
+/*
+		protected float getYaw() {
+				float z =  initialViewOwnerOrientation.Yaw.ValueRadians; //( yawAmount / Mogre.Math.HALF_PI  + Mogre.Math.HALF_PI  );
+        		if(float.IsNaN(z)) {
+        			z = 0;
+        		}
+				
+				return z + Mogre.Math.HALF_PI;
+		}*/
+
+		public virtual void refreshPosition()
+		{
+			if (ammunition != null) {
+				
+				Vector3 axis;
+    			if (ammunition.Direction == Direction.Right) {
+					axis = Vector3.NEGATIVE_UNIT_Y;
+				} else {
+					axis = Vector3.UNIT_Y;
+				}
+    			
+        		
+    		//	float z =  getYaw();		
+				
+				ammunitionNode.Orientation = new Quaternion(Mogre.Math.HALF_PI, axis); // pocisk bylby bokiem w stosunku do samolotu. Ma byc w kierunku w ktorym jest samolot
+				ammunitionNode.Orientation *= new Quaternion((Radian)ammunition.Angle, Vector3.UNIT_X); // pion
+				
+				ammunitionNode.Orientation *= initialViewOwnerOrientation; //new Quaternion(pv.OuterNode.Orientation.w,pv.OuterNode.Orientation.x,pv.OuterNode.Orientation.y,pv.OuterNode.Orientation.z);
+				
+				
+				Vector2 v = UnitConverter.LogicToWorldUnits(ammunition.Center);
+				ammunitionNode.SetPosition((float)(v.x), (float)(v.y), 0);
+				// refresh minimap
+				if (minimapItem != null) {
+					minimapItem.Refresh();
+				}
+
+
+
+			}
+		}
+
+		public virtual void updateTime(float timeSinceLastFrameUpdate)
+		{
+		}
+
+		protected abstract void preInitOnScene();
+
+
+
+		public virtual void postInitOnScene()
+		{
+			if (EngineConfig.ExplosionLights && LevelView.IsNightScene) {
+				string lightName = "Ammunition" + GetHashCode() + "_light";
+
+				if (sceneMgr.HasLight(lightName)) {
+					explosionFlash = sceneMgr.GetLight(lightName);
+				} else {
+					explosionFlash = sceneMgr.CreateLight(lightName);
+				}
+
+				explosionFlash.Type = Light.LightTypes.LT_POINT;
+				explosionFlash.SetAttenuation(15f, 0f, 1f, 0f);
+				explosionFlash.DiffuseColour = new ColourValue(0.7f, 0.7f, 0.7f);
+				explosionFlash.SpecularColour = new ColourValue(0.3f, 0.3f, 0.3f);
+				explosionFlash.Visible = false;
+				explosionFlash.CastShadows = false;
+			} else
+				explosionFlash = null;
+
+			SceneNode flashNode = ammunitionNode.CreateChildSceneNode(new Vector3(0f, 2.5f, 0f));
+
+
+			if (EngineConfig.ExplosionLights && LevelView.IsNightScene) {
+				if (!explosionFlash.IsAttached)
+					flashNode.AttachObject(explosionFlash);
+
+				explosionFlash.SetAttenuation(15f, 0f, 1f, 0f);
+				explosionFlash.DiffuseColour = new ColourValue(0.7f, 0.7f, 0.7f);
+				explosionFlash.SpecularColour = new ColourValue(0.3f, 0.3f, 0.3f);
+
+			}
+
+			if (EngineConfig.DisplayingMinimap && minimapItem != null) {
+				minimapItem.Show();
+			}
+			refreshPosition();
+
+			ammunitionNode.SetVisible(true, false);
+			if (EngineConfig.ExplosionLights && LevelView.IsNightScene)
+				explosionFlash.Visible = false;
+
+			ammunitionNode._update(true, false);			
+			// inaczej bounding box zajmuje cala przestrzen zawarta miedzy starym polozeniem pocisku (-100000, -1000 costam) a nowym. Niszczy to cienie
+		
+		}
+		public virtual void DestroyExplosionFlash()
+		{
+			if (explosionFlash != null) {
+				explosionFlash.Visible = false;
+				explosionFlash.SetDiffuseColour(0, 0, 0);
+				explosionFlash.SetSpecularColour(0, 0, 0);
+				explosionFlash.SetAttenuation(0, 0, 0, 0);
+
+				sceneMgr.DestroyLight(explosionFlash);
+				explosionFlash = null;
+			}
+
+		}
+
+		public virtual void Hide()
+		{
+
+
+			ammunitionNode.SetVisible(false);
+
+			if (EngineConfig.DisplayingMinimap) {
+				minimapItem.Hide();
+			}
+		}
+
+		public void RemoveNode()
+		{
+			sceneMgr.RootSceneNode.RemoveChild(ammunitionNode);
+		}
+
 		public abstract void Dispose();
-		
-    }
+
+	}
 }
