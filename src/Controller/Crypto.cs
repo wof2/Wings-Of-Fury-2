@@ -38,7 +38,7 @@ namespace Wof.Controller
         public readonly static int keySize = 256; // can be 192 or 128
         
         public readonly static string AES_Key = "1c!Haa6bq0LC*G3FeG2oONCdFwSP4ev["; // 32 bit only
-        public readonly static string AES_IV = "$04Bxi0NxEbIkvkLSMgh2LP58Dwc*WCH"; // 32 bit only
+        public readonly static string AES_IV = "!04Bxi0NxEbIkvkLSMgh2LP58Dwc*WCH"; // 32 bit only
         
 
         /// <summary>
