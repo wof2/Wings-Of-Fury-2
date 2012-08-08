@@ -1599,11 +1599,7 @@ namespace Wof.Controller
             return EngineConfig.C_WOF_HOME_PAGE + "/enhanced_naked.php?naked=1&v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash + "#form";
         }
 
-        public static string GetEnhancedVersionHelperWebPageNakedUrl()
-        {
-            return EngineConfig.C_WOF_HOME_PAGE + "/enhanced_helper.php?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash + "#form";
-        }
-
+      
         public void GotoEnhancedVersionWebPageDo()
         {
             string url = GetEnhancedVersionHelperWebPageNakedUrl();
@@ -1616,16 +1612,22 @@ namespace Wof.Controller
             catch (Exception)
             { }
         }
-
+        
         public static string GetDonateWebPageNakedUrl()
         {
             return EngineConfig.C_WOF_HOME_PAGE + "/donate_naked.php?naked=1&v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash + "#form";
         }
-
+        
+        public static string GetEnhancedVersionHelperWebPageNakedUrl()
+        {
+            return EngineConfig.C_WOF_HOME_PAGE + "/enhanced_helper.php?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion + "&hash=" + Licensing.Hash + "#form";
+        }
+        /*
         public static string GetDonateWebPageUrl()
         {
             return EngineConfig.C_WOF_HOME_PAGE + "/page/donate?v=" + EngineConfig.C_WOF_VERSION + "_" + EngineConfig.C_IS_DEMO.ToString() + "&l=" + LanguageManager.ActualLanguageCode + "&e=" + EngineConfig.IsEnhancedVersion;
-        }
+        }*/
+
         public void GotoDonateWebPageDo()
         {
             string url = GetDonateWebPageNakedUrl();
