@@ -3,9 +3,15 @@
 interfejsów użytkownika.
 */
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.IO.Compression;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -14,6 +20,7 @@ using MOIS;
 using Wof.Controller.AdAction;
 using Wof.Controller.Screens;
 using Wof.Languages;
+using Wof.Tools;
 
 namespace Wof.Controller
 {
@@ -329,7 +336,91 @@ namespace Wof.Controller
         }
 
 	    private bool isOffLine = false;
-        private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+	    private HtmlDocument evDownloadPage;
+
+        private string getEnhancedZipFileLocation()
+        {
+            String downloadPath = System.IO.Directory.GetCurrentDirectory();
+            downloadPath = Path.Combine(downloadPath, @"enhanced.zip");
+            return downloadPath;
+            
+        }
+
+        private bool downloadEnhancedVersion(HtmlDocument downloadLink)
+        {
+            //<!-- WOF_ENHANCED_DOWNLOAD_LINK:http://wingsoffury2.com/enhanced_get.php?version=3.4&type=donate&email=graph12@wp.pl&hash=160;101;201;137;80;48;234;43;166;153;12;216;115;213;98;66;202;234;28;127;&directdownload=1 -->
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "webBrowser1_downloadEnhancedVersion");
+            Match match = Regex.Match(downloadLink.Body.InnerHtml, @"WOF_ENHANCED_DOWNLOAD_LINK:(.*) ", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                // Finally, we get the Group value and display it.
+                string url = match.Groups[1].Value;
+                if(Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                {
+                    WebClient webClient = new WebClient();
+                    webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(enhancedVersion_DownloadFileCompleted);
+                    webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(enhancedVersion_DownloadProgressChanged);
+             
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "webBrowser1_downloadEnhancedVersion - download started");
+                    webClient.DownloadFileAsync(new Uri(url), getEnhancedZipFileLocation());
+                   
+
+
+                    return true;
+                }
+            }
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "webBrowser1_downloadEnhancedVersion - unable to find EV download link in URL:" + downloadLink.Url);
+            return false;
+           
+        }
+
+        private HtmlElement getDownloadProgressElement()
+        {
+            if (this.wofBrowser.Document != null && this.wofBrowser.Document.Body != null && wofBrowser.Document.Body.InnerHtml.Contains("WOF_ENHANCED_DOWNLOAD_LINK"))
+            {
+                HtmlElement element = this.wofBrowser.Document.GetElementById("download_progress");
+                return element;
+
+            }
+            return null;
+
+        }
+        void enhancedVersion_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            HtmlElement element = getDownloadProgressElement();
+            if (element != null)
+            {
+                element.InnerHtml = "Download progress: "+e.ProgressPercentage+ "%";
+            }
+
+        }
+
+      
+ 
+
+        void enhancedVersion_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            HtmlElement element = getDownloadProgressElement();
+            if (element != null)
+            {
+               
+                string location = getEnhancedZipFileLocation();
+                if(File.Exists(location))
+                {
+                    Zipfiles.ExtractZipFile(location, Directory.GetCurrentDirectory());
+                    element.InnerHtml = "Download completed - please restart the game!";
+                    
+                }else
+                {
+                    element.InnerHtml = "Download completed but file does not exist on local system. Please install Enhanced version manually. Check your e-mail for instructions";
+                }
+            }
+        }
+
+
+
+
+	    private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
            
             if(!wofBrowser.ReadyState.Equals(WebBrowserReadyState.Complete))
@@ -343,6 +434,12 @@ namespace Wof.Controller
             }else
             {
                 path = null;
+            }
+
+            if (wofBrowser.Document != null && wofBrowser.Document.Body != null && wofBrowser.Document.Body.InnerHtml.Contains("WOF_ENHANCED_DOWNLOAD_LINK"))
+            {
+                downloadEnhancedVersion(wofBrowser.Document);
+              
             }
 
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "webBrowser1_DocumentCompleted:" + path);
@@ -408,8 +505,8 @@ namespace Wof.Controller
             if (isInitialState)
             {
                 LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "wofBrowser_Navigating.isInitialState");
-                this.WindowState = FormWindowState.Maximized;
-                this.FormBorderStyle = FormBorderStyle.Fixed3D;
+               // this.WindowState = FormWindowState.Maximized;
+              //  this.FormBorderStyle = FormBorderStyle.Fixed3D;
                 // this.Activate();
             }
 

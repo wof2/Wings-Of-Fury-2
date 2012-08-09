@@ -160,6 +160,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Release\AdManaged.dll</HintPath>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL" />
     <Reference Include="MHydrax, Version=0.5.1.0, Culture=neutral, processorArchitecture=x86" />
     <Reference Include="Microsoft.DirectX.AudioVideoPlayback" />
     <Reference Include="Microsoft.DirectX.DirectSound" />
@@ -944,6 +945,7 @@
     <Compile Include="src\Tests\SceneTest.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="src\Tools\ZipFiles.cs" />
     <Compile Include="src\View\AmmunitionViews\AmmunitionView.cs" />
     <Compile Include="src\View\AmmunitionViews\AmmunitionViewFactory.cs" />
     <Compile Include="src\View\AmmunitionViews\BombView.cs" />
