@@ -524,7 +524,9 @@ namespace Wof.Controller
             }
                        
         }
-        
+      
+        protected static Point consolePosition = new Point(Screen.PrimaryScreen.WorkingArea.Width-700,0);
+      
         
 		public override void Go()
 		{			
@@ -540,7 +542,15 @@ namespace Wof.Controller
             {
                 game = new Game();
                
-
+                try{
+          	     	User32.SetWindowPos(User32.PtrToConsole, (IntPtr)0, consolePosition.X, consolePosition.Y, 0, 0, User32.SWP_NOSIZE);
+      
+                }
+                catch(Exception ex) {
+                	
+                }
+                //Console.SetWindowPosition(0,0);
+               
                 // jesli przeprowadzono test wydajnosci, przekaz go dalej
                 if (performanceTest != null && performanceTest.HasResults)
                 {
@@ -1702,6 +1712,10 @@ namespace Wof.Controller
     internal static class User32
     {
         private static readonly short SW_RESTORE = 9;
+        
+        public const int SWP_NOSIZE = 0x0001;
+
+
 
         public static short Restore
         {
@@ -1734,6 +1748,11 @@ namespace Wof.Controller
 		[DllImport("user32.dll", SetLastError=true)]
 		public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 		
+		[DllImport("kernel32.dll", ExactSpelling = true)]
+    	private static extern IntPtr GetConsoleWindow();
+
+    	public static IntPtr PtrToConsole = GetConsoleWindow();
+
 		
 		
 		[DllImport("user32.dll", EntryPoint = "GetSystemMetrics")]

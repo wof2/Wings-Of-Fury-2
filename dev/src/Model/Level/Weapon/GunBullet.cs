@@ -149,6 +149,7 @@ namespace Wof.Model.Level.Weapon
                 if(damage>0)
                 {
                   
+                	refToLevel.Controller.OnGunHitPlane(refToLevel.UserPlane);
 	             	refToLevel.UserPlane.Hit(damage, 0);     
 	               	hit=true;	   
 	                //powiadamia controler o trafieniu.	               

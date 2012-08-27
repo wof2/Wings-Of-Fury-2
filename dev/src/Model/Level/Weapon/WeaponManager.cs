@@ -348,13 +348,47 @@ namespace Wof.Model.Level.Weapon
         	Plane plane = ammunitionOwner as Plane;
         	
             refToLevel.Controller.OnFireGun(ammunitionOwner);
+            
 
             if (Environment.TickCount - lastFireTick >= GameConsts.Gun.FireInterval)
             {
                 if (refToLevel.UserPlane != null && ammunitionOwner != null)
                 {
+                	
+                	PlaneView pv = refToLevel.Controller.FindPlaneView(plane); // na razie hardkod przez DelayedControllerFacade
+
+	               
+	                //zwieksza liczve wystrzelonych pociskow
+	               
+	                GunBullet bullet = null;
+		            PointD position = null;
+		       
+		            //startowa pozycja pocisku
+		            position = new PointD(ammunitionOwner.Center.X, ammunitionOwner.Center.Y);
+		
+		            
+		            //nowy pocisk
+	                bool biDirectional = refToLevel.UserPlane.PlaneType == PlaneType.B25 && !ammunitionOwner.IsEnemy; ;
+	                Quaternion q = pv.InnerNode._getDerivedOrientation();
+	
+		
+	                // forward
+		            bullet = new GunBullet(position.X, position.Y, q, refToLevel, ammunitionOwner, false, true);
+	
+		            bullet.SetZRotationPerSecond(0.09f);
+	                
+	                refToLevel.Controller.OnRegisterGunBullet(bullet);
+				//	if(!isTurningAround)
+	                {
+						RegisterWeaponToModelEvent(bullet);               
+	                }
+	
+	                	
+                	
+                	
+                	
                     //sprawdzam czy wrogi samolot nie trafil w samolot gracza.
-                    if ((Math.Abs(ammunitionOwner.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
+/*                    if ((Math.Abs(ammunitionOwner.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
                         Gun.CanHitObjectByGun(plane, refToLevel.UserPlane))
                     {
                         //ubytek paliwa.
@@ -362,7 +396,7 @@ namespace Wof.Model.Level.Weapon
 
                         //komunikat do controllera.
                         refToLevel.Controller.OnGunHitPlane(refToLevel.UserPlane);
-                    }
+                    }*/
                 }
 
                 //ustawiam nowy czas

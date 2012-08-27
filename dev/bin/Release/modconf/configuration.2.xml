@@ -202,7 +202,7 @@
   <!-- działka samolotów -->
   <Gun
     fireInterval = "100"
-    baseSpeed = "50"
+    baseSpeed = "480"
     baseDamage = "5"
     />
 

@@ -866,6 +866,8 @@ namespace Wof.View
                     }
                     
                 }
+                
+                BuildCameraHolders();
             }
         }
 
@@ -2710,6 +2712,12 @@ namespace Wof.View
         public void BuildCameraHolders()
         {
             cameraHolders = playerPlaneView.GetCameraHolders();
+            if(EngineConfig.DebugStart) {
+	            foreach(PlaneView pv in planeViews) {
+	            	cameraHolders.AddRange(pv.GetCameraHolders());
+	            	
+	            }
+            }
         }
 
         public void OnChangeCamera()
@@ -2754,6 +2762,7 @@ namespace Wof.View
             {
                 CurrentCameraHolder.DetachObject(framework.Camera);
             }
+            Console.WriteLine("Attaching camera holder: "+cameraHolders[currentCameraHolderIndex].Name);
             cameraHolders[currentCameraHolderIndex].AttachObject(framework.Camera);
 
             // crosshair

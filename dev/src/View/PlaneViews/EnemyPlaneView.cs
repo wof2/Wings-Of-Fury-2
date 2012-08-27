@@ -99,6 +99,27 @@ namespace Wof.View
 
         }*/
 
+          public override void ResetCameraHolders()
+        {
+
+       		cameraHolders.Add(planeNode.CreateChildSceneNode(name + "MainCameraHolder"));
+            cameraHolders.Add(planeNode.CreateChildSceneNode(name + "BirdCameraHolder"));
+            
+            // MAIN CAMERA HOLDER
+            cameraHolders[0].ResetOrientation();
+            cameraHolders[0].Position = new Vector3(0, 0, 55);
+            cameraHolders[0].LookAt(new Vector3(0, 0, -1), Node.TransformSpace.TS_LOCAL);
+
+            // BIRD CAMERA HOLDER
+            cameraHolders[1].ResetOrientation();
+            cameraHolders[1].Position = new Vector3(0, 35, 0);
+            cameraHolders[1].Pitch(new Radian(-Mogre.Math.HALF_PI));
+            //cameraHolders[1].Roll(new Radian(Mogre.Math.HALF_PI));
+     
+            
+            
+         
+        }
         public override void Destroy()
         {
             base.Destroy();
@@ -184,10 +205,7 @@ namespace Wof.View
 
       
 
-        // TODO
-        public override void ResetCameraHolders()
-        {
-        }
+       
 
         protected override void initBlade()
         {
@@ -274,6 +292,7 @@ namespace Wof.View
             }
 
            
+            ResetCameraHolders();
         }
     }
 }
