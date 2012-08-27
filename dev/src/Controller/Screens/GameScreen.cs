@@ -2342,6 +2342,7 @@ namespace Wof.Controller.Screens
         private void DisplayNextLevelScreen()
         {
 
+            levelView.OnChangeCamera(1);
             mGui = new GUI(FontManager.CurrentFont, fontSize);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
 
