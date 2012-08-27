@@ -113,7 +113,26 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
                 //jesli uplynela 1 sek od ostatniego strzalu.
                 if (currentTime > GameConsts.ShipWoodenBunker.FireDelay)
                 {
+                    bool fireCondition = IsFireConditionMet;
+                    if (fireCondition)
+                    {
+                        //zadaje uszkodzenia.
+                        float localAngle = angle;
+                        if (localAngle > Mogre.Math.HALF_PI)
+                        {
+                            localAngle = Mogre.Math.PI - localAngle;
+                        }
+
+                        weaponManager.BunkerShellFire(refToLevel.UserPlane, localAngle);
+
+                        //powiadamia controler o strzale.
+                        refToLevel.Controller.OnBunkerFire(this, refToLevel.UserPlane, false);
+
+                        currentTime = 0;
+
+                    }
                     //jesli samolot jest w polu razenia.
+                    /*
                     if (horizon.Intersects(refToLevel.UserPlane.Bounds))
                     {
                         //zadaje uszkodzenia.
@@ -124,7 +143,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
 
                         //Zeruje licznik. Czekam kolejna sekunde.
                         currentTime = 0;
-                    }
+                    }*/
                 }
                 else //zwiekszam odstep czasu od ostatniego strzalu
                     currentTime += time;

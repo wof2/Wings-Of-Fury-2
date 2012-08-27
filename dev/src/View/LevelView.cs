@@ -925,7 +925,12 @@ namespace Wof.View
 
 		}
 		
-		
+		/// <summary>
+		/// @deprecated
+		/// </summary>
+		/// <param name="bunker"></param>
+		/// <param name="plane"></param>
+		/// <param name="planeHit"></param>
         public void OnBunkerFire(BunkerTile bunker, Plane plane, bool planeHit)
         {
             /*PlaneView p = FindPlaneView(plane);
