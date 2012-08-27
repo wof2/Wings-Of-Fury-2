@@ -124,17 +124,23 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
                 //jesli uplynelo 800ms od ostatniego strzalu.
                 if (currentTime > GameConsts.ConcreteBunker.FireDelay)
                 {
-                    //jesli samolot jest w polu razenia.
-                    if (horizon.Intersects(refToLevel.UserPlane.Bounds))
+                    bool fireCondition = IsFireConditionMet;
+                    if (fireCondition)
                     {
                         //zadaje uszkodzenia.
-                        refToLevel.UserPlane.Hit(false);
+                        float localAngle = angle;
+                        if (localAngle > Mogre.Math.HALF_PI)
+                        {
+                            localAngle = Mogre.Math.PI - localAngle;
+                        }
 
-                        //powiadamia controler o trafieniu.
-                        refToLevel.Controller.OnBunkerFire(this, refToLevel.UserPlane, true);
+                        weaponManager.BunkerShellFire(refToLevel.UserPlane, localAngle);
 
-                        //Zeruje licznik.
+                        //powiadamia controler o strzale.
+                        refToLevel.Controller.OnBunkerFire(this, refToLevel.UserPlane, false);
+
                         currentTime = 0;
+
                     }
                 }
                 else //zwiekszam odstep czasu od ostatniego strzalu
