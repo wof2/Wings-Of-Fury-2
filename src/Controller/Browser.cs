@@ -649,7 +649,7 @@ namespace Wof.Controller
             Hide();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void homeButton_Click(object sender, EventArgs e)
         {
             if(this.Visible)
             {
@@ -740,6 +740,37 @@ namespace Wof.Controller
         {
          //   LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "mouse:" + e.MousePosition);
             mousePos = e.MousePosition;
+        }
+
+        private void forwardButton_Click(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "GoForward");
+                if (eventsWired)
+                {
+                    this.wofBrowser.Navigating -= wofBrowser_Navigating;
+                    eventsWired = false;
+                }
+                this.wofBrowser.GoForward();
+            }
+
+        }
+
+        private void backButton_Click(object sender, EventArgs e)
+        {
+            if (this.Visible)
+            {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "GoForward");
+                if (eventsWired)
+                {
+                    this.wofBrowser.Navigating -= wofBrowser_Navigating;
+                    eventsWired = false;
+                }
+                this.wofBrowser.GoBack();
+            }
+
+
         }
 
        
