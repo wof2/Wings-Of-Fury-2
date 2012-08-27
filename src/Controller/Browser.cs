@@ -407,7 +407,7 @@ namespace Wof.Controller
                 string location = getEnhancedZipFileLocation();
                 if(File.Exists(location))
                 {
-                    Zipfiles.ExtractZipFile(location, Directory.GetCurrentDirectory());
+                    Zipfiles.ExtractZipFile(location, EngineConfig.C_GAME_INSTALL_DIR);
                     element.InnerHtml = "Download completed - please restart the game!";
                     
                 }else

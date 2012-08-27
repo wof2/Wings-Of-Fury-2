@@ -88,7 +88,8 @@ namespace Wof.Controller
         public static readonly String C_ENGINE_CONFIG = "wofconf.dat";
         public static readonly String C_FIRST_RUN = "firstrun.dat";
         public static readonly String C_OGRE_CFG = "ogre.cfg";
-
+        public static readonly String C_GAME_INSTALL_DIR = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../.."));  // hardcode, nie chcemy patrzec do rejestru
+        
         public static readonly String C_WOF_HOME_PAGE = "http://www.wingsoffury2.com";
         public static readonly String C_WOF_NEWS_PAGE = C_WOF_HOME_PAGE+"/news.php";
         public static readonly String C_WOF_UPDATE_CHECK_PAGE = C_WOF_HOME_PAGE+"/update_chk.php";
