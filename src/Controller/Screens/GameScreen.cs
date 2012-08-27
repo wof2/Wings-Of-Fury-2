@@ -1663,7 +1663,7 @@ namespace Wof.Controller.Screens
                                 {
 
                                     currentLevel.UserPlane.PlanePaused = !currentLevel.UserPlane.PlanePaused;
-                                  
+                                  	currentLevel.EnemyPlanes.ForEach(delegate(Plane ep) { ep.PlanePaused = !ep.PlanePaused; });
                                   
                                     Button.ResetButtonTimer();
                                 }

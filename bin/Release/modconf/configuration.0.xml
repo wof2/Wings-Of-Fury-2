@@ -131,7 +131,7 @@
     speed="34"
     oilLoss="1"
     minPitch = "10"
-    viewRange = "55"
+    viewRange = "75"
     rocketCount="0"
     nextRocketInterval = "1000"
     storagePlaneDistanceFault = "16"
@@ -206,7 +206,7 @@
   <!-- działka samolotów -->
   <Gun
     fireInterval = "100"
-    baseSpeed = "380"
+    baseSpeed = "480"
     baseDamage = "5"
     />
   <!--Bomby:

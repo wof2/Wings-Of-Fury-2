@@ -357,7 +357,7 @@ namespace Wof.Model.Level
                 info.EngineState = EngineState.Working;
                 info.Position = new PointD(1150, 40);
                 info.PositionType = StartPositionType.Airborne;
-                info.WheelsState = WheelsState.Out;     
+                info.WheelsState = WheelsState.In;     
  
             }
             

@@ -86,7 +86,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Maksymalna odlegloœæ od samolotu gracza, na któr¹ mo¿e siê oddaliæ.
         /// </summary>
-        private const float distanceFromUserPlane = 10;
+        private const float distanceFromUserPlane = 20;
 
         /// <summary>
         /// Bezpieczna odleg³oœæ (na osi Y) od samolotu gracza.
@@ -106,7 +106,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Okreœla na jak¹ wysokoœæ nad samolot gracza bêdzie siê wznosi³/opada³ samolot wroga.
         /// </summary>
-        private const float userPlaneHeightDiff = 4;
+        private const float userPlaneHeightDiff = 1;
 
        
 
@@ -277,6 +277,12 @@ namespace Wof.Model.Level.Planes
                 return;
             }
             float scaleFactor = time/timeUnit;
+            
+            if (planePaused)
+            {
+            	scaleFactor *= 0.1f;
+            }
+              
             warCryTimer += scaleFactor;
 
             UpdateDamage(scaleFactor); //wyciek oleju
@@ -434,23 +440,37 @@ namespace Wof.Model.Level.Planes
 
                    
 
-                    if (Center.Y > level.UserPlane.Center.Y + userPlaneHeightDiff && RelativeAngle > -maxAngle)
+                    if (Center.Y > level.UserPlane.Center.Y + userPlaneHeightDiff)
                     {
-                      //  Trace.WriteLine("DOWN PITCH: " + yDiff + " normalized: " + yDiffNorm);
-                        RotateDown(scaleFactor * rotateStep * yDiffNorm);
+                        if(RelativeAngle > -maxAngle) 
+                        {
+                        	
+                        	float angleDiff = (RelativeAngle + maxAngle) / maxAngle;
+							        	
+							 Console.WriteLine("DOWN PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
+                           
+                        	RotateDown(angleDiff * scaleFactor * rotateStep * yDiffNorm);
+                        }
                     }
                     else //czy ma lecieæ w górê
                     {
-                        if (Center.Y < level.UserPlane.Center.Y - userPlaneHeightDiff && RelativeAngle < maxAngle)
+                        if (Center.Y < level.UserPlane.Center.Y - userPlaneHeightDiff)
                         {
-                        //    Trace.WriteLine("UP PITCH: " + yDiff + " normalized: " + yDiffNorm);
-                            RotateUp(scaleFactor * rotateStep * yDiffNorm);
+                            if(RelativeAngle < maxAngle)
+                            {
+                            	float angleDiff = (maxAngle - RelativeAngle) / maxAngle;
+							 
+                            	 Console.WriteLine("UP PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
+                           
+                            	RotateUp(angleDiff * scaleFactor * rotateStep * yDiffNorm);
+                            }
                         }
                         else //czy ma prostowaæ samolot 
                         if (Math.Abs(RelativeAngle) >= 0)
                         {
-                          //  Trace.WriteLine("HORIZON PITCH: " + yDiff + " normalized: " + yDiffNorm);
-                            SteerToHorizon(scaleFactor);
+                        	
+                            Console.WriteLine("HORIZON PITCH: " + yDiff + " normalized: " + yDiffNorm);
+                            SteerToHorizon(scaleFactor * yDiffNorm);
                             
                         }
                                 
@@ -586,7 +606,8 @@ namespace Wof.Model.Level.Planes
                 FireRocket();
             }
 
-            else if (CanHitUserPlane(false, 100 - GameConsts.EnemyPlane.Singleton.Accuracy))
+            
+            else if (GunBullet.CanHitEnemyPlane(this, level.UserPlane, 100 - GameConsts.EnemyPlane.Singleton.Accuracy))
             {
                 if (warCryTimer > warCryTimerMin)
                 {
@@ -939,7 +960,7 @@ namespace Wof.Model.Level.Planes
             if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed && oil <= 0)
                 OutOfPetrolOrOil(scaleFactor);
         }
-
+        
         #endregion
     }
 }
