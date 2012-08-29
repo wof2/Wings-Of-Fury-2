@@ -626,8 +626,8 @@ namespace Wof.View.NodeAnimation
                     {
                         this[animationName] = new AccRotateNodeAnimation(
                                                               planeView.OuterNode,
-                                                              3,
-                                                              new Degree(360),
+                                                              9,
+                                                              new Degree(360*3),
                                                               new Radian(Mogre.Math.Sqrt(3)),
                                                               Vector3.UNIT_Z,
                                                               animationName

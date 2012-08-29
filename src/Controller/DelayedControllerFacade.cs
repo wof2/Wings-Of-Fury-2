@@ -65,7 +65,10 @@ namespace Wof.Controller
                     foreach (KeyValuePair<int, KeyValuePair<String, object[]>> job in jobs)
                     {
                         KeyValuePair<String, object[]> jobInfo = job.Value;
-                        controller.GetType().GetMethod(jobInfo.Key).Invoke(controller, jobInfo.Value);
+                        if (controller != null)
+                        {
+                            controller.GetType().GetMethod(jobInfo.Key).Invoke(controller, jobInfo.Value);
+                        }
                     }
                   
                 }

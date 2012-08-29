@@ -1637,7 +1637,7 @@ namespace Wof.Model.Level.Planes
             
             spinned = false;
             isEngineFaulty = false;
-            if(level!=null)
+            if(level!=null && level.Controller != null)
             {
                 level.Controller.OnEngineRepaired(this);
             }
@@ -2893,7 +2893,7 @@ namespace Wof.Model.Level.Planes
                 else
                 {
                     StartEngineCounter += (int) time; //zwiekszam licznik prob odpalenia silnika.
-                    level.Controller.OnStartEngineFailed();
+                    if(level.Controller!= null) level.Controller.OnStartEngineFailed();
                 }
             }
         }

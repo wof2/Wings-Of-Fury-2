@@ -58,8 +58,8 @@ namespace Tests.ModelTest.PlaneTest
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PlaneOnAircraftTestForm());
-            //Application.Run(new PlaneFlyTestForm());
+            //Application.Run(new PlaneOnAircraftTestForm());
+            Application.Run(new PlaneFlyTestForm());
         }
     }
 }
