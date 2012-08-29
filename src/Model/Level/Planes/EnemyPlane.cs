@@ -91,7 +91,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Bezpieczna odleg³oœæ (na osi Y) od samolotu gracza.
         /// </summary>
-        private const float safeUserPlaneHeightDiff = 15;
+        private const float safeUserPlaneHeightDiff = 20;
 
         /// <summary>
         /// Maksymalna odlegloœæ od samolotów na lotniskowcu, na któr¹ mo¿e siê oddaliæ.
@@ -447,7 +447,7 @@ namespace Wof.Model.Level.Planes
                         	
                         	float angleDiff = (RelativeAngle + maxAngle) / maxAngle;
 							        	
-							 Console.WriteLine("DOWN PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
+							 //Console.WriteLine("DOWN PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
                            
                         	RotateDown(angleDiff * scaleFactor * rotateStep * yDiffNorm);
                         }
@@ -460,7 +460,7 @@ namespace Wof.Model.Level.Planes
                             {
                             	float angleDiff = (maxAngle - RelativeAngle) / maxAngle;
 							 
-                            	 Console.WriteLine("UP PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
+                            	// Console.WriteLine("UP PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
                            
                             	RotateUp(angleDiff * scaleFactor * rotateStep * yDiffNorm);
                             }
@@ -470,7 +470,7 @@ namespace Wof.Model.Level.Planes
                         {
                         	
                             Console.WriteLine("HORIZON PITCH: " + yDiff + " normalized: " + yDiffNorm);
-                            SteerToHorizon(scaleFactor * yDiffNorm);
+                            SteerToHorizon(scaleFactor * yDiffNorm * Math.Abs(RelativeAngle) / maxAngle);
                             
                         }
                                 
@@ -657,39 +657,87 @@ namespace Wof.Model.Level.Planes
         /// <param name="scaleFactor"></param>
         private void AvoidUserPlaneCrash(float scaleFactor)
         {
-            if (Center.Y - level.UserPlane.Center.Y > 0)
-            {
-                if(RelativeAngle < maxAngle) RotateUp(scaleFactor * 1.25f * rotateStep);
-            } else
-            {
-                if(RelativeAngle > -maxAngle) RotateDown(scaleFactor * 1.25f * rotateStep);
-            }
-                
-            
+            AvoidCrash(scaleFactor, level.UserPlane);
         }
 
+        private void AvoidCrash(float scaleFactor, Plane p)
+        {
+            float diff = Center.Y - p.Center.Y;
+            float diffAbs = Math.Abs(diff);
+            if (diffAbs > safeUserPlaneHeightDiff)
+            {
+                diffAbs = safeUserPlaneHeightDiff;
+            }
+
+            float yFactor = (safeUserPlaneHeightDiff - diffAbs) / safeUserPlaneHeightDiff;
+            
+            float directionFactor = isTurnedTowardsFaceOf(p) ? 2.0f : 1.0f;
+
+
+            if (diff > 0)
+            {
+                if (RelativeAngle < maxAngle)
+                {
+                    // Console.WriteLine("Strength up: " + strength);
+                    RotateUp(directionFactor * yFactor * scaleFactor * 1.25f * rotateStep);
+                }
+            }
+            else
+            {
+                if (RelativeAngle > -maxAngle)
+                {
+                    // Console.WriteLine("Strength down: " + strength);
+                    RotateDown(directionFactor * yFactor * scaleFactor * 1.25f * rotateStep);
+                }
+            }
+        }
         /// <summary>
         /// Steruje tak samolotem, ¿eby nie wpaœæ na inny wrogi samolot
         /// </summary>
         /// <param name="scaleFactor"></param>
         /// <param name="ep"></param>
-        private void AvoidEnemyPlaneCrash(float scaleFactor, EnemyPlane ep)
+        private void AvoidEnemyPlaneCrash(float scaleFactor, Plane ep)
         {
-            if (Center.Y - ep.Center.Y > 0)
-            {
-                if (RelativeAngle < maxAngle) RotateUp(scaleFactor * 1.25f * rotateStep);
-            }
-            else
-            {
-                if (RelativeAngle > -maxAngle) RotateDown(scaleFactor * 1.25f * rotateStep);
-            }
+            AvoidCrash(scaleFactor, ep);
         }
 
         #endregion
 
         #region Properties
+        private bool isTurnedTowardsFaceOf(IObject2D obj)
+        {
+            if(direction == obj.Direction) return false;
+            
+            if(direction == Model.Level.Direction.Right)
+            {
+                return obj.Bounds.RightMostX > bounds.LeftMostX;
+            }
 
-        /// <summary>
+            if (direction == Model.Level.Direction.Left)
+            {
+                return obj.Bounds.LeftMostX < bounds.RightMostX;
+            }
+
+            return false;
+        }
+
+        private bool isChasedBy(IObject2D obj)
+        {
+            if (direction != obj.Direction) return false;
+
+            if (direction == Model.Level.Direction.Right)
+            {
+                return obj.Center.X < Center.X;
+            }
+
+            if (direction == Model.Level.Direction.Left)
+            {
+                return obj.Center.X > Center.X;
+            }
+
+            return false;
+        }
+              /// <summary>
         /// Sprawdza, czy samolot powinien zawróciæ - tzn. czy nie jest za daleko od samolotu gracza
         /// </summary>
         private bool ShouldTurnRound
@@ -698,9 +746,27 @@ namespace Wof.Model.Level.Planes
             {
                 if (ShouldBeChasingUserPlane) //leci za samolotem
                 {
-                    return IsAfterUserPlane &&
-                           !ShouldSteerUp &&
-                           (Math.Abs(Center.X - level.UserPlane.Center.X) > distanceFromUserPlane);
+                    if(!IsAfterUserPlane || ShouldSteerUp) return false;
+                    float diff = Center.X - level.UserPlane.Center.X;
+                    if (isChasedBy(level.UserPlane))
+                    {
+                        // na przeciwko
+                        
+                        if (Math.Abs(diff) > 3 * distanceFromUserPlane)
+                        {
+                            Console.WriteLine("OK, zawrot kiedy leca na przeciw");
+                            return true;
+                        } else
+                        {
+                            return false;
+                        }
+                    } else
+                    {
+                        // minely sie
+                        return (Math.Abs(diff) > distanceFromUserPlane);
+                    }
+                   
+                     
                 }
                 else //atakuje samoloty na lotniskowcu
                 {
@@ -867,12 +933,13 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
+                Plane p = level.UserPlane;
                 if (
-                    (direction == level.UserPlane.Direction && Math.Abs(Center.X - level.UserPlane.Center.X) > 0.2f * GameConsts.EnemyPlane.Singleton.SafeUserPlaneDistance && Math.Abs(Center.Y - level.UserPlane.Center.Y) > 0.2f * safeUserPlaneHeightDiff) ||
+                    (direction == p.Direction && Math.Abs(Center.X - p.Center.X) > 0.5f * GameConsts.EnemyPlane.Singleton.SafeUserPlaneDistance && Math.Abs(Center.Y - p.Center.Y) > 0.5f * safeUserPlaneHeightDiff) ||
 
-                    IsAfterUserPlane ||
-                    Math.Abs(Center.X - level.UserPlane.Center.X) > GameConsts.EnemyPlane.Singleton.SafeUserPlaneDistance ||
-                    Math.Abs(Center.Y - level.UserPlane.Center.Y) > safeUserPlaneHeightDiff
+                    (IsAfterUserPlane )||
+                    Math.Abs(Center.X - p.Center.X) > GameConsts.EnemyPlane.Singleton.SafeUserPlaneDistance ||
+                    Math.Abs(Center.Y - p.Center.Y) > safeUserPlaneHeightDiff
                     )
                     return false;
                 return true;
