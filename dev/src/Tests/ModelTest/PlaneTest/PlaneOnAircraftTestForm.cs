@@ -68,9 +68,10 @@ namespace Tests.ModelTest.PlaneTest
         {
             InitializeComponent();
             //przerobione przez Emila:
-            level = new Level("level-1.xml", null, PlaneType.P47);
+            level = new Level("levels/level-1.dat", null, PlaneType.P47);
             //level.UserPlane.StartEngine();
 
+          //  level.Controller
 
             List<AircraftCarrierTile> list = new List<AircraftCarrierTile>();
             BeginAircraftCarrierTile begin =

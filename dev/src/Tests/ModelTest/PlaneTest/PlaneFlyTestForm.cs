@@ -49,7 +49,9 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Wof.Controller;
 using Wof.Model.Level;
+using Wof.Model.Level.Common;
 using Wof.Model.Level.Planes;
 
 namespace Tests.ModelTest.PlaneTest
@@ -64,7 +66,11 @@ namespace Tests.ModelTest.PlaneTest
             InitializeComponent();
 
             //plane = new Plane(new Quadrangle(new PointD(10, 10), 100, 50));
-            level = new Level("level-1.xml", null, PlaneType.P47);
+            IController c = new DelayedControllerFacade(null);
+            level = new Level("levels/level-1.dat", c, PlaneType.P47);
+            level.UserPlane.StartEngine();
+            level.UserPlane.Bounds.Move(-1300, 0);
+            //level.UserPlane.
             timer1.Start();
         }
 
