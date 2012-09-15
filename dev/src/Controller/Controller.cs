@@ -538,7 +538,9 @@ namespace Wof.Controller
         void OnShipEmerging(LevelTile tile);
         void OnShipEmerged(LevelTile tile);
         void OnShipSubmerged(LevelTile tile);
-
+        
+        
+        IFrameWork GetFramework();
         
     }
 }

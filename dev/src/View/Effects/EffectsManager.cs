@@ -279,6 +279,9 @@ namespace Wof.View.Effects
                 BuildMaterials();
                 //PreloadGameResources();
                 isLoaded = true;
+                
+                
+               
             }
         }
 
@@ -322,6 +325,15 @@ namespace Wof.View.Effects
                 
                
             }
+            
+            // line material for the ViewHelper
+            MaterialPtr moMaterial = MaterialManager.Singleton.Create("line_material", ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+			moMaterial.ReceiveShadows = false;
+			moMaterial.GetTechnique(0).SetLightingEnabled(false);
+			moMaterial.GetTechnique(0).GetPass(0).SetDiffuse(0, 0, 1, 0);
+			moMaterial.GetTechnique(0).GetPass(0).SetAmbient(0, 0, 1);
+			moMaterial.GetTechnique(0).GetPass(0).SetSelfIllumination(0, 0, 1);
+			moMaterial.Dispose();  // dispose pointer, not the material
           
         }
         /*

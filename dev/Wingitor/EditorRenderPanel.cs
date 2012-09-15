@@ -588,5 +588,10 @@ namespace wingitor
 		{
 		
 		}
+    	
+		public IFrameWork GetFramework()
+		{
+			return levelView.framework;
+		}
     }
 }

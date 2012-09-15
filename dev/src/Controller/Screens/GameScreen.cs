@@ -1607,7 +1607,6 @@ namespace Wof.Controller.Screens
 
                         UpdateMenusGui(inputMouse, inputKeyboard, inputJoystick);
 
-
                        
                         if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)) && Button.CanChangeSelectedButton(3.5f) &&
                            !changingAmmo)
@@ -1652,7 +1651,10 @@ namespace Wof.Controller.Screens
                                         EngineConfig.ManualCamera = !EngineConfig.ManualCamera;
                                     }
                                     
-                                    if (!EngineConfig.ManualCamera) levelView.OnResetCamera();
+                                    if (!EngineConfig.ManualCamera) 
+                                    {
+                                    	levelView.OnResetCamera();
+                                    }
                                     Button.ResetButtonTimer();
                                 }
 
@@ -1808,6 +1810,9 @@ namespace Wof.Controller.Screens
                             {
                                 levelView.OnResetCamera();
                             }
+                            
+                            //mGui = new GUI(FontManager.CurrentFont, fontSize);
+            				//mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
 
                             if (EngineConfig.MinimapNoseCamera)
                             {
@@ -3474,6 +3479,11 @@ namespace Wof.Controller.Screens
 		
     	
 		
+    	
+		public IFrameWork GetFramework()
+		{
+			return framework;
+		}
     }
 
    

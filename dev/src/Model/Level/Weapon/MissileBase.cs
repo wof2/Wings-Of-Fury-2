@@ -50,6 +50,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
+using Wof.Misc;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.Infantry;
@@ -58,6 +59,7 @@ using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.ExplosiveObjects;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Planes;
+using Wof.View;
 using Math = Mogre.Math;
 using Plane = Wof.Model.Level.Planes.Plane;
 
@@ -74,13 +76,13 @@ namespace Wof.Model.Level.Weapon
         /// Pole widzenia.
         /// </summary>
         /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] protected const int ViewRange = 70;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] protected const int ViewRange = 100;
 
         /// <summary>
         /// Szerokosc wrazliwego pola na trafienia.
         /// </summary>
         /// <author>Michal Ziober</author>
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)] protected const float HitShift = 1.05f;
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)] protected const float HitShift = 5.05f;
 
         /// <summary>
         /// Wspolczynnik zmiany pozycji.
@@ -508,6 +510,11 @@ namespace Wof.Model.Level.Weapon
             if (System.Math.Abs(plane.Center.X - enemyPlane.Center.X) < 10 &&
                 System.Math.Abs(plane.Center.Y - enemyPlane.Center.Y) < 10)
                 return false;
+            
+            if(System.Math.Abs((plane.Center - enemyPlane.Center).EuclidesLength) > ViewRange)
+            {
+            	return false;
+            }
 
             Quadrangle planeQuad = new Quadrangle(plane.Bounds.Peaks);
             planeQuad.Move(0, -HeightShift);
@@ -521,13 +528,18 @@ namespace Wof.Model.Level.Weapon
                 finish += new PointD(Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f), Math.RangeRandom(-tolerance * 0.5f, -tolerance * 0.5f));
 
                 Line lineB = new Line(start, finish);
+                
+                
 
                 PointD cut = lineA.Intersect(lineB);
                 if (cut == null)
                     continue;
-
-                if (InEnemyRange(cut, planeQuad.Center, enemyPlane.Center))
-                    return true;
+                
+                if((enemyPlane.Center - cut).EuclidesLength < HitShift)
+                {
+                	//ViewHelper.AttachCross(plane.Level.Controller.GetFramework().SceneMgr, cut, 10);
+                	return true;
+                }
             }
 
             return false;

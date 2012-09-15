@@ -234,6 +234,10 @@ namespace Wof.Model.Level.Planes
             }
            
             x += r.Next(-6, 6);
+            
+            // HARD!
+            x = 1350; GameConsts.UserPlane.Singleton.GodMode=true;
+            	
             float y = r.Next(30, 40);
             info.Direction = atEnd == 0 ? Direction.Right : Direction.Left;
             info.EngineState = EngineState.Working;
@@ -263,6 +267,105 @@ namespace Wof.Model.Level.Planes
 
         #region Public Methods
 
+        
+        float evadeLoopTime = 0.0f;
+        float evadeLoopTimeMax = 1.5f;
+        int evadeLoop = 0;
+        int evadeLoopMax = new Random().Next(4,6);
+        
+        int evadeDirection = 1;
+        
+        protected void EvadePlaneWhenChased(Plane p, float scaleFactor, float maxEvadeAngle) 
+        {        	
+        
+            if(ShouldSteerUp) 
+        	{	
+            	//Console.Write("Zawracam bo juz unik nie ma sensu - walne w ziemie");
+            	TurnRound((Direction)(-1 * (int)direction), TurnType.Airborne);
+            	return;        		
+        	}
+            
+            if(Math.Abs(Center.Y - p.Center.Y) > safeUserPlaneHeightDiff * 1.5f )
+            {
+            	//Console.Write("Zawracam bo juz unik nie ma sensu - i tak samolot gracza jest na innym pulapie");
+            	TurnRound((Direction)(-1 * (int)direction), TurnType.Airborne);
+            	return;               	
+            }
+                        
+            evadeLoopTime += scaleFactor;
+            if(evadeLoopTime >= evadeLoopTimeMax)
+            {            	
+            	evadeLoop++;
+            	evadeLoopTime = 0;
+            	evadeDirection *= -1;            	
+            	evadeLoopTimeMax = new Random().Next(1,2) * 1.7f; // maksymalny czas w jednej petli 3 - 6 sekundy
+            }
+            
+            if(evadeLoop >= evadeLoopMax) 
+            {
+            	evadeLoop = 0;   
+				evadeLoopMax = new Random().Next(4, 6);  // 4 do 6 zmian kierunku          	
+            	TurnRound((Direction)(-1 * (int)direction), TurnType.Airborne);            	
+            }
+            
+            
+            // uciekaj
+            if(Speed < GameConsts.EnemyPlane.Singleton.Speed * 1.4f)
+            {
+                Speed += 0.8f * scaleFactor;
+            }
+            
+            if(evadeDirection == 1)
+            {
+            	 if(RelativeAngle < maxEvadeAngle)
+	             {
+                	float angleDiff = 0.7f * (maxEvadeAngle - RelativeAngle) / maxEvadeAngle;
+                	RotateUp(angleDiff * scaleFactor * rotateStep );
+	             }
+            }
+            
+            if(evadeDirection == -1)
+            {
+            	 if(RelativeAngle < maxEvadeAngle)
+	             {
+	             	float angleDiff =  0.65f * (RelativeAngle + maxEvadeAngle) / maxEvadeAngle;	
+	            	RotateDown(angleDiff * scaleFactor * rotateStep);
+	             }
+            }
+            
+            return;
+          
+    /*
+        	float yDiff =  1 + Math.Abs(Center.Y - targetY);
+	        float yDiffNorm = (float)Math.Log10(yDiff) * 0.5f;
+	        
+		   
+	        if (Center.Y > targetY + userPlaneHeightDiff && !shouldPullup)
+	        {
+	            if(RelativeAngle > -maxEvadeAngle) 
+	            {	            	
+	            	float angleDiff = (RelativeAngle + maxEvadeAngle) / maxEvadeAngle;					        	
+					 //Console.WriteLine("DOWN PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
+	               
+	            	RotateDown(angleDiff * scaleFactor * rotateStep * yDiffNorm);
+	            }
+	        }
+	        else //czy ma lecieæ w górê
+	        {
+	            if (Center.Y < targetY - userPlaneHeightDiff)
+	            {	            	
+	                if(RelativeAngle < maxEvadeAngle)
+	                {
+	                	float angleDiff = (maxEvadeAngle - RelativeAngle) / maxEvadeAngle;
+	                	
+	                	// Console.WriteLine("UP PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
+	                	Console.WriteLine(" - faktycznie o :"+(angleDiff * scaleFactor * rotateStep * yDiffNorm));
+	                	RotateUp(angleDiff * scaleFactor * rotateStep * yDiffNorm);
+	                }
+	            }
+	        }*/
+        }
+        
         public override void Move(float time, float timeUnit)
         {
             timeToNextRocket -= time;
@@ -312,8 +415,18 @@ namespace Wof.Model.Level.Planes
                                                            GameConsts.EnemyPlane.Singleton.StoragePlaneDistanceFault) +
                                          (0.1f) * new Random().Next(-10, 10);
                     }
-                    else //nie musi zawracaæ - kontynuuj lot
-                        ChangePitch(scaleFactor);
+                    else {
+                    	//nie musi zawracaæ - kontynuuj lot
+                    	if(isChasedBy(level.UserPlane)){
+                    		// minal juz samolot gracza wiec niech unika ostrzalu
+                    		
+                    	//	Console.WriteLine(this.Name + ": Unikam ostrzalu");
+                    		EvadePlaneWhenChased(level.UserPlane, scaleFactor, maxAngle * 0.6f);
+                    		
+                    	}else {
+                        	ChangePitch(scaleFactor);
+                    	}
+                    }
                 }
                 //zmiana wektora ruchu przy zawracaniu
                 if (locationState == LocationState.AirTurningRound && isChangingDirection)
@@ -407,6 +520,8 @@ namespace Wof.Model.Level.Planes
             //jeœli za bardzo leci w dó³ - podci¹gam lot. Przede wszystkim ma siê nie rozbiæ
             if (ShouldSteerUp)
             {
+            	//Console.WriteLine(this.Name + ": ShouldSteerUp");
+            
                 Rotate((float) direction*scaleFactor*rotateStep);
                 return;
             }
@@ -426,55 +541,59 @@ namespace Wof.Model.Level.Planes
                     if (closestEnemyPlane.PlaneState != PlaneState.Crashed)
                         AvoidEnemyPlaneCrash(scaleFactor, closestEnemyPlane);
                 }
-                else if (ShouldAvoidUserPlaneCrash) //czy ma omin¹æ gracza
-                {
-                    //Trace.WriteLine("AVOIDING!!!");
-                    AvoidUserPlaneCrash(scaleFactor);
-                }
                 else
                 {
-                   
-                    //czy ma lecieæ w dó³
-                    float yDiff =  1 + Math.Abs(Center.Y - level.UserPlane.Center.Y);
-                    float yDiffNorm = (float)Math.Log10(yDiff) * 0.5f;
-
-                   
-
-                    if (Center.Y > level.UserPlane.Center.Y + userPlaneHeightDiff)
-                    {
-                        if(RelativeAngle > -maxAngle) 
-                        {
-                        	
-                        	float angleDiff = (RelativeAngle + maxAngle) / maxAngle;
-							        	
-							 //Console.WriteLine("DOWN PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
-                           
-                        	RotateDown(angleDiff * scaleFactor * rotateStep * yDiffNorm);
-                        }
-                    }
-                    else //czy ma lecieæ w górê
-                    {
-                        if (Center.Y < level.UserPlane.Center.Y - userPlaneHeightDiff)
-                        {
-                            if(RelativeAngle < maxAngle)
-                            {
-                            	float angleDiff = (maxAngle - RelativeAngle) / maxAngle;
-							 
-                            	// Console.WriteLine("UP PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
-                           
-                            	RotateUp(angleDiff * scaleFactor * rotateStep * yDiffNorm);
-                            }
-                        }
-                        else //czy ma prostowaæ samolot 
-                        if (Math.Abs(RelativeAngle) >= 0)
-                        {
-                        	
-                            Console.WriteLine("HORIZON PITCH: " + yDiff + " normalized: " + yDiffNorm);
-                            SteerToHorizon(scaleFactor * yDiffNorm * Math.Abs(RelativeAngle) / maxAngle);
-                            
-                        }
-                                
-                    }
+                	float str = UserPlaneCrashThreat;
+	                if (str > 0) //czy ma omin¹æ gracza               
+	                {
+	                    //Trace.WriteLine("AVOIDING!!!");
+	                    AvoidUserPlaneCrash(scaleFactor * str);
+	                }                
+	                else
+	                {
+	                   
+	                    //czy ma lecieæ w dó³
+	                    float yDiff =  1 + Math.Abs(Center.Y - level.UserPlane.Center.Y);
+	                    float yDiffNorm = (float)Math.Log10(yDiff) * 0.5f;
+	
+	                   
+	
+	                    if (Center.Y > level.UserPlane.Center.Y + userPlaneHeightDiff)
+	                    {
+	                        if(RelativeAngle > -maxAngle) 
+	                        {
+	                        	
+	                        	float angleDiff = (RelativeAngle + maxAngle) / maxAngle;
+								        	
+								 //Console.WriteLine("DOWN PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
+	                           
+	                        	RotateDown(angleDiff * scaleFactor * rotateStep * yDiffNorm);
+	                        }
+	                    }
+	                    else //czy ma lecieæ w górê
+	                    {
+	                        if (Center.Y < level.UserPlane.Center.Y - userPlaneHeightDiff)
+	                        {
+	                            if(RelativeAngle < maxAngle)
+	                            {
+	                            	float angleDiff = (maxAngle - RelativeAngle) / maxAngle;
+								 
+	                            	// Console.WriteLine("UP PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
+	                           
+	                            	RotateUp(angleDiff * scaleFactor * rotateStep * yDiffNorm);
+	                            }
+	                        }
+	                        else //czy ma prostowaæ samolot 
+	                        if (Math.Abs(RelativeAngle) >= 0)
+	                        {
+	                        	
+	                          //  Console.WriteLine("HORIZON PITCH: " + yDiff + " normalized: " + yDiffNorm);
+	                            SteerToHorizon(scaleFactor * yDiffNorm * Math.Abs(RelativeAngle) / maxAngle);
+	                            
+	                        }
+	                                
+	                    }
+	                }
                 }
             }
             else
@@ -503,30 +622,39 @@ namespace Wof.Model.Level.Planes
                     if (closestEnemyPlane.PlaneState != PlaneState.Crashed)
                         AvoidEnemyPlaneCrash(scaleFactor, closestEnemyPlane);
                 }
-                else if (ShouldAvoidUserPlaneCrash) //najpierw ma nie zderzyæ siê z graczem
-                    AvoidUserPlaneCrash(scaleFactor);
-                else
+                else                	
                 {
-                    if (ArePlanesOnCarrierBehind) //jeœli ju¿ min¹³ cel, to zwiêkszam pu³ap
-                    {
-                        if (RelativeAngle < maxAngle)
-                            RotateUp(scaleFactor*rotateStep);
-                    }
-                    else
-                    {
-                        if (CanHitStoragePlanes)
-                        {
-                            AttackStoragePlanes();
-                        }
-                        else
-                        {
-                            // dziób do do³u jeœli atakuje coœ lub jest b. blisko lotniskowca
-                            if (RelativeAngle > -maxAngle &&
-                                (carrierDistance < 0.2f*GameConsts.EnemyPlane.Singleton.CarrierDistanceAlarm ||
-                                 attackObject != AttackObject.None))
-                                RotateDown(scaleFactor*rotateStep);
-                        }
-                    }
+                	//najpierw ma nie zderzyæ siê z graczem
+               
+					float str = UserPlaneCrashThreat;
+	                if (str > 0) //czy ma omin¹æ gracza               
+	                {
+	                    //Trace.WriteLine("AVOIDING!!!");
+	                    AvoidUserPlaneCrash(scaleFactor * str);
+	                }  
+	                else
+	                {
+	                    if (ArePlanesOnCarrierBehind) //jeœli ju¿ min¹³ cel, to zwiêkszam pu³ap
+	                    {
+	                        if (RelativeAngle < maxAngle)
+	                            RotateUp(scaleFactor*rotateStep);
+	                    }
+	                    else
+	                    {
+	                        if (CanHitStoragePlanes)
+	                        {
+	                            AttackStoragePlanes();
+	                        }
+	                        else
+	                        {
+	                            // dziób do do³u jeœli atakuje coœ lub jest b. blisko lotniskowca
+	                            if (RelativeAngle > -maxAngle &&
+	                                (carrierDistance < 0.2f*GameConsts.EnemyPlane.Singleton.CarrierDistanceAlarm ||
+	                                 attackObject != AttackObject.None))
+	                                RotateDown(scaleFactor*rotateStep);
+	                        }
+	                    }
+	                }
                 }
             }
         }
@@ -537,6 +665,7 @@ namespace Wof.Model.Level.Planes
         /// <param name="scaleFactor"></param>
         private void SteerToHorizon(float scaleFactor)
         {
+        	//Console.WriteLine(this.Name + ": Steer to horizon");
             Rotate(-1.0f*(float) direction*Math.Sign(RelativeAngle)*
                    Math.Min(rotateStep*scaleFactor, Mogre.Math.Abs(RelativeAngle)));
         }
@@ -578,6 +707,8 @@ namespace Wof.Model.Level.Planes
             //return; //chwilowo do testów
             //sprawdzam czy samolot nie jest za daleko, ¿eby atakowaæ
             
+            
+            
                 // staraj sie dogonic samolot gracza
             if (IsTurnedTowardsUserPlane(userPlane) && Speed < GameConsts.EnemyPlane.Singleton.Speed * 1.4f)
             {
@@ -614,6 +745,7 @@ namespace Wof.Model.Level.Planes
                     level.Controller.OnWarCry(this);
                     warCryTimer = 0;
                 }
+                //Console.WriteLine(this.Name + ": AttackUserPlane -> can hit");
                 weaponManager.FireAtAngle(Angle, WeaponType.Gun, this.locationState == LocationState.AirTurningRound);
             }
                
@@ -625,6 +757,8 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private void AttackStoragePlanes()
         {
+        	//Console.WriteLine(this.Name + ": AttackStoragePlanes");
+            
         	// na easy samolot wroga nie atakuje storage planes
         	if(EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Easy)
         	{
@@ -657,6 +791,8 @@ namespace Wof.Model.Level.Planes
         /// <param name="scaleFactor"></param>
         private void AvoidUserPlaneCrash(float scaleFactor)
         {
+        	//Console.WriteLine(this.Name + ": AvoidUserPlaneCrash");
+            
             AvoidCrash(scaleFactor, level.UserPlane);
         }
 
@@ -698,6 +834,8 @@ namespace Wof.Model.Level.Planes
         /// <param name="ep"></param>
         private void AvoidEnemyPlaneCrash(float scaleFactor, Plane ep)
         {
+        	//Console.WriteLine(this.Name + ": AvoidEnemyPlaneCrash");
+            
             AvoidCrash(scaleFactor, ep);
         }
 
@@ -754,7 +892,7 @@ namespace Wof.Model.Level.Planes
                         
                         if (Math.Abs(diff) > 3 * distanceFromUserPlane)
                         {
-                            Console.WriteLine("OK, zawrot kiedy leca na przeciw");
+                           // Console.WriteLine("OK, zawrot kiedy leca na przeciw");
                             return true;
                         } else
                         {
@@ -924,25 +1062,55 @@ namespace Wof.Model.Level.Planes
                 //RelativeAngle < -maxAngle/2; 
             }
         }
+        
 
         /// <summary>
         /// Sprawdza, czy trzeba w danym momencie tak sterowaæ samolotem, ¿eby nie rozbi³
         /// siê o samolot gracza.
         /// </summary>
-        private bool ShouldAvoidUserPlaneCrash
+        private float UserPlaneCrashThreat
         {
             get
             {
                 Plane p = level.UserPlane;
-                if (
-                    (direction == p.Direction && Math.Abs(Center.X - p.Center.X) > 0.5f * GameConsts.EnemyPlane.Singleton.SafeUserPlaneDistance && Math.Abs(Center.Y - p.Center.Y) > 0.5f * safeUserPlaneHeightDiff) ||
-
-                    (IsAfterUserPlane )||
-                    Math.Abs(Center.X - p.Center.X) > GameConsts.EnemyPlane.Singleton.SafeUserPlaneDistance ||
-                    Math.Abs(Center.Y - p.Center.Y) > safeUserPlaneHeightDiff
-                    )
-                    return false;
-                return true;
+                
+                              
+                if(IsAfterUserPlane) return 0;
+                
+               /* PointD cut = MiddleLine.Intersect(p.MiddleLine);
+                   
+                if(cut == null) return false;
+                            
+                float distToCut = (cut - this.bounds.Center).EuclidesLength;*/
+               
+                float distX = Math.Abs(Center.X - p.Center.X);
+                float distY = Math.Abs(Center.Y - p.Center.Y);
+                
+                float str = - (distX / GameConsts.EnemyPlane.Singleton.SafeUserPlaneDistance)   + 2; // 2*safe -> 0; 0 -> 2.0
+           
+                if(direction == p.Direction && distX < GameConsts.EnemyPlane.Singleton.SafeUserPlaneDistance && (distY < safeUserPlaneHeightDiff))
+                {
+                	//Console.WriteLine("Distance warning 1 "+ str);
+                	
+                	return 1.0f * str;               	
+                }
+                
+                if(direction != p.Direction && distX < 1.5f *GameConsts.EnemyPlane.Singleton.SafeUserPlaneDistance && 1.5f * distY < safeUserPlaneHeightDiff)
+                {
+                	//Console.WriteLine("Distance warning 2 "+ str);
+                	return 1.5f * str;    
+                }
+                            
+               
+                if((p.MovementVector - movementVector).EuclidesLength > 10) {
+                	if(direction != p.Direction  && distX < 2.0f * GameConsts.EnemyPlane.Singleton.SafeUserPlaneDistance && distY < 2.0f *safeUserPlaneHeightDiff)
+                	{
+                		//Console.WriteLine("Movement warning 1 "+ str);
+                		return 2.0f * str;    
+                	}
+                }
+                
+                return 0;
             }
         }
         

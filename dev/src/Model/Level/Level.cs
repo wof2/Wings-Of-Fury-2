@@ -521,23 +521,14 @@ namespace Wof.Model.Level
                     if (userPlane.Bounds.Intersects(ep.Bounds))
                     {
                         // zniszcz samolot gracza przy kolizji
-                        if (!EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Easy) || MissionType == Model.Level.MissionType.Survival)
+                        if (EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Hard) || MissionType == Model.Level.MissionType.Survival)
                         {
                             // na easy nie ma zderzeñ
-
-                            if (EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Medium))
-                            {
-
-                                // medium
-                                // zabierz trochê ¿ycia przy zderzeniu - ten event bêdzie powtrzany kilka razy (w czasie gdy samolot bêd¹ siê dotykaæ)
-                                userPlane.Hit(userPlane.MaxOil*0.08f, 0.001f*userPlane.MaxOil);
-                            }
-                            else
-                            {
-                                // hard
-                                userPlane.Destroy();
-                            }
-
+                          
+                            // hard
+                            // zabierz trochê ¿ycia przy zderzeniu - ten event bêdzie powtrzany kilka razy (w czasie gdy samolot bêd¹ siê dotykaæ)
+                            userPlane.Hit(userPlane.MaxOil*0.08f, 0.001f*userPlane.MaxOil);
+                       
                             if (ep.PlaneState != PlaneState.Destroyed && ep.PlaneState != PlaneState.Crashed)
                             {
                                 SoundManager.Instance.PlayCollisionPlaneSound();
