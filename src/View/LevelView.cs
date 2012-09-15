@@ -827,6 +827,7 @@ namespace Wof.View
             {
                 OnRegisterBoundingQuadrangle(plane, sceneMgr);
             }
+            
 
             if (plane is StoragePlane)
             {
@@ -2722,6 +2723,8 @@ namespace Wof.View
 	            	cameraHolders.AddRange(pv.GetCameraHolders());
 	            	
 	            }
+            	            	
+            	
             }
         }
 

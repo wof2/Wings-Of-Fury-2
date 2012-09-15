@@ -65,11 +65,12 @@ namespace Tests.ModelTest.PlaneTest
         {
             InitializeComponent();
 
+            EngineConfig.DebugStartFlying = true;
             //plane = new Plane(new Quadrangle(new PointD(10, 10), 100, 50));
             IController c = new DelayedControllerFacade(null);
             level = new Level("levels/level-1.dat", c, PlaneType.P47);
-            level.UserPlane.StartEngine();
-            level.UserPlane.Bounds.Move(-1300, 0);
+          
+            level.UserPlane.Bounds.Move(-1000, 0);
             //level.UserPlane.
             timer1.Start();
         }

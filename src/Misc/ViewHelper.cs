@@ -90,7 +90,59 @@ namespace Wof.Misc
                 axesNode.Scale(new Vector3(rescale*scale, rescale*scale, rescale*scale));
             }
         }
-
+        
+        public static void AttachCross(SceneManager sceneMgr, PointD point, float length)
+        {
+        	ViewHelper.AttachLine(sceneMgr, point - new PointD(length,0), point + new PointD(length,0));
+            ViewHelper.AttachLine(sceneMgr, point - new PointD(0,length), point + new PointD(0,length));
+        	
+        }
+      
+        public static void AttachLine(SceneManager sceneMgr, PointD from, PointD to)
+        {
+        	AttachLine(sceneMgr, UnitConverter.LogicToWorldUnits3(from), UnitConverter.LogicToWorldUnits3(to));
+        }
+        
+        
+   
+        
+        public static void AttachLine(SceneManager sceneMgr, Vector3 from, Vector3 to)
+        {	
+        	
+        	
+        	if (sceneMgr.HasManualObject("line"+from+"_"+to))
+        	{
+        		return;
+        	}
+        	    
+			// create line object
+			ManualObject manOb = sceneMgr.CreateManualObject("line"+from+"_"+to);
+			manOb.Begin("line_material"+from+"_"+to, RenderOperation.OperationTypes.OT_LINE_LIST);
+			manOb.Position(from);
+			manOb.Position(to);
+			// ... maybe more points
+			manOb.End();
+			 
+			// create SceneNode and attach the line
+			SceneNode moNode = sceneMgr.RootSceneNode.CreateChildSceneNode("line_node"+from+"_"+to);
+			//moNode.SetPosition(Vector3.ZERO);
+			moNode.AttachObject(manOb);
+		}
+        
+        public static void DetachLine(SceneManager sceneMgr, Vector3 from, Vector3 to) 
+        {        	
+        	// destroy the line
+			sceneMgr.DestroyManualObject("line"+from+"_"+to); 
+			 
+			// destroy the SceneNode (or keep it to add other manual objects)
+			sceneMgr.DestroySceneNode("line_node"+from+"_"+to);                
+			 
+			// alternatively just hide, if you want to use the line same again
+			sceneMgr.GetSceneNode("line_node"+from+"_"+to).SetVisible(false);
+        }
+        
+        
+        
         public static void AttachQuadrangles(SceneManager sceneMgr, IRenderableQuadrangles target)
         {
             if (EngineConfig.DisplayBoundingQuadrangles)

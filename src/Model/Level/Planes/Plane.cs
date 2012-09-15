@@ -685,8 +685,23 @@ namespace Wof.Model.Level.Planes
         protected float turningTimeLeft;
         
         
+        public Line MiddleLine
+        {
+        	get 
+        	{        		
+        		Quadrangle planeQuad = new Quadrangle(this.bounds.Peaks);
+                planeQuad.Move(0, this.height/2.0f);
+                return new Line(planeQuad.Peaks[1], planeQuad.Peaks[2]);
+        	}
+        	
+        }
 
         protected Level level;
+        
+        public Level Level
+        {
+        	get{ return level; }
+        }
 
         /// <summary>
         /// Wektor u¿ywany do poruszania samolotu podczas zawracania.
@@ -1974,6 +1989,9 @@ namespace Wof.Model.Level.Planes
                 //jeœli zawraca przy jednoczesnym l¹dowaniu, to powinien lecieæ zgodnie z kierunkiem nachylenia dzioba a nie prosto
                 rotateValue = 0; //hamujê zmianê k¹ta
                 level.Controller.OnPrepareChangeDirection(newDirection, this, turnType);
+          
+                
+           //     OnPrepareChangeDirectionEnd(1.0f);
             }
         }
 
@@ -2097,6 +2115,7 @@ namespace Wof.Model.Level.Planes
                     //movementVector = -1 * turningVector;
                     //blockAllInput = false;
                     spinned = false;
+                   // Console.WriteLine("ZAWRACANIE ZAKONCZONE!");
                 }
                 if (type == TurnType.Carrier)
                 {
@@ -3249,6 +3268,8 @@ namespace Wof.Model.Level.Planes
                         locationState = LocationState.AirTurningRound;
                         level.OnPlaneForceChangeDirection(this);
                         level.Controller.OnPrepareChangeDirection(direction, this, TurnType.Airborne);
+                                                
+                   //     OnPrepareChangeDirectionEnd(1.0f);
                     }
                 }
             }

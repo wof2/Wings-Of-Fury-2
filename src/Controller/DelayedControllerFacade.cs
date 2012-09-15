@@ -759,5 +759,10 @@ namespace Wof.Controller
 		
     	
 		
+    	
+		public IFrameWork GetFramework()
+		{
+			return this.controller.GetFramework();
+		}
     }
 }

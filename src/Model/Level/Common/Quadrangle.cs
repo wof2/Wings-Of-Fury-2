@@ -548,6 +548,10 @@ namespace Wof.Model.Level.Common
                 Point toPoint =
                     new Point(peaks[(i + 1)%4].ToPoint().X,
                               (int) g.VisibleClipBounds.Height - peaks[(i + 1)%4].ToPoint().Y);
+                
+               // fromPoint.X *= 2; fromPoint.Y *= 2;
+              //  toPoint.X *= 2; toPoint.Y *= 2;
+                
                 if(i==1)
                 {
                      g.DrawLine(new Pen(c), fromPoint, toPoint);
@@ -558,7 +562,7 @@ namespace Wof.Model.Level.Common
                 }
                
             }
-            g.DrawRectangle(Pens.Black,
+           g.DrawRectangle(Pens.Black,
                             new Rectangle(
                                 new Point(peaks[2].ToPoint().X - 4,
                                           (int) g.VisibleClipBounds.Height - peaks[2].ToPoint().Y), new Size(4, 4)));
