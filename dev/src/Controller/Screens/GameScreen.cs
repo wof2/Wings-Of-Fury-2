@@ -3331,15 +3331,6 @@ namespace Wof.Controller.Screens
         
         public void OnUnregisterGunBullet(GunBullet gun)
         {
-            if (!GunBulletView.table.ContainsKey(gun.GetHashCode().ToString()))
-            {
-                GunBulletView.table[gun.GetHashCode().ToString()] = 1;
-            }
-            else
-            {
-                GunBulletView.table[gun.GetHashCode().ToString()]++;
-            }
-            
             levelView.OnUnregisterGunBullet(gun);
         }
 
