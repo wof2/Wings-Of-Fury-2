@@ -236,7 +236,7 @@ namespace Wof.Model.Level.Planes
             x += r.Next(-6, 6);
             
             // HARD!
-            x = 1350; GameConsts.UserPlane.Singleton.GodMode=true;
+            //x = 1350; GameConsts.UserPlane.Singleton.GodMode=true;
             	
             float y = r.Next(30, 40);
             info.Direction = atEnd == 0 ? Direction.Right : Direction.Left;

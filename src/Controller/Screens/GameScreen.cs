@@ -79,6 +79,7 @@ using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 using Wof.Model.Level.XmlParser;
 using Wof.View;
+using Wof.View.AmmunitionViews;
 using Wof.View.Effects;
 using Button = BetaGUI.Button;
 using FontManager = Wof.Languages.FontManager;
@@ -515,7 +516,11 @@ namespace Wof.Controller.Screens
                     LogManager.Singleton.LogMessage("About to register level " + levelNo + " - " + LevelFile + " to view...", LogMessageLevel.LML_CRITICAL);
                     
                     levelView.OnRegisterLevel(currentLevel);
-                   
+                    if (LevelView.IsNightScene)
+                    {
+                        MessageEntry.SetDefaultColours(new ColourValue(0.1f, 0.5f, 0.1f),
+                                                       new ColourValue(0.1f, 0.3f, 0.1f));
+                    }
 
                     LogManager.Singleton.LogMessage("About to register player plane", LogMessageLevel.LML_CRITICAL);
                     OnRegisterPlane(currentLevel.UserPlane);
@@ -895,6 +900,7 @@ namespace Wof.Controller.Screens
 
 
             indicatorControl.ClearGUI();
+            gameMessages.ClearMessages();
             gameMessages.DestroyMessageContainer();
             SoundManager3D.Instance.UpdaterRunning = true;
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUpEnd");
@@ -1124,9 +1130,8 @@ namespace Wof.Controller.Screens
                             if (currentLevel.MissionType == MissionType.Survival)
                             {
                                 gameMessages.ClearMessages();
-                                IconedMessageEntry message = new IconedMessageEntry(0, 0, String.Format(LanguageResources.GetString(LanguageKey.SurvivalTime) + " {0:f}s.", survivalTime));
+                                IconedMessageEntry message = new IconedMessageEntry(0, 0, String.Format(LanguageResources.GetString(LanguageKey.SurvivalTime) + " {0:f}s.", survivalTime), true);
                                 message.Icon = "survival.png";
-
                                 gameMessages.AppendMessage(message);
 
                                 UpdateSurvivalTime(evt);
@@ -3326,6 +3331,15 @@ namespace Wof.Controller.Screens
         
         public void OnUnregisterGunBullet(GunBullet gun)
         {
+            if (!GunBulletView.table.ContainsKey(gun.GetHashCode().ToString()))
+            {
+                GunBulletView.table[gun.GetHashCode().ToString()] = 1;
+            }
+            else
+            {
+                GunBulletView.table[gun.GetHashCode().ToString()]++;
+            }
+            
             levelView.OnUnregisterGunBullet(gun);
         }
 

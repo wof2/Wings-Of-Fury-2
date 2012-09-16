@@ -49,8 +49,7 @@ namespace Wof.Model.Level.Weapon
 		public GunBullet(float x, float y, Quaternion launchOrientation, Level level, IObject2D owner, bool reversed, bool doubleView)
             : base(x, y, (reversed ? -1 : 1) * owner.MovementVector, level, 0, owner)
         {
-
-		    this.launchOrientation = launchOrientation;
+            this.launchOrientation = launchOrientation;
 			// flyVector = new PointD(GameConsts.Rocket.BaseSpeed, GameConsts.Rocket.BaseSpeed);
         
 		     isReversed = reversed;
@@ -115,7 +114,7 @@ namespace Wof.Model.Level.Weapon
 		}
 		
 		protected override void ChangePosition(int time)
-        {
+        {           
             float coefficient = Mathematics.GetMoveFactor(time, MoveInterval);
 
             timeCounter += time;

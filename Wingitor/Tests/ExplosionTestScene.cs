@@ -69,12 +69,23 @@ namespace wingitor.Tests
             EffectsManager.Singleton.Sprite(
                 Framework.SceneMgr,
                 Framework.SceneMgr.RootSceneNode,
-                new Vector3(i, 50, 0),
+                new Vector3(i, 70, 0),
                 new Vector2(20, 20),
                 EffectsManager.EffectType.EXPLOSION3,
                 true,
                 0
                 );
+            i += space;
+
+            EffectsManager.Singleton.Sprite(
+              Framework.SceneMgr,
+              Framework.SceneMgr.RootSceneNode,
+              new Vector3(i, 70, 0),
+              new Vector2(20, 20),
+              EffectsManager.EffectType.EXPLOSION3_NIGHT,
+              true,
+              0
+              );
             i += space;
 
             EffectsManager.Singleton.Sprite(

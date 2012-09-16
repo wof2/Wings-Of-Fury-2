@@ -157,7 +157,6 @@ namespace Wof.View.AmmunitionViews
         }
 
         
-               
       	public override void Hide()
         {
             if (ammunitionNode != null) ammunitionNode.SetVisible(false, true);

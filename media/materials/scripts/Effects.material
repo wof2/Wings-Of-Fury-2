@@ -148,16 +148,32 @@ material Effects/Explosion2 : AEffect
 	
 }
 
-material Effects/Explosion3 : ABEffect
+material Effects/Explosion3Night : ABEffect
 {
    technique Diffuse
    {
        pass 0
-       {		 
+       {
           texture_unit 0
           { 
-              anim_texture explosion3.png 33 0	
-			  // colour_op modulate			  
+              anim_texture explosion3.png 33 0
+          }
+       }
+   }
+	
+}
+
+
+material Effects/Explosion3 : AEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+		 		
+          texture_unit 0
+          { 
+              anim_texture explosion3_ab.png 33 0
           }
        }
    }

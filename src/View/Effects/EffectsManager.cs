@@ -184,6 +184,7 @@ namespace Wof.View.Effects
             EXPLOSION1,
             EXPLOSION2,
             EXPLOSION3,
+            EXPLOSION3_NIGHT,
             EXPLOSION4,
             EXPLOSION1_SLOW,
             EXPLOSION2_SLOW,
@@ -682,6 +683,10 @@ namespace Wof.View.Effects
                     info.duration = 0.6f;
                     info.material = "Effects/Explosion3";
                     break;
+                case EffectType.EXPLOSION3_NIGHT:
+                    info.duration = 0.6f;
+                    info.material = "Effects/Explosion3Night";
+                    break;
                 case EffectType.EXPLOSION4:
                     info.duration = 0.5f;
                     info.material = "Effects/Explosion4";
@@ -990,7 +995,12 @@ namespace Wof.View.Effects
 
                 if (MaterialManager.Singleton.ResourceExists(material + "_" + aName))
                 {
-                    clonedMaterial = MaterialManager.Singleton.GetByName(material + "_" + aName);
+                   //  using (ResourcePtr res = MaterialManager.Singleton.GetByName(material + "_" + aName))
+                   //  using (clonedMaterial = res)
+                  //   {
+                      
+                  //   }
+                    clonedMaterial= MaterialManager.Singleton.GetByName(material + "_" + aName);
                 }
                 else
                 {

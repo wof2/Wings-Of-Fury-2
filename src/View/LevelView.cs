@@ -1207,7 +1207,10 @@ namespace Wof.View
         public void OnAmmunitionVanish(LevelTile tile, Ammunition ammunition)
         {
             int index = FindAmmunitionViewIndex(ammunition);
-            if (index == -1) return;
+            if (index == -1)
+            {
+                return;
+            }
             AmmunitionView av = ammunitionViews[index];
             ammunitionViews.RemoveAt(index);
             av.Hide();
@@ -1267,7 +1270,12 @@ namespace Wof.View
             }
 
             int index = FindAmmunitionViewIndex(ammunition);
-            if (index == -1) return;
+           
+            if (index == -1)
+            {
+                Console.WriteLine("HOOOLAA!");
+                return;
+            }
             AmmunitionView av = ammunitionViews[index];
 
             uint hash;
@@ -1324,7 +1332,10 @@ namespace Wof.View
                     if (tile == null)
                     {
                         // powietrze
-                        effectType = EffectsManager.EffectType.EXPLOSION3;
+                        effectType = (IsNightScene)
+                                         ? EffectsManager.EffectType.EXPLOSION3_NIGHT
+                                         : EffectsManager.EffectType.EXPLOSION3;
+
                         na = EffectsManager.Singleton.Sprite(
                         sceneMgr,
                         av.AmmunitionNode,
@@ -1371,8 +1382,8 @@ namespace Wof.View
           //  Console.WriteLine("Effect: " + effectType);
             ammunitionViews.RemoveAt(index);
             av.Hide();
-            
-            if (!ocean && EngineConfig.ExplosionLights && IsNightScene)
+
+            if (!ocean && tile != null && EngineConfig.ExplosionLights && IsNightScene && av.ExplosionFlash != null)
             {
                 // TODO: czas œwiecenia taki jak d³ugoœæ efektu EffectsManager.EffectType.EXPLOSION3
                 NodeAnimation.NodeAnimation ani =
@@ -2717,9 +2728,14 @@ namespace Wof.View
 
         public void BuildCameraHolders()
         {
-            cameraHolders = playerPlaneView.GetCameraHolders();
-            if(EngineConfig.DebugStart) {
-	            foreach(PlaneView pv in planeViews) {
+            if (playerPlaneView != null)
+            {
+                cameraHolders = playerPlaneView.GetCameraHolders();
+            }
+            if(EngineConfig.DebugStart) 
+            {
+	            foreach(PlaneView pv in planeViews) 
+                {
 	            	cameraHolders.AddRange(pv.GetCameraHolders());
 	            	
 	            }

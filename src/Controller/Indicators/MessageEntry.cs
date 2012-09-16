@@ -107,20 +107,28 @@ namespace Wof.Controller.Indicators
         }
 
 
-        private static ColourValue defaultColourTop = new ColourValue(0.6f, 0.34f, 0.34f);
+      //  private static ColourValue defaultColourTop = new ColourValue(0.6f, 0.34f, 0.34f);
+        private static ColourValue defaultColourTop = new ColourValue(0.3f, 0.3f, 0.3f);
 
         public static ColourValue DefaultColourTop
         {
             get { return defaultColourTop; }
         }
 
-        private static ColourValue defaultColourBottom = new ColourValue(0.8f, 0.1f, 0.1f);
+    //    private static ColourValue defaultColourBottom = new ColourValue(0.8f, 0.1f, 0.1f);
+        private static ColourValue defaultColourBottom = new ColourValue(0.1f, 0.1f, 0.1f);
        
        // protected int charsPerLine = 55;
 
         public static ColourValue DefaultColourBottom
         {
             get { return defaultColourBottom; }
+        }
+
+        public static void SetDefaultColours(ColourValue top, ColourValue bottom)
+        {
+            defaultColourBottom = bottom;
+            defaultColourTop = top;
         }
 
         public int GetCharsPerLine(float containerWidth, float screenHeight)

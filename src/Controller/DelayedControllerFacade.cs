@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using Wof.Model.Level;
 using Wof.Model.Level.Infantry;
 using Wof.Model.Level.LevelTiles;
@@ -35,6 +36,7 @@ namespace Wof.Controller
         {
             lock (this)
             {
+                //Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " - clear jobs");
                 jobs.Clear();
                 lastId = 0;
             }
@@ -44,6 +46,7 @@ namespace Wof.Controller
         {
             lock (this)
             {
+                //Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " - new job: " + methodName);
                 jobs.Add(lastId++, new KeyValuePair<String, object[]>(methodName, null));
             }
         }
@@ -52,6 +55,7 @@ namespace Wof.Controller
         {
             lock (this)
             {
+                //Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " - new job: " + methodName);
                 jobs.Add(lastId++, new KeyValuePair<String, object[]>(methodName, arguments));
             }
         }
@@ -67,7 +71,9 @@ namespace Wof.Controller
                         KeyValuePair<String, object[]> jobInfo = job.Value;
                         if (controller != null)
                         {
+                            //Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " - about to execute job: " + jobInfo.Key);
                             controller.GetType().GetMethod(jobInfo.Key).Invoke(controller, jobInfo.Value);
+                            //Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " - finished job: " + jobInfo.Key);
                         }
                     }
                   
