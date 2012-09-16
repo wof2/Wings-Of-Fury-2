@@ -119,9 +119,11 @@ namespace Wof.View.TileViews
             float trailWidth = baseWidth * Math.RangeRandom(1.0f, 1.1f);
             string trailName = EffectsManager.BuildSpriteEffectName(this.gunNode, EffectsManager.EffectType.GUNTRAIL, "GunTrail" + localPos);
             bool showTrail = EffectsManager.Singleton.EffectEnded(trailName) || !EffectsManager.Singleton.EffectExists(trailName);
-
+            
 
             showTrail |= (Math.RangeRandom(0.0f, 1.0f) > 0.95f); // czasem przerwij efekt i zacznij od poczatku
+            showTrail = false;
+
 
             Vector3 trailBase = new Vector3(localPos.x, 0.0f, localPos.z - trailWidth * 0.5f);
 

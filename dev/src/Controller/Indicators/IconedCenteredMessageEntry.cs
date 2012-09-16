@@ -51,7 +51,12 @@ namespace Wof.Controller.Indicators
         public IconedMessageEntry(float x, float y, string message, uint time) : base(x, y, message, time)
         {
         }
+        public IconedMessageEntry(float x, float y, string message,bool noBackground)
+            : base(x, y, message)
+        {
+            this.noBackground = noBackground;
 
+        }
         public IconedMessageEntry(string message) : base(message)
         {
         }

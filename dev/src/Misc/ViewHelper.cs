@@ -270,19 +270,28 @@ namespace Wof.Misc
 
         public static MaterialPtr CloneMaterial(String orgName, String cloneName)
         {
-            MaterialPtr matPtr;
+          
             if (MaterialManager.Singleton.ResourceExists(cloneName))
             {
-                matPtr = MaterialManager.Singleton.GetByName(cloneName);
-                if (matPtr.CompilationRequired) matPtr.Compile();
-                return matPtr;
+                using (ResourcePtr res = MaterialManager.Singleton.GetByName(cloneName))
+                using (MaterialPtr matPtr = res)
+                {
+                    if (matPtr.CompilationRequired) matPtr.Compile();
+                    return matPtr;
+                }
             }
 
-            matPtr = MaterialManager.Singleton.GetByName(orgName);
-            if (matPtr.IsLoaded) matPtr.Load();
-            if (matPtr.CompilationRequired) matPtr.Compile();
 
-            return matPtr.Clone(cloneName);
+            using (ResourcePtr res = MaterialManager.Singleton.GetByName(orgName))
+            using (MaterialPtr matPtr = res)
+            {
+                if (matPtr.IsLoaded) matPtr.Load();
+                if (matPtr.CompilationRequired) matPtr.Compile();
+
+                return matPtr.Clone(cloneName);
+            }
+           
+          
         }
 
         public static bool CloneAndApplyMaterial(Entity entity, String orgMatName, String cloneMatName)

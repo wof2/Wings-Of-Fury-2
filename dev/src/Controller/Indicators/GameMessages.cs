@@ -217,7 +217,11 @@ namespace Wof.Controller.Indicators
                     currentMessage = messageQueue[0];
                     PrepareMessage();
                     messageQueue.RemoveAt(0);
-                    
+
+                    if (currentMessage.NoBackground && messageElement != null && !messageElement.IsVisible)
+                    {
+                        ShowCurrentMessage();
+                    }
                     if(!currentMessage.NoBackground)
                     {
                         backgroundElement.Show();
@@ -316,10 +320,11 @@ namespace Wof.Controller.Indicators
       
         private void SetBgOpacity(float val)
         {
+            if (backgroundElement == null) return;
             if (val > 1) val = 1.0f;
             if (val < 0) val = 0;
            
-
+            
             MaterialPtr bgMaterial = backgroundElement.GetMaterial();
             bgMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetAlphaOperation(LayerBlendOperationEx.LBX_SOURCE1, LayerBlendSource.LBS_MANUAL, LayerBlendSource.LBS_CURRENT, val);
                 //alpha_op_ex source1 src_manual src_current 0.3
@@ -459,7 +464,7 @@ namespace Wof.Controller.Indicators
             if(iconOverlay != null && iconOverlay.IsVisible)  iconOverlay.Hide();
             isDecreasingBgOpacity = false;
             isIncreasingBgOpacity = false;
-            backgroundElement.Hide();
+            if (backgroundElement != null) backgroundElement.Hide();
         }
 
 
