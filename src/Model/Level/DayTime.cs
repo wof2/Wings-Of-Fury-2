@@ -14,7 +14,11 @@ namespace Wof.Model.Level
         [StringValue("foggy")]
         Foggy,
         [StringValue("night")]
-        Night
+        Night,
+        [StringValue("dusk")]
+        Dusk,
+        [StringValue("dusk2")]
+        Dusk2
 
 
     } ;

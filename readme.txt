@@ -1,8 +1,12 @@
 ---------------------------------------------------------------
 -- Wings Of Fury 2: Return of the legend
--- Version 3.30 (final) - 15.11.2010
+-- Version 3.4 - 20.09.2012
 ---------------------------------------------------------------
-
+3.4 release credits:
+  Adam Witczak
+  courtesy of:  Czacha - 2 new music tracks
+				Roel Reijerse - 2 new skyboxes
+				
 3.3 release credits:
   Adam Witczak
 
