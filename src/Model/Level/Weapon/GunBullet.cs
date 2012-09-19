@@ -106,6 +106,11 @@ namespace Wof.Model.Level.Weapon
             if (obj.Bounds.Intersects(this.Bounds)){
 
                 float damage = GameConsts.Gun.BaseDamage * GameConsts.UserPlane.Singleton.HitCoefficient;
+                if(obj is Wof.Model.Level.Planes.Plane) {
+            		if(!(obj as Wof.Model.Level.Planes.Plane).IsEnemy) {
+            			damage *= 0.5f;
+            		}
+            	}
             	return damage;
             }
             

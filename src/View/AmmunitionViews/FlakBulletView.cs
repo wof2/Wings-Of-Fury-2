@@ -35,7 +35,7 @@ namespace Wof.View.AmmunitionViews
             innerNode =
                 ammunitionNode.CreateChildSceneNode("FlakInner" + ammunitionID.ToString(), new Vector3(0, 0, 0));
             innerNode.AttachObject(ammunitionModel);
-
+            innerNode.SetScale(0.7f,0.7f,0.7f);
             missileAnimation = new ConstRotateNodeAnimation(innerNode, 75, oVector, "ConstRot");
             missileAnimation.Enabled = true;
             missileAnimation.Looped = true;

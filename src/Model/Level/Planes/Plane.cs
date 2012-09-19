@@ -2326,6 +2326,11 @@ namespace Wof.Model.Level.Planes
             	}
                 this.oilLeak += oilLeak;
                 oil -= oilTaken;
+                
+                if(EngineConfig.DebugInfo)
+                {
+                	Console.WriteLine(this.Name + " - Plane has been hit. Damage:"+oilTaken+", leakage:"+oilLeak+". Total oil:"+oil+", total leakage:"+this.oilLeak);
+                }
                // oil = System.Math.Max(oil, 0);
             }
         }
@@ -2339,6 +2344,9 @@ namespace Wof.Model.Level.Planes
         {
             if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed)
             {
+				float oilBefore = oil;
+				float leakBefore = oilLeak;
+				
                 planeState = PlaneState.Damaged;
                 if (hitByPlane) //ma³e trafienie
                 {
@@ -2374,6 +2382,13 @@ namespace Wof.Model.Level.Planes
 
                 }
                // oil = System.Math.Max(oil, 0);
+               
+                if(EngineConfig.DebugInfo)
+                {
+                	float oilTaken = oilBefore - oil;
+                	float oilLeakDiff = this.oilLeak - leakBefore;
+                	Console.WriteLine(this.Name + " - Plane has been hit. Damage:"+oilTaken+", leakage:"+oilLeakDiff+". Total oil:"+oil+", total leakage:"+this.oilLeak);
+                }
             }
         }
 
