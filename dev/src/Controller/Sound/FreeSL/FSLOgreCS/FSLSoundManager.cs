@@ -199,7 +199,8 @@ namespace FSLOgreCS
                             }
                             catch(Exception e)
                             {
-                                Console.WriteLine(e);
+                            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error in sound loop:"+ e.Message+ e.StackTrace);
+                              
 
                             }
 

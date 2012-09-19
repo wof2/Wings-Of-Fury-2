@@ -79,7 +79,6 @@ using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 using Wof.Model.Level.XmlParser;
 using Wof.View;
-using Wof.View.AmmunitionViews;
 using Wof.View.Effects;
 using Button = BetaGUI.Button;
 using FontManager = Wof.Languages.FontManager;
@@ -355,7 +354,7 @@ namespace Wof.Controller.Screens
         
         protected bool isFirstFrame;
 
-        private DelayedControllerFacade delayedControllerFacade;
+        private IController controller;
 
         protected PlaneType userPlaneType;
 
@@ -669,12 +668,14 @@ namespace Wof.Controller.Screens
 			displayed = true;
             LogManager.Singleton.LogMessage("About to load model...", LogMessageLevel.LML_CRITICAL);
             
-            delayedControllerFacade = new DelayedControllerFacade(this);
+            //controller = new DelayedControllerFacade(this);
+            controller = this;
+            
             if(LevelFile == null)
             {
                 levelFile = XmlLevelParser.GetLevelFileName(levelNo);
             }
-            currentLevel = new Level(LevelFile, delayedControllerFacade, lives, userPlaneType);
+            currentLevel = new Level(LevelFile, controller, lives, userPlaneType);
             if(!EngineConfig.IsEnhancedVersion && currentLevel.EnhancedOnly)
             {
                 throw new LevelUnavailableException(levelFile);
@@ -856,8 +857,8 @@ namespace Wof.Controller.Screens
             SoundManager.Instance.StopMusic();
 
 
-            delayedControllerFacade.ClearJobs();
-            delayedControllerFacade = null;
+         //   controller.ClearJobs();
+         //  controller = null;
             // test pamiêci
             
             
@@ -900,7 +901,6 @@ namespace Wof.Controller.Screens
 
 
             indicatorControl.ClearGUI();
-            gameMessages.ClearMessages();
             gameMessages.DestroyMessageContainer();
             SoundManager3D.Instance.UpdaterRunning = true;
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUpEnd");
@@ -1130,8 +1130,9 @@ namespace Wof.Controller.Screens
                             if (currentLevel.MissionType == MissionType.Survival)
                             {
                                 gameMessages.ClearMessages();
-                                IconedMessageEntry message = new IconedMessageEntry(0, 0, String.Format(LanguageResources.GetString(LanguageKey.SurvivalTime) + " {0:f}s.", survivalTime), true);
+                                IconedMessageEntry message = new IconedMessageEntry(0, 0, String.Format(LanguageResources.GetString(LanguageKey.SurvivalTime) + " {0:f}s.", survivalTime));
                                 message.Icon = "survival.png";
+
                                 gameMessages.AppendMessage(message);
 
                                 UpdateSurvivalTime(evt);
@@ -1751,7 +1752,7 @@ namespace Wof.Controller.Screens
 
                             RegisterDynamicAds();
                             levelView.OnFrameStarted(evt);
-                            delayedControllerFacade.DoJobs();
+                        //    controller.DoJobs();
 
                             // odswiez raz na jakis czas
                             // TODO: timer
