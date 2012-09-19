@@ -181,3 +181,76 @@ material Skyplane/Night : NoFog
 		}
 	}
 }
+
+
+material Skybox/Dusk : NoFog
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			
+			texture_unit
+			{
+				cubic_texture dusk.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Skyplane/Dusk : NoFog
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				texture dusk_FR.jpg
+			}
+		}
+	}
+}
+
+
+material Skybox/Dusk2 : NoFog
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			
+			texture_unit
+			{
+				cubic_texture dusk2.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material Skyplane/Dusk2 : NoFog
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				texture dusk2_FR.jpg
+			}
+		}
+	}
+}
+

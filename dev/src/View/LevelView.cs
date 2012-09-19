@@ -2349,7 +2349,8 @@ namespace Wof.View
                     texture_low = "cloudy_noon_low.jpg";
                     InitLight();
                     break;
-
+                    
+               
                 case DayTime.Foggy:
                     material = "Skyplane/Foggy";
                     material = "Skybox/Foggy";
@@ -2373,7 +2374,21 @@ namespace Wof.View
                     texture_low = "morning2_low.jpg";
                     InitLight();
                     break;
+                    
+ 				 case DayTime.Dusk:                   
+                    material = "Skybox/Dusk";
+                    texture = "dusk.jpg";
+                    texture_low = "dusk_low.jpg";
+                    InitLight();
+                    break;
 
+ 				case DayTime.Dusk2:                   
+                    material = "Skybox/Dusk2";
+                    texture = "dusk2.jpg";
+                    texture_low = "dusk2_low.jpg";
+                    InitLight();
+                    break;
+                    
                 case DayTime.Night:
                     material = "Skyplane/Night";
                     material = "Skybox/Night";
