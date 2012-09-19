@@ -594,7 +594,7 @@ namespace Wof.Controller
         {
             if (!p.IsEnemy)
             {
-                if (currentEngineIdleSound.Status.Playing)
+                if (currentEngineIdleSound!=null && currentEngineIdleSound.Status.Playing)
                 {
                     HaltDXSound(currentEngineIdleSound);
                     LoopEngineSound(p);
