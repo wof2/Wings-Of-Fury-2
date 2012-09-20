@@ -149,7 +149,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
                     currentTime += time;
 
                 //wyliczam kat
-                SetAngle();
+                SetAngle(time);
             }
         }
 

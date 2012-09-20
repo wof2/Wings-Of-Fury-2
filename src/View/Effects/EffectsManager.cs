@@ -1037,7 +1037,7 @@ namespace Wof.View.Effects
                     ret =
                         new EffectTextureAnimation(node, unit, duration, aName,
                                                    VisibilityNodeAnimation.VisibilityType.VISIBLE,
-                                                   VisibilityNodeAnimation.VisibilityType.VISIBLE);
+                                                   VisibilityNodeAnimation.VisibilityType.NOCHANGE);
                 }
                 else
                 {
@@ -1124,6 +1124,39 @@ namespace Wof.View.Effects
             waterImpact2Node.SetScale(26.5f, 26.5f, 20.5f);
         }
 
+        
+        public void Reflector(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition, Vector2 size,
+                                bool looped, string localNamePostfix)
+        {
+            
+            SceneNode reflector1Node, reflector2Node;
+
+            VisibilityNodeAnimation vnAnimation, vnAnimation2;
+
+            vnAnimation =
+                RectangularEffect(sceneMgr, parent, "RecflectorEntity1_" + localNamePostfix, EffectType.WATERTRAIL, localPosition,
+                                  Quaternion.IDENTITY, looped);
+            vnAnimation2 =
+                RectangularEffect(sceneMgr, parent, "RecflectorEntity2_" + localNamePostfix, EffectType.WATERTRAIL, localPosition,
+                                  Quaternion.IDENTITY, looped);
+           
+
+            reflector1Node = vnAnimation.FirstNode;
+            reflector2Node = vnAnimation2.FirstNode;
+
+           
+            reflector1Node.Rotate(Vector3.UNIT_X, Mogre.Math.HALF_PI);
+            reflector1Node.Rotate(Vector3.NEGATIVE_UNIT_Z, -Mogre.Math.HALF_PI);
+            
+             reflector1Node.Rotate(Vector3.UNIT_X, -Mogre.Math.HALF_PI);
+            reflector1Node.SetScale(24.0f, 1f, 10.0f);
+
+
+            reflector2Node.Rotate(Vector3.UNIT_X, Mogre.Math.HALF_PI);
+            reflector2Node.Rotate(Vector3.NEGATIVE_UNIT_Z, Mogre.Math.HALF_PI);
+            reflector2Node.SetScale(24.0f, 1f, 10.0f);
+
+        }
 
         public void AddSeagulls(SceneManager sceneMgr, Vector3 center, Vector2 defaultSize, Degree maxRotation,
                                 float speed, uint count)

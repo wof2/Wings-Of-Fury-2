@@ -80,8 +80,16 @@ namespace Wof.Model.Level.Weapon
       
             if(dist < GameConsts.FlakBunker.DamageRange)
             {
+            	float illuminationMultiplier = 1.0f;
+            	if(ammunitionOwner is BunkerTile) 
+            	{
+            		if((ammunitionOwner as BunkerTile).IsIlluminatedShot) 
+            		{
+            			illuminationMultiplier = 2.0f;
+            		}
+            	}
             	float damageCoeff = ((GameConsts.FlakBunker.DamageRange - dist) / GameConsts.FlakBunker.DamageRange);
-            	float damage = GameConsts.FlakBunker.MaxDamagePerHit * damageCoeff * GameConsts.UserPlane.Singleton.HitCoefficient;
+            	float damage = illuminationMultiplier * GameConsts.FlakBunker.MaxDamagePerHit * damageCoeff * GameConsts.UserPlane.Singleton.HitCoefficient;
             	return damage;
             }
             

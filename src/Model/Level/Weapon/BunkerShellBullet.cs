@@ -128,7 +128,7 @@ namespace Wof.Model.Level.Weapon
                 //if((this.Position - p.Position).EuclidesLength < boundRectangle.Width * 2 )
                 if (boundRectangle.Intersects(p.Bounds))
                 {
-                    p.Hit(false);
+                    p.Hit(this.ammunitionOwner);
                     Destroy();
                 }
                               

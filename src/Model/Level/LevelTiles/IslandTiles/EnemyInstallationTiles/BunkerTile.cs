@@ -48,12 +48,13 @@
 
 using System;
 using System.Collections.Generic;
+using Wof.Misc;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
-using Wof.Model.Level.Planes;
 using Wof.Model.Level.Infantry;
+using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
-using Math=Mogre.Math;
+using Math = Mogre.Math;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 {
@@ -85,7 +86,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// <summary>
         /// Przesuniecie reflektora w jednym kroku.
         /// </summary>
-        private const float ReflectorMoveStep = Math.PI / 180.0f;
+        private float ReflectorMoveStep = Math.PI / 5.0f;
 
         /// <summary>
         /// Dopuszczalna roznica pomiedzy katem reflectora a katem dzialka.
@@ -125,11 +126,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// </summary>
         protected float lightAngle;
 
-        /// <summary>
-        /// Generator liczb pseudolosowych.
-        /// </summary>
-        protected System.Random mRand;
-
+       
         /// <summary>
         /// Kierunek ruchu reflektora.
         /// </summary>
@@ -199,8 +196,11 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             : base(yBegin, yEnd, viewXShift, hitBound, soldierNum, generalNum, type, collisionRectangle)
         {
             angle = NinetyDegree;
-            lightAngle = MinAngle;
-            mRand = new System.Random(System.Environment.TickCount);
+            
+            
+            lightAngle = 0.01f * UnitConverter.RandomGen.Next((int)MinAngle * 100, (int)MaxAngle * 100);
+            
+            ReflectorMoveStep *= 0.01f * UnitConverter.RandomGen.Next((int)80, (int)120); // 80-120% szybkosci
         }
 
         #endregion
@@ -307,7 +307,8 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         {
             enemyState = EnemyInstallationState.Intact;
             angle = NinetyDegree;
-            lightAngle = MinAngle;
+            lightAngle = 0.01f * UnitConverter.RandomGen.Next((int)MinAngle * 100, (int)MaxAngle * 100);
+            reflectorLockedOnTarget = false;
             
             EnemyInstallationTile.IncrementIntactInstallationCount();
         }
@@ -360,7 +361,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// Ustawia kat dzialka.    
         /// </summary>
         /// <author>Michal Ziober</author>
-        protected virtual void SetAngle()
+        protected virtual void SetAngle(int time)
         {
         	
             float interval = refToLevel.UserPlane.Center.X;
@@ -384,17 +385,24 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 
           //  Console.WriteLine("Kat:" +angle+ " "+(angle / (Math.PI)));
             //Ustawiam kat reflectora
-            SetReflectorAngle();
+            if(UsingReflector) {
+            	SetReflectorAngle(time);
+            }
         }
 
+        bool reflectorLockedOnTarget = false;
         /// <summary>
         /// Ustawia kat reflektora.
         /// </summary>
-        private void SetReflectorAngle()
+        private void SetReflectorAngle(int time)
         {
             //ustawienie kata.
-            if (System.Math.Abs(lightAngle - angle) < EpsilonAngle)
+            
+            float dist = this.refToLevel.UserPlane.XDistanceToTile(this);
+            
+            if (!reflectorLockedOnTarget && System.Math.Abs(lightAngle - angle) < EpsilonAngle)
             {
+            	/*
                 if (lightAngle == MinAngle)
                 {
                     lightAngle += ReflectorMoveStep;
@@ -406,33 +414,59 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                     lightDirection = Direction.Left;
                 }
                 else
-                {
-                    lightAngle = angle;
-                    return;
-                }
+                {*/
+            	
+            	
+            	if(dist < this.horizon.Width * 1.0f) {            	 
+            		lightAngle = angle; // namierzenie
+            		reflectorLockedOnTarget = true;
+            		Console.WriteLine("locked on target");
+                	return;
+            	} 
+                // dalej machamy reflektorem
+               
             }
-            else if (lightDirection == Direction.Right)
+            if(reflectorLockedOnTarget)
             {
-                lightAngle += ReflectorMoveStep;
+            	lightAngle = angle;            	
+	            if(dist > this.horizon.Width * 2.0f)
+	            {
+	            	// prawdopodobienstwo utraty celu
+	        		reflectorLockedOnTarget = false;
+	        		Console.WriteLine("released target");
+	        		if(UnitConverter.RandomGen.Next(1) == 0){
+	        			lightDirection = Direction.Left;
+	        		} else {
+	        			lightDirection = Direction.Right;
+	        		}
+	        		
+	            	return;
+	            	
+	            }
+            
+            }
+            
+            if (lightDirection == Direction.Right)
+            {
+                lightAngle += ReflectorMoveStep * time / timeUnit;
                 lightAngle = System.Math.Min(lightAngle, MaxAngle);
                 if (lightAngle == MaxAngle)
                     lightDirection = Direction.Left;
             }
             else if (lightDirection == Direction.Left)
             {
-                lightAngle -= ReflectorMoveStep;
+                lightAngle -= ReflectorMoveStep* time / timeUnit;
                 lightAngle = System.Math.Max(MinAngle, lightAngle);
                 if (lightAngle == MinAngle)
                     lightDirection = Direction.Right;
             }
 
-            //jesli roznica pomiedzy katami jest dopuszczalna.
-            if (System.Math.Abs(lightAngle - angle) < EpsilonAngle)
-                if (mRand.Next(0, 1) == 0)//prawdopodobienstwo - narazie stale
-                    lightAngle = angle;
+         
         }
 
         #endregion
+        
+        private const float timeUnit = 1000;
 
         #region Properties
 
@@ -459,7 +493,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// </summary>
         public bool IsIlluminatedShot
         {
-            get { return System.Math.Abs(angle - lightAngle) < Mathematics.Epsilon; }
+            get { return reflectorLockedOnTarget; }
         }
 
         /// <summary>
@@ -478,7 +512,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// Zwraca informacje, czy w³¹czyæ reflektor czy tez nie.
         /// Jesli jest noc to zwrocone bedzie true.
         /// </summary>
-        public bool TurnReflector
+        public bool UsingReflector
         {
             get { return this.refToLevel != null && this.refToLevel.DayTime == DayTime.Night; }
         }

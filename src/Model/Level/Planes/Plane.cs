@@ -2340,12 +2340,14 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         /// <param name="hitByPlane">Jeœli true, to znaczy ¿e zosta³ trafioy przez samolot, 
         /// w przeciwnym przypadku, zosta³ trafiony przez dzia³o na wyspie.</param>
-        public void Hit(bool hitByPlane)
+        public void Hit(IObject2D source)
         {
             if (planeState != PlaneState.Destroyed && planeState != PlaneState.Crashed)
             {
 				float oilBefore = oil;
 				float leakBefore = oilLeak;
+				
+				bool hitByPlane = source is Plane || source is EnemyPlane;
 				
                 planeState = PlaneState.Damaged;
                 if (hitByPlane) //ma³e trafienie
@@ -2374,7 +2376,17 @@ namespace Wof.Model.Level.Planes
                 }
                 else
                 {
-                    oilLeak += 0.0007f * MaxOil;
+                	float illuminationMultiplier = 1.0f;
+                	if(source is BunkerTile)
+                	{                		
+                		if((source as BunkerTile).IsIlluminatedShot) 
+	            		{
+	            			illuminationMultiplier = 2.0f;
+	            		}
+                		
+                	}
+                    oilLeak += 0.0007f * MaxOil * illuminationMultiplier;
+                    
                     if (planeType == Planes.PlaneType.B25)
                     {
                         oilLeak -= 0.0003f * MaxOil; // lepszy pancerz

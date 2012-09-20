@@ -85,6 +85,17 @@ namespace Wof.Misc
             float scale = viewportAspect / hudAspect;
             return scale;
         }
+        
+        
+         /// <summary>
+        /// Generator liczb pseudolosowych.
+        /// </summary>
+        protected static System.Random mRand = new System.Random(System.Environment.TickCount);
+        
+        public static System.Random RandomGen
+        {
+        	get {return mRand; }
+        }
 
        
         /// <summary>       

@@ -192,8 +192,7 @@ namespace Wof.Model.Level.Weapon
             this.rocketCount = maxRockets;
             this.torpedoCount = MaxTorpedoes;
             actualWeapon = WeaponType.Gun;
-            ammunitionOwner = owner;
-            mRand = new System.Random(System.Environment.TickCount);
+            ammunitionOwner = owner;           
             gun = new Gun(refLevel);
         }
 
@@ -488,6 +487,7 @@ namespace Wof.Model.Level.Weapon
             
             return null;
         }
+        /*
         private void CheckEnemyPlaneHits()
         {
             if (refToLevel.UserPlane != null && refToLevel.EnemyPlanes.Count > 0)
@@ -511,7 +511,7 @@ namespace Wof.Model.Level.Weapon
                     }
                 }
             }
-        }
+        }*/
 
         /// <summary>
         /// Sprawdza i przeprowadza akcje zwiazane z trafieniem z dzialka w lecaca rekiete wroga

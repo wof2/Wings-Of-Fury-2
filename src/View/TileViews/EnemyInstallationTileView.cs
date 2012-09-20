@@ -72,6 +72,8 @@ namespace Wof.View.TileViews
 		protected ParticleSystem smokeParticleSystem = null;
         
         protected SceneNode gunNode;
+        protected SceneNode reflectorNode;
+        
 
         protected virtual Vector3 NozzleLocation
         {
@@ -82,6 +84,12 @@ namespace Wof.View.TileViews
         {
             get { return gunNode; }
         }
+        
+        public SceneNode ReflectorNode
+        {
+            get { return reflectorNode; }
+        }
+        
 
         public EnemyInstallationTileView(LevelTile levelTile, IFrameWork framework)
             : base(levelTile, framework)
@@ -89,6 +97,13 @@ namespace Wof.View.TileViews
         }
 
         public abstract void Restore();
+        
+        
+        public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
+        {
+        	base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);        
+        	
+        }
 
         /// <summary>
         /// Wizualizacja ostrza³u prowadzonego przez instalacjê
@@ -181,8 +196,10 @@ namespace Wof.View.TileViews
             SceneNode lightNode = installationNode.CreateChildSceneNode(localPosition);
             lightNode.AttachObject(light);
         }
-
-
+        
+        
+ 		
+ 		
         public virtual void Destroy(bool smoke, bool firePossibility, bool switchToDieAnimationState)
         {
 
@@ -200,6 +217,9 @@ namespace Wof.View.TileViews
 
             if (smoke) smokeParticleSystem = EffectsManager.Singleton.Smoke(sceneMgr, installationNode, new Vector3(0, -1, 0), windDirection);
             SetLightFlareVisibility(false);
+            
+            
+           
 
             if (firePossibility && Math.RangeRandom(0.0f, 1.0f) > 0.8f)
             {
@@ -222,6 +242,12 @@ namespace Wof.View.TileViews
                 animationState.AddTime(timeSinceLastFrameUpdate);
             }
 
+        
+            
+            
+          
+            
+              
         }
     }
 }

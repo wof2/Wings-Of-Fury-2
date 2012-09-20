@@ -241,7 +241,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                 if(!changeDirection.HasValue)
                 {
                     float angleBefore = angle;
-                    SetAngle();
+                    SetAngle(time);
                     if (adjustingBarrelAfterDirectionChange)
                     {
                         float diff = angle - angleBefore;

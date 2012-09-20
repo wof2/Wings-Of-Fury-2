@@ -77,8 +77,15 @@ namespace Wof.View.TileViews
                 if (Math.RangeRandom(0.0f, 1.0f) > 0.9f)
                 {
                     SetLightFlareVisibility(true);
-                }
+                }                
             }
+            
+            
+            
+            
+            
+            
+            
         }
 
         public override void Restore()
