@@ -82,6 +82,8 @@ namespace Wof.View.TileViews
             get { return isConcrete; }
         }
 
+        
+        protected bool flickeringReflectorWhenDestroyed;
 
         protected override Vector3 NozzleLocation
         {
@@ -117,6 +119,9 @@ namespace Wof.View.TileViews
             animationState = null;
         }
 
+        
+        
+        
         protected void rotateGun(float pitch, float yaw)
         {
             gunNode.Orientation = new Quaternion(pitch, Vector3.UNIT_X);
@@ -184,9 +189,10 @@ namespace Wof.View.TileViews
             flakBarrel = sceneMgr.CreateEntity("FlakBarrel" + nameSuffix, flakbarrelMesh);
             gunNode = gunPlaceNode.CreateChildSceneNode("FlakBarrelNode" + nameSuffix, new Vector3(0.0f, 0.5f, 0.0f));
             gunNode.AttachObject(flakBarrel);
-
-           
+                        
         }
+       
+        
 
         protected virtual void  initFlakBunker(SceneNode islandNode, float positionOnIsland)
         {
@@ -328,7 +334,10 @@ namespace Wof.View.TileViews
             animableElements.Add(barrelState);
 
 
-
+            if((levelTile as BunkerTile).UsingReflector)
+            {
+            	initReflector();
+            }
 
            
         }
@@ -366,7 +375,14 @@ namespace Wof.View.TileViews
           //  animationState = installationEntity.GetAnimationState("manual");
          //   animationState.Enabled = true;
          //   animationState.Loop = false;
-
+         
+			if(reflectorNode != null)
+			{
+				 flickeringReflectorWhenDestroyed = UnitConverter.RandomGen.Next(0,2) == 0;
+				 reflectorNode.SetVisible(true);
+			}
+			
+           
             if (isConcrete)
             {
                 ViewHelper.ReplaceMaterial(installationEntity, "DestroyedConcrete", "Concrete");
@@ -422,6 +438,11 @@ namespace Wof.View.TileViews
             {
                 ViewHelper.ReplaceMaterial(installationEntity, "Wood", "DestroyedWood");
             }
+            
+            if(reflectorNode != null)
+            {
+            	reflectorNode.SetVisible(false);
+            }
 
             if (EngineConfig.DisplayingMinimap)
             {
@@ -430,6 +451,7 @@ namespace Wof.View.TileViews
             }
         }
 
+        
         public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
             base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
@@ -438,6 +460,7 @@ namespace Wof.View.TileViews
             {
 
                 initBunker(parentNode, -getRelativePosition(parentNode, LevelTile));
+                
 
                 int variant = ((IslandTile) LevelTile).Variant;
 
@@ -464,8 +487,22 @@ namespace Wof.View.TileViews
                         break;
                 }
             }
+            
+           
         }
 
+        protected virtual void initReflector()
+        {
+            reflectorNode = gunPlaceNode.CreateChildSceneNode("ReflectorNode" + tileID, Vector3.ZERO );         
+            EffectsManager.Singleton.Reflector(sceneMgr, reflectorNode, new Vector3(0.0f, 1.5f, 0.0f), new Vector2(20,20), true, tileID.ToString());
+            flickeringReflectorWhenDestroyed = UnitConverter.RandomGen.Next(0,2) == 0; // 50%
+        }
+
+ 		protected void rotateReflector(float pitch)
+        { 
+        	reflectorNode.Orientation = new Quaternion(pitch, Vector3.UNIT_X);
+        }
+ 		
         public override void updateTime(float timeSinceLastFrameUpdate)
         {
             base.updateTime(timeSinceLastFrameUpdate);
@@ -483,6 +520,24 @@ namespace Wof.View.TileViews
             }
 
             rotateGun(pitch, yaw);
+          
+            if(bunkerTile.UsingReflector)
+            {
+	            rotateReflector(bunkerTile.ReflectorAngle);
+	            
+	            if ((bunkerTile.IsDestroyed && reflectorNode!= null) && flickeringReflectorWhenDestroyed)
+	            {
+	               
+	                if (Math.RangeRandom(0.0f, 1.0f) > 0.9f)
+	                {
+	                    reflectorNode.SetVisible(false);
+	                }
+	                if (Math.RangeRandom(0.0f, 1.0f) > 0.9f)
+	                {
+	                     reflectorNode.SetVisible(true);
+	                }                
+	            }
+            }
 
            
 

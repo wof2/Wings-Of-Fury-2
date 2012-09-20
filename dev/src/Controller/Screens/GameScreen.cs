@@ -104,6 +104,8 @@ namespace Wof.Controller.Screens
         private const int C_WOODEN_BUNKER_SCORE = 30;
         private const int C_CONCRETE_BUNKER_SCORE = 50;
         private const int C_FORTRESS_BUNKER_SCORE = 150;
+        private const int C_FLAK_BUNKER_SCORE = 60;  
+        
 
         private const int C_SHIP_WOODEN_BUNKER_SCORE = 35;
         private const int C_SHIP_CONCRETE_BUNKER_SCORE = 55;
@@ -2936,6 +2938,9 @@ namespace Wof.Controller.Screens
             else if (tile is ConcreteBunkerTile)
             {
                 increaseScore(C_CONCRETE_BUNKER_SCORE);
+            } if (tile is FlakBunkerTile)
+            {
+                increaseScore(C_FLAK_BUNKER_SCORE);
             }
             else if (tile is FortressBunkerTile)
             {

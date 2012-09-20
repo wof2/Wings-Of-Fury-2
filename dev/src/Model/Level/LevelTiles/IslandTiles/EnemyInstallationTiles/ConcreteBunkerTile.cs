@@ -133,7 +133,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                     currentTime += time;
 
                 //wyliczam kat    
-                SetAngle();
+                SetAngle(time);
             }
         }
 

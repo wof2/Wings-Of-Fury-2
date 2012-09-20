@@ -298,13 +298,13 @@ namespace Wof.Model.Level.Planes
             	evadeLoop++;
             	evadeLoopTime = 0;
             	evadeDirection *= -1;            	
-            	evadeLoopTimeMax = new Random().Next(1,2) * 1.7f; // maksymalny czas w jednej petli 3 - 6 sekundy
+            	evadeLoopTimeMax = new Random().Next(1,3) * 1.7f; // maksymalny czas w jednej 
             }
             
             if(evadeLoop >= evadeLoopMax) 
             {
             	evadeLoop = 0;   
-				evadeLoopMax = new Random().Next(4, 6);  // 4 do 6 zmian kierunku          	
+				evadeLoopMax = new Random().Next(4, 7);  // 4 do 6 zmian kierunku          	
             	TurnRound((Direction)(-1 * (int)direction), TurnType.Airborne);            	
             }
             

@@ -28,7 +28,7 @@ namespace Wof.Model.Level.Weapon
 		protected static Random mRand  = new Random();
 		protected readonly float maxFlyingDistance;
 		
-		protected float travelledDistance = 0;
+	//	protected float travelledDistance = 0;
 	
 		protected const float baseMaxDistance = 200;
 
@@ -146,16 +146,14 @@ namespace Wof.Model.Level.Weapon
 			Wof.Model.Level.Planes.Plane p = refToLevel.UserPlane;
             if (p != null)
             {
-            	
-            	bool hit = false;
                 float damage = GetDamage(p);              
                 
                 if(damage>0)
                 {
                   
                 	refToLevel.Controller.OnGunHitPlane(refToLevel.UserPlane);
-	             	refToLevel.UserPlane.Hit(damage, 0);     
-	               	hit=true;	   
+	             	refToLevel.UserPlane.Hit(damage, 0);    
+	                
 	                //powiadamia controler o trafieniu.	               
 
                     Destroy();
@@ -177,7 +175,7 @@ namespace Wof.Model.Level.Weapon
                     {
                         //niszczy wrogi samolot
                         //ubytek paliwa.
-                        ep.Hit(true);
+                        ep.Hit(this.ammunitionOwner);
 
                         //komunikat do controllera.
                         refToLevel.Controller.OnGunHitPlane(ep);

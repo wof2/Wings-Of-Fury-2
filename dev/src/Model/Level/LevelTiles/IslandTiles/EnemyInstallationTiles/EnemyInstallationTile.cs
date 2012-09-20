@@ -48,10 +48,11 @@
 
 using System;
 using System.Collections.Generic;
+using Wof.Misc;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Common;
-using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Infantry;
+using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.XmlParser;
 
 namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
@@ -201,14 +202,13 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             enemyState = EnemyInstallationState.Destroyed;
 
             Soldier newSoldier = null;
-            Direction curentDirect = Direction.Left;
-            Random rand = new Random(Environment.TickCount);
+            Direction curentDirect = Direction.Left;           
             for (int i = 0; i < generalsCount; i++)
             {
-                newSoldier = new General(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9));
+                newSoldier = new General(tilesIndex, curentDirect, refToLevel, UnitConverter.RandomGen.Next(1, 9));
 				
                 // generals run faster
-                newSoldier.Speed = rand.Next((int)(GameConsts.Soldier.MinSpeed * 1.1f), (int)(GameConsts.Soldier.MaxSpeed * 1.1f));
+                newSoldier.Speed = UnitConverter.RandomGen.Next((int)(GameConsts.Soldier.MinSpeed * 1.1f), (int)(GameConsts.Soldier.MaxSpeed * 1.1f));
                 if (curentDirect == Direction.Left)
                     curentDirect = Direction.Right;
                 else
@@ -223,11 +223,11 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 			bool holdsBazooka;
             for (int i = 0; i < soldiersCount; i++)
             {
-            	holdsBazooka = rand.Next(0,10) > 5;
+            	holdsBazooka = UnitConverter.RandomGen.Next(0,10) > 5;
                 //Soldier.SoldierType stype = Soldier.SoldierType.SOLDIER;
                 if (this is ShipBunkerTile)
                 {
-                    newSoldier = new Seaman(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9), holdsBazooka);
+                    newSoldier = new Seaman(tilesIndex, curentDirect, refToLevel, UnitConverter.RandomGen.Next(1, 9), holdsBazooka);
                     // stype = Soldier.SoldierType.SEAMAN;
                 }
                 else
@@ -237,10 +237,10 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                     {
                         stype = Soldier.SoldierType.GENERAL;
                     }*/
-                    newSoldier = new Soldier(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9), holdsBazooka);
+                    newSoldier = new Soldier(tilesIndex, curentDirect, refToLevel, UnitConverter.RandomGen.Next(1, 9), holdsBazooka);
                 }
                 //newSoldier = new Soldier(tilesIndex, curentDirect, refToLevel, rand.Next(1, 9), stype);
-                newSoldier.Speed = rand.Next(GameConsts.Soldier.MinSpeed, GameConsts.Soldier.MaxSpeed);
+                newSoldier.Speed = UnitConverter.RandomGen.Next(GameConsts.Soldier.MinSpeed, GameConsts.Soldier.MaxSpeed);
                 if (curentDirect == Direction.Left)
                     curentDirect = Direction.Right;
                 else
@@ -250,7 +250,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                 //rejestruje zolnierza w controlerze.
                 refToLevel.Controller.OnRegisterSoldier(newSoldier, this.refToLevel.MissionType);
             }
-            rand = null;
+           
             //zeruje liczbe zolnierzy w bunkrze.
             soldiersCount = 0;
 
