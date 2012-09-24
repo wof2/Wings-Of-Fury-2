@@ -441,6 +441,7 @@ namespace Wof.Model.Level.Common
                 peaks[i].Move(dx, dy);
             }
         }
+        
 
         /// <summary>
         /// Przesuwa czworokat o dany wektor.

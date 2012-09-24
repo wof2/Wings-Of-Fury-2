@@ -47,6 +47,7 @@
  */
 
 using System;
+using System.Collections;
 using Mogre;
 using Wof.Controller;
 using Wof.Misc;
@@ -55,7 +56,7 @@ using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.View.Effects;
-using Math=Mogre.Math;
+using Math = Mogre.Math;
 
 namespace Wof.View.TileViews
 {
@@ -491,16 +492,19 @@ namespace Wof.View.TileViews
            
         }
 
+        IList reflectorSubNodes = null;
         protected virtual void initReflector()
         {
             reflectorNode = gunPlaceNode.CreateChildSceneNode("ReflectorNode" + tileID, Vector3.ZERO );         
-            EffectsManager.Singleton.Reflector(sceneMgr, reflectorNode, new Vector3(0.0f, 1.5f, 0.0f), new Vector2(20,20), true, tileID.ToString());
+            reflectorSubNodes = EffectsManager.Singleton.Reflector(sceneMgr, reflectorNode, new Vector3(0.0f, 1.5f, 0.0f), new Vector2(24,10), true, tileID.ToString());
+            
             flickeringReflectorWhenDestroyed = UnitConverter.RandomGen.Next(0,2) == 0; // 50%
         }
 
  		protected void rotateReflector(float pitch)
         { 
         	reflectorNode.Orientation = new Quaternion(pitch, Vector3.UNIT_X);
+        	
         }
  		
         public override void updateTime(float timeSinceLastFrameUpdate)
@@ -524,6 +528,20 @@ namespace Wof.View.TileViews
             if(bunkerTile.UsingReflector)
             {
 	            rotateReflector(bunkerTile.ReflectorAngle);
+	            
+	            if(bunkerTile.IsIlluminatedShot) 
+	            {
+	            	foreach(SceneNode n in reflectorSubNodes)
+	            	{
+	            		n.SetScale(54.0f, 1.0f, 14.0f);
+	            	}
+	            }else
+	            {
+	            	foreach(SceneNode n in reflectorSubNodes)
+	            	{
+	            		n.SetScale(24.0f, 1.0f, 10.0f);
+	            	}
+	            }
 	            
 	            if ((bunkerTile.IsDestroyed && reflectorNode!= null) && flickeringReflectorWhenDestroyed)
 	            {
