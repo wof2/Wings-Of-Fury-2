@@ -115,6 +115,13 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
         /// Obszar widoczny dla dzialka.
         /// </summary>
         protected Quadrangle horizon;
+        
+        
+        /// <summary>
+        /// Obszar widoczny dla dzialka gdy reflektor namierzy samolot
+        /// </summary>
+        protected Quadrangle doubleHorizon;
+
 
         /// <summary>
         /// Kat nachylenia dzialka od podloza.
@@ -390,7 +397,36 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             }
         }
 
+        protected Quadrangle tempHorizon;
+        
+        
+        protected virtual void LockReflectorOnTarget()
+        {
+        	reflectorLockedOnTarget = true;
+        	tempHorizon = horizon;
+			horizon = doubleHorizon;         	
+        }
+        
+        protected virtual void ReleaseReflectorOnTarget()
+        {
+        	reflectorLockedOnTarget = false;    	
+
+			horizon = tempHorizon;		
+        	
+    		if(UnitConverter.RandomGen.Next(1) == 0){
+    			lightDirection = Direction.Left;
+    		} else {
+    			lightDirection = Direction.Right;
+    		}
+	        		
+        }
+        
+        
+        /// <summary>
+        /// Czy reflektor sledzi samolot gracza
+        /// </summary>
         bool reflectorLockedOnTarget = false;
+        
         /// <summary>
         /// Ustawia kat reflektora.
         /// </summary>
@@ -402,25 +438,10 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             
             if (!reflectorLockedOnTarget && System.Math.Abs(lightAngle - angle) < EpsilonAngle)
             {
-            	/*
-                if (lightAngle == MinAngle)
-                {
-                    lightAngle += ReflectorMoveStep;
-                    lightDirection = Direction.Right;
-                }
-                else if (lightAngle == MaxAngle)
-                {
-                    lightAngle -= ReflectorMoveStep;
-                    lightDirection = Direction.Left;
-                }
-                else
-                {*/
-            	
-            	
+                        	
             	if(dist < this.horizon.Width * 1.0f) {            	 
             		lightAngle = angle; // namierzenie
-            		reflectorLockedOnTarget = true;
-            		Console.WriteLine("locked on target");
+            		LockReflectorOnTarget();            		
                 	return;
             	} 
                 // dalej machamy reflektorem
@@ -429,17 +450,10 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             if(reflectorLockedOnTarget)
             {
             	lightAngle = angle;            	
-	            if(dist > this.horizon.Width * 2.0f)
+	            if(dist > this.horizon.Width)
 	            {
 	            	// prawdopodobienstwo utraty celu
-	        		reflectorLockedOnTarget = false;
-	        		Console.WriteLine("released target");
-	        		if(UnitConverter.RandomGen.Next(1) == 0){
-	        			lightDirection = Direction.Left;
-	        		} else {
-	        			lightDirection = Direction.Right;
-	        		}
-	        		
+	            	ReleaseReflectorOnTarget();	        		
 	            	return;
 	            	
 	            }

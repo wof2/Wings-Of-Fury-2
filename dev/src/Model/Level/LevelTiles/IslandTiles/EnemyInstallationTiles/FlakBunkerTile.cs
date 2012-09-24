@@ -322,7 +322,13 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 
 				horizon = new Quadrangle(new PointD(value*TileWidth - GameConsts.FlakBunker.HorizonMaxDistance/2, 5),
                                          GameConsts.FlakBunker.HorizonMaxDistance,
-                                         GameConsts.FlakBunker.HorizonMinDistance);                
+                                         GameConsts.FlakBunker.HorizonMinDistance);  
+
+                
+				 doubleHorizon = new Quadrangle(new PointD(value*TileWidth - 2 * GameConsts.FlakBunker.HorizonMaxDistance/2, 5),
+                                         2 * GameConsts.FlakBunker.HorizonMaxDistance,
+                                         2 * GameConsts.FlakBunker.HorizonMinDistance);  
+                
             }
         }
 

@@ -187,6 +187,10 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
                 horizon = new Quadrangle(new PointD(value*TileWidth - GameConsts.ShipConcreteBunker.HorizonWidth/2, 5),
                                          GameConsts.ShipConcreteBunker.HorizonWidth,
                                          GameConsts.ShipConcreteBunker.HorizonHeight);
+                
+                doubleHorizon = new Quadrangle(new PointD(value*TileWidth - 2*GameConsts.ShipConcreteBunker.HorizonWidth/2, 5),
+                                         2 * GameConsts.ShipConcreteBunker.HorizonWidth,
+                                         2* GameConsts.ShipConcreteBunker.HorizonHeight);
             }
         }
 

@@ -1125,7 +1125,7 @@ namespace Wof.View.Effects
         }
 
         
-        public void Reflector(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition, Vector2 size,
+        public List<SceneNode> Reflector(SceneManager sceneMgr, SceneNode parent, Vector3 localPosition, Vector2 size,
                                 bool looped, string localNamePostfix)
         {
             
@@ -1149,12 +1149,14 @@ namespace Wof.View.Effects
             reflector1Node.Rotate(Vector3.NEGATIVE_UNIT_Z, -Mogre.Math.HALF_PI);
             
              reflector1Node.Rotate(Vector3.UNIT_X, -Mogre.Math.HALF_PI);
-            reflector1Node.SetScale(24.0f, 1f, 10.0f);
+            reflector1Node.SetScale(size.x, 1f, size.y);
 
 
             reflector2Node.Rotate(Vector3.UNIT_X, Mogre.Math.HALF_PI);
             reflector2Node.Rotate(Vector3.NEGATIVE_UNIT_Z, Mogre.Math.HALF_PI);
-            reflector2Node.SetScale(24.0f, 1f, 10.0f);
+            reflector2Node.SetScale(size.x, 1f, size.y);
+            
+            return new List<SceneNode>(){reflector1Node,reflector2Node };
 
         }
 

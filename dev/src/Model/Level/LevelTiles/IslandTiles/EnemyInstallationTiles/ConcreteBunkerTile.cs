@@ -179,6 +179,10 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                 horizon = new Quadrangle(new PointD(value*TileWidth - GameConsts.ConcreteBunker.HorizonWidth/2, 5),
                                          GameConsts.ConcreteBunker.HorizonWidth,
                                          GameConsts.ConcreteBunker.HorizonHeight);
+                
+                 doubleHorizon = new Quadrangle(new PointD(value*TileWidth - 2*GameConsts.ConcreteBunker.HorizonWidth/2, 5),
+                                         2 * GameConsts.ConcreteBunker.HorizonWidth,
+                                         2* GameConsts.ConcreteBunker.HorizonHeight);
             }
         }
 
