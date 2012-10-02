@@ -173,7 +173,7 @@ namespace Wof.Controller
         /// <param name="streaming"></param>
         public void PlayAmbientMusic(String sound, int volume, bool preloadOnly, bool loop, bool streaming)
         {
-            streaming = false;
+           // streaming = false;
 
             if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
 
@@ -186,11 +186,15 @@ namespace Wof.Controller
                     ambientSound.Stop();
                     
                 }
-               /* if (ambientSound != null)
+                
+                if (ambientSound != null)
                 {
                      RemoveSound(ambientSound.Name);
                      ambientSound.Destroy();
-                }*/
+                    ambientSounds.Remove(sound);
+                }
+
+
                 if(ambientSounds.ContainsKey(sound))
                 {
                     ambientSound = ambientSounds[sound];

@@ -111,7 +111,7 @@ namespace Wof.Controller.Screens
                                     String.Empty,
                                     LanguageResources.GetString(LanguageKey.SpecialThanksToSteveWaldo),
                                     LanguageResources.GetString(LanguageKey.CreatorOfOriginalWingsOfFury),
-                                    String.Format(@"{0} 2010", LanguageResources.GetString(LanguageKey.Poland)) 
+                                    String.Format(@"{0} 2012", LanguageResources.GetString(LanguageKey.Poland)) 
                                 };
 
         #endregion
@@ -141,7 +141,7 @@ namespace Wof.Controller.Screens
         protected override List<Button> buildButtons()
         {        	
             List<Button> ret = new List<Button>();
-            ret.Add(guiWindow.createButton(new Vector4(20, (this.messages.Count + 1) * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
+            ret.Add(guiWindow.createButton(new Vector4(20, (this.messages.Count + 2) * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
                                            "bgui.button", LanguageResources.GetString(LanguageKey.OK), cc));
             return ret;
         }

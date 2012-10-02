@@ -1,8 +1,8 @@
 False
 True
-FSL_SS_DIRECTSOUND
-10
-10
+FSL_SS_DIRECTSOUND3D
+20
+40
 False
 False
 False
@@ -11,10 +11,10 @@ True
 True
 True
 High
-False
+True
 True
 False
 0
 False
 True
-P47
+B25
