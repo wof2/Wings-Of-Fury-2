@@ -229,7 +229,7 @@ namespace Wof.Controller.Screens
                   
                    
                     SoundManager.Instance.PlayMainTheme();
-                    SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, 100);
+                    SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
                 }
 
                 EngineConfig.SaveEngineConfig();
