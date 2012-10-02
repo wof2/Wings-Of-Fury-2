@@ -202,7 +202,7 @@ namespace Wof.Controller.Screens
         {
             List<Button> ret = new List<Button>();
 
-            ret.Add(guiWindow.createButton(new Vector4(20, (this.messages.Count + 1 )* GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
+            ret.Add(guiWindow.createButton(new Vector4(20, (this.messages.Count + 2 )* GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()),
                                            "bgui.button", LanguageResources.GetString(LanguageKey.Quit), cc));
             return ret;
         }
