@@ -1084,8 +1084,8 @@ namespace Wof.Controller
             }
 
             initScreenAfter(currentScreen);
-           
-            SoundManager.Instance.PlayMainTheme();
+
+            SoundManager.Instance.PlayEndingTheme();
             currentScreen = new ScoreEnterScreen(this, this, viewport, camera, score, survivalTime);
 
             if (ss != null)
@@ -1193,7 +1193,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            SoundManager.Instance.PlayMainTheme();
+            SoundManager.Instance.PlayEndingTheme();
 
             currentScreen = new EndingScreen(this, this, viewport, camera, true, 25, highscore, survivalTime);
 
@@ -1216,7 +1216,7 @@ namespace Wof.Controller
             }
             initScreenAfter(currentScreen);
 
-            SoundManager.Instance.PlayMainTheme();
+            SoundManager.Instance.PlayEndingTheme();
             currentScreen = new CreditsScreen(this, this, viewport, camera, true, 65);
 
             if (ss != null)

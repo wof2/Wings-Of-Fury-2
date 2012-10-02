@@ -90,7 +90,7 @@ namespace Wof.Controller
             }
             if (SoundManager3D.Instance.CurrentMusic != null)
             {
-                SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, 100);
+                SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
             }
 
             
@@ -179,7 +179,13 @@ namespace Wof.Controller
 
             if (ambientSound == null || (ambientSound != null && !ambientSound.Name.Equals(sound + "_Ambient")))
             {
-                
+
+                // stop old sound
+                if (!preloadOnly && (ambientSound != null && !ambientSound.Name.Equals(sound + "_Ambient") && ambientSound.IsPlaying()))
+                {
+                    ambientSound.Stop();
+                    
+                }
                /* if (ambientSound != null)
                 {
                      RemoveSound(ambientSound.Name);
@@ -196,7 +202,7 @@ namespace Wof.Controller
                 }
 
                
-                ambientSound.SetBaseGain(volume / 100.0f);
+                ambientSound.SetBaseGain(1.0f * volume / 100.0f);
                // ambientSound.ApplyGain();
                 //Create Ambient sound  
                 if (!preloadOnly)
@@ -208,7 +214,7 @@ namespace Wof.Controller
             {
                 if (ambientSound!=null)
                 {
-                    ambientSound.SetBaseGain(1.0f * volume / 100);
+                    ambientSound.SetBaseGain(1.0f * volume / 100.0f);
                    
                     if (!ambientSound.IsPlaying() && !preloadOnly)
                     {
@@ -230,12 +236,12 @@ namespace Wof.Controller
 
         public void PlayAmbientMusic(String sound, bool loop)
         {
-            PlayAmbientMusic(sound, 100, false, loop, true);
+            PlayAmbientMusic(sound, EngineConfig.MusicVolume, false, loop, true);
         }
 
         public void PlayAmbientMusic(String sound)
         {
-            PlayAmbientMusic(sound, 100);
+            PlayAmbientMusic(sound, EngineConfig.MusicVolume);
         }
 
         public void StopAmbientMusic()

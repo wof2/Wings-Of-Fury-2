@@ -283,12 +283,12 @@ namespace Wof.Controller
         {
             random = new Random();
             lastRandomMusicTrackNo = random.Next(1, maxMusicTrackNo + 1);
-            PlayIngameMusic(lastRandomMusicTrackNo, 100, true);
+            PlayIngameMusic(lastRandomMusicTrackNo, EngineConfig.MusicVolume, true);
         }
 
         public void PlayIngameMusic(int no)
         {
-            PlayIngameMusic(no, 100);
+            PlayIngameMusic(no, EngineConfig.MusicVolume);
         }
 
         public void PlayIngameMusic(int no, int volume)
@@ -302,9 +302,15 @@ namespace Wof.Controller
             SoundManager3D.Instance.PlayAmbientMusic(music, volume, preloadOnly);
         }
 
+        public void PlayEndingTheme()
+        {
+            SoundManager3D.Instance.PlayAmbientMusic("music/ending.ogg", EngineConfig.MusicVolume, false, true, EngineConfig.AudioStreaming);
+            // Play(mainTheme);
+        }
+
         public void PlayMainTheme()
         {
-            SoundManager3D.Instance.PlayAmbientMusic("music/themesong.ogg", 100, false, true, EngineConfig.AudioStreaming);
+            SoundManager3D.Instance.PlayAmbientMusic("music/themesong.ogg", EngineConfig.MusicVolume, false, true, EngineConfig.AudioStreaming);
             // Play(mainTheme);
         }
 
