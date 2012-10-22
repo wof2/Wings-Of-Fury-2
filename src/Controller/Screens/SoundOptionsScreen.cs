@@ -175,18 +175,20 @@ namespace Wof.Controller.Screens
                     EngineConfig.SoundSystem = el;
                 }
             }
-
+           
 
             // music volume
             if (selected.StartsWith("Music volume: "))
-            { 
-            	SoundManager3D.SetMusicVolume(uint.Parse(selected.Substring("Music volume: ".Length)));
+            {
+               // autoGoBack = false;
+                SoundManager3D.Instance.SetMusicVolume(uint.Parse(selected.Substring("Music volume: ".Length)));
                 return;
             }
 
             // sound volume
             if (selected.StartsWith("Sound volume: "))
             {
+              //  autoGoBack = false;
             	SoundManager3D.SetSoundVolume(uint.Parse(selected.Substring("Sound volume: ".Length)));
                 return;
             }
@@ -194,16 +196,19 @@ namespace Wof.Controller.Screens
 
             try
             {
-                String currentMusicBefore = null;
+                // CHANGE SOUND SYSTEM
+               // autoGoBack = true;
+               /* String currentMusicBefore = null;
                 
                 if(SoundManager3D.Instance.CurrentMusic!=null)
                 {
-                    currentMusicBefore = (String)SoundManager3D.Instance.CurrentMusic.Clone();
-                }
-                
+                   currentMusicBefore = (String)SoundManager3D.Instance.CurrentMusic.Clone();
+                }*/
+              //  SoundManager3D.Instance.ShutDown();
                 if (SoundManager3D.Instance.InitializeSound(framework.CameraListener, EngineConfig.SoundSystem))
                 {
                     EngineConfig.SoundEnabled = true;
+                    
                 }
                 else
                 {
@@ -226,10 +231,10 @@ namespace Wof.Controller.Screens
                 else
                 {
                     SoundManager.Instance.SoundDisabled = false;
-                  
-                   
+                    SoundManager3D.Instance.UpdaterRunning = true;
                     SoundManager.Instance.PlayMainTheme();
-                    SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
+                    
+                //    SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
                 }
 
                 EngineConfig.SaveEngineConfig();

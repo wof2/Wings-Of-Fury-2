@@ -307,7 +307,7 @@ namespace Wof.View
              
             // main nodes init
             planeEntity = sceneMgr.CreateEntity(name + "_Body", "P47Body.mesh");
-          
+            planeEntity.CastShadows = EngineConfig.ShadowsQuality > 0;
             if(GameConsts.UserPlane.Singleton.PlaneCheat)
             {
                 ViewHelper.ReplaceMaterial(planeEntity, bodyMaterialName, "P47/BodyPL");
@@ -315,8 +315,7 @@ namespace Wof.View
             }
              
             
-
-            planeEntity.CastShadows = EngineConfig.ShadowsQuality > 0; 
+         
             innerNode.AttachObject(planeEntity);
             outerNode.Scale(new Vector3(0.4f, 0.4f, 0.4f));
 

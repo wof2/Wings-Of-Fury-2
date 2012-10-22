@@ -1,3 +1,4 @@
+using System;
 using Wof.Controller;
 
 namespace FSLOgreCS
@@ -22,6 +23,19 @@ namespace FSLOgreCS
         public override void Update()
         { 
         	base.Update();
+            if (_streaming)
+            {
+                if (_shouldBePlaying && !IsPlaying())
+                {
+                    if (!_loop)
+                    {
+                        Console.WriteLine("ShouldLoadNextMusic=true : "+this.SoundFile);
+                        SoundManager.Instance.ShouldLoadNextMusic = true;
+                    }
+
+                }
+            }
+
             if(this.IsPlaying())
             {
             

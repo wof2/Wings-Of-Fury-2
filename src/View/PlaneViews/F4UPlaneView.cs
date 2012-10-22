@@ -241,7 +241,13 @@ namespace Wof.View
             ViewHelper.AttachAxes(sceneMgr, innerNode, 1.5f);
 
             refreshPosition();
+          //  base.initOnScene();
             initAnimationManager();
+            if (EngineConfig.SoundEnabled)
+            {
+                planePassSound = SoundManager3D.Instance.CreateSoundEntity(SoundManager3D.C_PLANE_PASS, this.planeNode, false, false);
+            }
+
             if (this.plane != null && this.plane.WheelsState == WheelsState.In)
             {
                 this.animationMgr.switchToGearUpDown(false);

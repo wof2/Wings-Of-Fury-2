@@ -12,11 +12,7 @@ namespace FSLOgreCS
         {
         }
 
-        public FSLAmbientSoundMusic(string package, string musicFile, string name, bool loop)
-            : base(package, musicFile, name, loop)
-        {
-        }
-
+     
         public override void ApplyGain()
         {
             SetGain(_baseGain * EngineConfig.MusicVolume / 100.0f);
