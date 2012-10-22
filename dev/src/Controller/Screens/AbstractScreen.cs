@@ -788,7 +788,7 @@ namespace Wof.Controller.Screens
 
             if (!justMenu)
             {
-                SoundManager3D.Instance.UpdaterRunning = false;
+              //  SoundManager3D.Instance.UpdaterRunning = false;
             	HydraxManager.Singleton.DisposeHydrax();
             	if(planeViews != null)
             	{
@@ -817,7 +817,7 @@ namespace Wof.Controller.Screens
                 viewport.Dispose();
                 viewport = null;
 
-                SoundManager3D.Instance.UpdaterRunning = true;
+                //SoundManager3D.Instance.UpdaterRunning = true;
             }
            // clickSound.Destroy();
             initialized = false;

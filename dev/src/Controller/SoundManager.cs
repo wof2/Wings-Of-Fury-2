@@ -106,8 +106,21 @@ namespace Wof.Controller
             set { soundDisabled = value; }
         }
 
+        public int MaxMusicTrackNo
+        {
+            get { return maxMusicTrackNo; }
+        }
+
+        public int LastRandomMusicTrackNo
+        {
+            get { return lastRandomMusicTrackNo; }
+        }
+
         private int maxMusicTrackNo = 1;
         private int lastRandomMusicTrackNo = 1;
+
+
+
 
 
         // ekran gry
@@ -165,7 +178,10 @@ namespace Wof.Controller
         private Buffer oceanSound;
 
         private Buffer currentEngineIdleSound;
-        private Random random; 
+        private Random random;
+
+        public bool ShouldLoadNextMusic = false;
+
         private SoundManager()
         {
             try
@@ -173,10 +189,10 @@ namespace Wof.Controller
                 int i = 1;
                 while(File.Exists("music/music"+i.ToString()+".ogg"))
                 {
-                    maxMusicTrackNo++;
+                    maxMusicTrackNo = MaxMusicTrackNo + 1;
                     i++;
                 }
-                maxMusicTrackNo--;
+                maxMusicTrackNo = MaxMusicTrackNo - 1;
 
                 random = new Random();
 
@@ -271,35 +287,42 @@ namespace Wof.Controller
                 ProblemWithSound = true;
             }
         }
+       
+        public void PreloadRandomIngameMusic()
+        {
+            random = new Random();
+            if (lastRandomMusicTrackNo == 0)
+            {
+                lastRandomMusicTrackNo = random.Next(1, MaxMusicTrackNo + 1);
+            }else
+            {
+                lastRandomMusicTrackNo++;
+                if(lastRandomMusicTrackNo > maxMusicTrackNo)
+                {
+                    lastRandomMusicTrackNo = 1;
+                }
+            }
+            
+            if (!EngineConfig.AudioStreaming)
+            {
+                PlayIngameMusic(LastRandomMusicTrackNo, EngineConfig.MusicVolume, true);
+            }
+        }
+
+
         /// <summary>
         /// Plays random music track
         /// </summary>
         public void PlayRandomIngameMusic(int volume)
         {
-            PlayIngameMusic(lastRandomMusicTrackNo, volume);
+            PlayIngameMusic(LastRandomMusicTrackNo, volume, false);
         }
 
-        public void PreloadRandomIngameMusic()
-        {
-            random = new Random();
-            lastRandomMusicTrackNo = random.Next(1, maxMusicTrackNo + 1);
-            PlayIngameMusic(lastRandomMusicTrackNo, EngineConfig.MusicVolume, true);
-        }
 
-        public void PlayIngameMusic(int no)
-        {
-            PlayIngameMusic(no, EngineConfig.MusicVolume);
-        }
-
-        public void PlayIngameMusic(int no, int volume)
-        {
-            PlayIngameMusic(no, volume, false);
-        }
-
-        public void PlayIngameMusic(int no, int volume, bool preloadOnly)
+        protected void PlayIngameMusic(int no, int volume, bool preloadOnly)
         {
             string music = "music/music" + no + ".ogg";
-            SoundManager3D.Instance.PlayAmbientMusic(music, volume, preloadOnly);
+            SoundManager3D.Instance.PlayAmbientMusic(music, volume, false, preloadOnly);
         }
 
         public void PlayEndingTheme()
@@ -615,7 +638,7 @@ namespace Wof.Controller
 
        //     Console.WriteLine("Loop engine. faulty: " + p.IsEngineFaulty);
             SelectEngineIdleSound(p);
-            LoopDXSound(currentEngineIdleSound, -600);
+            LoopDXSound(currentEngineIdleSound, -1200);
         }
 
         public void HaltEngineSound(Model.Level.Planes.Plane p)

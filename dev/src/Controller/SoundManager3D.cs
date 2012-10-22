@@ -81,7 +81,7 @@ namespace Wof.Controller
    
 
 
-        public static void SetMusicVolume(uint volume)
+        public void SetMusicVolume(uint volume)
         {
         	EngineConfig.MusicVolume = (int)volume;
             if (EngineConfig.MusicVolume == 0)
@@ -90,7 +90,10 @@ namespace Wof.Controller
             }
             if (SoundManager3D.Instance.CurrentMusic != null)
             {
-                SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
+                //SoundManager3D.Instance.CurrentMusic
+               
+                ambientSound.SetBaseGain(1.0f * volume / 100.0f);
+               // SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
             }
 
             
@@ -153,15 +156,9 @@ namespace Wof.Controller
         }
 
 
-        public void PlayAmbientMusic(String sound, int volume)
-        {
-            PlayAmbientMusic(sound, volume, false);
-        }
+       
 
-        public void PlayAmbientMusic(String sound, int volume, bool preloadOnly, bool loop)
-        {
-            PlayAmbientMusic(sound, volume, preloadOnly, loop, false);
-        }
+     
 
         /// <summary>
         /// Odgrywa dŸwiêk/muzykê jako ambient (slychaæ z tak¹ sam¹ g³oœnoœci¹ bez wzglêdu na po³o¿enie kamery)
@@ -233,27 +230,32 @@ namespace Wof.Controller
         }
 
 
-        public void PlayAmbientMusic(String sound, int volume, bool preloadOnly)
+        public void PlayAmbientMusic(String sound, int volume, bool loop, bool preloadOnly)
         {
-            PlayAmbientMusic(sound, volume, preloadOnly, true, EngineConfig.AudioStreaming);
+            PlayAmbientMusic(sound, volume, preloadOnly, loop, EngineConfig.AudioStreaming);
         }
 
         public void PlayAmbientMusic(String sound, bool loop)
         {
-            PlayAmbientMusic(sound, EngineConfig.MusicVolume, false, loop, true);
+            PlayAmbientMusic(sound, EngineConfig.MusicVolume, false, loop, EngineConfig.AudioStreaming);
         }
 
-        public void PlayAmbientMusic(String sound)
-        {
-            PlayAmbientMusic(sound, EngineConfig.MusicVolume);
-        }
 
         public void StopAmbientMusic()
         {
             if (ambientSound != null)
             {
                 ambientSound.Stop();
+                if (EngineConfig.AudioStreaming) // streaming nie pozwala na pauzowanie
+                {
+                    RemoveSound(ambientSound.Name);
+                    ambientSounds.Remove(ambientSound.SoundFile);
+
+                    ambientSound = null;
+                }
             }
+
+         
         }
 
 

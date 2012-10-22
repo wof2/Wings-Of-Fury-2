@@ -18,7 +18,7 @@ namespace FSLOgreCS
         protected bool _shouldBePlaying = false;
         protected bool _playing = false;
 
-        protected string _soundFile;
+        private string _soundFile;
 
 
         protected float _baseGain = 1.0f;
@@ -62,7 +62,9 @@ namespace FSLOgreCS
         {
             if (_withSound)
             {
-                FreeSL.fslFreeSound(_sound, true);
+                Console.WriteLine("Destroying: " + this._soundFile);
+                FreeSL.fslSoundSetGain(_sound, 0.1f);
+                FreeSL.fslFreeSound(_sound, false);
                 _withSound = false;
             }
         }
@@ -73,7 +75,10 @@ namespace FSLOgreCS
             if (File.Exists(soundFile) == false)
                 throw new FileNotFoundException("The sound file at : " + soundFile + " does not exist.");
             if (streaming)
+            {
+                Console.WriteLine("Streaming sound: " + soundFile);
                 _sound = FreeSL.fslStreamSound(soundFile);
+            }
             else
                 _sound = FreeSL.fslLoadSound(soundFile);
             _streaming = streaming;
@@ -102,6 +107,11 @@ namespace FSLOgreCS
         {
             get { return _name; }
             set { _name = value; }
+        }
+
+        public string SoundFile
+        {
+            get { return _soundFile; }
         }
 
         public virtual void Play()
@@ -199,12 +209,14 @@ namespace FSLOgreCS
             if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
         	if(_streaming)
         	{
-        		if(_loop && _shouldBePlaying && !IsPlaying())
+        		if(_shouldBePlaying && !IsPlaying())
 	        	{
-	        		this.SetSound(_soundFile, _loop, _streaming);
-	        	    ApplyGain();
-	        		Play();
-                    
+                    if (_loop)
+                    {
+                        this.SetSound(_soundFile, _loop, _streaming);
+                        ApplyGain();
+                        Play();
+                    }
 	        	}
         	}
         	

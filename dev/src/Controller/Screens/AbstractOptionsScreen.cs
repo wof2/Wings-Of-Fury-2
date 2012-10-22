@@ -265,6 +265,28 @@ namespace Wof.Controller.Screens
             return new Vector4(window.w / 6, (index + 2) * GetTextVSpacing(), 3 * window.w / 4, GetTextVSpacing());
         }
 
+        protected void HighlightButton(Button button)
+        {
+           foreach(Button b in this.buttons)
+           {
+               if(button == b)
+               {
+                   b.mO.MaterialName = "bgui.selected.button";
+                   
+               }else
+               {
+                    b.mO.MaterialName =  "bgui.button";
+               }
+              
+              
+
+           }
+
+           //   : 
+
+
+        }
+
         protected virtual void LayoutOptions(List<String> availableOptions, Window window, Callback cc)
         {
             // trzeba stworzyc siatke opcji
@@ -466,8 +488,8 @@ namespace Wof.Controller.Screens
                         if (IsOptionSelected(holder.Value))
                         {
                             return;
-                        } 
-                        
+                        }
+                       // HighlightButton(holder.Option);
                         PlayClickSound();
                         ProcessOptionSelection(holder);
                         if (autoGoBack) GoToBack(referer);

@@ -1,7 +1,7 @@
 False
 True
-FSL_SS_DIRECTSOUND3D
-20
+FSL_SS_DIRECTSOUND
+50
 40
 False
 False
@@ -10,11 +10,11 @@ Easy
 True
 True
 True
-High
+Medium
 True
 True
 False
 0
 False
 True
-B25
+F4U

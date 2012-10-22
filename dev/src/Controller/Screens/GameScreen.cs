@@ -846,7 +846,7 @@ namespace Wof.Controller.Screens
     
         public void CleanUp(Boolean justMenu)
         {
-            SoundManager3D.Instance.UpdaterRunning = false;
+          //  SoundManager3D.Instance.UpdaterRunning = false;
             if(this.levelView != null)
             {
                 levelView.Destroy();
@@ -904,7 +904,7 @@ namespace Wof.Controller.Screens
 
             indicatorControl.ClearGUI();
             gameMessages.DestroyMessageContainer();
-            SoundManager3D.Instance.UpdaterRunning = true;
+         //   SoundManager3D.Instance.UpdaterRunning = true;
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUpEnd");
         }
 
@@ -1754,7 +1754,17 @@ namespace Wof.Controller.Screens
 
                             RegisterDynamicAds();
                             levelView.OnFrameStarted(evt);
-                        //    controller.DoJobs();
+
+
+                            if (SoundManager.Instance.ShouldLoadNextMusic)
+                            {
+                                
+                                SoundManager.Instance.ShouldLoadNextMusic = false;
+                                SoundManager.Instance.PreloadRandomIngameMusic();
+                                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Starting next track: " + SoundManager.Instance.LastRandomMusicTrackNo);
+                                SoundManager.Instance.PlayRandomIngameMusic(EngineConfig.MusicVolume);
+                            }
+                            //    controller.DoJobs();
 
                             // odswiez raz na jakis czas
                             // TODO: timer
@@ -2015,7 +2025,7 @@ namespace Wof.Controller.Screens
         		{	        			
         			// change music volume
                     referer.mO.MaterialName = styleOn;
-        			SoundManager3D.SetMusicVolume(pair.Value);
+        			SoundManager3D.Instance.SetMusicVolume(pair.Value);
                     ClearPauseScreen();
                     DisplayPauseScreen();
         			

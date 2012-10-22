@@ -81,7 +81,7 @@ namespace FSLOgreCS
         {
             lock(this)
             {
-              
+               
                 _listener = new FSLListener(listener);
                 if (_initSound)
                     return true;
@@ -94,10 +94,11 @@ namespace FSLOgreCS
                 FreeSL.ErrorCallbackDelegate ErrorDelegate = new FreeSL.ErrorCallbackDelegate(ErrorCallback);
                 GCHandle AllocatedDelegate = GCHandle.Alloc(ErrorDelegate);
                 FreeSL.fslSetErrorCallback(ErrorDelegate);
+               
+               
                 updaterThread = new Thread(new ThreadStart((UpdateSoundObjects)));
 
                 updaterThread.Start();
-
                 return true;
                 
             }
@@ -194,7 +195,10 @@ namespace FSLOgreCS
                             {
                                 for (int i = 0; i < SoundObjectVector.Count; i++)
                                 {
-                                    if (SoundObjectVector[i] != null) SoundObjectVector[i].Update();
+                                    if (SoundObjectVector[i] != null)
+                                    {
+                                        SoundObjectVector[i].Update();
+                                    }
                                 }
                             }
                             catch(Exception e)
@@ -276,14 +280,7 @@ namespace FSLOgreCS
              }
         }
 
-        public FSLSoundObject CreateAmbientSound(string package, string soundFile, string name, bool loop)
-        {
-            lock (this)
-            {
-                return AddSound(new FSLAmbientSound(package, soundFile, name, loop));
-            }
-        }
-
+      
         public FSLSoundObject CreateSoundEntity(string package, string soundFile, SceneNode renderable, string name,
                                                 bool loop)
         {
