@@ -16,10 +16,10 @@
   
  <ocean width="12"/>
  
-    <!-- submarine -->
-  <ship-begin width="1" type="submarine" variation="2"/>
-  <ship-wooden-bunker variation="1" num-soldiers="3" traversable="false"/>
-  <ship-end width="1" variation="2" />
+    <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-concrete-bunker num-soldiers="4" traversable="false" hasRockets="0" />
+  <ship-end width="1" />
   
   
   <ocean width="12"/>
@@ -45,10 +45,14 @@
     <ocean variation="5"/>
   <ocean width="2"/>
   
-    <!-- submarine -->
-  <ship-begin width="1" type="submarine" variation="2"/>
-  <ship-wooden-bunker variation="1" num-soldiers="1" traversable="false"/>
-  <ship-end width="1" variation="2" />
+   
+    <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-concrete-bunker num-soldiers="4" traversable="false" hasRockets="0" />
+  <ship-end width="1" />
+  
+  
+  
   <ocean width="10"/>
     <ocean width="1" variation="6"/>
    <ocean width="8"/>
