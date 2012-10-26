@@ -455,6 +455,8 @@ namespace Wof.View.TileViews
         
         public override void initOnScene(SceneNode parentNode, int tileCMVIndex, int compositeModelTilesNumber)
         {
+        	//LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Init of bunker :"+levelTile+ ", this= "+this+", "+this.tileID);
+        	
             base.initOnScene(parentNode, tileCMVIndex, compositeModelTilesNumber);
 
             if (levelTile is BunkerTile)

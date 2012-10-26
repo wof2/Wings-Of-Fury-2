@@ -35,6 +35,9 @@ material Skyplane/Morning : NoFog
 	}
 }
 
+/*
+ not ready
+*/
 material Skybox/Morning2 : NoFog
 {
 	technique
@@ -53,7 +56,9 @@ material Skybox/Morning2 : NoFog
 	}
 }
 
-
+/*
+ not ready
+*/
 material Skyplane/Morning2 : NoFog
 {
 	technique

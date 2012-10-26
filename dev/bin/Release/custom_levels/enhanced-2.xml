@@ -1,20 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <level dayTime="foggy"  enhancedOnly="1" missionType="assassination" enemyPlanes="12" timeToFirstEnemyPlane="8000" timeToNextEnemyPlane="30000">
+  
+   <ocean width="7"/>  
+  <!-- double laguna -->
+  <island-begin mesh="DoubleLaguna" variation="3"/>
+    <fortress-bunker variation="0" num-generals="4" />
+  	<terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+  <island-end/>
+  
   <ocean width="15"/>
+  
   <island-begin mesh="Island4" variation="3"/>
   <concrete-bunker num-soldiers="2" variation="0"/>
   <terrain variation="0"/>
-  <fortress-bunker variation="0" num-generals="1"/>
+  <fortress-bunker variation="0" num-generals="3" />
   <terrain variation="0"/>
   <terrain variation="0"/>
   <terrain variation="2"/>
-  <concrete-bunker num-soldiers="6" variation="1"/>
-  <concrete-bunker num-soldiers="8"/>
+  <concrete-bunker num-soldiers="6" variation="1" hasRockets="1"/>
+  <flak-bunker num-soldiers="6" variation="0"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
   <island-end/> 
+  
+  <ocean width="7"/>  
+   
+   <!-- submarine -->
+  <ship-begin width="1" type="submarine" variation="2"/>
+  <ship-wooden-bunker variation="1" num-soldiers="1" traversable="false" />
+  <ship-end width="1" variation="2" />
+  
   
   <ocean width="5"/>
   <ocean width="1" variation="1"/>
@@ -28,7 +49,9 @@
     <terrain variation="0"/>
   <island-end/>
   
-   <ocean width="75"/>  
+   <ocean width="55"/>  
+    <ocean width="1" variation="7"/>
+	 <ocean width="20"/>  
    <ocean width="1" variation="3" />
    <ocean width="10"  />
    <ocean width="1" variation="2" />
@@ -40,6 +63,7 @@
   <terrain variation="0"/>
   <concrete-bunker num-soldiers="6" variation="3" />
   <island-end/> 
+  <ocean width="4"/>
   <ocean width="1" variation="5"/>
   <ocean width="12"/>
 

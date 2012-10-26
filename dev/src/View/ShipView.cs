@@ -113,7 +113,14 @@ namespace Wof.View
             initOnScene();
         }
 
-
+        protected TypeOfEnemyShip backgroundDummyShipType;
+        
+		public ShipView(TypeOfEnemyShip shipType, int tileIndex, IFrameWork framework, SceneNode parentNode)
+            : base(tileIndex, framework, parentNode, "Ship" + (++shipCounter))
+        {
+			backgroundDummyShipType = shipType;
+            initOnScene();
+        }
       
         
         public void OnShipSunk()
@@ -372,15 +379,16 @@ namespace Wof.View
            
             positionNode = sceneMgr.CreateSceneNode(mainNode.Name + "Static");
            
-            count = tileViews.Count;
-          
-           
-            float maxX = (Math.Abs(count) - 1) * LevelView.TileWidth / 16;
-            BeginShipTile begin = tileViews[0].LevelTile as BeginShipTile;
             
-          
-            positionNode.Translate(new Vector3(UnitConverter.LogicToWorldUnits(tileViews[0].LevelTile.TileIndex), -(tileViews[0].LevelTile as ShipTile).Depth, 0));
-            positionNode.SetDirection(Vector3.UNIT_X);
+                     
+     //       float maxX = (Math.Abs(count) - 1) * LevelView.TileWidth / 16;
+           
+            
+		    if(tileViews != null) {
+		    	positionNode.Translate(new Vector3(UnitConverter.LogicToWorldUnits(tileViews[0].LevelTile.TileIndex), -(tileViews[0].LevelTile as ShipTile).Depth, 0));
+		    	positionNode.SetDirection(Vector3.UNIT_X);
+     		}
+		   
 
             animationNode = positionNode.CreateChildSceneNode(mainNode.Name + "Animation");
             staticNode = animationNode.CreateChildSceneNode(mainNode.Name + "StaticNode");
@@ -395,8 +403,17 @@ namespace Wof.View
 
             mainNode.AddChild(positionNode);
 
-
-            switch (begin.TypeOfEnemyShip)
+            TypeOfEnemyShip type;
+            
+            if(backgroundDummy) {
+            	type = backgroundDummyShipType;	 			
+            } else {
+            	BeginShipTile begin = tileViews[0].LevelTile as BeginShipTile;
+	 			type = begin.TypeOfEnemyShip; 			
+            	
+            }
+ 			
+            switch (type)
             {
                 case TypeOfEnemyShip.PatrolBoat:
                     meshName = "PatrolBoat.mesh";
@@ -427,9 +444,34 @@ namespace Wof.View
             compositeModel.CastShadows = EngineConfig.ShadowsQuality > 0;
             staticNode.AttachObject(compositeModel);
             staticNode.Translate(localTranslation);
+            float dist;
+            if(backgroundDummy) {
+            	switch (type)
+            	{
+                	case TypeOfEnemyShip.PatrolBoat:
+            			dist = UnitConverter.RandomGen.NextDouble() >= 0.5 ? -200.0f : 50.0f;            			
+            			mainNode.Translate(new Vector3(dist, -1.5f, UnitConverter.LogicToWorldUnits(firstTileIndex) + 160));
+            	 	break;
+            	 	
+            	 	case TypeOfEnemyShip.Submarine:
+            	 		dist = UnitConverter.RandomGen.NextDouble() >= 0.5 ? -100.0f : 40.0f;
+            	 		mainNode.Translate(new Vector3(dist, -4, UnitConverter.LogicToWorldUnits(firstTileIndex) + 120));	
+            	 	break;
+            	 	            	 	
+            	 	case TypeOfEnemyShip.WarShip:
+            	 		dist = -700.0f;
+            	 		mainNode.Translate(new Vector3(dist, -2, UnitConverter.LogicToWorldUnits(firstTileIndex) + 300));	
+            	 	break;
+            	 	
+            	 }
+            	
+            	return;	
+            
+            }
 
             bool rocketBatterySet = false;
             // elementy na statku sa animowalne wiec nie beda w static geometry
+            count = tileViews.Count;
             for (int i = 0; i < count; i++)
             {
                 tileViews[i].initOnScene(positionNode, i + 1, tileViews.Count);

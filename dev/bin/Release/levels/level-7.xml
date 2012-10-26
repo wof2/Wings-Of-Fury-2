@@ -5,7 +5,7 @@
 
   <island-begin mesh="Island5" variation="1"/>
   <terrain variation="0"/>
-  <concrete-bunker num-soldiers="3" variation="0"/>
+  <concrete-bunker num-soldiers="3" variation="0" hasRockets="1" />
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
@@ -28,7 +28,9 @@
   <terrain variation="0"/>
   <island-end/> 
 
-  <ocean width="60"/>
+  <ocean width="30"/>
+  <ocean width="1" variation="4" />
+  <ocean width="28"/>
 
 
   <aircraft-carrier-begin width="1"/>
@@ -37,9 +39,12 @@
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
 
-  <ocean width="60"/>
+<ocean width="17"/>
+  <ocean width="1" variation="5" />
+   <ocean width="1" variation="2" />
+  <ocean width="43"/>
 
-  <island-begin mesh="Island4" variation="2"/>
+  <island-begin mesh="Island4" variation="10"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
@@ -59,7 +64,7 @@
   <concrete-bunker num-soldiers="5" variation="3" />
   <terrain variation="0"/>
   <terrain variation="0"/>
-  <concrete-bunker num-soldiers="6" variation="3" />
+  <flak-bunker variation="0" num-soldiers="5" />
   <island-end/> 
 
 

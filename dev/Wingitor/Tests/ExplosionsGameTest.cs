@@ -15,8 +15,8 @@ namespace wingitor.Tests
 
         public string LevelFilename
         {
-            get { return "custom_levels/enhanced-3" + XmlLevelParser.C_LEVEL_POSTFIX; }
-          //  get { return "levels/level-1" + XmlLevelParser.C_LEVEL_POSTFIX; }
+          //  get { return "custom_levels/enhanced-3" + XmlLevelParser.C_LEVEL_POSTFIX; }
+            get { return "levels/level-17" + XmlLevelParser.C_LEVEL_POSTFIX; }
         }
 
         [STAThread]

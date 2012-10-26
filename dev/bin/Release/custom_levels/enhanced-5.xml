@@ -6,7 +6,7 @@
    <!-- double laguna -->
   <island-begin mesh="DoubleLaguna"  />    
   	<terrain variation="1"/>
-    <concrete-bunker num-soldiers="7"  hasRockets="1"/>
+    <flak-bunker num-soldiers="5" variation="0"/>
     <fortress-bunker variation="2" num-generals="1" num-soldiers="10"/>
     <concrete-bunker num-soldiers="7"  hasRockets="1"/>
     <terrain variation="2"/>
@@ -19,7 +19,7 @@
  <island-begin mesh="Island6" variation="3"/>
   <terrain variation="1"/>
   <fortress-bunker variation="2" num-generals="1"  hasRockets="1"/>
-  <terrain variation="1"/>
+   <flak-bunker num-soldiers="5" variation="0"/>
   <terrain variation="2"/>
   <barrels variation="1"/>
   <terrain variation="2"/>
@@ -41,14 +41,14 @@
   <barrack num-soldiers="6" variation="1"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
-  <fortress-bunker variation="4" num-generals="1" num-soldiers="10"/>
+  <fortress-bunker variation="4" num-generals="1" num-soldiers="10" hasRockets="1"/>
   <terrain variation="0"/>
   <barrack num-soldiers="5" />
   <terrain variation="0"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
-  <concrete-bunker num-soldiers="7"  hasRockets="1"/>
+ <flak-bunker num-soldiers="5" variation="0"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
@@ -62,9 +62,14 @@
   <ocean width="15"/>
   <ocean width="2" variation="3"/>
   <ocean width="7"/>
-  
+     <!-- submarine -->
+  <ship-begin width="1" type="submarine" variation="2"/>
+  <ship-wooden-bunker variation="1" num-soldiers="1" traversable="false" />
+  <ship-end width="1" variation="2" />
+  <ocean width="3"/>
+   <ocean width="30"/>
   <ocean width="7" variation="2"/>
-  <ocean width="65"/>
+  <ocean width="19"/>
 
    
   <!-- patrolboat -->
@@ -93,8 +98,9 @@
   <terrain variation="2"/>
   <island-end/> 
   
-  
-  <ocean width="20"/>
+  <ocean width="11"/> 
+  <ocean width="1" variation="6"/>
+  <ocean width="10"/>
     
   <aircraft-carrier-begin width="1"/>
   <aircraft-carrier-middle width="3"/>

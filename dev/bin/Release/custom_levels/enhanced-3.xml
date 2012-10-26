@@ -9,7 +9,7 @@
   <terrain variation="15" traversable="false"/>
   <barrels variation="0" />
   <barrack num-soldiers="6" variation="1"/>
-  <wooden-bunker num-soldiers="3"/>
+  <wooden-bunker num-soldiers="3" hasRockets="1"/>
   <terrain variation="0" width="1" traversable="true"/>
   <terrain variation="10" width="1" traversable="false"/>
   <terrain variation="13" width="1" traversable="false"/>
@@ -63,7 +63,7 @@
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="0"/>
-  <concrete-bunker num-soldiers="6" variation="3" />
+  <concrete-bunker num-soldiers="6" variation="3" hasRockets="1"/>
   <barrels variation="0"/>
   <terrain variation="2"/>
   <barrels variation="0"/>

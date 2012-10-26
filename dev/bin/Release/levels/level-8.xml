@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="foggy" missionType="naval" enemyPlanes="1" timeToNextEnemyPlane="40000" timeToFirstEnemyPlane="800000">
+<level dayTime="foggy" missionType="naval" enemyPlanes="4" timeToNextEnemyPlane="40000" timeToFirstEnemyPlane="800000">
   <ocean width="1" variation="3"/>
   <ocean width="19"/>
   <ocean width="1" variation="2"/>
@@ -110,7 +110,7 @@
   <terrain variation="0" width="4"/>  
   <terrain variation="0" width="2" />
   <terrain variation="0" />
-  <concrete-bunker num-soldiers="3"/>
+   <flak-bunker variation="0" num-soldiers="5" />
   <island-end/>
   <!-- lane island: Island18u -->
  

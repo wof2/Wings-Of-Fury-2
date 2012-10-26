@@ -23,10 +23,12 @@
   <ship-begin width="1"/>
   <ship-concrete-bunker num-soldiers="4" traversable="false" hasRockets="0" />
   <ship-end width="1" />
+ 
   
-  
- <ocean width="16"/>
+ <ocean width="12"/>
   <ocean width="1" variation="2"/>
+   <ocean width="4"/>
+ <ocean width="1" variation="8"/>
   
   <ocean width="20"/>
   
@@ -65,7 +67,8 @@
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
   
-  <ocean width="18"/>
+  <ocean width="18"/> 
+ 
   <ocean width="1" variation="3"/>
   <ocean width="7"/>
     
@@ -74,7 +77,7 @@
   <concrete-bunker num-soldiers="5" variation="4" hasRockets="1" />
   <terrain variation="2"/>
   <terrain variation="0"/>
-  <concrete-bunker num-soldiers="4" variation="3" hasRockets="1" />
+   <flak-bunker num-soldiers="5" variation="0"/>
   <island-end/> 
 
   <ocean width="8"/>

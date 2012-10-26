@@ -1,37 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<level dayTime="noon"  enemyPlanes="1" timeToNextEnemyPlane="1000" timeToFirstEnemyPlane="0">
-  <ocean width="100"/>
+<level dayTime="dusk"  enemyPlanes="12" timeToNextEnemyPlane="5000" timeToFirstEnemyPlane="1000">
+ 
+<ocean width="100"/>
+    <!-- double laguna -->
+  <island-begin mesh="DoubleLaguna"  />    
+  	<terrain variation="1"/>
+     <flak-bunker num-soldiers="3" variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="2"/>
+    <wooden-bunker num-soldiers="5" hasRockets="1" />
+  <island-end/>
   
+ <ocean width="12"/>
+ 
+    <!-- submarine -->
+  <ship-begin width="1" type="submarine" variation="2"/>
+  <ship-wooden-bunker variation="1" num-soldiers="3" traversable="false"/>
+  <ship-end width="1" variation="2" />
+  
+  
+  <ocean width="12"/>
+  
+  
+  <island-begin mesh="Island4" variation="6"/>
+  <terrain variation="1"/>
+  <flak-bunker variation="0" num-soldiers="2" />
+  <terrain variation="2"/>
+  <wooden-bunker num-soldiers="3" hasRockets="1"/>
+  <terrain variation="0"/>
+  <barrels variation="0"/>
+  <terrain variation="2"/>
+ 
+  <fortress-bunker variation="2"  num-soldiers="10"/>
+
+  <terrain variation="0"/>
+ <terrain variation="0"/>
+  <terrain variation="2"/>
+  <island-end/>
+  
+  <ocean width="18"/>
+    <ocean variation="5"/>
   <ocean width="2"/>
   
-
+    <!-- submarine -->
+  <ship-begin width="1" type="submarine" variation="2"/>
+  <ship-wooden-bunker variation="1" num-soldiers="1" traversable="false"/>
+  <ship-end width="1" variation="2" />
+  <ocean width="10"/>
+    <ocean width="1" variation="6"/>
+   <ocean width="8"/>
+ 
+   
+    <ocean variation="4"/>
+  <ocean width="2"/>
+   
   <aircraft-carrier-begin width="1"/>
   <aircraft-carrier-middle width="3"/>
   <aircraft-carrier-restore-ammunition width="1"/>
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
   
-  <ocean width="5"/>
+  <ocean width="18"/>
   
-  
-    <island-begin mesh="Island4" variation="6"/>
+  <!-- jakis blad ponizej -->
+      <!-- lane island: Island18u -->
+	  
+  <island-begin mesh="Island18u" variation="10"/>  
+  <wooden-bunker num-soldiers="8" hasRockets="1"/>
+  <terrain variation="2"/>
   <terrain variation="1"/>
-  <terrain variation="2"/>
-  <wooden-bunker num-soldiers="3"/>
-  <terrain variation="0"/>
-  <barrels variation="0"/>
-  <terrain variation="2"/>
- <flak-bunker variation="0"/>
-  <terrain variation="0"/>
-
-  <terrain variation="0"/>
- <terrain variation="0"/>
-  <terrain variation="2"/>
-  <island-end/> 
+  <barrack num-soldiers="8" variation="1"/>
+  <barrels variation="0" />
+  <terrain variation="4" traversable="false"/>
+  <flak-bunker variation="0" num-soldiers="5" />
+  <terrain variation="3"/>
+  <terrain variation="0" width="4"/>  
+  <terrain variation="0" width="2" />
+  <terrain variation="0" />
+  <flak-bunker num-soldiers="3" variation="0"/>
+  <island-end/>
   
-  
-  
-  <ocean width="100"/>
+   <ocean width="18"/>
+   
 </level>

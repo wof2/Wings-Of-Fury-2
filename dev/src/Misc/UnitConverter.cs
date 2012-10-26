@@ -97,7 +97,11 @@ namespace Wof.Misc
         	get {return mRand; }
         }
 
-       
+        public static int GetOneOrMinusOne()
+        {
+        	return (mRand.NextDouble() > 0.5) ? 1 : -1;
+        }
+        
         /// <summary>       
         /// Konwertuje procentow¹ odleg³oœæ od lewego brzegu ekranu na piksele w zale¿noœci od bie¿¹cej rozdzielczoœci i proporcji ekranu.
         /// Przydatne przy renderowaniu napisów, które maj¹ ró¿ne po³o¿enie w zale¿noœci od proporcji ekranu.

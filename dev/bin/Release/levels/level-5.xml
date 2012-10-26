@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<level dayTime="morning" missionType="naval" enemyPlanes="3">
+<level dayTime="morning" missionType="naval" enemyPlanes="5">
   <ocean width="100"/>
 
-  <!-- patrolboat -->
-  <ship-begin width="1"/>
-  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
-  <ship-end width="1" />
+  <!-- submarine -->
+  <ship-begin width="1" type="submarine" variation="2"/>
+  <ship-wooden-bunker variation="1" num-soldiers="1" traversable="false" />
+  <ship-end width="1" variation="2" />
   
   <ocean width="21" />
 
   <ocean width="1" variation="3"/>
   <ocean width="8" />
-    
+  
+   <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-end width="1" />
+ 
+  
+  
   <ocean width="1" variation="2"/>
   <ocean width="8" />
 
@@ -32,9 +39,10 @@
   
   <ocean width="10"/>  
   <ocean width="1" variation="5"/> 
-  <ocean width="29"/>
-  
-  
+  <ocean width="12"/>
+  <ocean width="1" variation="8"/>
+  <ocean width="16"/>
+   
   <!-- warship -->
   <ship-begin width="1" variation="1" traversable="true" type="warship"/>
   <ship-concrete-bunker num-soldiers="2" traversable="true" variation="1" />
@@ -43,7 +51,7 @@
   <ship-deck width="1" variation="3" traversable="false"/>
   <ship-deck width="1" variation="2" traversable="false"/>
   <ship-deck width="1" variation="1" traversable="false"/>  
-  <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" />
+  <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" hasRockets="1" />
   <ship-end width="1" variation="1" traversable="false"/>
   
   <ocean width="20"/>

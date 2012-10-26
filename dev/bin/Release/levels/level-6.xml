@@ -3,7 +3,7 @@
   <ocean width="125"/>
 
   <island-begin mesh="Island6" variation="5"/>
-  <concrete-bunker num-soldiers="3" variation="0"/>
+  <concrete-bunker num-soldiers="3" variation="0" hasRockets="1" />
   <terrain variation="0"/>
   <terrain variation="1"/>
   <terrain variation="2"/>

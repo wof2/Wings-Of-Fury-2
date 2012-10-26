@@ -34,6 +34,9 @@
   <tile name="ocean" y-start="0.1" y-end="0.1" variation="4"/>  <!-- duze skaly na oceanie oddalone -->
  
   <tile name="ocean" y-start="0.1" y-end="0.1" variation="5"/>  <!-- beczki -->
+  <tile name="ocean" y-start="0.1" y-end="0.1" variation="6"/>  <!-- podmorska wyspa 1 -->
+   <tile name="ocean" y-start="0.1" y-end="0.1" variation="7"/>  <!-- podmorska wyspa 2 -->
+   <tile name="ocean" y-start="0.1" y-end="0.1" variation="8"/>  <!-- podmorska wyspa 3 -->
  
   
   <!-- Enemy Installations  -->
@@ -310,6 +313,9 @@
   <tile name="island-begin" y-start="0.0" y-end="1.5" variation="5" /> <!-- 3 wysepki + lotniskowiec -->
   <tile name="island-begin" y-start="0.0" y-end="1.5" variation="6" /> <!-- 3 wysepki w tym laguna -->
   <tile name="island-begin" y-start="0.0" y-end="1.5" variation="7" /> <!-- radar -->
+  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="8" /> <!-- submarine -->
+  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="9" /> <!-- patrolboat -->
+  <tile name="island-begin" y-start="0.0" y-end="1.5" variation="10" /> <!-- warship -->
    
     
   <tile name="island-begin" y-start="0.0" y-end="8.0" variation="10"/>

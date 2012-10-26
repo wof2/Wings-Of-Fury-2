@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<level dayTime="noon" missionType="naval" enemyPlanes="1">
+<level dayTime="dusk2" missionType="naval" enemyPlanes="1">
   <ocean width="100"/>
 
   <!-- patrolboat -->
@@ -53,7 +53,8 @@
   <island-end/>
   
   <ocean width="19"/>
-  
+  <ocean width="1" variation="4" />
+  <ocean width="3"/>
      <!-- patrolboat -->
   <ship-begin width="1"/>
   <ship-wooden-bunker num-soldiers="3" traversable="false"/>
