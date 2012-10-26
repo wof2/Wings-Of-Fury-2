@@ -4,10 +4,10 @@
 <level dayTime="morning" missionType="naval" enemyPlanes="5">
   <ocean width="100"/>
 
-  <!-- submarine -->
-  <ship-begin width="1" type="submarine" variation="2"/>
-  <ship-wooden-bunker variation="1" num-soldiers="1" traversable="false" />
-  <ship-end width="1" variation="2" />
+  <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-wooden-bunker num-soldiers="1" traversable="false"/>
+  <ship-end width="1" />
   
   <ocean width="21" />
 
