@@ -3052,6 +3052,7 @@ namespace Wof.Controller.Screens
 
         public void OnRegisterFlakBullet(FlakBullet flakBullet)
 		{
+        	SoundManager.Instance.PlayFlakBunkerFireSound();
 			levelView.OnRegisterAmmunition(flakBullet);
 		}
         
