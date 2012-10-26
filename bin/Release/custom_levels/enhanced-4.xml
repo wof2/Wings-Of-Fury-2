@@ -17,16 +17,10 @@
   <ocean width="1" variation="5"/>
   <ocean width="12"/>
 
-   <!-- warship -->
-  <ship-begin width="1" variation="1" traversable="true" type="warship"/>
-  <ship-concrete-bunker num-soldiers="2" traversable="true" variation="1" />
-  <ship-concrete-bunker num-soldiers="2" traversable="false" variation="1" />
-  <ship-deck width="1" variation="2" traversable="false"/>
-  <ship-deck width="1" variation="3" traversable="false"/>
-  <ship-deck width="1" variation="2" traversable="false"/>
-  <ship-deck width="1" variation="1" traversable="false"/>  
-  <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" />
-  <ship-end width="1" variation="1" traversable="false"/>
+    <!-- submarine -->
+  <ship-begin width="1" type="submarine" variation="2"/>
+  <ship-wooden-bunker variation="1" num-soldiers="1" traversable="false" />
+  <ship-end width="1" variation="2" />
 
   <ocean width="15"/>
   <!-- patrolboat -->
@@ -54,7 +48,7 @@
   
   <!-- patrolboat -->
   <ship-begin width="1"/>
-  <ship-concrete-bunker num-soldiers="3" traversable="false"/>
+  <ship-concrete-bunker num-soldiers="3" traversable="false" hasRockets="1"/>
   <!-- <ship-concrete-bunker num-soldiers="3"/>-->
   <!--  <ship-deck width="1"/> -->
   <ship-end width="1" />
@@ -86,7 +80,7 @@
   <concrete-bunker num-soldiers="5" variation="3" />
   <terrain variation="2"/>
   <terrain variation="0"/>
-  <concrete-bunker num-soldiers="4" variation="3" />
+  <flak-bunker num-soldiers="5" variation="0"/>
   <island-end/> 
 
   <ocean width="13"/>
@@ -107,7 +101,7 @@
   <concrete-bunker num-soldiers="3" variation="0" />
   <barrack num-soldiers="8" variation="0"/>
   <terrain variation="0"/>
-  <wooden-bunker num-soldiers="4"/>
+  <fortress-bunker variation="0" num-generals="0" num-soldiers="4" />
   <terrain variation="2"/>
   <wooden-bunker num-soldiers="2" variation="1" hasRockets="1"/> 
   <terrain variation="0"/>
@@ -117,8 +111,9 @@
   
   <ocean width="7"/>
    <!-- lane island: Island18u -->
-  <island-begin mesh="Island18u" variation="6"/>  
-  <wooden-bunker num-soldiers="3" hasRockets="1"/>
+  <island-begin mesh="Island18u" variation="6"/> 
+<fortress-bunker variation="0" num-generals="0" num-soldiers="4" hasRockets="1" />  
+  
   <terrain variation="2"/>
   <terrain variation="1"/>
   <barrack num-soldiers="8" variation="1"/>
@@ -129,7 +124,7 @@
   <terrain variation="0" width="4"/>  
   <terrain variation="0" width="2" />
   <terrain variation="0" />
-  <wooden-bunker num-soldiers="3"/>
+   <flak-bunker num-soldiers="5" variation="0"/>
   <island-end/>
 
 

@@ -30,7 +30,7 @@
   <terrain variation="0"/>
   <barrack num-soldiers="5" />
   <terrain variation="0"/>
-  <terrain variation="0"/>
+  <flak-bunker num-soldiers="3" variation="0"/>
   <terrain variation="0"/>
   <barrels variation="0"/>
   <terrain variation="0"/>
@@ -95,7 +95,7 @@
   <barrack num-soldiers="6" variation="1"/>
   <terrain variation="0"/>
   <terrain variation="0"/>
-  <wooden-bunker num-soldiers="3"/>
+   <flak-bunker num-soldiers="3" variation="0"/>
   <terrain variation="2"/>
   <island-end/> 
   

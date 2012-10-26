@@ -26,6 +26,8 @@
   
   
  <ocean width="16"/>
+  <ocean width="1" variation="8"/>
+  <ocean width="3" />
   <ocean width="1" variation="2"/>
   
   <ocean width="20"/>
@@ -35,7 +37,7 @@
   <wooden-bunker num-soldiers="3" hasRockets="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
-  <barrack num-soldiers="8" variation="1"/>
+  <flak-bunker num-soldiers="3" variation="0"/>
   <barrels variation="0" />
   <terrain variation="4" traversable="false"/>
   <concrete-bunker num-soldiers="3"/>
@@ -43,7 +45,7 @@
   <terrain variation="0" width="4"/>  
   <terrain variation="0" width="2" />
   <terrain variation="0" />
-  <wooden-bunker num-soldiers="3"/>
+  <flak-bunker num-soldiers="3" variation="0"/>
   <island-end/>
   <!-- lane island: Island18u -->
   <ocean width="1" variation="3"/>
@@ -71,7 +73,7 @@
     
     
   <island-begin mesh="Island2" variation="6"/>
-  <concrete-bunker num-soldiers="5" variation="4" hasRockets="1" />
+  <flak-bunker num-soldiers="3" variation="0"/>
   <terrain variation="2"/>
   <terrain variation="0"/>
   <concrete-bunker num-soldiers="4" variation="3" hasRockets="1" />
@@ -94,5 +96,8 @@
   <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" hasRockets="1" />
   <ship-end width="1" variation="1" traversable="false"/>
   <ocean width="20"/>
+  
+  
+  
     
 </level>

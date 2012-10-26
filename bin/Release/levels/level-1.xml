@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="dawn" enemyPlanes="0">
+<level dayTime="dusk" enemyPlanes="0">
 
   <ocean width="100"/>
   
@@ -20,8 +20,9 @@
   <terrain variation="2"/>
   <island-end/> 
   
-  <ocean width="22"/>
-  
+  <ocean width="10"/>
+   <ocean width="1" variation="8"/>
+  <ocean width="12"/>
    
   <aircraft-carrier-begin width="1"/>
   <aircraft-carrier-middle width="3"/>

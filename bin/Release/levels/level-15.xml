@@ -50,9 +50,10 @@
   <ocean width="20"/>
   <ocean width="1" variation="2" />
   
-  <island-begin mesh="Island6" variation="6"/>
-  <concrete-bunker num-soldiers="3" variation="0"/>
+  <island-begin mesh="Island6" variation="9"/>
+ 
   <terrain variation="0"/>
+  <flak-bunker num-soldiers="3" variation="0"/>
   <terrain variation="2"/>
   <terrain variation="0"/>
    <wooden-bunker num-soldiers="6" variation="1"/>
@@ -75,7 +76,7 @@
   <terrain variation="0"/>
   <terrain variation="0"/>
   <wooden-bunker num-soldiers="6" variation="1"/>
-   <fortress-bunker variation="4" num-soldiers="5" num-generals="2"/>
+  <fortress-bunker variation="4" num-soldiers="5" num-generals="2"/>
   <terrain variation="1"/>
   <terrain variation="0"/>
   <terrain variation="2"/>

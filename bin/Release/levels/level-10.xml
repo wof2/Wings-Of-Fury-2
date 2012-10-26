@@ -1,44 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="noon" missionType="dogfight" enemyPlanes="6" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="15000">
+<level dayTime="noon" missionType="dogfight" enemyPlanes="8" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="15000">
 
   <ocean width="100"/>
   <island-begin mesh="Island2" variation="1"/>
   <terrain variation="1"/>
-  <concrete-bunker num-soldiers="3" variation="2"/>
-  <terrain variation="1"/>
+  <flak-bunker num-soldiers="3" variation="0"/>
+  <barrack num-soldiers="8" variation="1"/>
   <terrain variation="2"/>
   <island-end/> 
   
   
-  <ocean width="16"/>
+  <ocean width="14"/>
+   <ocean width="1" variation="5"/>
+   <ocean width="4"/>
    
   <aircraft-carrier-begin width="1"/>
   <aircraft-carrier-middle width="3"/>
   <aircraft-carrier-restore-ammunition width="1"/>
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
-  <ocean width="22"/>
+  <ocean width="5"/>
   
   <ocean width="1" variation="1"/>
-  <ocean width="22"/>
 
-  <ocean width="1" variation="5" />
-
-  <ocean width="100"/>
+  <ocean width="7"/>
   
   <island-begin mesh="Island4" variation="3"/>
   <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <barrels variation="0"/>
-  <terrain variation="2"/>
-  <barrels variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <barrels variation="0"/>
   <wooden-bunker variation="0" num-soldiers="1"/>
+  <terrain variation="2"/>
+  <barrels variation="0"/>
+ 
+  <terrain variation="0"/>
+  <barrels variation="0"/>
+  <terrain variation="2"/>
+  <barrels variation="0"/>
+  <terrain variation="0"/>
+  <flak-bunker num-soldiers="3" variation="0"/>
+   <terrain variation="0"/>
+  
   <island-end/> 
   
     <ocean width="100"/>

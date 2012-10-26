@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<level dayTime="noon" missionType="naval" enemyPlanes="0">
+<level dayTime="noon" missionType="naval" enemyPlanes="8">
   <ocean width="100"/>
-
+ 
+  <!-- warship -->
+  <ship-begin width="1" variation="1" traversable="true" type="warship"/>
+  <ship-concrete-bunker num-soldiers="2" traversable="true" variation="1" hasRockets="1"/>
+  <ship-concrete-bunker num-soldiers="2" traversable="false" variation="1" />
+  <ship-deck width="1" variation="2" traversable="false"/>
+  <ship-deck width="1" variation="3" traversable="false"/>
+  <ship-deck width="1" variation="2" traversable="false"/>
+  <ship-deck width="1" variation="1" traversable="false"/>  
+  <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" hasRockets="0" />
+  <ship-end width="1" variation="1" traversable="false"/>
+  <ocean width="12"/>
   <!-- submarine -->
   <ship-begin width="1" type="submarine" variation="2"/>
   <ship-wooden-bunker variation="1" num-soldiers="1" traversable="false"/>
   <ship-end width="1" variation="2" />
   
   
-  <ocean width="2"/>
-  <ocean variation="3"/>
+  <ocean width="15"/>
+  <ocean variation="4"/>
   <ocean width="2"/>
  
   
@@ -24,22 +35,57 @@
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
   
-  <ocean width="5"/>
+  <ocean width="12"/>
+  
+    <!-- laguna -->
+   <island-begin mesh="Laguna" variation="9"/>
+  	<terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+  <island-end/>
   
   
-    <island-begin mesh="Island4" variation="6"/>
+   <ocean width="6"/>
+   
+    <!-- submarine -->
+  <ship-begin width="1" type="submarine" variation="2"/>
+  <ship-wooden-bunker variation="1" num-soldiers="1" traversable="false"/>
+  <ship-end width="1" variation="2" />
+  <ocean width="15"/>
+   <!-- patrolboat -->
+  <ship-begin width="1"/>
+  <ship-concrete-bunker num-soldiers="4" traversable="false" hasRockets="0" />
+  <ship-end width="1" />
+  
+  
+   <ocean width="9"/>
+  <ocean width="1" variation="5"/>
+  <ocean width="9"/>
+  
+  <island-begin mesh="Island4" variation="6"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
-  <flak-bunker />
-  <terrain variation="0"/>
+   
+  <wooden-bunker num-soldiers="6" variation="2" hasRockets="1" />
   <barrels variation="0"/>
   <terrain variation="2"/>
-  <terrain variation="0"/><terrain variation="0"/>
-
   <terrain variation="0"/>
- <terrain variation="0"/><terrain variation="2"/>
+  <terrain variation="0"/>
+  <terrain variation="0"/>
+  <flak-bunker num-soldiers="3" variation="0"/>
+ <terrain variation="0"/>
+ <terrain variation="2"/>
   <island-end/> 
   
+  
+   <ocean width="21"/>
+  
+    <!-- submarine -->
+  <ship-begin width="1" type="submarine" variation="2"/>
+  <ship-wooden-bunker variation="1" num-soldiers="1" traversable="false"/>
+  <ship-end width="1" variation="2" />
   
   <ocean width="100"/>
 </level>

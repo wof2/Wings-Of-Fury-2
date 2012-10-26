@@ -54,6 +54,7 @@ using Wof.Controller.AdAction;
 using Wof.Controller.Screens;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
+using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.View.Effects;
 
 namespace Wof.View.TileViews
@@ -161,6 +162,24 @@ namespace Wof.View.TileViews
                     cmv = new BackGroundDummyIslandView(this.LevelTile.TileIndex, BackGroundDummyIslandView.C_DUMMY_RADAR_DOME, framework, parentNode);
                     backgroundViews.Add(cmv);
 
+                    break;
+                    
+                case 8:
+                    // okret podwodny                    
+   					cmv = new  ShipView(TypeOfEnemyShip.Submarine, this.LevelTile.TileIndex, framework, parentNode);
+                    backgroundViews.Add(cmv);  
+                    break;
+                 
+                 case 9:
+                    // patrolboat                
+   					cmv = new  ShipView(TypeOfEnemyShip.PatrolBoat, this.LevelTile.TileIndex, framework, parentNode);
+                    backgroundViews.Add(cmv);  
+                    break;
+                    
+                  case 10:
+                    // warhsip                
+   					cmv = new  ShipView(TypeOfEnemyShip.WarShip, this.LevelTile.TileIndex, framework, parentNode);
+                    backgroundViews.Add(cmv);  
                     break;
 
             }

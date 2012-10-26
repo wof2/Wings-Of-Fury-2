@@ -83,6 +83,20 @@ namespace Wof.View.TileViews
             rockNode.AttachObject(rock);
             rockNode.Yaw(Mogre.Math.RangeRandom(0, Mogre.Math.TWO_PI));
         }
+        
+        
+        protected void initSmallIsland(Vector3 position, String mesh)
+        {
+            SceneNode smallIslandNode;
+            Entity island;
+            smallIslandNode = installationNode.CreateChildSceneNode("SmallIslandNode" + LevelView.PropCounter, position);
+            island = sceneMgr.CreateEntity("SmallIsland" + LevelView.PropCounter, mesh);
+            smallIslandNode.AttachObject(island);
+            smallIslandNode.Yaw(Mogre.Math.RangeRandom(0, Mogre.Math.TWO_PI));
+        }
+        
+        
+        
 
         /// <summary>
         /// 
@@ -197,6 +211,18 @@ namespace Wof.View.TileViews
                     case 5:
                         initBarrels(new Vector3(0, 0, Mogre.Math.RangeRandom(-3, 3)), 2);
                         break;
+                        
+                    case 6:
+                        initSmallIsland(new Vector3(0, -3, Mogre.Math.RangeRandom(-20, 20)), "Island1.mesh");
+                        break;
+                        
+                     case 7:
+                        initSmallIsland(new Vector3(0, -3, Mogre.Math.RangeRandom(-20, 20)), "Island3.mesh");
+                        break;
+                        
+                    case 8:
+                        initSmallIsland(new Vector3(0, -3, Mogre.Math.RangeRandom(-20, 20)), "Island4.mesh");
+                        break;   
                 }
             }
         }

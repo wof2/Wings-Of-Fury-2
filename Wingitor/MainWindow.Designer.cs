@@ -120,7 +120,7 @@ namespace Wingitor
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 24);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1200, 926);
+            this.panel2.Size = new System.Drawing.Size(1200, 800);
             this.panel2.TabIndex = 0;
             // 
             // menu
@@ -128,7 +128,7 @@ namespace Wingitor
             this.menu.Dock = System.Windows.Forms.DockStyle.Fill;
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Name = "menu";
-            this.menu.Size = new System.Drawing.Size(400, 926);
+            this.menu.Size = new System.Drawing.Size(400, 800);
             this.menu.TabIndex = 2;
             this.menu.Load += new System.EventHandler(this.userControl11_Load);
             // 
@@ -160,7 +160,7 @@ namespace Wingitor
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
             this.splitContainer1.Panel2.Padding = new Padding(0,0,10,0);
-            this.splitContainer1.Size = new System.Drawing.Size(1200, 926);
+            this.splitContainer1.Size = new System.Drawing.Size(1200, 800);
             this.splitContainer1.SplitterDistance = 400;
             this.splitContainer1.TabIndex = 3;
             // 
@@ -179,7 +179,7 @@ namespace Wingitor
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.listBox1);
-            this.splitContainer2.Size = new System.Drawing.Size(796, 926);
+            this.splitContainer2.Size = new System.Drawing.Size(796, 800);
             this.splitContainer2.SplitterDistance = 850;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -198,7 +198,7 @@ namespace Wingitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1200, 950);
+            this.ClientSize = new System.Drawing.Size(1200, 824);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;

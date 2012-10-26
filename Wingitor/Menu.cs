@@ -36,12 +36,13 @@ namespace wingitor
 
         public void OnLevelLoaded(XmlLevelParser parser)
         {
-             
+        	
             this.timeToFirstEnemy.Text = parser.TimeToFirstEnemyPlane.ToString();
-            this.timeToNextEnemy.Text = parser.TimeToNextEnemyPlane.ToString();
-            this.dayTime.SelectedText = parser.DayTime.ToString();
-            this.missionType.SelectedText = parser.MissionType.ToString();
-           
+            this.timeToNextEnemy.Text = parser.TimeToNextEnemyPlane.ToString();            
+            this.dayTime.SelectedIndex = dayTime.FindString(parser.DayTime.ToString());
+            this.missionType.SelectedIndex = missionType.FindString(parser.MissionType.ToString());
+            this.enemyPlanes.Text = parser.EnemyPlanes.ToString();
+            
             List<LevelTile> tiles = parser.Tiles;
 
             levelTiles.Items.Clear();
