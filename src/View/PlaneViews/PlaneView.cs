@@ -626,9 +626,9 @@ namespace Wof.View
 
         public virtual void OnFireGun()
         {
-            if (this is EnemyPlaneView)
+            if (this is EnemyPlaneViewBase)
             {
-                (this as EnemyPlaneView).PlayGunSound();
+                (this as EnemyPlaneViewBase).PlayGunSound();
             }
             OnFireGunDo(new Vector3(-4.3f, -0.3f, -5.3f), new Vector3(4.3f, -0.3f, -5.3f), new Vector2(4.5f, 3.5f), false, 64);
         }

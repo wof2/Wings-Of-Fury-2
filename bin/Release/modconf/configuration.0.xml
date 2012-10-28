@@ -127,7 +127,7 @@
     attackStoragePlaneDistance - Okresla kiedy samolot wroga moze zaatakować(wystrzelic rakiete) do samolotu na lotniskowcu. Odleglosc. Typ: Double
     carrierDistanceAlarm - Określa na na jakiej odlełości od lotniskowca włacza się alarm. Typ: int
   -->
-  <EnemyPlane 
+  <EnemyFighter 
     speed="34"
     oilLoss="1"
     minPitch = "10"

@@ -47,138 +47,95 @@
  */
 
 using System;
-using System.Drawing;
-using System.Windows.Forms;
+using System.Diagnostics;
+using Wof.Controller;
 using Wof.Model.Configuration;
-using Wof.Model.Level;
 using Wof.Model.Level.Common;
-using Wof.Model.Level.Planes;
+using Wof.Model.Level.LevelTiles;
+using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.Weapon;
-using Math=Mogre.Math;
 
-namespace Wof.Tests
+namespace Wof.Model.Level.Planes
 {
-    //OUTDATED!!!!!!!!!
-    public partial class GunTestForm : Form
+    public enum AttackObject
     {
+        Carrier,
+        UserPlane,
+        None
+    }
 
-       // private Object2D
-  
-                           //new Quadrangle(new PointD(200, 200), new PointD(200, 300), new PointD(300, 300), new PointD(300, 200));
+    public class EnemyFighter : EnemyPlaneBase
+    {
+        #region Constants
 
-      //  private Quadrangle q2 = new Quadrangle(new PointD(50, 50), 100, 120);
-        private Quadrangle activeQ;
-        private const float Step = 10;
-        private PointD p1 = new PointD(300, 300);
+        #endregion
 
-        private Plane plane1;
-        private Plane plane2;
+        #region Fields
 
-       
-        public GunTestForm()
+        //komentarz do wywalenia
+
+        #endregion
+
+        #region Constructors
+
+        public EnemyFighter(Level level, float width, float height)
+            : base(level, width, height, Planes.PlaneType.A6M)
         {
-            GameConsts.P47Plane.Singleton.Width *= 10;
-            GameConsts.P47Plane.Singleton.Height *= 10;
-            StartPositionInfo sp1 = new StartPositionInfo();
-            sp1.Position = p1;
-            sp1.Speed = 0;
-            sp1.PositionType = StartPositionType.Airborne;
-            sp1.Direction = Direction.Right;
-          
-            plane1 = new Plane(null, false,sp1, PlaneType.P47);
-            
-
-
-            StartPositionInfo sp2 = new StartPositionInfo();
-            sp2.Position = new PointD(350, 330);
-            sp2.Speed = 0;
-            sp2.PositionType = StartPositionType.Airborne;
-            sp2.Direction = Direction.Left;
-
-            plane2 = new Plane(null, true, sp2, PlaneType.A6M);
-
-            InitializeComponent();
         }
 
-        private void IntersectionTestForm_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Tworzy samolot z wylosawnym po³o¿eniem (któryœ z krañców planszy).
+        /// </summary>
+        /// <param name="level"></param>
+        public EnemyFighter(Level level)
+            : base(level, Planes.PlaneType.A6M)
         {
-            activeQ = plane1.Bounds;
         }
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        #endregion
+
+        #region Public Methods
+
+        #endregion
+
+        #region Private Methods
+
+        protected override void SetupConstants()
         {
-            plane1.Bounds.Draw(e.Graphics, Color.Blue);
-            plane2.Bounds.Draw(e.Graphics, Color.Green);
-          //  e.Graphics.DrawLine(new Pen(Color.Black), activeQ.Peaks[1].ToPoint(), e.Graphicsg.VisibleClipBounds.Height - activeQ.Peaks[2].ToPoint());
+            rotateStep = GameConsts.EnemyPlaneBase.Singleton.UserRotateStep;
+
+            slowWheelingSpeed = GameConsts.EnemyPlaneBase.Singleton.RangeSlowWheelingSpeed *
+                                GameConsts.EnemyPlaneBase.Singleton.MaxSpeed;
+
+            maxFastWheelingSpeed = GameConsts.EnemyPlaneBase.Singleton.RangeFastWheelingMaxSpeed *
+                                   GameConsts.EnemyPlaneBase.Singleton.MaxSpeed;
+
+            maxWheelOutSpeed = 0.5f * GameConsts.EnemyPlaneBase.Singleton.MaxSpeed;
+
+            changeWheelsSpeed = maxFastWheelingSpeed * 0.8f;
+
+            minFlyingSpeed = GameConsts.EnemyPlaneBase.Singleton.RangeFastWheelingMaxSpeed *
+                             GameConsts.EnemyPlaneBase.Singleton.MaxSpeed;
+
+            width = GameConsts.EnemyPlaneBase.Singleton.Width;
+
+            height = GameConsts.EnemyPlaneBase.Singleton.Height;
+
+            oilLeak = 0;
+
+            maxRotateValue = GameConsts.EnemyPlaneBase.Singleton.UserMaxRotateValue;
+
+            rotateBrakingFactor = GameConsts.EnemyPlaneBase.Singleton.UserRotateBrakingFactor;
+
+            waterXBreakingPower = GameConsts.EnemyPlaneBase.Singleton.MaxSpeed * 0.01f;
+
+            waterYBreakingPower = GameConsts.EnemyPlaneBase.Singleton.MaxSpeed * 0.04f;
         }
 
-        private void checkIntersectionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-         //  MessageBox.Show(q1.Intersects(q2).ToString());
-        }
+        #endregion
 
-        private void IntersectionTestForm_KeyPress(object sender, KeyPressEventArgs e)
-        {
+        #region Properties
 
-        }
-
-        private void IntersectionTestForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            const float angle = Math.PI/36.0f;
-       //     PointD rotateCenter = new PointD(300, 300);
-            switch (e.KeyCode)
-            {
-                case Keys.Up:
-                    activeQ.Move(0, Step);
-                    break;
-                case Keys.Down:
-                    activeQ.Move(0, -Step);
-                    break;
-                case Keys.Left:
-                    activeQ.Move(-Step, 0);
-                    break;
-                case Keys.Right:
-                    activeQ.Move(Step, 0);
-                    break;
-                case Keys.NumPad8:
-                    activeQ.Rotate(angle);
-                    break;
-                case Keys.NumPad2:
-                    activeQ.Rotate(-angle);
-                    break;
-                case Keys.B:
-                    activeQ = plane1.Bounds;
-                    break;
-                case Keys.G:
-                    activeQ = plane2.Bounds;
-                    break;
-                case Keys.NumPad9:
-                    activeQ.Move(Step, Step);
-                    break;
-                    //case ' ': MessageBox.Show(q1.ToString()); break;
-                default:
-                    break;
-            }
-
-            string app = "";
-           if(activeQ.IsObverse)
-           {
-            //   app = " LEFT";
-            //   plane1.Direction = Direction.Left;
-           }
-           else
-           {
-             //  app = " RIGHT";
-          //     plane1.Direction = Direction.Right;
-           }
-
-            pictureBox1.Refresh();
-
-            if (Gun.CanHitObjectByGun(plane1, plane2))
-                Text = "BUM";
-            else
-                Text = "";
-            Text += app;
-        }
+        #endregion
     }
 }

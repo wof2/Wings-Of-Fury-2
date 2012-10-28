@@ -277,7 +277,8 @@ namespace Wof.View
 
         public override void SmashPaint()
         {
-            if (!EngineConfig.LowDetails && !GameConsts.UserPlane.Singleton.PlaneCheat)
+
+            if (!EngineConfig.LowDetails && !plane.ConstantsObj.PlaneCheat)
             {
                 ViewHelper.ReplaceMaterial(planeEntity, bodyMaterialName, destroyedBodyMaterialName);
             }
@@ -287,7 +288,7 @@ namespace Wof.View
         public override void RestorePaint()
         {
             // polski samolot ma niezniszalny lakier;)
-            if (!EngineConfig.LowDetails && !GameConsts.UserPlane.Singleton.PlaneCheat)
+            if (!EngineConfig.LowDetails && !plane.ConstantsObj.PlaneCheat)
             {
                 ViewHelper.ReplaceMaterial(planeEntity, destroyedBodyMaterialName, bodyMaterialName);
             }
@@ -308,7 +309,7 @@ namespace Wof.View
             // main nodes init
             planeEntity = sceneMgr.CreateEntity(name + "_Body", "P47Body.mesh");
             planeEntity.CastShadows = EngineConfig.ShadowsQuality > 0;
-            if(GameConsts.UserPlane.Singleton.PlaneCheat)
+            if (plane.ConstantsObj.PlaneCheat)
             {
                 ViewHelper.ReplaceMaterial(planeEntity, bodyMaterialName, "P47/BodyPL");
                 bodyMaterialName = "P47/BodyPL";

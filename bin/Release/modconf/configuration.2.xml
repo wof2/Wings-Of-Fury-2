@@ -122,7 +122,7 @@
                 Dodane, żeby samolot wroga strzelał w miarę bliskiej odległości.
     storagePlaneDistanceFault - Okresli o ile metrów samolot wroga może się pomylić w ataku na dodatkowe samoloty. Typ: Double
   -->
-  <EnemyPlane 
+  <EnemyFighter 
     speed="38"
     oilLoss="1"
     minPitch = "12"

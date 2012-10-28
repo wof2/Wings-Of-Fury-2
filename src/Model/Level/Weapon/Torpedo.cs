@@ -338,7 +338,7 @@ namespace Wof.Model.Level.Weapon
         {
             if (base.refToLevel.EnemyPlanes != null && base.refToLevel.EnemyPlanes.Count > 0)
             {
-                foreach (EnemyPlane ep in base.refToLevel.EnemyPlanes)
+                foreach (EnemyFighter ep in base.refToLevel.EnemyPlanes)
                 {
                     //sprawdzam czy aby nie ma zderzenia.
                     if (boundRectangle.Intersects(ep.Bounds))
@@ -429,7 +429,7 @@ namespace Wof.Model.Level.Weapon
         /// <author>Adam Witczak</author>
         private bool Unregister()
         {
-            if (!(ammunitionOwner is EnemyPlane))
+            if (!(ammunitionOwner is EnemyFighter))
             {
                 if ((System.Math.Abs(Center.X - refToLevel.UserPlane.Center.X) > MaxDistanceToPlane) ||
                     ((System.Math.Abs(Center.Y - refToLevel.UserPlane.Center.Y) > MaxHeightDistanceToPlane)

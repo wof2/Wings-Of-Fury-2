@@ -74,7 +74,9 @@ namespace Wof.Model.Configuration
         private Dictionary<String, float> mB25PlaneConfig = null;
 
         
-        private Dictionary<String, float> mEnemyPlaneConfig = null;
+        private Dictionary<String, float> mEnemyFighterConfig = null;
+        private Dictionary<String, float> mEnemyBomberConfig = null;
+
         private Dictionary<String, float> mSoldierConfig = null;
         private Dictionary<String, float> mWoodenBunker = null;
         private Dictionary<String, float> mConcreteBunker = null;
@@ -136,8 +138,10 @@ namespace Wof.Model.Configuration
                 return mF4UPlaneConfig;
             else if (type.Equals(ConfigurationNames.B25))
                 return mB25PlaneConfig;
-            else if (type.Equals(ConfigurationNames.EnemyPlane))
-                return mEnemyPlaneConfig;
+            else if (type.Equals(ConfigurationNames.EnemyFighter))
+                return mEnemyFighterConfig;
+            else if (type.Equals(ConfigurationNames.EnemyBomber))
+                return mEnemyBomberConfig;
             else if (type.Equals(ConfigurationNames.Soldier))
                 return mSoldierConfig;
             else if (type.Equals(ConfigurationNames.WoodenBunker))
@@ -171,7 +175,8 @@ namespace Wof.Model.Configuration
             format = new NumberFormatInfo();
             format.NumberGroupSeparator = ",";
 
-            mEnemyPlaneConfig = InitConfig(typeof (ConfigurationAttributes.EnemyPlane));
+            mEnemyFighterConfig = InitConfig(typeof (ConfigurationAttributes.EnemyPlane));
+            mEnemyBomberConfig = InitConfig(typeof(ConfigurationAttributes.EnemyPlane));
            
             mP47PlaneConfig = InitConfig(typeof(ConfigurationAttributes.UserPlane));
             mF4UPlaneConfig = InitConfig(typeof(ConfigurationAttributes.UserPlane));
@@ -230,10 +235,15 @@ namespace Wof.Model.Configuration
                         if (!ReadConfig(reader, mB25PlaneConfig))
                             throw new XmlException("B25 jest niepoprawny !");
                     }
-                    else if (reader.Name.Equals(ConfigurationNames.EnemyPlane))
+                    else if (reader.Name.Equals(ConfigurationNames.EnemyFighter))
                     {
-                        if (!ReadConfig(reader, mEnemyPlaneConfig))
-                            throw new XmlException("Enemy plane jest niepoprawny !");
+                        if (!ReadConfig(reader, mEnemyFighterConfig))
+                            throw new XmlException("EnemyFighter jest niepoprawny !");
+                    }
+                    else if (reader.Name.Equals(ConfigurationNames.EnemyBomber))
+                    {
+                        if (!ReadConfig(reader, mEnemyBomberConfig))
+                            throw new XmlException("EnemyBomber jest niepoprawny !");
                     }
                     else if (reader.Name.Equals(ConfigurationNames.Soldier))
                     {
@@ -331,8 +341,10 @@ namespace Wof.Model.Configuration
             StringBuilder builder = new StringBuilder();
             builder.AppendLine("User plane:");
             builder.Append(ConfigToString(mP47PlaneConfig));
-            builder.AppendLine("Enemy plane:");
-            builder.Append(ConfigToString(mEnemyPlaneConfig));
+            builder.AppendLine("Enemy fighter:");
+            builder.Append(ConfigToString(mEnemyFighterConfig));
+            builder.AppendLine("Enemy bomber:");
+            builder.Append(ConfigToString(mEnemyBomberConfig));
             builder.AppendLine("Soldier:");
             builder.Append(ConfigToString(mSoldierConfig));
             builder.AppendLine("Wooden bunker:");
@@ -394,10 +406,10 @@ namespace Wof.Model.Configuration
             }
 
             
-            if (mEnemyPlaneConfig != null)
+            if (mEnemyFighterConfig != null)
             {
-                mEnemyPlaneConfig.Clear();
-                mEnemyPlaneConfig = null;
+                mEnemyFighterConfig.Clear();
+                mEnemyFighterConfig = null;
             }
             if (mSoldierConfig != null)
             {
