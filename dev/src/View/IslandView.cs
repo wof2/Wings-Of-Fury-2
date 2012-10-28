@@ -213,7 +213,7 @@ namespace Wof.View
                     initNonCollisionTreesDiamond(sceneMgr, staticNode, -11, -13, maxX / 2.5f, maxX, 0.5f);
 
                     // zwolnic pamiec
-                    EnemyPlaneView epv = new EnemyPlaneView(null, framework, staticNode);
+                    EnemyFighterView epv = new EnemyFighterView(null, framework, staticNode);
                     epv.PlaneNode.SetPosition(-3, 0.8f, -18 - 90);
                     epv.PlaneNode.Yaw(new Radian(new Degree(60)));
                     if(EngineConfig.DisplayingMinimap)
@@ -222,7 +222,7 @@ namespace Wof.View
                     }
                     parkedPlanes.Add(epv);
 
-                    EnemyPlaneView epv2 = new EnemyPlaneView(null, framework, staticNode);
+                    EnemyFighterView epv2 = new EnemyFighterView(null, framework, staticNode);
                     epv2.PlaneNode.SetPosition(-3, 0.8f, -25 - 90);
                     epv2.PlaneNode.Yaw(new Radian(new Degree(62)));
                     if(EngineConfig.DisplayingMinimap)

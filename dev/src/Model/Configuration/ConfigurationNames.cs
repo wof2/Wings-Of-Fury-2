@@ -59,7 +59,10 @@ namespace Wof.Model.Configuration
         public const string Torpedo = @"Torpedo";
         public const string Soldier = @"Soldier";
         public const string UserPlane = @"UserPlane";
-        public const string EnemyPlane = @"EnemyPlane";
+        public const string EnemyFighter = @"EnemyFighter";
+        public const string EnemyBomber = @"EnemyBomber";
+
+
         public const string WoodenBunker = @"WoodenBunker";
         public const string ConcreteBunker = @"ConcreteBunker";
         public const string ShipConcreteBunker = @"ShipConcreteBunker";

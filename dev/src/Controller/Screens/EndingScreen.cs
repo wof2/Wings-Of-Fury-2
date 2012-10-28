@@ -163,7 +163,7 @@ namespace Wof.Controller.Screens
             planeViews = new List<PlaneView>();
             for (int i = 0; i < 2; i++)
             {
-                PlaneView p = new EnemyPlaneView(null, framework, sceneMgr.RootSceneNode);
+                PlaneView p = new EnemyFighterView(null, framework, sceneMgr.RootSceneNode);
 
                 if (i == 0)
                 {

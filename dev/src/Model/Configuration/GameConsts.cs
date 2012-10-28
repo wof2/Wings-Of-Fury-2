@@ -57,6 +57,11 @@ namespace Wof.Model.Configuration
     {
         public class P47Plane : UserPlane
         {
+            protected static readonly new P47Plane singleton = new P47Plane();
+            public static P47Plane Singleton
+            {
+                get { return singleton; }
+            }
 
             protected P47Plane()
             {
@@ -66,6 +71,11 @@ namespace Wof.Model.Configuration
 
         public class F4UPlane : UserPlane
         {
+            protected static readonly new F4UPlane singleton = new F4UPlane();
+            public static F4UPlane Singleton
+            {
+                get { return singleton; }
+            }
             protected F4UPlane()
             {
                
@@ -74,6 +84,11 @@ namespace Wof.Model.Configuration
 
         public class B25Plane : UserPlane
         {
+            protected static readonly new B25Plane singleton = new B25Plane();
+            public static B25Plane Singleton
+            {
+                get { return singleton; }
+            }
             protected B25Plane()
             {
                
@@ -84,13 +99,7 @@ namespace Wof.Model.Configuration
         public class UserPlane
         {
 
-            protected static readonly UserPlane singleton = new UserPlane();
-
-            public static UserPlane Singleton
-            {
-                get { return singleton; }
-            }
-
+         
            
             protected UserPlane()
             {
@@ -247,16 +256,30 @@ namespace Wof.Model.Configuration
             #endregion
         }
 
-        public class EnemyPlane : UserPlane
+        public class EnemyFighter : EnemyPlaneBase
         {
-
-            protected static readonly new EnemyPlane singleton = new EnemyPlane();
-            public static EnemyPlane Singleton
+            protected static readonly new EnemyFighter singleton = new EnemyFighter();
+            public static EnemyFighter Singleton
             {
                 get { return singleton; }
             }
+        }
 
-            protected EnemyPlane()
+        public class EnemyBomber : EnemyPlaneBase
+        {
+            protected static readonly new EnemyBomber singleton = new EnemyBomber();
+            public static EnemyBomber Singleton
+            {
+                get { return singleton; }
+            }
+        }
+
+        public abstract class EnemyPlaneBase : UserPlane
+        {
+
+           
+
+            protected EnemyPlaneBase()
             {
                
             }

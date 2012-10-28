@@ -127,7 +127,8 @@ namespace Wof.Model.Level.Planes
         P47,
         F4U,
         A6M,
-        B25
+        B25,
+        Betty
     } ;
 
     #endregion
@@ -821,38 +822,58 @@ namespace Wof.Model.Level.Planes
 
         #endregion
 
-
+        private GameConsts.UserPlane constantsObj;
+       
 
         protected virtual void SetupConstants()
         {
-            rotateStep = GameConsts.UserPlane.Singleton.UserRotateStep;
+            switch (planeType)
+            {
+                case Planes.PlaneType.P47:
+                    ConstantsObj = GameConsts.P47Plane.Singleton;
+                    break;
+                case Planes.PlaneType.F4U:
+                    ConstantsObj = GameConsts.F4UPlane.Singleton;
+                    break;
+                case Planes.PlaneType.B25:
+                    ConstantsObj = GameConsts.B25Plane.Singleton;
+                    break;
+                case Planes.PlaneType.Betty:
+                    ConstantsObj = GameConsts.EnemyBomber.Singleton;
+                    break;
+                case Planes.PlaneType.A6M:
+                    ConstantsObj = GameConsts.EnemyFighter.Singleton;
+                    break;
 
-            slowWheelingSpeed = GameConsts.UserPlane.Singleton.RangeSlowWheelingSpeed *
-                                GameConsts.UserPlane.Singleton.MaxSpeed;
+            }
+            rotateStep = constantsObj.UserRotateStep;
 
-            maxFastWheelingSpeed = GameConsts.UserPlane.Singleton.RangeFastWheelingMaxSpeed *
-                                   GameConsts.UserPlane.Singleton.MaxSpeed;
+            slowWheelingSpeed = constantsObj.RangeSlowWheelingSpeed *
+                                constantsObj.MaxSpeed;
 
-            maxWheelOutSpeed = 0.5f * GameConsts.UserPlane.Singleton.MaxSpeed;
+            maxFastWheelingSpeed = constantsObj.RangeFastWheelingMaxSpeed *
+                                   constantsObj.MaxSpeed;
+
+            maxWheelOutSpeed = 0.5f * constantsObj.MaxSpeed;
 
             changeWheelsSpeed = maxFastWheelingSpeed * 0.8f;
 
-            minFlyingSpeed = GameConsts.UserPlane.Singleton.RangeFastWheelingMaxSpeed *
-                             GameConsts.UserPlane.Singleton.MaxSpeed;
+            minFlyingSpeed = constantsObj.RangeFastWheelingMaxSpeed *
+                             constantsObj.MaxSpeed;
 
-            width = GameConsts.UserPlane.Singleton.Width;
+            width = constantsObj.Width;
 
-            height = GameConsts.UserPlane.Singleton.Height;
+            height = constantsObj.Height;
 
             oilLeak = 0;
 
-            maxRotateValue = GameConsts.UserPlane.Singleton.UserMaxRotateValue;
+            maxRotateValue = constantsObj.UserMaxRotateValue;
 
-            rotateBrakingFactor = GameConsts.UserPlane.Singleton.UserRotateBrakingFactor;
+            rotateBrakingFactor = constantsObj.UserRotateBrakingFactor;
 
-            waterXBreakingPower = GameConsts.UserPlane.Singleton.MaxSpeed * 0.01f;
+            waterXBreakingPower = constantsObj.MaxSpeed * 0.01f;
 
-            waterYBreakingPower = GameConsts.UserPlane.Singleton.MaxSpeed * 0.04f;
+            waterYBreakingPower = constantsObj.MaxSpeed * 0.04f;
         }
 
         #region Public Constructor
@@ -2347,7 +2368,7 @@ namespace Wof.Model.Level.Planes
 				float oilBefore = oil;
 				float leakBefore = oilLeak;
 				
-				bool hitByPlane = source is Plane || source is EnemyPlane;
+				bool hitByPlane = source is Plane || source is EnemyFighter;
 				
                 planeState = PlaneState.Damaged;
                 if (hitByPlane) //ma³e trafienie
@@ -2548,7 +2569,7 @@ namespace Wof.Model.Level.Planes
                     {
                         // w czasie zawracania odwracamy gore z dolem (gdyz jeszcze nie zostal zmieniony direction a samolot juz jest w przeciwna strone)
                         // tu jest PROBLEM
-                       /* if (Bounds.Center.Y > 0.9f * GameConsts.UserPlane.Singleton.MaxHeight * maxHeightTurningRange)
+                       /* if (Bounds.Center.Y > 0.9f * constantsObj.MaxHeight * maxHeightTurningRange)
                         {
                             rotateValue = 0;
                             rotationFactor = 0.00f; // jesli jestesmy przy 'suficie' to nie mozemy zmieniac k¹ta i zawracac na raz
@@ -2575,7 +2596,7 @@ namespace Wof.Model.Level.Planes
                         else
                         {
                             //hamowanie samolotu
-                            float subSpeed = scaleFactor * GameConsts.UserPlane.Singleton.MoveStep;
+                            float subSpeed = scaleFactor * constantsObj.MoveStep;
                             subSpeedToMin(subSpeed, minFlyingSpeed);
                         }
 
@@ -2640,7 +2661,7 @@ namespace Wof.Model.Level.Planes
                         }
                         else //hamowanie samolotu (S£ABE)
                         {
-                            float subSpeed = scaleFactor*GameConsts.UserPlane.Singleton.MoveStep;
+                            float subSpeed = scaleFactor*constantsObj.MoveStep;
                             float oldSpeed = movementVector.EuclidesLength;
                             float newSpeed = movementVector.EuclidesLength - subSpeed;
 
@@ -2995,7 +3016,7 @@ namespace Wof.Model.Level.Planes
         {
             if (motorState == EngineState.Working)
                 airscrewSpeed =
-                    movementVector.EuclidesLength/GameConsts.UserPlane.Singleton.MaxSpeed*(maxAirscrewSpeed - minAirscrewSpeed) +
+                    movementVector.EuclidesLength/constantsObj.MaxSpeed*(maxAirscrewSpeed - minAirscrewSpeed) +
                     minAirscrewSpeed;
             else
                 airscrewSpeed = 0.0f;
@@ -3261,7 +3282,7 @@ namespace Wof.Model.Level.Planes
 
             //Console.WriteLine("angle:" + Angle);
 
-            if (Bounds.Center.Y > GameConsts.UserPlane.Singleton.MaxHeight*maxHeightTurningRange)
+            if (Bounds.Center.Y > constantsObj.MaxHeight*maxHeightTurningRange)
             {
                 FallDown(time, timeUnit, GlideType.heightLimit);
                 level.OnPlaneForceGoDown(this);
@@ -3366,7 +3387,7 @@ namespace Wof.Model.Level.Planes
                 if (!isFallingFromCarrier && !IsGearAboveCarrier)
                 {
                     
-               ///     Console.WriteLine("speed:  " + maxFastWheelingSpeed + " =  " + GameConsts.UserPlane.Singleton.RangeFastWheelingMaxSpeed + " * " + GameConsts.UserPlane.Singleton.MaxSpeed);
+               ///     Console.WriteLine("speed:  " + maxFastWheelingSpeed + " =  " + constantsObj.RangeFastWheelingMaxSpeed + " * " + constantsObj.MaxSpeed);
                     
                //     Console.WriteLine("speed:  " + movementVector.EuclidesLength +" > "+ maxFastWheelingSpeed);
             
@@ -3516,10 +3537,10 @@ namespace Wof.Model.Level.Planes
 
             //aktualizacja movmentVector.Y
             movementVector.Y = (movementVector.Y >= 0)
-                                   ? - GameConsts.UserPlane.Singleton.SinkingSpeed
+                                   ? - constantsObj.SinkingSpeed
                                    :
                                        System.Math.Min(movementVector.Y + waterYBreakingPower,
-                                                       -GameConsts.UserPlane.Singleton.SinkingSpeed);
+                                                       -constantsObj.SinkingSpeed);
 
             bounds.Move((time/timeUnit)*movementVector);
         }
@@ -3644,6 +3665,12 @@ namespace Wof.Model.Level.Planes
             set {
                 planePaused = value;
             }
+        }
+
+        public GameConsts.UserPlane ConstantsObj
+        {
+            get { return constantsObj; }
+            set { constantsObj = value; }
         }
     }
     #endregion

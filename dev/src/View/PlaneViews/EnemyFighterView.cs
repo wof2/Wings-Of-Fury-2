@@ -59,21 +59,15 @@ namespace Wof.View
     /// <summary>
     /// Wrogi samolot w view
     /// </summary>
-    public class EnemyPlaneView : PlaneView
+    public class EnemyFighterView : EnemyPlaneViewBase
     {
     	
     	
         private static int enemyPlaneCounter = 1;
-        protected FSLSoundObject engineSound = null;
-        protected FSLSoundObject warCrySound = null;
-        protected FSLSoundObject warCrySound2 = null;
-        protected FSLSoundObject gunSound = null;
-        
-        protected Random random;
 
-   
-        public EnemyPlaneView(Plane plane, IFrameWork frameWork, SceneNode parentNode)
-            : base(plane, frameWork, parentNode, "EnemyPlane" + enemyPlaneCounter.ToString())
+
+        public EnemyFighterView(Plane plane, IFrameWork frameWork, SceneNode parentNode)
+            : base(plane, frameWork, parentNode, "EnemyFighter" + enemyPlaneCounter.ToString())
         {
             //nazwa musi byc unikalnym stringiem
             enemyPlaneCounter++;
@@ -120,92 +114,8 @@ namespace Wof.View
             
          
         }
-        public override void Destroy()
-        {
-            base.Destroy();
-            if (engineSound != null)
-            {
-                SoundManager3D.Instance.RemoveSound(engineSound.Name);
-                engineSound.Destroy();
-                engineSound = null;
-            }
-
-
-            if (warCrySound != null)
-            {
-                SoundManager3D.Instance.RemoveSound(warCrySound.Name);
-                warCrySound.Destroy();
-                warCrySound = null;
-            }
-
-
-            if (warCrySound2 != null)
-            {
-                SoundManager3D.Instance.RemoveSound(warCrySound2.Name);
-                warCrySound2.Destroy();
-                warCrySound2 = null;
-            }
-
-            if (gunSound != null)
-            {
-                SoundManager3D.Instance.RemoveSound(gunSound.Name);
-                gunSound.Destroy();
-                gunSound = null;
-            }
-
-        }
       
 
-        public void PlayGunSound()
-        {
-            //LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "START");
-            if (EngineConfig.SoundEnabled && !gunSound.IsPlaying())
-            {
-               // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, " -NEW LOOP");
-                gunSound.SetBaseGain(1.0f);
-                gunSound.Play();
-                //SoundManager3D.Instance.UpdateSoundObjects();
-            }
-        }
-
-        public void StopGunSound()
-        {
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "STOP");
-            if (EngineConfig.SoundEnabled) gunSound.Stop();
-        }
-
-        public void PlayWarcry()
-        {
-           
-            if (random.Next(0, 101) > 50)
-            {
-                if (EngineConfig.SoundEnabled && !warCrySound.IsPlaying()) warCrySound.Play();
-            }
-            else
-            {
-                if (EngineConfig.SoundEnabled && !warCrySound2.IsPlaying()) warCrySound2.Play();
-            }
-
-        }
-
-        public void LoopEngineSound()
-        {
-            if (EngineConfig.SoundEnabled && !engineSound.IsPlaying())
-            {
-                engineSound.SetBaseGain(0.3f);
-                engineSound.Play();
-                //SoundManager3D.Instance.UpdateSoundObjects();
-            }
-        }
-
-        public void StopEngineSound()
-        {
-            if (EngineConfig.SoundEnabled) engineSound.Stop();
-        }
-
-      
-
-       
 
         protected override void initBlade()
         {

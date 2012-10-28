@@ -569,6 +569,7 @@
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\ISinkComponent.cs" />
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipManagers\SubmarineManager.cs" />
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\SinkComponent.cs" />
+    <Compile Include="src\Model\Level\Planes\EnemyPlaneBase.cs" />
     <Compile Include="src\Model\Level\Weapon\BunkerShellBullet.cs" />
     <Compile Include="src\Model\Level\Weapon\FlakBullet.cs" />
     <Compile Include="src\Model\Level\Weapon\GunBullet.cs" />
@@ -845,7 +846,7 @@
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipWoodBunkerTile.cs" />
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\TypeOfEnemyShip.cs" />
     <Compile Include="src\Model\Level\MissionType.cs" />
-    <Compile Include="src\Model\Level\Planes\EnemyPlane.cs">
+    <Compile Include="src\Model\Level\Planes\EnemyFighter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="src\Model\Level\Planes\Plane.cs">
@@ -991,7 +992,8 @@
     <Compile Include="src\View\NodeAnimation\SinLightAttenuationAnimation.cs" />
     <Compile Include="src\View\NodeAnimation\VisibilityNodeAnimation.cs" />
     <Compile Include="src\View\PlaneViews\B25PlaneView.cs" />
-    <Compile Include="src\View\PlaneViews\EnemyPlaneView.cs" />
+    <Compile Include="src\View\PlaneViews\EnemyBomberView.cs" />
+    <Compile Include="src\View\PlaneViews\EnemyFighterView.cs" />
     <Compile Include="src\View\MinimapItem.cs" />
     <Compile Include="src\View\NodeAnimation\ConstRotateNodeAnimation.cs" />
     <Compile Include="src\View\NodeAnimation\DummyNodeAnimation.cs" />
@@ -1001,6 +1003,7 @@
     <Compile Include="src\View\NodeAnimation\PlaneNodeAnimationManager.cs" />
     <Compile Include="src\View\NodeAnimation\RotateNodeAnimation.cs" />
     <Compile Include="src\View\NodeAnimation\SinRotateNodeAnimation.cs" />
+    <Compile Include="src\View\PlaneViews\EnemyPlaneViewBase.cs" />
     <Compile Include="src\View\PlaneViews\F4UPlaneView.cs" />
     <Compile Include="src\View\PlaneViews\P47PlaneView.cs" />
     <Compile Include="src\View\PlaneViews\PlaneView.cs">

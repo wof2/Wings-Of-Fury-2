@@ -58,7 +58,7 @@ namespace Wof.Model.Level.Weapon
 		protected static PointD GetInitialVector(IObject2D owner, IObject2D target, float initialSpeed) {
 			
 			
-        	float speedCoeff = 2 * target.MovementVector.EuclidesLength /  GameConsts.UserPlane.Singleton.MaxSpeed;
+        	float speedCoeff = 2 * target.MovementVector.EuclidesLength /  GameConsts.P47Plane.Singleton.MaxSpeed;
         	float distanceCoeff = 2.0f;
        
         	float xSpread = distanceCoeff * speedCoeff * target.Bounds.Width;
@@ -84,7 +84,7 @@ namespace Wof.Model.Level.Weapon
            
                // Console.WriteLine(flyVector.X);
 
-            float minFlyingSpeed = Owner.IsEnemy ? GameConsts.EnemyPlane.Singleton.RangeFastWheelingMaxSpeed * GameConsts.EnemyPlane.Singleton.MaxSpeed : GameConsts.UserPlane.Singleton.RangeFastWheelingMaxSpeed * GameConsts.UserPlane.Singleton.MaxSpeed;
+            float minFlyingSpeed = Owner.IsEnemy ? GameConsts.EnemyPlaneBase.Singleton.RangeFastWheelingMaxSpeed * GameConsts.EnemyPlaneBase.Singleton.MaxSpeed : GameConsts.UserPlane.Singleton.RangeFastWheelingMaxSpeed * GameConsts.UserPlane.Singleton.MaxSpeed;
 
 
             // rakieta wytraca prędkość uzyskaną od samolotu

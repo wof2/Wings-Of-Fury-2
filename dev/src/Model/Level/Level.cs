@@ -369,8 +369,8 @@ namespace Wof.Model.Level
             
            // CalculateFlyDirectionHint();
             //dodane przez Emila
-            //this.enemyPlane = new EnemyPlane(this, new PointD(100, 40), Direction.Right);
-            //this.enemyPlane = new EnemyPlane(this);
+            //this.enemyPlane = new EnemyFighter(this, new PointD(100, 40), Direction.Right);
+            //this.enemyPlane = new EnemyFighter(this);
             //this.enemyPlane.RegisterWeaponEvent += new RegisterWeapon(enemyPlane_RegisterWeaponEvent);
             enemyPlanes = new List<Plane>();
             if (MissionType != MissionType.Dogfight && MissionType != MissionType.Survival)
@@ -490,10 +490,10 @@ namespace Wof.Model.Level
             currentTimeToNextEnemy = Math.Max(0, currentTimeToNextEnemy);
             if (currentTimeToNextEnemy == 0)
             {
-                if (enemyPlanesPoolCount > 0 && enemyPlanes.Count < GameConsts.EnemyPlane.Singleton.MaxSimultaneousEnemyPlanes)
+                if (enemyPlanesPoolCount > 0 && enemyPlanes.Count < GameConsts.EnemyPlaneBase.Singleton.MaxSimultaneousEnemyPlanes)
                     //dodanie nowego samolotu
                 {
-                    EnemyPlane enemyPlane = new EnemyPlane(this);
+                    EnemyFighter enemyPlane = new EnemyFighter(this);
                     enemyPlane.RegisterWeaponEvent += enemyPlane_RegisterWeaponEvent;
                     enemyPlanes.Add(enemyPlane);
                     Controller.OnRegisterPlane(enemyPlane);

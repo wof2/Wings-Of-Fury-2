@@ -161,8 +161,8 @@ namespace Wof.Model.Level.XmlParser
             shipManagers = new List<ShipManager>();
             tilesManager = new TilesManager();
 
-            timeToFirstEnemyPlane = GameConsts.EnemyPlane.Singleton.DefaultTimeToFirstEnemyPlane;
-            timeToNextEnemyPlane = GameConsts.EnemyPlane.Singleton.DefaultTimeToNextEnemyPlane;
+            timeToFirstEnemyPlane = GameConsts.EnemyPlaneBase.Singleton.DefaultTimeToFirstEnemyPlane;
+            timeToNextEnemyPlane = GameConsts.EnemyPlaneBase.Singleton.DefaultTimeToNextEnemyPlane;
         }
 
         /// <summary>
@@ -1050,7 +1050,7 @@ namespace Wof.Model.Level.XmlParser
                         }
                         catch
                         {
-                            timeToFirstEnemyPlane = GameConsts.EnemyPlane.Singleton.DefaultTimeToFirstEnemyPlane;
+                            timeToFirstEnemyPlane = GameConsts.EnemyFighter.Singleton.DefaultTimeToFirstEnemyPlane;
                             return false;
                         }
                     }
@@ -1062,7 +1062,7 @@ namespace Wof.Model.Level.XmlParser
                         }
                         catch
                         {
-                            timeToNextEnemyPlane = GameConsts.EnemyPlane.Singleton.DefaultTimeToNextEnemyPlane;
+                            timeToNextEnemyPlane = GameConsts.EnemyFighter.Singleton.DefaultTimeToNextEnemyPlane;
                             return false;
                         }
                     }    

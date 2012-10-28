@@ -789,9 +789,9 @@ namespace Wof.View
             
         }
 
-        public void OnLoopEnemyPlaneEngineSound(EnemyPlane plane)
+        public void OnLoopEnemyPlaneEngineSound(EnemyFighter plane)
         {
-            EnemyPlaneView pv = (EnemyPlaneView)FindPlaneView(plane);
+            EnemyPlaneViewBase pv = (EnemyPlaneViewBase)FindPlaneView(plane);
             if(pv == null) return; // byc moze w levelview jeszcze nie ma tego samolotu
             pv.LoopEngineSound();
         }
@@ -800,14 +800,14 @@ namespace Wof.View
         {
             for (int i = 0; i < planeViews.Count; i++)
             {
-                if (planeViews[i] is EnemyPlaneView) 
-                    ((EnemyPlaneView)planeViews[i]).LoopEngineSound();
+                if (planeViews[i] is EnemyPlaneViewBase)
+                    ((EnemyPlaneViewBase)planeViews[i]).LoopEngineSound();
             }
         }
 
-        public void OnStopPlayingEnemyPlaneEngineSound(EnemyPlane plane)
+        public void OnStopPlayingEnemyPlaneEngineSound(EnemyFighter plane)
         {
-            EnemyPlaneView pv = (EnemyPlaneView)FindPlaneView(plane);
+            EnemyPlaneViewBase pv = (EnemyPlaneViewBase)FindPlaneView(plane);
             if (pv == null) return;
             pv.StopEngineSound();
         }
@@ -816,8 +816,8 @@ namespace Wof.View
         {
             for (int i = 0; i < planeViews.Count; i++)
             {
-                if (planeViews[i] is EnemyPlaneView)
-                    ((EnemyPlaneView)planeViews[i]).StopEngineSound();
+                if (planeViews[i] is EnemyPlaneViewBase)
+                    ((EnemyPlaneViewBase)planeViews[i]).StopEngineSound();
             }
         }
 
@@ -844,7 +844,17 @@ namespace Wof.View
             {
                 if (plane.IsEnemy)
                 {
-                    planeViews.Add(new EnemyPlaneView(plane, framework, sceneMgr.RootSceneNode));
+                    if(plane is EnemyFighter)
+                    { 
+                        planeViews.Add(new EnemyFighterView(plane, framework, sceneMgr.RootSceneNode));
+                    }
+                    /*
+                    if (plane is EnemyBomber)
+                    {
+                        planeViews.Add(new EnemyBomberView(plane, framework, sceneMgr.RootSceneNode));
+                    }*/
+
+
                 }
                 else
                 {
@@ -1637,9 +1647,9 @@ namespace Wof.View
         {
             PlaneView p = FindPlaneView(plane);
             if (p == null) return;
-            if(p is EnemyPlaneView)
+            if (p is EnemyPlaneViewBase)
             {
-                (p as EnemyPlaneView).PlayWarcry();
+                (p as EnemyPlaneViewBase).PlayWarcry();
             }
         }
 

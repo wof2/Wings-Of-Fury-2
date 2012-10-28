@@ -100,30 +100,21 @@ namespace Wof.Model.Configuration
         {
             
             //User Plane
-            switch (EngineConfig.CurrentPlayerPlaneType)
-            {
-                case PlaneType.P47:
-                    SetConsts(typeof(GameConsts.UserPlane),
-                        configurations.GetConfiguration(ConfigurationNames.P47), GameConsts.UserPlane.Singleton);
-                    break;
+            SetConsts(typeof(GameConsts.B25Plane),
+                      configurations.GetConfiguration(ConfigurationNames.B25), GameConsts.B25Plane.Singleton);
 
-                case PlaneType.F4U:
-                    SetConsts(typeof(GameConsts.UserPlane),
-                        configurations.GetConfiguration(ConfigurationNames.F4U), GameConsts.UserPlane.Singleton);
-                    break;
+            SetConsts(typeof(GameConsts.F4UPlane),
+                    configurations.GetConfiguration(ConfigurationNames.F4U), GameConsts.F4UPlane.Singleton);
 
-                case PlaneType.B25:
-                    SetConsts(typeof(GameConsts.UserPlane),
-                        configurations.GetConfiguration(ConfigurationNames.B25), GameConsts.UserPlane.Singleton);
-                    break;
-   
-            }
-            
-
+            SetConsts(typeof(GameConsts.P47Plane),
+                  configurations.GetConfiguration(ConfigurationNames.P47), GameConsts.P47Plane.Singleton);
 
             //Enemy Plane
-            SetConsts(typeof (GameConsts.EnemyPlane),
-                      configurations.GetConfiguration(ConfigurationNames.EnemyPlane), GameConsts.EnemyPlane.Singleton);
+            SetConsts(typeof (GameConsts.EnemyFighter),
+                      configurations.GetConfiguration(ConfigurationNames.EnemyFighter), GameConsts.EnemyFighter.Singleton);
+
+            SetConsts(typeof(GameConsts.EnemyBomber),
+                     configurations.GetConfiguration(ConfigurationNames.EnemyFighter), GameConsts.EnemyBomber.Singleton);
             //Soldier
             SetConsts(typeof (GameConsts.Soldier),
                       configurations.GetConfiguration(ConfigurationNames.Soldier), new GameConsts.Soldier());

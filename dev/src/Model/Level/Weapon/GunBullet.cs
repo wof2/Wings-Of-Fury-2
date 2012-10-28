@@ -166,7 +166,7 @@ namespace Wof.Model.Level.Weapon
         {
             if (refToLevel.EnemyPlanes.Count > 0)
             {
-                foreach (EnemyPlane ep in refToLevel.EnemyPlanes)
+                foreach (EnemyFighter ep in refToLevel.EnemyPlanes)
                 {
                     if (this.Owner == ep) continue;
 

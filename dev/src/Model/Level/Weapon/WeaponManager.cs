@@ -204,7 +204,7 @@ namespace Wof.Model.Level.Weapon
         public WeaponManager(LevelRef refLevel, IObject2D owner)
             : this(refLevel,
                    owner,
-                   owner is EnemyPlane ? GameConsts.EnemyPlane.Singleton.RocketCount : GameConsts.UserPlane.Singleton.RocketCount,
+                   owner is EnemyFighter ? GameConsts.EnemyPlaneBase.Singleton.RocketCount : GameConsts.UserPlane.Singleton.RocketCount,
                    GameConsts.UserPlane.Singleton.BombCount, GameConsts.UserPlane.Singleton.TorpedoCount)
         {
         }
@@ -326,7 +326,7 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         private void GunFire(float angle, bool isTurningAround)
         {
-            if (ammunitionOwner is EnemyPlane)
+            if (ammunitionOwner is EnemyFighter)
                 EnemyPlaneFire(angle, isTurningAround);
             else
             {
@@ -493,7 +493,7 @@ namespace Wof.Model.Level.Weapon
             if (refToLevel.UserPlane != null && refToLevel.EnemyPlanes.Count > 0)
             {
                 //sprawdzam czy samolot gracza nie trafi³ w wrogi samolot.
-                foreach (EnemyPlane ep in refToLevel.EnemyPlanes)
+                foreach (EnemyFighter ep in refToLevel.EnemyPlanes)
                 {
 
                     bool biDirectional = refToLevel.UserPlane.PlaneType == PlaneType.B25 && !ammunitionOwner.IsEnemy; ;

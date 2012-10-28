@@ -1965,7 +1965,7 @@ namespace Wof.Controller.Screens
             }
            
 
-            foreach (EnemyPlane ep in currentLevel.EnemyPlanes)
+            foreach (EnemyFighter ep in currentLevel.EnemyPlanes)
             {
                 distance = currentLevel.UserPlane.XDistanceToPlane(ep);
 
