@@ -91,7 +91,7 @@ namespace Wof.Controller
             if (t >= 1.0f) t = 0.99f;
 
             float minCamDistance = 15;
-            float halfMaxHeight = (float) GameConsts.UserPlane.Singleton.MaxHeight/2.0f;
+            float halfMaxHeight = (float) GameConsts.GenericPlane.CurrentUserPlane.MaxHeight/2.0f;
 
             float realHalfMaxHeight = halfMaxHeight*0.95f;
             float camAlt = c.RealPosition.y + c.Position.y;

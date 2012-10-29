@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="foggy" missionType="dogFight" enemyPlanes="4" timeToFirstEnemyPlane="0" timeToNextEnemyPlane="30000">
+<level dayTime="foggy" missionType="dogFight" enemyFighters="4" timeToFirstEnemyPlane="0" timeToNextEnemyPlane="30000">
   <ocean width="30"/>
 
   <ocean width="20"/>

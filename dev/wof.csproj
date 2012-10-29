@@ -569,6 +569,7 @@
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\ISinkComponent.cs" />
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipManagers\SubmarineManager.cs" />
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\SinkComponent.cs" />
+    <Compile Include="src\Model\Level\Planes\EnemyBomber.cs" />
     <Compile Include="src\Model\Level\Planes\EnemyPlaneBase.cs" />
     <Compile Include="src\Model\Level\Weapon\BunkerShellBullet.cs" />
     <Compile Include="src\Model\Level\Weapon\FlakBullet.cs" />

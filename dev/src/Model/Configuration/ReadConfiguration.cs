@@ -203,7 +203,17 @@ namespace Wof.Model.Configuration
         /// <returns></returns>
         private Dictionary<String, float> InitConfig(Type type)
         {
-            FieldInfo[] fields = type.GetFields();
+        	BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+    		
+        	FieldInfo[] fields1 =  type.GetFields(flags);
+    		FieldInfo[] fields2	 =  type.BaseType.GetFields(flags);
+    		
+    		var fields = new FieldInfo[fields1.Length + fields2.Length];
+			fields1.CopyTo(fields, 0);
+			fields2.CopyTo(fields, fields1.Length);
+			
+			
+        	//FieldInfo[] fields = type.GetFields(BindingFlags.Default | BindingFlags.FlattenHierarchy);
             if (fields != null && fields.Length > 0)
             {
                 Dictionary<String, float> config = new Dictionary<String, float>();

@@ -550,6 +550,7 @@ namespace wingitor
                
                 splash.Increment(4);
 
+                SetupEngineConfig();
               
                 // Create the scene
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingScene)));
@@ -573,6 +574,23 @@ namespace wingitor
                 }
             }
             return true;
+        }
+        
+        private void SetupEngineConfig()
+        {
+        	EngineConfig.LoadEngineConfig();            
+            switch (EngineConfig.Difficulty)
+            {
+                case EngineConfig.DifficultyLevel.Easy:
+                    Game.SetModelSettingsFromFile(0);
+                    break;
+                case EngineConfig.DifficultyLevel.Medium:
+                    Game.SetModelSettingsFromFile(1);
+                    break;
+                case EngineConfig.DifficultyLevel.Hard:
+                    Game.SetModelSettingsFromFile(2);
+                    break;
+            }
         }
      
         public virtual void CreateScene()

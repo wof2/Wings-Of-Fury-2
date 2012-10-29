@@ -65,18 +65,13 @@ namespace Wof.View
     /// </summary> 
     public class F4UPlaneView : P47PlaneView
     {
-
-        protected string bodyMaterialName = "F4U1FUSD";
-        protected string destroyedBodyMaterialName = "F4U1FUSDDestroyed";
-
-
-
        
 
         public F4UPlaneView(Plane plane, IFrameWork frameWork, SceneNode parentNode)
             : base(plane, frameWork, parentNode)
         {
-          
+          bodyMaterialName = "F4U1FUSD";
+          destroyedBodyMaterialName = "F4U1FUSDDestroyed";
         }
 
      
@@ -184,25 +179,11 @@ namespace Wof.View
         }
 
 
-
-        public override void SmashPaint()
+ 		public override string GetMainMeshName()
         {
-            if (!EngineConfig.LowDetails && !GameConsts.UserPlane.Singleton.PlaneCheat)
-            {
-                ViewHelper.ReplaceMaterial(planeEntity, bodyMaterialName, destroyedBodyMaterialName);
-            }
+            return "F4U.mesh";
         }
-
-
-        public override void RestorePaint()
-        {
-            // polski samolot ma niezniszalny lakier;)
-            if (!EngineConfig.LowDetails && !GameConsts.UserPlane.Singleton.PlaneCheat)
-            {
-                ViewHelper.ReplaceMaterial(planeEntity, destroyedBodyMaterialName, bodyMaterialName);
-            }
-        }
-
+       
 
         protected override void initOnScene()
         {
@@ -217,7 +198,7 @@ namespace Wof.View
             }
 
             // main nodes init
-            planeEntity = sceneMgr.CreateEntity(name + "_Body", "F4U.mesh");
+            planeEntity = sceneMgr.CreateEntity(name + "_Body", GetMainMeshName());
             planeEntity.CastShadows = EngineConfig.ShadowsQuality > 0;
             innerNode.AttachObject(planeEntity);
             outerNode.Scale(new Vector3(0.4f, 0.4f, 0.4f));

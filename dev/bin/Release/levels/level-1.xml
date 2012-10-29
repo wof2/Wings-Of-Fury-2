@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="dusk" enemyPlanes="0">
+<level dayTime="dusk" enemyFighters="0">
 
   <ocean width="100"/>
   

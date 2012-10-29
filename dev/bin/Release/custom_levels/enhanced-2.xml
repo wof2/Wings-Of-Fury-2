@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="foggy"  enhancedOnly="1" missionType="assassination" enemyPlanes="12" timeToFirstEnemyPlane="8000" timeToNextEnemyPlane="30000">
+<level dayTime="foggy"  enhancedOnly="1" missionType="assassination" enemyFighters="12" timeToFirstEnemyPlane="8000" timeToNextEnemyPlane="30000">
   
    <ocean width="7"/>  
   <!-- double laguna -->

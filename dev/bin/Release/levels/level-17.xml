@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<level dayTime="dusk"  enemyPlanes="12" timeToNextEnemyPlane="5000" timeToFirstEnemyPlane="1000">
+<level dayTime="dusk"  enemyFighters="12"  enemyBombers="5" timeToNextEnemyPlane="5000" timeToFirstEnemyPlane="1000">
  
 <ocean width="100"/>
     <!-- double laguna -->

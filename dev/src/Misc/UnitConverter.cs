@@ -72,7 +72,11 @@ namespace Wof.Misc
             return new Vector3((float) (logicPoint.X*1.0f + LevelView.ModelToViewAdjust), (float) (logicPoint.Y*1.0f),0);
         }
 
-
+         public static PointD WorldToLogicUnits(Vector3 worldPoint)
+        {
+            return new PointD((float) (worldPoint.x*1.0f - LevelView.ModelToViewAdjust), (float) (worldPoint.y*1.0f));
+        }
+       
         public static float LogicToWorldUnits(int tileIndex)
         {
             return Mathematics.IndexToPosition(tileIndex) + LevelView.ModelToViewAdjust;

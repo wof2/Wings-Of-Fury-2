@@ -67,9 +67,7 @@ namespace Wof.View
     public class B25PlaneView : P47PlaneView
     {
 
-        protected string bodyMaterialName = "B25/Body";
-        protected string destroyedBodyMaterialName = "B25/BodyDestroyed";
-
+      
         protected Entity bladeL, bladeR;
 
         public override List<int> GetCrossHairCameraIndexes()
@@ -80,7 +78,8 @@ namespace Wof.View
         public B25PlaneView(Plane plane, IFrameWork frameWork, SceneNode parentNode)
             : base(plane, frameWork, parentNode)
         {
-          
+        	bodyMaterialName = "B25/Body";
+            destroyedBodyMaterialName = "B25/BodyDestroyed";
         }
 
      
@@ -195,15 +194,6 @@ namespace Wof.View
         }
 
 
-
-        public override void SmashPaint()
-        {
-            if (!EngineConfig.LowDetails && !GameConsts.UserPlane.Singleton.PlaneCheat)
-            {
-                ViewHelper.ReplaceMaterial(planeEntity, bodyMaterialName, destroyedBodyMaterialName);
-            }
-        }
-
         public override void SetBladeVisibility(bool visible)
         {
             bladeL.Visible = visible;
@@ -212,14 +202,7 @@ namespace Wof.View
             airscrewR.Visible = visible;
         }
 
-        public override void RestorePaint()
-        {
-            // polski samolot ma niezniszalny lakier;)
-            if (!EngineConfig.LowDetails && !GameConsts.UserPlane.Singleton.PlaneCheat)
-            {
-                ViewHelper.ReplaceMaterial(planeEntity, destroyedBodyMaterialName, bodyMaterialName);
-            }
-        }
+       
         public override void SwitchToSlowEngine()
         {
             if (!bladeL.Visible && !airscrewL.Visible) return; // jesli calosc wczesniej nie byla widoczna
@@ -268,7 +251,12 @@ namespace Wof.View
             // AIRSCREW
           
         }
-
+        
+		public override string GetMainMeshName()
+        {
+            return "B25.mesh";
+        }
+       
         protected override void initOnScene()
         {
            
@@ -282,7 +270,7 @@ namespace Wof.View
             }
 
             // main nodes init
-            planeEntity = sceneMgr.CreateEntity(name + "_Body", "B25.mesh");
+            planeEntity = sceneMgr.CreateEntity(name + "_Body", GetMainMeshName());
             planeEntity.CastShadows = EngineConfig.ShadowsQuality > 0;
             innerNode.AttachObject(planeEntity);
             outerNode.Scale(new Vector3(0.40f, 0.40f, 0.40f));

@@ -47,12 +47,13 @@
  */
 
 using System;
+using Wof.Model.Level.Infantry;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
-using Wof.Model.Level.Infantry;
+using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 
 namespace Wof.Model.Level.Common
@@ -118,6 +119,15 @@ namespace Wof.Model.Level.Common
         }
 
 
+        public static Predicate<Plane> GetAllEnemyFighters()
+        {
+            return delegate(Plane plane) { return plane is EnemyFighter; };
+        }
+
+        public static Predicate<Plane> GetAllEnemyBombers()
+        {
+            return delegate(Plane plane) { return plane is EnemyBomber; };
+        }
 
 
         /// <summary>

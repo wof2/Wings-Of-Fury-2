@@ -460,7 +460,7 @@ namespace Wof.View.NodeAnimation
 
                         this[animationName] = new GaussRotateNodeAnimation(
                             planeView.InnerNode,
-                            (duration <= 0 ? GameConsts.UserPlane.Singleton.TurningDuration : duration),
+                            (duration <= 0 ? GameConsts.GenericPlane.CurrentUserPlane.TurningDuration : duration),
                             new Degree(60),
                             10.0f,
                             Vector3.UNIT_Z,
@@ -474,7 +474,7 @@ namespace Wof.View.NodeAnimation
                     {
                         this[animationName] = new SinRotateNodeAnimation(
                             planeView.OuterNode,
-                            (duration <= 0 ? GameConsts.UserPlane.Singleton.TurningDuration : duration),
+                            (duration <= 0 ? GameConsts.GenericPlane.CurrentUserPlane.TurningDuration : duration),
                             new Degree(180),
                             Math.HALF_PI,
                             Vector3.UNIT_Y,

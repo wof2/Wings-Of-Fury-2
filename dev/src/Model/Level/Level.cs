@@ -49,25 +49,26 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+
 using Mogre;
 using Wof.Controller;
+using Wof.Misc;
 using Wof.Model.Configuration;
 using Wof.Model.Level.Carriers;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.Effects;
+using Wof.Model.Level.Infantry;
 using Wof.Model.Level.LevelTiles;
 using Wof.Model.Level.LevelTiles.AircraftCarrierTiles;
 using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.LevelTiles.Watercraft;
 using Wof.Model.Level.LevelTiles.Watercraft.ShipManagers;
 using Wof.Model.Level.Planes;
-using Wof.Model.Level.Infantry;
 using Wof.Model.Level.Weapon;
 using Wof.Model.Level.XmlParser;
 using Wof.Statistics;
-using Math=System.Math;
-using Plane=Wof.Model.Level.Planes.Plane;
-
+using Math = System.Math;
+using Plane = Wof.Model.Level.Planes.Plane;
 
 namespace Wof.Model.Level
 {   
@@ -237,14 +238,25 @@ namespace Wof.Model.Level
         }
 
         /// <summary>
-        /// Okreœla ile samolotów pozosta³o w puli danego levelu.
+        /// Okreœla ile mysliwców pozosta³o w puli danego levelu.
         /// </summary>
         /// 
-        private int enemyPlanesPoolCount;
+        private int enemyFightersPoolCount;
 
-        public int EnemyPlanesPoolCount
+        public int EnemyFightersPoolCount
         {
-            get { return enemyPlanesPoolCount; }
+            get { return enemyFightersPoolCount; }
+        }
+        
+        /// <summary>
+        /// Okreœla ile bombowcow pozosta³o w puli danego levelu.
+        /// </summary>
+        /// 
+        private int enemyBombersPoolCount;
+
+        public int EnemyBombersPoolCount
+        {
+            get { return enemyBombersPoolCount; }
         }
 
         /// <summary>
@@ -386,8 +398,10 @@ namespace Wof.Model.Level
 
             enhancedOnly = LevelParser.EnhancedOnly;
             
-            enemyPlanesLeft = enemyPlanesPoolCount = LevelParser.EnemyPlanes;
-
+            enemyFightersPoolCount = LevelParser.EnemyFighters;
+			enemyBombersPoolCount = LevelParser.EnemyBombers;
+            enemyPlanesLeft = enemyFightersPoolCount + enemyBombersPoolCount;
+             	
             currentTimeToNextEnemy = timeToFirstEnemyPlane;
 
             //dodane przez Tomka
@@ -476,6 +490,31 @@ namespace Wof.Model.Level
             }
         }
 
+        public int EnemyFightersCount
+        {
+        	
+        	get { return enemyPlanes.FindAll(Predicates.GetAllEnemyFighters()).Count; }
+        	
+        }
+        
+          public int EnemyBombersCount
+        {
+        	
+        	get { return enemyPlanes.FindAll(Predicates.GetAllEnemyBombers()).Count; }
+        	
+        }
+        
+        public bool ShouldRegisterEnemyFighter
+        {
+        	get { return enemyFightersPoolCount > 0 && EnemyFightersCount < GameConsts.EnemyFighter.Singleton.MaxSimultaneousEnemyPlanes; }
+          	
+        }
+        
+        public bool ShouldRegisterEnemyBomber
+        {
+        	get { return enemyBombersPoolCount > 0 && EnemyBombersCount < GameConsts.EnemyBomber.Singleton.MaxSimultaneousEnemyPlanes; }
+          	
+        }
 
         /// <summary>
         /// Funkcja zmienia pozycje obiektow na planszy.
@@ -490,15 +529,34 @@ namespace Wof.Model.Level
             currentTimeToNextEnemy = Math.Max(0, currentTimeToNextEnemy);
             if (currentTimeToNextEnemy == 0)
             {
-                if (enemyPlanesPoolCount > 0 && enemyPlanes.Count < GameConsts.EnemyPlaneBase.Singleton.MaxSimultaneousEnemyPlanes)
-                    //dodanie nowego samolotu
-                {
-                    EnemyFighter enemyPlane = new EnemyFighter(this);
+            	EnemyPlaneBase enemyPlane = null;
+            	bool fighter = ShouldRegisterEnemyFighter;
+            	bool bomber = ShouldRegisterEnemyBomber;
+            	
+            	if(fighter && bomber) {
+            		bomber = UnitConverter.RandomGen.NextDouble() >= 0.5; // losuj jeden wynik
+            		fighter = !bomber;
+            	}            	
+            	               
+            	if(fighter){
+        	       	enemyPlane = new EnemyFighter(this);   
+ 					enemyFightersPoolCount--;                	
+            	}
+            	
+	 			if(bomber){
+	                enemyPlane = new EnemyBomber(this);
+	               	enemyBombersPoolCount--;
+	            }
+            
+            	//dodanie nowego samolotu                   
+                    
+        	    if(enemyPlane != null)
+        	    {                    
                     enemyPlane.RegisterWeaponEvent += enemyPlane_RegisterWeaponEvent;
                     enemyPlanes.Add(enemyPlane);
                     Controller.OnRegisterPlane(enemyPlane);
                     currentTimeToNextEnemy = timeToNextEnemyPlane; //odliczanie od pocz¹tku
-                    enemyPlanesPoolCount--;
+                   
                 }
                 else
                 {
@@ -578,7 +636,7 @@ namespace Wof.Model.Level
 
           
             // koniec poziomu
-            if (userPlane.IsOnAircraftCarrier && userPlane.Speed < 0.001f * GameConsts.UserPlane.Singleton.MaxSpeed)
+            if (userPlane.IsOnAircraftCarrier && userPlane.Speed < 0.001f * GameConsts.GenericPlane.CurrentUserPlane.MaxSpeed)
             {
                 if (onReadyLevelEndLaunched)// odtr¹biono ju¿ fanfary
                 {

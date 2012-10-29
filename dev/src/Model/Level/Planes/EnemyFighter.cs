@@ -57,12 +57,7 @@ using Wof.Model.Level.Weapon;
 
 namespace Wof.Model.Level.Planes
 {
-    public enum AttackObject
-    {
-        Carrier,
-        UserPlane,
-        None
-    }
+   
 
     public class EnemyFighter : EnemyPlaneBase
     {
@@ -100,38 +95,7 @@ namespace Wof.Model.Level.Planes
 
         #region Private Methods
 
-        protected override void SetupConstants()
-        {
-            rotateStep = GameConsts.EnemyPlaneBase.Singleton.UserRotateStep;
-
-            slowWheelingSpeed = GameConsts.EnemyPlaneBase.Singleton.RangeSlowWheelingSpeed *
-                                GameConsts.EnemyPlaneBase.Singleton.MaxSpeed;
-
-            maxFastWheelingSpeed = GameConsts.EnemyPlaneBase.Singleton.RangeFastWheelingMaxSpeed *
-                                   GameConsts.EnemyPlaneBase.Singleton.MaxSpeed;
-
-            maxWheelOutSpeed = 0.5f * GameConsts.EnemyPlaneBase.Singleton.MaxSpeed;
-
-            changeWheelsSpeed = maxFastWheelingSpeed * 0.8f;
-
-            minFlyingSpeed = GameConsts.EnemyPlaneBase.Singleton.RangeFastWheelingMaxSpeed *
-                             GameConsts.EnemyPlaneBase.Singleton.MaxSpeed;
-
-            width = GameConsts.EnemyPlaneBase.Singleton.Width;
-
-            height = GameConsts.EnemyPlaneBase.Singleton.Height;
-
-            oilLeak = 0;
-
-            maxRotateValue = GameConsts.EnemyPlaneBase.Singleton.UserMaxRotateValue;
-
-            rotateBrakingFactor = GameConsts.EnemyPlaneBase.Singleton.UserRotateBrakingFactor;
-
-            waterXBreakingPower = GameConsts.EnemyPlaneBase.Singleton.MaxSpeed * 0.01f;
-
-            waterYBreakingPower = GameConsts.EnemyPlaneBase.Singleton.MaxSpeed * 0.04f;
-        }
-
+       
         #endregion
 
         #region Properties

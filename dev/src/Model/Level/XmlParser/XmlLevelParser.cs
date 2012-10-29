@@ -88,9 +88,15 @@ namespace Wof.Model.Level.XmlParser
         private MissionType missionType = MissionType.BombingRun;
 
         /// <summary>
-        /// Liczba samolotow wroga.
+        /// Liczba mysliwcow wroga.
         /// </summary>
-        private int enemyPlanes;
+        private int enemyFighters;
+        
+         /// <summary>
+        /// Liczba bombowcow wroga.
+        /// </summary>
+        private int enemyBombers;
+        
         
         /// <summary>
         /// Czas do pojawienia sie pierwszego samolotu wroga
@@ -161,8 +167,8 @@ namespace Wof.Model.Level.XmlParser
             shipManagers = new List<ShipManager>();
             tilesManager = new TilesManager();
 
-            timeToFirstEnemyPlane = GameConsts.EnemyPlaneBase.Singleton.DefaultTimeToFirstEnemyPlane;
-            timeToNextEnemyPlane = GameConsts.EnemyPlaneBase.Singleton.DefaultTimeToNextEnemyPlane;
+            timeToFirstEnemyPlane = GameConsts.EnemyFighter.Singleton.DefaultTimeToFirstEnemyPlane;
+            timeToNextEnemyPlane = GameConsts.EnemyFighter.Singleton.DefaultTimeToNextEnemyPlane;
         }
 
         /// <summary>
@@ -268,8 +274,12 @@ namespace Wof.Model.Level.XmlParser
                 att.Value = StringValueAttribute.GetStringValue(level.LevelParser.dayTime);
                 rootNode.Attributes.Append(att);
 
-                att = xml.CreateAttribute(Attributes.EnemyPlanes);
-                att.Value = level.LevelParser.enemyPlanes.ToString();
+                att = xml.CreateAttribute(Attributes.EnemyFighters);
+                att.Value = level.LevelParser.enemyFighters.ToString();
+                rootNode.Attributes.Append(att);
+                
+                att = xml.CreateAttribute(Attributes.EnemyBombers);
+                att.Value = level.LevelParser.enemyBombers.ToString();
                 rootNode.Attributes.Append(att);
                
                 
@@ -1029,15 +1039,28 @@ namespace Wof.Model.Level.XmlParser
                     if (reader.Name.Equals(Attributes.MissionType, StringComparison.InvariantCultureIgnoreCase))
                         missionType = GetMissionTypeForName(reader.Value);
 
-                    if (reader.Name.Equals(Attributes.EnemyPlanes, StringComparison.InvariantCultureIgnoreCase))
+                    if (reader.Name.Equals(Attributes.EnemyFighters, StringComparison.InvariantCultureIgnoreCase))
                     {
                         try
                         {
-                            enemyPlanes = Int32.Parse(reader.Value.Trim());
+                            enemyFighters = Int32.Parse(reader.Value.Trim());
                         }
                         catch
                         {
-                            enemyPlanes = 0;
+                            enemyFighters = 0;
+                            return false;
+                        }
+                    }
+                    
+                    if (reader.Name.Equals(Attributes.EnemyBombers, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        try
+                        {
+                            enemyBombers = Int32.Parse(reader.Value.Trim());
+                        }
+                        catch
+                        {
+                            enemyBombers = 0;
                             return false;
                         }
                     }
@@ -1237,9 +1260,15 @@ namespace Wof.Model.Level.XmlParser
             get { return missionType; }
         }
 
-        public int EnemyPlanes
+        public int EnemyFighters
         {
-            get { return enemyPlanes; }
+            get { return enemyFighters; }
+            //set { enemyPlanes = value; }
+        }
+        
+        public int EnemyBombers
+        {
+            get { return enemyBombers; }
             //set { enemyPlanes = value; }
         }
 

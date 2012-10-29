@@ -108,13 +108,31 @@ namespace Wof.Model.Configuration
 
             SetConsts(typeof(GameConsts.P47Plane),
                   configurations.GetConfiguration(ConfigurationNames.P47), GameConsts.P47Plane.Singleton);
+            
+            switch(EngineConfig.CurrentPlayerPlaneType)
+            {
+            		
+            	case PlaneType.P47:
+            		GameConsts.GenericPlane.SetCurrentUserPlane(GameConsts.P47Plane.Singleton);
+            		break;
+            		
+            	case PlaneType.F4U:
+            		GameConsts.GenericPlane.SetCurrentUserPlane(GameConsts.F4UPlane.Singleton);
+            		break;
+            		
+            	case PlaneType.B25:
+            		GameConsts.GenericPlane.SetCurrentUserPlane(GameConsts.B25Plane.Singleton);
+            		break;
+            }
+            
+            
 
             //Enemy Plane
             SetConsts(typeof (GameConsts.EnemyFighter),
                       configurations.GetConfiguration(ConfigurationNames.EnemyFighter), GameConsts.EnemyFighter.Singleton);
 
             SetConsts(typeof(GameConsts.EnemyBomber),
-                     configurations.GetConfiguration(ConfigurationNames.EnemyFighter), GameConsts.EnemyBomber.Singleton);
+                     configurations.GetConfiguration(ConfigurationNames.EnemyBomber), GameConsts.EnemyBomber.Singleton);
             //Soldier
             SetConsts(typeof (GameConsts.Soldier),
                       configurations.GetConfiguration(ConfigurationNames.Soldier), new GameConsts.Soldier());

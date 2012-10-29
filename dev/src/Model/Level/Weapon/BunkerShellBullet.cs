@@ -84,7 +84,7 @@ namespace Wof.Model.Level.Weapon
            
                // Console.WriteLine(flyVector.X);
 
-            float minFlyingSpeed = Owner.IsEnemy ? GameConsts.EnemyPlaneBase.Singleton.RangeFastWheelingMaxSpeed * GameConsts.EnemyPlaneBase.Singleton.MaxSpeed : GameConsts.UserPlane.Singleton.RangeFastWheelingMaxSpeed * GameConsts.UserPlane.Singleton.MaxSpeed;
+            float minFlyingSpeed = Owner.IsEnemy ? GameConsts.EnemyFighter.Singleton.RangeFastWheelingMaxSpeed * GameConsts.EnemyFighter.Singleton.MaxSpeed : GameConsts.GenericPlane.CurrentUserPlane.RangeFastWheelingMaxSpeed * GameConsts.GenericPlane.CurrentUserPlane.MaxSpeed;
 
 
             // rakieta wytraca prędkość uzyskaną od samolotu

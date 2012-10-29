@@ -201,12 +201,13 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <param name="refLevel">Referncja do planszy.</param>
         /// <param name="owner">Wlasciciel broni.</param>
-        public WeaponManager(LevelRef refLevel, IObject2D owner)
+        public WeaponManager(LevelRef refLevel, Plane owner)
             : this(refLevel,
                    owner,
-                   owner is EnemyFighter ? GameConsts.EnemyPlaneBase.Singleton.RocketCount : GameConsts.UserPlane.Singleton.RocketCount,
-                   GameConsts.UserPlane.Singleton.BombCount, GameConsts.UserPlane.Singleton.TorpedoCount)
+                   owner.GetConsts().RocketCount,
+                   owner.GetConsts().BombCount, owner.GetConsts().TorpedoCount)
         {
+        
         }
 
         #endregion
@@ -326,7 +327,7 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         private void GunFire(float angle, bool isTurningAround)
         {
-            if (ammunitionOwner is EnemyFighter)
+            if (ammunitionOwner is EnemyPlaneBase)
                 EnemyPlaneFire(angle, isTurningAround);
             else
             {

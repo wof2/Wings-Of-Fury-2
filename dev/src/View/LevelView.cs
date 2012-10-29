@@ -789,7 +789,7 @@ namespace Wof.View
             
         }
 
-        public void OnLoopEnemyPlaneEngineSound(EnemyFighter plane)
+        public void OnLoopEnemyPlaneEngineSound(EnemyPlaneBase plane)
         {
             EnemyPlaneViewBase pv = (EnemyPlaneViewBase)FindPlaneView(plane);
             if(pv == null) return; // byc moze w levelview jeszcze nie ma tego samolotu
@@ -805,7 +805,7 @@ namespace Wof.View
             }
         }
 
-        public void OnStopPlayingEnemyPlaneEngineSound(EnemyFighter plane)
+        public void OnStopPlayingEnemyPlaneEngineSound(EnemyPlaneBase plane)
         {
             EnemyPlaneViewBase pv = (EnemyPlaneViewBase)FindPlaneView(plane);
             if (pv == null) return;
@@ -848,11 +848,11 @@ namespace Wof.View
                     { 
                         planeViews.Add(new EnemyFighterView(plane, framework, sceneMgr.RootSceneNode));
                     }
-                    /*
+                    else 
                     if (plane is EnemyBomber)
                     {
                         planeViews.Add(new EnemyBomberView(plane, framework, sceneMgr.RootSceneNode));
-                    }*/
+                    }
 
 
                 }
@@ -1949,7 +1949,7 @@ namespace Wof.View
             {
                 Console.WriteLine("BUG - view nie odes³a³ komunikatu");
             }
-            if(!GameConsts.UserPlane.Singleton.GodMode) carrierView.RemoveNextStoragePlane();
+            if(!GameConsts.GenericPlane.CurrentUserPlane.GodMode) carrierView.RemoveNextStoragePlane();
             carrierView.CrewStatePlaneOnCarrier();
             playerPlaneView.Restore();
 

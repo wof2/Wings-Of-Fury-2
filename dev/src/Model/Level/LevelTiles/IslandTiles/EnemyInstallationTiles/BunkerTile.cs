@@ -653,5 +653,10 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
 				 return realAngle;
 			}
 		}
+    	
+		GameConsts.GenericPlane IObject2D.GetConsts()
+		{
+			return null;
+		}
     }
 }

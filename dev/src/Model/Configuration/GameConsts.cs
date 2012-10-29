@@ -55,9 +55,9 @@ namespace Wof.Model.Configuration
     /// </summary>
     public static class GameConsts
     {
-        public class P47Plane : UserPlane
+        public class P47Plane : GenericPlane
         {
-            protected static readonly new P47Plane singleton = new P47Plane();
+            protected static readonly P47Plane singleton = new P47Plane();
             public static P47Plane Singleton
             {
                 get { return singleton; }
@@ -69,9 +69,9 @@ namespace Wof.Model.Configuration
             }
         }
 
-        public class F4UPlane : UserPlane
+        public class F4UPlane : GenericPlane
         {
-            protected static readonly new F4UPlane singleton = new F4UPlane();
+            private static readonly F4UPlane singleton = new F4UPlane();
             public static F4UPlane Singleton
             {
                 get { return singleton; }
@@ -82,9 +82,9 @@ namespace Wof.Model.Configuration
             }
         }
 
-        public class B25Plane : UserPlane
+        public class B25Plane : GenericPlane
         {
-            protected static readonly new B25Plane singleton = new B25Plane();
+            private static readonly B25Plane singleton = new B25Plane();
             public static B25Plane Singleton
             {
                 get { return singleton; }
@@ -96,12 +96,19 @@ namespace Wof.Model.Configuration
         }
 
 
-        public class UserPlane
+        public class GenericPlane
         {
 
-         
+            private static new GenericPlane currentUserPlane;
+            public static GenericPlane CurrentUserPlane
+            {
+                get { return currentUserPlane; }
+            }
+            public static void SetCurrentUserPlane(GenericPlane plane) {
+            	currentUserPlane = plane;
+            }
            
-            protected UserPlane()
+            protected GenericPlane()
             {
                
             }
@@ -209,11 +216,11 @@ namespace Wof.Model.Configuration
             /// </summary>
             public  float LandingSpeed = 2;
 
+        
             /// <summary>
-            /// Określa jak bardzo będzie się zmieniała wartość obrotu w czasie timeUnit
-            /// po naciśnięciu strzałki.
+            /// Jak szybka zmienia kąt samolotu.
             /// </summary>
-            public  float UserRotateStep = Math.PI/1.5f; // 2.0943951
+            public float RotateStep = Math.PI/1.5f; // 2.0943951
 
             /// <summary>
             /// Siła hamowania obrotu, czyli ile razy szybcieh hamowana jest wartość obrotu.
@@ -274,7 +281,7 @@ namespace Wof.Model.Configuration
             }
         }
 
-        public abstract class EnemyPlaneBase : UserPlane
+        public abstract class EnemyPlaneBase : GenericPlane
         {
 
            
@@ -316,11 +323,6 @@ namespace Wof.Model.Configuration
 
 
             /// <summary>
-            /// Liczba dostepnych rakiet.
-            /// </summary>
-            public int RocketCount = 5;
-
-            /// <summary>
             /// Czas jaki musi minąć, żeby samolot mógł wystrzelić kolejną rakietę.
             /// Wyrażony w ms.
             /// </summary>
@@ -347,10 +349,7 @@ namespace Wof.Model.Configuration
             /// </summary>
             public float CarrierDistanceAlarm = 1200;
 
-            /// <summary>
-            /// Jak szybka zmienia kąt samolot wroga.
-            /// </summary>
-            public float EnemyRotateStep = Math.PI/3; // 1.04719755
+           
 
             /// <summary>
             /// Domyślna wartość czasu po jakim pojawi się pierwszy wrogi samolot.

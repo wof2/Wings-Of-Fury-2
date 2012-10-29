@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="dusk" enhancedOnly="1" enemyPlanes="4" timeToFirstEnemyPlane="10000" timeToNextEnemyPlane="45000">
+<level dayTime="dusk" enhancedOnly="1" enemyFighters="4" timeToFirstEnemyPlane="10000" timeToNextEnemyPlane="45000">
   
   <ocean width="15"/>
     <island-begin mesh="Island4" variation="3"/>

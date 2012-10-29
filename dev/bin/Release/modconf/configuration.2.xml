@@ -44,7 +44,7 @@
     sinkingSpeed = "1.3"
     maxHeight = "150"
     landingSpeed = "2.0"	
-    userRotateStep = "2.2943951"
+    rotateStep = "2.2943951"
     userRotateBrakingFactor = "3.9"
     userMaxRotateValue = "2.0943951"
     godMode = "0"
@@ -73,7 +73,7 @@
    sinkingSpeed = "1.3"
    maxHeight = "150"
    landingSpeed = "2.0"
-   userRotateStep = "2.2943951"
+   rotateStep = "2.2943951"
    userRotateBrakingFactor = "3.9"
    userMaxRotateValue = "2.0943951"
    godMode = "0"
@@ -102,7 +102,7 @@
    sinkingSpeed = "1.3"
    maxHeight = "150"
    landingSpeed = "2.0"
-   userRotateStep = "0.6943951"
+   rotateStep = "0.6943951"
    userRotateBrakingFactor = "4.5"
    userMaxRotateValue = "0.9943951"
    godMode = "0"
@@ -133,13 +133,12 @@
     safeUserPlaneDistance = "35"
     attackStoragePlaneDistance = "15.5"
     carrierDistanceAlarm = "1200"
-    enemyRotateStep = "1.04719755"
+    rotateStep = "1.04719755"
     maxSimultaneousEnemyPlanes="6"
     accuracy = "100.0"
     
     width = "5.5"
-    height = "2"
-    userRotateStep = "2.6943951"
+    height = "2"  
     userRotateBrakingFactor = "5.4"
     userMaxRotateValue = "2.0943951"
     maxSpeed="60"
@@ -147,6 +146,30 @@
     turningDuration = "3.5"
     
 />
+
+<EnemyBomber 
+    speed="20"
+    oilLoss="1"
+    minPitch = "10"
+    viewRange = "75"
+    rocketCount="3"
+    nextRocketInterval = "10000"
+    storagePlaneDistanceFault = "16"
+    safeUserPlaneDistance = "45"
+    attackStoragePlaneDistance = "15.5"
+    carrierDistanceAlarm = "1200"
+    rotateStep = "1.04719755"
+    maxSimultaneousEnemyPlanes="3"
+    accuracy = "98.0" 
+    width = "9.0"
+    height = "3"   
+    userRotateBrakingFactor = "5.0"
+    userMaxRotateValue = "0.9943951"
+    maxSpeed="50"
+    rangeFastWheelingMaxSpeed = "0.3"
+    turningDuration = "5.0"
+    
+  />
 
   <!--Żołnierze:
     minSpeed - Minimalna prędkość żołnierza. Typ: int
