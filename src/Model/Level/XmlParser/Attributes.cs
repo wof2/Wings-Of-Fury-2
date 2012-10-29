@@ -67,7 +67,8 @@ namespace Wof.Model.Level.XmlParser
         public const string TimeToFirstEnemyPlane = @"timeToFirstEnemyPlane";        
         public const string TimeToNextEnemyPlane = @"timeToNextEnemyPlane";        
         public const string Variation = @"variation";
-        public const string EnemyPlanes = @"enemyPlanes";
+        public const string EnemyFighters = @"enemyFighters";
+        public const string EnemyBombers = @"enemyBombers";
         public const string Traversable = @"traversable";
         public const string NumSoldiers = @"num-soldiers";
         public const string HasRockets = @"hasRockets";

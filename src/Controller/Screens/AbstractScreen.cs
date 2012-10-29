@@ -1566,12 +1566,12 @@ namespace Wof.Controller.Screens
 
         public void doCheatGodMode()
         {
-            GameConsts.UserPlane.Singleton.GodMode = !GameConsts.UserPlane.Singleton.GodMode;
+            GameConsts.GenericPlane.CurrentUserPlane.GodMode = !GameConsts.GenericPlane.CurrentUserPlane.GodMode;
         }
 
         public void doCheatPlane()
         {
-            GameConsts.UserPlane.Singleton.PlaneCheat = !GameConsts.UserPlane.Singleton.PlaneCheat;
+            GameConsts.GenericPlane.CurrentUserPlane.PlaneCheat = !GameConsts.GenericPlane.CurrentUserPlane.PlaneCheat;
         }
 
         public void doCheatAllLevels()

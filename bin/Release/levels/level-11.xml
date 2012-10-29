@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<level dayTime="noon" missionType="naval" enemyPlanes="3">
+<level dayTime="noon" missionType="naval" enemyFighters="3">
   <ocean width="100"/>
 
   <!-- patrolboat -->

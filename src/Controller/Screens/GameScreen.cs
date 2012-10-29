@@ -1965,7 +1965,7 @@ namespace Wof.Controller.Screens
             }
            
 
-            foreach (EnemyFighter ep in currentLevel.EnemyPlanes)
+            foreach (EnemyPlaneBase ep in currentLevel.EnemyPlanes)
             {
                 distance = currentLevel.UserPlane.XDistanceToPlane(ep);
 
@@ -2581,7 +2581,7 @@ namespace Wof.Controller.Screens
 
         private void increaseScore(int baseScore)
         {
-            if (GameConsts.UserPlane.Singleton.GodMode || GameConsts.Game.AllLevelsCheat || GameConsts.UserPlane.Singleton.PlaneCheat || GameConsts.Game.LivesCheat || EngineConfig.DebugStart) return;
+            if (GameConsts.GenericPlane.CurrentUserPlane.GodMode || GameConsts.Game.AllLevelsCheat || GameConsts.GenericPlane.CurrentUserPlane.PlaneCheat || GameConsts.Game.LivesCheat || EngineConfig.DebugStart) return;
 
             switch (EngineConfig.Difficulty)
             {
@@ -3273,7 +3273,7 @@ namespace Wof.Controller.Screens
 
             if (!Plane.IsEnemy)
             {
-                if(!GameConsts.UserPlane.Singleton.GodMode) lives--;
+                if(!GameConsts.GenericPlane.CurrentUserPlane.GodMode) lives--;
                 if (lives < 0 || currentLevel.Lives - 1 < 0)
                 {
                     isGamePaused = true;

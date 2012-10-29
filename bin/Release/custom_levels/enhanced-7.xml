@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="morning" enhancedOnly="1" missionType="survival" enemyPlanes="500" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="1500">
+<level dayTime="morning" enhancedOnly="1" missionType="survival" enemyFighters="500" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="1500">
 
   <ocean width="100"/>
 

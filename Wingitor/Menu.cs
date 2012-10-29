@@ -41,7 +41,7 @@ namespace wingitor
             this.timeToNextEnemy.Text = parser.TimeToNextEnemyPlane.ToString();            
             this.dayTime.SelectedIndex = dayTime.FindString(parser.DayTime.ToString());
             this.missionType.SelectedIndex = missionType.FindString(parser.MissionType.ToString());
-            this.enemyPlanes.Text = parser.EnemyPlanes.ToString();
+            this.enemyPlanes.Text = parser.EnemyFighters.ToString();
             
             List<LevelTile> tiles = parser.Tiles;
 

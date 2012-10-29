@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="noon" enhancedOnly="1" missionType="dogfight" enemyPlanes="14" timeToFirstEnemyPlane="8000" timeToNextEnemyPlane="20000">
+<level dayTime="noon" enhancedOnly="1" missionType="dogfight" enemyFighters="14" timeToFirstEnemyPlane="8000" timeToNextEnemyPlane="20000">
   
   <ocean width="15"/>
   <!-- high island: Island12u -->

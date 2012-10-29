@@ -99,6 +99,10 @@ namespace Wof.Model.Level.Weapon
 	        	get;
 	        }
 	        
+	        
+	       GameConsts.GenericPlane GetConsts();
+	       
+	        
 	
 	}
 	

@@ -8,6 +8,13 @@ using Wof.Model.Level.Weapon;
 
 namespace Wof.Model.Level.Planes
 {
+	 public enum AttackObject
+    {
+        Carrier,
+        UserPlane,
+        None
+    }
+	 
     public abstract class EnemyPlaneBase : Plane
     {
         /// <summary>
@@ -64,11 +71,7 @@ namespace Wof.Model.Level.Planes
         /// </summary>
         private float timeToNextRocket = 0;
 
-        /// <summary>
-        /// K¹t o jaki bêdzie siê zmienia³o nachylenie samolotu w czasie timeUnit.
-        /// (Wyra¿ony w radianach)
-        /// </summary>
-        private float rotateStep;
+       
 
         private bool isAlarmDelivered;
         private float carrierDistance;
@@ -84,7 +87,7 @@ namespace Wof.Model.Level.Planes
         public EnemyPlaneBase(Level level, float width, float height, Planes.PlaneType planeType)
             : base(level, width, height, true, null, planeType)
         {
-            rotateStep = (ConstantsObj as GameConsts.EnemyPlaneBase).EnemyRotateStep;
+        	
             isEnemy = true;
             movementVector = new PointD((float)direction * (ConstantsObj as GameConsts.EnemyPlaneBase).Speed, 0);
             locationState = LocationState.Air;
@@ -116,7 +119,7 @@ namespace Wof.Model.Level.Planes
 
             float x;
 
-            if ((level.MissionType == MissionType.Dogfight || level.MissionType == MissionType.Survival) && level.EnemyPlanesLeft == level.EnemyPlanesPoolCount)
+            if ((level.MissionType == MissionType.Dogfight || level.MissionType == MissionType.Survival) && level.EnemyPlanesLeft == level.EnemyFightersPoolCount)
             {
                 // pierwszy samolot jest blizej lotniskowca
                 x = atEnd * endPos * 0.6f + (1 - atEnd) * endPos * 0.4f;
@@ -137,7 +140,7 @@ namespace Wof.Model.Level.Planes
             info.WheelsState  = WheelsState.In;
             info.PositionType = StartPositionType.Airborne;
             info.Position = new PointD(x,y);
-            info.Speed = GameConsts.EnemyPlaneBase.Singleton.Speed*0.01f*r.Next(90, 111);
+            info.Speed = GetConsts().Speed*0.01f*r.Next(90, 111);
             bounds = new Quadrangle(new PointD(x, y), width, height);
             this.startPositionInfo = info;
             Init();
@@ -267,14 +270,14 @@ namespace Wof.Model.Level.Planes
                     }
                 }
             	
-                if (bounds.LowestY <= GameConsts.EnemyPlaneBase.Singleton.MinPitch) //czy ju¿ nie jest za nisko
+                if (bounds.LowestY <= GetConsts().MinPitch) //czy ju¿ nie jest za nisko
                     return true;
                 if (RelativeAngle >= 0)
                     return false;
                 // if (this.Center.Y > GameConsts.UserPlane.Singleton.MaxHeight * 0.9f) return false;
 
                 //czas po którym samolot dotrze do mininalnego pu³apu
-                float timeToGetTheLowestPitch = (bounds.LowestY - GameConsts.EnemyPlaneBase.Singleton.MinPitch)/
+                float timeToGetTheLowestPitch = (bounds.LowestY - GetConsts().MinPitch)/
                                                 Math.Abs(movementVector.Y);
                 //czas po którym samolot "wyprostuje siê"
                 float timeToGetToHorizonatal = Math.Abs(RelativeAngle)/rotateStep;
@@ -328,7 +331,7 @@ namespace Wof.Model.Level.Planes
                     if (
                         level.StoragePlanes[i].PlaneState == PlaneState.Intact &&
                         Math.Abs(level.StoragePlanes[i].Center.X - Center.X) <
-                        GameConsts.EnemyPlaneBase.Singleton.AttackStoragePlaneDistance &&                        
+                        GetConsts().AttackStoragePlaneDistance &&                        
                         Rocket.CanHitEnemyPlane(this, level.StoragePlanes[i]))
                         return true;
                 return false;
@@ -358,16 +361,16 @@ namespace Wof.Model.Level.Planes
                 float distX = Math.Abs(Center.X - p.Center.X);
                 float distY = Math.Abs(Center.Y - p.Center.Y);
                 
-                float str = - (distX / GameConsts.EnemyPlaneBase.Singleton.SafeUserPlaneDistance)   + 2; // 2*safe -> 0; 0 -> 2.0
+                float str = - (distX / GetConsts().SafeUserPlaneDistance)   + 2; // 2*safe -> 0; 0 -> 2.0
            
-                if(direction == p.Direction && distX < GameConsts.EnemyPlaneBase.Singleton.SafeUserPlaneDistance && (distY < safeUserPlaneHeightDiff))
+                if(direction == p.Direction && distX < GetConsts().SafeUserPlaneDistance && (distY < safeUserPlaneHeightDiff))
                 {
                     //Console.WriteLine("Distance warning 1 "+ str);
                 	
                     return 1.0f * str;               	
                 }
                 
-                if(direction != p.Direction && distX < 1.5f *GameConsts.EnemyPlaneBase.Singleton.SafeUserPlaneDistance && 1.5f * distY < safeUserPlaneHeightDiff)
+                if(direction != p.Direction && distX < 1.5f *GetConsts().SafeUserPlaneDistance && 1.5f * distY < safeUserPlaneHeightDiff)
                 {
                     //Console.WriteLine("Distance warning 2 "+ str);
                     return 1.5f * str;    
@@ -375,7 +378,7 @@ namespace Wof.Model.Level.Planes
                             
                
                 if((p.MovementVector - movementVector).EuclidesLength > 10) {
-                    if(direction != p.Direction  && distX < 2.0f * GameConsts.EnemyPlaneBase.Singleton.SafeUserPlaneDistance && distY < 2.0f *safeUserPlaneHeightDiff)
+                    if(direction != p.Direction  && distX < 2.0f * GetConsts().SafeUserPlaneDistance && distY < 2.0f *safeUserPlaneHeightDiff)
                     {
                         //Console.WriteLine("Movement warning 1 "+ str);
                         return 2.0f * str;    
@@ -386,9 +389,7 @@ namespace Wof.Model.Level.Planes
             }
         }
 
-        protected abstract override void SetupConstants();
-       
-
+      
         protected void EvadePlaneWhenChased(Plane p, float scaleFactor, float maxEvadeAngle) 
         {        	
         
@@ -424,7 +425,7 @@ namespace Wof.Model.Level.Planes
             
             
             // uciekaj
-            if(Speed < GameConsts.EnemyPlaneBase.Singleton.Speed * 1.4f)
+            if(Speed < GetConsts().Speed * 1.4f)
             {
                 Speed += 0.8f * scaleFactor;
             }
@@ -525,8 +526,8 @@ namespace Wof.Model.Level.Planes
                             SteerToHorizon(scaleFactor);
                         else
                             TurnRound((Direction)(-1 * (int)direction), TurnType.Airborne);
-                        randomDistance = new Random().Next(-GameConsts.EnemyPlaneBase.Singleton.StoragePlaneDistanceFault,
-                                                           GameConsts.EnemyPlaneBase.Singleton.StoragePlaneDistanceFault) +
+                        randomDistance = new Random().Next(-GetConsts().StoragePlaneDistanceFault,
+                                                           GetConsts().StoragePlaneDistanceFault) +
                                          (0.1f) * new Random().Next(-10, 10);
                     }
                     else {
@@ -635,7 +636,7 @@ namespace Wof.Model.Level.Planes
                 Rotate((float) direction*scaleFactor*rotateStep);
                 return;
             }
-            EnemyFighter closestEnemyPlane;
+            EnemyPlaneBase closestEnemyPlane;
 
             if (ShouldBeChasingUserPlane)
             {
@@ -721,7 +722,7 @@ namespace Wof.Model.Level.Planes
                 }
                 // 
                 if (attackObject == AttackObject.Carrier && !isAlarmDelivered &&
-                    carrierDistance < GameConsts.EnemyPlaneBase.Singleton.CarrierDistanceAlarm)
+                    carrierDistance < GetConsts().CarrierDistanceAlarm)
                 {
                     level.Controller.OnEnemyAttacksCarrier();
                     isAlarmDelivered = true;
@@ -759,7 +760,7 @@ namespace Wof.Model.Level.Planes
                             {
                                 // dziób do do³u jeœli atakuje coœ lub jest b. blisko lotniskowca
                                 if (RelativeAngle > -maxAngle &&
-                                    (carrierDistance < 0.2f*GameConsts.EnemyPlaneBase.Singleton.CarrierDistanceAlarm ||
+                                    (carrierDistance < 0.2f*GetConsts().CarrierDistanceAlarm ||
                                      attackObject != AttackObject.None))
                                     RotateDown(scaleFactor*rotateStep);
                             }
@@ -787,7 +788,7 @@ namespace Wof.Model.Level.Planes
         {
             if (timeToNextRocket <= 0)
             {
-                timeToNextRocket = GameConsts.EnemyPlaneBase.Singleton.NextRocketInterval;
+                timeToNextRocket = GetConsts().NextRocketInterval;
                 weaponManager.Fire(WeaponType.Rocket);
             }
         }
@@ -820,7 +821,7 @@ namespace Wof.Model.Level.Planes
             
             
             // staraj sie dogonic samolot gracza
-            if (IsTurnedTowardsUserPlane(userPlane) && Speed < GameConsts.EnemyPlaneBase.Singleton.Speed * 1.4f)
+            if (IsTurnedTowardsUserPlane(userPlane) && Speed < GetConsts().Speed * 1.4f)
             {
                 Speed += 0.8f * scaleFactor;
             }
@@ -831,13 +832,13 @@ namespace Wof.Model.Level.Planes
             }
 
 
-            if (Math.Abs(Center.X - level.UserPlane.Center.X) > GameConsts.EnemyPlaneBase.Singleton.ViewRange)
+            if (Math.Abs(Center.X - level.UserPlane.Center.X) > GetConsts().ViewRange)
             {
                 return;
             }
 
 
-            if (CanHitUserPlane(true, 100 - GameConsts.EnemyPlaneBase.Singleton.Accuracy)) //najpierw próbuje strzeliæ rakiet¹
+            if (CanHitUserPlane(true, 100 - GetConsts().Accuracy)) //najpierw próbuje strzeliæ rakiet¹
             {
                 if(warCryTimer > warCryTimerMin)
                 {
@@ -848,7 +849,7 @@ namespace Wof.Model.Level.Planes
             }
 
             
-            else if (GunBullet.CanHitEnemyPlane(this, level.UserPlane, 100 - GameConsts.EnemyPlaneBase.Singleton.Accuracy))
+            else if (GunBullet.CanHitEnemyPlane(this, level.UserPlane, 100 - GetConsts().Accuracy))
             {
                 if (warCryTimer > warCryTimerMin)
                 {
@@ -950,7 +951,7 @@ namespace Wof.Model.Level.Planes
             AvoidCrash(scaleFactor, ep);
         }
 
-        private bool isTurnedTowardsFaceOf(IObject2D obj)
+        protected bool isTurnedTowardsFaceOf(IObject2D obj)
         {
             if(direction == obj.Direction) return false;
             
@@ -967,7 +968,7 @@ namespace Wof.Model.Level.Planes
             return false;
         }
 
-        private bool isChasedBy(IObject2D obj)
+        protected bool isChasedBy(IObject2D obj)
         {
             if (direction != obj.Direction) return false;
 
@@ -1028,12 +1029,17 @@ namespace Wof.Model.Level.Planes
             return null;
         	
         }
-
+  
+        public new Wof.Model.Configuration.GameConsts.EnemyPlaneBase GetConsts()
+		{
+			return constantsObj as Wof.Model.Configuration.GameConsts.EnemyPlaneBase;
+		}
+        
         /// <summary>
         /// Zwraca najbli¿szy wrogi samolot gracza, który jest BLI¯EJ ni¿ minimalna bezpieczna odleg³oœæ, lec¹cy naprzeciw bie¿¹cego samolotu. NULL, gdy nie ma samolotu spe³niaj¹cego te warunki
         /// </summary>
         /// <returns></returns>
-        private EnemyFighter GetNearestEnemyPlaneCrashThreat()
+        private EnemyPlaneBase GetNearestEnemyPlaneCrashThreat()
         {
             float dist = float.MaxValue;
             float temp;
@@ -1052,7 +1058,7 @@ namespace Wof.Model.Level.Planes
                 if (ep.Equals(this)) continue;
 
                 if (
-                    XDistanceToPlane(ep) < GameConsts.EnemyPlaneBase.Singleton.SafeUserPlaneDistance &&
+                    XDistanceToPlane(ep) < GetConsts().SafeUserPlaneDistance &&
                     YDistanceToPlane(ep) < safeUserPlaneHeightDiff
                     )
                 {
@@ -1064,7 +1070,7 @@ namespace Wof.Model.Level.Planes
                     }
                 }
             }
-            if (index != -1) return level.EnemyPlanes[index] as EnemyFighter;
+            if (index != -1) return level.EnemyPlanes[index] as EnemyPlaneBase;
             return null;
         }
 

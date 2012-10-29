@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="night" enhancedOnly="1" enemyPlanes="12" timeToFirstEnemyPlane="5000" timeToNextEnemyPlane="30000">
+<level dayTime="night" enhancedOnly="1" enemyFighters="12" timeToFirstEnemyPlane="5000" timeToNextEnemyPlane="30000">
   <ocean width="15"/>
    
  

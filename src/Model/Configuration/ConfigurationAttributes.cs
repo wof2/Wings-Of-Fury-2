@@ -73,7 +73,7 @@ namespace Wof.Model.Configuration
             public const string sinkingSpeed = @"sinkingSpeed";
             public const string maxHeight = @"maxHeight";
             public const string landingSpeed = @"landingSpeed";
-            public const string userRotateStep = @"userRotateStep";
+            public const string rotateStep = @"rotateStep";
             public const string userRotateBrakingFactor = @"userRotateBrakingFactor";
             public const string userMaxRotateValue = @"userMaxRotateValue";
             public const string godMode = @"godMode";
@@ -86,18 +86,15 @@ namespace Wof.Model.Configuration
 
         public class EnemyPlane : UserPlane
         {
-            public const string speed = @"speed";
-            public const string oilLoss = @"oilLoss";
+            public const string speed = @"speed";          
             public const string minPitch = @"minPitch";
-            public const string viewRange = @"viewRange";
-            public const string rocketCount = @"rocketCount";
+            public const string viewRange = @"viewRange";        
             public const string nextRocketInterval = @"nextRocketInterval";
             public const string storagePlaneDistanceFault = @"storagePlaneDistanceFault";
             public const string safeUserPlaneDistance = @"safeUserPlaneDistance";
             public const string attackStoragePlaneDistance = @"attackStoragePlaneDistance";
             public const string accuracy = @"accuracy";
-            public const string carrierDistanceAlarm = @"carrierDistanceAlarm";
-            public const string enemyRotateStep = @"enemyRotateStep";
+            public const string carrierDistanceAlarm = @"carrierDistanceAlarm";        
             public const string maxSimultaneousEnemyPlanes = @"maxSimultaneousEnemyPlanes";
         }
 

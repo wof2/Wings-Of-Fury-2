@@ -242,7 +242,7 @@ namespace Wof.Model.Level.Weapon
                 PointD cut = lineA.Intersect(lineB);
                 if (cut == null)
                     continue;
-                if (IsCutInRange(cut, targetBound.Center))
+                if (IsCutInRange(cut, target))
                     return true;
             }
 
@@ -257,15 +257,16 @@ namespace Wof.Model.Level.Weapon
         /// <returns>true jesli punkt przeciecia jest w zasiegu, false
         /// w przeciwnym przypadku.</returns>
         /// <author>Michal Ziober</author>
-        private static bool IsCutInRange(PointD cut, PointD plane)
+        private static bool IsCutInRange(PointD cut, IObject2D target)
         {
            // PointD diff = (cut - plane);
-
+           PointD tpoint = target.Bounds.Center;
+           
           //  return diff.EuclidesLength < (new PointD(Plane.Width, Plane.Height).EuclidesLength) * 0.5f ;
             return
-                ((cut.Y > plane.Y - Plane.Height) && (cut.Y < plane.Y + Plane.Height))
+                ((cut.Y > tpoint.Y - target.Bounds.Height) && (cut.Y < tpoint.Y + target.Bounds.Height))
                 &&
-                ((cut.X > plane.X - Plane.Width) && (cut.X < plane.X + Plane.Width));
+                ((cut.X > tpoint.X - target.Bounds.Width) && (cut.X < tpoint.X + target.Bounds.Width));
         }
 
         /// <summary>

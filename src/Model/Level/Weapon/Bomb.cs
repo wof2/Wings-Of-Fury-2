@@ -183,7 +183,7 @@ namespace Wof.Model.Level.Weapon
         {
             if (refToLevel.EnemyPlanes.Count > 0)
             {
-                foreach (EnemyFighter ep in refToLevel.EnemyPlanes)
+                foreach (EnemyPlaneBase ep in refToLevel.EnemyPlanes)
                 {
                     //sprawdzam czy aby nie ma zderzenia.
                     if (boundRectangle.Intersects(ep.Bounds))

@@ -52,6 +52,7 @@ using Mogre;
 using Wof.Controller;
 using Wof.Misc;
 using Wof.Model.Level.Planes;
+using Wof.View.NodeAnimation;
 using Plane = Wof.Model.Level.Planes.Plane;
 
 namespace Wof.View
@@ -75,11 +76,14 @@ namespace Wof.View
             random = new Random();
             if (LevelView.IsNightScene)
             {
-                InitLight(innerNode, new ColourValue(0.1f, 0.9f, 0.1f), new Vector3(9.1f, 0.05f, -1.9f),
+                InitLight(innerNode, new ColourValue(0.1f, 0.9f, 0.1f), new Vector3(15.1f, 1.25f, -2.9f),
                           new Vector2(2.0f, 2.0f));
-                InitLight(innerNode, new ColourValue(0.1f, 0.9f, 0.1f), new Vector3(-9.1f, 0.05f, -1.9f),
+                InitLight(innerNode, new ColourValue(0.1f, 0.9f, 0.1f), new Vector3(-15.1f, 1.25f, -2.9f),
                           new Vector2(2.0f, 2.0f));
             }
+            
+            animationMgr[PlaneNodeAnimationManager.AnimationType.IDLE].Duration *= 2.0f;
+           
         }
 
         public override string GetMainMeshName()
@@ -118,13 +122,13 @@ namespace Wof.View
 
         protected override void initBlade()
         { // BLADE
-            bladeNodeL = innerNode.CreateChildSceneNode(name + "_BladeL", new Vector3(3.66f, 0.25f, -5.3f));
+            bladeNodeL = innerNode.CreateChildSceneNode(name + "_BladeL", new Vector3(4.00f, -0.15f, -8.3f));
             bladeL = sceneMgr.CreateEntity(name + "_BladeL", "P47Blade.mesh");
             bladeNodeL.AttachObject(bladeL);
             bladeL.Visible = true; // tylko kiedy niskie obroty
 
 
-            bladeNodeR = innerNode.CreateChildSceneNode(name + "_BladeR", new Vector3(-3.66f, 0.25f, -5.3f));
+            bladeNodeR = innerNode.CreateChildSceneNode(name + "_BladeR", new Vector3(-4.00f, -0.15f, -8.3f));
             bladeR = sceneMgr.CreateEntity(name + "_BladeR", "P47Blade.mesh");
             bladeNodeR.AttachObject(bladeR);
             bladeR.Visible = true; // tylko kiedy niskie obroty
@@ -149,11 +153,16 @@ namespace Wof.View
         {
         }
 
-        public override void SetBladeVisibility(bool visible)
+             public override void SetBladeVisibility(bool visible)
         {
-            bladeNode.SetVisible(visible);
+            bladeL.Visible = visible;
+            bladeR.Visible = visible;
+            airscrewL.Visible = visible;
+            airscrewR.Visible = visible;
         }
 
+       
+        
         public override void ShowTorpedo()
         {
 

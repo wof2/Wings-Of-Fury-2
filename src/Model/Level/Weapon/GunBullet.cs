@@ -105,7 +105,7 @@ namespace Wof.Model.Level.Weapon
 
             if (obj.Bounds.Intersects(this.Bounds)){
 
-                float damage = GameConsts.Gun.BaseDamage * GameConsts.UserPlane.Singleton.HitCoefficient;
+                float damage = GameConsts.Gun.BaseDamage * GameConsts.GenericPlane.CurrentUserPlane.HitCoefficient;
                 if(obj is Wof.Model.Level.Planes.Plane) {
             		if(!(obj as Wof.Model.Level.Planes.Plane).IsEnemy) {
             			damage *= 0.5f;
@@ -166,7 +166,7 @@ namespace Wof.Model.Level.Weapon
         {
             if (refToLevel.EnemyPlanes.Count > 0)
             {
-                foreach (EnemyFighter ep in refToLevel.EnemyPlanes)
+                foreach (EnemyPlaneBase ep in refToLevel.EnemyPlanes)
                 {
                     if (this.Owner == ep) continue;
 

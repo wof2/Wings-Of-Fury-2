@@ -1,52 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<level dayTime="noon" enemyPlanes="4" timeToFirstEnemyPlane="60000" timeToNextEnemyPlane="60000">
+<level dayTime="night" enemyFighters="0" timeToFirstEnemyPlane="60000" timeToNextEnemyPlane="60000">
 
   <ocean width="100"/>
-  <island-begin variation="3"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <barrels variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <wooden-bunker num-soldiers="4"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <barrels variation="0"/>
-  <terrain variation="0"/>
-  <barrack num-soldiers="5" />
-  <barrack num-soldiers="6" variation="1"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <terrain variation="0"/>
-  <wooden-bunker num-soldiers="3"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <terrain variation="1"/>
-  <terrain variation="2"/>
-  <island-end/> 
-
+ 
   <ocean width="25"/>
 
 	
