@@ -457,10 +457,11 @@ namespace Wof.View.NodeAnimation
                 case AnimationType.INNERTURN:
                     {
 
-
+                    	float turningDuration =  planeView.Plane!= null ? planeView.Plane.GetConsts().TurningDuration : GameConsts.GenericPlane.CurrentUserPlane.TurningDuration;
+                    	
                         this[animationName] = new GaussRotateNodeAnimation(
                             planeView.InnerNode,
-                            (duration <= 0 ? GameConsts.GenericPlane.CurrentUserPlane.TurningDuration : duration),
+                            (duration <= 0 ? turningDuration : duration),
                             new Degree(60),
                             10.0f,
                             Vector3.UNIT_Z,
@@ -472,9 +473,11 @@ namespace Wof.View.NodeAnimation
 
                 case AnimationType.OUTERTURN:
                     {
+                    	float turningDuration =  planeView.Plane!= null ? planeView.Plane.GetConsts().TurningDuration : GameConsts.GenericPlane.CurrentUserPlane.TurningDuration;
+                    	
                         this[animationName] = new SinRotateNodeAnimation(
                             planeView.OuterNode,
-                            (duration <= 0 ? GameConsts.GenericPlane.CurrentUserPlane.TurningDuration : duration),
+                            (duration <= 0 ? turningDuration : duration),
                             new Degree(180),
                             Math.HALF_PI,
                             Vector3.UNIT_Y,

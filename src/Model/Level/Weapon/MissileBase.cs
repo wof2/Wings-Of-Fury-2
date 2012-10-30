@@ -70,6 +70,9 @@ namespace Wof.Model.Level.Weapon
 	/// </summary>
 	public abstract class MissileBase : Ammunition
 	{
+		
+		public enum CollisionDirectionLocation { FORWARD, BACKWARD, BOTH, NONE };
+		
 		#region Fields
 
         /// <summary>
@@ -486,9 +489,9 @@ namespace Wof.Model.Level.Weapon
 
         #region Static Method
 
-        public static bool CanHitEnemyPlane(Plane plane, Plane enemyPlane)
+        public static CollisionDirectionLocation CanHitEnemyPlane(Plane plane, Plane enemyPlane,  bool biDirectional)
         {
-            return CanHitEnemyPlane(plane, enemyPlane, 0);
+            return CanHitEnemyPlane(plane, enemyPlane, 0, biDirectional);
         }
 
         /// <summary>
@@ -499,21 +502,24 @@ namespace Wof.Model.Level.Weapon
         /// <returns>Zwraca true jesli moze trafic wrogi samolot; false - w przeciwnym
         /// przypadku.</returns> 
         /// <author>Michal Ziober</author>
-        public static bool CanHitEnemyPlane(Plane plane, Plane enemyPlane, float tolerance)
+        public static CollisionDirectionLocation CanHitEnemyPlane(Plane plane, Plane enemyPlane, float tolerance, bool biDirectional)
         {
-            if (plane.Direction == Direction.Right && plane.Center.X > enemyPlane.Center.X)
-                return false;
-
-            if (plane.Direction == Direction.Left && plane.Center.X < enemyPlane.Center.X)
-                return false;
+        	
+        	if(!biDirectional) {
+	            if (plane.Direction == Direction.Right && plane.Center.X > enemyPlane.Center.X)
+	                return CollisionDirectionLocation.NONE;
+	
+	            if (plane.Direction == Direction.Left && plane.Center.X < enemyPlane.Center.X)
+	                return CollisionDirectionLocation.NONE;
+        	}
 
             if (System.Math.Abs(plane.Center.X - enemyPlane.Center.X) < 10 &&
                 System.Math.Abs(plane.Center.Y - enemyPlane.Center.Y) < 10)
-                return false;
+                return CollisionDirectionLocation.NONE;
             
             if(System.Math.Abs((plane.Center - enemyPlane.Center).EuclidesLength) > ViewRange)
             {
-            	return false;
+            	return CollisionDirectionLocation.NONE;
             }
 
             Quadrangle planeQuad = new Quadrangle(plane.Bounds.Peaks);
@@ -538,11 +544,15 @@ namespace Wof.Model.Level.Weapon
                 if((enemyPlane.Center - cut).EuclidesLength < HitShift)
                 {
                 	//ViewHelper.AttachCross(plane.Level.Controller.GetFramework().SceneMgr, cut, 10);
-                	return true;
-                }
+                	//return true;
+                	
+                	return (plane.Direction == Direction.Right && plane.Center.X > enemyPlane.Center.X || plane.Direction == Direction.Left && plane.Center.X < enemyPlane.Center.X) ? CollisionDirectionLocation.BACKWARD : CollisionDirectionLocation.FORWARD; 
+                	
+	                	
+	             }
             }
 
-            return false;
+            return CollisionDirectionLocation.NONE;
         }
 
         /// <summary>

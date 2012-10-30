@@ -174,10 +174,10 @@ namespace Wof.Tests
 
             pictureBox1.Refresh();
 
-            if (Gun.CanHitObjectByGun(plane1, plane2))
-                Text = "BUM";
-            else
-                Text = "";
+            //if (Gun.CanHitObjectByGun(plane1, plane2))
+            //    Text = "BUM";
+           // else
+           //     Text = "";
             Text += app;
         }
     }

@@ -171,7 +171,7 @@
     userMaxRotateValue = "0.9943951"
     maxSpeed="50"
     rangeFastWheelingMaxSpeed = "0.3"
-    turningDuration = "5.0"
+    turningDuration = "9.0"
     
   />
     

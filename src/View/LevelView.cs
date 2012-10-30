@@ -1904,17 +1904,31 @@ namespace Wof.View
                     p.AnimationMgr.PrepareToChangeDirection = false;
                 } else
                 {
-                	// animacja sie nie zakonczyla, chcemy ja przyspieszyc
+                	// animacja sie nie zakonczyla, chcemy ja przyspieszyc                	
                 	p.AnimationMgr.CurrentAnimation.TimeScale = 3.5f;
+                	
                 }
             }
             // jeœli zakoñczy³ siê obrót powróæ do IDLE
             if (p.AnimationMgr.isCurrentAnimation(PlaneNodeAnimationManager.AnimationType.OUTERTURN))
             {
+            	
+            	// bajer - wirtualny ruch samolotu prostopadle do toru lotu podczas zawracania
+            	if(p.AnimationMgr.CurrentAnimation != null) {
+	            	float amount = p.AnimationMgr.CurrentAnimation.getPercent();
+	            	float translateAmount = (float)Math.Sin( amount * 2 * Math.PI) * timeSinceLastFrame * 10.0f;
+	            	translateAmount /= p.AnimationMgr.CurrentAnimation.Duration; // normalizacja - inaczej im dluzszy obrot tym wieksze wychylenie	            	
+	            	int dir =  p.Plane.Direction == Direction.Right ? -1 : 1;	            	
+	            	p.OuterSteeringNode.Translate(0, 0, translateAmount * dir);
+	               // Console.WriteLine("Translate: "+translateAmount);
+	                
+            	}
+            	
                 if (p.AnimationMgr.CurrentAnimation == null || p.AnimationMgr.CurrentAnimation.Ended ||
                     !p.AnimationMgr.CurrentAnimation.Enabled)
                 {
                     p.AnimationMgr.switchToIdle(true);
+                    p.OuterSteeringNode.Position = new Vector3(p.OuterSteeringNode.Position.x, p.OuterSteeringNode.Position.y, 0); // wyzeruj po powyzszej animacji
                 }
             }
 

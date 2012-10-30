@@ -131,7 +131,7 @@
     nextRocketInterval = "3000"
     storagePlaneDistanceFault = "16"
     safeUserPlaneDistance = "35"
-    attackStoragePlaneDistance = "15.5"
+    attackStoragePlaneDistance = "20.5"
     carrierDistanceAlarm = "1200"
     rotateStep = "1.04719755"
     maxSimultaneousEnemyPlanes="4"
@@ -154,9 +154,9 @@
     nextRocketInterval = "10000"
     storagePlaneDistanceFault = "16"
     safeUserPlaneDistance = "45"
-    attackStoragePlaneDistance = "15.5"
+    attackStoragePlaneDistance = "20.5"
     carrierDistanceAlarm = "1200"
-    rotateStep = "0.8"
+    rotateStep = "0.6943951"
     maxSimultaneousEnemyPlanes="3"
     accuracy = "98.0" 
     width = "9.0"
@@ -165,7 +165,7 @@
     userMaxRotateValue = "0.9943951"
     maxSpeed="50"
     rangeFastWheelingMaxSpeed = "0.3"
-    turningDuration = "5.0"
+    turningDuration = "4.5"
     
   />
 

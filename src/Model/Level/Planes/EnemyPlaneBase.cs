@@ -35,7 +35,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Maksymalna odlegloœæ od samolotów na lotniskowcu, na któr¹ mo¿e siê oddaliæ.
         /// </summary>
-        private const float distanceFromStoragePlanes = 30;
+        private const float distanceFromStoragePlanes = 60;
 
         /// <summary>
         /// Maksymalny k¹t jaki mo¿e mieæ samolot wroga.
@@ -332,7 +332,7 @@ namespace Wof.Model.Level.Planes
                         level.StoragePlanes[i].PlaneState == PlaneState.Intact &&
                         Math.Abs(level.StoragePlanes[i].Center.X - Center.X) <
                         GetConsts().AttackStoragePlaneDistance &&                        
-                        Rocket.CanHitEnemyPlane(this, level.StoragePlanes[i]))
+                        Rocket.CanHitEnemyPlane(this, level.StoragePlanes[i], false) != MissileBase.CollisionDirectionLocation.NONE)
                         return true;
                 return false;
                 //RelativeAngle < -maxAngle/2; 
@@ -793,21 +793,7 @@ namespace Wof.Model.Level.Planes
             }
         }
 
-        /// <summary>
-        /// Okreœla czy samolot mo¿e trafiæ samolot gracza - rakiet¹ albo z dzia³ka.
-        /// </summary>
-        /// <param name="rocketAttack">Jeœli true sprawdzana bêdzie mo¿liwoœæ trafienia rakiet¹
-        /// w przeciwnym przypadku mo¿liwoœæ trafienia dzia³kiem.</param>
-        /// <returns></returns>
-        private bool CanHitUserPlane(bool rocketAttack, float tolerance)
-        {
-            if (rocketAttack)
-                return weaponManager.RocketCount > 0 && Rocket.CanHitEnemyPlane(this, level.UserPlane, tolerance);
-            else
-                return Gun.CanHitObjectByGun(this, level.UserPlane, tolerance);
-
-          
-        }
+       
 
         /// <summary>
         /// Próbuje zaatkaowaæ samolot gracza. Najpierw sprawdza mo¿liwoœæ ataku rakiet¹
@@ -836,9 +822,11 @@ namespace Wof.Model.Level.Planes
             {
                 return;
             }
+            
+			
+			
 
-
-            if (CanHitUserPlane(true, 100 - GetConsts().Accuracy)) //najpierw próbuje strzeliæ rakiet¹
+            if (this.weaponManager.RocketCount > 0 && Rocket.CanHitEnemyPlane(this, level.UserPlane, 100 - GetConsts().Accuracy, false) != MissileBase.CollisionDirectionLocation.NONE) //najpierw próbuje strzeliæ rakiet¹
             {
                 if(warCryTimer > warCryTimerMin)
                 {
@@ -846,18 +834,20 @@ namespace Wof.Model.Level.Planes
                     warCryTimer = 0;
                 }
                 FireRocket();
-            }
-
-            
-            else if (GunBullet.CanHitEnemyPlane(this, level.UserPlane, 100 - GetConsts().Accuracy))
+            }           
+			else  
             {
-                if (warCryTimer > warCryTimerMin)
-                {
-                    level.Controller.OnWarCry(this);
-                    warCryTimer = 0;
-                }
-                //Console.WriteLine(this.Name + ": AttackUserPlane -> can hit");
-                weaponManager.FireAtAngle(Angle, WeaponType.Gun, this.locationState == LocationState.AirTurningRound);
+				MissileBase.CollisionDirectionLocation coll = GunBullet.CanHitEnemyPlane(this, level.UserPlane, 100 - GetConsts().Accuracy, this.HasBiDirectionalGun);
+				if(coll != MissileBase.CollisionDirectionLocation.NONE)
+				{
+	                if (warCryTimer > warCryTimerMin)
+	                {
+	                    level.Controller.OnWarCry(this);
+	                    warCryTimer = 0;
+	                }
+	                //Console.WriteLine(this.Name + ": AttackUserPlane -> can hit");
+	                weaponManager.FireAtAngle(Angle, WeaponType.Gun, this.locationState == LocationState.AirTurningRound, coll);
+				}
             }
                
         }

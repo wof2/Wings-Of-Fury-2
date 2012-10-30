@@ -322,172 +322,80 @@ namespace Wof.Model.Level.Weapon
 
         #region Private Methods 
 
-        /// <summary>
-        /// Oddaje strzal z dzialka.
-        /// </summary>
-        private void GunFire(float angle, bool isTurningAround)
-        {
-            if (ammunitionOwner is EnemyPlaneBase)
-                EnemyPlaneFire(angle, isTurningAround);
-            else
-            {
-                UserPlaneFire(angle, isTurningAround);
-            }
-        }
-
-        /// <summary>
-        /// Symuluje strzal z samolotu przeciwnika.
-        /// </summary>
-        /// <param name="angle"></param>
-        private void EnemyPlaneFire(float angle, bool isTurningAround)
-        {
-        	if(!(ammunitionOwner is Plane))
-        	{
-        		return;
-        	}
-        	Plane plane = ammunitionOwner as Plane;
-        	
-            refToLevel.Controller.OnFireGun(ammunitionOwner);
-            
-
-            if (Environment.TickCount - lastFireTick >= GameConsts.Gun.FireInterval)
-            {
-                if (refToLevel.UserPlane != null && ammunitionOwner != null)
-                {
-                	
-                	PlaneView pv = refToLevel.Controller.FindPlaneView(plane); // na razie hardkod przez DelayedControllerFacade
-
-	               
-	                //zwieksza liczve wystrzelonych pociskow
-	               
-	                GunBullet bullet = null;
-		            PointD position = null;
-		       
-		            //startowa pozycja pocisku
-		            position = new PointD(ammunitionOwner.Center.X, ammunitionOwner.Center.Y);
+        
+        private IList<GunBullet> PlaneFireGun(float angle, bool isTurningAround, MissileBase.CollisionDirectionLocation fireDirection)
+		{
+			//dzwiek strzalu.
+			Plane plane = ammunitionOwner as Plane;	
+			
+			refToLevel.Controller.OnFireGun(plane);
+			IList<GunBullet> bullets = new List<GunBullet>();
 		
-		            
-		            //nowy pocisk
-	                bool biDirectional = refToLevel.UserPlane.PlaneType == PlaneType.B25 && !ammunitionOwner.IsEnemy; ;
-	                Quaternion q = pv.InnerNode._getDerivedOrientation();
-	
+			if (Environment.TickCount - lastFireTick >= GameConsts.Gun.FireInterval * 1)
+			{		
+				PlaneView pv = refToLevel.Controller.FindPlaneView(plane); // na razie hardkod przez DelayedControllerFacade				
+				GunBullet bullet = null;
+				PointD position = null;
+		   
+				//startowa pozycja pocisku
+				position = new PointD(ammunitionOwner.Center.X, ammunitionOwner.Center.Y);
 		
-	                // forward
-		            bullet = new GunBullet(position.X, position.Y, q, refToLevel, ammunitionOwner, false, true);
-	
-		            bullet.SetZRotationPerSecond(0.09f);
-	                
-	                refToLevel.Controller.OnRegisterGunBullet(bullet);
-				//	if(!isTurningAround)
-	                {
-						RegisterWeaponToModelEvent(bullet);               
-	                }
-	
-	                	
-                	
-                	
-                	
-                    //sprawdzam czy wrogi samolot nie trafil w samolot gracza.
-/*                    if ((Math.Abs(ammunitionOwner.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
-                        Gun.CanHitObjectByGun(plane, refToLevel.UserPlane))
-                    {
-                        //ubytek paliwa.
-                        refToLevel.UserPlane.Hit(true);
-
-                        //komunikat do controllera.
-                        refToLevel.Controller.OnGunHitPlane(refToLevel.UserPlane);
-                    }*/
-                }
-
-                //ustawiam nowy czas
-                lastFireTick = Environment.TickCount;
-            }
-        }
-
-        /// <summary>
-        /// Symuluje strzal z samolotu gracza.
-        /// </summary>
-        /// <param name="angle">Kat nachylenia samolotu.</param>
-
-        private IList<GunBullet> UserPlaneFire(float angle, bool isTurningAround)
-        {
-            //dzwiek strzalu.
-             refToLevel.Controller.OnFireGun(refToLevel.UserPlane);
-            IList<GunBullet> bullets = new List<GunBullet>();
-
-            if (Environment.TickCount - lastFireTick >= GameConsts.Gun.FireInterval * 1)
-            {
-
-                PlaneView pv = refToLevel.Controller.FindPlaneView(refToLevel.UserPlane); // na razie hardkod przez DelayedControllerFacade
-
-               
-                //zwieksza liczve wystrzelonych pociskow
-               
-                GunBullet bullet = null;
-	            PointD position = null;
-	       
-	            //startowa pozycja pocisku
-	            position = new PointD(ammunitionOwner.Center.X, ammunitionOwner.Center.Y);
-	
-	            
-	            //nowy pocisk
-                bool biDirectional = refToLevel.UserPlane.PlaneType == PlaneType.B25 && !ammunitionOwner.IsEnemy; ;
-                Quaternion q = pv.InnerNode._getDerivedOrientation();
-
-	
-                // forward
-	            bullet = new GunBullet(position.X, position.Y, q, refToLevel, ammunitionOwner, false, true);
-
-	            bullet.SetZRotationPerSecond(0.09f);
-                bullets.Add(bullet);
-
-                refToLevel.Controller.OnRegisterGunBullet(bullet);
-			//	if(!isTurningAround)
-                {
+				
+				//nowy pocisk
+			
+				Quaternion q = pv.InnerNode._getDerivedOrientation();
+				
+				if(fireDirection == MissileBase.CollisionDirectionLocation.FORWARD || fireDirection == MissileBase.CollisionDirectionLocation.BOTH)
+				{
+				
+					// forward
+					bullet = new GunBullet(position.X, position.Y, q, refToLevel, ammunitionOwner, false, true);
+			
+					bullet.SetZRotationPerSecond(0.09f);
+					bullets.Add(bullet);
+			
+					refToLevel.Controller.OnRegisterGunBullet(bullet);			
 					RegisterWeaponToModelEvent(bullet);               
-                }
+				}
+		
+				if(fireDirection == MissileBase.CollisionDirectionLocation.BACKWARD || fireDirection == MissileBase.CollisionDirectionLocation.BOTH)
+				{
+					// backward
+					float tailShift = 4.0f;
+					q =  q * new Quaternion(new Radian(new Degree(180)),  Vector3.UNIT_X );
+					Vector3 displacement = q * new Vector3(0, 0, -tailShift) ;
+		
+		
+					bullet = new GunBullet(position.X + displacement.x, position.Y + displacement.y, q, refToLevel, ammunitionOwner, true, false);
+					bullet.SetZRotationPerSecond(0.09f);
+					bullets.Add(bullet);
+					RegisterWeaponToModelEvent(bullet); 		         
+					refToLevel.Controller.OnRegisterGunBullet(bullet);
+				}
+		
+				//zwieksza liczbe uzytych rakiet
+				if (!this.ammunitionOwner.IsEnemy && !isTurningAround)
+				{
+					this.refToLevel.Statistics.GunCount++;
+					if (fireDirection == MissileBase.CollisionDirectionLocation.BOTH)
+					{
+						this.refToLevel.Statistics.GunCount++;
+					}
+				}
+			   
+				//ustawiam nowy czas
+				lastFireTick = Environment.TickCount;
+		
+				return bullets;
+		
+			  
+			}
+			
+			return null;
+		}
 
-                if (biDirectional)
-                {
-                    // backward
-                    float tailShift = 4.0f;
-                    q =  q * new Quaternion(new Radian(new Degree(180)),  Vector3.UNIT_X );
-                    Vector3 displacement = q * new Vector3(0, 0, -tailShift) ;
-
-
-                    bullet = new GunBullet(position.X + displacement.x, position.Y + displacement.y, q, refToLevel, ammunitionOwner, true, false);
-                    bullet.SetZRotationPerSecond(0.09f);
-                    bullets.Add(bullet);
-			//		if(!isTurningAround)
-	                {
-						RegisterWeaponToModelEvent(bullet);                	
-	                }                   
-                    refToLevel.Controller.OnRegisterGunBullet(bullet);
-                }
-	
-	            //zwieksza liczbe uzytych rakiet
-                if (!this.ammunitionOwner.IsEnemy && !isTurningAround)
-                {
-                    this.refToLevel.Statistics.GunCount++;
-                    if (biDirectional)
-                    {
-                        this.refToLevel.Statistics.GunCount++;
-                    }
-                }
-
-
-              
-	           
-	            //ustawiam nowy czas
-                lastFireTick = Environment.TickCount;
-
-                return bullets;
-    
-              
-            }
-            
-            return null;
-        }
+       
+      
         /*
         private void CheckEnemyPlaneHits()
         {
@@ -514,29 +422,7 @@ namespace Wof.Model.Level.Weapon
             }
         }*/
 
-        /// <summary>
-        /// Sprawdza i przeprowadza akcje zwiazane z trafieniem z dzialka w lecaca rekiete wroga
-        /// </summary>
-        private void CheckRocketHits()
-        {
-              if (refToLevel.UserPlane != null)
-              {
-                  foreach (Ammunition ammo in refToLevel.AmmunitionList)
-                  {
-                      if(ammo is Rocket)
-                      {
-                          bool biDirectional = refToLevel.UserPlane.PlaneType == PlaneType.B25 && !ammunitionOwner.IsEnemy; ;
-                          if (/*ammo.Owner.IsEnemy &&*/ (Math.Abs(ammo.Center.X - refToLevel.UserPlane.Center.X) < DistanceBetweenPlanes) &&
-                              Gun.CanHitObjectByGun(refToLevel.UserPlane, ammo, 10, biDirectional))
-                          {
-                              (ammo as Rocket).Destroy();
-                              return;
-                          }
-                      }
-
-                  }
-              }
-        }
+     
 
         /// <summary>
         /// Obsluga trafienia w ziemie.
@@ -704,7 +590,7 @@ namespace Wof.Model.Level.Weapon
         /// obiekt otwiera ogien.
         /// </summary>
         /// <param name="planeAngle">Kat nachylenia samolotu.</param>
-        public void FireAtAngle(float fireAngle, WeaponType weaponType, bool isTurningAround)
+        public void FireAtAngle(float fireAngle, WeaponType weaponType, bool isTurningAround, MissileBase.CollisionDirectionLocation fireDirection)
         {
             switch (weaponType)
             {
@@ -712,7 +598,7 @@ namespace Wof.Model.Level.Weapon
                     BombFire();
                     break;
                 case WeaponType.Gun:
-                    GunFire(fireAngle, isTurningAround);
+                    PlaneFireGun(fireAngle, isTurningAround, fireDirection);
                     break;
                 case WeaponType.Rocket:                    
                     RocketFire(fireAngle);
@@ -733,7 +619,7 @@ namespace Wof.Model.Level.Weapon
                     BombFire();
                     break;
                 case WeaponType.Gun:
-                    GunFire(0, false);
+                    PlaneFireGun(0, false, MissileBase.CollisionDirectionLocation.FORWARD);
                     break;
                 case WeaponType.Rocket:
                     RocketFire();
