@@ -173,14 +173,14 @@ namespace Wof.Model.Level.Weapon
             }
             return null;
         }
-        public static bool CanHitObjectByGun(IObject2D owner, IObject2D target)
+    /*    public static bool CanHitObjectByGun(IObject2D owner, IObject2D target)
         {
             return CanHitObjectByGun(owner, target, 0);
         }
         public static bool CanHitObjectByGun(IObject2D owner, IObject2D target, float tolerance)
         {
             return CanHitObjectByGun(owner, target, tolerance, false);
-        }
+        }*/
 
         /// <summary>
         /// Funkcja sprawdza czy samolot bedzie mogl trafic dzialkiem w inny obiekt.

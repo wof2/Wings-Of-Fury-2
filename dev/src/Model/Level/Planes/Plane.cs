@@ -379,7 +379,17 @@ namespace Wof.Model.Level.Planes
         }
         
         protected StartPositionInfo startPositionInfo;
+        
+        
+        
+        public bool HasBiDirectionalGun {
+        	get { return (PlaneType == PlaneType.B25 || PlaneType == PlaneType.Betty); }
+        }
 
+        public MissileBase.CollisionDirectionLocation GunType {
+        	get {         		
+        		return HasBiDirectionalGun ? MissileBase.CollisionDirectionLocation.BOTH : MissileBase.CollisionDirectionLocation.FORWARD; }
+        }
 
         protected PlaneType planeType;
         
@@ -828,6 +838,8 @@ namespace Wof.Model.Level.Planes
 		{
 			return constantsObj;
 		}
+        
+        
 
         protected virtual void SetupConstants()
         {

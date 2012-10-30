@@ -536,8 +536,8 @@ namespace Wof.Model.Level
             	if(fighter && bomber) {
             		bomber = UnitConverter.RandomGen.NextDouble() >= 0.5; // losuj jeden wynik
             		fighter = !bomber;
-            	}            	
-            	               
+            	} 
+            	  
             	if(fighter){
         	       	enemyPlane = new EnemyFighter(this);   
  					enemyFightersPoolCount--;                	
@@ -814,7 +814,7 @@ namespace Wof.Model.Level
             if ((userPlane.LocationState ==LocationState.AirTurningRound || userPlane.LocationState == LocationState.Air) &&
                 userPlane.PlaneState != PlaneState.Destroyed && userPlane.PlaneState != PlaneState.Crashed)
             {
-                userPlane.Weapon.FireAtAngle(userPlane.AbsoluteAngle, WeaponType.Gun, userPlane.LocationState == LocationState.AirTurningRound);
+                userPlane.Weapon.FireAtAngle(userPlane.AbsoluteAngle, WeaponType.Gun, userPlane.LocationState == LocationState.AirTurningRound, userPlane.GunType);
                 return true;
             }
         	return false;
