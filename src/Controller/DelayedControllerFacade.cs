@@ -96,6 +96,11 @@ namespace Wof.Controller
 
         #region Implementation of IController
 
+        public void OnRegisterDebugInfo(DebugInfo debugInfo)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { debugInfo });
+        }
+
         /// <summary>
         /// Funkcja rejestruje samolot. Samolot moze byc 
         /// samolotem gracza lub nieprzyjaciela

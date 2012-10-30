@@ -1154,7 +1154,7 @@ namespace Wof.Model.Level
         /// </summary>
         /// <param name="ammunition">Pocisk do zarejestrowania.</param>
         /// <author>Emil</author>
-        private void enemyPlane_RegisterWeaponEvent(Ammunition ammunition)
+        public void enemyPlane_RegisterWeaponEvent(Ammunition ammunition)
         {
            if(ammunition!=null) ammunitionList.Add(ammunition);
         }

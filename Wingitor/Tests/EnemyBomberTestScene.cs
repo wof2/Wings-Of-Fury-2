@@ -29,9 +29,10 @@ namespace wingitor.Tests
         	 info.Direction = Direction.Right;
         	 info.EngineState = EngineState.Working;
         	 info.PositionType = StartPositionType.Airborne;
-        	 info.Speed = 0.1f;
+        //	 info.Speed = 0.1f;
         	 info.WheelsState = WheelsState.In;
         	 enemyPlane.ReInit(info);
+            enemyPlane.RegisterWeaponEvent += currentLevel.enemyPlane_RegisterWeaponEvent;
         
         
              currentLevel.EnemyPlanes.Add(enemyPlane);

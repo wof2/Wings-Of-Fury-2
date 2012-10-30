@@ -174,7 +174,14 @@ namespace Wof.Model.Level.Planes
             {
                 if (ShouldBeChasingUserPlane) //leci za samolotem
                 {
-                    if(!IsAfterUserPlane || ShouldSteerUp) return false;
+                    string debugStr = "";
+                   
+                    if(!IsAfterUserPlane || ShouldSteerUp)
+                    {
+                        UpdateDebugInfo("ShouldTurnRoundCheck-IsAfterUserPlane", IsAfterUserPlane.ToString());
+                        UpdateDebugInfo("ShouldTurnRoundCheck-ShouldSteerUp", ShouldSteerUp.ToString()); 
+                        return false;
+                    }
                     float diff = Center.X - level.UserPlane.Center.X;
                     if (isChasedBy(level.UserPlane))
                     {
@@ -182,14 +189,17 @@ namespace Wof.Model.Level.Planes
                         
                         if (Math.Abs(diff) > 3 * distanceFromUserPlane)
                         {
+                            UpdateDebugInfo("ShouldTurnRoundCheck-ChasedByUser-distance", true.ToString()); 
                             // Console.WriteLine("OK, zawrot kiedy leca na przeciw");
                             return true;
                         } else
                         {
+                            UpdateDebugInfo("ShouldTurnRoundCheck-ChasedByUser-distance", false.ToString()); 
                             return false;
                         }
                     } else
                     {
+                        UpdateDebugInfo("ShouldTurnRoundCheck-PlayerMiniety", true.ToString()); 
                         // minely sie
                         return (Math.Abs(diff) > distanceFromUserPlane);
                     }
@@ -201,8 +211,20 @@ namespace Wof.Model.Level.Planes
                     if (!ArePlanesOnCarrierBehind ||
                         ShouldSteerUp ||
                         (Math.Abs(Center.X - PlanesOnAircraftPos.X) < distanceFromStoragePlanes))
+                    {
+                        UpdateDebugInfo("ShouldTurnRoundCheck-Carrier", false.ToString()); 
                         return false;
-                    return DistanceToClosestPlane() > 20;
+                    }
+
+                    if( DistanceToClosestEnemyPlane() > 20)
+                    {
+                        UpdateDebugInfo("ShouldTurnRoundCheck-DistanceToClosestEnemyPlane>20", true.ToString()); 
+                        return true;
+                    }else
+                    {
+                        UpdateDebugInfo("ShouldTurnRoundCheck-DistanceToClosestEnemyPlane>20", false.ToString()); 
+                        return false;
+                    }
                 }
             }
         }
@@ -483,6 +505,7 @@ namespace Wof.Model.Level.Planes
 
         public override void Move(float time, float timeUnit)
         {
+            EndDebugIteration();
             timeToNextRocket -= time;
             timeToNextRocket = Math.Max(0, timeToNextRocket);
             //dodane tymczasowo, bo po wgraniu planszy pierwszy komunikat odœwie¿enia przychodzi 
@@ -522,10 +545,20 @@ namespace Wof.Model.Level.Planes
                     }
                     if (ShouldTurnRound)
                     {
-                        if (RelativeAngle != 0) //jeœli musi podci¹gn¹æ lot, to najpierw wyrównuje do poziomu
+                        UpdateDebugInfo("ShouldTurnRound", true.ToString());
+
+                        if (RelativeAngle != 0)
+                        {
+                            UpdateDebugInfo("ShouldTurnRound-SteerToHorizon", true.ToString());
+                            //jeœli musi podci¹gn¹æ lot, to najpierw wyrównuje do poziomu
                             SteerToHorizon(scaleFactor);
+                        }
                         else
-                            TurnRound((Direction)(-1 * (int)direction), TurnType.Airborne);
+                        {
+                            UpdateDebugInfo("ShouldTurnRound-TurnRound!", true.ToString());
+                            TurnRound((Direction) (-1*(int) direction), TurnType.Airborne);
+                        }
+
                         randomDistance = new Random().Next(-GetConsts().StoragePlaneDistanceFault,
                                                            GetConsts().StoragePlaneDistanceFault) +
                                          (0.1f) * new Random().Next(-10, 10);
@@ -539,6 +572,7 @@ namespace Wof.Model.Level.Planes
                             EvadePlaneWhenChased(level.UserPlane, scaleFactor, maxAngle * 0.6f);
                     		
                         }else {
+                            UpdateDebugInfo("ChangePitch", true.ToString()); 
                             ChangePitch(scaleFactor);
                         }
                     }
@@ -558,7 +592,9 @@ namespace Wof.Model.Level.Planes
 
                 //atak samolotu gracza
                 if (ShouldBeChasingUserPlane)
+                {
                     AttackUserPlane(level.UserPlane, scaleFactor);
+                }
             }
             // Console.WriteLine(temp + "   -   " + movementVector);
 
@@ -620,7 +656,14 @@ namespace Wof.Model.Level.Planes
             {
                 airscrewSpeed = minAirscrewSpeed + (int) Mogre.Math.Abs((int) (15f*movementVector.X));
             }
+
+           
         }
+
+
+       
+       
+
 
         /// <summary>
         /// Zmienia pu³ap samolotu.
@@ -632,7 +675,8 @@ namespace Wof.Model.Level.Planes
             if (ShouldSteerUp)
             {
                 //Console.WriteLine(this.Name + ": ShouldSteerUp");
-            
+                UpdateDebugInfo("ShouldSteerUp", true.ToString()); 
+      
                 Rotate((float) direction*scaleFactor*rotateStep);
                 return;
             }
@@ -640,6 +684,8 @@ namespace Wof.Model.Level.Planes
 
             if (ShouldBeChasingUserPlane)
             {
+                UpdateDebugInfo("ShouldBeChasingUserPlane", true.ToString()); 
+      
                 if (attackObject != AttackObject.UserPlane)
                 {
                     attackObject = AttackObject.UserPlane;
@@ -650,7 +696,10 @@ namespace Wof.Model.Level.Planes
                 if ((closestEnemyPlane = GetNearestEnemyPlaneCrashThreat()) != null) //czy ma omin¹æ inne samoloty
                 {
                     if (closestEnemyPlane.PlaneState != PlaneState.Crashed)
+                    {
+                        UpdateDebugInfo("AvoidEnemyPlaneCrash", true.ToString()); 
                         AvoidEnemyPlaneCrash(scaleFactor, closestEnemyPlane);
+                    }
                 }
                 else
                 {
@@ -658,6 +707,7 @@ namespace Wof.Model.Level.Planes
                     if (str > 0) //czy ma omin¹æ gracza               
                     {
                         //Trace.WriteLine("AVOIDING!!!");
+                        UpdateDebugInfo("AvoidUserPlaneCrash", true.ToString()); 
                         AvoidUserPlaneCrash(scaleFactor * str);
                     }                
                     else
@@ -675,7 +725,8 @@ namespace Wof.Model.Level.Planes
                             {
 	                        	
                                 float angleDiff = (RelativeAngle + maxAngle) / maxAngle;
-								        	
+
+								UpdateDebugInfo("Rotate Down", true.ToString());       	
                                 //Console.WriteLine("DOWN PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
 	                           
                                 RotateDown(angleDiff * scaleFactor * rotateStep * yDiffNorm);
@@ -690,14 +741,14 @@ namespace Wof.Model.Level.Planes
                                     float angleDiff = (maxAngle - RelativeAngle) / maxAngle;
 								 
                                     // Console.WriteLine("UP PITCH: " + yDiff + " normalized: " + yDiffNorm+ " rotDiff: "+angleDiff);
-	                           
+                                    UpdateDebugInfo("Rotate Up", true.ToString()); 
                                     RotateUp(angleDiff * scaleFactor * rotateStep * yDiffNorm);
                                 }
                             }
                             else //czy ma prostowaæ samolot 
                                 if (Math.Abs(RelativeAngle) >= 0)
                                 {
-	                        	
+                                    UpdateDebugInfo("Horizon", true.ToString()); 
                                     //  Console.WriteLine("HORIZON PITCH: " + yDiff + " normalized: " + yDiffNorm);
                                     SteerToHorizon(scaleFactor * yDiffNorm * Math.Abs(RelativeAngle) / maxAngle);
 	                            
@@ -714,16 +765,19 @@ namespace Wof.Model.Level.Planes
                 if (PlanesOnAircraftPos.CompareTo(level.Carrier.GetRestoreAmunitionPosition()) == 0)
                 {
                     isAlarmDelivered = false;
+                    UpdateDebugInfo("AttackObject-NONE", true.ToString()); 
                     attackObject = AttackObject.None;
                 }
                 else
                 {
+                    UpdateDebugInfo("AttackObject-CARRIER", true.ToString()); 
                     attackObject = AttackObject.Carrier;
                 }
                 // 
                 if (attackObject == AttackObject.Carrier && !isAlarmDelivered &&
                     carrierDistance < GetConsts().CarrierDistanceAlarm)
                 {
+                    UpdateDebugInfo("AttackObject-CARRIER-attacking", true.ToString()); 
                     level.Controller.OnEnemyAttacksCarrier();
                     isAlarmDelivered = true;
                 }
@@ -747,22 +801,30 @@ namespace Wof.Model.Level.Planes
                     {
                         if (ArePlanesOnCarrierBehind) //jeœli ju¿ min¹³ cel, to zwiêkszam pu³ap
                         {
+                            UpdateDebugInfo("AttackObject-CARRIER-PlanesOnCarrierBehind", true.ToString()); 
                             if (RelativeAngle < maxAngle)
+                            {
                                 RotateUp(scaleFactor*rotateStep);
+                            }
                         }
                         else
                         {
                             if (CanHitStoragePlanes)
                             {
+                                UpdateDebugInfo("AttackObject-CARRIER-AttackStoragePlanes", true.ToString()); 
                                 AttackStoragePlanes();
                             }
                             else
                             {
                                 // dziób do do³u jeœli atakuje coœ lub jest b. blisko lotniskowca
                                 if (RelativeAngle > -maxAngle &&
-                                    (carrierDistance < 0.2f*GetConsts().CarrierDistanceAlarm ||
+                                    (carrierDistance < 0.2f * GetConsts().CarrierDistanceAlarm ||
                                      attackObject != AttackObject.None))
+                                {
+                                    UpdateDebugInfo("AttackObject-CARRIER-RotateDown", true.ToString()); 
                                     RotateDown(scaleFactor*rotateStep);
+
+                                }
                             }
                         }
                     }
@@ -803,8 +865,8 @@ namespace Wof.Model.Level.Planes
         {
             //return; //chwilowo do testów
             //sprawdzam czy samolot nie jest za daleko, ¿eby atakowaæ
-            
-            
+
+            UpdateDebugInfo("AttackUserPlane", true.ToString()); 
             
             // staraj sie dogonic samolot gracza
             if (IsTurnedTowardsUserPlane(userPlane) && Speed < GetConsts().Speed * 1.4f)
@@ -822,8 +884,8 @@ namespace Wof.Model.Level.Planes
             {
                 return;
             }
-            
-			
+
+            UpdateDebugInfo("AttackUserPlane-Distance", true.ToString()); 
 			
 
             if (this.weaponManager.RocketCount > 0 && Rocket.CanHitEnemyPlane(this, level.UserPlane, 100 - GetConsts().Accuracy, false) != MissileBase.CollisionDirectionLocation.NONE) //najpierw próbuje strzeliæ rakiet¹
@@ -837,6 +899,8 @@ namespace Wof.Model.Level.Planes
             }           
 			else  
             {
+                UpdateDebugInfo("AttackUserPlane-GunAiming", true.ToString()); 
+			
 				MissileBase.CollisionDirectionLocation coll = GunBullet.CanHitEnemyPlane(this, level.UserPlane, 100 - GetConsts().Accuracy, this.HasBiDirectionalGun);
 				if(coll != MissileBase.CollisionDirectionLocation.NONE)
 				{
@@ -899,6 +963,7 @@ namespace Wof.Model.Level.Planes
 
         private void AvoidCrash(float scaleFactor, Plane p)
         {
+            UpdateDebugInfo("Avoid crash", true.ToString());       
             float diff = Center.Y - p.Center.Y;
             float diffAbs = Math.Abs(diff);
             if (diffAbs > safeUserPlaneHeightDiff)

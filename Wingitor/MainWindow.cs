@@ -1,4 +1,6 @@
-﻿using System;
+﻿
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -73,6 +75,37 @@ namespace Wingitor
         {
             this.Text = EngineConfig.C_GAME_NAME + " level editor ( " + parser.MissionType + " ): " + parser.LevelFile;
             this.menu.OnLevelLoaded(parser);
+         
+        }
+
+        private List<DebugInfo> debugInfos = new List<DebugInfo>();
+
+        public void UpdateDebugBox(DebugInfo debugInfo)
+        {
+            lock (this)
+            {
+                int index = debugInfos.IndexOf(debugInfo);
+                if (index >= 0)
+                {
+                    debugInfos[index] = debugInfo;
+                }
+                else
+                {
+                    debugInfos.Add(debugInfo);
+
+                }
+
+                this.listBox1.Items.Clear();
+
+
+                foreach (var info in debugInfos)
+                {
+                    this.listBox1.Items.AddRange(info.ToStringArray());
+                    this.listBox1.Items.Add("");
+                }
+
+            }
+
         }
 
         private void load(object sender, EventArgs e)
@@ -125,4 +158,6 @@ namespace Wingitor
 
        
     }
+
+    
 }
