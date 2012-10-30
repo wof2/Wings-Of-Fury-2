@@ -1,3 +1,5 @@
+#define DEBUG_PANEL
+
 /*
  * Copyright 2008 Adam Witczak, Jakub Tê¿ycki, Kamil S³awiñski, Tomasz Bilski, Emil Hornung, Micha³ Ziober
  *
@@ -905,15 +907,34 @@ namespace Wof.Model.Level.Planes
         {
         	
         }
+        
+        protected DebugInfo debugInfo;
 
-       
-            
+        protected void UpdateDebugInfo(string name, string value)
+        {
+#if (DEBUG_PANEL)
+               debugInfo.Update(name, value);
+               this.level.Controller.OnRegisterDebugInfo(debugInfo);
+#endif
+        }
+
+        protected void EndDebugIteration()
+        {
+#if (DEBUG_PANEL)
+                debugInfo.ClearNotUpdated();
+                this.level.Controller.OnRegisterDebugInfo(debugInfo);
+#endif
+        }
+        
+
+
         /// <summary>
         /// Konstruktor podstawowy.
         /// </summary>
         /// <author>Michal Ziober</author>
         public Plane(Level level, bool isEnemy, StartPositionInfo info, PlaneType type)
         {
+            debugInfo = new DebugInfo(this.Name); 
         	this.planeType = type;
             SetupConstants();
           
@@ -1466,7 +1487,7 @@ namespace Wof.Model.Level.Planes
         /// Oblicza odleg³oœæ do najbli¿szego samolotu wroga. Zwraca -1 w przypadku gdy nie ma innych wrogów
         /// </summary>
         /// <returns></returns>
-        public float DistanceToClosestPlane()
+        public float DistanceToClosestEnemyPlane()
         {
             float minDist = float.MaxValue;
             float temp;
@@ -1476,7 +1497,7 @@ namespace Wof.Model.Level.Planes
                 temp = DistanceToPlane(level.EnemyPlanes[i]);
                 if (temp != -1 && temp < minDist) minDist = temp;
             }
-            if (minDist.Equals(float.MaxValue)) return -1;
+           // if (minDist.Equals(float.MaxValue)) return -1;
             return minDist;
         }
 
@@ -1783,6 +1804,7 @@ namespace Wof.Model.Level.Planes
         /// <param name="timeUnit">Wartoœæ czasu do której odnoszone s¹ wektor ruchu i wartoœæ obrotu. Wyra¿ona w ms.</param>
         public virtual void Move(float time, float timeUnit)
         {
+            EndDebugIteration();
             //Console.WriteLine(Speed);
             float scaleFactor  = time / timeUnit;
             float scaleFactor2 = time/timeUnit;
@@ -1889,7 +1911,7 @@ namespace Wof.Model.Level.Planes
                 {
                 	UpdatePlaneAngle(scaleFactor2);
                 }
-                	
+               
                 
             }
             else if (isLanding) //schodzenie do l¹dowania

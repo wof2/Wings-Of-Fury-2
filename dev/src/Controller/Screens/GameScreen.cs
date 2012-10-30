@@ -2674,6 +2674,11 @@ namespace Wof.Controller.Screens
             levelView.OnSoldierEndPrepareToFire(soldier);
         }
 
+        public void OnRegisterDebugInfo(DebugInfo debugInfo)
+        {
+          
+        }
+
         public void OnRegisterPlane(Plane plane)
         {
             levelView.OnRegisterPlane(plane);

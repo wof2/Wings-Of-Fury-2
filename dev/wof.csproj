@@ -543,6 +543,7 @@
     </Compile>
     <Compile Include="src\Controller\CameraListener.cs" />
     <Compile Include="src\Controller\CameraListenerBase.cs" />
+    <Compile Include="src\Controller\DebugInfo.cs" />
     <Compile Include="src\Controller\DelayedControllerFacade.cs" />
     <Compile Include="src\Controller\EffectBars\AltitudeBar.cs" />
     <Compile Include="src\Controller\EffectBars\BulletTimeBar.cs" />

@@ -264,7 +264,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
                                     if (inView)
                                     {
 
-                                        float dist = refToLevel.UserPlane.DistanceToClosestPlane();
+                                        float dist = refToLevel.UserPlane.DistanceToClosestEnemyPlane();
 
                                         if (dist > valleyFireDistance / 2.0)
                                         {

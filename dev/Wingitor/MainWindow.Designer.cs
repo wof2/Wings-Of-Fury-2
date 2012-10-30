@@ -180,7 +180,7 @@ namespace Wingitor
             // 
             this.splitContainer2.Panel2.Controls.Add(this.listBox1);
             this.splitContainer2.Size = new System.Drawing.Size(796, 800);
-            this.splitContainer2.SplitterDistance = 850;
+            this.splitContainer2.SplitterDistance = 600;
             this.splitContainer2.TabIndex = 0;
             // 
             // listBox1
@@ -191,7 +191,7 @@ namespace Wingitor
             this.listBox1.Name = "listBox1";
             this.listBox1.ScrollAlwaysVisible = true;
             this.listBox1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.listBox1.Size = new System.Drawing.Size(796, 69);
+            this.listBox1.Size = new System.Drawing.Size(796, 120);
             this.listBox1.TabIndex = 0;
             // 
             // MainWindow

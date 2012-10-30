@@ -279,7 +279,7 @@ namespace wingitor
             inputKeyboard.Capture();
             if (inputJoystick != null) inputJoystick.Capture();
 
-         
+         /*
             if (inputKeyboard.IsKeyDown(KeyMap.Instance.Left))
             {
                 camera.Yaw(scaleRotate);
@@ -289,7 +289,7 @@ namespace wingitor
             {
                 camera.Yaw(-scaleRotate);
             }
-
+            
             if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up))
             {
                 camera.Pitch(scaleRotate);
@@ -298,7 +298,7 @@ namespace wingitor
             if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down))
             {
                 camera.Pitch(-scaleRotate);
-            }
+            }*/
 
             if (inputJoystick != null)
             {

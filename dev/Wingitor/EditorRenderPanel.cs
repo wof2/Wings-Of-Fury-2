@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using BetaGUI;
 using Mogre;
+using MOIS;
 using Wingitor;
 using Wof.Controller;
+using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Model.Level;
 using Wof.Model.Level.Infantry;
 using Wof.Model.Level.LevelTiles;
@@ -79,7 +82,13 @@ namespace wingitor
                 currentLevel = new Level(filename, this, EngineConfig.CurrentPlayerPlaneType);
                 levelView = new LevelView(this, this);
                 levelView.OnRegisterLevel(currentLevel);
-            
+                OnRegisterPlane(currentLevel.UserPlane);
+
+                foreach (StoragePlane sp in currentLevel.StoragePlanes)
+                {
+                    OnRegisterPlane(sp);
+                }     
+
                 foreach (ISceneTest test in this.gameTest.SceneTests)
                 {
                     test.Framework = this;
@@ -98,7 +107,56 @@ namespace wingitor
             {
                 int timeInterval = (int)System.Math.Round(evt.timeSinceLastFrame * 1000);
                 currentLevel.Update(timeInterval);
+
+                if (inputKeyboard.IsKeyDown(KeyMap.Instance.Left) )
+                {
+                    currentLevel.OnSteerLeft();
+                }
+                else if (inputKeyboard.IsKeyDown(KeyMap.Instance.Right))
+                {
+                    currentLevel.OnSteerRight();
+                }
+                if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up))
+                {
+                    currentLevel.OnSteerUp();
+                }
+                else if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down))
+                {
+                    currentLevel.OnSteerDown();
+                }
+                if (inputKeyboard.IsKeyDown(KeyMap.Instance.Engine))
+                {
+                    currentLevel.OnToggleEngineOn();
+                }
+
+                if (inputKeyboard.IsKeyDown(KeyMap.Instance.Gear) )
+                {
+                    currentLevel.OnToggleGear();
+                }
+
+                 if (inputKeyboard.IsKeyDown(KeyMap.Instance.GunFire) )
+                 {
+                     currentLevel.OnFireGun();
+                 }
+
+                 if (inputKeyboard.IsKeyDown((KeyCode)KeyMap.Instance.Spin))
+                 {
+                     currentLevel.OnSpinPressed();
+                 }
+
+
+                 if (inputKeyboard.IsKeyDown(KeyMap.Instance.PausePlane) &&
+                    Button.CanChangeSelectedButton(3.0f))
+                 {
+
+                     currentLevel.UserPlane.PlanePaused = !currentLevel.UserPlane.PlanePaused;
+                     currentLevel.EnemyPlanes.ForEach(delegate(Plane ep) { ep.PlanePaused = !ep.PlanePaused; });
+
+                     Button.ResetButtonTimer();
+                 }
+
             }
+
           
             base.OnUpdateModel(evt);
         }
@@ -115,6 +173,8 @@ namespace wingitor
             reloadLevel = true;
         }
         public delegate void InvokeDelegate(XmlLevelParser parser);
+        public delegate void InvokeDebugInfoDelegate(DebugInfo debugInfo);
+
 
         protected override bool FrameEnded(FrameEvent evt)
         {
@@ -128,6 +188,13 @@ namespace wingitor
 
             return result;
         }
+
+        public void OnRegisterDebugInfo(DebugInfo debugInfo)
+        {
+            mainWindow.BeginInvoke(new InvokeDebugInfoDelegate(mainWindow.UpdateDebugBox), debugInfo);
+
+        }
+
         protected override bool FrameStarted(Mogre.FrameEvent evt)
         {
 
@@ -181,6 +248,7 @@ namespace wingitor
 
         #region Implementation of IController
 
+       
 
         public void OnRegisterPlane(Plane plane)
         {
@@ -323,7 +391,7 @@ namespace wingitor
 
         public void OnSpinEnd(object plane)
         {
-            
+            ((Plane)plane).OnSpinEnd();
         }
 
         public void OnRegisterBomb(Bomb bomb)
@@ -355,14 +423,18 @@ namespace wingitor
             
         }
 
-        public void OnPlaneCrashed(Plane plane, TileKind tileKind)
-        {
-            
-        }
+       
 
         public void OnPlaneDestroyed(Plane plane)
         {
-            
+            levelView.OnPlaneDestroyed(plane);
+
+
+        }
+
+        public void OnPlaneCrashed(Plane plane, TileKind tileKind)
+        {
+            levelView.OnPlaneCrashed(plane, tileKind);
         }
 
         public void OnFortressHit(FortressBunkerTile tile, Ammunition ammunition)
@@ -377,12 +449,14 @@ namespace wingitor
 
         public void OnCatchPlane(Plane plane, EndAircraftCarrierTile carrierTile)
         {
+            levelView.OnCatchPlane(plane, carrierTile);
             
         }
 
         public void OnReleasePlane(Plane plane, EndAircraftCarrierTile carrierTile)
         {
-            
+            levelView.OnReleasePlane(plane, carrierTile);
+            currentLevel.OnReleaseLine(carrierTile);
         }
 
         public void OnUnregisterRocket(Rocket rocket)
@@ -417,7 +491,8 @@ namespace wingitor
 
         public void OnPlaneWrecked(Plane Plane)
         {
-            
+            currentLevel.NextLife();
+            levelView.NextLife();
         }
 
 
@@ -483,22 +558,23 @@ namespace wingitor
 
         public void OnPrepareChangeDirection(Direction newDirection, Plane plane, TurnType turnType)
         {
-            
+            levelView.OnPrepareChangeDirection(newDirection, plane, turnType);
         }
 
         public void OnPrepareChangeDirectionEnd(object turnInfo)
         {
-            
+            ((TurnInfo)turnInfo).plane.OnPrepareChangeDirectionEnd(((TurnInfo)turnInfo).turnDurationInSeconds);
         }
 
-        public void OnChangeDirectionEnd(object plane)
+        public void OnChangeDirectionEnd(object turnInfo)
         {
-            
+            TurnInfo t = ((TurnInfo)turnInfo);
+            t.plane.OnChangeDirectionEnd(t.turnType);
         }
 
         public void OnSpinBegin(Plane plane)
         {
-            
+            levelView.OnBeginSpin(plane);
         }
         
         

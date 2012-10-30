@@ -47,6 +47,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using Wof.Model.Level;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.Infantry;
@@ -60,8 +61,13 @@ using Wof.View;
 
 namespace Wof.Controller
 {
+
+    
     public interface IController
     {
+
+        void OnRegisterDebugInfo(DebugInfo debugInfo);
+
         /// <summary>
         /// Funkcja rejestruje samolot. Samolot moze byc 
         /// samolotem gracza lub nieprzyjaciela
