@@ -284,16 +284,20 @@ namespace Wof.Model.Level.Planes
                 ShipTile st = this.GetNearestShipCrashThreat();
                 if(st != null)
                 {	
-                    //Console.WriteLine("ydiff" + YDistanceToTile(st) + " ->" + (15*height));
-             
-                    if(YDistanceToTile(st) < 15*height)
+                    
+                    if(YDistanceToTile(st) < 10*height)
                     {
+                    	
+                    	//Console.WriteLine(this.Name+"-"+this.planeType+"; ydiff" + YDistanceToTile(st) + " ->" + (15*height));
+             
                         return true;
                     }
                 }
             	
-                if (bounds.LowestY <= GetConsts().MinPitch) //czy ju¿ nie jest za nisko
+                if (bounds.LowestY <= GetConsts().MinPitch){ //czy ju¿ nie jest za nisko
+                	Console.WriteLine(this.Name+"-"+this.planeType+", Jestem za nisko!");
                     return true;
+            	}
                 if (RelativeAngle >= 0)
                     return false;
                 // if (this.Center.Y > GameConsts.UserPlane.Singleton.MaxHeight * 0.9f) return false;
@@ -354,7 +358,7 @@ namespace Wof.Model.Level.Planes
                         level.StoragePlanes[i].PlaneState == PlaneState.Intact &&
                         Math.Abs(level.StoragePlanes[i].Center.X - Center.X) <
                         GetConsts().AttackStoragePlaneDistance &&                        
-                        Rocket.CanHitEnemyPlane(this, level.StoragePlanes[i], false) != MissileBase.CollisionDirectionLocation.NONE)
+                        Rocket.CanHitEnemyPlane(this, level.StoragePlanes[i], 5 , false) != MissileBase.CollisionDirectionLocation.NONE)
                         return true;
                 return false;
                 //RelativeAngle < -maxAngle/2; 
@@ -506,6 +510,14 @@ namespace Wof.Model.Level.Planes
         public override void Move(float time, float timeUnit)
         {
             EndDebugIteration();
+            
+           
+    		UpdateDebugInfo("1Bounds.Angle",bounds.Angle);
+    		UpdateDebugInfo("2movementVector.Angle",movementVector.SignX==1 ?  movementVector.Angle : Math.PI + movementVector.Angle );
+    		UpdateDebugInfo("3turningVector.Angle",turningVector.Angle);
+
+    	
+            
             timeToNextRocket -= time;
             timeToNextRocket = Math.Max(0, timeToNextRocket);
             //dodane tymczasowo, bo po wgraniu planszy pierwszy komunikat odœwie¿enia przychodzi 
@@ -676,8 +688,10 @@ namespace Wof.Model.Level.Planes
             {
                 //Console.WriteLine(this.Name + ": ShouldSteerUp");
                 UpdateDebugInfo("ShouldSteerUp", true.ToString()); 
-      
-                Rotate((float) direction*scaleFactor*rotateStep);
+      			if(RelativeAngle < maxAngle)
+                {
+                	Rotate((float) direction*scaleFactor*rotateStep);
+      			}
                 return;
             }
             EnemyPlaneBase closestEnemyPlane;
@@ -817,12 +831,17 @@ namespace Wof.Model.Level.Planes
                             else
                             {
                                 // dziób do do³u jeœli atakuje coœ lub jest b. blisko lotniskowca
-                                if (RelativeAngle > -maxAngle &&
-                                    (carrierDistance < 0.2f * GetConsts().CarrierDistanceAlarm ||
+                                if ((carrierDistance < 0.2f * GetConsts().CarrierDistanceAlarm ||
                                      attackObject != AttackObject.None))
                                 {
-                                    UpdateDebugInfo("AttackObject-CARRIER-RotateDown", true.ToString()); 
-                                    RotateDown(scaleFactor*rotateStep);
+                                	if(EngineConfig.Difficulty != EngineConfig.DifficultyLevel.Easy) {
+                                		weaponManager.FireAtAngle(Angle, WeaponType.Gun, this.locationState == LocationState.AirTurningRound,  MissileBase.CollisionDirectionLocation.FORWARD);
+                                	}
+                                	
+                                	if(RelativeAngle > -maxAngle){
+                                    	UpdateDebugInfo("AttackObject-CARRIER-RotateDown", true.ToString()); 
+                                    	RotateDown(scaleFactor*rotateStep);
+                                	}
 
                                 }
                             }
@@ -838,10 +857,34 @@ namespace Wof.Model.Level.Planes
         /// <param name="scaleFactor"></param>
         private void SteerToHorizon(float scaleFactor)
         {
+        	float angleAbs = Mogre.Math.Abs(RelativeAngle);
+        	
+        	float step= rotateStep*scaleFactor;	
+        	step = step * angleAbs * 2.0f;
+        	UpdateDebugInfo("SteerToHorizon-step", step); 
+        	UpdateDebugInfo("SteerToHorizon-angleAbs", angleAbs); 
+        	        
+        	if(step < 0.2f * scaleFactor) {
+        		step = 0.2f * scaleFactor;
+        		UpdateDebugInfo("SteerToHorizon-scaleFactor", scaleFactor); 
+        	}        	
+        	step = Math.Min(step, angleAbs);
+        	
+        	
+        	UpdateDebugInfo("SteerToHorizon-realStep", step); 
+          
+        	
+            //Console.WriteLine(this.Name + ": Steer to horizon");
+            Rotate(-1.0f*(float) direction*Math.Sign(RelativeAngle)*step);
+        }
+        
+       /* private void SteerTo(float scaleFactor, float angle)
+        {
+        	
             //Console.WriteLine(this.Name + ": Steer to horizon");
             Rotate(-1.0f*(float) direction*Math.Sign(RelativeAngle)*
                    Math.Min(rotateStep*scaleFactor, Mogre.Math.Abs(RelativeAngle)));
-        }
+        }*/
 
         /// <summary>
         /// Wystrzeliwuje rakietê blokuj¹c zbyt czêste strza³y.
@@ -923,6 +966,7 @@ namespace Wof.Model.Level.Planes
         private void AttackStoragePlanes()
         {
             //Console.WriteLine(this.Name + ": AttackStoragePlanes");
+            
             
             // na easy samolot wroga nie atakuje storage planes
             if(EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Easy)
@@ -1069,7 +1113,7 @@ namespace Wof.Model.Level.Planes
                 if ( x != -1 && 
                      y != -1 &&
                      x < width * 30 &&
-                     y < height * 20
+                     y < height * 10
                     )
                 {
                     temp = x+y;

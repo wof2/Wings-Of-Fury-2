@@ -20,25 +20,36 @@ namespace wingitor.Tests
        
         public void OnRegisterLevel(Level currentLevel)
         {
-        	 //enemyPlane = new EnemyFighter(this);
-             EnemyBomber enemyPlane = new EnemyBomber(currentLevel);  
+        	EnemyPlaneBase enemyPlane;
+         //   enemyPlane = new EnemyFighter(currentLevel);        
+         //   addEnemyPlane(currentLevel, enemyPlane);
+            
+         //   enemyPlane = new EnemyBomber(currentLevel);        
+          //  addEnemyPlane(currentLevel, enemyPlane);
+            
+            enemyPlane = new EnemyBomber(currentLevel);        
+            addEnemyPlane(currentLevel, enemyPlane);
+        }
+        
+        protected void addEnemyPlane(Level currentLevel, EnemyPlaneBase enemyPlane) {
+        	
+        	 
          	
              StartPositionInfo info = new StartPositionInfo();
-            
-             info.Position = new PointD( UnitConverter.WorldToLogicUnits( Framework.Camera.RealPosition));
+             
+             info.Position = new PointD( UnitConverter.WorldToLogicUnits( Framework.Camera.RealPosition + ViewHelper.RandomVector3(50,20,0)));
         	 info.Direction = Direction.Right;
         	 info.EngineState = EngineState.Working;
         	 info.PositionType = StartPositionType.Airborne;
         //	 info.Speed = 0.1f;
         	 info.WheelsState = WheelsState.In;
         	 enemyPlane.ReInit(info);
-            enemyPlane.RegisterWeaponEvent += currentLevel.enemyPlane_RegisterWeaponEvent;
+             enemyPlane.RegisterWeaponEvent += currentLevel.enemyPlane_RegisterWeaponEvent;
         
         
              currentLevel.EnemyPlanes.Add(enemyPlane);
              currentLevel.Controller.OnRegisterPlane(enemyPlane);
            //  currentLevel.UserPlane.Speed = 0;
-        
         }
         
         
