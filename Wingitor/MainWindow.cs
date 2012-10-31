@@ -19,15 +19,37 @@ namespace Wingitor
     public partial class MainWindow  : Form
     {
         private Thread renderThread;
-
+        
+        protected System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
+        
         public EditorRenderPanel EditorRenderPanel
         {
             get { return editorRenderPanel; }
         }
+        
+        private void DebugBoxUpdater(Object myObject,
+                                            EventArgs myEventArgs) {
+        	
+        	this.listBox1.Items.Clear();
+            foreach (var info in debugInfos)
+            {
+                this.listBox1.Items.AddRange(info.ToStringArray());
+                this.listBox1.Items.Add("");
+            }
+        }
 
         public MainWindow(IGameTest gameTest)
         {
+	
             InitializeComponent();
+            
+             timer.Tick += new EventHandler(DebugBoxUpdater);
+
+		    // Sets the timer interval to 5 seconds.
+		    timer.Interval = 500;
+		    timer.Start();
+       
+       
             editorRenderPanel.SetGameTest(gameTest);
             if(!editorRenderPanel.Setup())
             {
@@ -95,18 +117,11 @@ namespace Wingitor
 
                 }
 
-                this.listBox1.Items.Clear();
-
-
-                foreach (var info in debugInfos)
-                {
-                    this.listBox1.Items.AddRange(info.ToStringArray());
-                    this.listBox1.Items.Add("");
-                }
-
             }
 
         }
+        
+    
 
         private void load(object sender, EventArgs e)
         {

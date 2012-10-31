@@ -910,10 +910,10 @@ namespace Wof.Model.Level.Planes
         
         protected DebugInfo debugInfo;
 
-        protected void UpdateDebugInfo(string name, string value)
+        protected void UpdateDebugInfo(string name, object value)
         {
 #if (DEBUG_PANEL)
-               debugInfo.Update(name, value);
+				debugInfo.Update(name, value.ToString());
                this.level.Controller.OnRegisterDebugInfo(debugInfo);
 #endif
         }
@@ -1770,6 +1770,7 @@ namespace Wof.Model.Level.Planes
         /// <param name="angle"></param>
         public void Rotate(float angle)
         {
+        	
             Bounds.Rotate(angle);
             movementVector.Rotate(new PointD(0, 0), angle);
             if(locationState == LocationState.AirTurningRound)
@@ -1805,6 +1806,12 @@ namespace Wof.Model.Level.Planes
         public virtual void Move(float time, float timeUnit)
         {
             EndDebugIteration();
+            
+            
+            UpdateDebugInfo("1Bounds.Angle",RelativeAngle);
+            UpdateDebugInfo("2movementVector.Angle",movementVector.SignX==1 ?  movementVector.Angle : movementVector.SignY * (Math.PI - Math.Abs(movementVector.Angle) ));
+    	//	UpdateDebugInfo("3AngleDiff",RelativeAngle - movementVector.Angle);
+    		
             //Console.WriteLine(Speed);
             float scaleFactor  = time / timeUnit;
             float scaleFactor2 = time/timeUnit;

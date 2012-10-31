@@ -596,6 +596,7 @@ namespace Wof.Model.Level
                     }
 
                     // kolizje z innymi samolotami 
+                    /*
                     if (i == 0 && enemyPlanes.Count > 1)
                     {
                         // wybieramy samolot wroga o ID=0 i sprawdzamy z wszystkimi pozosta³ymi samolotami wroga
@@ -608,7 +609,7 @@ namespace Wof.Model.Level
                                 //Statistics.PlanesShotDown+=2;
                             }
                         }
-                    }
+                    }*/
                 }
             }
 
