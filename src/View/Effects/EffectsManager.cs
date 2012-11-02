@@ -139,7 +139,15 @@ namespace Wof.View.Effects
                                                                       "F4U1_body_destroyed.dds",
                                                                       "F4U1_body_destroyed_normal.dds",
                                                                       "a6m_destroyed.jpg",
-
+                                                                      "A10_glass.tga",
+                                                                      "betty.tga",
+                                                                      "betty_2.tga",
+                                                                      "betty_decal_1.tga",
+																      "Betty_turret.tga",
+																      "Betty_turret_Glass.tga",
+																      "T99_Air_Canon.tga",
+																      "g4m2_tailgunner.tga",
+																      	
                                                                      
                                                                     
         });
