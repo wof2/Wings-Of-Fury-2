@@ -191,8 +191,8 @@ namespace wingitor
 
         public void OnRegisterDebugInfo(DebugInfo debugInfo)
         {
-            mainWindow.BeginInvoke(new InvokeDebugInfoDelegate(mainWindow.UpdateDebugBox), debugInfo);
-
+            //mainWindow.BeginInvoke(new InvokeDebugInfoDelegate(mainWindow.UpdateDebugBox), debugInfo);
+ 			mainWindow.UpdateDebugBox( debugInfo);
         }
 
         protected override bool FrameStarted(Mogre.FrameEvent evt)

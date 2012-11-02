@@ -154,8 +154,13 @@ namespace Wof.Model.Level.Common
         /// <author>Michal Ziober</author>
         public static int PositionToIndex(float posX)
         {
+        	try{
             int index = Convert.ToInt32(Math.Floor(posX/LevelTile.TileWidth));
             return index;
+        	}catch(Exception x)
+        	{
+        		throw x;
+        	}
         }
 
         /// <summary>

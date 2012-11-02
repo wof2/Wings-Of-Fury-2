@@ -372,6 +372,13 @@ namespace Wof.Model.Level
                 info.WheelsState = WheelsState.In;     
  
             }
+  /*          
+                info.Direction = Direction.Right;
+                info.EngineState = EngineState.Working;
+                info.Position = new PointD(1150, 40);
+                info.PositionType = StartPositionType.Airborne;
+                info.WheelsState = WheelsState.In;     
+ */
             
             info.MissionType = MissionType;
             userPlane = new Plane(this, false, info, userPlaneType);

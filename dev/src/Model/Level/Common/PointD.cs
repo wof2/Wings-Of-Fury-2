@@ -150,6 +150,26 @@ namespace Wof.Model.Level.Common
         {
             get { return Math.ATan2(mY, mX).ValueRadians; }
         }
+        
+        public float GetRelativeAngle(Direction direction)
+        {
+         	 
+         	float mvectorangle = Angle; 
+	    	if(direction == Direction.Left) {
+	    		if(mvectorangle < 0) {
+	    			mvectorangle = -(mvectorangle + Math.PI);	    			
+	    		}else {
+	    			mvectorangle = Math.PI - mvectorangle;
+	    		}
+         		
+         	}
+         	
+         	return mvectorangle;
+        }
+         	
+         	
+         	
+      
 
         /// <summary>
         /// Zwraca d³ugoœæ euklidesowa gdy obiekt traktujemy
@@ -165,8 +185,9 @@ namespace Wof.Model.Level.Common
             {
                 if (value > 0)
                 {
-                    mX = Math.Cos(Angle)*value;
-                    mY = Math.Sin(Angle)*value;
+                	float angle = Angle;
+                    mX = Math.Cos(angle)*value;
+                    mY = Math.Sin(angle)*value;
                 } 
                 else
                 {
@@ -175,6 +196,25 @@ namespace Wof.Model.Level.Common
                 }
                
             }
+            /*
+            set
+            {
+                if (value != 0 && !this.IsEmpty)
+                {
+                	float len = EuclidesLength;
+                	float lenProp = value / len;
+                	mX*= lenProp;
+                	mY*= lenProp;
+                   // mX = Math.Cos(Angle)*value;
+                  //  mY = Math.Sin(Angle)*value;
+                } 
+                else
+                {
+                   mX = 0;
+                   mY = 0;
+                }
+               
+            }*/
         }
 
         public int SignX
@@ -360,7 +400,8 @@ namespace Wof.Model.Level.Common
         {
             //tworzê wektor o kierunku zgodnym z danym punktem i d³ugoœci¹ lenght
             PointD addVector = new PointD(Math.Cos(Angle)*length, Math.Sin(Angle)*length);
-            Move(addVector);
+            Move(addVector);        
+         
         }
         
         public void Normalise()
