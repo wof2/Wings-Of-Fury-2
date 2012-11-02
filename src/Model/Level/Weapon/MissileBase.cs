@@ -153,11 +153,7 @@ namespace Wof.Model.Level.Weapon
         /// <author>Michal Ziober</author>
         protected PointD flyVector;
 
-        /// <summary>
-        /// Początkowy wektor ruchu z napedem silnika.
-        /// </summary>
-        /// <author>Adam Witczak</author>
-        protected PointD initPlaneSpeed;
+      
 
 
         /// <summary>
@@ -239,6 +235,10 @@ namespace Wof.Model.Level.Weapon
             //wektor ruchu podczas spadania.
             moveVector = new PointD(initialVelocity.X, yDropSpeed);
             
+            if(initialVelocity.EuclidesLength < GameConsts.Rocket.BaseSpeed)
+            {
+            	initialVelocity.EuclidesLength =  GameConsts.Rocket.BaseSpeed;
+            }
             //weektor ruchu podczas pracy silnika.
             if (initialVelocity.X >= 0)
             {
@@ -248,9 +248,7 @@ namespace Wof.Model.Level.Weapon
                 flyVector = new PointD(initialVelocity.X * 0.7f * GameConsts.Rocket.BaseSpeed, initialVelocity.Y * 0.7f * GameConsts.Rocket.BaseSpeed);
             }
 
-            initPlaneSpeed = initialVelocity;
-            
-           
+         
            
         }
         

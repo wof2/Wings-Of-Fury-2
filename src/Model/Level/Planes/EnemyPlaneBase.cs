@@ -57,7 +57,21 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Poprzednie po³o¿enia samolotu
         /// </summary>
-        private PointD[] interpolateSet;
+        private float?[] interpolateSet;
+        
+        protected bool useInterpolation;
+        
+		public bool UseInterpolation {
+			get {
+        		
+        		UpdateDebugInfo("UseInterpolation", useInterpolation);
+        		return useInterpolation;
+        	}
+			set { 
+        		UpdateDebugInfo("UseInterpolation", value);
+        		useInterpolation = value;
+        	}
+		}
 
         /// <summary>
         /// Liczba punktów interpolacji
@@ -77,13 +91,27 @@ namespace Wof.Model.Level.Planes
         private float carrierDistance;
         private AttackObject attackObject;
         private float evadeLoopTime = 0.0f;
-        private float evadeLoopTimeMax = 1.5f;
+        private float evadeLoopTimeMax = 2.0f;
         private int evadeLoop = 0;
         private int evadeLoopMax = new Random().Next(4,6);
         private int evadeDirection = 1;
         private float lastAbsDistance = -1.0f;
+        private bool isEvading = false;
+        
+		public bool IsEvading {
+			get { return isEvading; }
+		}
         private float randomDistance;
 
+        protected void InitIterpolateSet() {
+        	UseInterpolation = true;
+        	interpolateSet = new float?[interpolationPoints];
+            for (int i = 0; i < interpolateSet.Length; i++)
+            {
+                interpolateSet[i] = null;
+            }        	
+        }
+        
         public EnemyPlaneBase(Level level, float width, float height, Planes.PlaneType planeType)
             : base(level, width, height, true, null, planeType)
         {
@@ -96,11 +124,7 @@ namespace Wof.Model.Level.Planes
             isAlarmDelivered = false;
             temp = new PointD(0, 0);
 
-            interpolateSet = new PointD[interpolationPoints];
-            for (int i = 0; i < interpolateSet.Length; i++)
-            {
-                interpolateSet[i] = null;
-            }
+          	InitIterpolateSet();
         }
 
         /// <summary>
@@ -150,11 +174,7 @@ namespace Wof.Model.Level.Planes
             level.OnEnemyPlaneFromTheSide(!(atEnd == 1));
             temp = new PointD(0, 0);
 
-            interpolateSet = new PointD[interpolationPoints];
-            for (int i = 0; i < interpolateSet.Length; i++)
-            {
-                interpolateSet[i] = null;
-            }
+            InitIterpolateSet();
 
             //Console.WriteLine("Enemy plane from the " + (atEnd==1?"right.":"left."));
         }
@@ -187,7 +207,7 @@ namespace Wof.Model.Level.Planes
                     {
                         // na przeciwko
                         
-                        if (Math.Abs(diff) > 3 * distanceFromUserPlane)
+                        if (Math.Abs(diff) > 3.5f * distanceFromUserPlane)
                         {
                             UpdateDebugInfo("ShouldTurnRoundCheck-ChasedByUser-distance", true.ToString()); 
                             // Console.WriteLine("OK, zawrot kiedy leca na przeciw");
@@ -418,9 +438,11 @@ namespace Wof.Model.Level.Planes
       
         protected void EvadePlaneWhenChased(Plane p, float scaleFactor, float maxEvadeAngle) 
         {        	
-        
+            isEvading = true;
+        	
             if(ShouldSteerUp) 
             {	
+            	isEvading = false;
                 //Console.Write("Zawracam bo juz unik nie ma sensu - walne w ziemie");
                 TurnRound((Direction)(-1 * (int)direction), TurnType.Airborne);
                 return;        		
@@ -428,11 +450,12 @@ namespace Wof.Model.Level.Planes
             
             if(Math.Abs(Center.Y - p.Center.Y) > safeUserPlaneHeightDiff * 1.5f )
             {
+            	isEvading = false;
                 //Console.Write("Zawracam bo juz unik nie ma sensu - i tak samolot gracza jest na innym pulapie");
                 TurnRound((Direction)(-1 * (int)direction), TurnType.Airborne);
                 return;               	
             }
-                        
+                      
             evadeLoopTime += scaleFactor;
             if(evadeLoopTime >= evadeLoopTimeMax)
             {            	
@@ -444,6 +467,7 @@ namespace Wof.Model.Level.Planes
             
             if(evadeLoop >= evadeLoopMax) 
             {
+            	isEvading = false;
                 evadeLoop = 0;   
                 evadeLoopMax = new Random().Next(4, 7);  // 4 do 6 zmian kierunku          	
                 TurnRound((Direction)(-1 * (int)direction), TurnType.Airborne);            	
@@ -459,18 +483,22 @@ namespace Wof.Model.Level.Planes
             if(evadeDirection == 1)
             {
                 if(RelativeAngle < maxEvadeAngle)
-                {
-                    float angleDiff = 0.7f * (maxEvadeAngle - RelativeAngle) / maxEvadeAngle;
+                {                	
+                	UpdateDebugInfo("RotateUp-Evade",true);
+                    float angleDiff = 0.75f * (maxEvadeAngle - RelativeAngle) / maxEvadeAngle;
                     RotateUp(angleDiff * scaleFactor * rotateStep );
+                     
                 }
             }
             
             if(evadeDirection == -1)
             {
-                if(RelativeAngle < maxEvadeAngle)
-                {
+                if(RelativeAngle > -maxEvadeAngle)
+                {                	 
+                	UpdateDebugInfo("RotateDown-Evade",true);
                     float angleDiff =  0.65f * (RelativeAngle + maxEvadeAngle) / maxEvadeAngle;	
                     RotateDown(angleDiff * scaleFactor * rotateStep);
+                   
                 }
             }
             
@@ -511,6 +539,7 @@ namespace Wof.Model.Level.Planes
         {
             EndDebugIteration();
             
+            float  angleBefore = movementVector.Angle;
            
     		UpdateDebugInfo("1Bounds.Angle",bounds.Angle);
     		UpdateDebugInfo("2movementVector.Angle",movementVector.SignX==1 ?  movementVector.Angle : Math.PI + movementVector.Angle );
@@ -563,10 +592,12 @@ namespace Wof.Model.Level.Planes
                         {
                             UpdateDebugInfo("ShouldTurnRound-SteerToHorizon", true.ToString());
                             //jeœli musi podci¹gn¹æ lot, to najpierw wyrównuje do poziomu
+                            UseInterpolation = false;
                             SteerToHorizon(scaleFactor);
                         }
                         else
                         {
+                        	UseInterpolation = true;
                             UpdateDebugInfo("ShouldTurnRound-TurnRound!", true.ToString());
                             TurnRound((Direction) (-1*(int) direction), TurnType.Airborne);
                         }
@@ -576,14 +607,19 @@ namespace Wof.Model.Level.Planes
                                          (0.1f) * new Random().Next(-10, 10);
                     }
                     else {
+                    	
+                        UseInterpolation = !isEvading;
+                    	
                         //nie musi zawracaæ - kontynuuj lot
                         if(isChasedBy(level.UserPlane)){
                             // minal juz samolot gracza wiec niech unika ostrzalu
                     		
                             //	Console.WriteLine(this.Name + ": Unikam ostrzalu");
+                           
                             EvadePlaneWhenChased(level.UserPlane, scaleFactor, maxAngle * 0.6f);
                     		
-                        }else {
+                        }else {                        	
+                        	isEvading = false;
                             UpdateDebugInfo("ChangePitch", true.ToString()); 
                             ChangePitch(scaleFactor);
                         }
@@ -627,41 +663,53 @@ namespace Wof.Model.Level.Planes
 
 
             //Interpolacja by Kamil
-            if (lastInterpolationNull != (interpolateSet.Length - 1))
+            
+            if(UseInterpolation)
             {
-                for (int i = 0; i < interpolateSet.Length; i++)
-                {
-                    if (interpolateSet[i] == null)
-                    {
-                        lastInterpolationNull = i;
-                        break;
-                    }
-                }
+	            if (lastInterpolationNull != (interpolateSet.Length - 1))
+	            {
+	                for (int i = 0; i < interpolateSet.Length; i++)
+	                {
+	                    if (interpolateSet[i] == null)
+	                    {
+	                        lastInterpolationNull = i;
+	                        break;
+	                    }
+	                }
+	            }
+	
+	            for (int i = 1; i <= lastInterpolationNull; i++)
+	            {
+	                interpolateSet[i] = interpolateSet[i - 1];
+	            }
+	
+	            interpolateSet[0] =  (movementVector.Angle - angleBefore) * 1.0f;
+	
+	
+	            float finalValue = 0;
+	            for (int i = 0; i <= lastInterpolationNull; i++)
+	            {
+	                //finalValue.X += interpolateSet[i].X;
+	               // finalValue.Y += interpolateSet[i].Y;
+	               finalValue += interpolateSet[i].Value;
+	            }
+	            //finalValue.X /= lastInterpolationNull + 1;
+	            //finalValue.Y /= lastInterpolationNull + 1;
+	           finalValue /= lastInterpolationNull + 1;	
+	           
+		       rotateValue = finalValue * 0.5f;
+	           UpdatePlaneAngle(scaleFactor);
+	           
             }
-
-            for (int i = 1; i <= lastInterpolationNull; i++)
-            {
-                interpolateSet[i] = interpolateSet[i - 1];
-            }
-
-            interpolateSet[0] = temp;
-
-
-            PointD finalValue = new PointD();
-            for (int i = 0; i <= lastInterpolationNull; i++)
-            {
-                finalValue.X += interpolateSet[i].X;
-                finalValue.Y += interpolateSet[i].Y;
-            }
-            finalValue.X /= lastInterpolationNull + 1;
-            finalValue.Y /= lastInterpolationNull + 1;
            
-
-
-            //bounds.Move(scaleFactor*finalValue);
             //Koniec interpolacji by Kamil
 
             bounds.Move(scaleFactor * temp);
+      
+           
+               
+         //  rotateValue = (movementVector.Angle - angleBefore) * 1.0f;
+         
             // zmiana by Adam
 
             if (IsEngineWorking)

@@ -244,7 +244,7 @@ namespace Wof.Model.Level.Planes
         /// <summary>
         /// Przyspieszenie ziemskie [jednostka d³ugoœci w modelu)/s^2]
         /// </summary>
-        private const float gravitationalAcceleration = 50;
+        private const float gravitationalAcceleration = 40;
 
 
         /// <summary>
@@ -770,7 +770,7 @@ namespace Wof.Model.Level.Planes
         /// Wartoœæ o jak¹ nale¿y obróciæ samolot w danej chwili.
         /// (Odpowiednik movementVector)
         /// </summary>
-        private float rotateValue;
+        protected float rotateValue;
 
         /// <summary>
         /// Wartoœæ o jak¹ nale¿y obróciæ samolot w danej chwili.
@@ -2831,11 +2831,11 @@ namespace Wof.Model.Level.Planes
         /// <param name="addSpeed"></param>
         /// <param name="maxSpeed"></param>
         /// <author>Tomek</author>
-        private void addSpeedToMax(float addSpeed, float maxSpeed)
+        protected void addSpeedToMax(float addSpeed, float maxSpeed)
         {
             //sprawdzam prêdkoœæ, ¿eby nie wzros³a powy¿ej maxymalnej
-            if (movementVector.EuclidesLength + addSpeed > maxSpeed)
-                addSpeed = maxSpeed - movementVector.EuclidesLength;
+            if (Speed + addSpeed > maxSpeed)
+                addSpeed = maxSpeed - Speed;
             movementVector.Extend(addSpeed);
             UpdateAirscrewSpeed();
         }
@@ -2846,13 +2846,15 @@ namespace Wof.Model.Level.Planes
         /// <param name="subSpeed"></param>
         /// <param name="minSpeed"></param>
         /// <author>Tomek</author>
-        private void subSpeedToMin(float subSpeed, float minSpeed)
-        {
+        protected void subSpeedToMin(float subSpeed, float minSpeed)
+        {                	
             //sprawdzam prêdkoœæ, ¿eby nie spad³a poni¿ej minimalnej
-            if (movementVector.EuclidesLength - subSpeed < minSpeed)
-                movementVector.EuclidesLength = minSpeed;
-            else
-                movementVector.Extend(-subSpeed);
+            if (Speed - subSpeed < minSpeed){
+               // movementVector.EuclidesLength = minSpeed;
+               Speed = minSpeed;
+            } else{
+               movementVector.Extend(-subSpeed);
+            }
             UpdateAirscrewSpeed();
         }
 
@@ -3600,7 +3602,7 @@ namespace Wof.Model.Level.Planes
         /// Obraca samolot (i wektor ruchu) zgodnie z aktualn¹ wartoœci¹ obrotu.
         /// </summary>
         /// <param name="scaleFactor"></param>
-        private void UpdatePlaneAngle(float scaleFactor)
+        protected void UpdatePlaneAngle(float scaleFactor)
         {
             //rotateValue = rotateValue * (-Mogre.Math.Sin(RelativeAngle)/7.6f + 1.099f);
 
@@ -3619,7 +3621,7 @@ namespace Wof.Model.Level.Planes
         /// Nowa wartoœæ jest obcinana do wartoœci maksymalnej
         /// </summary>
         /// <param name="value">O ile nale¿y zwiêkszyæ wartoœæ bezwzglêdn¹ rotateValue</param>
-        private void IncreaseRotateValue(float value)
+        protected void IncreaseRotateValue(float value)
         {
             rotateValue += value;
             if (value >= 0)
@@ -3643,7 +3645,7 @@ namespace Wof.Model.Level.Planes
         /// Nowa wartoœæ nie mo¿e zmieniæ znaku - jest obcinana do wartoœci 0.
         /// </summary>
         /// <param name="value"></param>
-        private void DecreaseRotateValue(float value)
+        protected void DecreaseRotateValue(float value)
         {
             if (Angle == 0)
                 return;

@@ -29,13 +29,15 @@ namespace Wingitor
         
         private void DebugBoxUpdater(Object myObject,
                                             EventArgs myEventArgs) {
-        	
-        	this.listBox1.Items.Clear();
-            foreach (var info in debugInfos)
+        	lock (this)
             {
-                this.listBox1.Items.AddRange(info.ToStringArray());
-                this.listBox1.Items.Add("");
-            }
+	        	this.listBox1.Items.Clear();
+	            foreach (var info in debugInfos)
+	            {
+	                this.listBox1.Items.AddRange(info.ToStringArray());
+	                this.listBox1.Items.Add("");
+	            }
+        	}
         }
 
         public MainWindow(IGameTest gameTest)
