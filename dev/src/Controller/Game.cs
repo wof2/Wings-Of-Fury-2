@@ -54,6 +54,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+
 using FSLOgreCS;
 using Microsoft.Win32;
 using Mogre;
@@ -61,19 +62,17 @@ using MOIS;
 using Wof.Controller.Screens;
 using Wof.Languages;
 using Wof.Model.Configuration;
+using Wof.Model.Level;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.XmlParser;
 using Wof.src.Controller;
 using Wof.Tools;
 using Wof.View;
 using Wof.View.Effects;
-
-using LONG = System.Int32;
-using LONG_PTR = System.IntPtr;
 using HWND = System.IntPtr;
+//using LONG = int;
+using LONG_PTR = System.IntPtr;
 
-	    
-	    
 namespace Wof.Controller
 {
     /// <summary>
@@ -416,8 +415,8 @@ namespace Wof.Controller
                         EngineConfig.DebugStart = true;
                         if(i + 1 < args.Length )
                         {
-                            int levelNo;
-                            if(int.TryParse(args[i + 1], out levelNo))
+                            uint levelNo;
+                            if(uint.TryParse(args[i + 1], out levelNo))
                             {
                                 EngineConfig.DebugStartLevel = levelNo;
                                 i++;
@@ -672,16 +671,12 @@ namespace Wof.Controller
         }
 
 
-        public void StartGame(string levelFile, PlaneType userPlaneType)
+       
+        public void StartGame(uint levelNo, PlaneType userPlaneType)
         {
-            StartGame(0, levelFile, userPlaneType);
-          
+        	StartGame(new LevelInfo(levelNo), userPlaneType);
         }
-        public void StartGame(int levelNo, PlaneType userPlaneType)
-        {
-            StartGame(levelNo, null, userPlaneType);
-        }
-        public void StartGame(int levelNo, string levelFile, PlaneType userPlaneType)
+        public void StartGame(LevelInfo levelInfo, PlaneType userPlaneType)
         {
 
 
@@ -720,7 +715,7 @@ namespace Wof.Controller
 
 
             SetCompositorEnabled(CompositorTypes.BLOOM, EngineConfig.BloomEnabled);
-            currentScreen = new GameScreen(this, this, directSound, 2, levelNo, levelFile, userPlaneType);
+            currentScreen = new GameScreen(this, this, directSound, 2, levelInfo, userPlaneType);
             currentScreen.DisplayGUI(false);
         }
 
@@ -733,14 +728,18 @@ namespace Wof.Controller
 
             int score = ((GameScreen) currentScreen).Score;
             float survivalTime = ((GameScreen)currentScreen).SurvivalTime;
-
+            var completedAchievements = ((GameScreen)currentScreen).CompletedAchievements;
+			
          
-
-            int level = ((GameScreen) currentScreen).LevelNo;
-          
-            if (File.Exists(XmlLevelParser.GetLevelFileName(level + 1)))
+            uint? level = ((GameScreen) currentScreen).LevelNo;
+            if(!level.HasValue)
             {
-                LoadGameUtil.NewLevelCompleted((uint) (level + 1));
+            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error can't go to next level since current level number cannot be resolved");
+            	return; //error
+            }
+            if (File.Exists(XmlLevelParser.GetLevelFileName(level.Value + 1)))
+            {
+                LoadGameUtil.NewLevelCompleted(new LevelInfo(level.Value + 1), completedAchievements );
 
                 MenuScreen screen = currentScreen;
                 screen.CleanUp(false);
@@ -761,7 +760,7 @@ namespace Wof.Controller
 
                 SetCompositorEnabled(CompositorTypes.BLOOM, EngineConfig.BloomEnabled);
 
-                currentScreen = new GameScreen(this, this, directSound, lives, level + 1, null, EngineConfig.CurrentPlayerPlaneType);
+                currentScreen = new GameScreen(this, this, directSound, lives,new LevelInfo(level.Value + 1), EngineConfig.CurrentPlayerPlaneType);
                 ((GameScreen) currentScreen).Score = score;
                
                 currentScreen.DisplayGUI(false);

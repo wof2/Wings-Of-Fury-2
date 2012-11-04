@@ -71,9 +71,9 @@ namespace Wof.Controller.Screens
             return LanguageResources.GetString(LanguageKey.InverseKeys);
         }
 
-        protected override List<string> GetAvailableOptions()
+        protected override List<object> GetAvailableOptions()
         {
-            List<string> availableModes = new List<string>();
+            List<object> availableModes = new List<object>();
 
             availableModes.Add(LanguageResources.GetString(LanguageKey.No));
             availableModes.Add(LanguageResources.GetString(LanguageKey.Yes));
@@ -94,7 +94,7 @@ namespace Wof.Controller.Screens
             return EngineConfig.InverseKeys == LanguageResources.GetString(LanguageKey.Yes).Equals(option);
         }
 
-        protected override void LayoutOptions(List<String> availableOptions, Window window, Callback cc)
+        protected override void LayoutOptions(List<object>availableOptions, Window window, Callback cc)
         {
             
             base.LayoutOptions(availableOptions, window, cc);

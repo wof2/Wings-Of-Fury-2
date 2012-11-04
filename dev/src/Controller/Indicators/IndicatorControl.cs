@@ -293,7 +293,7 @@ namespace Wof.Controller.Screens
                 string levelName;
                 if (gameScreen.LevelNo == 0)
                 {
-                    levelName = LoadGameUtil.GetCustomLevelName(gameScreen.LevelFile);
+                    levelName = LevelInfo.GetCustomLevelName(gameScreen.LevelFile);
                 }
                 else
                 {

@@ -68,9 +68,9 @@ namespace Wof.Controller.Screens
             return String.Format("{0}?", LanguageResources.GetString(LanguageKey.Blood));
         }
 
-        protected override List<string> GetAvailableOptions()
+        protected override List<object> GetAvailableOptions()
         {
-            List<String> availableModes = new List<String>();
+            List<object> availableModes = new List<object>();
 
             availableModes.Add(LanguageResources.GetString(LanguageKey.No));
             availableModes.Add(LanguageResources.GetString(LanguageKey.Yes));

@@ -762,6 +762,18 @@ namespace Wof.Controller
 		{
 			AddJob(MethodBase.GetCurrentMethod().Name, new object[] { ammo });			
 		}
+	    
+	    
+		public void OnAchievementFulFilled(Achievement a)
+		{
+			AddJob(MethodBase.GetCurrentMethod().Name, new object[] { a });
+		}
+		
+		public void OnAchievementUpdated(Achievement a)
+		{
+			AddJob(MethodBase.GetCurrentMethod().Name, new object[] { a });
+		}
+		
 		
 		#endregion
     	
@@ -775,5 +787,9 @@ namespace Wof.Controller
 		{
 			return this.controller.GetFramework();
 		}
+    	
+		
+    	
+		
     }
 }

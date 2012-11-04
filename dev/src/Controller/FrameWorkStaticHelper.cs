@@ -54,9 +54,9 @@ namespace Wof.Controller
             MessageBox.Show(info, EngineConfig.C_GAME_NAME + " - Runtime error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        public static List<String> GetAntialiasingModes()
+        public static List<object> GetAntialiasingModes()
         {
-            List<String> availableModes = new List<String>();
+            List<object> availableModes = new List<object>();
 
             ConfigOption_NativePtr videoModeOption;
 

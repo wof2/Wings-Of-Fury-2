@@ -231,6 +231,11 @@ namespace Wof.Controller.Screens
 
         private GUI missionTypeGui;
         private Window missionTypeWindow;
+        
+        private GUI achievementsGui;
+        private Window achievementsWindow;
+        
+        
 
         private GUI mGuiHint;
         /// <summary>
@@ -252,9 +257,9 @@ namespace Wof.Controller.Screens
             get { return currentLevel; }
         }
 
-        private int levelNo;
+        private uint? levelNo;
 
-        public int LevelNo
+        public uint? LevelNo
         {
             get { return levelNo; }
         }  
@@ -265,7 +270,15 @@ namespace Wof.Controller.Screens
         {
             get { return levelFile; }
         }
+        
+        private LevelInfo levelInfo;
 
+        public LevelInfo LevelInfo
+        {
+            get { return levelInfo; }
+        }
+
+        
 
         private LevelView levelView;
 
@@ -373,7 +386,7 @@ namespace Wof.Controller.Screens
 
 
         public GameScreen(GameEventListener gameEventListener,
-                          IFrameWork framework, Device directSound, int lives, int levelNo, string levelFile, PlaneType userPlaneType)
+                          IFrameWork framework, Device directSound, int lives, LevelInfo levelInfo, PlaneType userPlaneType)
         {
         	
         	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Using keys from KeyMap.ini: \n" +  KeyMap.Instance.ToString()); // needed to init KeyMap instance
@@ -388,9 +401,12 @@ namespace Wof.Controller.Screens
             camera = framework.Camera;
             mousePosX = (uint) viewport.ActualWidth/2;
             mousePosY = (uint) viewport.ActualHeight/2;
+            
+            this.levelInfo = levelInfo;
             this.framework = framework;
-            this.levelNo = levelNo;
-            this.levelFile = levelFile;
+            this.levelNo = levelInfo.GetLevelNo();            
+            this.levelFile = LevelInfo.Filename;
+            
             mayPlaySound = false;
             changingAmmo = false;
             changingAmmoTime = 0;
@@ -568,7 +584,27 @@ namespace Wof.Controller.Screens
                     missionTypeWindow.createStaticImage(new Vector4(dist - 40, 0, 40, 40), filename);
                     missionTypeWindow.show();
                     
-
+                    
+                    achievementsGui = new GUI(FontManager.CurrentFont, (uint)( fontSize* 0.35f), "AchievementsTypeGUI");    
+                 
+                    achievementsWindow = missionTypeGui.createWindow(new Vector4(h, viewport.ActualHeight - 40, dist, 40), "", (int)wt.NONE, "");
+                    
+                    List<Achievement> completedAchievementsBefore = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(levelInfo);
+                    
+                                       
+                   // List<Achievement> completedAchievements = this.CurrentLevel.Achievements.FindAll(Predicates.GetCompletedAchievements());
+                    if(completedAchievementsBefore != null) {
+	                    foreach(Achievement a in completedAchievementsBefore)
+	                    {
+	                    	OnAchievementUpdated(a);
+	                    	OnAchievementFulFilled(a);
+	                    }
+                    }
+                  // OnAchievementFulFilled(new Achievement(AchievementType.EnemyBombers, 1234));
+                    achievementsWindow.show();
+                    
+                    
+                                       
                     _bulletTimeBar = new BulletTimeBar(fontSize, framework.Viewport, viewport.ActualWidth / 6.5f, viewport.ActualHeight / 75.0f);
                     _altitudeBar = new AltitudeBar(fontSize, framework.Viewport, viewport.ActualWidth / 6.5f, viewport.ActualHeight / 75.0f);
                     
@@ -673,9 +709,9 @@ namespace Wof.Controller.Screens
             //controller = new DelayedControllerFacade(this);
             controller = this;
             
-            if(LevelFile == null)
+            if(levelNo.HasValue)
             {
-                levelFile = XmlLevelParser.GetLevelFileName(levelNo);
+                levelFile = XmlLevelParser.GetLevelFileName(levelNo.Value);
             }
             currentLevel = new Level(LevelFile, controller, lives, userPlaneType);
             if(!EngineConfig.IsEnhancedVersion && currentLevel.EnhancedOnly)
@@ -814,7 +850,7 @@ namespace Wof.Controller.Screens
                 string caption;
                 if(levelNo == 0)
                 {
-                    caption = LoadGameUtil.GetCustomLevelName(LevelFile);
+                    caption = LevelInfo.GetCustomLevelName(LevelFile);
                 }
                 else
                 {
@@ -2661,7 +2697,64 @@ namespace Wof.Controller.Screens
         {
             levelView.OnKillSoldier(soldier, !gun, scream);
             increaseScore(C_SOLDIER_SCORE);
+            
+            Achievement a;
+            AchievementType type;
+            if(soldier is General) {    			
+    			 type = AchievementType.Generals;    			 
+    		}else {   
+			     type = AchievementType.Soldiers;     			
+    		}
+            
+            a = CurrentLevel.GetAchievementByType(type);
+            if(a!=null) {
+    			a.AmountDone++;        			 	
+    	    }
            // currentLevel.OnCheckVictoryConditions();
+        }
+        
+        private List<Achievement> completedAchievements = new List<Achievement>();
+        
+		public List<Achievement> CompletedAchievements {
+			get { return completedAchievements; }
+		}
+        
+        public void OnAchievementFulFilled(Achievement a)
+		{
+        	if(!completedAchievements.Contains(a)) {
+        		completedAchievements.Add(a);
+        	} else {
+        		completedAchievements.Remove(a);
+        		completedAchievements.Add(a);
+        	}
+            int index = completedAchievements.Count - 1;
+			Achievement achievement = completedAchievements[index];			
+        	string filename = achievement.GetPinFilename();        	
+        	achievementsWindow.createStaticImage(new Vector4((index +1) * 40, 0, 40, 40), filename); // pelna gwiazdka!
+        	
+		}
+        
+        public void OnAchievementUpdated(Achievement a)
+		{       	
+        	if(!completedAchievements.Contains(a)) {
+        		completedAchievements.Add(a);
+        	} else {
+        		completedAchievements.Remove(a);
+        		completedAchievements.Add(a);
+        	}
+        	int index = completedAchievements.FindIndex(delegate(Achievement ach) { return ach == a; });
+        	
+			Achievement achievement = completedAchievements[index];	
+        	string achString = achievement.AmountDone +" / "+ achievement.Amount;
+        	
+        	achievementsWindow.createStaticText(new Vector4((index +1) * 40, 0, 40, 40), achString);
+        	
+        	
+        	if(!a.IsFulfilled()) {
+        		// TODO: obrazek nieskonczonego achievementu
+        	}
+        
+        	
         }
 
         public void OnSoldierPrepareToFire(Soldier soldier, float maxTime)
@@ -3511,6 +3604,8 @@ namespace Wof.Controller.Screens
 		{
 			return framework;
 		}
+    	
+		
     }
 
    

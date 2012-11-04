@@ -67,9 +67,9 @@ namespace Wof.Controller.Screens
             return LanguageResources.GetString(LanguageKey.ChooseLevelOfDetail);
         }
 
-        protected override List<string> GetAvailableOptions()
+        protected override List<object>GetAvailableOptions()
         {
-            List<string> availableModes = new List<string>();
+            List<object> availableModes = new List<object>();
             availableModes.Add(LanguageResources.GetString(LanguageKey.Low));
             availableModes.Add(LanguageResources.GetString(LanguageKey.High));
             

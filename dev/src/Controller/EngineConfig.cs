@@ -247,7 +247,7 @@ namespace Wof.Controller
         /// <summary>
         /// Poziom (level) uruchamiany przy trybie DebugStart
         /// </summary>
-        public static int DebugStartLevel = 1;
+        public static uint DebugStartLevel = 1;
 
 
         public static readonly int C_LOADING_DELAY_AD = 2000;

@@ -548,5 +548,9 @@ namespace Wof.Controller
         
         IFrameWork GetFramework();
         
+    	
+		void OnAchievementFulFilled(Achievement a);
+    	
+		void OnAchievementUpdated(Achievement a);
     }
 }

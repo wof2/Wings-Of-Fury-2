@@ -76,9 +76,9 @@ namespace Wof.Controller.Screens
             guiWindow.createStaticImage(new Vector4(guiWindow.w / 6, (2 + availableOptions.Count) * h, width, 32.0f / 52.0f * width), EngineConfig.UseHydrax ? "hydrax.png" : "hydrax_off.png");
                                          
         }
-        protected override List<string> GetAvailableOptions()
+        protected override List<object> GetAvailableOptions()
         {
-            List<String> availableModes = new List<String>();
+            List<object> availableModes = new List<object>();
 
             availableModes.Add(LanguageResources.GetString(LanguageKey.No));
             availableModes.Add(LanguageResources.GetString(LanguageKey.Yes));
