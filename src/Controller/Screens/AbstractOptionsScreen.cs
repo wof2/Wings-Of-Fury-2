@@ -113,7 +113,7 @@ namespace Wof.Controller.Screens
             createScreen();
         }
         
-        protected List<String> availableOptions;
+        protected List<object>availableOptions;
 
         public static int AddControlsInfoToGui(Window guiWindow, GUI mGui, int left, int top, int initialTopSpacing, float width, float textVSpacing, uint fontSize)
         {
@@ -287,7 +287,7 @@ namespace Wof.Controller.Screens
 
         }
 
-        protected virtual void LayoutOptions(List<String> availableOptions, Window window, Callback cc)
+        protected virtual void LayoutOptions(List<object>availableOptions, Window window, Callback cc)
         {
             // trzeba stworzyc siatke opcji
             // w jednej kolumnie nie powinno byc wiecej niz C_MAX_OPTIONS opcji
@@ -302,7 +302,7 @@ namespace Wof.Controller.Screens
                  j++)
             {
                 int index = (int) j + C_MAX_OPTIONS*currentScreen;
-                String option = availableOptions[index];
+                String option = availableOptions[index].ToString();
 
                 Vector4 pos = GetOptionPos(j, window);
 
@@ -441,7 +441,7 @@ namespace Wof.Controller.Screens
 
         protected abstract String getTitle();
 
-        protected abstract List<String> GetAvailableOptions();
+        protected abstract List<object>GetAvailableOptions();
 
         protected abstract void ProcessOptionSelection(ButtonHolder selected);
 

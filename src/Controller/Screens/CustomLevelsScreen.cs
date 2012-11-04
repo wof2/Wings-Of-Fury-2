@@ -64,6 +64,7 @@ namespace Wof.Controller.Screens
     {
 
         protected Dictionary<ButtonHolder, bool> enhancedMissionsMap = new Dictionary<ButtonHolder, bool>();
+		protected Dictionary<ButtonHolder, LevelInfo> levelInfoMap = new Dictionary<ButtonHolder, LevelInfo>();
 
         #region CustomLevelsScreen Members
 
@@ -85,10 +86,19 @@ namespace Wof.Controller.Screens
            
             MissionType mt;
             bool enhancedOnly;
-            Level.PeekMissionDetails(availableOptions.ToArray()[index], out mt, out enhancedOnly);
+            List<Achievement> allAchievements;
+            
+            LevelInfo info = (LevelInfo) availableOptions.ToArray()[index];
+
+             
+            Level.PeekMissionDetails(info.Filename, out mt, out enhancedOnly, out allAchievements);
             enhancedMissionsMap[holder] = enhancedOnly;
+            levelInfoMap[holder] = info;
             
+            CompletedLevelsInfo completedLevelsInfo = LoadGameUtil.Singleton.CompletedLevelsInfo;           
+            List<Achievement> achievementsDone = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(info);
             
+                       
             string filename = Level.GetMissionTypeTextureFile(mt);
 
             if (filename != null)
@@ -121,7 +131,7 @@ namespace Wof.Controller.Screens
             return LanguageResources.GetString(LanguageKey.CustomLevels);
         }
 
-        protected override List<string> GetAvailableOptions()
+        protected override List<object> GetAvailableOptions()
         {
             return LoadGameUtil.GetCustomLevels();
         }
@@ -134,7 +144,7 @@ namespace Wof.Controller.Screens
             }
             else
             {
-                return LoadGameUtil.GetCustomLevelName(option);
+                return LevelInfo.GetCustomLevelName(option);
             }
         }
 
@@ -146,9 +156,11 @@ namespace Wof.Controller.Screens
                 return;
             }
 
-            if (File.Exists(holder.Value))
-            {
-                gameEventListener.StartGame(holder.Value, EngineConfig.CurrentPlayerPlaneType);
+            LevelInfo info = levelInfoMap[holder];           
+
+            if (File.Exists(info.Filename))
+            {            	 
+                gameEventListener.StartGame(info, EngineConfig.CurrentPlayerPlaneType);
             }
             
         }

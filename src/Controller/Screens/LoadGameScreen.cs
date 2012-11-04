@@ -92,7 +92,7 @@ namespace Wof.Controller.Screens
             return LanguageResources.GetString(LanguageKey.StartFrom);
         }
 
-        protected override List<string> GetAvailableOptions()
+        protected override List<object> GetAvailableOptions()
         {
           
               if(GameConsts.Game.AllLevelsCheat)
@@ -107,26 +107,35 @@ namespace Wof.Controller.Screens
 
 
         protected void CustomLevelsScreen_OnOptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page, ButtonHolder holder)
-        {
-
-            int levelNo = int.Parse(availableOptions.ToArray()[index].Substring(LanguageResources.GetString(LanguageKey.Level).Length));
-
+        {     
+        	LevelInfo info =(LevelInfo) availableOptions.ToArray()[index];
+        
             MissionType mt;
             bool enhancedOnly;
-            Level.PeekMissionDetails(XmlLevelParser.GetLevelFileName(levelNo), out mt, out enhancedOnly);
+            List<Achievement> allAchievements;
+            Level.PeekMissionDetails(info.Filename, out mt, out enhancedOnly, out allAchievements);
 
+            CompletedLevelsInfo completedLevelsInfo = LoadGameUtil.Singleton.CompletedLevelsInfo;
+           
+            List<Achievement> achievementsDone = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(info);
+                      
             string filename = Level.GetMissionTypeTextureFile(mt);
-
             if (filename != null)
             {
                 guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), filename, (ushort)(1000 + index));
+            }
+            
+            int i = 1;
+            foreach(Achievement a in achievementsDone) {
+            	i++;
+            	guiWindow.createStaticImage(new Vector4((Viewport.ActualWidth / 2) - i * GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), a.GetPinFilename(), (ushort)(2000 + index));
             }
         }
 
         protected override Vector4 GetOptionPos(uint index, Window window)
         {
             return new Vector4(0, 2 * GetTextVSpacing() + index * GetTextVSpacing(),
-                               Viewport.ActualWidth / 2 - GetTextVSpacing(), GetTextVSpacing());
+                               Viewport.ActualWidth / 2 - 4*GetTextVSpacing(), GetTextVSpacing());
 
         }
 
@@ -145,7 +154,7 @@ namespace Wof.Controller.Screens
         protected override void ProcessOptionSelection(ButtonHolder holder)
         {
              PlayClickSound();
-            int levelNo = int.Parse(holder.Value.Substring(LanguageResources.GetString(LanguageKey.Level).Length));
+            uint levelNo = uint.Parse(holder.Value.Substring(LanguageResources.GetString(LanguageKey.Level).Length));
             gameEventListener.StartGame(levelNo, EngineConfig.CurrentPlayerPlaneType);
         }
 
@@ -154,51 +163,7 @@ namespace Wof.Controller.Screens
             return false;
         }
 
-        /*
-        protected override void CreateGUI()
-        {
-
-            base.CreateGUI();
-
-            Vector2 m = GetMargin();
-            int h = (int)GetTextVSpacing();
-         
-            
-            guiWindow = mGui.createWindow(new Vector4(m.x,
-                                                      m.y, Viewport.ActualWidth/2,
-                                                      Viewport.ActualHeight - m.y - h ),
-                                          			  "bgui.window", (int)wt.NONE, LanguageResources.GetString(LanguageKey.StartFrom));
-            
-       
-            Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
-
-            initButtons(completedLevels.Count + 1, completedLevels.Count);
-
-            for (int i = 0; i < completedLevels.Count; i++)
-            {
-                // pole 'id' w button bedzie trzymac nr poziomu
-                buttons[i] =
-                    (guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing() + i * GetTextVSpacing(), Viewport.ActualWidth / 2 - GetTextVSpacing(), GetTextVSpacing()), "bgui.button",
-                                            String.Format("{0} ", LanguageResources.GetString(LanguageKey.Level)) +
-                                            completedLevels[i], cc, completedLevels[i]));
-               
-                // ikonka typu misji
-                string filename = Level.GetMissionTypeTextureFile(Level.PeekMissionDetails(GameScreen.GetLevelFileName((int) completedLevels[i])));
-               
-                if(filename != null)
-                {
-                	guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - GetTextVSpacing(), 3 * GetTextVSpacing() + i * GetTextVSpacing(), GetTextVSpacing(), GetTextVSpacing()), filename, (ushort)(1000 + i));
-                }
-            }
-            buttons[completedLevels.Count] =
-            	guiWindow.createButton(new Vector4(0, 3 * GetTextVSpacing() + (completedLevels.Count + 1) * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
-                                       LanguageResources.GetString(LanguageKey.Back), cc);
-
-  //          selectButton(0);
-
-            guiWindow.show();
-        }
-        */
+        
         #endregion
 
     }

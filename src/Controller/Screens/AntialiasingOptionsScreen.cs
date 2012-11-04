@@ -64,7 +64,7 @@ namespace Wof.Controller.Screens
         {
         }
 
-        protected override List<String> GetAvailableOptions()
+        protected override List<object> GetAvailableOptions()
         {
             return FrameWorkStaticHelper.GetAntialiasingModes();
         }

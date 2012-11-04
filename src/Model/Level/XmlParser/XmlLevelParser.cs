@@ -122,6 +122,12 @@ namespace Wof.Model.Level.XmlParser
         /// Lista obiektow znajdujacych sie na planszy.
         /// </summary>
         private List<LevelTile> levelTiles;
+        
+         /// <summary>
+        /// Lista obiektow znajdujacych sie na planszy.
+        /// </summary>
+        private List<Achievement> achievements;
+
 
         /// <summary>
         /// Lista statków znajdujacych sie na planszy.
@@ -164,6 +170,7 @@ namespace Wof.Model.Level.XmlParser
         private void Initialize()
         {
             levelTiles = new List<LevelTile>();
+            achievements = new List<Achievement>();
             shipManagers = new List<ShipManager>();
             tilesManager = new TilesManager();
 
@@ -205,7 +212,7 @@ namespace Wof.Model.Level.XmlParser
 
 
 
-        public static void PeekMissionDetails(String path, out MissionType missionType, out bool enhancedOnly)
+        public static void PeekMissionDetails(String path, out MissionType missionType, out bool enhancedOnly,  out List<Achievement> achievements)
         {
 
            
@@ -217,7 +224,8 @@ namespace Wof.Model.Level.XmlParser
 
             enhancedOnly = false;
             missionType = MissionType.BombingRun; // nie zdefiniowano
-
+            List<Achievement> achievementList = new List<Achievement>();
+             
             while (reader.Read())
             {
                   if (reader.Name.Equals(Nodes.Level))
@@ -227,11 +235,23 @@ namespace Wof.Model.Level.XmlParser
                           for (int i = 0; i < reader.AttributeCount; i++)
                           {
                               reader.MoveToAttribute(i);
+                              
+                              
+                              
                               if (reader.Name.Equals(Attributes.MissionType, StringComparison.InvariantCultureIgnoreCase))
                               {
                                    missionType = GetMissionTypeForName(reader.Value);
-                              }else
-                              if (reader.Name.Equals(Attributes.EnhancedOnly, StringComparison.InvariantCultureIgnoreCase))
+                              }  
+                              else if (reader.Name.Equals(Nodes.Achievement))
+                        	  {
+                              	
+                              	 Achievement achievement;
+	                        	 if ((achievement = ReadAchievement(reader)) == null){	                            
+	                        	 }
+	                        	 achievementList.Add(achievement);                               
+                                
+                              } 
+                              else if (reader.Name.Equals(Attributes.EnhancedOnly, StringComparison.InvariantCultureIgnoreCase))
                               {
                                   try
                                   {
@@ -251,7 +271,7 @@ namespace Wof.Model.Level.XmlParser
                   }
             }
            
-           
+           achievements = achievementList;
 
         }
 
@@ -498,6 +518,14 @@ namespace Wof.Model.Level.XmlParser
                         {
                             if (!ReadBarrels(reader))
                                 throw new XmlException("Barrels");
+                        }  else if (reader.Name.Equals(Nodes.Achievement))
+                        {
+                        	 
+                        	Achievement achievement;
+                        	 if ((achievement =ReadAchievement(reader)) == null){
+                                throw new XmlException("achievement");
+                        	 }
+                        	 achievements.Add(achievement);
                         }
                     }
                 }
@@ -1006,6 +1034,44 @@ namespace Wof.Model.Level.XmlParser
 
         #region Read Level Attributes
 
+        
+        
+        private static Achievement ReadAchievement(XmlReader reader)
+        {
+        	AchievementType? type = null;
+        	int amount = -1;
+            if (reader.HasAttributes)
+            {
+            	try{
+	                for (int i = 0; i < reader.AttributeCount; i++)
+	                {
+	                    reader.MoveToAttribute(i);
+	                    if (reader.Name.Equals(Attributes.Type, StringComparison.InvariantCultureIgnoreCase))
+	                        type = GetAchievementType(reader.Value);
+	
+	                    if (reader.Name.Equals(Attributes.Amount, StringComparison.InvariantCultureIgnoreCase))
+	                    {
+	                        amount = Int32.Parse(reader.Value.Trim());                       
+	                    }                    
+	
+	                }
+            	}
+            	catch(Exception ex)
+            	{
+            		throw ex;
+            	}
+            }
+            else return null;
+            if(type == null || amount == -1){
+            	throw new XmlException("Achievement is invalid - no valid 'type' or 'amount' specified");
+            }
+            
+            Achievement achievement = new Achievement(type.Value, amount);
+           
+
+            return achievement;
+        }
+
         /// <summary>
         /// Funkcja wczytuje wlasciwosci dla wezla Level.
         /// </summary>
@@ -1215,6 +1281,15 @@ namespace Wof.Model.Level.XmlParser
                 return DayTime.Night;
         }
         
+        private static AchievementType GetAchievementType(String type)
+        {
+        	
+        	AchievementType ret = (AchievementType)AchievementType.Parse(typeof(AchievementType), type, true);
+        	return ret;
+          
+        }
+        
+        
         
         /// <summary>
         /// Funkcja konwertuje stringa na odpowiadajacy mission type
@@ -1292,6 +1367,12 @@ namespace Wof.Model.Level.XmlParser
             get { return levelTiles; }
         }
 
+        
+        public List<Achievement> Achievements
+        {
+        	get { return achievements; }
+        	
+        }
         /// <summary>
         /// Zwraca listê statków[managerów] znajdujacych sie na planszy.
         /// </summary>
@@ -1329,7 +1410,7 @@ namespace Wof.Model.Level.XmlParser
         public const String C_LEVEL_PREFIX = "level-";
         public const String C_LEVEL_POSTFIX = ".dat";
 
-        public static String GetLevelFileName(int levelNo)
+        public static String GetLevelFileName(uint levelNo)
         {
             return C_LEVEL_FOLDER + "\\"
                    + C_LEVEL_PREFIX + levelNo + C_LEVEL_POSTFIX;

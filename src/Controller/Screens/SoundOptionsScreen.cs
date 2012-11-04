@@ -95,9 +95,9 @@ namespace Wof.Controller.Screens
         }
 
 
-        protected override List<string> GetAvailableOptions()
+        protected override List<object> GetAvailableOptions()
         {
-            List<String> availableModes = new List<String>();
+            List<object> availableModes = new List<object>();
 
             // sound systems
             availableModes.Add("__Sound systems");

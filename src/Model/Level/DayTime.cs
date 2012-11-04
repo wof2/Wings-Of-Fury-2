@@ -22,11 +22,13 @@ namespace Wof.Model.Level
 
 
     } ;
-
+  
+    
       /// <summary>
     /// This attribute is used to represent a string value
     /// for a value in an enum.
     /// </summary>
+    [Serializable()]	
     public class StringValueAttribute : Attribute {
 
         #region Properties

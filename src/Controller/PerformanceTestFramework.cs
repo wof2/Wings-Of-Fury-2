@@ -91,7 +91,7 @@ namespace Wof.Controller
             }
 			int maxVO = videoOptions.Count - 1;
            
-            List<String> aaOptions = FrameWorkStaticHelper.GetAntialiasingModes();
+            List<object> aaOptions = FrameWorkStaticHelper.GetAntialiasingModes();
             int maxAA = aaOptions.Count - 1;
             
             
@@ -100,7 +100,7 @@ namespace Wof.Controller
                 // very low
                 quality= GraphicsQuality.VeryLow;
                 videoMode = videoOptions[0];
-                antialiasing = aaOptions[0];
+                antialiasing = aaOptions[0].ToString();
                 vsync = "No";
                 EngineConfig.UseHydrax = false;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.None;
@@ -112,7 +112,7 @@ namespace Wof.Controller
                 // low
                 quality = GraphicsQuality.Low;
                 videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.10f)];
-                antialiasing = aaOptions[0];
+                antialiasing = aaOptions[0].ToString();
                 vsync = "No";
                 EngineConfig.UseHydrax = false;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.None;
@@ -125,7 +125,7 @@ namespace Wof.Controller
                 // medium
                 quality = GraphicsQuality.Medium;
                 videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.20f)];
-                antialiasing = aaOptions[0];
+                antialiasing = aaOptions[0].ToString();
                 vsync = "No";
                 EngineConfig.UseHydrax = false;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Low;
@@ -139,7 +139,7 @@ namespace Wof.Controller
                 quality = GraphicsQuality.UpperMedium;
                 vsync = "Yes";
                 videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.40f)];
-                antialiasing = aaOptions[(int)System.Math.Floor(maxAA * 0.50f)];
+                antialiasing = aaOptions[(int)System.Math.Floor(maxAA * 0.50f)].ToString();
                 EngineConfig.UseHydrax = false;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Low;
                 EngineConfig.LowDetails = false;
@@ -152,7 +152,7 @@ namespace Wof.Controller
                 quality = GraphicsQuality.High;
                 vsync = "Yes";
                 videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.75f)];
-                antialiasing = aaOptions[(int)System.Math.Floor(maxAA * 0.75f)];
+                antialiasing = aaOptions[(int)System.Math.Floor(maxAA * 0.75f)].ToString();
                 EngineConfig.UseHydrax = hiEndVS;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Low;
                 EngineConfig.LowDetails = false;
@@ -165,7 +165,7 @@ namespace Wof.Controller
                 quality = GraphicsQuality.VeryHigh;
                 vsync = "Yes";
                 videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.85f)];
-                antialiasing = aaOptions[(int)System.Math.Floor(maxAA * 0.85f)];
+                antialiasing = aaOptions[(int)System.Math.Floor(maxAA * 0.85f)].ToString();
                 EngineConfig.UseHydrax = hiEndVS;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Medium;
                 EngineConfig.LowDetails = false;
@@ -177,7 +177,7 @@ namespace Wof.Controller
                 quality = GraphicsQuality.Superb;
                 vsync = "Yes";
                 videoMode = videoOptions[maxVO];
-                antialiasing = aaOptions[maxAA];
+                antialiasing = aaOptions[maxAA].ToString();
                 EngineConfig.UseHydrax = hiEndVS;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.High;
                 EngineConfig.LowDetails = false;

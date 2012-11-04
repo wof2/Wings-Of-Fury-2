@@ -78,6 +78,7 @@ namespace Wof.Model.Level
     public class Level : IDisposable
     {
 
+    	
         #region Constants
 
         /// <summary>
@@ -125,7 +126,14 @@ namespace Wof.Model.Level
         /// <summary>
         /// Lista z zolnierzami na planszy.
         /// </summary>
+        /// 
         private List<Soldier> soldierList;
+        
+        private List<Achievement> achievements;
+        
+		public List<Achievement> Achievements {
+			get { return achievements; }
+		}
 
         /// <summary>
         /// Lista z genera³ami na planszy.
@@ -294,12 +302,12 @@ namespace Wof.Model.Level
 
         }
         
-        public static void PeekMissionDetails(string fileName, out MissionType mt, out bool enhancedOnly)
+        public static void PeekMissionDetails(string fileName, out MissionType mt, out bool enhancedOnly, out List<Achievement> achievements)
         {
         	if (String.IsNullOrEmpty(fileName))
                 throw new IOException("File name must be set !");
            
-            XmlLevelParser.PeekMissionDetails(fileName, out mt, out enhancedOnly);
+            XmlLevelParser.PeekMissionDetails(fileName, out mt, out enhancedOnly, out achievements);
         }
 
         /// <summary>
@@ -321,6 +329,13 @@ namespace Wof.Model.Level
             generalList = new List<General>(1);
             bunkersList = new List<LevelTile>(5);
             shipsList = new List<LevelTile>();
+            
+            achievements = LevelParser.Achievements;
+            foreach(Achievement a in achievements) {
+            	a.OnFulfilled = this.OnAchievementFulFilled;
+            	a.OnUpdated = this.OnAchievementUpdated;
+            		
+            }
 
             ammunitionList = new List<Ammunition>(10);
             aircraftTiles = new List<AircraftCarrierTile>(5);
@@ -425,6 +440,14 @@ namespace Wof.Model.Level
 
         #region Public Method
 
+        public void OnAchievementFulFilled(Achievement a) {        	
+        	controller.OnAchievementFulFilled(a);
+        }
+        public void OnAchievementUpdated(Achievement a) {        	
+        	controller.OnAchievementUpdated(a);
+        }
+        
+	
 
         public static String GetMissionTypeTextureFile(MissionType missionType)
         {
@@ -1703,14 +1726,27 @@ namespace Wof.Model.Level
         {
             get { return this.mStatistics; }
         }
+        
+        public Achievement GetAchievementByType(AchievementType type) 
+        {
+        	return achievements.Find(Predicates.GetAchievementByType(type));
+        }
 
         /// <summary>
         /// Zwraca liczbe zolnierzy, ktorzy znajduja sie obecnie na planszy.
         /// </summary>
         public int SoldiersCount
         {
-            protected set { this.mSoldierCount = Math.Max(value, 0); }
-            get { return this.mSoldierCount; }
+            protected set {        		     
+        		
+        		this.mSoldierCount = Math.Max(value, 0); 
+        	
+        	}
+            get { 
+            	
+            	return this.mSoldierCount;
+            
+            }
         }
 
         /// <summary>
@@ -1718,7 +1754,9 @@ namespace Wof.Model.Level
         /// </summary>
         public int GeneralsCount
         {
-            protected set { this.mGeneralCount = Math.Max(value, 0); }
+            protected set {         		
+        		this.mGeneralCount = Math.Max(value, 0); 
+        	}
             get { return this.mGeneralCount; }
         }
 

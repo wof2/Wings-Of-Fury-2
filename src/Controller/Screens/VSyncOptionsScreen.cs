@@ -69,9 +69,9 @@ namespace Wof.Controller.Screens
             return String.Format("{0}?", LanguageResources.GetString(LanguageKey.EnableVSync));
         }
 
-        protected override List<String> GetAvailableOptions()
+        protected override List<object> GetAvailableOptions()
         {
-            List<String> availableModes = new List<String>();
+            List<object> availableModes = new List<object>();
 
             ConfigOption_NativePtr videoModeOption;
 

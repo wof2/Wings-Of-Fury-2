@@ -73,9 +73,9 @@ namespace Wof.Controller.Screens
             return LanguageResources.GetString(LanguageKey.Languages);
         }
 
-        protected override List<string> GetAvailableOptions()
+        protected override List<object> GetAvailableOptions()
         {
-            List<string> availableModes = new List<string>();
+            List<object> availableModes = new List<object>();
 
             foreach (KeyValuePair<string, string> lang in LanguageManager.AvailableLanguages)
             {

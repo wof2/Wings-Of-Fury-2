@@ -53,6 +53,8 @@ namespace Wof.Model.Level.XmlParser
     /// </summary>
     public class Nodes
     {
+    	 public const string Achievement = @"achievement";
+        
         public const string Tile = @"tile";
         public const string Level = @"level";
         public const string Ocean = @"ocean";

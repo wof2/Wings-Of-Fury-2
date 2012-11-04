@@ -106,7 +106,16 @@ namespace Wof.Model.Level.Common
         {
             return delegate(LevelTile tiles) { return ((tiles as BunkerTile) != null); };
         }
-
+        
+        public static Predicate<Achievement> GetAchievementByType(AchievementType type)
+        {
+            return delegate(Achievement achievement) { return achievement.Type == type; };
+        }
+        
+ 		public static Predicate<Achievement> GetCompletedAchievements()
+        {
+ 			return delegate(Achievement achievement) { return achievement.IsFulfilled(); };
+        }
 
         /// <summary>
         /// Predykat do wyszukiwania obiektow, 

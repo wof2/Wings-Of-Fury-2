@@ -563,13 +563,22 @@
     <Compile Include="src\Controller\Indicators\IconedCenteredMessageEntry.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyCodeConflictException.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyMap.cs" />
+    <Compile Include="src\Controller\Screens\ConvertibleToString.cs" />
     <Compile Include="src\Controller\Screens\LanguageDebugScreen.cs" />
     <Compile Include="src\Controller\Sound\FreeSL\FSLOgreCS\FSLAmbientSoundMusic.cs" />
     <Compile Include="src\Controller\Taskbar.cs" />
+    <Compile Include="src\Misc\SerializableDictionary.cs" />
+    <Compile Include="src\Model\Level\Achievement.cs" />
+    <Compile Include="src\Model\Level\AchievementType.cs" />
+    <Compile Include="src\Model\Level\CompletedLevelsInfo.cs" />
+    <Compile Include="src\Model\Level\LevelInfo.cs" />
     <Compile Include="src\Model\Level\LevelTiles\IslandTiles\EnemyInstallationTiles\FlakBunkerTile.cs" />
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\ISinkComponent.cs" />
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipManagers\SubmarineManager.cs" />
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\SinkComponent.cs" />
+    <Compile Include="src\Model\Level\MissionType.cs">
+      <DependentUpon>AttractorTarget.cs</DependentUpon>
+    </Compile>
     <Compile Include="src\Model\Level\Planes\EnemyBomber.cs" />
     <Compile Include="src\Model\Level\Planes\EnemyPlaneBase.cs" />
     <Compile Include="src\Model\Level\Weapon\BunkerShellBullet.cs" />
@@ -583,6 +592,7 @@
       <DependentUpon>GunTestForm.cs</DependentUpon>
     </Compile>
     <Compile Include="src\Tests\ModelTest\GunTest.cs" />
+    <Compile Include="src\Tests\ModelTest\LevelTest\LevelUtilsTest.cs" />
     <Compile Include="src\Tools\Licensing.cs" />
     <Compile Include="src\Controller\PerformanceTestFramework.cs">
       <SubType>Form</SubType>
@@ -847,7 +857,6 @@
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipBunkerTile.cs" />
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\ShipWoodBunkerTile.cs" />
     <Compile Include="src\Model\Level\LevelTiles\Watercraft\TypeOfEnemyShip.cs" />
-    <Compile Include="src\Model\Level\MissionType.cs" />
     <Compile Include="src\Model\Level\Planes\EnemyFighter.cs">
       <SubType>Code</SubType>
     </Compile>

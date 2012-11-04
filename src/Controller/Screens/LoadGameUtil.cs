@@ -51,32 +51,66 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
+
 using Wof.Languages;
+using Wof.Misc;
+using Wof.Model.Level;
 using Wof.Model.Level.XmlParser;
 
 namespace Wof.Controller.Screens
 {
     public class LoadGameUtil
-    {
+    {    	
+    	private CompletedLevelsInfo completedLevelsInfo;    
+    	
+		public CompletedLevelsInfo CompletedLevelsInfo {
+			get { return completedLevelsInfo; }
+		}
+    	
+    	public List<Achievement> GetCompletedAchievementsForLevel(LevelInfo levelInfo) {
+    		if(completedLevelsInfo != null && completedLevelsInfo.CompletedLevels != null && completedLevelsInfo.CompletedLevels.ContainsKey(levelInfo)) {
+    		    return	completedLevelsInfo.CompletedLevels[levelInfo];
+            }
+            return null;
+    		
+    	}
+    	
+    	protected void UpdateCompletedLevelsInfo(CompletedLevelsInfo completedLevelsInfo) {
+    		this.completedLevelsInfo = completedLevelsInfo;
+    	}
+    	
+    	private LoadGameUtil()
+    	{
+    		this.completedLevelsInfo = GetCompletedLevels();
+    		
+    	}    	
+    	
+        private static readonly LoadGameUtil singleton = new LoadGameUtil();
 
-        public const string C_CUSTOM_LEVELS_DIR = "custom_levels/";
-
-        public static List<string> GetAllPossibleLevelsFull()
+        public static LoadGameUtil Singleton
         {
-            List<string> ret = new List<string>();
+            get { return singleton; }
+        }
+
+
+        public static List<object> GetAllPossibleLevelsFull()
+        {
+            List<object> ret = new List<object>();
             List<uint> levels = GetAllPossibleLevels();
             foreach (uint u in levels)
-            {
-                ret.Add(LanguageResources.GetString(LanguageKey.Level) + u);
+            {    
+            	ret.Add(new LevelInfo(XmlLevelParser.GetLevelFileName((uint)u), false));        
             }
             return ret;
         }
 
-        public static List<uint> GetAllPossibleLevels()
+        private static List<uint> GetAllPossibleLevels()
         {
             List<uint> completedLevels = new List<uint>();
 
-            int i = 0;
+            uint i = 0;
             while (File.Exists(XmlLevelParser.GetLevelFileName(++i)))
             {
                 completedLevels.Add((uint)i);
@@ -85,102 +119,105 @@ namespace Wof.Controller.Screens
         }
 
 
-        public static string GetCustomLevelName(string path)
-        {
-            int maxLen = 30;
-            string name = path.Substring(C_CUSTOM_LEVELS_DIR.Length);
-            if (name.Length > maxLen)
-            {
-                name = name.Substring(0, maxLen);
-            }
-            return name;
-        }
+       
 
-        public static List<String> GetCustomLevels()
+        public static List<object> GetCustomLevels()
         {
             try
             {
-               
-                return new List<string>(Directory.GetFiles(C_CUSTOM_LEVELS_DIR, "*" + XmlLevelParser.C_LEVEL_POSTFIX));
+            	string[] files = Directory.GetFiles(LevelInfo.C_CUSTOM_LEVELS_DIR, "*" + XmlLevelParser.C_LEVEL_POSTFIX);
+            	List<object> ret = new List<object>();
+            	foreach(string filename in files)
+            	{	
+            		ret.Add(new LevelInfo(filename, true));            		
+            	}
+                return ret;
             }
             catch (Exception)
-            {
-                
-                return new List<string>();
+            {                
+                return new List<object>();
             }
-           
-
-
         }
 
-        public static List<string> GetCompletedLevelsFull()
+        public static List<object> GetCompletedLevelsFull()
         {
-            List<string> ret = new List<string>();
-            List<uint> completedLevels = GetCompletedLevels();
-            foreach (uint u in completedLevels)
+            List<object> ret = new List<object>();
+            Dictionary<LevelInfo, List<Achievement>>  completedLevels = Singleton.CompletedLevelsInfo.CompletedLevels;
+            foreach (LevelInfo info in completedLevels.Keys)
             {
-                ret.Add( LanguageResources.GetString(LanguageKey.Level) + u);
+            	ret.Add(info);
+            	
+              //  ret.Add( LanguageResources.GetString(LanguageKey.Level) + u);
             }
             return ret;
         }
+        
+        public static Stream GenerateStreamFromString(string s)
+		{
+		    MemoryStream stream = new MemoryStream();
+		    StreamWriter writer = new StreamWriter(stream);
+		    writer.Write(s);
+		    writer.Flush();
+		    stream.Position = 0;
+		    return stream;
+		}
 
-        public static List<uint> GetCompletedLevels()
+        public static CompletedLevelsInfo GetCompletedLevels()
         {
-            List<uint> completedLevels = new List<uint>();
-
+            CompletedLevelsInfo  completedLevels = new CompletedLevelsInfo ();
+			List<Achievement> emptyAchievements = new List<Achievement>();
             if (!File.Exists(LoadGameScreen.C_COMPLETED_LEVELS_FILE))
             {
-                NewLevelCompleted(1);
-                completedLevels.Add(1);
-                return completedLevels;
+            	completedLevels = CompletedLevelsInfo.GetDefaultCompletedLevelsInfo();            	
+            	return completedLevels;          
             }
             else
             {
                 try
                 {
-                    string levelsRaw = File.ReadAllText(LoadGameScreen.C_COMPLETED_LEVELS_FILE);
-                    string[] levels =
-                        RijndaelSimple.Decrypt(levelsRaw).Split(new char[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
-
-                    for (int i = 0; i < levels.Length; i++)
-                    {
-                        int l = int.Parse(levels[i]);
-                        completedLevels.Add((uint) l);
-                    }
+                    string levelsRaw = File.ReadAllText(LoadGameScreen.C_COMPLETED_LEVELS_FILE);                   
+                    string levelsString = RijndaelSimple.Decrypt(levelsRaw);
+                    
+                	using (Stream stream = GenerateStreamFromString(levelsString))
+					{
+					     XmlSerializer serializer = new XmlSerializer(typeof(CompletedLevelsInfo));
+					     ;
+					    var levels = ( CompletedLevelsInfo)serializer.Deserialize(stream);					    
+					    return (levels as CompletedLevelsInfo);
+					}                  
+                  
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    completedLevels.Clear();
-                    completedLevels.Add(1);
+                	completedLevels.CompletedLevels.Clear();
+                	completedLevels.CompletedLevels.Add(new LevelInfo(XmlLevelParser.GetLevelFileName(1), false), emptyAchievements);
+                    Console.WriteLine(ex);
                 }
+                                
                 return completedLevels;
             }
         }
 
-        public static void NewLevelCompleted(uint levelNo)
+        public static CompletedLevelsInfo NewLevelCompleted(LevelInfo levelInfo, List<Achievement> achievements)
         {
-            List<uint> completedLevels = new List<uint>();
-            if (levelNo != 1)
-            {
-                completedLevels = GetCompletedLevels();
-                if (completedLevels.Contains(levelNo))
-                {
-                    return;
-                }
-            }
-            if(!completedLevels.Contains(levelNo))
-            {
-           		completedLevels.Add(levelNo);
-            }
-            completedLevels.Sort();
-           
-            string toFile = "";
-            foreach (int i in completedLevels)
-            {
-                toFile += "|" + i.ToString();
-            }
-
-            File.WriteAllText(LoadGameScreen.C_COMPLETED_LEVELS_FILE, RijndaelSimple.Encrypt(toFile));
+        	
+            CompletedLevelsInfo completedLevels = Singleton.CompletedLevelsInfo;         
+            completedLevels.CompletedLevels[levelInfo] = achievements; 
+            
+                            
+            MemoryStream stream = new MemoryStream();	
+		    XmlSerializer serializer = new XmlSerializer(typeof(CompletedLevelsInfo));
+            serializer.Serialize(stream, completedLevels);
+            
+            stream.Position = 0;
+	        var sr = new StreamReader(stream);
+	        var levelsRaw = sr.ReadToEnd();
+	        stream.Close();
+	      
+            File.WriteAllText(LoadGameScreen.C_COMPLETED_LEVELS_FILE, RijndaelSimple.Encrypt(levelsRaw));
+            
+            Singleton.UpdateCompletedLevelsInfo(completedLevels);
+            return completedLevels;
         }
     }
 }

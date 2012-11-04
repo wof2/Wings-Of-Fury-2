@@ -74,6 +74,7 @@ namespace Wof.Model.Level.XmlParser
         public const string HasRockets = @"hasRockets";
         public const string NumGenerals = @"num-generals";
         public const string Type = @"type";
+        public const string Amount = @"amount";
         
 
         

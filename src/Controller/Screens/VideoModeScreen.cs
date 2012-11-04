@@ -70,7 +70,7 @@ namespace Wof.Controller.Screens
             return LanguageResources.GetString(LanguageKey.ChooseVideoMode);
         }
 
-        protected override List<String> GetAvailableOptions()
+        protected override List<object> GetAvailableOptions()
         {
             List<String> availableOptions = FrameWorkStaticHelper.GetVideoModes(true, 800, 600);
             return FilterPossibleOptions(availableOptions);
@@ -97,12 +97,12 @@ namespace Wof.Controller.Screens
        
         
 
-        private List<String> FilterPossibleOptions(List<String> available)
+        private List<object> FilterPossibleOptions(List<String> available)
         {
             // gra nie jest przystosowana do dzialania w rozdzielczosci
             // nizszej niz 800 x 600
 
-            List<String> filtered = new List<String>();
+            List<object> filtered = new List<object>();
 
             Boolean mayCopy = false;
             // tryby poukladane sa od najmniejszej rozdzielczosci
