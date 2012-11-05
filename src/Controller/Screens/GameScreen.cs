@@ -111,7 +111,9 @@ namespace Wof.Controller.Screens
         private const int C_SHIP_CONCRETE_BUNKER_SCORE = 55;
 
         
-        private const int C_ENEMY_PLANE_SCORE = 35;
+        private const int C_ENEMY_FIGHTER_SCORE = 35;
+        private const int C_ENEMY_BOMBER_SCORE = 55;
+        
         private const int C_LIFE_LEFT_SCORE = 50;
 
         public const float C_RESPONSE_DELAY = 0.16f;
@@ -585,22 +587,23 @@ namespace Wof.Controller.Screens
                     missionTypeWindow.show();
                     
                     
-                    achievementsGui = new GUI(FontManager.CurrentFont, (uint)( fontSize* 0.35f), "AchievementsTypeGUI");    
+                    achievementsGui = new GUI(FontManager.CurrentFont, (uint)( fontSize* 0.55f), "AchievementsTypeGUI");    
                  
-                    achievementsWindow = missionTypeGui.createWindow(new Vector4(h, viewport.ActualHeight - 40, dist, 40), "", (int)wt.NONE, "");
+                    achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - 40, dist, 40), "", (int)wt.NONE, "");
                     
                     List<Achievement> completedAchievementsBefore = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(levelInfo);
-                    
-                                       
-                   // List<Achievement> completedAchievements = this.CurrentLevel.Achievements.FindAll(Predicates.GetCompletedAchievements());
-                    if(completedAchievementsBefore != null) {
-	                    foreach(Achievement a in completedAchievementsBefore)
-	                    {
-	                    	OnAchievementUpdated(a);
-	                    	OnAchievementFulFilled(a);
-	                    }
+                   
+                    for(int k =0; k < this.CurrentLevel.Achievements.Count; k++) {
+                    	                    	
+                    	Achievement a = CurrentLevel.Achievements[k];
+                    	if(completedAchievementsBefore.Contains(a)) {
+                    		CurrentLevel.Achievements[k] = completedAchievementsBefore.Find(delegate(Achievement ach) { return ach.Equals(a); });
+                    	                  		
+	                    	OnAchievementFulFilled(CurrentLevel.Achievements[k], false);	                    	
+                    	} 
+                    	OnAchievementUpdated(CurrentLevel.Achievements[k]);
                     }
-                  // OnAchievementFulFilled(new Achievement(AchievementType.EnemyBombers, 1234));
+           
                     achievementsWindow.show();
                     
                     
@@ -911,6 +914,10 @@ namespace Wof.Controller.Screens
             { 	
             	_bulletTimeBar.Dispose();
             	_altitudeBar.Dispose();
+            	
+            	foreach(AchievementIcon icon in achievementsIcons.Values) {
+            		icon.Dispose();
+            	}
                 if (mGui != null)
                 {
                
@@ -1619,9 +1626,10 @@ namespace Wof.Controller.Screens
                         AdManager.Singleton.ClearDynamicAds();
 
 
-                        if(levelNo == 0)
+                        if(levelInfo.IsCustom)
                         { 
-                            // level 0 to customowy poziom - koniec
+                        	// customowy poziom - koniec
+							LoadGameUtil.NewLevelCompleted(levelInfo, completedAchievements.FindAll(Predicates.GetCompletedAchievements()));
                             gameEventListener.GotoStartScreen();
                         }
                         else
@@ -2719,21 +2727,21 @@ namespace Wof.Controller.Screens
 			get { return completedAchievements; }
 		}
         
-        public void OnAchievementFulFilled(Achievement a)
-		{
-        	if(!completedAchievements.Contains(a)) {
-        		completedAchievements.Add(a);
-        	} else {
-        		completedAchievements.Remove(a);
-        		completedAchievements.Add(a);
-        	}
-            int index = completedAchievements.Count - 1;
-			Achievement achievement = completedAchievements[index];			
-        	string filename = achievement.GetPinFilename();        	
-        	achievementsWindow.createStaticImage(new Vector4((index +1) * 40, 0, 40, 40), filename); // pelna gwiazdka!
-        	
+       private Dictionary<Achievement, AchievementIcon> achievementsIcons = new Dictionary<Achievement, AchievementIcon>();
+        
+        
+        
+        public void OnAchievementFulFilled(Achievement a, bool playSound)
+		{  
+        	// LoadGameUtil.NewLevelCompleted(this.LevelInfo, completedAchievements.FindAll(Predicates.GetCompletedAchievements()));   
+			// save tylko na koniec levelu    
+			if(playSound) {
+        	SoundManager.Instance.PlayAchievementFulFilled(); 
+			}
 		}
         
+        
+       
         public void OnAchievementUpdated(Achievement a)
 		{       	
         	if(!completedAchievements.Contains(a)) {
@@ -2742,18 +2750,19 @@ namespace Wof.Controller.Screens
         		completedAchievements.Remove(a);
         		completedAchievements.Add(a);
         	}
+        	AchievementIcon icon;
+        	if(achievementsIcons.ContainsKey(a)) {
+        		icon = achievementsIcons[a];        		
+        	}else {
+        		achievementsIcons[a] = icon =  new AchievementIcon(a, achievementsWindow);
+        		
+        	}        	        	        	
         	int index = completedAchievements.FindIndex(delegate(Achievement ach) { return ach == a; });
         	
 			Achievement achievement = completedAchievements[index];	
-        	string achString = achievement.AmountDone +" / "+ achievement.Amount;
-        	
-        	achievementsWindow.createStaticText(new Vector4((index +1) * 40, 0, 40, 40), achString);
-        	
-        	
-        	if(!a.IsFulfilled()) {
-        		// TODO: obrazek nieskonczonego achievementu
-        	}
-        
+        	        	
+			icon.Update(index);        
+        	        
         	
         }
 
@@ -2989,7 +2998,7 @@ namespace Wof.Controller.Screens
         public void OnShipBeginSinking(ShipTile tile)
         {
              OnStartWaterBubblesSound();
-             levelView.OnShipBeginSinking(tile);
+             levelView.OnShipBeginSinking(tile);                         
         }
 
         public void OnShipSinking(ShipTile tile)
@@ -3013,6 +3022,13 @@ namespace Wof.Controller.Screens
         {
             levelView.OnShipSunk(tile);
             OnStopWaterBubblesSound();
+           
+            Achievement a = CurrentLevel.GetAchievementByShipType(tile.TypeOfEnemyShip);
+            if(a!=null) {
+    			a.AmountDone++;        			 	
+    	    }
+       
+        
             //TODO: remove the ship from the level.
             
          //  currentLevel.
@@ -3034,28 +3050,37 @@ namespace Wof.Controller.Screens
             levelView.OnAmmunitionExplode(tile, ammunition);
             
             levelView.OnTileDestroyed(tile);
+            
+            Achievement a;
+            AchievementType? type = null;
+         	
 
             if (tile is BarrackTile)
             {
+            	type = AchievementType.Barracks;    
                 increaseScore(C_BARRACK_SCORE);
             }
             else if (tile is WoodBunkerTile)
             {
+            	type = AchievementType.WoodBunkers;    
                 increaseScore(C_WOODEN_BUNKER_SCORE);
             }
             else if (tile is ConcreteBunkerTile)
             {
+            	type = AchievementType.ConcreteBunkers;
                 increaseScore(C_CONCRETE_BUNKER_SCORE);
             } if (tile is FlakBunkerTile)
             {
+            	type = AchievementType.FlakBunkers;
                 increaseScore(C_FLAK_BUNKER_SCORE);
             }
             else if (tile is FortressBunkerTile)
             {
+            	type = AchievementType.Fortresses;
                 increaseScore(C_FORTRESS_BUNKER_SCORE);
             }
             else if (tile is ShipWoodBunkerTile)
-            {
+            {            	
                 increaseScore(C_SHIP_WOODEN_BUNKER_SCORE);
             }
             else if (tile is ShipConcreteBunkerTile)
@@ -3069,6 +3094,12 @@ namespace Wof.Controller.Screens
             else
             {
                 SoundManager.Instance.PlayExposionSound();
+            }
+            if(type != null && type.HasValue) {
+	            a = CurrentLevel.GetAchievementByType(type.Value);
+	            if(a!=null) {
+	    			a.AmountDone++;        			 	
+	    	    }
             }
            
         }
@@ -3329,8 +3360,13 @@ namespace Wof.Controller.Screens
             if (plane.IsEnemy)
             {
                 gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.EnemyPlaneDownIRepeat));
-                    // GameMessages.C_ENEMY_PLANE_DOWN);
-                increaseScore(C_ENEMY_PLANE_SCORE);
+             
+                increaseScore(plane is EnemyFighter ? C_ENEMY_FIGHTER_SCORE : C_ENEMY_BOMBER_SCORE);
+                
+                Achievement a = CurrentLevel.GetAchievementByEnemyPlaneType(plane.PlaneType);
+	            if(a!=null) {
+	    			a.AmountDone++;        			 	
+	    	    }
 
             }
             levelView.OnPlaneDestroyed(plane);

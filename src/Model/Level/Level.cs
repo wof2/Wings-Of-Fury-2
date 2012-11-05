@@ -440,8 +440,8 @@ namespace Wof.Model.Level
 
         #region Public Method
 
-        public void OnAchievementFulFilled(Achievement a) {        	
-        	controller.OnAchievementFulFilled(a);
+        public void OnAchievementFulFilled(Achievement a, bool playSound) {        	
+        	controller.OnAchievementFulFilled(a, playSound);
         }
         public void OnAchievementUpdated(Achievement a) {        	
         	controller.OnAchievementUpdated(a);
@@ -1729,8 +1729,20 @@ namespace Wof.Model.Level
         
         public Achievement GetAchievementByType(AchievementType type) 
         {
-        	return achievements.Find(Predicates.GetAchievementByType(type));
+        	return achievements.FindLast(Predicates.GetAchievementByType(type));
         }
+        
+        public Achievement GetAchievementByShipType(TypeOfEnemyShip shipType) 
+        {
+        	return achievements.FindLast(Predicates.GetAchievementByShipType(shipType));
+        }
+        
+         public Achievement GetAchievementByEnemyPlaneType(PlaneType enemyPlaneType) 
+        {
+        	return achievements.FindLast(Predicates.GetAchievementByEnemyPlaneType(enemyPlaneType));
+        }
+        
+        
 
         /// <summary>
         /// Zwraca liczbe zolnierzy, ktorzy znajduja sie obecnie na planszy.

@@ -128,7 +128,7 @@ namespace Wof.Controller.Screens
             int i = 1;
             foreach(Achievement a in achievementsDone) {
             	i++;
-            	guiWindow.createStaticImage(new Vector4((Viewport.ActualWidth / 2) - i * GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), a.GetPinFilename(), (ushort)(2000 + index));
+            	guiWindow.createStaticImage(new Vector4((Viewport.ActualWidth / 2) - i * GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), a.GetImageFilename(), (ushort)(2000 + index));
             }
         }
 

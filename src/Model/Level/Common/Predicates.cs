@@ -112,6 +112,28 @@ namespace Wof.Model.Level.Common
             return delegate(Achievement achievement) { return achievement.Type == type; };
         }
         
+        public static Predicate<Achievement> GetAchievementByShipType(TypeOfEnemyShip shipType)
+        {
+            return delegate(Achievement achievement) { 
+        		return (shipType == TypeOfEnemyShip.PatrolBoat && achievement.Type == AchievementType.PatrolBoats) ||
+        			   (shipType == TypeOfEnemyShip.Submarine && achievement.Type == AchievementType.Submarines) ||
+        			   (shipType == TypeOfEnemyShip.WarShip && achievement.Type == AchievementType.Warships);
+        	
+        	};
+        }
+        
+        public static Predicate<Achievement> GetAchievementByEnemyPlaneType(PlaneType planeType)
+        {
+            return delegate(Achievement achievement) { 
+        		return (planeType == PlaneType.A6M && achievement.Type == AchievementType.EnemyFighters) ||
+        			   (planeType == PlaneType.Betty && achievement.Type == AchievementType.EnemyBombers);
+        	
+        	};
+        }
+        
+        
+        
+        
  		public static Predicate<Achievement> GetCompletedAchievements()
         {
  			return delegate(Achievement achievement) { return achievement.IsFulfilled(); };
