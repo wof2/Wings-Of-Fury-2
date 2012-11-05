@@ -21,13 +21,13 @@ namespace Wof.Model.Level
 	/// Description of Achievement.
 	/// </summary>
 	[Serializable()]
-	public class Achievement
+	public class Achievement : IEquatable<Achievement>
 	{
 		
 		private AchievementType type;
 		
 		
-		public delegate void AchievementFulfilledDelegate(Achievement a);
+		public delegate void AchievementFulfilledDelegate(Achievement a, bool playSound);
 		public delegate void AchievementUpdatedDelegate(Achievement a);
 		
 	//	[field: NonSerialized()]
@@ -67,15 +67,18 @@ namespace Wof.Model.Level
 		public int AmountDone {
 			get { return amountDone; }
 			set { 
+				int  amountDoneBefore = amountDone;
+				amountDone = Math.Min(value, amount);
 				
-				amountDone = value;
-				if(OnUpdated != null) {
-					OnUpdated(this);
-				}
-				
-				if(OnFulfilled != null) {
-					if(IsFulfilled()) {
-						OnFulfilled(this);
+				if(amountDoneBefore != amountDone) {
+					if(OnUpdated != null) {
+						OnUpdated(this);
+					}
+					
+					if(OnFulfilled != null) {
+						if(IsFulfilled()) {
+							OnFulfilled(this, true);
+						}
 					}
 				}
 				
@@ -90,12 +93,16 @@ namespace Wof.Model.Level
 	
 		}
 			
-		public Achievement(AchievementType type, int amount)
+		public Achievement(AchievementType type, int amount) : this(type, amount, 0 )
+		{
+			
+		}
+		public Achievement(AchievementType type, int amount, int amountDone)
 		{
 			this.type = type;
 			this.amount = amount;
+			this.amountDone = amountDone;
 		}
-		
 		public bool IsFulfilled() {
 			if(this.amountDone >= amount) {
 				return true;
@@ -106,46 +113,111 @@ namespace Wof.Model.Level
 	    public override int GetHashCode() {
 	    	return this.Type.GetHashCode();
 	    }
-			
 		
+		public bool Equals(Achievement other)
+		{
+			return type.Equals(other.Type);
+		}	
 		
-		public string GetPinFilename()
+		public string GetFulfilledImageFilename()
 		{
 			switch(type) {
 				case AchievementType.Barracks:					
-						return "pin.png";
-					break;
-					
+						return "astar_on.png";
+					break;					
+				case AchievementType.Fortresses:					
+						return "astar_on.png";
+					break;					
+				case AchievementType.FlakBunkers:
+						return "astar_on.png";
+					break;	        
 				case AchievementType.ConcreteBunkers:					
-						return "pin.png";
+						return "astar_on.png";
 					break;
 				case AchievementType.EnemyBombers:					
-						return "pin.png";
+						return "astar_on.png";
 					break;
 				case AchievementType.EnemyFighters:					
-						return "pin.png";
+						return "astar_on.png";
 					break;
 				case AchievementType.Generals:					
-						return "pin.png";
+						return "astar_on.png";
 					break;
 				case AchievementType.PatrolBoats:					
-						return "pin.png";
+						return "astar_on.png";
 					break;
 				case AchievementType.Soldiers:					
-						return "pin.png";
+						return "astar_on.png";
 					break;
 									
 				case AchievementType.Warships:					
-						return "pin.png";
+						return "astar_on.png";
 					break;
+					
+					
+				case AchievementType.Submarines:					
+						return "astar_on.png";
+					break;						
+					
 				case AchievementType.WoodBunkers:					
-						return "pin.png";
+						return "astar_on.png";
 					break;
-				
-									
+							
 					
 			}
 			return null;
 		}
+		
+		
+		public string GetImageFilename()
+		{
+			switch(type) {
+				case AchievementType.Barracks:					
+						return "astar.png";
+					break;					
+				case AchievementType.Fortresses:					
+						return "astar.png";
+					break;					
+				case AchievementType.FlakBunkers:
+						return "astar.png";
+					break;	        
+				case AchievementType.ConcreteBunkers:					
+						return "astar.png";
+					break;
+				case AchievementType.EnemyBombers:					
+						return "astar.png";
+					break;
+				case AchievementType.EnemyFighters:					
+						return "astar.png";
+					break;
+				case AchievementType.Generals:					
+						return "astar.png";
+					break;
+				case AchievementType.PatrolBoats:					
+						return "astar.png";
+					break;
+				case AchievementType.Soldiers:					
+						return "astar.png";
+					break;
+									
+				case AchievementType.Warships:					
+						return "astar.png";
+					break;
+					
+					
+				case AchievementType.Submarines:					
+						return "astar.png";
+					break;						
+					
+				case AchievementType.WoodBunkers:					
+						return "astar.png";
+					break;
+						
+					
+			}
+			return null;
+		}
+		
+		
 	}
 }

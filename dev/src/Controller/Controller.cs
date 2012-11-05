@@ -549,7 +549,7 @@ namespace Wof.Controller
         IFrameWork GetFramework();
         
     	
-		void OnAchievementFulFilled(Achievement a);
+		void OnAchievementFulFilled(Achievement a, bool playSound);
     	
 		void OnAchievementUpdated(Achievement a);
     }

@@ -69,6 +69,14 @@ namespace Wof.Controller.Screens
 			get { return completedLevelsInfo; }
 		}
     	
+    	public bool HasCompletedLevel(LevelInfo levelInfo) {
+    		if(completedLevelsInfo != null && completedLevelsInfo.CompletedLevels != null && completedLevelsInfo.CompletedLevels.ContainsKey(levelInfo)) {
+    		    return	true;
+            }
+            return false;
+    		
+    	}
+    	
     	public List<Achievement> GetCompletedAchievementsForLevel(LevelInfo levelInfo) {
     		if(completedLevelsInfo != null && completedLevelsInfo.CompletedLevels != null && completedLevelsInfo.CompletedLevels.ContainsKey(levelInfo)) {
     		    return	completedLevelsInfo.CompletedLevels[levelInfo];

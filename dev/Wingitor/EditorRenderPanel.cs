@@ -670,7 +670,7 @@ namespace wingitor
 			return levelView.framework;
 		}
     	
-		public void OnAchievementFulFilled(Achievement a)
+		public void OnAchievementFulFilled(Achievement a, bool playSound)
 		{
 			
 		}

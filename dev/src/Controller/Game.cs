@@ -63,6 +63,7 @@ using Wof.Controller.Screens;
 using Wof.Languages;
 using Wof.Model.Configuration;
 using Wof.Model.Level;
+using Wof.Model.Level.Common;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.XmlParser;
 using Wof.src.Controller;
@@ -70,8 +71,10 @@ using Wof.Tools;
 using Wof.View;
 using Wof.View.Effects;
 using HWND = System.IntPtr;
-//using LONG = int;
 using LONG_PTR = System.IntPtr;
+
+//using LONG = int;
+
 
 namespace Wof.Controller
 {
@@ -729,7 +732,7 @@ namespace Wof.Controller
             int score = ((GameScreen) currentScreen).Score;
             float survivalTime = ((GameScreen)currentScreen).SurvivalTime;
             var completedAchievements = ((GameScreen)currentScreen).CompletedAchievements;
-			
+			LevelInfo levelInfo = ((GameScreen)currentScreen).LevelInfo;
          
             uint? level = ((GameScreen) currentScreen).LevelNo;
             if(!level.HasValue)
@@ -737,9 +740,17 @@ namespace Wof.Controller
             	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error can't go to next level since current level number cannot be resolved");
             	return; //error
             }
+            
+            LoadGameUtil.NewLevelCompleted(levelInfo, completedAchievements.FindAll(Predicates.GetCompletedAchievements()));
+                
             if (File.Exists(XmlLevelParser.GetLevelFileName(level.Value + 1)))
-            {
-                LoadGameUtil.NewLevelCompleted(new LevelInfo(level.Value + 1), completedAchievements );
+            {                    
+            	LevelInfo nextLevelInfo = new LevelInfo(level.Value + 1);
+                if(!LoadGameUtil.Singleton.HasCompletedLevel(nextLevelInfo)) {
+                	LoadGameUtil.NewLevelCompleted(nextLevelInfo, new List<Achievement>());
+                }
+                
+            	
 
                 MenuScreen screen = currentScreen;
                 screen.CleanUp(false);

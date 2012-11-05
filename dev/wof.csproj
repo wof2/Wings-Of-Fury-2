@@ -559,11 +559,11 @@
     </Compile>
     <Compile Include="src\Controller\FrameWorkStaticHelper.cs" />
     <Compile Include="src\Controller\IFrameWork.cs" />
+    <Compile Include="src\Controller\Indicators\AchievementIcon.cs" />
     <Compile Include="src\Controller\Indicators\CenteredMessageEntry.cs" />
     <Compile Include="src\Controller\Indicators\IconedCenteredMessageEntry.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyCodeConflictException.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyMap.cs" />
-    <Compile Include="src\Controller\Screens\ConvertibleToString.cs" />
     <Compile Include="src\Controller\Screens\LanguageDebugScreen.cs" />
     <Compile Include="src\Controller\Sound\FreeSL\FSLOgreCS\FSLAmbientSoundMusic.cs" />
     <Compile Include="src\Controller\Taskbar.cs" />

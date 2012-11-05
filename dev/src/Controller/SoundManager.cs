@@ -162,7 +162,9 @@ namespace Wof.Controller
         private Audio collisionSound;
 
         private Audio bunkerRebuild;
-        private Audio startSubmergingSound;        
+        private Audio startSubmergingSound;     
+        private Audio achievementFulFilled;     
+        
         private Audio reloadSound;
         private Audio buzzerSound;
         private Audio bombSound;
@@ -225,12 +227,14 @@ namespace Wof.Controller
             
                 waterExplosionSound = new Audio("sounds/watersplash.wav");
                 missileSound = new Audio("sounds/missile.wav");
-                smallMissileSound = new Audio("sounds/small_missile.wav");
-               
+                smallMissileSound = new Audio("sounds/small_missile.wav");              
+                
                 torpedoSound = new Audio("sounds/torpedo.wav");
             
                 catchPlaneSound = new Audio("sounds/landing.wav");
                 bunkerRebuild = new Audio("sounds/construction.wav");
+                
+                achievementFulFilled = new Audio("sounds/achievement.wav");
                 
                 startSubmergingSound = new Audio("sounds/ship_siren.wav");
                 reloadSound = new Audio("sounds/reload.wav");
@@ -528,6 +532,11 @@ namespace Wof.Controller
         {
             Play(bunkerRebuild);
         }
+        
+        public void PlayAchievementFulFilled()
+		{
+			Play(achievementFulFilled);
+		}
 
         public void PlayReloadSound()
         {
@@ -605,6 +614,8 @@ namespace Wof.Controller
                 ProblemWithSound = true;
             }
         }
+        
+       
 
         public void OnEngineFaulty(Model.Level.Planes.Plane p)
         {
@@ -848,5 +859,7 @@ namespace Wof.Controller
         }
 
       
+    	
+		
     }
 }

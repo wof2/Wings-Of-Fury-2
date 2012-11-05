@@ -21,7 +21,8 @@ namespace Wof.Tests.ModelTest.LevelTest
 		public static void Test()
 		{
 			var list = new List<Achievement>();
-			list.Add(new Achievement(AchievementType.Generals, 2324));
+			list.Add(new Achievement(AchievementType.Soldiers, 2, 2));
+			list.Add(new Achievement(AchievementType.WoodBunkers, 2, 0));
 			LoadGameUtil.NewLevelCompleted(new LevelInfo(3), list);
 		//	LoadGameUtil.GetCompletedLevels();
 		}

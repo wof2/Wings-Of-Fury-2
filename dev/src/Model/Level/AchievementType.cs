@@ -22,6 +22,10 @@ namespace Wof.Model.Level
       //  [StringValue("barracks")]
         Barracks,
         
+        Fortresses,
+        
+        FlakBunkers,
+        
       //  [StringValue("enemyFighters")]
         EnemyFighters,
           
@@ -32,7 +36,9 @@ namespace Wof.Model.Level
         PatrolBoats,
         
      //   [StringValue("warships")]
-        Warships
+        Warships,
+        
+        Submarines
     } ;
 
      

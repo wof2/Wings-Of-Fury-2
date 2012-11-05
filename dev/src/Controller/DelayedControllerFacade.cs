@@ -764,9 +764,9 @@ namespace Wof.Controller
 		}
 	    
 	    
-		public void OnAchievementFulFilled(Achievement a)
+		public void OnAchievementFulFilled(Achievement a, bool playSound)
 		{
-			AddJob(MethodBase.GetCurrentMethod().Name, new object[] { a });
+			AddJob(MethodBase.GetCurrentMethod().Name, new object[] { a, playSound});
 		}
 		
 		public void OnAchievementUpdated(Achievement a)
