@@ -15,7 +15,7 @@ using System.Xml.Serialization;
 namespace Wof.Misc
 {
 	[Serializable()]
-public class SerializableDictionary<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSerializable, ISerializable
+public class SerializableDictionary<TKey, TVal> : SortedDictionary<TKey, TVal>, IXmlSerializable, ISerializable
 {
         #region Constants
         private const string DictionaryNodeName = "Dictionary";
@@ -33,26 +33,19 @@ public class SerializableDictionary<TKey, TVal> : Dictionary<TKey, TVal>, IXmlSe
         {
         }
 
-        public SerializableDictionary(IEqualityComparer<TKey> comparer)
-            : base(comparer)
+        public SerializableDictionary(IComparer<TKey> comparer)
+        	: base(comparer)
         {
         }
 
-        public SerializableDictionary(int capacity)
-            : base(capacity)
-        {
-        }
+      
 
-        public SerializableDictionary(IDictionary<TKey, TVal> dictionary, IEqualityComparer<TKey> comparer)
+        public SerializableDictionary(IDictionary<TKey, TVal> dictionary, IComparer<TKey> comparer)
             : base(dictionary, comparer)
         {
         }
 
-        public SerializableDictionary(int capacity, IEqualityComparer<TKey> comparer)
-            : base(capacity, comparer)
-        {
-        }
-
+       
         #endregion
         #region ISerializable Members
 

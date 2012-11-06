@@ -764,12 +764,19 @@ namespace BetaGUI
 	            	//foreach (OverlayContainer container in mI[i].GetChildContainerIterator())
 	               // foreach (OverlayElement element in container.GetChildIterator())
 	               //     OverlayManager.Singleton.DestroyOverlayElement(element);
-	            	
+	               
 	             	OverlayManager.Singleton.DestroyOverlayElement(mI[i]);
 	             	
 	            }
+            	/*foreach (OverlayElement element in mO.GetChildIterator())
+                {
+                     OverlayManager.Singleton.DestroyOverlayElement(element);
+                 }*/
+	            	 
                 foreach (OverlayContainer container in mO.GetChildContainerIterator())
                 {
+                	
+                	
                      foreach (OverlayElement element in container.GetChildIterator())
                      {
                          OverlayManager.Singleton.DestroyOverlayElement(element);
@@ -777,13 +784,14 @@ namespace BetaGUI
                         
                     
                 }
+               
 	            mO.Hide();
 	            mO.Dispose();
 	            mO = null;
             }
-            catch(Exception)
+            catch(Exception ex)
             {
-            	
+            	LogManager.Singleton.LogMessage("Error while disposing GUI: "+ex.Message+". Stack: "+ex.StackTrace);
             }
            
         }

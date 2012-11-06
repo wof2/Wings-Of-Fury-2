@@ -237,6 +237,12 @@ namespace Wof.Controller.Screens
         private GUI achievementsGui;
         private Window achievementsWindow;
         
+        public List<Achievement> CompletedAchievements 
+        {      
+        	get { return CurrentLevel.Achievements.FindAll(Predicates.GetCompletedAchievements()); }
+        	
+        }
+        
         
 
         private GUI mGuiHint;
@@ -589,17 +595,17 @@ namespace Wof.Controller.Screens
                     
                     achievementsGui = new GUI(FontManager.CurrentFont, (uint)( fontSize* 0.55f), "AchievementsTypeGUI");    
                  
-                    achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - 40, dist, 40), "", (int)wt.NONE, "");
+                    achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - 40 - achievementsGui.mFontSize, dist, 40 + achievementsGui.mFontSize), "", (int)wt.NONE, "");
                     
                     List<Achievement> completedAchievementsBefore = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(levelInfo);
                    
                     for(int k =0; k < this.CurrentLevel.Achievements.Count; k++) {
                     	                    	
                     	Achievement a = CurrentLevel.Achievements[k];
-                    	if(completedAchievementsBefore.Contains(a)) {
-                    		CurrentLevel.Achievements[k] = completedAchievementsBefore.Find(delegate(Achievement ach) { return ach.Equals(a); });
+                    	if(completedAchievementsBefore != null && completedAchievementsBefore.Contains(a)) {
+                    		CurrentLevel.Achievements[k].CopyFrom(completedAchievementsBefore.Find(delegate(Achievement ach) { return ach.Equals(a); }));
                     	                  		
-	                    	OnAchievementFulFilled(CurrentLevel.Achievements[k], false);	                    	
+	                    	OnAchievementFulFilled(CurrentLevel.Achievements[k], false);
                     	} 
                     	OnAchievementUpdated(CurrentLevel.Achievements[k]);
                     }
@@ -885,7 +891,10 @@ namespace Wof.Controller.Screens
     
         public void CleanUp(Boolean justMenu)
         {
-          //  SoundManager3D.Instance.UpdaterRunning = false;
+            SoundManager3D.Instance.UpdaterRunning = false;
+            SoundManager.Instance.StopMusic();
+
+            
             if(this.levelView != null)
             {
                 levelView.Destroy();
@@ -895,8 +904,7 @@ namespace Wof.Controller.Screens
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
             ViewEffectsManager.Singleton.Clear();
             FrameWorkStaticHelper.DestroyScenes(framework);
-            SoundManager.Instance.StopMusic();
-
+            
 
          //   controller.ClearJobs();
          //  controller = null;
@@ -915,9 +923,7 @@ namespace Wof.Controller.Screens
             	_bulletTimeBar.Dispose();
             	_altitudeBar.Dispose();
             	
-            	foreach(AchievementIcon icon in achievementsIcons.Values) {
-            		icon.Dispose();
-            	}
+            
                 if (mGui != null)
                 {
                
@@ -934,7 +940,20 @@ namespace Wof.Controller.Screens
                 {
                     missionTypeGui.killGUI();
                     missionTypeGui = null;
+                }                
+				if(achievementsIcons!=null) {
+	                foreach(AchievementIcon icon in achievementsIcons.Values) {
+	            		icon.Dispose();
+	            	}  
+                }             
+                if (achievementsGui != null)
+                {
+                    achievementsGui.killGUI();
+                    achievementsGui = null;
                 }
+                
+                
+                
             }
             catch 
             {
@@ -947,7 +966,7 @@ namespace Wof.Controller.Screens
 
             indicatorControl.ClearGUI();
             gameMessages.DestroyMessageContainer();
-         //   SoundManager3D.Instance.UpdaterRunning = true;
+            SoundManager3D.Instance.UpdaterRunning = true;
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUpEnd");
         }
 
@@ -1086,6 +1105,8 @@ namespace Wof.Controller.Screens
                             if (inputKeyboard.IsKeyDown(KeyMap.Instance.GunFire) ||
                                 FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickGun))
                             {
+                            	//this.levelView.FindPlaneView(this.currentLevel.UserPlane).PlayPlanePass();
+
                             	if(currentLevel.OnFireGun())
                             	{
                             		isStillFireGun = true;
@@ -1622,14 +1643,24 @@ namespace Wof.Controller.Screens
                             missionTypeGui.killGUI();
                             missionTypeGui = null;
                         }
-                        
+						if(achievementsIcons!=null) {
+			                foreach(AchievementIcon icon in achievementsIcons.Values) {
+			            		icon.Dispose();
+			            	}  
+		                }                        
+                        if (achievementsGui != null)
+		                {
+		                    achievementsGui.killGUI();
+		                    achievementsGui = null;
+		                }
+		                        
                         AdManager.Singleton.ClearDynamicAds();
 
 
                         if(levelInfo.IsCustom)
                         { 
                         	// customowy poziom - koniec
-							LoadGameUtil.NewLevelCompleted(levelInfo, completedAchievements.FindAll(Predicates.GetCompletedAchievements()));
+							LoadGameUtil.NewLevelCompleted(levelInfo, CompletedAchievements);
                             gameEventListener.GotoStartScreen();
                         }
                         else
@@ -2106,6 +2137,17 @@ namespace Wof.Controller.Screens
                     missionTypeGui.killGUI();
                     missionTypeGui = null;
                 }
+                if(achievementsIcons!=null) {
+	                foreach(AchievementIcon icon in achievementsIcons.Values) {
+	            		icon.Dispose();
+	            	}  
+                }
+                if (achievementsGui != null)
+                {
+                    achievementsGui.killGUI();
+                    achievementsGui = null;
+                }
+                
                 if (levelView != null)
                 {
                     levelView.Destroy();
@@ -2130,6 +2172,18 @@ namespace Wof.Controller.Screens
                     missionTypeGui.killGUI();
                     missionTypeGui = null;
                 }
+                if(achievementsIcons!=null) {
+	                foreach(AchievementIcon icon in achievementsIcons.Values) {
+	            		icon.Dispose();
+	            	}  
+                }
+                if (achievementsGui != null)
+                {
+                    achievementsGui.killGUI();
+                    achievementsGui = null;
+                }
+                
+                
                 if (levelView != null)
                 {
                     levelView.Destroy();
@@ -2721,11 +2775,7 @@ namespace Wof.Controller.Screens
            // currentLevel.OnCheckVictoryConditions();
         }
         
-        private List<Achievement> completedAchievements = new List<Achievement>();
-        
-		public List<Achievement> CompletedAchievements {
-			get { return completedAchievements; }
-		}
+       
         
        private Dictionary<Achievement, AchievementIcon> achievementsIcons = new Dictionary<Achievement, AchievementIcon>();
         
@@ -2736,20 +2786,14 @@ namespace Wof.Controller.Screens
         	// LoadGameUtil.NewLevelCompleted(this.LevelInfo, completedAchievements.FindAll(Predicates.GetCompletedAchievements()));   
 			// save tylko na koniec levelu    
 			if(playSound) {
-        	SoundManager.Instance.PlayAchievementFulFilled(); 
+        		SoundManager.Instance.PlayAchievementFulFilled(); 
 			}
 		}
         
         
        
         public void OnAchievementUpdated(Achievement a)
-		{       	
-        	if(!completedAchievements.Contains(a)) {
-        		completedAchievements.Add(a);
-        	} else {
-        		completedAchievements.Remove(a);
-        		completedAchievements.Add(a);
-        	}
+		{  
         	AchievementIcon icon;
         	if(achievementsIcons.ContainsKey(a)) {
         		icon = achievementsIcons[a];        		
@@ -2757,9 +2801,8 @@ namespace Wof.Controller.Screens
         		achievementsIcons[a] = icon =  new AchievementIcon(a, achievementsWindow);
         		
         	}        	        	        	
-        	int index = completedAchievements.FindIndex(delegate(Achievement ach) { return ach == a; });
-        	
-			Achievement achievement = completedAchievements[index];	
+        	int index = CurrentLevel.Achievements.FindIndex(delegate(Achievement ach) { return ach == a; });
+        
         	        	
 			icon.Update(index);        
         	        
@@ -2925,8 +2968,15 @@ namespace Wof.Controller.Screens
             }
             else
             {
+            	if(ammunition is GunBullet) {
+            		if(Mogre.Math.RangeRandom(0,1) > 0.90f) {
+            		 	SoundManager.Instance.PlayRicochetSound();
+            		}
+            	}else {
+            		 SoundManager.Instance.PlayExposionSound();
+            	}
                 levelView.OnAmmunitionExplode(tile, ammunition);
-                SoundManager.Instance.PlayExposionSound();
+               
             }
         }
 
@@ -2997,6 +3047,13 @@ namespace Wof.Controller.Screens
 
         public void OnShipBeginSinking(ShipTile tile)
         {
+        	if(tile is BeginShipTile) {
+        		Achievement a = CurrentLevel.GetAchievementByShipType((tile as BeginShipTile).TypeOfEnemyShip);
+             	if(a!=null) {
+    		 		a.AmountDone++;        			 	
+             	}
+        	}
+        	  
              OnStartWaterBubblesSound();
              levelView.OnShipBeginSinking(tile);                         
         }
@@ -3023,11 +3080,7 @@ namespace Wof.Controller.Screens
             levelView.OnShipSunk(tile);
             OnStopWaterBubblesSound();
            
-            Achievement a = CurrentLevel.GetAchievementByShipType(tile.TypeOfEnemyShip);
-            if(a!=null) {
-    			a.AmountDone++;        			 	
-    	    }
-       
+          
         
             //TODO: remove the ship from the level.
             
@@ -3215,7 +3268,7 @@ namespace Wof.Controller.Screens
         }
 
         /// <summary>
-        /// Uruchamiane, gdy jakiœ samolot trafi drugi z dzia³ka lotniczego
+        /// Uruchamiane, gdy jakiœ samolot trafi drugi z dzia³ka lotoniczego
         /// <author>Adam Witczak</author>
         /// </summary>
         /// <param name="plane"></param>
@@ -3617,10 +3670,15 @@ namespace Wof.Controller.Screens
          
         }
 
+        float timeSinceLastBuzzerSound = Environment.TickCount;
+        float minBuzzerSoundRepeatTime = 10000; // 10 sek
         public void OnEnemyAttacksCarrier()
         {
             gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.WARNINGProtectTheCarrierFromEnemyPlane));
-            SoundManager.Instance.PlayBuzzerSound();
+            if(Environment.TickCount > timeSinceLastBuzzerSound + minBuzzerSoundRepeatTime) {
+            	SoundManager.Instance.PlayBuzzerSound();
+            	timeSinceLastBuzzerSound = Environment.TickCount;
+            }
         }
 
         public void OnPlaneWrongDirectionStart()

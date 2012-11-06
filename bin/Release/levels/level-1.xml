@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <level dayTime="dusk" enemyFighters="0"   >
-  <achievement type="soldiers" amount="56" /> 
-  <achievement type="generals" amount="1" />   
-  <achievement type="woodBunkers" amount="2" /> 
-  <achievement type="concreteBunkers" amount="3" /> 
-  <achievement type="barracks" amount="4" /> 
-  <achievement type="enemyFighters" amount="5" /> 
-  <achievement type="enemyBombers" amount="6" /> 
-  <achievement type="warships" amount="7" /> 
-  <achievement type="patrolBoats" amount="8" /> 
-
+  
 
   <ocean width="100"/>
   

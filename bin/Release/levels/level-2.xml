@@ -3,6 +3,9 @@
 
 <level dayTime="dawn" enemyFighters="0">
 
+  <achievement type="patrolBoats" amount="1" /> 
+
+
   <ocean width="100"/>
 
   <aircraft-carrier-begin width="1"/>

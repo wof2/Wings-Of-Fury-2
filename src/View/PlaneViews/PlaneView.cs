@@ -573,8 +573,9 @@ namespace Wof.View
             {
                 //planePassSound.SetGain(soundObject.GetBaseGain() * volume / 100.0f);
                 //planePassSound.SetGain(EngineConfig.SoundVolume / 100.0f);
-                planePassSound.SetBaseGain(0.5f);
+                planePassSound.SetBaseGain(2.5f);
                 planePassSound.Play();
+                Console.WriteLine("PLAYING :"+planePassSound.Name);
             }
         }
 

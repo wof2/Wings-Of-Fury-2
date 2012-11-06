@@ -3109,6 +3109,8 @@ namespace Wof.Model.Level.Planes
                 }
                 else
                 {
+                	
+                	level.Controller.OnPlaneDestroyed(this);
                     planeState = PlaneState.Destroyed;
                     StopEngine(scaleFactor);
                     outOfOilFaultyEngineTimer = 0;

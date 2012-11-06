@@ -720,7 +720,7 @@ namespace Wof.Controller.Screens
             }
             catch (Exception ex)
             {
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while cleaning up indicator control: " + ex.StackTrace);   
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while cleaning up indicator control ("+ex.Message+") " + ex.StackTrace);   
              
             }
            

@@ -37,21 +37,21 @@ namespace Wof.Controller.Indicators
 			string achString = achievement.AmountDone +" / "+ achievement.Amount;
 			
 			uint h = achievementsWindow.mGUI.mFontSize;
-					
+			uint totalh = (uint)achievementsWindow.h;
 			DisposeTextContainer();			
-			textContainer = achievementsWindow.createStaticText(new Vector4((index) * 40 + h, 0, 40, 40), achString, new ColourValue(0.4f, 0.4f, 0.4f));
+			textContainer = achievementsWindow.createStaticText(new Vector4((index) * 40 + h, 0, 40, 40), achString, new ColourValue(0.3f, 0.3f, 0.3f));
 
-         	if(!achievement.IsFulfilled()) {
-        		if(imageContainer == null){
+			if(imageContainer == null){
 	        		string filename = achievement.GetImageFilename();     
-	        		imageContainer = achievementsWindow.createStaticImage(new Vector4((index) * 40, 0, 40, 40), filename);
-        		}
-	
-        	} else {
+	        		imageContainer = achievementsWindow.createStaticImage(new Vector4((index) * 40, h, 40, 40), filename, 800);
+        	}
+			
+         	if(achievement.IsFulfilled()) {
+        	
         		if(imageContainerFulfilled == null){	        		
-	        		DisposeImageContainer();
+	        		//DisposeImageContainer();
         			string filename = achievement.GetFulfilledImageFilename();     
-	        		imageContainerFulfilled = achievementsWindow.createStaticImage(new Vector4((index) * 40, 0, 40, 40), filename);
+	        		imageContainerFulfilled = achievementsWindow.createStaticImage(new Vector4((index) * 40, h, 40, 40), filename, 900);
         		}
         	}
 			
@@ -65,6 +65,8 @@ namespace Wof.Controller.Indicators
 				imageContainer.Hide();
 				achievementsWindow.mI.Remove(imageContainer);
 				achievementsWindow.mO.RemoveChild(imageContainer.Name);
+				OverlayManager.Singleton.DestroyOverlayElement(imageContainer);
+                
 				imageContainer.Dispose();		
 				imageContainer = null;				
 			}
@@ -75,6 +77,8 @@ namespace Wof.Controller.Indicators
 				imageContainerFulfilled.Hide();
 				achievementsWindow.mI.Remove(imageContainerFulfilled);
 				achievementsWindow.mO.RemoveChild(imageContainerFulfilled.Name);
+				OverlayManager.Singleton.DestroyOverlayElement(imageContainerFulfilled);
+                
 				imageContainerFulfilled.Dispose();		
 				imageContainerFulfilled	= null;	
 			}
@@ -82,9 +86,12 @@ namespace Wof.Controller.Indicators
 		}
 		
 		private void DisposeTextContainer() {
-			if(textContainer != null) {			
+			if(textContainer != null) {
 				textContainer.Hide();
 				achievementsWindow.mO.RemoveChild(textContainer.Name);
+			 	OverlayManager.Singleton.DestroyOverlayElement(textContainer);
+                
+				
 				textContainer.Dispose();
 				textContainer = null;				
 			}

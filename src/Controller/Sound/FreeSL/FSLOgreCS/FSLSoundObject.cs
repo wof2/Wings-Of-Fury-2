@@ -64,7 +64,7 @@ namespace FSLOgreCS
             {
                 Console.WriteLine("Destroying: " + this._soundFile);
                 FreeSL.fslSoundSetGain(_sound, 0.1f);
-                FreeSL.fslFreeSound(_sound, false);
+                FreeSL.fslFreeSound(_sound, true);
                 _withSound = false;
             }
         }

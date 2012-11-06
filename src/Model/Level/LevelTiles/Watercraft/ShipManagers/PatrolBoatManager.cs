@@ -47,6 +47,7 @@
  */
 
 using System;
+using Wof.Controller;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 
@@ -78,6 +79,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
             //niszczymy obiekt
             _shipTiles[0].Destroy();
             //wysylamy informacje do Controllera.
+            SoundManager.Instance.PlayExposionSound();                
             _refToLevel.Controller.OnShipBeginSinking(_shipTiles[0]); 
         }
 

@@ -315,7 +315,7 @@ namespace Wof.Model.Level.Planes
                 }
             	
                 if (bounds.LowestY <= GetConsts().MinPitch){ //czy ju¿ nie jest za nisko
-                	Console.WriteLine(this.Name+"-"+this.planeType+", Jestem za nisko!");
+                	//Console.WriteLine(this.Name+"-"+this.planeType+", Jestem za nisko!");
                     return true;
             	}
                 if (RelativeAngle >= 0)

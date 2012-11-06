@@ -228,29 +228,25 @@ namespace Wof.Model.Level.XmlParser
              
             while (reader.Read())
             {
-                  if (reader.Name.Equals(Nodes.Level))
+            	  if (reader.Name.Equals(Nodes.Achievement)) {
+	            	  Achievement achievement;
+	            	  if ((achievement = ReadAchievement(reader)) == null){	                            
+	            	  }
+	            	  achievementList.Add(achievement);    
+            	  }
+                                
+                  if (reader.Name.Equals(Nodes.Level) )
                   {
                       if (reader.HasAttributes)
                       {
                           for (int i = 0; i < reader.AttributeCount; i++)
                           {
-                              reader.MoveToAttribute(i);
-                              
-                              
+                              reader.MoveToAttribute(i); 
                               
                               if (reader.Name.Equals(Attributes.MissionType, StringComparison.InvariantCultureIgnoreCase))
                               {
                                    missionType = GetMissionTypeForName(reader.Value);
-                              }  
-                              else if (reader.Name.Equals(Nodes.Achievement))
-                        	  {
-                              	
-                              	 Achievement achievement;
-	                        	 if ((achievement = ReadAchievement(reader)) == null){	                            
-	                        	 }
-	                        	 achievementList.Add(achievement);                               
-                                
-                              } 
+                              }                              
                               else if (reader.Name.Equals(Attributes.EnhancedOnly, StringComparison.InvariantCultureIgnoreCase))
                               {
                                   try

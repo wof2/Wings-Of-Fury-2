@@ -92,6 +92,17 @@ namespace Wof.Model.Level
 		{
 	
 		}
+		
+		/// <summary>
+		/// Kopiuje twarde dane z Achievementu. Nie kopiuje delegatow
+		/// </summary>
+		/// <param name="a"></param>
+		public void CopyFrom(Achievement a) {
+			this.Amount = a.Amount;
+			this.amountDone = a.AmountDone; // bez settera - zeby nie zainicjowac "onFulfilled"
+			this.Type = a.Type;
+		
+		}
 			
 		public Achievement(AchievementType type, int amount) : this(type, amount, 0 )
 		{
@@ -119,53 +130,14 @@ namespace Wof.Model.Level
 			return type.Equals(other.Type);
 		}	
 		
+		public string GetUnFulfilledImageFilename()
+		{
+			return "astar.png";
+		}
+		
 		public string GetFulfilledImageFilename()
 		{
-			switch(type) {
-				case AchievementType.Barracks:					
-						return "astar_on.png";
-					break;					
-				case AchievementType.Fortresses:					
-						return "astar_on.png";
-					break;					
-				case AchievementType.FlakBunkers:
-						return "astar_on.png";
-					break;	        
-				case AchievementType.ConcreteBunkers:					
-						return "astar_on.png";
-					break;
-				case AchievementType.EnemyBombers:					
-						return "astar_on.png";
-					break;
-				case AchievementType.EnemyFighters:					
-						return "astar_on.png";
-					break;
-				case AchievementType.Generals:					
-						return "astar_on.png";
-					break;
-				case AchievementType.PatrolBoats:					
-						return "astar_on.png";
-					break;
-				case AchievementType.Soldiers:					
-						return "astar_on.png";
-					break;
-									
-				case AchievementType.Warships:					
-						return "astar_on.png";
-					break;
-					
-					
-				case AchievementType.Submarines:					
-						return "astar_on.png";
-					break;						
-					
-				case AchievementType.WoodBunkers:					
-						return "astar_on.png";
-					break;
-							
-					
-			}
-			return null;
+			return "astar_on.png";
 		}
 		
 		
@@ -173,44 +145,43 @@ namespace Wof.Model.Level
 		{
 			switch(type) {
 				case AchievementType.Barracks:					
-						return "astar.png";
+						return "a_barracks.png";
 					break;					
 				case AchievementType.Fortresses:					
-						return "astar.png";
+						return "a_fortresses.png";
 					break;					
 				case AchievementType.FlakBunkers:
-						return "astar.png";
+						return "a_flak_bunkers.png";
 					break;	        
 				case AchievementType.ConcreteBunkers:					
-						return "astar.png";
+						return "a_concrete_bunkers.png";
 					break;
 				case AchievementType.EnemyBombers:					
-						return "astar.png";
+						return "a_enemy_bombers.png";
 					break;
 				case AchievementType.EnemyFighters:					
-						return "astar.png";
+						return "a_enemy_fighters.png";
 					break;
 				case AchievementType.Generals:					
-						return "astar.png";
+						return "a_generals.png";
 					break;
 				case AchievementType.PatrolBoats:					
-						return "astar.png";
+						return "a_patrolboats.png";
 					break;
 				case AchievementType.Soldiers:					
-						return "astar.png";
+						return "a_soldiers.png";
 					break;
 									
 				case AchievementType.Warships:					
-						return "astar.png";
-					break;
-					
+						return "a_warships.png";
+					break;					
 					
 				case AchievementType.Submarines:					
-						return "astar.png";
+						return "a_submarines.png";
 					break;						
 					
 				case AchievementType.WoodBunkers:					
-						return "astar.png";
+						return "a_wood_bunkers.png";
 					break;
 						
 					
