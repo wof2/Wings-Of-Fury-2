@@ -77,6 +77,18 @@ namespace Wof.Controller.Screens
     		
     	}
     	
+    	public static void MergeAchievements(List<Achievement> source, List<Achievement> destination ) {
+    		
+            for(int k = 0; k < destination.Count; k++) {            	                    	
+            	Achievement a = destination[k];
+            	if(source != null && source.Contains(a)) {
+            		destination[k].CopyFrom(source.Find(delegate(Achievement ach) { return ach.Equals(a); }));            	      
+            	} 
+            	
+            }
+    		
+    	}
+    	
     	public List<Achievement> GetCompletedAchievementsForLevel(LevelInfo levelInfo) {
     		if(completedLevelsInfo != null && completedLevelsInfo.CompletedLevels != null && completedLevelsInfo.CompletedLevels.ContainsKey(levelInfo)) {
     		    return	completedLevelsInfo.CompletedLevels[levelInfo];
@@ -150,7 +162,7 @@ namespace Wof.Controller.Screens
         public static List<object> GetCompletedLevelsFull()
         {
             List<object> ret = new List<object>();
-            Dictionary<LevelInfo, List<Achievement>>  completedLevels = Singleton.CompletedLevelsInfo.CompletedLevels;
+            IDictionary<LevelInfo, List<Achievement>>  completedLevels = Singleton.CompletedLevelsInfo.CompletedLevels;
             foreach (LevelInfo info in completedLevels.Keys)
             {
             	ret.Add(info);
@@ -201,6 +213,7 @@ namespace Wof.Controller.Screens
                 	completedLevels.CompletedLevels.Add(new LevelInfo(XmlLevelParser.GetLevelFileName(1), false), emptyAchievements);
                     Console.WriteLine(ex);
                 }
+                
                                 
                 return completedLevels;
             }
@@ -211,7 +224,7 @@ namespace Wof.Controller.Screens
         	
             CompletedLevelsInfo completedLevels = Singleton.CompletedLevelsInfo;         
             completedLevels.CompletedLevels[levelInfo] = achievements; 
-            
+           
                             
             MemoryStream stream = new MemoryStream();	
 		    XmlSerializer serializer = new XmlSerializer(typeof(CompletedLevelsInfo));

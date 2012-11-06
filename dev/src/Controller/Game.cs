@@ -741,7 +741,7 @@ namespace Wof.Controller
             	return; //error
             }
             
-            LoadGameUtil.NewLevelCompleted(levelInfo, completedAchievements.FindAll(Predicates.GetCompletedAchievements()));
+            LoadGameUtil.NewLevelCompleted(levelInfo, completedAchievements);
                 
             if (File.Exists(XmlLevelParser.GetLevelFileName(level.Value + 1)))
             {                    

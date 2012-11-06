@@ -117,8 +117,12 @@ namespace Wof.Controller.Screens
 
             CompletedLevelsInfo completedLevelsInfo = LoadGameUtil.Singleton.CompletedLevelsInfo;
            
+            
             List<Achievement> achievementsDone = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(info);
-                      
+            if(allAchievements != null) {
+            	LoadGameUtil.MergeAchievements(achievementsDone, allAchievements);
+            }
+            
             string filename = Level.GetMissionTypeTextureFile(mt);
             if (filename != null)
             {
@@ -126,9 +130,14 @@ namespace Wof.Controller.Screens
             }
             
             int i = 1;
-            foreach(Achievement a in achievementsDone) {
+            if(allAchievements == null) return; 
+            
+            foreach(Achievement a in allAchievements) {
             	i++;
-            	guiWindow.createStaticImage(new Vector4((Viewport.ActualWidth / 2) - i * GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), a.GetImageFilename(), (ushort)(2000 + index));
+            	string image;
+            	image = a.IsFulfilled() ? a.GetFulfilledImageFilename() : a.GetUnFulfilledImageFilename();
+            	
+            	guiWindow.createStaticImage(new Vector4((Viewport.ActualWidth / 2) - i * GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), image, (ushort)(2000 + index));
             }
         }
 

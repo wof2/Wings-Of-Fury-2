@@ -17,7 +17,7 @@ namespace Wof.Model.Level
 	/// Description of LevelInfo_cs.
 	/// </summary>
 	[Serializable()]
-	public class LevelInfo : IEquatable<LevelInfo>
+	public class LevelInfo : IEquatable<LevelInfo>, IComparable<LevelInfo>
 	{
 		 public const string C_CUSTOM_LEVELS_DIR = "custom_levels/";
 		 
@@ -108,6 +108,11 @@ namespace Wof.Model.Level
 		{
 			return other.filename.Equals(filename);
 		
+		}
+		
+		public int CompareTo(LevelInfo other)
+		{
+			return this.Filename.CompareTo(other.Filename);
 		}
 	}
 }

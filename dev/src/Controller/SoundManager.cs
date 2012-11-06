@@ -535,7 +535,7 @@ namespace Wof.Controller
         
         public void PlayAchievementFulFilled()
 		{
-			Play(achievementFulFilled);
+			Play(achievementFulFilled, 2000);
 		}
 
         public void PlayReloadSound()
