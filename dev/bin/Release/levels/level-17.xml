@@ -2,21 +2,12 @@
 
 
 <level dayTime="dusk"  enemyFighters="12"  enemyBombers="5" timeToNextEnemyPlane="15000" timeToFirstEnemyPlane="1000">
+ 
+  <achievement type="enemyFighters" amount="12" /> 
+  <achievement type="enemyBombers" amount="5" /> 
+  <achievement type="patrolBoats" amount="2" />
   
-  
-  <achievement type="soldiers" amount="6" /> 
-  <achievement type="generals" amount="1" />   
-  <achievement type="woodBunkers" amount="2" /> 
-  <achievement type="concreteBunkers" amount="3" /> 
-  <achievement type="barracks" amount="4" /> 
-  <achievement type="enemyFighters" amount="5" /> 
-  <achievement type="enemyBombers" amount="6" /> 
-  <achievement type="warships" amount="1" /> 
-  <achievement type="patrolBoats" amount="1" />
-  <achievement type="submarines" amount="1" />
-  <achievement type="flakBunkers" amount="1" />
-  
-  
+    
 <ocean width="100"/>
     <!-- double laguna -->
   <island-begin mesh="DoubleLaguna"  />    

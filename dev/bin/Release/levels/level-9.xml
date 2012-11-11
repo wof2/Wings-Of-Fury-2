@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <level dayTime="dusk2" missionType="assassination" enemyFighters="4">
+  <achievement type="soldiers" amount="32" /> 
+  <achievement type="enemyFighters" amount="4" /> 
+  <achievement type="fortresses" amount="1" /> 
   
+	
   <ocean width="100"/>
   
   <island-begin mesh="Island4" variation="3"/>

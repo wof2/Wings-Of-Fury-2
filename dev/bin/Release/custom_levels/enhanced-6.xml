@@ -2,6 +2,11 @@
 
 <level dayTime="morning" enhancedOnly="1" missionType="dogfight" enemyFighters="20" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="15000">
 
+  <achievement type="concreteBunkers" amount="10" /> 
+  <achievement type="warships" amount="2" /> 
+  <achievement type="soldiers" amount="37" /> 
+	
+  
   <ocean width="100"/>
 
 

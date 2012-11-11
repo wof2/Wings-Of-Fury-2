@@ -95,8 +95,11 @@ namespace Wof.Controller.Screens
             enhancedMissionsMap[holder] = enhancedOnly;
             levelInfoMap[holder] = info;
             
-            CompletedLevelsInfo completedLevelsInfo = LoadGameUtil.Singleton.CompletedLevelsInfo;           
+            CompletedLevelsInfo completedLevelsInfo = LoadGameUtil.Singleton.CompletedLevelsInfo;             
             List<Achievement> achievementsDone = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(info);
+            if(allAchievements != null) {
+            	LoadGameUtil.MergeAchievements(achievementsDone, allAchievements);
+            }
             
                        
             string filename = Level.GetMissionTypeTextureFile(mt);
@@ -108,18 +111,28 @@ namespace Wof.Controller.Screens
 
             if (enhancedOnly)
             {
-                guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - 2.5f * GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), "pin.png", (ushort)(1100 + index));
+                guiWindow.createStaticImage(new Vector4(Viewport.ActualWidth / 2 - 5.0f * GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), "pin.png", (ushort)(1100 + index));
+            }
+            
+            int i = 1;
+            if(allAchievements == null) return; 
+            
+            foreach(Achievement a in allAchievements) {
+            	i++;
+            	string image;
+            	image = a.IsFulfilled() ? a.GetFulfilledImageFilename() : a.GetUnFulfilledImageFilename();
+            	
+            	guiWindow.createStaticImage(new Vector4((Viewport.ActualWidth / 2) - i * GetTextVSpacing(), pos.y, GetTextVSpacing(), GetTextVSpacing()), image, (ushort)(2000 + index));
             }
         }
 
-        protected override Vector4 GetOptionPos(uint index, Window window)
+       protected override Vector4 GetOptionPos(uint index, Window window)
         {
-            return new Vector4(0, 2 * GetTextVSpacing() + index*GetTextVSpacing(),
-                               Viewport.ActualWidth/2 - GetTextVSpacing(), GetTextVSpacing());
-          
+            return new Vector4(0, 2 * GetTextVSpacing() + index * GetTextVSpacing(),
+                               Viewport.ActualWidth / 2 - 5*GetTextVSpacing(), GetTextVSpacing());
+
         }
 
-      
         
         protected override void GoToBack(Button referer)
         {
@@ -144,7 +157,7 @@ namespace Wof.Controller.Screens
             }
             else
             {
-                return LevelInfo.GetCustomLevelName(option);
+                return option;
             }
         }
 

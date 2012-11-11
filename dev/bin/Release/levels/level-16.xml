@@ -2,6 +2,12 @@
 
 
 <level dayTime="noon" missionType="naval" enemyFighters="8">
+  
+  <achievement type="enemyFighters" amount="8" /> 
+  <achievement type="concreteBunkers" amount="9" /> 
+  <achievement type="soldiers" amount="31" /> 
+  
+  
   <ocean width="100"/>
  
   <!-- warship -->

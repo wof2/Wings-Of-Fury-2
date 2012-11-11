@@ -594,7 +594,8 @@ namespace Wof.Controller.Screens
                     
                     
                     achievementsGui = new GUI(FontManager.CurrentFont, (uint)( fontSize* 0.55f), "AchievementsTypeGUI");    
-                 
+                    achievementsGui.SetZOrder(100);
+                    
                     achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - 40 - achievementsGui.mFontSize, dist, 40 + achievementsGui.mFontSize), "", (int)wt.NONE, "");
                     
                     List<Achievement> completedAchievementsBefore = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(levelInfo);
@@ -2153,6 +2154,9 @@ namespace Wof.Controller.Screens
                     levelView.Destroy();
                     levelView = null;
                 }
+                
+                
+                
                 gameEventListener.GotoStartScreen();
             }
             if (referer == gameOverButton)
@@ -2193,6 +2197,10 @@ namespace Wof.Controller.Screens
                 HighscoreUtil util = new HighscoreUtil();
                 int leastScore = util.FindLeastHighscore();
                 float maxSurvivalTime = util.GetSurvivalTime();
+                
+                if(this.CurrentLevel.MissionType == MissionType.Survival) {
+                	LoadGameUtil.NewLevelCompleted(levelInfo, CompletedAchievements);
+                }
 
               
                 if (score >= leastScore || survivalTime > maxSurvivalTime)
@@ -3133,11 +3141,13 @@ namespace Wof.Controller.Screens
                 increaseScore(C_FORTRESS_BUNKER_SCORE);
             }
             else if (tile is ShipWoodBunkerTile)
-            {            	
+            {          
+				type = AchievementType.WoodBunkers;            	
                 increaseScore(C_SHIP_WOODEN_BUNKER_SCORE);
             }
             else if (tile is ShipConcreteBunkerTile)
             {
+            	type = AchievementType.ConcreteBunkers;
                 increaseScore(C_SHIP_CONCRETE_BUNKER_SCORE);
             }
             if(Mogre.Math.RangeRandom(0,1) > 0.5f)

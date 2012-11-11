@@ -29,6 +29,7 @@ namespace BetaGUI
     {
         public uint wc, bc, tc, oc;
         public Overlay mO, mMPo;
+        public Overlay mOTop;
         public List<Window> WN = new List<Window>();
         public Window mXW;
         public OverlayContainer mMP;
@@ -45,6 +46,7 @@ namespace BetaGUI
         public void SetZOrder(ushort zorder)
         {
         	mO.ZOrder = zorder;
+        	mOTop.ZOrder =(ushort)(zorder + 1);
         }
         	
         
@@ -61,8 +63,12 @@ namespace BetaGUI
             mO = OverlayManager.Singleton.Create("BetaGUI" + DateTime.Now.Ticks);         
             name = "BetaGUI" + DateTime.Now.Ticks;
             mO.Show();
+            
+            mOTop = OverlayManager.Singleton.Create("BetaGUI_top" + DateTime.Now.Ticks);         
+            mOTop.Show();
+            
 
-            createWindow(new Vector4(0, 0, 0, 0), "", (int)wt.NONE, " "); // hack na pierwsze okno :(
+            //createWindow(new Vector4(0, 0, 0, 0), "", (int)wt.NONE, " "); // hack na pierwsze okno :(
         }
 
         public GUI(String font, uint fontSize, String name)
@@ -76,8 +82,11 @@ namespace BetaGUI
             tc = 0;
             oc = 0;
             mO = OverlayManager.Singleton.Create(name);
+            mOTop = OverlayManager.Singleton.Create(name+"Top");
+            
             this.name = name;
             mO.Show();
+            mOTop.Show();
         }
 
         public void hide()
@@ -114,6 +123,19 @@ namespace BetaGUI
                 OverlayManager.Singleton.DestroyOverlayElement(container);
             }
             OverlayManager.Singleton.Destroy(mO);
+            
+            
+            foreach (OverlayContainer container in mOTop.Get2DElementsIterator())
+            {
+                foreach (OverlayElement element in container.GetChildIterator())
+                    OverlayManager.Singleton.DestroyOverlayElement(element);
+                mOTop.Remove2D(container);
+                OverlayManager.Singleton.DestroyOverlayElement(container);
+            }
+            OverlayManager.Singleton.Destroy(mOTop);
+            
+            
+            
 
             if (mMPo != null)
             {
@@ -240,22 +262,9 @@ namespace BetaGUI
             }
                
         }
-         
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="N">Name</param>
-        /// <param name="P"></param>
-        /// <param name="D"></param>
-        /// <param name="M">Material</param>
-        /// <param name="C">Caption</param>
-        /// <param name="A">Is Window?</param>
-        /// <returns></returns>
         public OverlayContainer createOverlay(String N, Vector2 P, Vector2 D,
-                                              String M, String C, bool A)
-        {
-            String t = "Panel";
+                                              String M, String C, bool A, Overlay target){
+        	String t = "Panel";
             if (C != "")
                 t = "TextArea";
             OverlayElement e = OverlayManager.Singleton.CreateOverlayElement(t, N + this.name + DateTime.Now.Ticks);
@@ -280,6 +289,7 @@ namespace BetaGUI
                 e.SetParameter("char_height", StringConverter.ToString(mFontSize));
               
             }
+            
            
             OverlayContainer c =
                 (OverlayContainer)
@@ -287,16 +297,32 @@ namespace BetaGUI
             c.MetricsMode = GuiMetricsMode.GMM_PIXELS;
             c.SetDimensions(D.x, D.y);
             c.SetPosition(P.x, P.y);
-                   
+            
             if (M != "")
                 c.MaterialName = M;
             c.AddChild(e);
             if (A)
             {
-                mO.Add2D(c);
+                target.Add2D(c);
                 c.Show();
             }
             return c;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="N">Name</param>
+        /// <param name="P"></param>
+        /// <param name="D"></param>
+        /// <param name="M">Material</param>
+        /// <param name="C">Caption</param>
+        /// <param name="A">Is Window?</param>
+        /// <returns></returns>
+        public OverlayContainer createOverlay(String N, Vector2 P, Vector2 D,
+                                              String M, String C, bool A)
+        {
+        	return createOverlay(N,P,D,M,C,A,mO);
         }
 
         public OverlayContainer createMousePointer(Vector2 d, String m)
@@ -560,6 +586,7 @@ namespace BetaGUI
         public float x, y, w, h;
         public GUI mGUI;
         public OverlayContainer mO;
+                
         public List<Button> mB = new List<Button>();
         public List<TextInput> mT = new List<TextInput>();
         public List<OverlayContainer> mI = new List<OverlayContainer>();
@@ -684,16 +711,33 @@ namespace BetaGUI
  			return createStaticImage(posAndSize, imageName, 0);
  	
 	    }
- 		
-        public OverlayContainer createStaticImage(Vector4 posAndSize, String imageName, ushort zOrder)
+ 		 public OverlayContainer createStaticImage(Vector4 posAndSize, String imageName, ushort zOrder)
+        {
+ 		 	return createStaticImage(posAndSize, imageName, false);
+ 		 	
+ 		 }
+        public OverlayContainer createStaticImage(Vector4 posAndSize, String imageName, bool topLevel)
         {
             mGUI.tc++;
             MaterialPtr ptr = Wof.Misc.ViewHelper.CloneMaterial("bgui.image", "bgui.image_" + imageName + mO.Name + StringConverter.ToString(mGUI.tc));
             ptr.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(imageName);
-
-            OverlayContainer x = mGUI.createOverlay(mO.Name + StringConverter.ToString(mGUI.tc) + imageName,
-                                                    new Vector2(posAndSize.x, posAndSize.y), new Vector2(posAndSize.z, posAndSize.w), ptr.Name, "", false);
+ 
+            //  alpha_op_ex source1 src_manual src_texture 0.5      
+           // ptr.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetAlphaOperation(LayerBlendOperationEx.LBX_SOURCE1, LayerBlendSource.LBS_MANUAL, LayerBlendSource.LBS_TEXTURE, 0.5f);
+ 	
+ 	
+           Overlay o;
            
+           if(topLevel) {
+           	 o = mGUI.mOTop;
+           	
+           } else {
+           	 o = mGUI.mO;
+           }
+        
+            OverlayContainer x = mGUI.createOverlay(mO.Name + StringConverter.ToString(mGUI.tc) + imageName,
+                                                    new Vector2(posAndSize.x, posAndSize.y), new Vector2(posAndSize.z, posAndSize.w), ptr.Name, "", false, o);
+                     
             ptr = null;
 
             mO.AddChild(x);

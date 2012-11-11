@@ -31,6 +31,7 @@ namespace Wof.Controller.Indicators
 		{
 			this.achievement = a;
 			this.achievementsWindow = achievementsWindow;
+			
 		}
 		
 		public void Update(int index) {
@@ -43,7 +44,7 @@ namespace Wof.Controller.Indicators
 
 			if(imageContainer == null){
 	        		string filename = achievement.GetImageFilename();     
-	        		imageContainer = achievementsWindow.createStaticImage(new Vector4((index) * 40, h, 40, 40), filename, 800);
+	        		imageContainer = achievementsWindow.createStaticImage(new Vector4((index) * 40, h, 40, 40), filename, false);
         	}
 			
          	if(achievement.IsFulfilled()) {
@@ -51,7 +52,7 @@ namespace Wof.Controller.Indicators
         		if(imageContainerFulfilled == null){	        		
 	        		//DisposeImageContainer();
         			string filename = achievement.GetFulfilledImageFilename();     
-	        		imageContainerFulfilled = achievementsWindow.createStaticImage(new Vector4((index) * 40, h, 40, 40), filename, 900);
+	        		imageContainerFulfilled = achievementsWindow.createStaticImage(new Vector4((index) * 40, h, 20, 20), filename, true);
         		}
         	}
 			

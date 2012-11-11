@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <level dayTime="morning" missionType="assassination" enemyFighters="9" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="15000">
+ 
+  <achievement type="patrolBoats" amount="2" />
+  <achievement type="enemyFighters" amount="9" />  
+  <achievement type="barracks" amount="4" /> 
 
+  
+  
   <ocean width="100"/>
 
    

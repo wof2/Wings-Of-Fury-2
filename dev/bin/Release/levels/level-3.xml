@@ -2,8 +2,8 @@
 
 
 <level dayTime="dusk2" missionType="naval" enemyFighters="1">
-  <achievement type="soldiers" amount="2" />  
-  <achievement type="woodBunkers" amount="1" /> 
+  <achievement type="soldiers" amount="13" />  
+ 
   
   <ocean width="100"/>
 

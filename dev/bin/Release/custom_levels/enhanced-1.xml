@@ -2,7 +2,18 @@
 
 <level dayTime="dusk" enhancedOnly="1" enemyFighters="4" timeToFirstEnemyPlane="10000" timeToNextEnemyPlane="45000">
   
+  
+   <achievement type="enemyFighters" amount="4" /> 
+   <achievement type="flakBunkers" amount="2" />  
+   <achievement type="patrolBoats" amount="3" />
+   
+    
+  
+    
+  
+  
   <ocean width="15"/>
+
     <island-begin mesh="Island4" variation="3"/>
   <concrete-bunker num-soldiers="2" variation="0" hasRockets="1"/>
   <terrain variation="0"/>

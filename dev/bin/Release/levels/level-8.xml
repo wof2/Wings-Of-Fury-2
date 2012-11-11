@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <level dayTime="foggy" missionType="naval" enemyFighters="4" timeToNextEnemyPlane="40000" timeToFirstEnemyPlane="800000">
+
+  <achievement type="flakBunkers" amount="1" />  
+  <achievement type="soldiers" amount="33" /> 
+  <achievement type="concreteBunkers" amount="8" /> 
+  
   <ocean width="1" variation="3"/>
   <ocean width="19"/>
   <ocean width="1" variation="2"/>
