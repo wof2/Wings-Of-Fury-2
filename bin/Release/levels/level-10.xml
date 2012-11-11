@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <level dayTime="noon" missionType="dogfight" enemyFighters="8" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="15000">
+  
+  <achievement type="flakBunkers" amount="2" />
+  <achievement type="barracks" amount="1" /> 
+  <achievement type="woodBunkers" amount="1" /> 
+ 
 
   <ocean width="100"/>
   <island-begin mesh="Island2" variation="1"/>

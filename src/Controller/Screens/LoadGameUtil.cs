@@ -163,9 +163,20 @@ namespace Wof.Controller.Screens
         {
             List<object> ret = new List<object>();
             IDictionary<LevelInfo, List<Achievement>>  completedLevels = Singleton.CompletedLevelsInfo.CompletedLevels;
+           
+            List<object> all = GetAllPossibleLevelsFull();
+            
+            
             foreach (LevelInfo info in completedLevels.Keys)
             {
-            	ret.Add(info);
+            	if(all.Contains(info)) {
+            		ret.Add(info);
+            	}
+            	
+            	//LevelInfo info2 = (LevelInfo)all.Find(delegate(object o) { return o.Equals(info);  });
+            	//if(info2 != null){
+            	//	ret.Add(info2);
+            	//}
             	
               //  ret.Add( LanguageResources.GetString(LanguageKey.Level) + u);
             }

@@ -2,6 +2,10 @@
 
 <level dayTime="night" missionType="assassination" enemyFighters="8" timeToNextEnemyPlane="30000" timeToFirstEnemyPlane="20000">
   
+  <achievement type="enemyFighters" amount="8" /> 
+  <achievement type="barracks" amount="3" /> 
+  <achievement type="flakBunkers" amount="1" />
+  
   
   <ocean width="10"/>
   <ocean width="1" variation="3"/>

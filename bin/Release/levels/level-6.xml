@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level dayTime="night" enemyFighters="3" timeToFirstEnemyPlane="60000" timeToNextEnemyPlane="30000">
+   
+  <achievement type="enemyFighters" amount="3" />   
+  <achievement type="generals" amount="2" />  
+  <achievement type="warships" amount="1" />  
+  
   <ocean width="125"/>
 
   <island-begin mesh="Island6" variation="5"/>
-  <concrete-bunker num-soldiers="3" variation="0" hasRockets="1" />
+  <concrete-bunker num-soldiers="3" num-generals="1" variation="0" hasRockets="1" />
   <terrain variation="0"/>
   <terrain variation="1"/>
   <terrain variation="2"/>
@@ -42,7 +47,7 @@
   <terrain variation="1"/>
   <terrain variation="2"/>
   <terrain variation="1"/>
-  <concrete-bunker num-soldiers="4" variation="0"/>
+  <concrete-bunker num-soldiers="4" num-generals="1" variation="0"/>
   <island-end/> 
 
  <ocean width="24"/>
@@ -55,5 +60,17 @@
   <aircraft-carrier-middle width="1"/>
   <aircraft-carrier-end width="3"/>
 
-  <ocean width="100"/>
+  <ocean width="40"/>
+   <!-- warship -->
+  <ship-begin width="1" variation="1" traversable="true" type="warship"/>
+  <ship-concrete-bunker num-soldiers="2" traversable="true" variation="1" />
+  <ship-concrete-bunker num-soldiers="2" traversable="false" variation="1" />
+  <ship-deck width="1" variation="2" traversable="false"/>
+  <ship-deck width="1" variation="3" traversable="false"/>
+  <ship-deck width="1" variation="2" traversable="false"/>
+  <ship-deck width="1" variation="1" traversable="false"/>  
+  <ship-concrete-bunker num-soldiers="1" traversable="true"  variation="2" hasRockets="1" />
+  <ship-end width="1" variation="1" traversable="false"/>
+  
+    <ocean width="100"/>
 </level>

@@ -2,6 +2,13 @@
 
 <level dayTime="foggy"  enhancedOnly="1" missionType="assassination" enemyFighters="12" timeToFirstEnemyPlane="8000" timeToNextEnemyPlane="30000">
   
+  
+  <achievement type="enemyFighters" amount="12" /> 
+  <achievement type="concreteBunkers" amount="4" /> 
+  <achievement type="submarines" amount="1" />
+  
+  
+  
    <ocean width="7"/>  
   <!-- double laguna -->
   <island-begin mesh="DoubleLaguna" variation="3"/>

@@ -2,6 +2,9 @@
 
 
 <level dayTime="morning" missionType="naval" enemyFighters="5">
+  
+  <achievement type="enemyFighters" amount="5" /> 
+   
   <ocean width="100"/>
 
   <!-- patrolboat -->

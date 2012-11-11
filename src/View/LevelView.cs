@@ -1959,6 +1959,8 @@ namespace Wof.View
 
         public void NextLife()
         {
+        	if(playerPlaneView == null ) return; // wingitor
+        	
             if (playerPlaneView.AnimationMgr.PrepareToChangeDirection)
             {
                 Console.WriteLine("BUG - view nie odes³a³ komunikatu");
@@ -2680,9 +2682,8 @@ namespace Wof.View
         /// <param name="posY"></param>
         public void OnGunHit(LevelTile tile, float posX, float posY)
         {
-
-
-            if(this.playerPlaneView.Plane.LocationState == LocationState.AirTurningRound) return; // przypadek kiedy zawracamy i strzelamy - nie pokazuj sladow na wodzie bo kierunek zmienia sie na koniec obrotu wiec nie wyswietlalo by sie to poprawnie
+			
+            if(playerPlaneView  != null && this.playerPlaneView.Plane.LocationState == LocationState.AirTurningRound) return; // przypadek kiedy zawracamy i strzelamy - nie pokazuj sladow na wodzie bo kierunek zmienia sie na koniec obrotu wiec nie wyswietlalo by sie to poprawnie
 
             SceneNode splashNode = getSplashNode();
             if (splashNode == null) return; // koniec poola

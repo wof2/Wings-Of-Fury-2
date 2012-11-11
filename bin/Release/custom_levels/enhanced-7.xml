@@ -2,6 +2,14 @@
 
 <level dayTime="morning" enhancedOnly="1" missionType="survival" enemyFighters="500" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="1500">
 
+  <achievement type="enemyFighters" amount="20" /> 
+  <achievement type="warships" amount="2" /> 
+  <achievement type="flakBunkers" amount="3" />
+  
+  
+  
+
+
   <ocean width="100"/>
 
 

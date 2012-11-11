@@ -2,6 +2,11 @@
 
 <level dayTime="dusk2" enhancedOnly="1" missionType="survival" enemyFighters="500" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="1500">
 
+  <achievement type="enemyFighters" amount="25" /> 
+  <achievement type="submarines" amount="1" />
+  <achievement type="soldiers" amount="30" /> 
+    
+
   <ocean width="100"/>
 
 

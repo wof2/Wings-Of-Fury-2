@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <level dayTime="dusk2" missionType="dogfight" enemyFighters="10" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="12000">
+  
+  <achievement type="concreteBunkers" amount="4" /> 
+  <achievement type="barracks" amount="7" /> 
+  <achievement type="patrolBoats" amount="1" />
+ 
+
   <ocean width="1" variation="3"/>
   <ocean width="19"/>
   <ocean width="1" variation="2"/>

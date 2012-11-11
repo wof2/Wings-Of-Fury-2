@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <level dayTime="night" enhancedOnly="1" enemyFighters="12" timeToFirstEnemyPlane="5000" timeToNextEnemyPlane="30000">
+  
+  
+  <achievement type="enemyFighters" amount="12" /> 
+  <achievement type="submarines" amount="1" />
+  <achievement type="warships" amount="1" /> 
+ 
+  
   <ocean width="15"/>
    
  

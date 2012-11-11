@@ -2,6 +2,12 @@
 
 
 <level dayTime="noon" missionType="naval" enemyFighters="3">
+ 
+  <achievement type="enemyFighters" amount="3" /> 
+  <achievement type="flakBunkers" amount="1" />
+  <achievement type="concreteBunkers" amount="6" /> 
+   
+
   <ocean width="100"/>
 
   <!-- patrolboat -->

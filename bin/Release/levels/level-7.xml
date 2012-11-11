@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <level dayTime="dawn" enemyFighters="4" timeToFirstEnemyPlane="10000" timeToNextEnemyPlane="45000">
+
+  <achievement type="enemyFighters" amount="4" />   
+  <achievement type="flakBunkers" amount="1" />  
+  
   <ocean width="125"/>
 
   <island-begin mesh="Island5" variation="1"/>

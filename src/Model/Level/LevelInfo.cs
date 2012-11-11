@@ -103,7 +103,16 @@ namespace Wof.Model.Level
 	     public override int GetHashCode() {
 	    	return filename.GetHashCode();
 	    }
-			
+		public override bool Equals(Object other)
+		{
+			if(other is LevelInfo) {
+				return Equals(other as LevelInfo);
+				
+			} else {
+				return base.Equals(other);
+			}
+		}
+		
 		public bool Equals(LevelInfo other)
 		{
 			return other.filename.Equals(filename);

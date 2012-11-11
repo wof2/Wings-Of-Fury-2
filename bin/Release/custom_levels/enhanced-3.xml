@@ -2,6 +2,10 @@
 
 <level dayTime="noon" enhancedOnly="1" missionType="dogfight" enemyFighters="14" timeToFirstEnemyPlane="8000" timeToNextEnemyPlane="20000">
   
+   <achievement type="barracks" amount="1" />
+   <achievement type="patrolBoats" amount="1" />
+   <achievement type="woodBunkers" amount="3" /> 
+    
   <ocean width="15"/>
   <!-- high island: Island12u -->
   <island-begin mesh="Island12u" variation="10" traversable="false"/>
