@@ -95,9 +95,11 @@ namespace Wof.Controller.Screens
                                     "Sébastien Ligez",
                                     "Sychospy",
                                     "tboc.razor",
+                                    "Marcelo Eiras",
 
                                     String.Empty,
                                     LanguageResources.GetString(LanguageKey.CommunitySupport),
+                                    "Marcelo Eiras",
                                     "Sandy Siegel",
                                     "Jonathan Rae",
                                     "Winnow Driscoll",
