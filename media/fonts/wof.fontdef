@@ -73,6 +73,15 @@ Wof_pt-PT
 	code_points 33-122 193-245
 }
 
+Wof_pt-BR
+{	
+	type 		truetype
+	source 		solo5.ttf
+	size 		20
+	resolution 	96
+	code_points 33-122 193-245
+}
+
 Wof_es-ES
 {	
 	type 		truetype
