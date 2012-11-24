@@ -1,3 +1,9 @@
+import * from "Glass.material"
+import * from "Steel.material" 
+import * from "0NormalMappedSpecular.material"
+
+
+
 material studio.ref_land.smd.mesh_01
 {
 	technique
@@ -69,28 +75,17 @@ material studio.ref_land.smd.mesh_03
 
 }
 
-
-
-material studio.ref_land.smd.mesh_04
+material studio.ref_land.smd.mesh_04 : NormalMappedSpecular
 {
-	technique
-	{
-		pass
-		{
-			ambient 0.4 0.4 0.4 1
-			diffuse 0.4 0.4 0.4 1
-			specular 0.28 0.28 0.28 1 29
-			scene_blend one one_minus_src_alpha
-			cull_hardware none
-			cull_software none
+  set_texture_alias NormalMap betty_2_normal.tga
+  set_texture_alias DiffuseMap betty_2.tga
 
-			texture_unit
-			{
-				texture betty_2.tga
-			}
-		}
+}
 
-	}
+material studio.ref_land.smd.mesh_04_destoyed : NormalMappedSpecular
+{
+  set_texture_alias NormalMap betty_2_normal.tga
+  set_texture_alias DiffuseMap betty_2_destroyed.tga
 
 }
 

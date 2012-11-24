@@ -305,7 +305,7 @@ namespace Wof.Model.Level.Planes
                 if(st != null)
                 {	
                     
-                    if(YDistanceToTile(st) < 10*height)
+                    if(YDistanceToTile(st) < 12*height)
                     {
                     	
                     	//Console.WriteLine(this.Name+"-"+this.planeType+"; ydiff" + YDistanceToTile(st) + " ->" + (15*height));
@@ -879,8 +879,8 @@ namespace Wof.Model.Level.Planes
                             else
                             {
                                 // dziób do do³u jeœli atakuje coœ lub jest b. blisko lotniskowca
-                                if ((carrierDistance < 0.2f * GetConsts().CarrierDistanceAlarm ||
-                                     attackObject != AttackObject.None))
+                                if ((carrierDistance < 0.2f * GetConsts().CarrierDistanceAlarm /*||
+                                     attackObject != AttackObject.None*/))
                                 {
                                 	if(EngineConfig.Difficulty != EngineConfig.DifficultyLevel.Easy) {
                                 		weaponManager.FireAtAngle(Angle, WeaponType.Gun, this.locationState == LocationState.AirTurningRound,  MissileBase.CollisionDirectionLocation.FORWARD);

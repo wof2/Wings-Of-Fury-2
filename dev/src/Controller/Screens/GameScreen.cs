@@ -580,23 +580,17 @@ namespace Wof.Controller.Screens
                     LogManager.Singleton.LogMessage("Finished loading level.", LogMessageLevel.LML_CRITICAL);
                    
                     UpdateHints(true);
-                    
-                    
-                   
-                    int h = (int)GetTextVSpacing();
-                    missionTypeGui = new GUI(FontManager.CurrentFont, fontSize, "MissionTypeGUI");
-                    float dist = viewport.ActualWidth/4.5f;
-                    missionTypeWindow = missionTypeGui.createWindow(new Vector4(viewport.ActualWidth - dist, viewport.ActualHeight - 40, dist, 40), "", (int)wt.NONE, "");
 
-                    string filename = Level.GetMissionTypeTextureFile(CurrentLevel.MissionType);
-                    missionTypeWindow.createStaticImage(new Vector4(dist - 40, 0, 40, 40), filename);
-                    missionTypeWindow.show();
+
+                   
                     
                     
                     achievementsGui = new GUI(FontManager.CurrentFont, (uint)( fontSize* 0.55f), "AchievementsTypeGUI");    
                     achievementsGui.SetZOrder(100);
-                    
-                    achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - 40 - achievementsGui.mFontSize, dist, 40 + achievementsGui.mFontSize), "", (int)wt.NONE, "");
+                    float hsize = achievementsGui.mFontSize * 6.0f;
+                    float dist = viewport.ActualWidth / 4.5f;
+                   
+                    achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - hsize - achievementsGui.mFontSize, dist, hsize + achievementsGui.mFontSize), "", (int)wt.NONE, "");
                     
                     List<Achievement> completedAchievementsBefore = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(levelInfo);
                    
@@ -612,6 +606,17 @@ namespace Wof.Controller.Screens
                     }
            
                     achievementsWindow.show();
+
+
+                    // missiontype gui
+                    int h = (int)GetTextVSpacing();
+                    missionTypeGui = new GUI(FontManager.CurrentFont, fontSize, "MissionTypeGUI");
+                
+                    missionTypeWindow = missionTypeGui.createWindow(new Vector4(viewport.ActualWidth - dist, viewport.ActualHeight - hsize, dist, hsize), "", (int)wt.NONE, "");
+
+                    string filename = Level.GetMissionTypeTextureFile(CurrentLevel.MissionType);
+                    missionTypeWindow.createStaticImage(new Vector4(dist - hsize, 0, hsize, hsize), filename);
+                    missionTypeWindow.show();
                     
                     
                                        
