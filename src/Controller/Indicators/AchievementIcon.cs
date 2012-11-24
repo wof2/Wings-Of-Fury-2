@@ -38,21 +38,22 @@ namespace Wof.Controller.Indicators
 			string achString = achievement.AmountDone +" / "+ achievement.Amount;
 			
 			uint h = achievementsWindow.mGUI.mFontSize;
+		    float hsize = 6*h;
 			uint totalh = (uint)achievementsWindow.h;
-			DisposeTextContainer();			
-			textContainer = achievementsWindow.createStaticText(new Vector4((index) * 40 + h, 0, 40, 40), achString, new ColourValue(0.3f, 0.3f, 0.3f));
+			DisposeTextContainer();
+            textContainer = achievementsWindow.createStaticText(new Vector4((index) * hsize + h, 0, hsize, hsize), achString, new ColourValue(0.3f, 0.3f, 0.3f));
 
 			if(imageContainer == null){
-	        		string filename = achievement.GetImageFilename();     
-	        		imageContainer = achievementsWindow.createStaticImage(new Vector4((index) * 40, h, 40, 40), filename, false);
+	        		string filename = achievement.GetImageFilename();
+                    imageContainer = achievementsWindow.createStaticImage(new Vector4((index) * hsize, h, hsize, hsize), filename, false);
         	}
 			
          	if(achievement.IsFulfilled()) {
         	
         		if(imageContainerFulfilled == null){	        		
 	        		//DisposeImageContainer();
-        			string filename = achievement.GetFulfilledImageFilename();     
-	        		imageContainerFulfilled = achievementsWindow.createStaticImage(new Vector4((index) * 40, h, 20, 20), filename, true);
+        			string filename = achievement.GetFulfilledImageFilename();
+                    imageContainerFulfilled = achievementsWindow.createStaticImage(new Vector4((index) * hsize, h, hsize * 0.5f, hsize * 0.5f), filename, true);
         		}
         	}
 			

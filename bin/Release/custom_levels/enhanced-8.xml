@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<level dayTime="dusk2" enhancedOnly="1" missionType="survival" enemyFighters="500" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="1500">
+<level dayTime="dusk2" enhancedOnly="1" missionType="survival" enemyFighters="500" enemyBombers="10" timeToFirstEnemyPlane="100" timeToNextEnemyPlane="1500">
 
   <achievement type="enemyFighters" amount="25" /> 
   <achievement type="submarines" amount="1" />
