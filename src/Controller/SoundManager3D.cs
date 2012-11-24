@@ -140,6 +140,7 @@ namespace Wof.Controller
                 StopAmbientMusic();
                 currentMusic = null;
                 ambientSound = null;
+                SoundManager3D.Instance.UpdaterRunning = true;
                 return true;
             }
             return false;
