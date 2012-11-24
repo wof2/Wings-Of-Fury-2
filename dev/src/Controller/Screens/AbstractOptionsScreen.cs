@@ -262,7 +262,7 @@ namespace Wof.Controller.Screens
 
         protected virtual Vector4 GetOptionPos(uint index, Window window)
         {
-            return new Vector4(window.w / 6, (index + 2) * GetTextVSpacing(), 3 * window.w / 4, GetTextVSpacing());
+            return new Vector4(window.w / 8, (index + 2) * GetTextVSpacing(), 3 * window.w / 4, GetTextVSpacing());
         }
 
         protected void HighlightButton(Button button)
@@ -302,16 +302,19 @@ namespace Wof.Controller.Screens
                  j++)
             {
                 int index = (int) j + C_MAX_OPTIONS*currentScreen;
-                String option = availableOptions[index].ToString();
-
-                Vector4 pos = GetOptionPos(j, window);
-
-
-                if (option == null)
+                String option;
+               
+                if (availableOptions[index]==null)
                 {
                     continue;
                 }
-                else if (option.StartsWith("__"))
+                
+				option = availableOptions[index].ToString();
+                Vector4 pos = GetOptionPos(j, window);
+
+
+               
+                if (option.StartsWith("__"))
                 {
                     guiWindow.createStaticText(
                         pos,
@@ -349,9 +352,9 @@ namespace Wof.Controller.Screens
                 prevButton = guiWindow.createButton
                     (
                     new Vector4(
-                        window.w / 6,
+                        window.w / 8,
                         (C_MAX_OPTIONS + 3) * GetTextVSpacing(),
-                        window.w / 3, 
+                        3 * window.w / 8, 
                         GetTextVSpacing()),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.Previous),
@@ -372,7 +375,7 @@ namespace Wof.Controller.Screens
                     new Vector4(
                         window.w / 2,
                         (C_MAX_OPTIONS + 3) * GetTextVSpacing(),
-                        window.w / 3, 
+                        3 * window.w / 8, 
                         GetTextVSpacing()),
                     "bgui.button",
                     LanguageResources.GetString(LanguageKey.Next),
