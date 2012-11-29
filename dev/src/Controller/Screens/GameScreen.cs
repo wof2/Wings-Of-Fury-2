@@ -623,13 +623,17 @@ namespace Wof.Controller.Screens
                     _bulletTimeBar = new BulletTimeBar(fontSize, framework.Viewport, viewport.ActualWidth / 6.5f, viewport.ActualHeight / 75.0f);
                     _altitudeBar = new AltitudeBar(fontSize, framework.Viewport, viewport.ActualWidth / 6.5f, viewport.ActualHeight / 75.0f);
                     
+                    if(currentLevel.MissionType == MissionType.Survival) {
+                    	gameMessages.InstantBackground = true;
+                    	
+                    }
                     
                     if (ShowHintMessages && LevelNo == 1 && firstTakeOff)
                     {
 
                         MessageEntry message =
                               new CenteredMessageEntry(viewport, 5000, GetChangeAmmoMessage());
-                       
+                      
                         gameMessages.AppendMessage(message);
 
                         message =

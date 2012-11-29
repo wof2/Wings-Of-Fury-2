@@ -206,6 +206,13 @@ namespace Wof.Controller.Indicators
             startTime = DateTime.Now;
         }
       
+        protected bool instantBackground = false;
+        
+        public bool InstantBackground
+        {
+        	set { instantBackground = value; }
+        	
+        }
 
         public void UpdateControl(float timeSinceLastFrame)
         {
@@ -222,6 +229,15 @@ namespace Wof.Controller.Indicators
                     {
                         ShowCurrentMessage();
                     }
+                    
+                    
+                	if(instantBackground && messageElement != null && !messageElement.IsVisible) {
+                	
+	    		  		currentBgOpacity = bgAnimationMaxOpacity;
+	    		  		SetBgOpacity(currentBgOpacity);
+	                    ShowCurrentMessage();
+                	}
+                    
                     if(!currentMessage.NoBackground)
                     {
                         backgroundElement.Show();
@@ -237,6 +253,8 @@ namespace Wof.Controller.Indicators
             {
                 if(!currentMessage.NoBackground)
                 {
+                	
+                	// BACKGROUND
                     if (isIncreasingBgOpacity)
                     {
                         if (currentBgOpacity < bgAnimationMaxOpacity)
@@ -280,9 +298,13 @@ namespace Wof.Controller.Indicators
                         {
                             UpdateMessage();
                         }
+              
+                	
                 }
                 else
-                { // no background
+                { 
+                	
+                	// no background
 
                     // show
                   //  Console.WriteLine("Showing");
@@ -300,18 +322,27 @@ namespace Wof.Controller.Indicators
                 if (!currentMessage.Permanent && diff.TotalMilliseconds > currentMessage.Time)
                 {
                //     Console.WriteLine("Clearing");
+               
                     isDecreasingBgOpacity = true;
                     if (messageElement != null) messageElement.Hide();
                     if (iconOverlay!= null && iconOverlay.IsVisible)
                     {
                         iconOverlay.Hide();
                     } 
-                    if(currentMessage.NoBackground)
+                    if(instantBackground) 
+                    {
+                    	 backgroundElement.Hide();
+	                     ClearMessage();
+                    }
+                    
+                    if(currentMessage.NoBackground )
                     {
                         ClearMessage();
                         isDecreasingBgOpacity = false;
                         isIncreasingBgOpacity = false;
                     }
+                    
+                    
 
                 }
             }
