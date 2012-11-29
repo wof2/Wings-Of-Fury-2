@@ -120,7 +120,14 @@ namespace FSLOgreCS
             // dzwieki powinny miec ustawiona lokalna glosnosc (niezalezna od muzyki) przed rozpoczeciem pierwszego odtworzenia
           //  SetGain(GetBaseGain() * EngineConfig.SoundVolume / 100.0f);
             ApplyGain();
-            FreeSL.fslSoundPlay(_sound);
+            try{
+            	FreeSL.fslSoundPlay(_sound);
+            }
+            catch(Exception ex) {
+            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while trying to play sound: " + _soundFile +" ("+ex.Message+") " + ex.StackTrace);
+             
+            	
+            }
             _shouldBePlaying = true;
             _playing = true;
           
