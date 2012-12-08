@@ -70,7 +70,7 @@ namespace Wof.Controller.Screens
       //  private Window updatesGUIWindow;
 
 
-        private const float C_QUIT_AD_PROBABILITY = 0.0f;
+        private const float C_QUIT_AD_PROBABILITY = 1.0f;
         private Thread newUpdatesThread;
 
         private static bool updatesChecked = false;
@@ -93,7 +93,10 @@ namespace Wof.Controller.Screens
 
                 try
                 {
-                   if(newUpdatesThread.ThreadState != ThreadState.Stopped) newUpdatesThread.Abort();
+                   if(newUpdatesThread.ThreadState != ThreadState.Stopped)
+                   {
+                       newUpdatesThread.Abort();
+                   }
                 }
                 catch (Exception)
                 {
@@ -435,7 +438,7 @@ namespace Wof.Controller.Screens
                 }
                 else if (referer.text.Equals(Quit))
                 {
-                    if(Mogre.Math.RangeRandom(0, 1) > (1 - C_QUIT_AD_PROBABILITY))
+                    if(!EngineConfig.IsEnhancedVersion && Mogre.Math.RangeRandom(0, 1) > (1 - C_QUIT_AD_PROBABILITY))
                     {
                         gameEventListener.GotoQuitScreen();
                     }

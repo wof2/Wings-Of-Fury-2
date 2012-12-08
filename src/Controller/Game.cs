@@ -204,7 +204,7 @@ namespace Wof.Controller
             // przegladarka reklam wraca na swoje miejsce
             lock (browserLock)
             {
-                if(browser != null && browser.IsReady() && browser.Visible)
+                if(browser != null && browser.IsReady() && browser.Visible && browser.IsShown()) 
                 {
                     LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Game.Game_Activated - ReturnToInitialState");
                     browser.ReturnToInitialState();
@@ -248,7 +248,7 @@ namespace Wof.Controller
                     if (screenPos.X >= 0 && screenPos.Y >= 0)
                     {
                         browser.SetLastMouseScreenPos(screenPos);
-                        if (browser.Visible && browser.IsInitialState)
+                        if (browser.Visible && browser.IsInitialState && browser.IsShown())
                         {
                        
                             bool activateMain = false;
@@ -848,8 +848,7 @@ namespace Wof.Controller
                 // Application.DoEvents();
             }
             Application.Run(browser); // przetwarzaj dalej okno przegladarki. Watek dalej musi pracowaæ
-         
-          
+            
         }
        
         protected void ShowBrowser()
@@ -873,6 +872,7 @@ namespace Wof.Controller
                 browser.ReturnToInitialState();
                 browser.ShowBrowserAndTopMostScale(scale);
                 this.Activate();
+                browser.SetIsShown(true);
                // game.Game_Activated(game, new EventArgs());
             }
 

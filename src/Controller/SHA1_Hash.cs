@@ -37,7 +37,10 @@ namespace Wof.Controller
         private static void InitHashOfImage()
         {
             if(hashOfImage.Count > 0) return;
-            hashOfImage[GameScreen.C_DEFAULT_AD_IMAGE_NAME] = new byte[] { 59, 65, 55, 101, 126, 22, 65, 85, 243, 224, 243, 18, 147, 13, 35, 102 };
+            hashOfImage[GameScreen.DEFAULT_AD_IMAGE_NAMES[0]] = new byte[] { 210, 60, 36, 243, 35, 190, 136, 38, 21, 96, 9, 98, 59, 2, 167, 97 };
+            hashOfImage[GameScreen.DEFAULT_AD_IMAGE_NAMES[1]] = new byte[] { 66, 98, 130, 249, 143, 215, 57, 135, 220, 198, 127, 193, 113, 163, 146, 249 };
+            hashOfImage[GameScreen.DEFAULT_AD_IMAGE_NAMES[2]] = new byte[] {130,221,123,136,195,104,253,167,122,126,71,169,54,190,145,177};
+            hashOfImage[GameScreen.DEFAULT_AD_IMAGE_NAMES[3]] = new byte[] { 47, 187, 184, 112, 239, 65, 179, 224, 17, 203, 151, 123, 0, 238, 252, 155 };
             
         }
         public static byte[] ComputeMD5(string path)

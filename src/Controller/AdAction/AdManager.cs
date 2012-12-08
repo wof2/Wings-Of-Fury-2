@@ -11,6 +11,7 @@ using Mogre;
 using Wof.Model.Level.Common;
 using Timer = Mogre.Timer;
 using Wof.View.Effects;
+using Math=Mogre.Math;
 
 namespace Wof.Controller.AdAction
 {
@@ -112,13 +113,14 @@ namespace Wof.Controller.AdAction
         	{
         		try
         		{
+                    if(c != null) UpdateCamera(c);
                     if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
                     {
                         return;
                     }
         			adAction.Work();
             		adHelper3D.Work(adAction);
-            		if(c != null) UpdateCamera(c);
+            		
         		}
         		catch(Exception)
         		{
@@ -435,7 +437,7 @@ namespace Wof.Controller.AdAction
         }
         public AdQuadrangle3D AddDynamicAd(SceneManager sceneMgr, int id, Vector3 origin, Vector2 size, bool isPersistent)
         {
-            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return null;
             }
@@ -450,20 +452,32 @@ namespace Wof.Controller.AdAction
         	q3d.SetCorners3D(q, origin, outAd.path);
         	
         	float[][] corners = q3d.GetCorners3DArray();
-            int billboardId = AdHelper3D.Add_Ad(id, 
-        	                  corners[0][0], corners[0][1], corners[0][2],
-        	                  corners[1][0], corners[1][1], corners[1][2],
-        	                  corners[2][0], corners[2][1], corners[2][2]
-        	                 );
+            int billboardId;
+            if(!EngineConfig.AdManagerDisabled)
+            {
+               billboardId = AdHelper3D.Add_Ad(id,
+                             corners[0][0], corners[0][1], corners[0][2],
+                             corners[1][0], corners[1][1], corners[1][2],
+                             corners[2][0], corners[2][1], corners[2][2]
+                            );
+                
+                AdHelper3D.Start_Time();
+            } else
+            {
+                billboardId = DateTime.Now.Millisecond;
+                
+            }
+            q3d.SetBillboardId(billboardId);
         	                  
-        	q3d.SetBillboardId(billboardId);       
-        	AdHelper3D.Start_Time();
+        	
         
         	return q3d;
         }
-        
+
+        protected Camera camera;
         public void UpdateCamera(Camera c)
         {
+            camera = c;
             if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
             {
                 return;
@@ -497,12 +511,18 @@ namespace Wof.Controller.AdAction
         /// <returns></returns>
         public bool IsDynamicAdVisible(AdQuadrangle3D quadrangle3D)
         {
-            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
+            if (EngineConfig.AdManagerDisabled)
+            {
+                return camera.IsVisible(quadrangle3D.GetAdNode().GetAttachedObject(0).BoundingBox);
+            }
+            
+            if (EngineConfig.IsEnhancedVersion/* || EngineConfig.AdManagerDisabled*/)
             {
                 return false;
             }
             int corners;
             float angle, area, timer;
+           
             bool visible = AdHelper3D.Get_Ad_State(quadrangle3D.GetBillboardId(), out corners, out angle, out area, out timer);
 
           //  Console.WriteLine(area + " " + timer + " " + angle + " " + corners);
@@ -590,7 +610,7 @@ namespace Wof.Controller.AdAction
         
         public void CloseAd(Ad ad)
         {
-            if (EngineConfig.IsEnhancedVersion || EngineConfig.AdManagerDisabled)
+            if (EngineConfig.IsEnhancedVersion)
             {
                 return;
             }
@@ -603,7 +623,10 @@ namespace Wof.Controller.AdAction
             {
                 TextureManager.Singleton.Unload(path);
                 TextureManager.Singleton.Remove(path);
-                adAction.Close_Ad(ad.id);
+                if (!EngineConfig.AdManagerDisabled)
+                {
+                    adAction.Close_Ad(ad.id);
+                }
 
             }
             catch (Exception)

@@ -25,6 +25,23 @@ namespace Wof.View.Effects
 
         private float opacity = 1.0f;
 
+        protected void ResetOpacity()
+        {
+            try
+            {
+                TextureUnitState state = ManualObject.GetSection(0).GetMaterial().GetBestTechnique().GetPass(0).GetTextureUnitState(0);
+                state.SetAlphaOperation(LayerBlendOperationEx.LBX_MODULATE, LayerBlendSource.LBS_TEXTURE, LayerBlendSource.LBS_MANUAL, 1.0f, 1.0f);
+            }
+            catch (Exception)
+            {
+            }
+           
+          
+        }
+        protected override void OnSetCorners()
+        {
+            ResetOpacity();
+        }
 
         public bool DecreaseOpacity(float o)
         {

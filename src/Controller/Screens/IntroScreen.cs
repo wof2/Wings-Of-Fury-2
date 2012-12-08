@@ -72,6 +72,8 @@ namespace Wof.Controller.Screens
 
     	public const float C_INTRO_AD_PROBABILITY = 0.0f;
         public const String C_TEXTURE_NAME = "IntroScreen";
+        public const String C_TEXTURE_NAME_ENHANCED = "IntroScreenEnhanced";
+
         private readonly Overlay overlay;
 
         private int currentScreen;
@@ -84,12 +86,12 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Czas animacji (w sek) zwi¹zanych z poszczególnymi screenami
         /// </summary>
-        private float[] screenTimes = { 2.0f};//, 2.5f, 2.0f };
+        private float[] screenTimes = { 3.0f, 3.0f };//, 2.0f };
 
         /// <summary>
         /// Minimalny czas (w sek) przez jaki screen musi byæ na ekranie
         /// </summary>
-        private float[] screenMinTimes = {0.0f};// , 1.0f, 1.0f };
+        private float[] screenMinTimes = {0.0f, 0.0f};// , 1.0f, 1.0f };
 
 
         string currentMaterialName; 
@@ -102,7 +104,7 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Czy screen jest reklam¹
         /// </summary>
-        private bool[] isScreenAnAd = { false };
+        private bool[] isScreenAnAd = { false, false };
 
 
         public const string C_AD_ZONE = "pregame";
@@ -142,16 +144,18 @@ namespace Wof.Controller.Screens
             //int n = 1;
             int firstN = getFirstNonAdIndex();
             int n = firstN;
-           
+
+            string matName = EngineConfig.IsEnhancedVersion ? C_TEXTURE_NAME_ENHANCED : C_TEXTURE_NAME;
+
             while (
-                MaterialManager.Singleton.ResourceExists(C_TEXTURE_NAME + n))
+                MaterialManager.Singleton.ResourceExists(matName + n))
             {
                 // preload
-                MaterialManager.Singleton.GetByName(C_TEXTURE_NAME + n).Load();
+                MaterialManager.Singleton.GetByName(matName + n).Load();
                 n++;
             }
 
-            maxScreens = screenTimes.Length;// n - 1;
+            maxScreens =  n - 1;
 
            
             
@@ -294,8 +298,10 @@ namespace Wof.Controller.Screens
             }
             else
             {
-            	
-                currentMaterialName = C_TEXTURE_NAME + currentScreen;
+
+                string matName = EngineConfig.IsEnhancedVersion ? C_TEXTURE_NAME_ENHANCED : C_TEXTURE_NAME;
+
+                currentMaterialName = matName + currentScreen;
                 overlayMaterial = MaterialManager.Singleton.GetByName(currentMaterialName);
                 unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
                

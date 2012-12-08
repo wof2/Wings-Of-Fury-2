@@ -91,7 +91,7 @@ namespace Wof.Model.Level.Weapon
         /// </summary>
         /// <author>Adam Witczak</author>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private const int MaxDistanceToPlane = 600;
+        private const int MaxDistanceToPlane = 500;
 
         /// <summary>
         /// Maksymalny dopuszczalny pionowy dystans 

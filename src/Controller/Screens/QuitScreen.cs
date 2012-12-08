@@ -76,12 +76,12 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Czas animacji (w sek) zwi¹zanych z poszczególnymi screenami
         /// </summary>
-        private float[] screenTimes = { 2.0f};
+        private float[] screenTimes = { 5.0f, 5.0f };
 
         /// <summary>
         /// Minimalny czas (w sek) przez jaki screen musi byæ na ekranie
         /// </summary>
-        private float[] screenMinTimes = { 0.5f};
+        private float[] screenMinTimes = { 0.5f, 0.5f};
 
 
         string currentMaterialName;
@@ -94,11 +94,14 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Czy screen jest reklam¹
         /// </summary>
-        private bool[] isScreenAnAd = { true};
+        private bool[] isScreenAnAd = { false, false };
 
 
         public const string C_AD_ZONE = "postgame";
         public const string C_AD_MATERIAL = "AdMaterial";
+        public const string C_TEXTURE_NAME = "QuitScreen";
+
+
         private AdManager.Ad currentAd = null;
 
 
@@ -229,6 +232,10 @@ namespace Wof.Controller.Screens
             }
             else
             {
+                    currentMaterialName = C_TEXTURE_NAME + currentScreen;
+                    overlayMaterial = MaterialManager.Singleton.GetByName(currentMaterialName);
+                    overlayMaterial.Load();
+                    unit = overlayMaterial.GetBestTechnique().GetPass(0).GetTextureUnitState(0);
                     hideAdText();
             }
 
@@ -247,6 +254,20 @@ namespace Wof.Controller.Screens
             else
             {
                 prop = 1.0f / ((1.0f * textureDimensions.first / textureDimensions.second) / (1.0f * Viewport.ActualWidth / Viewport.ActualHeight));
+                // wychodzimy poza ekran
+                if (scale.Y * prop > 1.0f)
+                {
+                    float scalingFactor = 1.0f / (scale.Y * prop);
+                    scale.X *= scalingFactor; scale.Y *= scalingFactor;
+
+                }
+
+                if (scale.X * prop > 1.0f)
+                {
+                    float scalingFactor = 1.0f / (scale.X * prop);
+                    scale.X *= scalingFactor; scale.Y *= scalingFactor;
+
+                }
             }
             overlay.SetScale(scale.X, scale.Y * prop);
 

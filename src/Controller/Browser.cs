@@ -97,12 +97,33 @@ namespace Wof.Controller
             return isReady; 
            
         }
+
+        public void SetIsShown(bool shown)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new SetDelegate(SetIsShown), shown);
+                return;
+            }
+            this.isShown = shown;
+        }
+
+        public bool IsShown()
+        {
+            if (this.InvokeRequired)
+            {
+                return (bool)this.Invoke(new BoolDelegate(IsShown));
+            }
+            return isShown;
+
+        }
         protected delegate bool PointDelegate(Point p);
         protected delegate void IntDelegate(int i);
         protected delegate void VoidDelegate();
         protected delegate void UriDelegate(Uri uri);
         protected delegate bool BoolDelegate();
-        
+        protected delegate void SetDelegate(bool val);
+      
 
 	    
 		
@@ -142,6 +163,7 @@ namespace Wof.Controller
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "HideBrowser");
 		   
             Visible = false;
+            isShown = false;
         }
 
         public void KillBrowser()
@@ -178,6 +200,7 @@ namespace Wof.Controller
         }
 
 	    private bool isReady = false;
+	    private bool isShown = false;
        
 
         private delegate void NewBrowserDelegate();
@@ -532,6 +555,7 @@ namespace Wof.Controller
                 this.Invoke(new VoidDelegate(Activate));
                 return;
             } 
+
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Browser_Activate explicid");
             canActivate = true;
         	base.Activate();
@@ -540,11 +564,20 @@ namespace Wof.Controller
         
         private void Browser_Activated(object sender, EventArgs e)
         {
+
             
             if(!Visible)
             {
                 LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Browser_Activated -> not visible so returning");
                
+                return;
+            }
+          //  Console.WriteLine("IsVisible: " + Visible + ", isShown: " + IsShown());
+            if(!IsShown())
+            {
+                Hide();
+             //   Console.WriteLine("After hiding: " + Visible);
+            
                 return;
             }
             /*
