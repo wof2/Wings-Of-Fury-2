@@ -51,6 +51,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
+using Wof.Controller.Screens;
 using Wof.Misc;
 using Wof.View.NodeAnimation;
 using Math = System.Math;
@@ -400,8 +401,15 @@ namespace Wof.View.Effects
                    ((TexturePtr) ptr).Load();
                 }*/
 
-               
-               
+                if (!EngineConfig.IsEnhancedVersion)
+                {
+                   
+                    for (int j = 0; j < GameScreen.DEFAULT_AD_IMAGE_NAMES.Length; j++)
+                    {
+                        RegisterAdditionalPreloadedTexture(GameScreen.DEFAULT_AD_IMAGE_NAMES[j]);
+                    }
+                }
+
                 foreach (string s in additionalPreloadedTextures)
                 {
                     try

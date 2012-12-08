@@ -114,14 +114,14 @@ material AdMaterial
 {
 	technique
 	{
-		pass
+		pass 0
 		{
 			ambient 1.0 1.0 1.0
 			diffuse 1.0 1.0 1.0
 			lighting off
 			
 			
-			texture_unit
+			texture_unit 0
 			{
 				filtering anisotropic
 				max_anisotropy 4
@@ -133,10 +133,10 @@ material AdMaterial
 			
 		}   
 		
-		pass
+		pass 1
 		{
 			scene_blend alpha_blend 
-			texture_unit
+			texture_unit 0
 			{				
 				filtering anisotropic
 				max_anisotropy 4
@@ -148,7 +148,40 @@ material AdMaterial
 	}
 }
 
+
+material IngameAd1 : AdMaterial
+{
+	technique
+	{
+		pass 0
+		{		
+			texture_unit 0
+			{				
+				texture Ingame1.jpg
+			}
+		}   
+		
+	}
+}
+
+
 material IntroScreen1
+{
+	technique
+	{
+		pass
+		{			
+			texture_unit
+			{
+				texture Ravenlore.jpg
+			}						
+			
+		}      
+
+	}
+}
+
+material IntroScreen2
 {
 	technique
 	{
@@ -164,7 +197,26 @@ material IntroScreen1
 	}
 }
 
-material IntroScreen3
+material IntroScreenEnhanced1
+{
+	technique
+	{
+		pass
+		{			
+			texture_unit
+			{
+				texture Ravenlore.jpg
+			}						
+			
+		}      
+
+	}
+}
+
+
+
+
+material QuitScreen1
 {
 	technique
 	{
@@ -173,7 +225,23 @@ material IntroScreen3
 
 			texture_unit
 			{
-				texture Intro3.jpg
+				texture Quit1.jpg
+			}
+			
+		}
+	}
+}
+
+material QuitScreen2
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture Quit2.jpg
 			}
 			
 		}

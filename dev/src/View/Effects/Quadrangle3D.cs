@@ -110,6 +110,10 @@ namespace Wof.View.Effects
        
 
         private Quadrangle quadrangle;
+        protected virtual void OnSetCorners()
+        {
+            
+        }
         
         /// <summary>
         /// Buduje quada o wymaganych parametrach. Quad bedzie mogl byc wyswietlony w przestrzeni 3D. Ma nakladn¹ teksture wg textureName
@@ -175,8 +179,8 @@ namespace Wof.View.Effects
             manualObject.TextureCoord(0, 0);*/
             manualObject.Quad(3,2,1,0);
             manualObject.End();
+
             
-           
 /*
             AxisAlignedBox box = new AxisAlignedBox();
             float hwidth = 1.4f * (quadrangle.RightMostX - quadrangle.LeftMostX) * 0.5f;
@@ -196,6 +200,7 @@ namespace Wof.View.Effects
 
             manualObject.SetMaterialName(0, mat.Name);
             manualObject.CastShadows = false;
+            OnSetCorners();
           //  manualObject.SetMaterialName(0, "Concrete");
         }
          
@@ -227,6 +232,7 @@ namespace Wof.View.Effects
             AxisAlignedBox box = new AxisAlignedBox();
             box.SetInfinite();
             manualObject.BoundingBox = box;
+            OnSetCorners();
         }
     }
 }

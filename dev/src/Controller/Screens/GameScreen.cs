@@ -52,6 +52,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Windows.Forms;
 using AdManaged;
@@ -120,11 +121,17 @@ namespace Wof.Controller.Screens
 
         public const string C_AD_LOADING_ZONE = "pregame";
         public const string C_AD_GAME_ZONE = "ingame";
-        public const string C_DEFAULT_AD_IMAGE_NAME = "Intro1.jpg";
+        public static string[] DEFAULT_AD_IMAGE_NAMES = new[] { "IngameAd1.jpg", "IngameAd2.jpg", "IngameAd3.jpg", "IngameAd4.jpg" };
+       
         public const string C_ENGINE_HINT_ICON = "hint_engine.png";
         public const string C_BAD_LANDING_HINT_ICON = "hint_bad_landing.png";
 
         
+        public string getRandomDefaultIngameAdImageName()
+        {
+
+            return DEFAULT_AD_IMAGE_NAMES[UnitConverter.RandomGen.Next(0, DEFAULT_AD_IMAGE_NAMES.Length)];
+        }
 
         private int changingAmmoAdId = 0;
 
@@ -798,7 +805,17 @@ namespace Wof.Controller.Screens
             }
             
             // zlec zaladowanie reklamy ingame (przy przeladowaniu amunicji)
-            status = AdManager.Singleton.GetAdAsync(C_AD_GAME_ZONE, 0.25f, out changingAmmoAdId);
+            if (!EngineConfig.IsEnhancedVersion)
+            {
+                if (EngineConfig.AdManagerDisabled)
+                {
+                    changingAmmoAdId = 110;
+                }
+                else
+                {
+                    AdManager.Singleton.GetAdAsync(C_AD_GAME_ZONE, 0.25f, out changingAmmoAdId);
+                }
+            }
 
             // zlec ladowanie reklam dynamicznych (3D)
             if (!EngineConfig.IsEnhancedVersion)
@@ -1524,6 +1541,22 @@ namespace Wof.Controller.Screens
 
         }
 
+        public static void ShuffleArray<T>(T[] list)
+        {
+            RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
+            int n = list.Length;
+            while (n > 1)
+            {
+                byte[] box = new byte[1];
+                do provider.GetBytes(box);
+                while (!(box[0] < n * (Byte.MaxValue / n)));
+                int k = (box[0] % n);
+                n--;
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
       
         private void BeginDynamicAdsDownload(int count)
         {
@@ -1531,25 +1564,29 @@ namespace Wof.Controller.Screens
             for(int i = 0; i < count ; i++)
             {
                 int temp;
-                if(AdManager.Singleton.GetAdAsync(GameScreen.C_AD_GAME_ZONE, 1.0f, out temp, backgroundAdDownloadedAsyncCallback) == AdManager.AdStatus.DOWNLOAD_FAILED)
+                AdManager.AdStatus status = AdManager.Singleton.GetAdAsync(GameScreen.C_AD_GAME_ZONE, 1.0f, out temp,
+                                                                           backgroundAdDownloadedAsyncCallback);
+                if(status == AdManager.AdStatus.DOWNLOAD_FAILED || status == AdManager.AdStatus.ADS_DISABLED)
                 {
                     failed++;
                 }
             }
 
+            int max = count < DEFAULT_AD_IMAGE_NAMES.Length ? count : DEFAULT_AD_IMAGE_NAMES.Length;
 
-            if (!SHA1_Hash.ValidateImage(C_DEFAULT_AD_IMAGE_NAME))
-            {
-                throw new Exception("Image " + C_DEFAULT_AD_IMAGE_NAME + " has been tampered with!");
-            }
+            ShuffleArray(DEFAULT_AD_IMAGE_NAMES);
 
-            for (int i = 0; i < failed; i++)
+            for (int i = 0; i < max; i++)
             {
-                AdManager.Ad ad = new AdManager.Ad(-i - 100, C_DEFAULT_AD_IMAGE_NAME, false);
+                if (!SHA1_Hash.ValidateImage(DEFAULT_AD_IMAGE_NAMES[i]))
+                {
+                    throw new Exception("Image " + DEFAULT_AD_IMAGE_NAMES[i] + " has been tampered with!");
+                }
+
+                AdManager.Ad ad = new AdManager.Ad(-i - 100, DEFAULT_AD_IMAGE_NAMES[i], false);
                 AdManager.Singleton.AdDownloaded(ad);
                 backgroundAdDownloadedAsyncCallback(ad);
             }
-           
         }
 
     
@@ -1886,8 +1923,19 @@ namespace Wof.Controller.Screens
                             // pobierz i ustaw na bie¿ac¹
                             if(changingAmmoAdId > 0)
                             {
-	                            AdManager.AdStatus status = AdManager.Singleton.GatherAsyncResult(changingAmmoAdId, AdManager.C_AD_DOWNLOAD_TIMEOUT, out changingAmmoAd);	            
-	                           // AdManager.AdStatus status = AdManager.Singleton.GetAd(C_AD_GAME_ZONE, 0.25f, out changingAmmoAd);
+                                AdManager.AdStatus status;
+                                if(EngineConfig.AdManagerDisabled)
+                                {
+                                    changingAmmoAd = new AdManager.Ad(100, getRandomDefaultIngameAdImageName(), false);
+                                    AdManager.Singleton.AdDownloaded(changingAmmoAd);
+                                    status = AdManager.AdStatus.OK;
+                                }else
+                                {
+                                    status = AdManager.Singleton.GatherAsyncResult(changingAmmoAdId, AdManager.C_AD_DOWNLOAD_TIMEOUT, out changingAmmoAd);
+                                }
+                            
+                                
+	                           // status = AdManager.Singleton.GetAd(C_AD_GAME_ZONE, 0.25f, out changingAmmoAd);
 	                            if (status == AdManager.AdStatus.OK)
 	                            {
 	                                if (AdManager.Singleton.LoadAdTexture(changingAmmoAd) == null)
