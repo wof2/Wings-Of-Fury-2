@@ -34,7 +34,7 @@ namespace Wof.Controller
         private static readonly ASCIIEncoding ae = new ASCIIEncoding();
 
 
-        private static void InitHashOfImage()
+        public static void InitHashOfImage()
         {
             if(hashOfImage.Count > 0) return;
             hashOfImage[GameScreen.DEFAULT_AD_IMAGE_NAMES[0]] = new byte[] { 210, 60, 36, 243, 35, 190, 136, 38, 21, 96, 9, 98, 59, 2, 167, 97 };

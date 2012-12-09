@@ -8,9 +8,6 @@
       <Assembly override="false">
         <Path>.\Wof.exe</Path>
       </Assembly>
-      <Assembly override="false">
-        <Path>.\EnhancedVersionHelper.exe</Path>
-      </Assembly>
     </Assemblies>
     <Builds />
     <ProbingPaths />
@@ -56,7 +53,9 @@
           <ExcludeType regEx="true" name="EngineConfig.*" />
         </ExcludeNamespace>
         <ExcludeNamespace name="Wof.Languages" />
+        <ExcludeNamespace name="Wof.Misc" />
         <ExcludeNamespace name="Wof.Model.Configuration" />
+        <ExcludeNamespace name="Wof.Model.Level" />
         <ExcludeNamespace name="Wof.Model.Level.LevelTiles.Watercraft">
           <ExcludeType name="TypeOfEnemyShip">
             <ExcludeField regEx="true" name=".*" />
