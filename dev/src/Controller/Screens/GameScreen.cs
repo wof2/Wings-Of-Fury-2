@@ -1573,6 +1573,7 @@ namespace Wof.Controller.Screens
             }
 
             int max = count < DEFAULT_AD_IMAGE_NAMES.Length ? count : DEFAULT_AD_IMAGE_NAMES.Length;
+            SHA1_Hash.InitHashOfImage();
 
             ShuffleArray(DEFAULT_AD_IMAGE_NAMES);
 
