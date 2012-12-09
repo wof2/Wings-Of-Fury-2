@@ -405,7 +405,13 @@
   <data name="RearmEndMission">
     <value>Re-arm / End mission</value>
   </data>
-
+  
+  <data name="Rearm">
+    <value>Re-arm </value>
+  </data>
+  <data name="EndMission">
+    <value>End mission</value>
+  </data>
   <!-- added 2.01.2009 -->
 
   <data name="Torpedo">

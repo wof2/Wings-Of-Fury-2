@@ -405,6 +405,13 @@
   <data name="RearmEndMission">
     <value>Rearmar / Fi de la missió</value>
   </data>
+  
+   <data name="Rearm">
+    <value>Rearmar</value>
+  </data>
+  <data name="EndMission">
+    <value>Fi de la missió</value>
+  </data>
 
   <!-- added 2.01.2009 -->
 

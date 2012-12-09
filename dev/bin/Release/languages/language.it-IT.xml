@@ -118,6 +118,14 @@
 <data name="Zoomin"><value>Aumenta lo zoom</value></data>
 <data name="Zoomout"><value>Riduci lo zoom</value></data>
 <data name="RearmEndMission"><value>Riarma / Termina la missione</value></data>
+
+   <data name="Rearm">
+    <value>Riarma</value>
+  </data>
+  <data name="EndMission">
+    <value>Termina la missione</value>
+  </data>
+
 <data name="Torpedo"><value>Siluro</value></data>
 <data name="Torpedoes"><value>Siluri</value></data>
 <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX"><value>Tutti gli aerei nemici sono stati abbattuti, atterra sulla portaerei e premi '{0}'</value></data>

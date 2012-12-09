@@ -126,7 +126,12 @@
 <data name="Zoomin"><value>Aproximar</value></data>
 <data name="Zoomout"><value>Afastar</value></data>
 <data name="RearmEndMission"><value>Rearmar / Terminar missão</value></data>
-
+   <data name="Rearm">
+    <value>Rearmar</value>
+  </data>
+  <data name="EndMission">
+    <value>Terminar missão</value>
+  </data>
   <!-- added 2.01.2009 -->
 
   <data name="Torpedo">

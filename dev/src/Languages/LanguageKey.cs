@@ -146,7 +146,8 @@ namespace Wof.Languages
         public const string EnableSound = @"EnableSound";
         public const string EnableVSync = @"EnableVSync";
         
-        public const string EnemyGenerals = @"EnemyGenerals";  
+        public const string EnemyGenerals = @"EnemyGenerals";
+        public const string EndMission = @"EndMission";
         public const string EnemyInstallationsAreBothSideCaptain = @"EnemyInstallationsAreBothSideCaptain";
         public const string EnemyInstallationsAreLeftCaptain = @"EnemyInstallationsAreLeftCaptain";
         public const string EnemyInstallationsAreRightCaptain = @"EnemyInstallationsAreRightCaptain";
@@ -289,6 +290,7 @@ namespace Wof.Languages
 
         #region ---R---
         public const string RearmEndMission = @"RearmEndMission";
+        public const string Rearm = @"Rearm";
         public const string Resume = @"Resume";
         public const string RetractYourLandingGearWithG = @"RetractYourLandingGearWithG";
         public const string Rockets = @"Rockets";

@@ -406,6 +406,13 @@
   <data name="RearmEndMission">
     <value>Opnieuw bewapenen/Missie beëindigen</value>
   </data>
+  
+     <data name="Rearm">
+    <value>Opnieuw bewapenen</value>
+  </data>
+  <data name="EndMission">
+    <value>Missie beëindigen</value>
+  </data>
 
   <!-- added 2.01.2009 -->
   

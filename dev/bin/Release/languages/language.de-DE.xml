@@ -395,7 +395,13 @@
   <data name="RearmEndMission">
     <value>Wiederbewaffnung / Missionsende</value>
   </data>
-
+  
+ <data name="Rearm">
+    <value>Wiederbewaffnung</value>
+  </data>
+ <data name="EndMission">
+    <value>Missionsende</value>
+  </data>
 
   <!-- added 2.01.2009 -->
 
