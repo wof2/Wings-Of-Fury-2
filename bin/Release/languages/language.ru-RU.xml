@@ -405,6 +405,13 @@
   <data name="RearmEndMission">
     <value>Перевооружиться / Завершить миссию</value>
   </data>
+  
+    <data name="Rearm">
+    <value>Перевооружиться</value>
+  </data>
+  <data name="EndMission">
+    <value>Завершить миссию</value>
+  </data>
 
   <!-- added 2.01.2009 -->
 

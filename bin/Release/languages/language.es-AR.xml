@@ -423,6 +423,14 @@
   <data name="RearmEndMission">
     <value>recargar municiones / Finalizar misión</value>
   </data>
+  
+  <data name="Rearm">
+    <value>Recargar municiones/value>
+  </data>
+  
+  <data name="EndMission">
+    <value>Finalizar misión</value>
+  </data>
 
   <!-- added 2.01.2009 -->
 

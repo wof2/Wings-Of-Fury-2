@@ -393,6 +393,12 @@
   <data name="RearmEndMission">
     <value>Zmiana uzbrojenia / Koniec misji</value>
   </data>
+    <data name="Rearm">
+    <value>Zmiana uzbrojenia</value>
+  </data>
+  <data name="EndMission">
+    <value>Koniec misji</value>
+  </data>
 
 
   <!-- added 2.01.2009 -->

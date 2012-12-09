@@ -395,6 +395,14 @@
   <data name="RearmEndMission">
     <value>Επανεξοπλισμός / Τερματισμός Αποστολής</value>
   </data>
+  
+  <data name="Rearm">
+    <value>Επανεξοπλισμός</value>
+  </data>
+  <data name="EndMission">
+    <value>Τερματισμός Αποστολής</value>
+  </data>
+
 
 
   <!-- added 2.01.2009 -->

@@ -257,7 +257,7 @@ namespace Wof.Controller.Screens
         /// Okienko dla hinta (wyspy po lewej / prawej / obu stronach)
         /// </summary>
         private Window hintWindow;
-        private Button resumeButton = null, exitButton = null, gameOverButton = null, nextLevelButton = null;
+        private Button resumeButton = null, exitButton = null, gameOverButton = null, nextLevelButton = null, resumeFinishedLevelButton = null, rearmButton = null;
         private Button bombsButton, rocketsButton, torpedoesButton;
         private uint mousePosX, mousePosY;
 
@@ -649,6 +649,8 @@ namespace Wof.Controller.Screens
 
 
                     }
+                   // OnLevelFinished();
+        
 
                     loading = false;
                 }
@@ -2179,6 +2181,18 @@ namespace Wof.Controller.Screens
                     SoundManager.Instance.LoopEngineSound(currentLevel.UserPlane);
                 }
             }
+
+            if (referer == resumeFinishedLevelButton)
+            {
+                ClearNextLevelScreen();
+            }
+            if (referer == rearmButton)
+            {
+                ClearNextLevelScreen();
+                OnChangeAmmunition();
+            }
+            
+
             if (referer == exitButton)
             {
                 if (mGui != null)
@@ -2526,6 +2540,15 @@ namespace Wof.Controller.Screens
         }
 
 
+        private void ClearNextLevelScreen()
+        {
+            isGamePaused = false;
+            isInNextLevelMenu = false;
+            mGui.killGUI();
+            mGui = null;
+        }
+
+
         private void DisplayNextLevelScreen()
         {
 
@@ -2534,7 +2557,7 @@ namespace Wof.Controller.Screens
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
 
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
-                                                    viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 17.5f * GetTextVSpacing()),
+                                                    viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 20.5f * GetTextVSpacing()),
                                                     "bgui.window", (int)wt.NONE,LanguageResources.GetString(LanguageKey.LevelCompleted));
          
 
@@ -2542,12 +2565,24 @@ namespace Wof.Controller.Screens
            
 
             Callback cc = new Callback(this);
-            nextLevelButton =
-              guiWindow.createButton(
-                  new Vector4(5 + viewport.ActualWidth * 0.1f, 16.50f * GetTextVSpacing(), viewport.ActualWidth / 2.0f, GetTextVSpacing()),
-                  "bgui.button",
-                  LanguageResources.GetString(LanguageKey.OK), cc);
+         
+            resumeFinishedLevelButton =
+                guiWindow.createButton(
+                      new Vector4(5 + viewport.ActualWidth * 0.1f, 16.50f * GetTextVSpacing(), viewport.ActualWidth / 2.0f, GetTextVSpacing()),
+                      "bgui.button",
+                      LanguageResources.GetString(LanguageKey.Resume), cc);
+               
+            rearmButton =
+                guiWindow.createButton(
+                    new Vector4(5 + viewport.ActualWidth * 0.1f, 17.50f * GetTextVSpacing(), viewport.ActualWidth / 2.0f, GetTextVSpacing()),
+                    "bgui.button",
+                    LanguageResources.GetString(LanguageKey.Rearm), cc);
 
+            nextLevelButton =
+                guiWindow.createButton(
+                   new Vector4(5 + viewport.ActualWidth * 0.1f, 18.50f * GetTextVSpacing(), viewport.ActualWidth / 2.0f, GetTextVSpacing()),
+                   "bgui.button",
+                   LanguageResources.GetString(LanguageKey.EndMission), cc);
 
             isInNextLevelMenu = true;
         }
@@ -3441,7 +3476,7 @@ namespace Wof.Controller.Screens
             //currentLevel.OnCheckVictoryConditions();
             levelView.OnStopPlayingEnemyPlaneEngineSounds();
         //  readyForLevelEnd = true;
-            if (!readyForLevelEnd)
+          //  if (!readyForLevelEnd)
             {
 
                 if(!changingAmmo)
@@ -3458,12 +3493,12 @@ namespace Wof.Controller.Screens
                 //DisplayNextLevelScreen();
                 //DisplayGameoverScreen();
             }
-            else if(!isInNextLevelMenu)
+            /*else if(!isInNextLevelMenu)
             {
                 OnReadyLevelEnd();
                 isGamePaused = true;
                 DisplayNextLevelScreen();
-            }
+            }*/
         }
 
         public void OnWarCry(Plane plane)

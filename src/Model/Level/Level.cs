@@ -673,7 +673,7 @@ namespace Wof.Model.Level
                 {
                     userPlane.StopEngine(time / timeUnit);
                     controller.OnPlayFanfare();
-                    controller.OnLevelFinished();
+                   // controller.OnLevelFinished();
                 }
             }
 
