@@ -617,7 +617,7 @@ namespace wingitor
         { 
         }
 
-        public void OnSecondaryFireOnCarrier()
+        public void OnSecondaryFireOnCarrier(Plane userPlane)
         {
             
         }

@@ -667,6 +667,7 @@ namespace Wof.Model.Level
 
           
             // koniec poziomu
+            /*
             if (userPlane.IsOnAircraftCarrier && userPlane.Speed < 0.001f * GameConsts.GenericPlane.CurrentUserPlane.MaxSpeed)
             {
                 if (onReadyLevelEndLaunched)// odtr¹biono ju¿ fanfary
@@ -676,7 +677,7 @@ namespace Wof.Model.Level
                    // controller.OnLevelFinished();
                 }
             }
-
+            */
 
             //zmienia pozycje zolnierzy.
             SoldiersMove(time);
@@ -783,14 +784,7 @@ namespace Wof.Model.Level
         {
             if (userPlane.LocationState == LocationState.AircraftCarrier)
             {
-                if (userPlane.CanChangeAmmunition)
-                {
-                	userPlane.MovementVector.X = 0;
-                    controller.OnChangeAmmunition();
-                }
-
-                controller.OnSecondaryFireOnCarrier();
-                    
+                controller.OnSecondaryFireOnCarrier(userPlane);
             }
 
             switch (userPlane.Weapon.SelectWeapon)

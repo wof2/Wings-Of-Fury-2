@@ -156,6 +156,8 @@ namespace Wof.Controller.Screens
         private int ammoSelectedIndex;
         private int ammoSelectedIndexCount = 3;
 
+        private int nextLevelMenuSelectedIndex;
+        private int nextLevelMenuSelectedIndexCount = 3;
 
         private BulletTimeBar _bulletTimeBar;
         private AltitudeBar _altitudeBar;
@@ -413,6 +415,7 @@ namespace Wof.Controller.Screens
             sceneMgr = framework.SceneMgr;
             viewport = framework.Viewport;
             ammoSelectedIndex = ammoSelectedIndexCount; // wiêkszy ni¿ najwiêkszy mo¿liwy
+            nextLevelMenuSelectedIndex = nextLevelMenuSelectedIndexCount;
             camera = framework.Camera;
             mousePosX = (uint) viewport.ActualWidth/2;
             mousePosY = (uint) viewport.ActualHeight/2;
@@ -649,7 +652,7 @@ namespace Wof.Controller.Screens
 
 
                     }
-                   // OnLevelFinished();
+                  //  OnLevelFinished();
         
 
                     loading = false;
@@ -1381,12 +1384,111 @@ namespace Wof.Controller.Screens
                 }
 
                 // przyciski - next level
-                if (isInNextLevelMenu && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter)))
-                {
-                    Button.TryToPressButton(nextLevelButton);
+                if (isInNextLevelMenu && (Button.CanChangeSelectedButton(1.5f))) // mozna nacisnac guzik 
+                { 
+                    bool pressed = false;
+
+                    if (nextLevelMenuSelectedIndex != nextLevelMenuSelectedIndexCount)
+                    {
+                        if (inputKeyboard.IsKeyDown(KeyMap.Instance.Up) || joyVector.y > 0)
+                        {
+                            nextLevelMenuSelectedIndex -= 1;
+                            pressed = true;
+                        }
+
+                        if (inputKeyboard.IsKeyDown(KeyMap.Instance.Down) || joyVector.y < 0)
+                        {
+                            nextLevelMenuSelectedIndex += 1;
+                            pressed = true;
+                        }
+
+                        if (pressed) Button.ResetButtonTimer();
+
+
+                        if (nextLevelMenuSelectedIndex >= nextLevelMenuSelectedIndexCount)
+                        {
+                            nextLevelMenuSelectedIndex = nextLevelMenuSelectedIndexCount - 1;
+                        }
+
+                        if (nextLevelMenuSelectedIndex < 0)
+                        {
+                            nextLevelMenuSelectedIndex = 0;
+                        }
+
+                    }
+                    else
+                    {
+                        nextLevelMenuSelectedIndex = 0; // domyslnie
+                        pressed = true;
+                    }
+  
+
+                    if (pressed)
+                    {
+                        switch (nextLevelMenuSelectedIndex)
+                        {
+                            case 0:
+                                resumeFinishedLevelButton.activate(true);
+                                rearmButton.activate(false);
+                                nextLevelButton.activate(false);
+                                break;
+
+                            case 1:
+                                resumeFinishedLevelButton.activate(false);
+                                rearmButton.activate(true);
+                                nextLevelButton.activate(false);
+                                break;
+
+                            case 2:
+                                resumeFinishedLevelButton.activate(false);
+                                rearmButton.activate(false);
+                                nextLevelButton.activate(true);
+                                break;
+                        }
+                    }
+
+                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter))
+                    {
+                        Button buttonToPress = null;
+                        switch (nextLevelMenuSelectedIndex)
+                        {
+                            case 0:
+                                buttonToPress = resumeFinishedLevelButton;
+                                break;
+
+                            case 1:
+                                buttonToPress = rearmButton;
+                                break;
+
+                            case 2:
+                                buttonToPress = nextLevelButton;
+                                break;
+
+                        }
+                       
+                        if (buttonToPress != null)
+                        {
+                            onButtonPress(buttonToPress);
+                            ammoSelectedIndex = ammoSelectedIndexCount;
+                            Button.ResetButtonTimer();
+                        }
+
+                    }
+            
+                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape))
+                    {
+                        onButtonPress(resumeFinishedLevelButton);
+                        Button.ResetButtonTimer();
+                        nextLevelMenuSelectedIndex = nextLevelMenuSelectedIndexCount;
+                    } 
 
                 }
-               
+
+
+
+
+
+
 
                 // zmiana amunicji za pomoc¹ klawiatury                       
                 if (changingAmmo && (Button.CanChangeSelectedButton(1.5f))) // mozna nacisnac guzik 
@@ -2181,7 +2283,6 @@ namespace Wof.Controller.Screens
                     SoundManager.Instance.LoopEngineSound(currentLevel.UserPlane);
                 }
             }
-
             if (referer == resumeFinishedLevelButton)
             {
                 ClearNextLevelScreen();
@@ -2189,6 +2290,7 @@ namespace Wof.Controller.Screens
             if (referer == rearmButton)
             {
                 ClearNextLevelScreen();
+                levelView.OnChangeCamera(0);
                 OnChangeAmmunition();
             }
             
@@ -3454,15 +3556,37 @@ namespace Wof.Controller.Screens
         {
             OnReadyLevelEnd();
             isGamePaused = true;
+
+
+            // mission is fulfilled - make next level available
+            if (!this.LevelInfo.IsCustom && File.Exists(XmlLevelParser.GetLevelFileName(levelNo.Value + 1)))
+            {                    
+            	LevelInfo nextLevelInfo = new LevelInfo(levelNo.Value + 1);
+                if (!LoadGameUtil.Singleton.HasCompletedLevel(nextLevelInfo))
+                {
+                    LoadGameUtil.NewLevelCompleted(nextLevelInfo, new List<Achievement>());
+                }
+            }
+                
+
             DisplayNextLevelScreen();
         }
         
 
-        public void OnSecondaryFireOnCarrier()
+        public void OnSecondaryFireOnCarrier(Plane userPlane)
         {
             if (readyForLevelEnd && !isInNextLevelMenu)
             {
                 OnLevelFinished();
+            }
+            else
+            {
+
+                if (userPlane.CanChangeAmmunition)
+                {
+                    userPlane.MovementVector.X = 0;
+                    OnChangeAmmunition();
+                }
             }
         }
 
