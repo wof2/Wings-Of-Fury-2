@@ -726,9 +726,9 @@ namespace Wof.Controller
             AddJob(MethodBase.GetCurrentMethod().Name, new object[] { tile });
         }
 
-        public void OnSecondaryFireOnCarrier()
+        public void OnSecondaryFireOnCarrier(Plane userPlane)
         {
-            AddJob(MethodBase.GetCurrentMethod().Name);
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { userPlane });
         }
 
         public void OnRocketHitPlane(Rocket rocket, Plane plane)
