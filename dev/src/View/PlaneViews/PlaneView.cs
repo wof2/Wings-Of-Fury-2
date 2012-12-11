@@ -631,7 +631,7 @@ namespace Wof.View
             {
                 (this as EnemyPlaneViewBase).PlayGunSound();
             }
-            OnFireGunDo(new Vector3(-4.3f, -0.3f, -5.3f), new Vector3(4.3f, -0.3f, -5.3f), new Vector2(4.5f, 3.5f), false, 64);
+            OnFireGunDo(new Vector3(4.7f, -0.3f, -3.6f), new Vector3(-4.7f, -0.3f, -3.6f), new Vector2(4.5f, 3.5f), false, 64);
         }
 
 
@@ -655,13 +655,13 @@ namespace Wof.View
          //   trailOrient *= new Quaternion(Math.HALF_PI * -0.0f, Vector3.UNIT_Y);
 
 
-            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "LeftGunHit" + gun1Pos,
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.lWingNode, "LeftGunHit" + gun1Pos,
                                                        EffectsManager.EffectType.GUNHIT2,
                                                        gun1Pos, expSize,
                                                        orient, false);
 
 
-            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "RightGunHit" + gun2Pos,
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.rWingNode, "RightGunHit" + gun2Pos,
                                                        EffectsManager.EffectType.GUNHIT2,
                                                        gun2Pos, expSize,
                                                        orient, false);
@@ -688,15 +688,15 @@ namespace Wof.View
 
             }
 */
-
+          
             orient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
             trailOrient *= new Quaternion(Math.HALF_PI, Vector3.UNIT_X);
-            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "LeftGunHitTop" + gun1Pos,
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.lWingNode, "LeftGunHitTop" + gun1Pos,
                                                        EffectsManager.EffectType.GUNHIT2,
                                                        gun1Pos, expSize,
                                                        orient, false);
 
-            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.OuterNode, "RightGunHitTop" + gun2Pos,
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, this.rWingNode, "RightGunHitTop" + gun2Pos,
                                                        EffectsManager.EffectType.GUNHIT2,
                                                        gun2Pos, expSize,
                                                        orient, false);
