@@ -12,6 +12,7 @@ using Mogre;
 using Wof.Controller;
 using Wof.Misc;
 using Wof.Model.Level;
+using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 using Wof.View.Effects;
 using Wof.View.NodeAnimation;
@@ -35,21 +36,28 @@ namespace Wof.View.AmmunitionViews
         
    //     protected List<NodeAnimation.NodeAnimation> animations = new List<NodeAnimation.NodeAnimation>();
 
-
-        protected string getEffectName(Vector3 gunPos)
+       
+        protected string getLocalSpriteName(string localName)
         {
-            return "GunTrail" + ammunitionID + "_" + gunPos;
+            string name = "GunTrail" + ammunitionID + "_" + localName;
+            return name;
         }
 
-        protected string getEffectNameTop(Vector3 gunPos)
+        protected string getLocalSpriteNameTop(string localName)
         {
-            return "GunTrailTop" + ammunitionID + "_" + gunPos;
+            string name = "GunTrailTop" + ammunitionID + "_" + localName;
+            return name;
         }
 
-        protected void hideEffect(Vector3 gunPos)
+        /*protected string getEffectNameTop()
         {
-            EffectsManager.Singleton.HideSprite(sceneMgr, ammunitionNode, EffectsManager.EffectType.GUNTRAIL, getEffectName(gunPos));
-            EffectsManager.Singleton.HideSprite(sceneMgr, ammunitionNode, EffectsManager.EffectType.GUNTRAIL, getEffectNameTop(gunPos));
+            return "GunTrailTop" + ammunitionID + "_" + (localSpriteId++);
+        }*/
+
+        protected void hideEffect(string localName)
+        {
+            EffectsManager.Singleton.HideSprite(sceneMgr, ammunitionNode, EffectsManager.EffectType.GUNTRAIL, getLocalSpriteName(localName));
+            EffectsManager.Singleton.HideSprite(sceneMgr, ammunitionNode, EffectsManager.EffectType.GUNTRAIL, getLocalSpriteNameTop(localName));
          }
 
         protected override void preInitOnScene()
@@ -58,19 +66,19 @@ namespace Wof.View.AmmunitionViews
            
             float baseWidth = 1.5f;
             // FIXME: przesuwac nodey zamiast tworzyc wiecej niepotrzebnie
-            prepareGunEffect(gunPosLeft, baseWidth);
-            prepareGunEffect(gunPosRight, baseWidth);
-            prepareGunEffect(gunPosMiddle, baseWidth);
-            
-            hideEffect(gunPosLeft);
-            hideEffect(gunPosRight);
-            hideEffect(gunPosMiddle);
+            prepareGunEffect(Vector3.ZERO, baseWidth, "left");
+            prepareGunEffect(Vector3.ZERO, baseWidth, "right");
+            prepareGunEffect(Vector3.ZERO, baseWidth, "middle");
+
+            /*hideEffect("left");
+            hideEffect("right");
+            hideEffect("middle");*/
             Hide();
           
         }
         
 
-        protected void prepareGunEffect(Vector3 gunPos, float baseWidth)
+        protected void prepareGunEffect(Vector3 gunPos, float baseWidth, string localName)
 		{
 		 	Quaternion orient, trailOrient;
 
@@ -87,15 +95,15 @@ namespace Wof.View.AmmunitionViews
           
 
             float trailWidth = baseWidth * Math.RangeRandom(1.0f, 1.1f);
-           
-        
+
+
             Vector3 trailBase = new Vector3(gunPos.x, gunPos.y, gunPos.z);
 
             
            
         	//animations.Add(
             EffectsManager.Singleton.RectangularEffect(sceneMgr, ammunitionNode,
-                                                       getEffectName(gunPos),
+                                                       getLocalSpriteName(localName),
                                                        EffectsManager.EffectType.GUNTRAIL,
                                                        trailBase - new Vector3(0, 0, Math.RangeRandom(-0.5f, 0.5f)),
                                                        new Vector2(trailWidth, 1.0f),
@@ -110,7 +118,7 @@ namespace Wof.View.AmmunitionViews
             
         	//animations.Add(
             EffectsManager.Singleton.RectangularEffect(sceneMgr, ammunitionNode,
-                                                       getEffectNameTop(gunPos),
+                                                       getLocalSpriteNameTop(localName),
                                                        EffectsManager.EffectType.GUNTRAIL,
                                                        trailBase - new Vector3(0, 0, Math.RangeRandom(0.5f, 2.0f)),
                                                        new Vector2(trailWidth, 1.0f),
@@ -120,11 +128,49 @@ namespace Wof.View.AmmunitionViews
         	
 		}
 
-        private readonly Vector3 gunPosLeft = new Vector3(-1.5f, -0.3f, -0.3f);
-        private readonly Vector3 gunPosRight = new Vector3(1.5f, -0.3f, -0.3f);
-        private readonly Vector3 gunPosMiddle = new Vector3(0.0f, 0.3f, -0.3f);
+        private PlaneType getPlaneType()
+        {
+             if((Ammunition.Owner is Model.Level.Planes.Plane))
+             {
+                 PlaneType type = (Ammunition.Owner as Model.Level.Planes.Plane).PlaneType;
+                 return type;
+             }
+            return PlaneType.P47;
+        }
 
+        private Vector3 getGunPosLeft()
+        {
+                if (getPlaneType() == PlaneType.B25 || getPlaneType() == PlaneType.Betty)
+                {
+                    return new Vector3(-2.5f, -0.3f, -0.3f);
+                } else
+                {
+                    return new Vector3(-1.5f, -0.6f, -0.3f);
+                }
+
+        }
+
+
+        private Vector3 getGunPosRight()
+        {
+            if (getPlaneType() == PlaneType.B25 || getPlaneType() == PlaneType.Betty)
+            {
+                return new Vector3(2.5f, -0.3f, -0.3f);
+            }
+            else
+            {
+                return new Vector3(1.5f, -0.6f, -0.3f);
+            }
+
+        }
+
+        private Vector3 getGunPosMiddle()
+        {
+            return new Vector3(0.0f, 0.3f, -0.3f);
+
+        }
         
+       
         public override void postInitOnScene()
         {
         	
@@ -135,14 +181,14 @@ namespace Wof.View.AmmunitionViews
                 if ((ammunition as GunBullet).IsDoubleView)
                 {
                     float baseWidth = 1.5f;
-                    prepareGunEffect(gunPosLeft, baseWidth);
-                    prepareGunEffect(gunPosRight, baseWidth);
+                    prepareGunEffect(getGunPosLeft(), baseWidth, "left");
+                    prepareGunEffect(getGunPosRight(), baseWidth, "right");
                 }
                 else
                 {
                     
                     float baseWidth = 1.5f;
-                    prepareGunEffect(gunPosMiddle, baseWidth);
+                    prepareGunEffect(getGunPosMiddle(), baseWidth, "middle");
 
                 }
 
@@ -160,9 +206,9 @@ namespace Wof.View.AmmunitionViews
       	public override void Hide()
         {
             if (ammunitionNode != null) ammunitionNode.SetVisible(false, true);
-            hideEffect(gunPosLeft);
-            hideEffect(gunPosRight);
-            hideEffect(gunPosMiddle);
+            hideEffect("left");
+            hideEffect("right");
+            hideEffect("middle");
       		//for(NodeAnimation.VisibilityNodeAnimation ani : animations) {
       		//	ani.
       		//}

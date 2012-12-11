@@ -335,8 +335,8 @@ namespace Wof.View
 
         public override void OnFireGun()
         {
-            OnFireGunDo(new Vector3(5.0f, 1.0f, -4.3f), new Vector3(-5.0f, 1.0f, -4.3f), new Vector2(4.9f, 4.0f), false, 64);
-            OnFireGunDo(new Vector3(1.3f, -0.2f, -4.3f), new Vector3(-1.3f, -0.2f, -4.3f), new Vector2(3.9f, 3.0f), false, 64);
+            OnFireGunDo(new Vector3(3.6f, 1.0f, -4.3f), new Vector3(-3.6f, 1.0f, -4.3f), new Vector2(4.6f, 3.6f), false, 64);
+            OnFireGunDo(new Vector3(1.8f, 0.8f, -3.3f), new Vector3(-1.8f, 0.8f, -3.3f), new Vector2(3.5f, 2.5f), false, 64);
             OnFireGunDo(new Vector3(9.0f, 0.55f, 13.5f), new Vector3(-9.0f, 0.5f, 13.5f), new Vector2(1.5f, 1.5f), true, 35);
            
         }

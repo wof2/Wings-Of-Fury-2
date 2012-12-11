@@ -228,6 +228,10 @@ namespace Wof.Model.Level.Planes
                 }
                 else //atakuje samoloty na lotniskowcu
                 {
+                    if (IsPlaneAboveCarrier)
+                    {
+                        return false;
+                    }
                     if (!ArePlanesOnCarrierBehind ||
                         ShouldSteerUp ||
                         (Math.Abs(Center.X - PlanesOnAircraftPos.X) < distanceFromStoragePlanes))
@@ -1117,6 +1121,11 @@ namespace Wof.Model.Level.Planes
 
         protected bool isChasedBy(IObject2D obj)
         {
+            if(obj.MovementVector.EuclidesLength < 0.01f)
+            {
+                return false;
+            }
+
             if (direction != obj.Direction) return false;
 
             if (direction == Model.Level.Direction.Right)
