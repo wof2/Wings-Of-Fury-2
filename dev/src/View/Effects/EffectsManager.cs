@@ -148,7 +148,9 @@ namespace Wof.View.Effects
 																      "Betty_turret_Glass.tga",
 																      "T99_Air_Canon.tga",
 																      "g4m2_tailgunner.tga",
-																      	
+                                                                      "betty_2_normal.tga",
+                                                                      "betty_C.tga",
+                                                                      "panel5_gearin.png"
                                                                      
                                                                     
         });

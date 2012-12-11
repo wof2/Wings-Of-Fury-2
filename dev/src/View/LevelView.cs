@@ -1283,7 +1283,7 @@ namespace Wof.View
            
             if (index == -1)
             {
-                Console.WriteLine("HOOOLAA!");
+              //  Console.WriteLine("HOOOLAA!");
                 return;
             }
             AmmunitionView av = ammunitionViews[index];
@@ -2826,7 +2826,7 @@ namespace Wof.View
             {
                 CurrentCameraHolder.DetachObject(framework.Camera);
             }
-            Console.WriteLine("Attaching camera holder: "+cameraHolders[currentCameraHolderIndex].Name);
+           // Console.WriteLine("Attaching camera holder: "+cameraHolders[currentCameraHolderIndex].Name);
             cameraHolders[currentCameraHolderIndex].AttachObject(framework.Camera);
 
             // crosshair

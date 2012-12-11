@@ -75,7 +75,7 @@ namespace FSLOgreCS
 
         public void ErrorCallback(string s, bool b)
         {
-            Console.WriteLine("Error: " + s);   
+            //Console.WriteLine("Error: " + s);   
         }
         public bool InitializeSound(CameraListenerBase listener, FreeSL.FSL_SOUND_SYSTEM soundSystem)
         {
@@ -91,9 +91,9 @@ namespace FSLOgreCS
 
                 _initSound = true;
 
-                FreeSL.ErrorCallbackDelegate ErrorDelegate = new FreeSL.ErrorCallbackDelegate(ErrorCallback);
+                /*FreeSL.ErrorCallbackDelegate ErrorDelegate = new FreeSL.ErrorCallbackDelegate(ErrorCallback);
                 GCHandle AllocatedDelegate = GCHandle.Alloc(ErrorDelegate);
-                FreeSL.fslSetErrorCallback(ErrorDelegate);
+                FreeSL.fslSetErrorCallback(ErrorDelegate);*/
                
                
                 updaterThread = new Thread(new ThreadStart((UpdateSoundObjects)));
