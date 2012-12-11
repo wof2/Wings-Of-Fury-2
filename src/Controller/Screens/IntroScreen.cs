@@ -398,8 +398,11 @@ namespace Wof.Controller.Screens
             if (currentScreen > maxScreens)
             {
                 hideAdText();
-                ravenSound.Destroy();
-                ravenSound = null;
+                if (EngineConfig.SoundEnabled)
+                {
+                    ravenSound.Destroy();
+                    ravenSound = null;
+                }
                 GotoStartScreen();
                 return;
             }

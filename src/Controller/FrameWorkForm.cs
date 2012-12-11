@@ -50,6 +50,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using FSLOgreCS;
@@ -228,7 +229,7 @@ namespace Wof.Controller
                 catch(Exception ex)
                 {
                     LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while rendering. Going to kill the game. Reason:"+ex.Message+" "+ex.InnerException+" "+ex.Source+". Stack was:"+ex.StackTrace);
-                    
+                    throw new SEHException("Error occured while rendering", ex);
                 }
                 
                 // clean up
@@ -293,10 +294,10 @@ namespace Wof.Controller
                 root.Dispose();
                 root = null;
             }
-            catch(Exception ex)
+           /* catch(Exception ex)
             {
                 
-            }
+            }*/
             finally
             {
                 Taskbar.Show();

@@ -173,9 +173,20 @@ namespace Wof.View
 
         }
 
-      
+        public override void OnFireGun()
+        {
+            base.OnFireGun();
+           /* OnFireGunDo(new Vector3(3.6f, 1.0f, -4.3f), new Vector3(-3.6f, 1.0f, -4.3f), new Vector2(4.6f, 3.6f), false, 64);
+            OnFireGunDo(new Vector3(1.8f, 0.8f, -3.3f), new Vector3(-1.8f, 0.8f, -3.3f), new Vector2(3.5f, 2.5f), false, 64);
+            OnFireGunDo(new Vector3(9.0f, 0.55f, 13.5f), new Vector3(-9.0f, 0.5f, 13.5f), new Vector2(1.5f, 1.5f), true, 35);
+*/
+        }
         protected override void initOnScene()
         {
+
+            lWingNode = innerNode.CreateChildSceneNode(name + "LWingNode", new Vector3(-8.8f, -0.2f, -1.5f));
+            rWingNode = innerNode.CreateChildSceneNode(name + "RWingNode", new Vector3(8.8f, -0.2f, -1.5f));
+
 
             // sound
             if (EngineConfig.SoundEnabled)
