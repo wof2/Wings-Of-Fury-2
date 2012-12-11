@@ -205,12 +205,11 @@ namespace Wof.Controller
         public virtual void Go()
         {
         	
-            
-            if (!Setup())
-                return;
-
             try
             {
+                if (!Setup())
+                    return;
+         
 
                 // po wczytaniu poziomu odswiezmy polozenie okna
                 this.OnMove(new EventArgs());
@@ -431,6 +430,11 @@ namespace Wof.Controller
                 CreateInput();
                 
                 
+            }
+            catch(Exception)
+            {
+                carryOn = false;
+                throw;
             }
             finally
             {
