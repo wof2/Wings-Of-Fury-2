@@ -823,7 +823,7 @@ namespace Wof.Controller.Screens
             }
 
             // zlec ladowanie reklam dynamicznych (3D)
-            if (!EngineConfig.IsEnhancedVersion)
+            if (!EngineConfig.IsEnhancedVersion || Mogre.Math.RangeRandom(0.0f,1.0f) > 0.6f)
             {
                 BeginDynamicAdsDownload(LevelView.C_AD_DYNAMIC_ADS_COUNT);
             }

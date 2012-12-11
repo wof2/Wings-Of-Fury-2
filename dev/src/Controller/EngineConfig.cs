@@ -198,9 +198,9 @@ namespace Wof.Controller
 
         public static bool SoundEnabled = true;
         public static FreeSL.FSL_SOUND_SYSTEM SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_DIRECTSOUND;
-        public static int MusicVolume = 30;
+        public static int MusicVolume = 50;
 
-        protected static int soundVolume = 60;
+        protected static int soundVolume = 40;
         public static int SoundVolume
         {
              set 
@@ -286,7 +286,6 @@ namespace Wof.Controller
                 if (!File.Exists(C_FIRST_RUN))
                 {
                     LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Game is running for the first time - auto detecting language");
-                    File.Create(C_FIRST_RUN).Close();
                     try
                     {
                         if (AutoDetectLanguage())
@@ -333,7 +332,7 @@ namespace Wof.Controller
                     }
                     catch (Exception)
                     {
-                        SoundVolume = 100;
+                        SoundVolume = 40;
                     }
 
                     LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Sound volume:" + SoundVolume);
@@ -344,7 +343,7 @@ namespace Wof.Controller
                     }
                     catch (Exception)
                     {
-                        MusicVolume = 40;
+                        MusicVolume = 50;
                     }
 
                     LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Music volume:" + MusicVolume);

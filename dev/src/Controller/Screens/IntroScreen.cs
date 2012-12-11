@@ -133,7 +133,8 @@ namespace Wof.Controller.Screens
             :
                                   base(gameEventListener, framework, viewport, camera)
         {
-
+          
+           
             currentScreen = 0;
           //  textureDimensions = new Pair<uint, uint>(1280,1024); // default
 
@@ -154,8 +155,15 @@ namespace Wof.Controller.Screens
                 MaterialManager.Singleton.GetByName(matName + n).Load();
                 n++;
             }
-
-            maxScreens =  n - 1;
+            n--;
+            maxScreens =  n;
+            if(maxScreens > 0)
+            {
+                if (!File.Exists(EngineConfig.C_FIRST_RUN))
+                {
+                    maxScreens = 1;
+                }
+            }
 
            
             

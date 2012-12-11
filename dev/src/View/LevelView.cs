@@ -91,8 +91,8 @@ namespace Wof.View
 
         private const int C_AD_SIZE = 32;
 
-        private const float C_AD_MAX_DISPLAY_TIME = 35.0f;
         public const int C_AD_DYNAMIC_ADS_COUNT = 3;
+        private float[] C_AD_MAX_DISPLAY_TIMES = new float[C_AD_DYNAMIC_ADS_COUNT];
         
 
         /*
@@ -544,8 +544,8 @@ namespace Wof.View
            
             q3d.SetSceneNodes(adNodeSuper, adNodeParent);
             dynamicAds.Add(q3d);
-
-         
+            C_AD_MAX_DISPLAY_TIMES[dynamicAds.Count - 1] = Mogre.Math.RangeRandom(45.0f, 65.0f);
+            
 
         }
 
@@ -2020,7 +2020,7 @@ namespace Wof.View
                
                 if (ad.WasShown)
                 {
-                    if (dynamicAdsTimer > C_AD_MAX_DISPLAY_TIME)
+                    if (dynamicAdsTimer > C_AD_MAX_DISPLAY_TIMES[i])
                     {
                         SceneNode holder = ad.GetParent();
                         Vector3 pos = Vector3.ZERO;

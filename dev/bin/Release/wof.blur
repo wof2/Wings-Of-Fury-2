@@ -30,7 +30,7 @@
       <Analyzer guid="1531F3C1-1996-4E48-AD38-5DEEE879AC45" enabled="true" />
     </Analyze>
     <Rename>
-      <Options renamingScheme="Thai" namespaceObfuscationType="remove" />
+      <Options renamingScheme="LowercaseLetters" namespaceObfuscationType="remove" />
       <MappingFile>
         <Path>W:\wings\WoF\bin\Release\wof.renamed.xml</Path>
       </MappingFile>
