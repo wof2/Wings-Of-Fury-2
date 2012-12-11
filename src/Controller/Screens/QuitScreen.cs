@@ -300,11 +300,11 @@ namespace Wof.Controller.Screens
             {
                 if (currentMaterialName != null && animation != null)
                 {
-                   
-                    AdManager.Singleton.CloseAd(currentAd);
-                    AdManager.Singleton.Work(null); // wyslij, na wszelki wypadek
-                   
-
+                    if (currentAd != null)
+                    {
+                        AdManager.Singleton.CloseAd(currentAd);
+                        AdManager.Singleton.Work(null); // wyslij, na wszelki wypadek
+                    }
 
                     MaterialManager.Singleton.Unload(currentMaterialName);
                     EffectsManager.Singleton.RemoveAnimation(animation);

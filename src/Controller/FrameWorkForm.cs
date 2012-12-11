@@ -301,6 +301,10 @@ namespace Wof.Controller
             finally
             {
                 Taskbar.Show();
+                if (!File.Exists(EngineConfig.C_FIRST_RUN) && !(this is PerformanceTestFramework))
+                {
+                    File.Create(EngineConfig.C_FIRST_RUN).Close();
+                }
             }
             //Console.ReadLine();
         }
