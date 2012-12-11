@@ -497,7 +497,7 @@ namespace Wof.View
 
                         iv = compositeModelViews[i];
 
-                        position = new Vector3(UnitConverter.LogicToWorldUnits(iv.TileViews[0].LevelTile.TileIndex) + Math.RangeRandom(-4 * LevelTile.TileWidth, -1 * LevelTile.TileWidth), C_AD_Y_DIST, -C_AD_Z_DIST);
+                        position = new Vector3(UnitConverter.LogicToWorldUnits(iv.TileViews[0].LevelTile.TileIndex) + Math.RangeRandom(-15 * LevelTile.TileWidth, -1 * LevelTile.TileWidth), C_AD_Y_DIST, -C_AD_Z_DIST);
                   
                         break;
                     }

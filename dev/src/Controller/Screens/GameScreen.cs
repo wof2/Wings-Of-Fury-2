@@ -600,7 +600,7 @@ namespace Wof.Controller.Screens
                     float hsize = achievementsGui.mFontSize * 6.0f;
                     float dist = viewport.ActualWidth / 4.5f;
                    
-                    achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - hsize - achievementsGui.mFontSize, dist, hsize + achievementsGui.mFontSize), "", (int)wt.NONE, "");
+                    achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - hsize - 2* achievementsGui.mFontSize, dist, hsize + achievementsGui.mFontSize), "", (int)wt.NONE, "");
                     
                     List<Achievement> completedAchievementsBefore = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(levelInfo);
                    

@@ -163,6 +163,7 @@ namespace Wof.Controller
         	this.Text = EngineConfig.C_GAME_NAME + " " +EngineConfig.C_WOF_VERSION;
             this.BackColor = Color.Black;
             this.Icon = Wof.Properties.Resources.WofIcon;
+           
         }
 
         protected override void WireEventListeners()
@@ -545,8 +546,11 @@ namespace Wof.Controller
                 game = new Game();
                
                 try{
-          	     	User32.SetWindowPos(User32.PtrToConsole, (IntPtr)0, consolePosition.X, consolePosition.Y, 0, 0, User32.SWP_NOSIZE);
-      
+                    if (EngineConfig.DebugInfo)
+                    {
+                        User32.SetWindowPos(User32.PtrToConsole, (IntPtr) 0, consolePosition.X, consolePosition.Y, 0, 0,
+                                            User32.SWP_NOSIZE);
+                    }
                 }
                 catch(Exception ex) {
                 	
@@ -596,7 +600,8 @@ namespace Wof.Controller
                 ProcessStartInfo startInfo = new ProcessStartInfo();
 		        startInfo.CreateNoWindow = false;
 		        startInfo.UseShellExecute = false;
-		        startInfo.FileName = Process.GetCurrentProcess().MainModule.FileName;
+
+                startInfo.FileName = Process.GetCurrentProcess().MainModule.FileName.Replace(".vshost","");
 		        startInfo.WindowStyle = ProcessWindowStyle.Normal;
 		        startInfo.Arguments = param;
 				Process exeProcess = Process.Start(startInfo);
