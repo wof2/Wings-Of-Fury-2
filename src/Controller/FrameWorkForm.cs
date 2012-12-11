@@ -438,7 +438,7 @@ namespace Wof.Controller
                 splash.Dispose();
                 if (carryOn) 
                 {
-                    window.SetVisible(true);
+                    
                     try
                     {
                         if(FrameWorkStaticHelper.GetCurrentFullscreen())
@@ -450,7 +450,8 @@ namespace Wof.Controller
                     catch (Exception)
                     {
                     }
-                    
+                    window.SetVisible(true);
+
                 }
             }
             return true;
