@@ -75,7 +75,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 Source: "{#MyAppSourcePath}\WofIcon.ico"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "{#MyAppSourcePath}\WofIconE.ico"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "{#MyAppSourcePath}\Wof.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: {#MyAppSourcePath}\bin\Release\*; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "wof_secure,\Wof.vshost.exe,\Wof.blur,\Wof.exe,\none.xml,\ogre.cfg,\custom_levels\*.xml,\levels\*.xml,\survival.dat,*.old,\wof.renamed.xml,*.lnk,\enhanced.dat,\wofconf.dat,\game.dat,\highscores.dat,*.manifest,*.config,\firstrun.dat,*.pdb,*.log,*.manifest,_ReSharper.Wof,_ReSharper.Wof.vshost"
+Source: {#MyAppSourcePath}\bin\Release\*; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "wof_secure,\Wof.vshost.exe,\Wof.blur,\Wof.exe,\none.xml,\ogre.cfg,\custom_levels\*.xml,\levels\*.xml,\survival.dat,*.old,\wof.renamed.xml,*.lnk,\enhanced.dat*,\wofconf.dat,\game.dat,\highscores.dat,*.manifest,*.config,\firstrun.dat,*.pdb,*.log,*.manifest,_ReSharper.Wof,_ReSharper.Wof.vshost"
 Source: {#MyAppSourcePath}\bin\Release\wof_secure\Wof.exe; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; 
 ;Source: {#MyAppSourcePath}\bin\Release\wof_secure\EnhancedVersionHelper.exe; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; 
 

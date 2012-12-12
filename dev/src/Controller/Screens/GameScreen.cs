@@ -823,7 +823,9 @@ namespace Wof.Controller.Screens
             }
 
             // zlec ladowanie reklam dynamicznych (3D)
-            if (!EngineConfig.IsEnhancedVersion || Mogre.Math.RangeRandom(0.0f,1.0f) > 0.6f)
+            bool levelAd = this.levelInfo.GetLevelNo().HasValue && this.levelInfo.GetLevelNo().Value > 1;
+
+            if (levelAd && !EngineConfig.IsEnhancedVersion && Mogre.Math.RangeRandom(0.0f,1.0f) > 0.6f)
             {
                 BeginDynamicAdsDownload(LevelView.C_AD_DYNAMIC_ADS_COUNT);
             }
@@ -2285,6 +2287,7 @@ namespace Wof.Controller.Screens
             }
             if (referer == resumeFinishedLevelButton)
             {
+                levelView.OnChangeCamera(0);
                 ClearNextLevelScreen();
             }
             if (referer == rearmButton)
