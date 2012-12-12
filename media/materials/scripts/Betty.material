@@ -17,7 +17,7 @@ material studio.ref_land.smd.mesh_01
 
 			texture_unit
 			{
-				texture betty.tga
+				texture betty.dds
 			}
 		}
 
@@ -42,7 +42,7 @@ material studio.ref_land.smd.mesh_02
 
 			texture_unit
 			{
-				texture betty_decal_1.tga
+				texture betty_decal_1.dds
 			}
 		}
 
@@ -67,7 +67,7 @@ material studio.ref_land.smd.mesh_03
 
 			texture_unit
 			{
-				texture T99_Air_Canon.tga
+				texture T99_Air_Canon.dds
 			}
 		}
 
@@ -77,15 +77,15 @@ material studio.ref_land.smd.mesh_03
 
 material studio.ref_land.smd.mesh_04 : NormalMappedSpecular
 {
-  set_texture_alias NormalMap betty_2_normal.tga
-  set_texture_alias DiffuseMap betty_2.tga
+  set_texture_alias NormalMap betty_2_normal.dds
+  set_texture_alias DiffuseMap betty_2.dds
 
 }
 
 material studio.ref_land.smd.mesh_04_destoyed : NormalMappedSpecular
 {
-  set_texture_alias NormalMap betty_2_normal.tga
-  set_texture_alias DiffuseMap betty_2_destroyed.tga
+  set_texture_alias NormalMap betty_2_normal.dds
+  set_texture_alias DiffuseMap betty_2_destroyed.dds
 
 }
 
@@ -106,7 +106,7 @@ material studio.ref_land.smd.mesh_05
 
 			texture_unit
 			{
-				texture g4m2_tailgunner.tga
+				texture g4m2_tailgunner.dds
 			}
 		}
 
@@ -131,7 +131,7 @@ material studio.ref_land.smd.mesh_06
 
 			texture_unit
 			{
-				texture Betty_turret.tga
+				texture Betty_turret.dds
 			}
 		}
 
@@ -156,7 +156,7 @@ material studio.ref_land.smd.mesh_07
 
 			texture_unit
 			{
-				texture Betty_turret_Glass.tga
+				texture Betty_turret_Glass.dds
 			}
 
 			texture_unit
@@ -188,7 +188,7 @@ material studio.ref_land.smd.mesh_08
 
 			texture_unit
 			{
-				texture A10_glass.tga
+				texture A10_glass.dds
 			}
 
 			texture_unit
@@ -220,7 +220,7 @@ material studio.ref_land.smd.mesh_09
 
 			texture_unit
 			{
-				texture betty_C.tga
+				texture betty_C.dds
 			}
 		}
 
