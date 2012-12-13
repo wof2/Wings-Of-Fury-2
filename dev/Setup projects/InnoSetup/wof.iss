@@ -20,6 +20,8 @@
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppID={{33473D00-7679-478F-9C91-0D7DCB44F7B9}
+;Encryption=Yes
+;Password=Panas$Test
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -43,6 +45,7 @@ VersionInfoDescription=WW2 plane simulator and shooter
 VersionInfoProductName=Wings of Fury 2 - Return of the legend
 VersionInfoProductVersion=3.4
 PrivilegesRequired=poweruser
+
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
@@ -137,10 +140,16 @@ const
 //*********************************************************************************
 // This is where all starts.
 //*********************************************************************************
+
+function CheckPassword(Password: String): Boolean;
+begin 
+  if Password = 'Panas$Test' then Result:= True;
+end;
+
 function InitializeSetup(): Boolean;
 
 begin
-
+  //CheckPassword(Password: String);
 	Result := true;
 	dotNetNeeded := false;
 	GetWindowsVersionEx(Version);
