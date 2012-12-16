@@ -5,7 +5,7 @@ interfejsów użytkownika.
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.IO;
 using Mogre;
 using System.Windows.Forms;
 using Wof.Languages;
@@ -336,8 +336,24 @@ namespace Wof.Controller
         {  
             bool carryOn = false;        
             try
-            {               
-                root = new Root();
+            {
+                
+                if (!Directory.Exists(EngineConfig.C_LOCAL_DIRECTORY))
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(EngineConfig.C_LOCAL_DIRECTORY);
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                    
+                }
+                root = new Root("plugins.cfg", EngineConfig.C_OGRE_CFG, EngineConfig.C_PERF_LOG_FILE);
+                Log newLog = LogManager.Singleton.CreateLog(EngineConfig.C_PERF_LOG_FILE);
+                LogManager.Singleton.SetDefaultLog(newLog);
+
                 LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
                 LogManager.Singleton.LogMessage("Starting " + EngineConfig.C_GAME_NAME + " [performance test] ver. " + EngineConfig.C_WOF_VERSION);
                 SetupResources("test_resources.cfg");

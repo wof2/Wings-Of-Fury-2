@@ -49,6 +49,8 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
 using FSLOgreCS;
 using Mogre;
 using Wof.Languages;
@@ -82,12 +84,23 @@ namespace Wof.Controller
         public static readonly bool IsEnhancedVersion = Licensing.IsEhnancedVersion();
 
         public static readonly bool AdManagerDisabled = true;
+
+
+
+
+        public static readonly String C_LOCAL_DIRECTORY = Application.LocalUserAppDataPath;
         
+        public static readonly String C_ENGINE_CONFIG = Path.Combine(C_LOCAL_DIRECTORY, "wofconf.dat");
+        public static readonly String C_FIRST_RUN = Path.Combine(C_LOCAL_DIRECTORY, "firstrun.dat");
+        public static readonly String C_OGRE_CFG = Path.Combine(C_LOCAL_DIRECTORY, "ogre.cfg");
+        public static readonly String C_LOG_FILE = Path.Combine(C_LOCAL_DIRECTORY, "ogre.log");
+        public static readonly String C_PERF_LOG_FILE = Path.Combine(C_LOCAL_DIRECTORY, "perf_ogre.log");
 
+        public static readonly String C_COMPLETED_LEVELS_FILE = Path.Combine(C_LOCAL_DIRECTORY, "game.dat");
 
-        public static readonly String C_ENGINE_CONFIG = "wofconf.dat";
-        public static readonly String C_FIRST_RUN = "firstrun.dat";
-        public static readonly String C_OGRE_CFG = "ogre.cfg";
+        public static readonly String C_HIGHSCORES_FILE = Path.Combine(C_LOCAL_DIRECTORY, "highscores.dat");
+        public static readonly String C_SURVIVAL_FILE = Path.Combine(C_LOCAL_DIRECTORY, "survival.dat"); 
+
         public static readonly String C_GAME_INSTALL_DIR = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "../.."));  // hardcode, nie chcemy patrzec do rejestru
         
         public static readonly String C_WOF_HOME_PAGE = "http://www.wingsoffury2.com";
@@ -261,7 +274,7 @@ namespace Wof.Controller
 
         protected static bool AutoDetectLanguage()
         {
-            String inputLanguage = System.Windows.Forms.InputLanguage.CurrentInputLanguage.Culture.IetfLanguageTag;
+            String inputLanguage = InputLanguage.CurrentInputLanguage.Culture.IetfLanguageTag;
             if(LanguageManager.AvailableLanguages.ContainsValue(inputLanguage))
             {
                 LanguageManager.SetLanguage(inputLanguage);
@@ -294,7 +307,7 @@ namespace Wof.Controller
                         }
                         else
                         {
-                            LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Unable to detect language for: " + System.Windows.Forms.InputLanguage.CurrentInputLanguage.Culture.IetfLanguageTag);
+                            LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Unable to detect language for: " + InputLanguage.CurrentInputLanguage.Culture.IetfLanguageTag);
                         }
                         
                     }
@@ -311,8 +324,8 @@ namespace Wof.Controller
                     
                     String[] configOptions = File.ReadAllLines(C_ENGINE_CONFIG);
 
-                    BloomEnabled = bool.Parse(configOptions[0]);
-                    SoundEnabled = bool.Parse(configOptions[1]);
+                    BloomEnabled = Boolean.Parse(configOptions[0]);
+                    SoundEnabled = Boolean.Parse(configOptions[1]);
                     try
                     {
                         SoundSystem =
@@ -328,7 +341,7 @@ namespace Wof.Controller
 
                     try
                     {
-                        SoundVolume = int.Parse(configOptions[3]);
+                        SoundVolume = Int32.Parse(configOptions[3]);
                     }
                     catch (Exception)
                     {
@@ -339,7 +352,7 @@ namespace Wof.Controller
 
                     try
                     {
-                        MusicVolume = int.Parse(configOptions[4]);
+                        MusicVolume = Int32.Parse(configOptions[4]);
                     }
                     catch (Exception)
                     {
@@ -350,7 +363,7 @@ namespace Wof.Controller
                   
                     try
                     {
-                        LowDetails = bool.Parse(configOptions[5]);
+                        LowDetails = Boolean.Parse(configOptions[5]);
                     }
                     catch (Exception)
                     {
@@ -365,7 +378,7 @@ namespace Wof.Controller
 
                     try
                     {
-                        InverseKeys = bool.Parse(configOptions[6]);
+                        InverseKeys = Boolean.Parse(configOptions[6]);
                     }
                     catch (Exception)
                     {
@@ -398,7 +411,7 @@ namespace Wof.Controller
 
                     try
                     {
-                        UseAlternativeSpinControl = bool.Parse(configOptions[7]);
+                        UseAlternativeSpinControl = Boolean.Parse(configOptions[7]);
                     }
                     catch (Exception)
                     {
@@ -439,7 +452,7 @@ namespace Wof.Controller
                     	if(ShowIntro)
                     	{
                     		// intro mo¿na tylko wy³aczyæ. Chodzi o to zeby zapobiec w³¹czeniu intra jeœli uruchomiono program z -SkipIntro
-                            ShowIntro = bool.Parse(configOptions[9]);
+                            ShowIntro = Boolean.Parse(configOptions[9]);
                     	}
                     	
                     }
@@ -452,7 +465,7 @@ namespace Wof.Controller
 
                      try
 					{
-                        DisplayMinimap = bool.Parse(configOptions[10]);
+                        DisplayMinimap = Boolean.Parse(configOptions[10]);
                     }
                     catch(Exception)
                     {
@@ -465,7 +478,7 @@ namespace Wof.Controller
 
                     try
 					{
-                    	UseHydrax = bool.Parse(configOptions[11]);
+                    	UseHydrax = Boolean.Parse(configOptions[11]);
                     }
                     catch(Exception)
                     {
@@ -504,7 +517,7 @@ namespace Wof.Controller
 					
 					try
 					{
-                    	 AudioStreaming = bool.Parse(configOptions[13]);
+                    	 AudioStreaming = Boolean.Parse(configOptions[13]);
                     }
                     catch(Exception)
                     {
@@ -515,7 +528,7 @@ namespace Wof.Controller
 
                     try
 					{
-                        UseHardwareTexturePreloader = bool.Parse(configOptions[14]);
+                        UseHardwareTexturePreloader = Boolean.Parse(configOptions[14]);
                     }
                     catch(Exception)
                     {
@@ -527,7 +540,7 @@ namespace Wof.Controller
 
 					try
 					{
-                        Gore = bool.Parse(configOptions[15]);
+                        Gore = Boolean.Parse(configOptions[15]);
                     }
                     catch(Exception)
                     {
@@ -539,7 +552,7 @@ namespace Wof.Controller
                     
                     try
 					{
-                        HardwareTexturePreloaderTextureLimit = int.Parse(configOptions[16]);
+                        HardwareTexturePreloaderTextureLimit = Int32.Parse(configOptions[16]);
                     }
                     catch(Exception)
                     {
@@ -554,7 +567,7 @@ namespace Wof.Controller
 
                     try
                     {
-                        UseAsyncModel = bool.Parse(configOptions[17]);
+                        UseAsyncModel = Boolean.Parse(configOptions[17]);
                     }
                     catch (Exception)
                     {
@@ -567,7 +580,7 @@ namespace Wof.Controller
                     
                     try
                     {
-                        UpdateHydraxEveryFrame = bool.Parse(configOptions[18]);
+                        UpdateHydraxEveryFrame = Boolean.Parse(configOptions[18]);
                     }
                     catch (Exception)
                     {
@@ -589,7 +602,7 @@ namespace Wof.Controller
                         CurrentPlayerPlaneType = PlaneType.P47;
                     }
 
-                    if(!EngineConfig.IsEnhancedVersion)
+                    if(!IsEnhancedVersion)
                     {
                         CurrentPlayerPlaneType = PlaneType.P47;
                     }
@@ -661,5 +674,8 @@ namespace Wof.Controller
 
            
         }
+
+
+       
     }
 }

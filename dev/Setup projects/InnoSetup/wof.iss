@@ -39,13 +39,13 @@ OutputBaseFilename={#MyAppNameShort}{#MyAppVersion}
 Compression=lzma2/Max
 SolidCompression=true
 AlwaysShowDirOnReadyPage=true
-MinVersion=,5.1.2600sp1
+MinVersion=5.1.2600sp1
 VersionInfoCompany=Ravenlore
 VersionInfoDescription=WW2 plane simulator and shooter
 VersionInfoProductName=Wings of Fury 2 - Return of the legend
 VersionInfoProductVersion=3.4
 PrivilegesRequired=poweruser
-
+UninstallDisplayIcon={app}\Wof.exe
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

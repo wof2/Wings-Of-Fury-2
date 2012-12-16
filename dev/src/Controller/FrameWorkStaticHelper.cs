@@ -45,10 +45,11 @@ namespace Wof.Controller
 
         public static void ShowWofException(Exception ex)
         {
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, ex.Message + " " + ex.StackTrace);
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, ex.ToString());
             
             string info = "\r\nSupport: " + EngineConfig.C_WOF_SUPPORT_PAGE;
-            info += "\r\nError has been logged to: " + Environment.CurrentDirectory + "\\ogre.log\r\n. Please attach the file in case of reporting a bug\r\n";
+           
+            info += "\r\nError has been logged to: " + EngineConfig.C_LOG_FILE + "\r\n. Please attach the file in case of reporting a bug\r\n";
             info += ex.Message + "\r\n" + "Stack trace: " + ex.StackTrace;
                     
             MessageBox.Show(info, EngineConfig.C_GAME_NAME + " - Runtime error", MessageBoxButtons.OK, MessageBoxIcon.Error);

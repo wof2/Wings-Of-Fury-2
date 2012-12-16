@@ -50,6 +50,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Management;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text;
 using System.Windows.Forms;
 using Wof.Controller;
@@ -151,6 +153,114 @@ namespace Wof.Tools
            }
           
 
+       }
+
+       /// <summary>
+       /// Determines whether the specified file is readable.
+       /// </summary>
+       /// <param name="filename">The filename.</param>
+       /// <returns>
+       ///   <c>true</c> if the specified file is readable; otherwise, <c>false</c>.
+       /// </returns>
+       public static bool IsReadable(string filename)
+       {
+           try
+           {
+               string[] bytes = File.ReadAllLines(filename);
+           }
+           catch (Exception ex)
+           {
+               return false;
+           }
+
+           return true;
+           
+
+       }
+
+       /// <summary>
+       /// Determines whether the specified file is writeable.
+       /// </summary>
+       /// <param name="filename">The filename.</param>
+       /// <returns>
+       ///   <c>true</c> if the specified file is writeable; otherwise, <c>false</c>.
+       /// </returns>
+       public static bool IsWriteable(string filename)
+       {
+           // Ensure that the file is readonly.
+           try
+           {
+               File.SetAttributes(filename, File.GetAttributes(filename));
+
+               //Create the file. 
+               using (FileStream fs = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write))
+               {
+                   if (fs.CanWrite)
+                   {
+                       return true;
+                       //Console.WriteLine("The stream for file {0} is writable.", filename);
+                   }
+                   else
+                   {
+                       return false;
+                       // Console.WriteLine("The stream for file {0} is not writable.", filename);
+                   }
+               }
+           }
+           catch (Exception ex)
+           {
+               return false;
+              
+           }
+         
+       }
+
+
+       public static bool IsUser()
+       {
+           //bool value to hold our return value
+           bool isUser;
+           try
+           {
+
+               //get the currently logged in user
+               WindowsIdentity user = WindowsIdentity.GetCurrent();
+               WindowsPrincipal principal = new WindowsPrincipal(user);
+               isUser = principal.IsInRole(WindowsBuiltInRole.User);
+             
+           }
+           catch (UnauthorizedAccessException ex)
+           {
+               isUser = false;
+           }
+           catch (Exception ex)
+           {
+               isUser = false;
+           }
+           return isUser;
+       }
+
+       public static bool IsUserAdministrator()
+       {
+           //bool value to hold our return value
+           bool isAdmin;
+           try
+           {
+             
+               //get the currently logged in user
+               WindowsIdentity user = WindowsIdentity.GetCurrent();
+               WindowsPrincipal principal = new WindowsPrincipal(user);
+               isAdmin = principal.IsInRole(WindowsBuiltInRole.Administrator);
+           }
+           catch (UnauthorizedAccessException ex)
+           {
+               isAdmin = false;
+           }
+           catch (Exception ex)
+           {
+               isAdmin = false;
+           }
+           return isAdmin;
        }
 
        public static bool IsEhnancedVersion()

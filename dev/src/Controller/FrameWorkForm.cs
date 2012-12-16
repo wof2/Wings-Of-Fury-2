@@ -51,6 +51,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Threading;
 using System.Windows.Forms;
 using FSLOgreCS;
@@ -328,9 +329,11 @@ namespace Wof.Controller
             {
                 splash.Increment(
                     String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingTheRootObject, false)));
-               
 
-                root = new Root();
+              
+                root = new Root("plugins.cfg", EngineConfig.C_OGRE_CFG, EngineConfig.C_LOG_FILE);
+                Log newLog = LogManager.Singleton.CreateLog(EngineConfig.C_LOG_FILE);
+                LogManager.Singleton.SetDefaultLog(newLog);
               
                 //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
                 // LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
@@ -511,10 +514,170 @@ namespace Wof.Controller
 
 
         public int hwnd;
+
+
         /// <summary>
         /// Configures the application - returns false if the user chooses to abandon configuration.
         /// </summary>
         protected virtual bool Configure()
+        {
+            if (root.RestoreConfig())
+            {
+
+
+                try
+                {
+                    //window  = root.Initialise(true, EngineConfig.C_GAME_NAME);
+                    // return true;
+
+                    root.Initialise(false, EngineConfig.C_GAME_NAME);
+
+                    this.FormBorderStyle = FormBorderStyle.None;
+                    ConfigFile config = new ConfigFile();
+                    config.LoadDirect(EngineConfig.C_OGRE_CFG);
+
+
+                    //  return true;
+                    NameValuePairList misc = new NameValuePairList();
+                    misc["externalWindowHandle"] = Handle.ToString();
+                    misc["colourDepth"] = FrameWorkStaticHelper.GetCurrentColourDepth();
+                    misc["vsync"] = FrameWorkStaticHelper.GetCurrentVsync().ToString();
+                    int[] fsaa = FrameWorkStaticHelper.GetCurrentFSAA();
+                    misc["FSAA"] = fsaa[0].ToString();
+                    misc["FSAAQuality"] = fsaa[1].ToString();
+                    /*
+                                     misc["useNVPerfHUD"] = FrameWorkStaticHelper.GetCurrentUseNVPerfHUD(root).ToString();*/
+                    //	misc["gamma"] = StringConverter::toString(hwGamma);
+
+
+
+                    MaterialManager.Singleton.SetDefaultTextureFiltering(filtering);
+                    MaterialManager.Singleton.DefaultAnisotropy = aniso;
+
+
+                    Vector2 dim = FrameWorkStaticHelper.GetCurrentVideoMode();
+                    // this.ClientSize
+                    this.ClientSize = new Size((int)dim.x, (int)dim.y);
+                    //this.ClientSize.Height = ;
+                    window = root.CreateRenderWindow(EngineConfig.C_GAME_NAME, 0, 0, false, misc.ReadOnlyInstance);
+
+
+                    // window.GetCustomAttribute("WINDOW",out hwnd);
+
+
+                    Show();
+                    window.Resize((uint)dim.x, (uint)dim.y);
+                    hwnd = Handle.ToInt32();
+
+                    //window.SetDeactivateOnFocusChange(true);
+
+                }
+                catch (Exception ex)
+                {
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unable to initialize requested display device. Deleting " + EngineConfig.C_OGRE_CFG + " (have you changed your graphics card? TRYING TO RECREATE " + EngineConfig.C_OGRE_CFG + ")");
+                    MessageBox.Show(
+                      "Unable to initialize requested display device (have you changed your graphics card?). The game will now restarting trying to auto detect new settings", EngineConfig.C_GAME_NAME + " - warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    File.Delete(EngineConfig.C_OGRE_CFG);
+
+                    throw new RootInitializationException("Error while initializing Root", ex);
+                }
+
+                windowHeight = window.Height;
+                windowWidth = window.Width;
+                //window.SetVisible(false);
+
+
+                //   User32.SetWindowLong(ptr, GWL_EXSTYLE,  (Int32)style);
+
+
+
+                if (hwnd != 0)
+                {
+                    if (FrameWorkStaticHelper.GetCurrentFullscreen())
+                    {
+                        IntPtr ptr = new IntPtr(hwnd);
+                        this.WindowState = FormWindowState.Maximized;
+                        User32.SetWinFullScreen(ptr);
+
+                    }
+                    else
+                    {
+                        this.WindowState = FormWindowState.Normal;
+                        this.FormBorderStyle = FormBorderStyle.FixedSingle;
+                        this.Left = 0;
+                        this.Top = 0;
+                    }
+
+
+                    /*const int GWL_EXSTYLE = -20;
+                    const int GWL_STYLE = -16;
+		            
+                    //int style = User32.GetWindowLong(ptr, GWL_EXSTYLE);
+                    //style = style  & ~WindowStyles.WS_EX_TOPMOST;
+					
+                    User32.SetWindowLong(ptr, GWL_STYLE, WindowStyles.WS_POPUP | WindowStyles.WS_VISIBLE | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_CLIPCHILDREN);
+                    //User32.SetWindowLong(ptr, GWL_EXSTYLE, style);
+	        		
+	        		
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "AAAAA " +string.Format( "{0:X}", hwnd ));*/
+                }
+
+
+                // s.TopMost = true;
+
+
+                return true;
+            }
+
+
+
+            RenderSystemList renderSystems = root.GetAvailableRenderers();
+            IEnumerator<RenderSystem> enumerator = renderSystems.GetEnumerator();
+
+            // jako stan startowy moze zostac wybrany tylko directx system
+            RenderSystem d3dxSystem = null;
+
+            while (enumerator.MoveNext())
+            {
+                RenderSystem renderSystem = enumerator.Current;
+                if (renderSystem.Name.Contains("Direct"))
+                {
+                    d3dxSystem = renderSystem;
+                    break;
+                }
+            }
+
+            root.RenderSystem = d3dxSystem;
+
+
+            string fullScreen = "Yes";
+            string videoMode = "800 x 600 @ 32-bit colour";
+            string antialiasing = null;
+            string vsync = "No";
+
+            if (performanceTestFramework != null && performanceTestFramework.HasResults)
+            {
+                fullScreen = performanceTestFramework.FullScreen;
+                videoMode = performanceTestFramework.VideoMode;
+                antialiasing = performanceTestFramework.Antialiasing;
+                vsync = performanceTestFramework.VSync;
+            }
+
+            d3dxSystem.SetConfigOption("Full Screen", fullScreen);
+            d3dxSystem.SetConfigOption("Video Mode", videoMode);
+            d3dxSystem.SetConfigOption("VSync", vsync);
+
+            if (antialiasing != null) d3dxSystem.SetConfigOption("Anti aliasing", antialiasing);
+
+            root.SaveConfig();
+            return Configure();
+
+
+        }
+        /// <summary>
+        /// Configures the application - returns false if the user chooses to abandon configuration.
+        /// </summary>
+        protected virtual bool Configure2()
         {
             if (root.RestoreConfig())
             {

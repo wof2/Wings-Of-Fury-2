@@ -55,16 +55,12 @@ namespace Wof.Controller.Screens
 {
     internal class HighscoreUtil
     {
-    
-        public const String C_HIGHSCORES_FILE = "highscores.dat";
-        public const String C_SURVIVAL_FILE = "survival.dat";
-
         public List<HighscoreEntry> LoadList()
         {
          
             List<HighscoreEntry> highscores = new List<HighscoreEntry>();
 
-            if (!File.Exists(C_HIGHSCORES_FILE))
+            if (!File.Exists(EngineConfig.C_HIGHSCORES_FILE))
             {
                 highscores = CreateDefaultHighscores();
                 string scores = "";
@@ -72,13 +68,13 @@ namespace Wof.Controller.Screens
                 {
                     scores += "|" + highscores[i].ToString();
                 }
-                File.WriteAllText(C_HIGHSCORES_FILE, RijndaelSimple.Encrypt(scores));
+                File.WriteAllText(EngineConfig.C_HIGHSCORES_FILE, RijndaelSimple.Encrypt(scores));
             }
             else
             {
                 try
                 {
-                    string raw = File.ReadAllText(C_HIGHSCORES_FILE);
+                    string raw = File.ReadAllText(EngineConfig.C_HIGHSCORES_FILE);
                     string[] scores =
                         RijndaelSimple.Decrypt(raw).Split(new char[] {'|'}, StringSplitOptions.RemoveEmptyEntries);
 
@@ -92,7 +88,7 @@ namespace Wof.Controller.Screens
                 {
                     try
                     {
-                        File.Delete(C_HIGHSCORES_FILE);
+                        File.Delete(EngineConfig.C_HIGHSCORES_FILE);
                         return LoadList();
                     }
                     catch (Exception)
@@ -141,7 +137,7 @@ namespace Wof.Controller.Screens
             {
                 scores += "|" + highscores[i].ToString();
             }
-            File.WriteAllText(C_HIGHSCORES_FILE, RijndaelSimple.Encrypt(scores));
+            File.WriteAllText(EngineConfig.C_HIGHSCORES_FILE, RijndaelSimple.Encrypt(scores));
         }
 
         public int FindLeastHighscore()
@@ -160,12 +156,12 @@ namespace Wof.Controller.Screens
 
         public float GetSurvivalTime()
         {
-            if (!File.Exists(C_SURVIVAL_FILE))
+            if (!File.Exists(EngineConfig.C_SURVIVAL_FILE))
             {
                 return 0;
             }
 
-            string raw = File.ReadAllText(C_SURVIVAL_FILE);
+            string raw = File.ReadAllText(EngineConfig.C_SURVIVAL_FILE);
             try
             {
                 return float.Parse(RijndaelSimple.Decrypt(raw));
@@ -180,7 +176,7 @@ namespace Wof.Controller.Screens
 
         public void SaveSurvivalTime(float time)
         {
-            File.WriteAllText(C_SURVIVAL_FILE, RijndaelSimple.Encrypt(time.ToString()));
+            File.WriteAllText(EngineConfig.C_SURVIVAL_FILE, RijndaelSimple.Encrypt(time.ToString()));
         }
     }
 }

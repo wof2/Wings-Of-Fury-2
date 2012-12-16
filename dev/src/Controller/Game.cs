@@ -52,6 +52,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.AccessControl;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -228,7 +229,7 @@ namespace Wof.Controller
 
         public void OnFrameStarted(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
         {
-
+           
         }
 
         protected bool isActivated = false;
@@ -373,6 +374,12 @@ namespace Wof.Controller
         //    Licensing.BuildLicenseFile();
             //Console.WriteLine(Licensing.IsEhnancedVersion());
 
+            bool isUser = Licensing.IsUser();
+            bool isAdmin = Licensing.IsUserAdministrator();
+            bool canRead = Licensing.IsReadable("Ogre.log");
+            bool canWrite = Licensing.IsWriteable("Ogre.log");
+
+            MessageBox.Show("isUser: " + isUser + "; isAdmin: " + isAdmin + "; canRead: " + canRead + "; canWrite: " + canWrite);
 
         	try
         	{

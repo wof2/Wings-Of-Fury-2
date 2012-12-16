@@ -63,9 +63,6 @@ namespace Wof.Controller.Screens
 {
     internal class LoadGameScreen : AbstractOptionsScreen
     {
-        public const String C_COMPLETED_LEVELS_FILE = "game.dat";
-        
-       
         #region GameScreen Members
 
         public LoadGameScreen(GameEventListener gameEventListener,
