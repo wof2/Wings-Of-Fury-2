@@ -197,7 +197,7 @@ namespace Wof.Controller.Screens
         {
             CompletedLevelsInfo  completedLevels = new CompletedLevelsInfo ();
 			List<Achievement> emptyAchievements = new List<Achievement>();
-            if (!File.Exists(LoadGameScreen.C_COMPLETED_LEVELS_FILE))
+            if (!File.Exists(EngineConfig.C_COMPLETED_LEVELS_FILE))
             {
             	completedLevels = CompletedLevelsInfo.GetDefaultCompletedLevelsInfo();            	
             	return completedLevels;          
@@ -206,7 +206,7 @@ namespace Wof.Controller.Screens
             {
                 try
                 {
-                    string levelsRaw = File.ReadAllText(LoadGameScreen.C_COMPLETED_LEVELS_FILE);                   
+                    string levelsRaw = File.ReadAllText(EngineConfig.C_COMPLETED_LEVELS_FILE);                   
                     string levelsString = RijndaelSimple.Decrypt(levelsRaw);
                     
                 	using (Stream stream = GenerateStreamFromString(levelsString))
@@ -246,7 +246,7 @@ namespace Wof.Controller.Screens
 	        var levelsRaw = sr.ReadToEnd();
 	        stream.Close();
 	      
-            File.WriteAllText(LoadGameScreen.C_COMPLETED_LEVELS_FILE, RijndaelSimple.Encrypt(levelsRaw));
+            File.WriteAllText(EngineConfig.C_COMPLETED_LEVELS_FILE, RijndaelSimple.Encrypt(levelsRaw));
             
             Singleton.UpdateCompletedLevelsInfo(completedLevels);
             return completedLevels;
