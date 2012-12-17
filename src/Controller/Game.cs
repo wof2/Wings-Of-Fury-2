@@ -373,14 +373,14 @@ namespace Wof.Controller
 
         //    Licensing.BuildLicenseFile();
             //Console.WriteLine(Licensing.IsEhnancedVersion());
-
+/*
             bool isUser = Licensing.IsUser();
             bool isAdmin = Licensing.IsUserAdministrator();
             bool canRead = Licensing.IsReadable("Ogre.log");
             bool canWrite = Licensing.IsWriteable("Ogre.log");
 
             MessageBox.Show("isUser: " + isUser + "; isAdmin: " + isAdmin + "; canRead: " + canRead + "; canWrite: " + canWrite);
-
+*/
         	try
         	{
         		Firewall.AddException();
