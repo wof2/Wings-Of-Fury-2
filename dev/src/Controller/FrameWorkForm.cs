@@ -333,7 +333,7 @@ namespace Wof.Controller
                 //LogManager.Singleton.SetLogDetail(LoggingLevel.LL_LOW);
                 // LogManager.Singleton.SetLogDetail(LoggingLevel.LL_BOREME);
                 LogManager.Singleton.LogMessage("Starting " + EngineConfig.C_GAME_NAME + " ver. " + EngineConfig.C_WOF_VERSION);
-
+                SetupEngineConfig();
 
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.SetupingResources, false)));
                 SetupResources();
@@ -373,6 +373,9 @@ namespace Wof.Controller
                 // TextureManager.Singleton.DefaultNumMipmaps = 32;
                 // Create any resource listeners (for loading screens)
                 CreateResourceListener();
+
+                
+
                 // Load resources
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.LoadingResources, false)));
                 LoadResources();
@@ -396,7 +399,7 @@ namespace Wof.Controller
                 // InitializeSound sound
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.InitializingSound, false)));
 
-                SetupEngineConfig();
+                
               
                 
               
@@ -1595,12 +1598,24 @@ namespace Wof.Controller
 
         public static void SetupResources()
         {
-            SetupResources("resources.cfg");
+            SetupResources("resources_pre.cfg");
+
+            if (EngineConfig.ShadowsQuality > 0)
+            {
+                SetupResources("resources_shadows.cfg");
+            }
+            else
+            {
+                SetupResources("resources_no_shadows.cfg");
+            }
+
+            SetupResources("resources_post.cfg");
         }
         
         /// Method which will define the source of resources (other than current folder)
         public static void SetupResources(string cfgFilename)
         {
+          
             // Load resource paths from config file
             ConfigFile cf = new ConfigFile();
             cf.Load(cfgFilename, "\t:=", true);
@@ -1622,6 +1637,8 @@ namespace Wof.Controller
                     ResourceGroupManager.Singleton.AddResourceLocation(archName, typeName, secName);
                 }
             }
+
+           
         }
 
         /// Optional override method where you can create resource listeners (e.g. for loading screens)

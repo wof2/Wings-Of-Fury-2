@@ -676,13 +676,13 @@ namespace Wof.Controller
             //File.Create(C_ENGINE_CONFIG);
             File.WriteAllLines(C_ENGINE_CONFIG, configuration);
            
-            string materialDir = "../../media/materials/scripts/ParentScripts/";
+          //  string materialDir = "../../media/materials/scripts/ParentScripts/";
             if(ShadowsQuality >0 /*&& UseHydrax*/)
             {
-            	File.Copy(materialDir+"0NormalMappedSpecular.base", materialDir+"0NormalMappedSpecular.material",true );
+            //	File.Copy(materialDir+"0NormalMappedSpecular.base", materialDir+"0NormalMappedSpecular.material",true );
             } else
             {
-            	File.Copy(materialDir+"0NormalMappedSpecularNoShadows.base", materialDir+"0NormalMappedSpecular.material",true );
+            //	File.Copy(materialDir+"0NormalMappedSpecularNoShadows.base", materialDir+"0NormalMappedSpecular.material",true );
             	
             }
 
