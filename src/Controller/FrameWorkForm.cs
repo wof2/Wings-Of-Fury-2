@@ -76,11 +76,6 @@ namespace Wof.Controller
     /// </summary>
     public abstract class FrameWorkForm : Form, IFrameWork
     {
-
-    
-
-        
-
         public float CameraZoom
         {
             get { return cameraZoom; }
@@ -1466,6 +1461,7 @@ namespace Wof.Controller
 
                 lastStats = avgFps + " " + stats.AvgFPS + "|| " + worstFps + stats.WorstFPS + "|| " + tris + " " +
                             stats.TriangleCount;
+              //  LogManager.Singleton.LogMessage("FPS STATS:" + lastStats);
                 return lastStats;
             }
 

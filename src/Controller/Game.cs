@@ -481,29 +481,30 @@ namespace Wof.Controller
             catch (Exception exc)
             {
              	
-	            try{
-                    getGame().window.Destroy(); 
-                        
-	                try
+	           
+	                FrameWorkStaticHelper.ShowWofException(exc);	
+	          
+                    try
                     {
-                        SoundManager3D.Instance.Dispose();
-                    }
-                    catch(Exception ex)
-                    {
-                        
-                    }
-	                FrameWorkStaticHelper.ShowWofException(exc);	                
-	                
-	            }
-            	catch
-            	{
-            		
-            	}
+                        //getGame().window.Destroy();
+                        getGame().currentScreen.CleanUp(false);
+                        try
+                        {
+                            SoundManager3D.Instance.Dispose();
+                        }
+                        catch (Exception ex)
+                        {
 
+                        }
+                    }
+                    catch
+                    {
+
+                    }
             }
             finally
             {
-                //Taskbar.Show();
+                Taskbar.Show();
             }
         }
 

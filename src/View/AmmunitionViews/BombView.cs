@@ -59,6 +59,7 @@ namespace Wof.View
     {
         protected static Stack<BombView> bombAvailablePool;
         protected static Dictionary<Ammunition, BombView> bombUsedPool;
+        protected readonly Vector3 hiddenPosition = new Vector3(-120000, -110000, 1200);
 
         public static void InitPool(int poolSize, IFrameWork framework)
         {
@@ -147,7 +148,7 @@ namespace Wof.View
             ammunitionModel = sceneMgr.CreateEntity("Bomb" + ammunitionID.ToString(), "Bomb.mesh");
             ammunitionNode =
                 sceneMgr.RootSceneNode.CreateChildSceneNode("Bomb" + ammunitionID.ToString(),
-                                                            new Vector3(-100000, -100000, 0));
+                                                            hiddenPosition);
             ammunitionNode.AttachObject(ammunitionModel);
             ammunitionNode.SetVisible(false);
            

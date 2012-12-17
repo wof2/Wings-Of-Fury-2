@@ -2244,6 +2244,7 @@ namespace Wof.Controller.Screens
         	//volumes    
         
             string styleOn = "bgui.selected.button";
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Button : '" + referer.text + "' clicked");
 
         	foreach(KeyValuePair<Button,uint> pair in soundButtonIds)
         	{        

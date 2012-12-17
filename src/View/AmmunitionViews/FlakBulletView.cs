@@ -17,7 +17,8 @@ namespace Wof.View.AmmunitionViews
 	/// Description of FlakBulletView.
 	/// </summary>
 	internal class FlakBulletView : MissileBaseView<FlakBulletView>
-	{
+    {
+        protected readonly Vector3 hiddenPosition = new Vector3(-120000, -130000, 1000);
 		public FlakBulletView(IFrameWork framework) : base(framework)
 		{			
          
@@ -28,7 +29,7 @@ namespace Wof.View.AmmunitionViews
             ammunitionModel = sceneMgr.CreateEntity("Flak" + ammunitionID.ToString(), "FlakBullet.mesh");
             ammunitionNode =
                 sceneMgr.RootSceneNode.CreateChildSceneNode("Flak" + ammunitionID.ToString(),
-                                                            new Vector3(-120000, -110000, 0));
+                                                            hiddenPosition);
 
             Vector3 oVector = new Vector3(0, 0, -1);
 
@@ -65,7 +66,7 @@ namespace Wof.View.AmmunitionViews
                
       	public override void Hide()
         {
-           
+            ammunitionNode.SetPosition(hiddenPosition.x, hiddenPosition.y, hiddenPosition.z);
             innerNode.SetVisible(false, false);
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene) explosionFlash.Visible = false;
 
