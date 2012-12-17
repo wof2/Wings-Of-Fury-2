@@ -488,19 +488,20 @@ namespace Wof.Controller
                     {
                         //getGame().window.Destroy();
                         getGame().currentScreen.CleanUp(false);
-                        try
-                        {
-                            SoundManager3D.Instance.Dispose();
-                        }
-                        catch (Exception ex)
-                        {
-
-                        }
                     }
                     catch
                     {
 
                     }
+                    try
+                    {
+                        SoundManager3D.Instance.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                
             }
             finally
             {
