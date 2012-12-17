@@ -94,6 +94,7 @@ namespace Wof.Controller
         public static readonly String C_FIRST_RUN = Path.Combine(C_LOCAL_DIRECTORY, "firstrun.dat");
         public static readonly String C_OGRE_CFG = Path.Combine(C_LOCAL_DIRECTORY, "ogre.cfg");
         public static readonly String C_LOG_FILE = Path.Combine(C_LOCAL_DIRECTORY, "ogre.log");
+        public static readonly String C_ERROR_LOG_FILE = Path.Combine(C_LOCAL_DIRECTORY, "ogre_error_{0:yyyy-MM-dd_HH_mm_ss}.log");
         public static readonly String C_PERF_LOG_FILE = Path.Combine(C_LOCAL_DIRECTORY, "perf_ogre.log");
 
         public static readonly String C_COMPLETED_LEVELS_FILE = Path.Combine(C_LOCAL_DIRECTORY, "game.dat");
@@ -179,8 +180,8 @@ namespace Wof.Controller
  		public static bool UseHardwareTexturePreloader = true; // czy wysylac do karty graficznej tesktury przed rozpoczeciem gry
  		
  		public static int HardwareTexturePreloaderTextureLimit;
-        
- 		public static bool AudioStreaming;
+
+        public static bool AudioStreaming = true;
  		
     //    public static string Language = "en-GB";
 
@@ -225,6 +226,21 @@ namespace Wof.Controller
              {
                  return soundVolume;
              }
+        }
+
+        public static string CopyLogFileToErrorLogFile()
+        {
+            try
+            {
+                string targetFilename = String.Format(EngineConfig.C_ERROR_LOG_FILE, DateTime.Now);
+                File.Copy(EngineConfig.C_LOG_FILE, targetFilename);
+                return targetFilename;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+           
         }
 
         /// <summary>
@@ -625,7 +641,7 @@ namespace Wof.Controller
                 Console.WriteLine(ex.ToString());
             }
 
-
+           
 
         }
 

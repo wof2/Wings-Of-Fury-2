@@ -282,7 +282,7 @@ namespace Wof.View
 
             for (int i = 0; i < size; i++)
             {
-                SceneNode s = sceneMgr.RootSceneNode.CreateChildSceneNode("SplashNode" + PropCounter);
+                SceneNode s = sceneMgr.RootSceneNode.CreateChildSceneNode("SplashNode" + PropCounter, new Vector3(-15000, 10000, 5000));
                 availableSplashNodesPool.Push(s);
             }
         }
@@ -294,6 +294,7 @@ namespace Wof.View
                 return null;
             }
             SceneNode s = availableSplashNodesPool.Pop();
+            s.SetPosition(0,0,0);
             usedSplashNodesPool.Enqueue(s);
             return s;
         }
@@ -756,7 +757,7 @@ namespace Wof.View
             }
             else if (ammunition is Rocket)
             {
-                ammunitionViews.Add(RocketView.GetInstance(ammunition));
+                ammunitionViews.Add(RocketView.GetInstance(ammunition, framework));
             }
 
             else if (ammunition is Torpedo)
@@ -765,15 +766,15 @@ namespace Wof.View
             }
             else if (ammunition is FlakBullet)
             {
-                ammunitionViews.Add(FlakBulletView.GetInstance(ammunition));
+                ammunitionViews.Add(FlakBulletView.GetInstance(ammunition, framework));
             }
             else if (ammunition is BunkerShellBullet)
             {
-                ammunitionViews.Add(BunkerShellBulletView.GetInstance(ammunition));
+                ammunitionViews.Add(BunkerShellBulletView.GetInstance(ammunition, framework));
             }
             else if (ammunition is GunBullet)
             {
-            	AmmunitionView av = GunBulletView.GetInstance(ammunition);
+                AmmunitionView av = GunBulletView.GetInstance(ammunition, framework);
                 ammunitionViews.Add(av);
           
                 if (EngineConfig.DisplayBoundingQuadrangles)
@@ -2253,11 +2254,11 @@ namespace Wof.View
 
             tileViews.ToString();
 
-            BombView.InitPool(100, framework);
+            BombView.InitPool(40, framework);
             RocketView.InitPool(80, framework);
-            FlakBulletView.InitPool(200, framework);
-            BunkerShellBulletView.InitPool(200, framework);
-            GunBulletView.InitPool(250, framework);
+            FlakBulletView.InitPool(40, framework);
+            BunkerShellBulletView.InitPool(40, framework);
+            GunBulletView.InitPool(200, framework);
             TorpedoView.InitPool(10, framework);
             SoldierView.InitPool(80, framework);
 

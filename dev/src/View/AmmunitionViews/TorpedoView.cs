@@ -60,7 +60,7 @@ namespace Wof.View
 {
     internal class TorpedoView : AmmunitionView, WaterTrailGenerator
     {
-
+        protected readonly Vector3 hiddenPosition = new Vector3(-120000, -120000, 950);
         public bool IsReadyForLastWaterTrail
         {
             get
@@ -193,7 +193,7 @@ namespace Wof.View
             ammunitionModel = sceneMgr.CreateEntity("Torpedo" + ammunitionID.ToString(), "Torpedo.mesh");
             ammunitionNode =
                 sceneMgr.RootSceneNode.CreateChildSceneNode("Torpedo" + ammunitionID.ToString(),
-                                                            new Vector3(-120100, -100000, 0));
+                                                            hiddenPosition);
 
             Vector3 oVector = new Vector3(0, 0, -1);
 
@@ -231,7 +231,7 @@ namespace Wof.View
         public override void Hide()
         {
             SoundManager.Instance.HaltTorpedoRunSound();
-           
+            ammunitionNode.SetPosition(hiddenPosition.x, hiddenPosition.y, hiddenPosition.z);
             innerNode.SetVisible(false, false);
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene) explosionFlash.Visible = false;
 

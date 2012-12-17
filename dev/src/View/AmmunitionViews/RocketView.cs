@@ -60,7 +60,7 @@ namespace Wof.View
 {
     internal class RocketView : MissileBaseView<RocketView>
     {
-      
+        protected readonly Vector3 hiddenPosition = new Vector3(-120000, -140000, 600);
         internal RocketView(IFrameWork frameWork) : base(frameWork)
         {
         
@@ -73,7 +73,7 @@ namespace Wof.View
             ammunitionModel = sceneMgr.CreateEntity("Rocket" + ammunitionID.ToString(), "Rocket.mesh");
             ammunitionNode =
                 sceneMgr.RootSceneNode.CreateChildSceneNode("Rocket" + ammunitionID.ToString(),
-                                                            new Vector3(-120000, -100000, 0));
+                                                            hiddenPosition);
 
             Vector3 oVector = new Vector3(0, 0, -1);
 
@@ -121,7 +121,7 @@ namespace Wof.View
       	public override void Hide()
         {
             EffectsManager.Singleton.NoSmoke(sceneMgr, innerNode, EffectsManager.SmokeType.ROCKET);
-
+            ammunitionNode.SetPosition(hiddenPosition.x, hiddenPosition.y, hiddenPosition.z);
             innerNode.SetVisible(false, false);
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene) explosionFlash.Visible = false;
 

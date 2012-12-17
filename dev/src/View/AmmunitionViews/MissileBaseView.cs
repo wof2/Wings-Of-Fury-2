@@ -92,9 +92,15 @@ namespace Wof.View
             }
         }
 
-        public static AmmunitionView GetInstance(Ammunition missile)
+        public static AmmunitionView GetInstance(Ammunition missile, IFrameWork framework)
         {
         //	Console.WriteLine("Biore pocisk ":+missile);
+
+            if(missileAvailablePool.Count == 0)
+            {
+                T dummyView = (T)factory.GetAmmunitionView(framework);
+                missileAvailablePool.Push(dummyView);
+            }
             T rv = missileAvailablePool.Pop();
             rv.Ammunition = missile;
             rv.postInitOnScene();

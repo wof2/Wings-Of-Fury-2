@@ -25,13 +25,16 @@ namespace Wof.View.AmmunitionViews
 	/// </summary>
 	internal class GunBulletView : MissileBaseView<GunBulletView>
 	{
+        protected readonly Vector3 hiddenPosition = new Vector3(-130000, -100000, 1000);
+
 		public GunBulletView(IFrameWork framework) : base(framework)
 		{		
          
         }
 
-        
+
        
+
        
         
    //     protected List<NodeAnimation.NodeAnimation> animations = new List<NodeAnimation.NodeAnimation>();
@@ -62,6 +65,8 @@ namespace Wof.View.AmmunitionViews
 
         protected override void preInitOnScene()
         {
+           
+
             // showaj poprzednio skaszowane sprajty.
            
             float baseWidth = 1.5f;
@@ -84,7 +89,7 @@ namespace Wof.View.AmmunitionViews
 
             if (ammunitionNode == null)
             {
-                ammunitionNode = sceneMgr.RootSceneNode.CreateChildSceneNode("AmmunitionNode" + ammunitionID);
+                ammunitionNode = sceneMgr.RootSceneNode.CreateChildSceneNode("AmmunitionNode" + ammunitionID, hiddenPosition);
 		 	 
             }
             
@@ -173,8 +178,9 @@ namespace Wof.View.AmmunitionViews
        
         public override void postInitOnScene()
         {
-        	
 
+            Console.WriteLine("FREE BULLETS: " + GunBulletView.missileAvailablePool.Count);
+           
         	if (ammunition is GunBullet)
             {
                
@@ -205,7 +211,11 @@ namespace Wof.View.AmmunitionViews
         
       	public override void Hide()
         {
-            if (ammunitionNode != null) ammunitionNode.SetVisible(false, true);
+            if (ammunitionNode != null)
+            {
+                ammunitionNode.SetPosition(hiddenPosition.x, hiddenPosition.y, hiddenPosition.z);
+                ammunitionNode.SetVisible(false, true);
+            }
             hideEffect("left");
             hideEffect("right");
             hideEffect("middle");

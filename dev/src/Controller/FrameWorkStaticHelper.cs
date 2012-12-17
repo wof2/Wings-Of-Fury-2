@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using FSLOgreCS;
 using Mogre;
 using MOIS;
 using Wof.Controller.Input.KeyboardAndJoystick;
+using Wof.src.Controller;
 using Math=System.Math;
 
 namespace Wof.Controller
@@ -25,34 +27,48 @@ namespace Wof.Controller
             {
 
                 LogManager.Singleton.LogMessage("Ogre exception thrown: " + OgreException.LastException.FullDescription + " File:" + OgreException.LastException.File + " Line:" + OgreException.LastException.Line + " Source:" + OgreException.LastException.Source);
-                        
-                string info = "";
+                string outputFilename = EngineConfig.CopyLogFileToErrorLogFile();
+
+                string info = "Sorry guys, something went wrong! :/";
                 if (OgreException.LastException.Description.Contains("failed to draw primitive") || OgreException.LastException.FullDescription.Contains("failed to draw primitive"))
                 {
 
-                    info =
+                    info +=
                         "\r\nThis error is related to your graphics card driver. Try to update drivers. Some of Intel cards (GMA 945) might not be able to handle the game.";
                 }
 
-                info += "\r\nSupport: " + EngineConfig.C_WOF_SUPPORT_PAGE;
-                info += "\r\nError has been logged to: " + Environment.CurrentDirectory+"\\ogre.log\r\n. Please attach the file in case of reporting a bug\r\n";
                
-                MessageBox.Show(OgreException.LastException.FullDescription + info, EngineConfig.C_GAME_NAME + " - Engine error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+                info += "\r\nError has been logged to: " + outputFilename + "\r\n. Please attach all the files in case of reporting a bug\r\n";
+
+                ErrorBox errorBox = new ErrorBox(EngineConfig.C_GAME_NAME + " v." + EngineConfig.C_WOF_VERSION + " - Engine error", info + OgreException.LastException.FullDescription);
+                errorBox.ShowDialog(FrameWorkForm.ActiveForm);
+
+              /*  MessageBox.Show(OgreException.LastException.FullDescription + info, EngineConfig.C_GAME_NAME + " - Engine error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);*/
             }
                
         }
 
         public static void ShowWofException(Exception ex)
         {
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, ex.ToString());
+            string message = ex.ToString();
+            if(ex.InnerException != null)
+            {
+                message += ";\r\nInner exception: " + ex.InnerException;
+            }
+
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, message);
             
-            string info = "\r\nSupport: " + EngineConfig.C_WOF_SUPPORT_PAGE;
-           
-            info += "\r\nError has been logged to: " + EngineConfig.C_LOG_FILE + "\r\n. Please attach the file in case of reporting a bug\r\n";
-            info += ex.Message + "\r\n" + "Stack trace: " + ex.StackTrace;
+            string outputFilename = EngineConfig.CopyLogFileToErrorLogFile();
+
+            string info = "Sorry guys, something went wrong! :/";
+
+            info += "\r\nError has been logged to: " + outputFilename + "\r\n. Please attach all the files in case of reporting a bug\r\n";
+            info += message;
+            ErrorBox errorBox = new ErrorBox(EngineConfig.C_GAME_NAME + " v." +EngineConfig.C_WOF_VERSION + " - Runtime error", info);
+            errorBox.ShowDialog(FrameWorkForm.ActiveForm);
                     
-            MessageBox.Show(info, EngineConfig.C_GAME_NAME + " - Runtime error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          //  MessageBox.Show(info, EngineConfig.C_GAME_NAME + " - Runtime error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         public static List<object> GetAntialiasingModes()
