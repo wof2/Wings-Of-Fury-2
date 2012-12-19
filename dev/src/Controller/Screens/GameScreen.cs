@@ -657,12 +657,12 @@ namespace Wof.Controller.Screens
 
                     loading = false;
                 }
-                catch (SEHException)
+                catch (SEHException sex)
                 {
                     // Check if it's an Ogre Exception
                     if (OgreException.IsThrown)
                     {
-                        FrameWorkStaticHelper.ShowOgreException();
+                        FrameWorkStaticHelper.ShowOgreException(sex);
                         throw;
                     }
                     else
@@ -2471,6 +2471,8 @@ namespace Wof.Controller.Screens
         
         private void DisplayPauseScreen()
         {
+        	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Showing pause screen");
+            
             isGamePaused = true;
             isInPauseMenu = true;
 			OverlayContainer c;
@@ -2657,7 +2659,8 @@ namespace Wof.Controller.Screens
 
         private void DisplayNextLevelScreen()
         {
-
+			LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Showing 'next level screen'");
+            
             levelView.OnChangeCamera(1);
             mGui = new GUI(FontManager.CurrentFont, fontSize);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
@@ -2696,7 +2699,7 @@ namespace Wof.Controller.Screens
 
         private void DisplayGameoverScreen()
         {
-           
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Showing game over screen");
             isGamePaused = true;
             levelView.OnStopPlayingEnemyPlaneEngineSounds();
             SoundManager.Instance.HaltOceanSound();
@@ -3699,10 +3702,13 @@ namespace Wof.Controller.Screens
                 }
                 else
                 {
+                	
+                	
                     isGamePaused = true;
                     currentLevel.NextLife();
                     levelView.NextLife();
                     isGamePaused = false;
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Player killed - lives left:"+ currentLevel.Lives);
                 }
             }
         }

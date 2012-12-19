@@ -69,11 +69,11 @@ namespace Wof.Tests
                 KamilTestView app = new KamilTestView();
                 app.Go();
             }
-            catch (SEHException)
+            catch (SEHException sex)
             {
                 // Check if it's an Ogre Exception
                 if (OgreException.IsThrown)
-                    FrameWorkStaticHelper.ShowOgreException();
+                    FrameWorkStaticHelper.ShowOgreException(sex);
                 else
                     throw;
             }

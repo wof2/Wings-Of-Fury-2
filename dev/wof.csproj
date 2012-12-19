@@ -544,6 +544,7 @@
     <Compile Include="src\Controller\Browser.Designer.cs">
       <DependentUpon>Browser.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\Controller\BugReport.cs" />
     <Compile Include="src\Controller\CameraListener.cs" />
     <Compile Include="src\Controller\CameraListenerBase.cs" />
     <Compile Include="src\Controller\DebugInfo.cs" />

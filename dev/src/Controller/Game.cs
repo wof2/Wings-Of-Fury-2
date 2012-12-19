@@ -164,6 +164,7 @@ namespace Wof.Controller
         	this.Text = EngineConfig.C_GAME_NAME + " " +EngineConfig.C_WOF_VERSION;
             this.BackColor = Color.Black;
             this.Icon = Wof.Properties.Resources.WofIcon;
+            Thread.CurrentThread.Name = "Game main thread";
            
         }
 
@@ -241,6 +242,7 @@ namespace Wof.Controller
         {
             if (currentScreen != null)
             {
+            	
                 currentScreen.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoystick);
 
 
@@ -479,29 +481,8 @@ namespace Wof.Controller
               
             }
             catch (Exception exc)
-            {
-             	
-	           
-	                FrameWorkStaticHelper.ShowWofException(exc);	
-	          
-                    try
-                    {
-                        //getGame().window.Destroy();
-                        getGame().currentScreen.CleanUp(false);
-                    }
-                    catch
-                    {
-
-                    }
-                    try
-                    {
-                        SoundManager3D.Instance.Dispose();
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-                
+            {  
+            	FrameWorkStaticHelper.ShowWofException(exc);                
             }
             finally
             {
@@ -526,11 +507,11 @@ namespace Wof.Controller
 
              
             }
-            catch (SEHException)
+            catch (SEHException sex)
             {
                 // Check if it's an Ogre Exception
                 if (OgreException.IsThrown)
-                    FrameWorkStaticHelper.ShowOgreException();
+                    FrameWorkStaticHelper.ShowOgreException(sex);
                 else
                     throw;
             }
@@ -582,11 +563,11 @@ namespace Wof.Controller
                 }
               
             }
-            catch (SEHException)
+            catch (SEHException sex)
             {
                 // Check if it's an Ogre Exception
                 if (OgreException.IsThrown)
-                    FrameWorkStaticHelper.ShowOgreException();
+                    FrameWorkStaticHelper.ShowOgreException(sex);
                 else
                     throw;
             }
@@ -845,6 +826,7 @@ namespace Wof.Controller
           
                 browserThread = new Thread(new ThreadStart(StartBrowserDo));
                 browserThread.SetApartmentState(ApartmentState.STA);
+                browserThread.Name = "Wof2 - browser thread";
                 browserThread.Start();
            
          //   StartBrowserDo();
@@ -902,6 +884,18 @@ namespace Wof.Controller
              }
             
         }
+        
+        public void KillBrowserThread()
+        {
+        	if(browser != null)
+        	{
+	        	    	
+	        	browserThread.Abort();	     
+				browserThread = null;	
+				browser = null;	    				
+        	}
+        }
+        
         public void DisposeBrowser()
         {
 

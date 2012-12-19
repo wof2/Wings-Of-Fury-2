@@ -97,7 +97,7 @@ namespace FSLOgreCS
                
                
                 updaterThread = new Thread(new ThreadStart((UpdateSoundObjects)));
-
+				updaterThread.Name = "Wof - sound updater thread";
                 updaterThread.Start();
                 return true;
                 
@@ -172,55 +172,60 @@ namespace FSLOgreCS
         {
             while(true)
             {
-                lock(this)
-                {
-                   
-                    if (killUpdater)
-                    {
-                        updaterRunning = false;
-                        killUpdater = false;
-                        return;
-                    }
-                    try
-                    {
-                        if (updaterRunning)
-                        {
-
-                            //updaterRunning = true;
-                            if (!_initSound)
-                                return;
-                            _listener.Update();
-
-                            try
-                            {
-                                for (int i = 0; i < SoundObjectVector.Count; i++)
-                                {
-                                    if (SoundObjectVector[i] != null)
-                                    {
-                                        SoundObjectVector[i].Update();
-                                    }
-                                }
-                            }
-                            catch(Exception e)
-                            {
-                            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error in sound loop:"+ e.Message+ e.StackTrace);
-                              
-
-                            }
-
-                            FreeSL.fslUpdate();
-
-                            // Console.WriteLine("Running");
-                        }
+            	 try
+                 {
+		                lock(this)
+		                {
+		                   
+		                    if (killUpdater)
+		                    {
+		                        updaterRunning = false;
+		                        killUpdater = false;
+		                        return;
+		                    }
+		                }
+		                
+		                lock(this)
+		                {
+	                        if (updaterRunning)
+	                        {
+	
+	                            //updaterRunning = true;
+	                            if (!_initSound)
+	                                return;
+	                            _listener.Update();
+	
+	                            try
+	                            {
+	                                for (int i = 0; i < SoundObjectVector.Count; i++)
+	                                {
+	                                    if (SoundObjectVector[i] != null)
+	                                    {
+	                                        SoundObjectVector[i].Update();
+	                                    }
+	                                }
+	                            }
+	                            catch(Exception e)
+	                            {
+	                            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error in sound loop:"+ e.Message+ e.StackTrace);
+	                              
+	
+	                            }
+	
+	                            FreeSL.fslUpdate();
+	
+	                            // Console.WriteLine("Running");
+	                        }
+		                }
                         FreeSL.fslSleep(0.01f);
-                    }
-                    catch
-                    {
-                        
-                    }
-                     
-                    
+	                  
+	                    
+                }                
+                catch
+                {
+                	
                 }
+                 
                
               
             }
@@ -311,7 +316,7 @@ namespace FSLOgreCS
            
             if(updaterThread != null)
             {
-                while (updaterThread.ThreadState != ThreadState.Stopped)
+                while (updaterThread.ThreadState != ThreadState.Stopped && updaterThread.ThreadState != ThreadState.Unstarted)
                 {
                     Thread.Sleep(100);
                 }

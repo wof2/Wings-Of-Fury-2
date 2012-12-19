@@ -65,11 +65,11 @@ namespace Wof.Tests
                 SceneTest app = new SceneTest();
                 app.Go();
             }
-            catch (SEHException)
+            catch (SEHException sex)
             {
                 // Check if it's an Ogre Exception 
                 if (OgreException.IsThrown)
-                    FrameWorkStaticHelper.ShowOgreException();
+                    FrameWorkStaticHelper.ShowOgreException(sex);
                 else
                     throw;
             }

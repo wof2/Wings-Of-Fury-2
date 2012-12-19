@@ -54,19 +54,21 @@ using System.Runtime.InteropServices;
 using System.Security.AccessControl;
 using System.Threading;
 using System.Windows.Forms;
+
 using FSLOgreCS;
 using Microsoft.DirectX.DirectSound;
 using Mogre;
 using MOIS;
 using Wof.Controller.AdAction;
 using Wof.Controller.Input.KeyboardAndJoystick;
+using Wof.Controller.Screens;
 using Wof.Languages;
 using Wof.View.Effects;
-using FontManager=Mogre.FontManager;
-using Plane=Wof.Model.Level.Planes.Plane;
-using Timer=Mogre.Timer;
-using Type=MOIS.Type;
-using Vector3=Mogre.Vector3;
+using FontManager = Mogre.FontManager;
+using Plane = Wof.Model.Level.Planes.Plane;
+using Timer = Mogre.Timer;
+using Type = MOIS.Type;
+using Vector3 = Mogre.Vector3;
 
 namespace Wof.Controller
 {
@@ -219,58 +221,111 @@ namespace Wof.Controller
                 
                 try
                 {
-                    root.StartRendering();
+                    root.StartRendering();                    
                 }
                 catch(Exception ex)
                 {
-                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while rendering. Going to kill the game. Reason:"+ex.Message+" "+ex.InnerException+" "+ex.Source+". Stack was:"+ex.StackTrace);
+                	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while rendering. Going to kill the game. Reason:"+ex.Message+" "+ex.InnerException+" "+ex.Source+". Stack was:"+ex.StackTrace);
+              
                     throw new SEHException("Error occured while rendering", ex);
+                }                
+               
+            }
+           /* catch(Exception ex)
+            {
+                
+            }*/
+            finally
+            {
+                Taskbar.Show();
+                if (!File.Exists(EngineConfig.C_FIRST_RUN) && !(this is PerformanceTestFramework))
+                {
+                    File.Create(EngineConfig.C_FIRST_RUN).Close();
                 }
                 
-                // clean up
+                
+                 // clean up
                 if (EngineConfig.UseAsyncModel)
                 {
                     modelWorker.CancelAsync();
                 }
-               
-
-                if (Game.getGame() != null && Game.getGame().GetCurrentScreen() != null)
-                {
-                    Game.getGame().GetCurrentScreen().CleanUp(false);
-                }
-                            
                 
-
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
                
-                if(!(this is PerformanceTestFramework))
+                try
                 {
-                    EffectsManager.Singleton.Clear();
+                	if (Game.getGame() != null)
+                	{
+                		try
+                		{ 
+                			LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Killing browser");
+                			Game.getGame().KillBrowserThread();
+                		}
+                		catch{
+                			
+                		}
+                		
+                		
+	                	if(Game.getGame().GetCurrentScreen() != null)
+		                {        
+							LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");	                		
+		                    Game.getGame().GetCurrentScreen().CleanUp(false);
+		                   
+		                }
+                	}
                 }
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Destroying scenes");
-                FrameWorkStaticHelper.DestroyScenes(this);
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unloading textures and materials");
-                TextureManager.Singleton.UnloadAll();
-                MaterialManager.Singleton.UnloadAll();
-                CompositorManager.Singleton.RemoveAll();
-                CompositorManager.Singleton.UnloadAll();
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unloading meshes");
-                MeshManager.Singleton.UnloadAll();
-                FontManager.Singleton.UnloadAll();
-                GpuProgramManager.Singleton.UnloadAll();
-                HighLevelGpuProgramManager.Singleton.UnloadAll();
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Removing listeners");
-                window.RemoveAllListeners();
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Removing viewports");
-                window.RemoveAllViewports(); 
-                //  Root.Singleton.RenderSystem.DestroyRenderWindow(window.Name);
+                catch
+                {
+                }
+               
+                try
+                {
+	                if(!(this is PerformanceTestFramework))
+	                {
+	                    EffectsManager.Singleton.Clear();
+	                }
+                }
+                catch
+                {
+                }
+                
+                try
+                {
+	                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Destroying scenes");
+	                FrameWorkStaticHelper.DestroyScenes(this);
+	                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unloading textures and materials");
+	                TextureManager.Singleton.UnloadAll();
+	                MaterialManager.Singleton.UnloadAll();
+	                CompositorManager.Singleton.RemoveAll();
+	                CompositorManager.Singleton.UnloadAll();
+	                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Unloading meshes");
+	                MeshManager.Singleton.UnloadAll();
+	                FontManager.Singleton.UnloadAll();
+	                GpuProgramManager.Singleton.UnloadAll();
+	                HighLevelGpuProgramManager.Singleton.UnloadAll();
+	                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Removing listeners");
+	                window.RemoveAllListeners();
+	                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Removing viewports");
+	                window.RemoveAllViewports(); 
+	                //  Root.Singleton.RenderSystem.DestroyRenderWindow(window.Name);
+	
+	                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Killing window");
+	                window.Dispose();
+	                window = null;
+                }
+                catch
+                {
+                }
+                
+                try
+                {
+	                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Disposing resouce group manager");
+                	ResourceGroupManager.Singleton.Dispose();
+                }
+                catch
+                {
+                }
 
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Killing window");
-                window.Dispose();
-                window = null;
-
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Disposing resouce group manager");
-                ResourceGroupManager.Singleton.Dispose();
+                
 
                 try
                 {
@@ -285,20 +340,15 @@ namespace Wof.Controller
                
 
                 LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Disposing Root object");
-                root.Shutdown();
-                root.Dispose();
-                root = null;
-            }
-           /* catch(Exception ex)
-            {
-                
-            }*/
-            finally
-            {
-                Taskbar.Show();
-                if (!File.Exists(EngineConfig.C_FIRST_RUN) && !(this is PerformanceTestFramework))
+                try
                 {
-                    File.Create(EngineConfig.C_FIRST_RUN).Close();
+	                root.Shutdown();
+	                root.Dispose();
+	                root = null;
+                }  
+                catch(Exception ex)
+                {
+                	
                 }
             }
             //Console.ReadLine();
