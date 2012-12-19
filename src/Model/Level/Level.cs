@@ -593,7 +593,8 @@ namespace Wof.Model.Level
                     currentTimeToNextEnemy = timeToNextEnemyPlane;
                 }
             }
-            float scaleFactor = time / timeUnit;
+            float scaleFactor = time / timeUnit;       
+            
             //sprawdzanie kolizji samolotu
             CheckPlaneCollisionWithGround(userPlane, scaleFactor);
             if (enemyPlanes.Count > 0)

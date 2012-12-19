@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+
 using FSLOgreCS;
 using Mogre;
 using MOIS;
 using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.src.Controller;
-using Math=System.Math;
+using Math = System.Math;
 
 namespace Wof.Controller
 {
@@ -21,12 +23,16 @@ namespace Wof.Controller
         public const String C_USE_NV_PERFHUD = "Allow NVPerfHUD";
         public const String C_FULLSCREEN = "Full Screen";
         
-        public static void ShowOgreException()
+        public static void ShowOgreException(SEHException sex)
         {
             if (OgreException.IsThrown)
             {
 
-                LogManager.Singleton.LogMessage("Ogre exception thrown: " + OgreException.LastException.FullDescription + " File:" + OgreException.LastException.File + " Line:" + OgreException.LastException.Line + " Source:" + OgreException.LastException.Source);
+            	
+            	// already logged
+            	//LogManager.Singleton.LogMessage("Ogre exception thrown, going to kill game: " + OgreException.LastException.FullDescription + ", Trace: "+ sex.ToString());
+            
+                  
                 string outputFilename = EngineConfig.CopyLogFileToErrorLogFile();
 
                 string info = "Sorry guys, something went wrong! :/";
@@ -39,8 +45,9 @@ namespace Wof.Controller
 
                
                 info += "\r\nError has been logged to: " + outputFilename + "\r\n. Please attach all the files in case of reporting a bug\r\n";
-
-                ErrorBox errorBox = new ErrorBox(EngineConfig.C_GAME_NAME + " v." + EngineConfig.C_WOF_VERSION + " - Engine error", info + OgreException.LastException.FullDescription);
+				info += "\r\nOgre exception thrown: " + OgreException.LastException.FullDescription + ", Trace in WOF: "+ sex.ToString()+"\r\n";
+				
+                ErrorBox errorBox = new ErrorBox(EngineConfig.C_GAME_NAME + " v." + EngineConfig.C_WOF_VERSION + " - Engine error", info);
                 errorBox.ShowDialog(FrameWorkForm.ActiveForm);
 
               /*  MessageBox.Show(OgreException.LastException.FullDescription + info, EngineConfig.C_GAME_NAME + " - Engine error",
@@ -56,8 +63,8 @@ namespace Wof.Controller
             {
                 message += ";\r\nInner exception: " + ex.InnerException;
             }
-
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, message);
+			// already logged
+            //LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, message);
             
             string outputFilename = EngineConfig.CopyLogFileToErrorLogFile();
 
@@ -430,7 +437,7 @@ namespace Wof.Controller
                     framework.OverlayMgr = null;
                 }
                 GC.Collect();
-                GC.WaitForPendingFinalizers();
+              //  GC.WaitForPendingFinalizers();
             }
             catch (Exception)
             {
