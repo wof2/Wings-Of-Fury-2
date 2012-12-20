@@ -528,7 +528,64 @@ namespace Wof.Controller.Screens
         }
         
         
+        private void createAchivementsGui(uint fontSize)
+        {         
+            achievementsGui = new GUI(FontManager.CurrentFont, fontSize, "AchievementsTypeGUI");    
+            achievementsGui.SetZOrder(100);
+            
+            float dist = viewport.ActualWidth / 4.5f;
+            float hsize = dist / 4.0f;
+           
+            achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - hsize - 2.5f*fontSize, dist, hsize + 2.5f*fontSize), "", (int)wt.NONE, "");
+            
+            List<Achievement> completedAchievementsBefore = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(levelInfo);
+           
+            for(int k =0; k < this.CurrentLevel.Achievements.Count; k++) {
+            	                    	
+            	Achievement a = CurrentLevel.Achievements[k];
+            	if(completedAchievementsBefore != null && completedAchievementsBefore.Contains(a)) {
+            		CurrentLevel.Achievements[k].CopyFrom(completedAchievementsBefore.Find(delegate(Achievement ach) { return ach.Equals(a); }));
+            	                  		
+                	OnAchievementFulFilled(CurrentLevel.Achievements[k], false);
+            	} 
+            	OnAchievementUpdated(CurrentLevel.Achievements[k]);
+            }
+            
+            if(CurrentLevel.Achievements.Count > 0) {
+            
+	            string achievementsText = /*LanguageResources.GetString(LanguageKey.achi)*/  "Achievements";
+	            float textWidth = ViewHelper.MeasureText(FontManager.CurrentFont, achievementsText, fontSize);
+             	OverlayContainer c =  achievementsWindow.createStaticText(new Vector4(fontSize, 0,  textWidth,  achievementsWindow.h), achievementsText, new ColourValue(0.3f, 0.3f, 0.3f));
+            }           	
+           
+            achievementsWindow.show();
+                    
+    	}
 
+        private void createMissionTypeGui(uint fontSize)
+        {
+        	// missiontype gui        	
+            float dist = viewport.ActualWidth / 4.5f;
+            float hsize = dist / 4.0f;
+                    
+            int h = (int)GetTextVSpacing();
+            missionTypeGui = new GUI(FontManager.CurrentFont, fontSize, "MissionTypeGUI");
+        
+            missionTypeWindow = missionTypeGui.createWindow(new Vector4(0, viewport.ActualHeight - hsize- 2.5f* fontSize, viewport.ActualWidth, hsize), "", (int)wt.NONE, "");
+
+            string missionTypeText = LanguageResources.GetString(LanguageKey.MissionType) + ": " + LanguageResources.GetString(CurrentLevel.MissionType.ToString());
+            float textWidth = ViewHelper.MeasureText(FontManager.CurrentFont, missionTypeText, fontSize) + fontSize;
+           	
+            OverlayContainer c =  missionTypeWindow.createStaticText(new Vector4(missionTypeWindow.w - textWidth, 0,  textWidth,  missionTypeWindow.h), missionTypeText, new ColourValue(0.3f, 0.3f, 0.3f));
+        
+           
+            string filename = Level.GetMissionTypeTextureFile(CurrentLevel.MissionType);
+            missionTypeWindow.createStaticImage(new Vector4(viewport.ActualWidth - hsize, fontSize, hsize, hsize), filename);
+           
+            missionTypeWindow.show();
+        }
+        
+        
         private void StartLoading()
         {
             loading = true;
@@ -593,42 +650,11 @@ namespace Wof.Controller.Screens
                     UpdateHints(true);
 
 
-                   
-                    
-                    
-                    achievementsGui = new GUI(FontManager.CurrentFont, (uint)( fontSize* 0.55f), "AchievementsTypeGUI");    
-                    achievementsGui.SetZOrder(100);
-                    float hsize = achievementsGui.mFontSize * 6.0f;
-                    float dist = viewport.ActualWidth / 4.5f;
-                   
-                    achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - hsize - 2* achievementsGui.mFontSize, dist, hsize + achievementsGui.mFontSize), "", (int)wt.NONE, "");
-                    
-                    List<Achievement> completedAchievementsBefore = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(levelInfo);
-                   
-                    for(int k =0; k < this.CurrentLevel.Achievements.Count; k++) {
-                    	                    	
-                    	Achievement a = CurrentLevel.Achievements[k];
-                    	if(completedAchievementsBefore != null && completedAchievementsBefore.Contains(a)) {
-                    		CurrentLevel.Achievements[k].CopyFrom(completedAchievementsBefore.Find(delegate(Achievement ach) { return ach.Equals(a); }));
-                    	                  		
-	                    	OnAchievementFulFilled(CurrentLevel.Achievements[k], false);
-                    	} 
-                    	OnAchievementUpdated(CurrentLevel.Achievements[k]);
-                    }
-           
-                    achievementsWindow.show();
+					createAchivementsGui((uint)( fontSize* 0.6f));
 
-
-                    // missiontype gui
-                    int h = (int)GetTextVSpacing();
-                    missionTypeGui = new GUI(FontManager.CurrentFont, fontSize, "MissionTypeGUI");
-                
-                    missionTypeWindow = missionTypeGui.createWindow(new Vector4(viewport.ActualWidth - dist, viewport.ActualHeight - hsize, dist, hsize), "", (int)wt.NONE, "");
-
-                    string filename = Level.GetMissionTypeTextureFile(CurrentLevel.MissionType);
-                    missionTypeWindow.createStaticImage(new Vector4(dist - hsize, 0, hsize, hsize), filename);
-                    missionTypeWindow.show();
                     
+                    // missiontype gui                 
+                    createMissionTypeGui((uint)( fontSize* 0.6f));
                     
                                        
                     _bulletTimeBar = new BulletTimeBar(fontSize, framework.Viewport, viewport.ActualWidth / 6.5f, viewport.ActualHeight / 75.0f);
