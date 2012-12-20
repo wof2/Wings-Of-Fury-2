@@ -175,59 +175,66 @@ namespace Wof.Controller
 
             if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
 
-            if (ambientSound == null || (ambientSound != null && !ambientSound.Name.Equals(sound + "_Ambient")))
+            try 
             {
-
-                // stop old sound
-                if (!preloadOnly && (ambientSound != null && !ambientSound.Name.Equals(sound + "_Ambient") && ambientSound.IsPlaying()))
-                {
-                    ambientSound.Stop();
-                    
-                }
-                
-                if (ambientSound != null)
-                {
-                     RemoveSound(ambientSound.Name);
-                     ambientSound.Destroy();
-                    ambientSounds.Remove(sound);
-                }
-
-
-                if(ambientSounds.ContainsKey(sound))
-                {
-                    ambientSound = ambientSounds[sound];
-                }
-                else
-                {
-                    ambientSound = CreateAmbientSoundMusic(sound, sound + "_Ambient", loop, streaming);
-                    ambientSounds[sound] = ambientSound;
-                }
-
-               
-                ambientSound.SetBaseGain(1.0f * volume / 100.0f);
-               // ambientSound.ApplyGain();
-                //Create Ambient sound  
-                if (!preloadOnly)
-                {
-                    ambientSound.Play();
-                }
+            	
+            
+	            if (ambientSound == null || (ambientSound != null && !ambientSound.Name.Equals(sound + "_Ambient")))
+	            {
+	
+	                // stop old sound
+	                if (!preloadOnly && (ambientSound != null && !ambientSound.Name.Equals(sound + "_Ambient") && ambientSound.IsPlaying()))
+	                {
+	                    ambientSound.Stop();
+	                    
+	                }
+	                
+	                if (ambientSound != null)
+	                {
+	                     RemoveSound(ambientSound.Name);
+	                     ambientSound.Destroy();
+	                    ambientSounds.Remove(sound);
+	                }
+	
+	
+	                if(ambientSounds.ContainsKey(sound))
+	                {
+	                    ambientSound = ambientSounds[sound];
+	                }
+	                else
+	                {
+	                    ambientSound = CreateAmbientSoundMusic(sound, sound + "_Ambient", loop, streaming);
+	                    ambientSounds[sound] = ambientSound;
+	                }
+	             
+	                ambientSound.SetBaseGain(1.0f * volume / 100.0f);
+	               // ambientSound.ApplyGain();
+	                //Create Ambient sound  
+	                if (!preloadOnly)
+	                {
+	                    ambientSound.Play();
+	                }
+	            }
+	            else
+	            {
+	                if (ambientSound!=null)
+	                {
+	                    ambientSound.SetBaseGain(1.0f * volume / 100.0f);
+	                   
+	                    if (!ambientSound.IsPlaying() && !preloadOnly)
+	                    {
+	                        ambientSound.Play();
+	                    }
+	                }
+	                
+	            }
+	           
+	
+	            currentMusic = sound;
             }
-            else
-            {
-                if (ambientSound!=null)
-                {
-                    ambientSound.SetBaseGain(1.0f * volume / 100.0f);
-                   
-                    if (!ambientSound.IsPlaying() && !preloadOnly)
-                    {
-                        ambientSound.Play();
-                    }
-                }
-                
+            catch(Exception ex) {            	
+            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error while trying to play ambient music:"+ ex.ToString());            	
             }
-           
-
-            currentMusic = sound;
         }
 
 

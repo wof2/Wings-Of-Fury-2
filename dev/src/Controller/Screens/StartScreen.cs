@@ -144,7 +144,7 @@ namespace Wof.Controller.Screens
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
             int buttonCount = 11;
-          //  if(EngineConfig.IsEnhancedVersion)
+           if (!EngineConfig.IsEnhancedVersion)
             {
                 buttonCount += 1;
             }

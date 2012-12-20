@@ -1622,10 +1622,19 @@ namespace Wof.Controller.Screens
 
         protected void deselectButtons()
         {
+        	try
+        	{        		
+        	
             for (int i = 0; i < buttons.Length; i++)
             {
                 buttons[i].activate(false);
             }
+            
+        	}
+        	catch(Exception ex) {
+        		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error while deselecting buttons");
+        		
+        	}
         }
 
         protected void deselectButtons(int exceptIndex)

@@ -1,4 +1,6 @@
-#define DEBUG_PANEL
+/*
+ * #define DEBUG_PANEL
+*/
 
 /*
  * Copyright 2008 Adam Witczak, Jakub Tê¿ycki, Kamil S³awiñski, Tomasz Bilski, Emil Hornung, Micha³ Ziober

@@ -125,6 +125,7 @@ namespace Wof.Controller.Screens
        
         public const string C_ENGINE_HINT_ICON = "hint_engine.png";
         public const string C_BAD_LANDING_HINT_ICON = "hint_bad_landing.png";
+		public const string C_LANDING_HINT_ICON = "hint_landing.png";
 
         
         public string getRandomDefaultIngameAdImageName()
@@ -646,9 +647,13 @@ namespace Wof.Controller.Screens
                       
                         gameMessages.AppendMessage(message);
 
-                        message =
+                 		IconedMessageEntry message2 =
                             new IconedMessageEntry(new CenteredMessageEntry(viewport, GetHintMessage(), true, true), C_ENGINE_HINT_ICON);
-                        gameMessages.AppendMessage(message);
+                        message2.UseAutoDectetedIconDimesions(viewport);
+                      //  message2.CenterIconOnScreen(viewport);
+                    //    message2.IncreaseY(-message2.Y);
+                     //   message2.IncreaseY(0.2f);
+                        gameMessages.AppendMessage(message2);
 
 
                     }
@@ -2996,6 +3001,7 @@ namespace Wof.Controller.Screens
         	// LoadGameUtil.NewLevelCompleted(this.LevelInfo, completedAchievements.FindAll(Predicates.GetCompletedAchievements()));   
 			// save tylko na koniec levelu    
 			if(playSound) {
+				LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Playing PlayAchievementFulFilled sound");
         		SoundManager.Instance.PlayAchievementFulFilled(); 
 			}
 		}
@@ -3824,8 +3830,17 @@ namespace Wof.Controller.Screens
             {
                 if(!GetLandingHintMessage().Equals(gameMessages.PeekMessage()))
                 {
-                    MessageEntry message = new CenteredMessageEntry(viewport, GetLandingHintMessage(), true, false);
-                    message.IncreaseY(-message.CharHeight / 2.0f);
+                	
+                    MessageEntry m = new CenteredMessageEntry(viewport, GetLandingHintMessage(), true, false);
+                    IconedMessageEntry message = new IconedMessageEntry(m, C_LANDING_HINT_ICON);
+                    
+                    message.UseAutoDectetedIconDimesions(viewport);
+                  //  message.CenterIconOnScreen(viewport);
+                  //  message.IncreaseY(-message.Y);
+                  //  message.IncreaseY(0.2f);
+                  //  message.IncreaseX(-message.CustomIconDimensions.x);
+                    
+                 //   message.IncreaseY(-message.CharHeight / 2.0f);
                     gameMessages.ClearMessages();
                     gameMessages.AppendMessage(message);     
                 }

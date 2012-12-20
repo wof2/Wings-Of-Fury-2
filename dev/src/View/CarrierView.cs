@@ -183,7 +183,23 @@ namespace Wof.View
 
         }
 
+		public void showHangaringArrow()
+        {
+            float arrowWidth = 2.5f;
+            float arrowHeight = 2.5f;
+                     
+            Quaternion q = new Quaternion();
+            q.FromAngleAxis(new Radian(new Degree(90)), Vector3.UNIT_X );
+            q *= new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Z);
+           
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, mainNode, this.Name + "Arrow", EffectsManager.EffectType.HINT_ARROW, new Vector3(0, 10.0f + arrowHeight, -43.0f), new Vector2(arrowWidth, arrowHeight), q, true);
 
+        }
+
+        public void hideHangaringArrow()
+        {
+            EffectsManager.Singleton.NoSprite(sceneMgr, mainNode, EffectsManager.EffectType.HINT_ARROW, this.Name + "Arrow");
+        }
 
 
 
@@ -429,8 +445,7 @@ namespace Wof.View
                 mainNode.Translate(new Vector3(-800.0f, 5, UnitConverter.LogicToWorldUnits(firstTileIndex) + 1000));
                 InitLights(new ColourValue(0.9f, 0.2f, 0.0f), new ColourValue(0.0f, 0.9f, 0.1f));
             }
-
-
+            
       
         }
 

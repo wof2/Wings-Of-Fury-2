@@ -1091,6 +1091,11 @@ namespace Wof.Controller
         
             if (eventName.Equals("DeviceLost"))
                 window.WindowMovedOrResized();
+            
+            if (eventName.Equals("DeviceRestored")){
+            	
+            }
+                
         }
 
 
