@@ -358,32 +358,32 @@ namespace Wof.Controller.Screens
                 {
                     if (gameScreen.CurrentLevel.MissionType == MissionType.BombingRun)
                     {
-                        infoElement.Caption = String.Format(@"{0} | {1} | {2}: {3} | {4}: {5}",
+                        infoElement.Caption = String.Format(@"{0} | {1} | {2}: {3}",
                         levelName,
                         difficulty,
-                        LanguageResources.GetString(LanguageKey.MissionType),
-                        LanguageResources.GetString(LanguageKey.BombingRun),
+                       // LanguageResources.GetString(LanguageKey.MissionType),
+                     //   LanguageResources.GetString(LanguageKey.BombingRun),
                         LanguageResources.GetString(LanguageKey.EnemySoldiersLeft),
                         gameScreen.CurrentLevel.SoldiersCount);
                     }
                     else if (gameScreen.CurrentLevel.MissionType == MissionType.Dogfight)
                     {
-                        infoElement.Caption = String.Format(@"{0} | {1} | {2}: {3} | {4}: {5}",
+                        infoElement.Caption = String.Format(@"{0} | {1} | {2}: {3}",
                         levelName,
                         difficulty,
-                        LanguageResources.GetString(LanguageKey.MissionType),
-                        LanguageResources.GetString(LanguageKey.Dogfight),
+                     //   LanguageResources.GetString(LanguageKey.MissionType),
+                      //  LanguageResources.GetString(LanguageKey.Dogfight),
                         LanguageResources.GetString(LanguageKey.EnemyPlanesLeft),
                         gameScreen.CurrentLevel.EnemyPlanesLeft);
                     }
 
                     else if (gameScreen.CurrentLevel.MissionType == MissionType.Assassination)
                     {
-                        infoElement.Caption = String.Format(@"{0} | {1} | {2}: {3} | {4}: {5}",
+                        infoElement.Caption = String.Format(@"{0} | {1} | {2}: {3}",
                         levelName,
                         difficulty,
-                        LanguageResources.GetString(LanguageKey.MissionType),
-                        LanguageResources.GetString(LanguageKey.Assassination),
+                     //   LanguageResources.GetString(LanguageKey.MissionType),
+                    //    LanguageResources.GetString(LanguageKey.Assassination),
                         LanguageResources.GetString(LanguageKey.Target),
                         (gameScreen.CurrentLevel.GeneralsCount == 0) ?
                             LanguageResources.GetString(LanguageKey.Neutralized) :
@@ -391,11 +391,11 @@ namespace Wof.Controller.Screens
                     }
                     else if (gameScreen.CurrentLevel.MissionType == MissionType.Naval)
                     {
-                        infoElement.Caption = String.Format(@"{0} | {1} | {2}: {3} | {4}: {5}",
+                        infoElement.Caption = String.Format(@"{0} | {1} | {2}: {3}",
                         levelName,
                         difficulty,
-                        LanguageResources.GetString(LanguageKey.MissionType),
-                        LanguageResources.GetString(LanguageKey.Naval),
+                       // LanguageResources.GetString(LanguageKey.MissionType),
+                       // LanguageResources.GetString(LanguageKey.Naval),
                         LanguageResources.GetString(LanguageKey.EnemyShipsLeft),
                         gameScreen.CurrentLevel.ShipsLeft);
                     }

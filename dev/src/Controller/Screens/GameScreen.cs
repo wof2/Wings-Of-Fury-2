@@ -536,7 +536,7 @@ namespace Wof.Controller.Screens
             float dist = viewport.ActualWidth / 4.5f;
             float hsize = dist / 4.0f;
            
-            achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - hsize - 2.5f*fontSize, dist, hsize + 2.5f*fontSize), "", (int)wt.NONE, "");
+            achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - hsize - 3.5f*fontSize, dist, hsize + 3.5f*fontSize), "", (int)wt.NONE, "");
             
             List<Achievement> completedAchievementsBefore = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(levelInfo);
            
@@ -571,7 +571,7 @@ namespace Wof.Controller.Screens
             int h = (int)GetTextVSpacing();
             missionTypeGui = new GUI(FontManager.CurrentFont, fontSize, "MissionTypeGUI");
         
-            missionTypeWindow = missionTypeGui.createWindow(new Vector4(0, viewport.ActualHeight - hsize- 2.5f* fontSize, viewport.ActualWidth, hsize), "", (int)wt.NONE, "");
+            missionTypeWindow = missionTypeGui.createWindow(new Vector4(0, viewport.ActualHeight - hsize- 3.5f* fontSize, viewport.ActualWidth, hsize), "", (int)wt.NONE, "");
 
             string missionTypeText = LanguageResources.GetString(LanguageKey.MissionType) + ": " + LanguageResources.GetString(CurrentLevel.MissionType.ToString());
             float textWidth = ViewHelper.MeasureText(FontManager.CurrentFont, missionTypeText, fontSize) + fontSize;
@@ -580,7 +580,7 @@ namespace Wof.Controller.Screens
         
            
             string filename = Level.GetMissionTypeTextureFile(CurrentLevel.MissionType);
-            missionTypeWindow.createStaticImage(new Vector4(viewport.ActualWidth - hsize, fontSize, hsize, hsize), filename);
+            missionTypeWindow.createStaticImage(new Vector4(viewport.ActualWidth - hsize -fontSize, fontSize, hsize, hsize), filename);
            
             missionTypeWindow.show();
         }
