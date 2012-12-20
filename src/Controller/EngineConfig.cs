@@ -179,7 +179,7 @@ namespace Wof.Controller
 
  		public static bool UseHardwareTexturePreloader = true; // czy wysylac do karty graficznej tesktury przed rozpoczeciem gry
  		
- 		public static int HardwareTexturePreloaderTextureLimit;
+ 		public static int HardwareTexturePreloaderTextureLimit = 64;
 
         public static bool AudioStreaming = true;
  		

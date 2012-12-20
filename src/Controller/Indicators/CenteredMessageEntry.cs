@@ -15,7 +15,7 @@ namespace Wof.Controller.Indicators
              //  Vector2 pos = new Vector2((1 - dim.x) * 0.5f,(1 - dim.y)*0.5f);
              
 
-            x = 0.15f; y = 0.20f - CharHeight;
+            x = 0.15f; y = 0.30f - CharHeight;
         }
 
         public CenteredMessageEntry(Viewport viewport, uint time, string message, float charHeight, ColourValue colourTop, ColourValue colourBottom, bool blinking, bool permanent) : base(0, 0, time, message, charHeight, colourTop, colourBottom, blinking, permanent, false)

@@ -170,6 +170,7 @@ namespace FSLOgreCS
 
         public void UpdateSoundObjects()
         {
+        	int k = 0;
             while(true)
             {
             	 try
@@ -218,12 +219,18 @@ namespace FSLOgreCS
 	                        }
 		                }
                         FreeSL.fslSleep(0.01f);
-	                  
+                       /* k++;
+                        if(k == 2000) {
+                        	k = 0;
+                        	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "SLEEEEEEP");
+                        	Thread.Sleep(10000);
+                        }
+	                  */
 	                    
                 }                
-                catch
+            	catch (Exception ex)
                 {
-                	
+            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception in sound updater: "+ex);
                 }
                  
                

@@ -412,15 +412,24 @@ namespace Wof.Controller.Indicators
                
             }
 
-            iconOverlay.Hide();
-            if (!iconOverlay.IsVisible)
-            {
-                iconElement.SetPosition((currentMessage.X), (currentMessage.Y + currentMessage.CharHeight * 0.25f));
-            }
+           
 
 
             currentMessage.IncreaseX(XMargin);
             currentMessage.IncreaseY(YMargin);
+            
+            iconOverlay.Hide();
+            
+            
+            if (!iconOverlay.IsVisible)
+            {
+				float iconYPos = currentMessage.Y - iconElement.Height * 0.5f; // ikonka w jedym poziomie z tekstem
+	            
+	            if(iconYPos <= yMargin) {
+	            	iconYPos = currentMessage.Y + currentMessage.CharHeight * 0.25f; // przyklej ikonke do rogu ekranu
+	            }            	
+                iconElement.SetPosition((currentMessage.X), iconYPos);
+            }
 
             messageContainer.SetPosition(iconElement.Width + currentMessage.X, currentMessage.Y);
             messageElement.SetParameter("char_height", currentMessage.getCharHeightString());

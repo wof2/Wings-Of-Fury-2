@@ -309,7 +309,7 @@ namespace Wof.Model.Level.Planes
                 if(st != null)
                 {	
                     
-                    if(YDistanceToTile(st) < 12*height)
+            //        if(YDistanceToTile(st) < 12*height)
                     {
                     	
                     	//Console.WriteLine(this.Name+"-"+this.planeType+"; ydiff" + YDistanceToTile(st) + " ->" + (15*height));
@@ -1170,7 +1170,7 @@ namespace Wof.Model.Level.Planes
                 if ( x != -1 && 
                      y != -1 &&
                      x < width * 30 &&
-                     y < height * 10
+                     y < height * 12
                     )
                 {
                     temp = x+y;

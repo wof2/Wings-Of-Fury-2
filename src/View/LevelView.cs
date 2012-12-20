@@ -2758,6 +2758,10 @@ namespace Wof.View
         {
             playerPlaneView.AnimationMgr.switchToIdle(true);
             carrierView.CrewStatePlaneAirborne();
+            if(EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Easy)
+            {
+            	carrierView.hideHangaringArrow();
+            }
         }
 
         public void OnTouchDown()
@@ -2765,6 +2769,11 @@ namespace Wof.View
           //  playerPlaneView.AnimationMgr[PlaneNodeAnimationManager.AnimationType.IDLE].rewind();
             playerPlaneView.AnimationMgr[PlaneNodeAnimationManager.AnimationType.IDLE].Enabled = false;
             carrierView.CrewStatePlaneOnCarrier();
+            if(EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Easy)
+            {
+            	carrierView.showHangaringArrow();
+            }
+            
         }
 
         public void BuildCameraHolders()

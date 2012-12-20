@@ -39,6 +39,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <SignAssembly>False</SignAssembly>
     <DelaySign>False</DelaySign>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
