@@ -433,6 +433,11 @@ namespace Wof.View
                     meshName = "Submarine.mesh";
                     batteryBasePositon = new Vector3(0, 8.5f, -18.0f);
                     localTranslation = new Vector3(0, 0, -15); // okret ma srodek ciezkosci w srodku zeby animacja fajniej wygladala. Trzeba przesunac
+                    
+                    if(!EngineConfig.UseHydrax)
+                    {
+                    	localTranslation = new Vector3(0, 3.0f, 0); // woda nie jest przezroczysta wiec nie widac drania
+                    }
                     buildFloatAnimation(animationNode, 10, false);
                     break;
 
