@@ -106,25 +106,44 @@ namespace Wof.Controller.Indicators
             get { return String.Format("{0:f} {1:f} {2:f}", StringConverter.ToString(colourBottom.r), StringConverter.ToString(colourBottom.g), StringConverter.ToString(colourBottom.b)); }
         }
 
+        static MessageEntry()
+        {
+            RestoreDefaultColours();
+        }
 
-      //  private static ColourValue defaultColourTop = new ColourValue(0.6f, 0.34f, 0.34f);
-        private static ColourValue defaultColourTop = new ColourValue(0.3f, 0.3f, 0.3f);
+        private static ColourValue defaultColourTop;
 
         public static ColourValue DefaultColourTop
         {
             get { return defaultColourTop; }
         }
 
-    //    private static ColourValue defaultColourBottom = new ColourValue(0.8f, 0.1f, 0.1f);
-        private static ColourValue defaultColourBottom = new ColourValue(0.1f, 0.1f, 0.1f);
-       
-       // protected int charsPerLine = 55;
+        public static String DefaultColourTopString
+        {
+            get { return String.Format("{0:f} {1:f} {2:f}", StringConverter.ToString(DefaultColourTop.r), StringConverter.ToString(DefaultColourTop.g), StringConverter.ToString(DefaultColourTop.b)); }
+        }
+
+
+       private static ColourValue defaultColourBottom;
+
+    
 
         public static ColourValue DefaultColourBottom
         {
             get { return defaultColourBottom; }
         }
 
+        public static String DefaultColourBottomString
+       {
+           get { return String.Format("{0:f} {1:f} {2:f}", StringConverter.ToString(DefaultColourBottom.r), StringConverter.ToString(DefaultColourBottom.g), StringConverter.ToString(DefaultColourBottom.b)); }
+       }
+
+        public static void RestoreDefaultColours()
+        {
+            defaultColourBottom  = new ColourValue(0.1f, 0.1f, 0.1f);
+            defaultColourTop = new ColourValue(0.3f, 0.3f, 0.3f);
+
+        }
         public static void SetDefaultColours(ColourValue top, ColourValue bottom)
         {
             defaultColourBottom = bottom;

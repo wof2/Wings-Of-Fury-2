@@ -46,12 +46,14 @@
  * 
  */
 
+using System;
 using System.Collections.Generic;
 using Mogre;
 using Wof.Controller;
 using Wof.Model.Level;
 using Wof.Model.Level.Weapon;
 using Wof.View.VertexAnimation;
+using Math=Mogre.Math;
 
 namespace Wof.View
 {
@@ -135,6 +137,11 @@ namespace Wof.View
         }
 
         protected float visualRotation = 0;
+        public override void MoveToHiddenPosition()
+        {
+            ammunitionNode.SetPosition(hiddenPosition.x, hiddenPosition.y, hiddenPosition.z);
+        }
+
         public override void refreshPosition()
         {
             base.refreshPosition();

@@ -679,5 +679,15 @@ namespace wingitor
 		{
 		
 		}
+
+        public void OnPlaneEnterRestoreAmmunitionTile(Plane plane)
+        {
+            
+        }
+
+        public void OnPlaneLeaveRestoreAmmunitionTile(Plane plane)
+        {
+         
+        }
     }
 }

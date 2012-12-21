@@ -92,6 +92,10 @@ namespace Wof.View
             }
         }
 
+
+       
+       
+
         public static AmmunitionView GetInstance(Ammunition missile, IFrameWork framework)
         {
         //	Console.WriteLine("Biore pocisk ":+missile);
@@ -111,6 +115,8 @@ namespace Wof.View
         public static void FreeInstance(Ammunition missile)
         {
             T rv = missileUsedPool[missile];
+            rv.MoveToHiddenPosition();
+           // ammunitionNode.SetPosition(hiddenPosition.x, hiddenPosition.y, hiddenPosition.z);
             //rv.SetVisibility(false);
             missileUsedPool.Remove(missile);
             missileAvailablePool.Push(rv);

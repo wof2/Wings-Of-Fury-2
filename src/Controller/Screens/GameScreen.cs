@@ -526,8 +526,8 @@ namespace Wof.Controller.Screens
             }
             hintWindow.show();
         }
-        
-        
+
+
         private void createAchivementsGui(uint fontSize)
         {         
             achievementsGui = new GUI(FontManager.CurrentFont, fontSize, "AchievementsTypeGUI");    
@@ -555,7 +555,7 @@ namespace Wof.Controller.Screens
             
 	            string achievementsText = /*LanguageResources.GetString(LanguageKey.achi)*/  "Achievements";
 	            float textWidth = ViewHelper.MeasureText(FontManager.CurrentFont, achievementsText, fontSize);
-             	OverlayContainer c =  achievementsWindow.createStaticText(new Vector4(fontSize, 0,  textWidth,  achievementsWindow.h), achievementsText, new ColourValue(0.3f, 0.3f, 0.3f));
+                OverlayContainer c = achievementsWindow.createStaticText(new Vector4(fontSize, 0, textWidth, achievementsWindow.h), achievementsText, MessageEntry.DefaultColourTop, MessageEntry.DefaultColourBottom);
             }           	
            
             achievementsWindow.show();
@@ -575,8 +575,8 @@ namespace Wof.Controller.Screens
 
             string missionTypeText = LanguageResources.GetString(LanguageKey.MissionType) + ": " + LanguageResources.GetString(CurrentLevel.MissionType.ToString());
             float textWidth = ViewHelper.MeasureText(FontManager.CurrentFont, missionTypeText, fontSize) + fontSize;
-           	
-            OverlayContainer c =  missionTypeWindow.createStaticText(new Vector4(missionTypeWindow.w - textWidth, 0,  textWidth,  missionTypeWindow.h), missionTypeText, new ColourValue(0.3f, 0.3f, 0.3f));
+
+            OverlayContainer c = missionTypeWindow.createStaticText(new Vector4(missionTypeWindow.w - textWidth, 0, textWidth, missionTypeWindow.h), missionTypeText, MessageEntry.DefaultColourTop, MessageEntry.DefaultColourBottom);
         
            
             string filename = Level.GetMissionTypeTextureFile(CurrentLevel.MissionType);
@@ -611,8 +611,12 @@ namespace Wof.Controller.Screens
                     levelView.OnRegisterLevel(currentLevel);
                     if (LevelView.IsNightScene)
                     {
-                        MessageEntry.SetDefaultColours(new ColourValue(0.1f, 0.5f, 0.1f),
-                                                       new ColourValue(0.1f, 0.3f, 0.1f));
+                       // 0.68f, 0.77f, 0.41f
+                        MessageEntry.SetDefaultColours(new ColourValue(0.51f, 0.61f, 0.31f),
+                                                       new ColourValue(0.45f, 0.55f, 0.28f));
+                    } else
+                    {
+                        MessageEntry.RestoreDefaultColours();
                     }
 
                     LogManager.Singleton.LogMessage("About to register player plane", LogMessageLevel.LML_CRITICAL);
@@ -649,12 +653,13 @@ namespace Wof.Controller.Screens
                    
                     UpdateHints(true);
 
+                   
 
-					createAchivementsGui((uint)( fontSize* 0.6f));
+                    createAchivementsGui((uint)(fontSize * 0.6f));
 
                     
                     // missiontype gui                 
-                    createMissionTypeGui((uint)( fontSize* 0.6f));
+                    createMissionTypeGui((uint)(fontSize * 0.6f));
                     
                                        
                     _bulletTimeBar = new BulletTimeBar(fontSize, framework.Viewport, viewport.ActualWidth / 6.5f, viewport.ActualHeight / 75.0f);
@@ -3051,6 +3056,16 @@ namespace Wof.Controller.Screens
         	
         }
 
+        public void OnPlaneEnterRestoreAmmunitionTile(Plane plane)
+        {
+            levelView.OnPlaneEnterRestoreAmmunitionTile(plane);
+        }
+
+        public void OnPlaneLeaveRestoreAmmunitionTile(Plane plane)
+        {
+            levelView.OnPlaneLeaveRestoreAmmunitionTile(plane);
+        }
+
         public void OnSoldierPrepareToFire(Soldier soldier, float maxTime)
         {
             levelView.OnSoldierPrepareToFire(soldier, maxTime);
@@ -3859,6 +3874,7 @@ namespace Wof.Controller.Screens
                 	
                     MessageEntry m = new CenteredMessageEntry(viewport, GetLandingHintMessage(), true, false);
                     IconedMessageEntry message = new IconedMessageEntry(m, C_LANDING_HINT_ICON);
+                    message.IconFrames = 3;
                     
                     message.UseAutoDectetedIconDimesions(viewport);
                   //  message.CenterIconOnScreen(viewport);

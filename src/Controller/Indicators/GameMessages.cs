@@ -367,11 +367,15 @@ namespace Wof.Controller.Indicators
             messageElement.Hide();
             
             // icon
+            uint iconFrames = 1;
+            float iconAnimationDuration = 1.0f;
             string changedIcon = null;
             if (currentMessage is IconedMessageEntry )
             {
                 string icon = (currentMessage as IconedMessageEntry).Icon;
                 Vector2 dim = (currentMessage as IconedMessageEntry).CustomIconDimensions;
+                iconFrames = (currentMessage as IconedMessageEntry).IconFrames;
+                iconAnimationDuration = (currentMessage as IconedMessageEntry).IconAnimationDuration;
                 if (lastIconTexture != icon)
                 {
                     lastIconTexture = icon;
@@ -398,13 +402,22 @@ namespace Wof.Controller.Indicators
                 iconElement.Width = iconDefaultDimesions.x;
                 iconElement.Height = iconDefaultDimesions.y;
             }
-
+           
             if(changedIcon != null)
             {
                 try
                 {
                     MaterialPtr mat = MaterialManager.Singleton.GetByName("MessageBarIcon");
-                    mat.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(changedIcon);
+                    if (iconFrames > 1)
+                    {
+                        mat.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetAnimatedTextureName(changedIcon, iconFrames, iconAnimationDuration);
+                     //   mat.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(null);
+                    }else
+                    {
+                      //  mat.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetAnimatedTextureName(null, 1);
+                        mat.GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetTextureName(changedIcon);
+                    }
+                    
                 }
                 catch (Exception)
                 {

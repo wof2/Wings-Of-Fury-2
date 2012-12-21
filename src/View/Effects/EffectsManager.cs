@@ -218,6 +218,7 @@ namespace Wof.View.Effects
             PALMTOP2,
             CROSSHAIR,
             HINT_ARROW,
+            X_BUTTON,
             MISSILE_LOCK_ARROW,
             CLOUD1,
             CLOUD2,
@@ -815,6 +816,12 @@ namespace Wof.View.Effects
                     info.duration = 1.0f;
                     info.material = "Effects/HintArrow";
                     break;
+
+                case EffectType.X_BUTTON:
+                    info.duration = 1.0f;
+                    info.material = "Effects/XButton";
+                    break;
+                    
 
                 case EffectType.MISSILE_LOCK_ARROW:
                     info.duration = 1.0f;

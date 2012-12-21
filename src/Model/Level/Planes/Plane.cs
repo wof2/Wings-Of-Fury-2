@@ -1349,7 +1349,15 @@ namespace Wof.Model.Level.Planes
         {
             get
             {
-                return locationState == LocationState.AircraftCarrier && MovementVector.X <= 0.01f &&
+                return IsOnRestoreAmmunitionTile && MovementVector.X <= 0.01f;
+            }
+        }
+
+        public bool IsOnRestoreAmmunitionTile
+        {
+            get
+            {
+                return locationState == LocationState.AircraftCarrier &&
                        Bounds.Center.X >= level.Carrier.GetRestoreAmunitionPosition().X &&
                        Bounds.Center.X <= level.Carrier.GetRestoreAmunitionPosition().X + LevelTile.TileWidth;
             }
@@ -2705,6 +2713,17 @@ namespace Wof.Model.Level.Planes
                     break;
 
                 case LocationState.AircraftCarrier:
+                    bool isNow = IsOnRestoreAmmunitionTile;
+                    if (!isOnRestoreAmmunitionTileBefore && isNow)
+                    {
+                        Level.Controller.OnPlaneEnterRestoreAmmunitionTile(this);
+                    }
+                    if (isOnRestoreAmmunitionTileBefore && !isNow)
+                    {
+                        Level.Controller.OnPlaneLeaveRestoreAmmunitionTile(this);
+                    }
+                    isOnRestoreAmmunitionTileBefore = isNow;
+
                     if (landingState == LandingState.None)
                     {
                         if (isLeftPressed || isRightPressed)
@@ -2728,6 +2747,8 @@ namespace Wof.Model.Level.Planes
 
             ResetInputFlags();
         }
+
+        private bool isOnRestoreAmmunitionTileBefore = true;
 
         /// <summary>
         /// Metoda zmienia pochylenie dziobu samolotu na lotniskowcu 
