@@ -183,24 +183,45 @@ namespace Wof.View
 
         }
 
-		public void showHangaringArrow()
+        public void showHangaringArrow()
         {
+            hideChangeAmmo();
             float arrowWidth = 2.5f;
             float arrowHeight = 2.5f;
-                     
+
             Quaternion q = new Quaternion();
-            q.FromAngleAxis(new Radian(new Degree(90)), Vector3.UNIT_X );
+            q.FromAngleAxis(new Radian(new Degree(90)), Vector3.UNIT_X);
             q *= new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Z);
-           
+
             EffectsManager.Singleton.RectangularEffect(sceneMgr, mainNode, this.Name + "Arrow", EffectsManager.EffectType.HINT_ARROW, new Vector3(0, 10.0f + arrowHeight, -43.0f), new Vector2(arrowWidth, arrowHeight), q, true);
+            // EffectsManager.Singleton.RectangularEffect(sceneMgr, mainNode, this.Name + "XButton", EffectsManager.EffectType.X_BUTTON, new Vector3(0, 10.0f + arrowHeight, -43.0f), new Vector2(arrowWidth, arrowHeight), q, true);
 
         }
+
+        public void showChangeAmmoArrow()
+        {
+            hideHangaringArrow();
+            float arrowWidth = 2.5f;
+            float arrowHeight = 2.5f;
+
+            Quaternion q = new Quaternion();
+            q.FromAngleAxis(new Radian(new Degree(90)), Vector3.UNIT_X);
+            q *= new Quaternion(new Radian(new Degree(90)), Vector3.UNIT_Z);
+            EffectsManager.Singleton.RectangularEffect(sceneMgr, mainNode, this.Name + "XButton", EffectsManager.EffectType.X_BUTTON, new Vector3(0, 10.0f + arrowHeight, -43.0f), new Vector2(arrowWidth, arrowHeight), q, true);
+
+        }
+
+       
 
         public void hideHangaringArrow()
         {
             EffectsManager.Singleton.NoSprite(sceneMgr, mainNode, EffectsManager.EffectType.HINT_ARROW, this.Name + "Arrow");
         }
 
+        public void hideChangeAmmo()
+        {
+            EffectsManager.Singleton.NoSprite(sceneMgr, mainNode, EffectsManager.EffectType.X_BUTTON, this.Name + "XButton");
+        }
 
 
         public void CrewStatePlaneOnCarrier()

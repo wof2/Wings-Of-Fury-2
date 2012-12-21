@@ -116,7 +116,7 @@ namespace Wof.View
 			this.ammunition = ammunition;
 			ammunitionID = ammunitionCounter++;
 		}
-
+        public abstract void MoveToHiddenPosition();
 
 		public virtual void refreshPosition()
 		{

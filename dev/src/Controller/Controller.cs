@@ -552,5 +552,9 @@ namespace Wof.Controller
 		void OnAchievementFulFilled(Achievement a, bool playSound);
     	
 		void OnAchievementUpdated(Achievement a);
+        void OnPlaneEnterRestoreAmmunitionTile(Plane plane);
+        void OnPlaneLeaveRestoreAmmunitionTile(Plane plane);
+
+
     }
 }

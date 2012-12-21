@@ -9,6 +9,10 @@ namespace Wof.Controller.Indicators
         private string icon = "";
 
         private Vector2 customIconDimensions = Vector2.ZERO;
+
+        private uint iconFrames = 1;
+        private float iconAnimationDuration = 1.0f;
+
         /*
         private Vector2 customIconPosition = Vector2.NEGATIVE_UNIT_X;
 
@@ -73,7 +77,12 @@ namespace Wof.Controller.Indicators
         {
             try
             {
-                TexturePtr t = TextureManager.Singleton.Load(icon, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
+                string textureName = icon;
+                if(iconFrames > 1)
+                {
+                   textureName = icon.Replace(".", "_0.");
+                }
+                TexturePtr t = TextureManager.Singleton.Load(textureName, ResourceGroupManager.DEFAULT_RESOURCE_GROUP_NAME);
                 if (t != null && t.SrcWidth > 0 && t.SrcHeight > 0)
                 {
 
@@ -100,6 +109,21 @@ namespace Wof.Controller.Indicators
             get { return customIconDimensions; }
             set { customIconDimensions = value; }
         }
+
+        public float IconAnimationDuration
+        {
+            get { return iconAnimationDuration; }
+            set { iconAnimationDuration = value; }
+        }
+
+        
+
+        public uint IconFrames
+        {
+            get { return iconFrames; }
+            set { iconFrames = value; }
+        }
+
         /*
         public Vector2 CustomIconPosition
         {

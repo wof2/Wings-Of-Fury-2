@@ -654,10 +654,13 @@ namespace BetaGUI
             return createStaticText(D, multiline, ColourValue.White);
         }
 
-     
-           
-        
-        public static void ChangeContainerColour(OverlayContainer cont,  ColourValue c)
+
+        public static void ChangeContainerColour(OverlayContainer cont, ColourValue c)
+        {
+            ChangeContainerColour(cont, c, c);
+        }
+
+        public static void ChangeContainerColour(OverlayContainer cont,  ColourValue c1, ColourValue c2)
         {
         	OverlayContainer.ChildIterator i = cont.GetChildIterator();
         	while(i.MoveNext())
@@ -665,30 +668,42 @@ namespace BetaGUI
         		OverlayElement element =i.Current;        
         		if(element != null)
         		{
-        			ChangeElementColour(element, c);
+        			ChangeElementColour(element, c1, c2);
         		}
         	}
-        
+
         }
-        public static void ChangeElementColour(OverlayElement element,  ColourValue c)
+
+        public static void ChangeElementColour(OverlayElement element, ColourValue c)
         {
-        	string colour = String.Format("{0:f} {1:f} {2:f}", StringConverter.ToString(c.r), StringConverter.ToString(c.g), StringConverter.ToString(c.b));
-        	
-        	element.SetParameter("colour_top", colour);
-            element.SetParameter("colour_bottom", colour);
+            ChangeElementColour(element, c, c);
         }
-       
-        // zmiana zwracanego typu z void na OverlayContainer by Adam
+
+        public static void ChangeElementColour(OverlayElement element, ColourValue c1, ColourValue c2)
+        {
+        	string colour1 = String.Format("{0:f} {1:f} {2:f}", StringConverter.ToString(c1.r), StringConverter.ToString(c1.g), StringConverter.ToString(c1.b));
+        	string colour2 = String.Format("{0:f} {1:f} {2:f}", StringConverter.ToString(c2.r), StringConverter.ToString(c2.g), StringConverter.ToString(c2.b));
+        	
+        	element.SetParameter("colour_top", colour1);
+            element.SetParameter("colour_bottom", colour2);
+        }
+
         public OverlayContainer createStaticText(Vector4 D, String T, ColourValue c)
+        {
+            return createStaticText(D, T, c, c);
+        }
+
+        // zmiana zwracanego typu z void na OverlayContainer by Adam
+        public OverlayContainer createStaticText(Vector4 D, String T, ColourValue cTop,  ColourValue cBottom)
         {
             OverlayContainer x = mGUI.createOverlay(mO.Name +
                                                     StringConverter.ToString(mGUI.tc++),
                                                     new Vector2(D.x, D.y), new Vector2(D.z, D.w), "", T, false);
-        	
-        	
-        	
-        	
-        	ChangeContainerColour(x,c);
+
+
+
+
+            ChangeContainerColour(x, cTop, cBottom);
         	
             mO.AddChild(x);
             x.Show();

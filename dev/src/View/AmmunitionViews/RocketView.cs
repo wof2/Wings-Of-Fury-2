@@ -98,6 +98,12 @@ namespace Wof.View
             ammunitionNode.SetVisible(false);
             innerNode.SetVisible(false);
           
+
+        }
+
+        public override void MoveToHiddenPosition()
+        {
+            ammunitionNode.SetPosition(hiddenPosition.x, hiddenPosition.y, hiddenPosition.z);
         }
 
         public override void postInitOnScene()
@@ -121,7 +127,7 @@ namespace Wof.View
       	public override void Hide()
         {
             EffectsManager.Singleton.NoSmoke(sceneMgr, innerNode, EffectsManager.SmokeType.ROCKET);
-            ammunitionNode.SetPosition(hiddenPosition.x, hiddenPosition.y, hiddenPosition.z);
+          
             innerNode.SetVisible(false, false);
             if (EngineConfig.ExplosionLights && LevelView.IsNightScene) explosionFlash.Visible = false;
 

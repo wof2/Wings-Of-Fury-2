@@ -31,7 +31,6 @@ namespace Wof.Controller.Indicators
 		{
 			this.achievement = a;
 			this.achievementsWindow = achievementsWindow;
-			
 		}
 		
 		public void Update(int index) {
@@ -41,7 +40,8 @@ namespace Wof.Controller.Indicators
 		    float hsize = 6*h;
 			uint totalh = (uint)achievementsWindow.h;
 			DisposeTextContainer();
-            textContainer = achievementsWindow.createStaticText(new Vector4((index) * hsize + h + 0.1f*hsize, hsize + h, hsize, hsize), achString, new ColourValue(0.3f, 0.3f, 0.3f));
+
+            textContainer = achievementsWindow.createStaticText(new Vector4((index) * hsize + h + 0.1f * hsize, hsize + h, hsize, hsize), achString, MessageEntry.DefaultColourTop, MessageEntry.DefaultColourBottom);
 
 			if(imageContainer == null){
 	        		string filename = achievement.GetImageFilename();

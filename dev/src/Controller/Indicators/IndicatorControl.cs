@@ -49,6 +49,7 @@
 
 using System;
 using Mogre;
+using Wof.Controller.Indicators;
 using Wof.Languages;
 using Wof.Misc;
 using Wof.Model.Level.Planes;
@@ -642,8 +643,11 @@ namespace Wof.Controller.Screens
             element.SetPosition(0, 0);
             element.SetParameter("font_name", fontName);
             element.SetParameter("char_height", "12");
-            element.SetParameter("colour_top", "0.0 0.0 0.0");
-            element.SetParameter("colour_bottom", "0.0 0.0 0.0");
+            element.SetParameter("colour_top", MessageEntry.DefaultColourTopString);
+            element.SetParameter("colour_bottom", MessageEntry.DefaultColourBottomString);
+           
+            //element.SetParameter("colour_top", "0.0 0.0 0.0");
+           // element.SetParameter("colour_bottom", "0.0 0.0 0.0");
             element.Caption = caption;
         }
 

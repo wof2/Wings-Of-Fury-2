@@ -646,6 +646,7 @@ namespace Wof.View
                 {
                     //tileView = new OceanTileView(levelTile, framework);
                     tileView = new AircraftCarrierTileView(levelTile, framework);
+
                 }
 
                 //Na uzytek LevelView
@@ -876,7 +877,6 @@ namespace Wof.View
                             break;
                        
                     }
-                    
                 }
                 
                 BuildCameraHolders();
@@ -2754,6 +2754,24 @@ namespace Wof.View
             carrierView.StartReleasingPlane();
         }
 
+
+
+        public void OnPlaneEnterRestoreAmmunitionTile(Plane plane)
+        {
+            if (EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Easy)
+            {
+                carrierView.showChangeAmmoArrow();
+            }
+        }
+
+        public void OnPlaneLeaveRestoreAmmunitionTile(Plane plane)
+        {
+            if (EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Easy)
+            {
+                carrierView.showHangaringArrow();
+            }
+        }
+
         public void OnTakeOff()
         {
             playerPlaneView.AnimationMgr.switchToIdle(true);
@@ -2763,7 +2781,7 @@ namespace Wof.View
             	carrierView.hideHangaringArrow();
             }
         }
-
+        
         public void OnTouchDown()
         {
           //  playerPlaneView.AnimationMgr[PlaneNodeAnimationManager.AnimationType.IDLE].rewind();
@@ -2877,6 +2895,8 @@ namespace Wof.View
         }
 
 
-        
+
+
+       
     }
 }

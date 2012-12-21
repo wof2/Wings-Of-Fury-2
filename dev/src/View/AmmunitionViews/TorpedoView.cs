@@ -160,6 +160,11 @@ namespace Wof.View
         }
 
 
+        public override void MoveToHiddenPosition()
+        {
+            ammunitionNode.SetPosition(hiddenPosition.x, hiddenPosition.y, hiddenPosition.z);
+        }
+
         public override void refreshPosition()
         {
             base.refreshPosition();

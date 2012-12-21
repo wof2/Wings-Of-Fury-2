@@ -355,6 +355,21 @@ material Effects/HintArrow : ABEffect
    }
 }
 
+material Effects/XButton : ABEffect
+{
+   technique Diffuse
+   {
+       pass 0
+       {
+          texture_unit 0
+          { 
+             	anim_texture x_button.png 3 0
+          }
+       }
+   }
+}
+
+
 material Effects/MissileLockArrow : ABEffect
 {
    technique Diffuse

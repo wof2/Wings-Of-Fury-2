@@ -48,7 +48,12 @@ namespace Wof.View.AmmunitionViews
           
         }
 
-        public override void postInitOnScene()
+        public override void MoveToHiddenPosition()
+        {
+            ammunitionNode.SetPosition(hiddenPosition.x, hiddenPosition.y, hiddenPosition.z);
+        }
+
+	    public override void postInitOnScene()
         {
             base.postInitOnScene();
             innerNode.SetVisible(true);

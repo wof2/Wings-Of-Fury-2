@@ -62,6 +62,10 @@ namespace Wof.View.AmmunitionViews
             EffectsManager.Singleton.HideSprite(sceneMgr, ammunitionNode, EffectsManager.EffectType.GUNTRAIL, getLocalSpriteName(localName));
             EffectsManager.Singleton.HideSprite(sceneMgr, ammunitionNode, EffectsManager.EffectType.GUNTRAIL, getLocalSpriteNameTop(localName));
          }
+        public override void MoveToHiddenPosition()
+        {
+            ammunitionNode.SetPosition(hiddenPosition.x, hiddenPosition.y, hiddenPosition.z);
+        }
 
         protected override void preInitOnScene()
         {

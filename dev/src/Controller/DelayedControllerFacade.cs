@@ -773,7 +773,18 @@ namespace Wof.Controller
 		{
 			AddJob(MethodBase.GetCurrentMethod().Name, new object[] { a });
 		}
-		
+
+        public void OnPlaneEnterRestoreAmmunitionTile(Plane plane)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { plane });
+        }
+
+        public void OnPlaneLeaveRestoreAmmunitionTile(Plane plane)
+        {
+            AddJob(MethodBase.GetCurrentMethod().Name, new object[] { plane });
+        }
+     
+
 		
 		#endregion
     	
