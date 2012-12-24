@@ -207,4 +207,10 @@ Navale – affonda tutte le navi nemiche usando i siluri. Ricorda che devi volar
   <data name="PossibleCharacters"> 
        <value>Possible characters</value>
   </data>
+  
+     
+  <data name="Achievements"> 
+       <value>Achievements</value>
+  </data>
+  
 </root>

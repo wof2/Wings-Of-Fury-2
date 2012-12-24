@@ -643,5 +643,9 @@
   <data name="PossibleCharacters"> 
        <value>Possible characters</value>
   </data>
+  
+   <data name="Achievements"> 
+       <value>Достижения</value>
+  </data>
 
 </root>

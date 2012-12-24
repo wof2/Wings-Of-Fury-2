@@ -534,8 +534,9 @@ namespace Wof.Controller.Screens
             achievementsGui.SetZOrder(100);
             
             float dist = viewport.ActualWidth / 4.5f;
-            float hsize = dist / 4.0f;
-           
+            float hsize = dist / 5.0f;
+            uint margin = fontSize / 2;
+
             achievementsWindow = achievementsGui.createWindow(new Vector4(0, viewport.ActualHeight - hsize - 3.5f*fontSize, dist, hsize + 3.5f*fontSize), "", (int)wt.NONE, "");
             
             List<Achievement> completedAchievementsBefore = LoadGameUtil.Singleton.GetCompletedAchievementsForLevel(levelInfo);
@@ -552,10 +553,10 @@ namespace Wof.Controller.Screens
             }
             
             if(CurrentLevel.Achievements.Count > 0) {
-            
-	            string achievementsText = /*LanguageResources.GetString(LanguageKey.achi)*/  "Achievements";
+
+                string achievementsText = LanguageResources.GetString(LanguageKey.Achievements);
 	            float textWidth = ViewHelper.MeasureText(FontManager.CurrentFont, achievementsText, fontSize);
-                OverlayContainer c = achievementsWindow.createStaticText(new Vector4(fontSize, 0, textWidth, achievementsWindow.h), achievementsText, MessageEntry.DefaultColourTop, MessageEntry.DefaultColourBottom);
+                OverlayContainer c = achievementsWindow.createStaticText(new Vector4(margin, 0, textWidth, achievementsWindow.h), achievementsText, MessageEntry.DefaultColourTop, MessageEntry.DefaultColourBottom);
             }           	
            
             achievementsWindow.show();
@@ -566,21 +567,23 @@ namespace Wof.Controller.Screens
         {
         	// missiontype gui        	
             float dist = viewport.ActualWidth / 4.5f;
-            float hsize = dist / 4.0f;
-                    
+            float hsize = dist / 5.0f;
+            
             int h = (int)GetTextVSpacing();
+            uint margin = fontSize / 2;
+
             missionTypeGui = new GUI(FontManager.CurrentFont, fontSize, "MissionTypeGUI");
         
             missionTypeWindow = missionTypeGui.createWindow(new Vector4(0, viewport.ActualHeight - hsize- 3.5f* fontSize, viewport.ActualWidth, hsize), "", (int)wt.NONE, "");
 
             string missionTypeText = LanguageResources.GetString(LanguageKey.MissionType) + ": " + LanguageResources.GetString(CurrentLevel.MissionType.ToString());
-            float textWidth = ViewHelper.MeasureText(FontManager.CurrentFont, missionTypeText, fontSize) + fontSize;
+            float textWidth = ViewHelper.MeasureText(FontManager.CurrentFont, missionTypeText, fontSize) + margin;
 
             OverlayContainer c = missionTypeWindow.createStaticText(new Vector4(missionTypeWindow.w - textWidth, 0, textWidth, missionTypeWindow.h), missionTypeText, MessageEntry.DefaultColourTop, MessageEntry.DefaultColourBottom);
         
            
             string filename = Level.GetMissionTypeTextureFile(CurrentLevel.MissionType);
-            missionTypeWindow.createStaticImage(new Vector4(viewport.ActualWidth - hsize -fontSize, fontSize, hsize, hsize), filename);
+            missionTypeWindow.createStaticImage(new Vector4(viewport.ActualWidth - hsize - margin, fontSize, hsize, hsize), filename);
            
             missionTypeWindow.show();
         }
@@ -655,11 +658,11 @@ namespace Wof.Controller.Screens
 
                    
 
-                    createAchivementsGui((uint)(fontSize * 0.6f));
+                    createAchivementsGui((uint)(fontSize * 0.7f));
 
                     
                     // missiontype gui                 
-                    createMissionTypeGui((uint)(fontSize * 0.6f));
+                    createMissionTypeGui((uint)(fontSize * 0.7f));
                     
                                        
                     _bulletTimeBar = new BulletTimeBar(fontSize, framework.Viewport, viewport.ActualWidth / 6.5f, viewport.ActualHeight / 75.0f);
@@ -807,7 +810,7 @@ namespace Wof.Controller.Screens
             }
             showingLoadingAds = Mogre.Math.RangeRandom(0, 1) > (1 - C_LOADING_AD_PROBABILITY);
 
-
+           // n = 3;
           
 
             string overlayAdScreenSplashName = "Wof/LoadingAdScreenSplash";
@@ -1993,9 +1996,10 @@ namespace Wof.Controller.Screens
                                 // screenshots
                                 if (inputKeyboard.IsKeyDown(KeyCode.KC_SYSRQ) && Button.CanChangeSelectedButton())
                                 {
-                                    string[] temp = Directory.GetFiles(Environment.CurrentDirectory, "screenshot*.jpg");
+
+                                    string[] temp = Directory.GetFiles(EngineConfig.C_LOCAL_DIRECTORY, "screenshot*.jpg");
                                     string fileName = string.Format("screenshot{0}.jpg", temp.Length + 1);
-                                    framework.TakeScreenshot(fileName);
+                                    framework.TakeScreenshot(EngineConfig.C_LOCAL_DIRECTORY+"\\"+fileName);
                                     gameMessages.AppendMessage(String.Format("{0} '{1}'",
                                                                              LanguageResources.GetString(
                                                                                  LanguageKey.ScreenshotWrittenTo),
@@ -3045,7 +3049,7 @@ namespace Wof.Controller.Screens
         	if(achievementsIcons.ContainsKey(a)) {
         		icon = achievementsIcons[a];        		
         	}else {
-        		achievementsIcons[a] = icon =  new AchievementIcon(a, achievementsWindow);
+        		achievementsIcons[a] = icon =  new AchievementIcon(a, achievementsWindow, this.viewport);
         		
         	}        	        	        	
         	int index = CurrentLevel.Achievements.FindIndex(delegate(Achievement ach) { return ach == a; });
