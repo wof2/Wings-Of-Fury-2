@@ -365,6 +365,8 @@
        <value>Caracteres permitidos</value>
   </data>
 
-
+	<data name="Achievements"> 
+       <value>Realizações</value>
+  </data>
 
 </root>

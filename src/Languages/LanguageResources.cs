@@ -134,6 +134,17 @@ namespace Wof.Languages
             return new string(arr);
         }
 
+        private static bool containsLatin(string str)
+        {
+            foreach (char c in str)
+            {
+                if(System.Convert.ToInt32(c) <= 128)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         private static string GetStringHebrew(string name)
         {
             if (XMLManager.ContainsKey(name))
@@ -149,7 +160,20 @@ namespace Wof.Languages
 
                 for (int i = 0; i < array2.Length; i++)
                 {
-                    array2[i] = ReverseString(array2[i]);
+
+                  
+                    if(array2[i].Contains("{"))
+                    {
+                        
+                    } if(containsLatin(array2[i]))
+                    {
+                        
+                    }
+                    else
+                    {
+                        array2[i] = ReverseString(array2[i]);
+                    }
+                    
                 }
                 return String.Join(" ", array2);
 

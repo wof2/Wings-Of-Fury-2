@@ -625,5 +625,9 @@
   <data name="PossibleCharacters"> 
        <value>Możliwe znaki</value>
   </data>
+  
+  <data name="Achievements"> 
+       <value>Osiągnięcia</value>
+  </data>
 
 </root>

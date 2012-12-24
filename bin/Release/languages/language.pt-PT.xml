@@ -252,5 +252,10 @@
   <data name="PossibleCharacters"> 
        <value>Possible characters</value>
   </data>
+  
+  <data name="Achievements"> 
+       <value>Realizações</value>
+  </data>
+
 
 </root>

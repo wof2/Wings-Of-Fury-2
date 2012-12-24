@@ -9,6 +9,7 @@
 using System;
 using BetaGUI;
 using Mogre;
+using Wof.Misc;
 using Wof.Model.Level;
 
 namespace Wof.Controller.Indicators
@@ -21,31 +22,41 @@ namespace Wof.Controller.Indicators
 		
 		protected Achievement achievement;
 		protected Window achievementsWindow;
+	    protected Viewport viewport;
 		
 		protected OverlayContainer textContainer = null;
 		protected OverlayContainer imageContainer = null;
 		protected OverlayContainer imageContainerFulfilled = null;
 		
 		
-		public AchievementIcon(Achievement a, Window achievementsWindow)
+		public AchievementIcon(Achievement a, Window achievementsWindow, Viewport viewport)
 		{
 			this.achievement = a;
 			this.achievementsWindow = achievementsWindow;
+		    this.viewport = viewport;
 		}
 		
 		public void Update(int index) {
-			string achString = achievement.AmountDone +" / "+ achievement.Amount;
+			string achString = achievement.AmountDone +"/"+ achievement.Amount;
 			
 			uint h = achievementsWindow.mGUI.mFontSize;
-		    float hsize = 6*h;
+		    uint margin = h/2;
+		   // float hsize = 6*h;
+
+            float dist = viewport.ActualWidth / 4.5f;
+            float hsize = dist / 5.0f;
+            
+      
 			uint totalh = (uint)achievementsWindow.h;
 			DisposeTextContainer();
+            float textWidth = ViewHelper.MeasureText(achievementsWindow.mGUI.mFont, achString, h);
 
-            textContainer = achievementsWindow.createStaticText(new Vector4((index) * hsize + h + 0.1f * hsize, hsize + h, hsize, hsize), achString, MessageEntry.DefaultColourTop, MessageEntry.DefaultColourBottom);
+            float textAlign = (hsize - textWidth) / 2.0f;
+            textContainer = achievementsWindow.createStaticText(new Vector4((index) * hsize + margin + textAlign, hsize + h, hsize, hsize), achString, MessageEntry.DefaultColourTop, MessageEntry.DefaultColourBottom);
 
 			if(imageContainer == null){
 	        		string filename = achievement.GetImageFilename();
-                    imageContainer = achievementsWindow.createStaticImage(new Vector4((index) * hsize + h, h, hsize, hsize), filename, false);
+                    imageContainer = achievementsWindow.createStaticImage(new Vector4((index) * hsize + margin, h, hsize, hsize), filename, false);
         	}
 			
          	if(achievement.IsFulfilled()) {
@@ -53,7 +64,7 @@ namespace Wof.Controller.Indicators
         		if(imageContainerFulfilled == null){	        		
 	        		//DisposeImageContainer();
         			string filename = achievement.GetFulfilledImageFilename();
-                    imageContainerFulfilled = achievementsWindow.createStaticImage(new Vector4((index) * hsize + h, h, hsize * 0.5f, hsize * 0.5f), filename, true);
+                    imageContainerFulfilled = achievementsWindow.createStaticImage(new Vector4((index) * hsize + margin, h, hsize * 0.5f, hsize * 0.5f), filename, true);
         		}
         	}
 			

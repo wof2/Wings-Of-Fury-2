@@ -16,7 +16,7 @@ Wof/Loading
 		{
 			metrics_mode relative
 			left 0.03
-			top 0.51
+			top 0.96
 			width 0.2
 			height 0.025		
 			char_height 0.025
@@ -27,7 +27,7 @@ Wof/Loading
        	container Panel(Wof/LoadingScreenMissionType)
         	{
              	left 0.95
-             	top 0.480
+             	top 0.95
              	width 0.05
              	height 0.05
              	material MissionType
@@ -35,13 +35,20 @@ Wof/Loading
     
 		container Panel(Wof/LoadingScreenSplash)
         	{
-             	left 0.0
-             	top 0.0
+             	left 0.00
+             	top 0.00
              	width 1.0
-             	height 1.0
+             	height 0.95
              	material SplashScreen
         	}
-
+		container Panel(Wof/LoadingScreenSplashBg)
+        	{
+             	left 0.00
+             	top 0.95
+             	width 1.0
+             	height 0.05
+             	material SplashScreenBg
+        	}
 	}
 }
 

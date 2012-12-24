@@ -642,6 +642,11 @@
   <data name="PossibleCharacters"> 
        <value>Possible characters</value>
   </data>
+  
+    
+  <data name="Achievements"> 
+       <value>Achievements</value>
+  </data>
 
 </root>
 

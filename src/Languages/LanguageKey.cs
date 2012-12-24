@@ -65,6 +65,8 @@ namespace Wof.Languages
       
         public const string AddingCompositors = @"AddingCompositors";
         public const string AccelerateBreakTurn = @"AccelerateBreakTurn";
+        public const string Achievements = @"Achievements";
+
         public const string Alive = @"Alive";
         public const string AllEnemyPlanesDestroyedLandOnCarrierAndPressX =
             @"AllEnemyPlanesDestroyedLandOnCarrierAndPressX";
