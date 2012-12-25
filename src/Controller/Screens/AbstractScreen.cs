@@ -799,6 +799,17 @@ namespace Wof.Controller.Screens
             		planeViews.Clear();
             		planeViews = null;
             	}
+
+                
+                if (clickSound != null)
+                {
+                    SoundManager3D.Instance.RemoveSound(clickSound.Name);
+                }
+                if (cheatSound != null)
+                {
+                    SoundManager3D.Instance.RemoveSound(cheatSound.Name);
+                }
+
             	if(cloudNodes != null)
             	{
             		cloudNodes.Clear();
@@ -819,7 +830,7 @@ namespace Wof.Controller.Screens
 
                 //SoundManager3D.Instance.UpdaterRunning = true;
             }
-           // clickSound.Destroy();
+          
             initialized = false;
         }
 

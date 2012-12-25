@@ -148,7 +148,7 @@ namespace Wof.Controller
 
         public FSLSoundEntity CreateSoundEntity(String filename, SceneNode entity, bool loop, bool play)
         {
-            FSLSoundEntity sound = (FSLSoundEntity)CreateSoundEntity(filename, entity, filename + "_entity" + entity.GetHashCode()+ "_Sound", loop, false);
+            FSLSoundEntity sound = (FSLSoundEntity)CreateSoundEntity(filename, entity, filename + "_entity" + entity.Name+ "_" + entity.GetHashCode() + "_Sound", loop, false);
             if (play)
             {
                 sound.Play();

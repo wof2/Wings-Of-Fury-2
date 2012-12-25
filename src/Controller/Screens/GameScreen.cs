@@ -1043,6 +1043,7 @@ namespace Wof.Controller.Screens
 
             indicatorControl.ClearGUI();
             gameMessages.DestroyMessageContainer();
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Sound objects after cleanup: " + SoundManager3D.Instance.SoundObjectVector.Count);
             SoundManager3D.Instance.UpdaterRunning = true;
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUpEnd");
         }

@@ -934,6 +934,11 @@ namespace Wof.Controller
         protected virtual void CreateCamera()
         {
             // Create the camera
+            if (EngineConfig.SoundEnabled && SoundManager3D.Instance.Initialized)
+            {
+                SoundManager3D.Instance.UpdaterRunning = false;
+            }
+
             camera = sceneMgr.CreateCamera("mainCamera");
 
             camera.NearClipDistance = 3.0f;
@@ -949,6 +954,17 @@ namespace Wof.Controller
             CreateOverlayCamera();
 
             SetupShadows(camera);
+
+           
+          
+            if (EngineConfig.SoundEnabled && SoundManager3D.Instance.Initialized)
+            {
+                // update camera
+                if (!FrameWorkStaticHelper.CreateSoundSystem(cameraListener, EngineConfig.SoundSystem))
+                    EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
+
+                SoundManager3D.Instance.UpdaterRunning = true;
+            }
         }
 
 

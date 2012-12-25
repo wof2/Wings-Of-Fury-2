@@ -22,7 +22,14 @@ namespace FSLOgreCS
         public bool UpdaterRunning
         {
             get { return updaterRunning; }
-            set { this.updaterRunning = value; }
+            set {
+
+                lock (this)
+                {
+                    this.updaterRunning = value;
+                }
+
+            }
         }
 
         protected bool killUpdater = false;

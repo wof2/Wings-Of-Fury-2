@@ -703,13 +703,15 @@ namespace Wof.Controller
             ChooseSceneManager();
             CreateCamera();
 
+
+            if (!FrameWorkStaticHelper.CreateSoundSystem(cameraListener, EngineConfig.SoundSystem))
+                EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
+
             CreateViewports();
             AddCompositors();
        
 
-           
-            if (!FrameWorkStaticHelper.CreateSoundSystem(cameraListener, EngineConfig.SoundSystem))
-                EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
+         
 
 
             SetCompositorEnabled(CompositorTypes.BLOOM, EngineConfig.BloomEnabled);
@@ -757,10 +759,7 @@ namespace Wof.Controller
           
                 
                 CreateCamera();
-              
-                if (!FrameWorkStaticHelper.CreateSoundSystem(cameraListener, EngineConfig.SoundSystem))
-                    EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
-
+             
                 CreateViewports();
                 AddCompositors();
 
@@ -807,8 +806,6 @@ namespace Wof.Controller
                
                 ChooseSceneManager();
                 CreateCamera();
-                if (!FrameWorkStaticHelper.CreateSoundSystem(cameraListener, EngineConfig.SoundSystem))
-                    EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
                 
                 CreateViewports();
                 AddCompositors();

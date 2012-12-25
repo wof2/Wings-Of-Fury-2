@@ -1,3 +1,4 @@
+using System;
 using Mogre;
 using Wof.Controller;
 
@@ -30,11 +31,17 @@ namespace FSLOgreCS
         {
         	base.Update();
            // if (_renderable != null)
+            try
             {
                 FreeSL.fslSoundSetPosition(_sound,
                                            _renderable._getDerivedPosition().x,
                                            _renderable._getDerivedPosition().y,
                                            _renderable._getDerivedPosition().z);
+            }
+            catch(Exception e)
+            {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error while updating 3D sound object position: " + e.Message + e.StackTrace);
+	                              
             }
         }
         

@@ -59,7 +59,7 @@ using Wof.Model.Level.LevelTiles.IslandTiles;
 
 namespace Wof.View
 {
-    internal class IslandView : CompositeModelView
+    internal class IslandView : CompositeModelView, IDisposable
     {
 
         private List<PlaneView> parkedPlanes; 
@@ -229,7 +229,6 @@ namespace Wof.View
                     {
                     	epv2.MinimapItem.Hide();
                     }
-                   
                     parkedPlanes.Add(epv2);
 
                     initLampPosts(staticNode, -7, maxX * 0.55f, maxX * 0.95f, 12, new Radian(new Degree(0)));
@@ -610,9 +609,10 @@ namespace Wof.View
         }
 
 
-        ~IslandView()
-        {
+      
 
+        public void Dispose()
+        {
             foreach (PlaneView pv in parkedPlanes)
             {
                 if (pv != null)
@@ -620,7 +620,7 @@ namespace Wof.View
                     pv.Destroy();
                 }
             }
-      
+
             parkedPlanes.Clear();
             parkedPlanes = null;
 
