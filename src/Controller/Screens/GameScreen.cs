@@ -964,15 +964,18 @@ namespace Wof.Controller.Screens
     
         public void CleanUp(Boolean justMenu)
         {
-            SoundManager3D.Instance.UpdaterRunning = false;
-            SoundManager.Instance.StopMusic();
-
+           
             
             if(this.levelView != null)
             {
                 levelView.Destroy();
                 levelView = null;
             }
+
+            SoundManager3D.Instance.UpdaterRunning = false;
+            // SoundManager.Instance.
+            SoundManager.Instance.StopMusic();
+
 
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "CleanUp");
             ViewEffectsManager.Singleton.Clear();
@@ -1028,9 +1031,10 @@ namespace Wof.Controller.Screens
                 
                 
             }
-            catch 
+            catch(Exception e)
             {
-                // silent
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error when cleaning up GameScreen: " + e.Message + e.StackTrace);
+	           
             }
             //  LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Clearing meshes");
             // MeshManager.Singleton.UnloadAll();
@@ -2041,16 +2045,18 @@ namespace Wof.Controller.Screens
                             {
                                 UpdateHints(false);
                             }
+
+                            if (indicatorControl.WasDisplayed == false)
+                            {
+                                indicatorControl.DisplayIndicator();
+                            }
+                            else
+                            {
+                                indicatorControl.UpdateGUI(evt.timeSinceLastFrame);
+                                gameMessages.UpdateControl(evt.timeSinceLastFrame);
+                            }
                         }
-                        if (indicatorControl.WasDisplayed == false)
-                        {
-                            indicatorControl.DisplayIndicator();
-                        }
-                        else
-                        {
-                            indicatorControl.UpdateGUI(evt.timeSinceLastFrame);
-                            gameMessages.UpdateControl(evt.timeSinceLastFrame);
-                        }
+                       
 
                         ControlGunFireSound();
 
@@ -2525,6 +2531,7 @@ namespace Wof.Controller.Screens
             levelView.OnStopPlayingEnemyPlaneEngineSounds();
 
             mGui = new GUI(FontManager.CurrentFont, fontSize);
+            mGui.SetZOrder(1000);
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
                                                       viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 19.0f * h),

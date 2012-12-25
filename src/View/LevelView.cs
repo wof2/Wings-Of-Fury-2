@@ -175,6 +175,7 @@ namespace Wof.View
 
         public void Destroy()
         {
+            SoundManager3D.Instance.UpdaterRunning = false;
             if(dynamicAds != null)
             {
                 dynamicAds.Clear();
@@ -241,6 +242,7 @@ namespace Wof.View
             }
             playerPlaneView = null;
 
+
             if (dyingSoldierViews != null)
             {
                 dyingSoldierViews.Clear();
@@ -271,7 +273,7 @@ namespace Wof.View
                 
             }
 
-
+            SoundManager3D.Instance.UpdaterRunning = true;
             ViewHelper.DetachQuadrangles(sceneMgr);
         }
 

@@ -131,7 +131,7 @@ Wof/LoadingAd
 Wof/MessageBar
 {
 	
-	zorder 550
+	zorder 2
 	container BorderPanel(Wof/MessageBarIcon)
 	{
 

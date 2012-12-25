@@ -140,7 +140,7 @@ namespace Wof.Controller.Screens
     public class AbstractScreen : MenuScreen
     {
 
-        protected int C_MAX_OPTIONS = 11;
+        protected int C_MAX_OPTIONS = 12;
         protected int currentScreen;
 
 
@@ -167,7 +167,7 @@ namespace Wof.Controller.Screens
 
         public uint GetTextVSpacing()
         {
-            return (uint)(fontSize * 1.3f);
+            return (uint)(fontSize * 1.2f);
         }
         
         

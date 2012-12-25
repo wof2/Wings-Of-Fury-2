@@ -97,6 +97,10 @@ namespace Wof.View
             if (engineSound != null) engineSound.Destroy();
 
         }*/
+        public override void Destroy()
+        {
+            base.Destroy();
+        }
 
         public override void ResetCameraHolders()
         {

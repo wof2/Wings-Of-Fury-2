@@ -267,8 +267,8 @@ namespace Wof.Tools
        {
            
            BuildHash();
-           
 
+           string loc2 = EngineConfig.C_LOCAL_DIRECTORY + "\\" + C_LICENSE_FILE;
            if (!File.Exists(C_LICENSE_FILE))
            {
                return false;

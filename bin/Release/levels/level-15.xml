@@ -36,11 +36,12 @@
   
      <!-- laguna -->
    <island-begin mesh="Laguna" variation="5"/>
-  	<terrain variation="0"/>
-    <terrain variation="0"/>
-    <terrain variation="0"/>
-    <terrain variation="0"/>
     <concrete-bunker num-soldiers="5"/>
+  	<terrain variation="0"/>
+    <terrain variation="0"/>	
+    <terrain variation="0"/>
+    <terrain variation="0"/>
+    
   <island-end/>
     
   

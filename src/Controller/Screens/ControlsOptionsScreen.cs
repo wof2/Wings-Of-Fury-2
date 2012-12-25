@@ -61,7 +61,7 @@ namespace Wof.Controller.Screens
         public ControlsOptionsScreen(GameEventListener gameEventListener, IFrameWork framework, Viewport viewport, Camera camera) :
                                          base(gameEventListener, framework, viewport, camera)
         {
-            this.fontSize = (uint)(0.75f * fontSize); // mniejsza czcionka w opcjach
+          //  this.fontSize = (uint)(0.75f * fontSize); // mniejsza czcionka w opcjach
     		C_MAX_OPTIONS = 3;
     		showRestartRequiredMessage = false;
         }
@@ -101,15 +101,16 @@ namespace Wof.Controller.Screens
             string info1 = LanguageResources.GetString(LanguageKey.KeyboardInfo1);
             string info2 = LanguageResources.GetString(LanguageKey.KeyboardInfo2);
 
-            AbstractOptionsScreen.AddControlsInfoToGui(guiWindow, mGui, (int) (GetTextVSpacing()), (int)(GetTextVSpacing() * 6), 0, viewport.ActualWidth * 0.75f, GetTextVSpacing(), GetFontSize());
-            
-            
+            float y = AbstractOptionsScreen.AddControlsInfoToGui(guiWindow, mGui, (int) (GetTextVSpacing()), (int)(GetTextVSpacing() * 3), 0, viewport.ActualWidth * 0.75f, 1.3f* GetTextVSpacing(), GetFontSize());
+
+            guiWindow.createStaticTextAutoSplit(new Vector4(GetTextVSpacing(), (int)(GetTextVSpacing() * 3) + y + 2.0f * GetTextVSpacing(), window.w, 2* GetTextVSpacing()), info1 + info2);
+        /*
             guiWindow.createStaticText(
                new Vector4(GetTextVSpacing(), C_MAX_OPTIONS * GetTextVSpacing() + 15 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
                info1);
             guiWindow.createStaticText(
                new Vector4(GetTextVSpacing(), C_MAX_OPTIONS * GetTextVSpacing() + 16 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
-               info2);
+               info2);*/
         }
     }
 

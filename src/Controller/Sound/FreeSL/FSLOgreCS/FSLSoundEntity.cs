@@ -29,10 +29,13 @@ namespace FSLOgreCS
         public override void Update()
         {
         	base.Update();
-            FreeSL.fslSoundSetPosition(_sound,
-                                       _renderable._getDerivedPosition().x,
-                                       _renderable._getDerivedPosition().y,
-                                       _renderable._getDerivedPosition().z);
+           // if (_renderable != null)
+            {
+                FreeSL.fslSoundSetPosition(_sound,
+                                           _renderable._getDerivedPosition().x,
+                                           _renderable._getDerivedPosition().y,
+                                           _renderable._getDerivedPosition().z);
+            }
         }
         
         public override void Play()

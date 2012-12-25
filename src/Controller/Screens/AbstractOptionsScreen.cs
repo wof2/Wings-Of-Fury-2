@@ -53,7 +53,9 @@ using BetaGUI;
 using Mogre;
 using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
+using Wof.Misc;
 using FontManager = Wof.Languages.FontManager;
+using Math=Mogre.Math;
 
 namespace Wof.Controller.Screens
 {
@@ -103,7 +105,7 @@ namespace Wof.Controller.Screens
             base(gameEventListener, framework, viewport, camera)
         {
            
-            this.fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka w opcjach
+            this.fontSize = (uint)(0.73f * fontSize); // mniejsza czcionka w opcjach
         }
 
         protected override void CreateGUI()
@@ -120,15 +122,22 @@ namespace Wof.Controller.Screens
         	
         	int y = initialTopSpacing;
         	int h = (int)textVSpacing;
+            uint oldFontSize = mGui.mFontSize;
 
+         
+            //imgVDiff = 0;
+          
 
             OverlayContainer c;
             y += (int)(h*2);
             c = guiWindow.createStaticText(new Vector4(left - 10, top + y, width, h), LanguageResources.GetString(LanguageKey.Controls));
             AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
 
-            uint oldFontSize = mGui.mFontSize;
+          
             mGui.mFontSize = fontSize;
+            float spaceSize = ViewHelper.MeasureText(mGui.mFont, " ", mGui.mFontSize);
+            float imgSize = fontSize;
+            float imgVDiff = - Math.Abs(imgSize - fontSize)*0.5f;
 
             y += (int)h;
             c =
@@ -137,16 +146,20 @@ namespace Wof.Controller.Screens
             
             // "Engine: E (hold)");
             y += (int)(h * 0.83f);
-          
 
+          
 
             if(KeyMap.Instance.Left == KeyCode.KC_LEFT && KeyMap.Instance.Right == KeyCode.KC_RIGHT )
             { 
+                string ctrl1 = LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + ": ";
+                float width1 = ViewHelper.MeasureText(mGui.mFont, ctrl1, mGui.mFontSize);
+
             	c =
-                guiWindow.createStaticText(new Vector4(left, top + y, width, h),
-                                           LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + ": ");
-            	guiWindow.createStaticImage(new Vector4(left + width * 0.5f, top + y - 0.41f * oldFontSize, oldFontSize * 0.95f, oldFontSize * 0.95f), "arrow_left.png");
-           		guiWindow.createStaticImage(new Vector4(left + width * 0.5f + h * 0.95f, top + y - 0.41f * oldFontSize, oldFontSize * 0.95f, oldFontSize * 0.95f), "arrow_right.png");
+                guiWindow.createStaticText(new Vector4(left, top + y, width, h), ctrl1);
+
+
+                guiWindow.createStaticImage(new Vector4(left + width1, top + y + imgVDiff, imgSize, imgSize), "arrow_left.png");
+                guiWindow.createStaticImage(new Vector4(left + width1 + imgSize + spaceSize * 0.5f, top + y + imgVDiff, imgSize, imgSize), "arrow_right.png");
             } else
             { 
             	c =
@@ -159,11 +172,14 @@ namespace Wof.Controller.Screens
             y += (int)(h * 0.83f);    
             if(KeyMap.Instance.Up == KeyCode.KC_UP && KeyMap.Instance.Down == KeyCode.KC_DOWN )
             {
+                string ctrl2 = LanguageResources.GetString(LanguageKey.Pitch) + ": ";
+                float width2 = ViewHelper.MeasureText(mGui.mFont, ctrl2, mGui.mFontSize);
+
             	c =
-                guiWindow.createStaticText(new Vector4(left, top + y, width, h),
-                                           LanguageResources.GetString(LanguageKey.Pitch) + ": ");
-            	guiWindow.createStaticImage(new Vector4(left + width * 0.5f, top + y - 0.35f * oldFontSize, oldFontSize * 0.95f, oldFontSize * 0.95f), "arrow_up.png");
-            	guiWindow.createStaticImage(new Vector4(left + width * 0.5f + h * 0.95f, top + y - 0.35f * oldFontSize, oldFontSize * 0.95f, oldFontSize * 0.95f), "arrow_down.png");
+                guiWindow.createStaticText(new Vector4(left, top + y, width, h), ctrl2);
+
+                guiWindow.createStaticImage(new Vector4(left + width2,                              top + y + imgVDiff, imgSize, imgSize), "arrow_up.png");
+                guiWindow.createStaticImage(new Vector4(left + width2 + imgSize + spaceSize * 0.5f, top + y + imgVDiff, imgSize, imgSize), "arrow_down.png");
 
             } else
             {
@@ -293,7 +309,7 @@ namespace Wof.Controller.Screens
             // w jednej kolumnie nie powinno byc wiecej niz C_MAX_OPTIONS opcji
 
             int size = availableOptions.Count;
-
+            uint posIndex = 0;
             options = new List<ButtonHolder>();
             uint j = 0;
             for (j = 0;
@@ -308,7 +324,7 @@ namespace Wof.Controller.Screens
                 {
                     continue;
                 }
-                
+                posIndex++;
 				option = availableOptions[index].ToString();
                 Vector4 pos = GetOptionPos(j, window);
 
@@ -346,6 +362,8 @@ namespace Wof.Controller.Screens
                
             }
             uint totalOptions = (uint) options.Count;
+            uint lastOptButton = posIndex;
+            uint exitButtonIndex = lastOptButton;
 
             if (currentScreen != 0)
             {
@@ -353,7 +371,7 @@ namespace Wof.Controller.Screens
                     (
                     new Vector4(
                         window.w / 8,
-                        (C_MAX_OPTIONS + 3) * GetTextVSpacing(),
+                        (lastOptButton + 2) * GetTextVSpacing(),
                         3 * window.w / 8, 
                         GetTextVSpacing()),
                     "bgui.button",
@@ -362,6 +380,7 @@ namespace Wof.Controller.Screens
                     j + 1
                     );
                 totalOptions++;
+                exitButtonIndex = lastOptButton + 1;
             }
             else
             {
@@ -374,7 +393,7 @@ namespace Wof.Controller.Screens
                     (
                     new Vector4(
                         window.w / 2,
-                        (C_MAX_OPTIONS + 3) * GetTextVSpacing(),
+                        (lastOptButton + 2) * GetTextVSpacing(),
                         3 * window.w / 8, 
                         GetTextVSpacing()),
                     "bgui.button",
@@ -383,17 +402,19 @@ namespace Wof.Controller.Screens
                     prevButton == null ? (j + 1) : (j + 2)
                     );
                 totalOptions++;
+                exitButtonIndex = lastOptButton + 1;
+
             }
             else
             {
                 nextButton = null;
             }
-
+           
             exitButton = guiWindow.createButton
                 (
                 new Vector4(
                     window.w / 3,
-                    (C_MAX_OPTIONS + 4) * GetTextVSpacing(),
+                    (exitButtonIndex + 2) * GetTextVSpacing(),
                     window.w / 3,
                     GetTextVSpacing()),
                 "bgui.button",
@@ -432,12 +453,14 @@ namespace Wof.Controller.Screens
             backButtonIndex = (int) totalOptions - 1;
             if(showRestartRequiredMessage)
             {
+                guiWindow.createStaticTextAutoSplit(new Vector4(GetMargin().x, exitButton.Y + 2 * GetTextVSpacing(), window.w - GetMargin().x *2, GetTextVSpacing() * 2), LanguageResources.GetString(LanguageKey.ChangeOptionMessage1) + LanguageResources.GetString(LanguageKey.ChangeOptionMessage2));
+          /*
             	guiWindow.createStaticText(
                     new Vector4(GetMargin().x, exitButton.Y + 1 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
-	                LanguageResources.GetString(LanguageKey.ChangeOptionMessage1));
+	                );
 	            guiWindow.createStaticText(
                     new Vector4(GetMargin().x, exitButton.Y + 2 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
-	                LanguageResources.GetString(LanguageKey.ChangeOptionMessage2));
+	                );*/
             }
          
         }

@@ -70,7 +70,7 @@ namespace Wof.View
     /// Widok lotniskowca 
     /// <author>Kamil S³awiñski, Adam Witczak</author>
     /// </summary>
-    internal class CarrierView : CompositeModelView, VertexAnimable
+    internal class CarrierView : CompositeModelView, VertexAnimable, IDisposable
     {
         private static int carrierCounter = 0;
 
@@ -898,6 +898,23 @@ namespace Wof.View
         public void disableAnimation()
         {
 
+        }
+
+        #endregion
+
+        #region Implementation of IDisposable
+
+        public void Dispose()
+        {
+            foreach(PlaneView pv in storagePlanes)
+            {
+                if (pv != null)
+                {
+                    pv.Destroy();
+                }
+            }
+            storagePlanes.Clear();
+      
         }
 
         #endregion
