@@ -423,11 +423,14 @@ namespace Wof.View
         public virtual void Destroy()
         {
             isDestroyed = true;
-            if (planePassSound != null)
+            if (EngineConfig.SoundEnabled)
             {
-                SoundManager3D.Instance.RemoveSound(planePassSound.Name);
-                planePassSound.Destroy();
-                planePassSound = null;
+                if (planePassSound != null)
+                {
+                    SoundManager3D.Instance.RemoveSound(planePassSound.Name);
+                    planePassSound.Destroy();
+                    planePassSound = null;
+                }
             }
         }
         

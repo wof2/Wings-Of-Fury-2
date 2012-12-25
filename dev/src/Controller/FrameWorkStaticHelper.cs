@@ -285,11 +285,8 @@ namespace Wof.Controller
                 {
                     availableModes.Add(s);
                 }
-                
-
-                
             }
-
+            availableModes.Reverse();
             return availableModes;
         }
 

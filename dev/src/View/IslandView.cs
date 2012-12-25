@@ -612,8 +612,18 @@ namespace Wof.View
 
         ~IslandView()
         {
+
+            foreach (PlaneView pv in parkedPlanes)
+            {
+                if (pv != null)
+                {
+                    pv.Destroy();
+                }
+            }
+      
             parkedPlanes.Clear();
             parkedPlanes = null;
+
             /*for (int i=0; i < parkedPlanes.Count; i++)
             {
                 parkedPlanes[i].
