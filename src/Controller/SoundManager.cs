@@ -326,7 +326,7 @@ namespace Wof.Controller
         protected void PlayIngameMusic(int no, int volume, bool preloadOnly)
         {
             string music = "music/music" + no + ".ogg";
-            SoundManager3D.Instance.PlayAmbientMusic(music, volume, false, preloadOnly);
+            SoundManager3D.Instance.PlayAmbientMusic(music, volume, !EngineConfig.AudioStreaming, preloadOnly);
         }
 
         public void PlayEndingTheme()
