@@ -7,13 +7,15 @@ using Wof.Controller;
 
 namespace FSLOgreCS
 {
-    public class FSLSoundManager
+    public abstract class FSLSoundManager
     {
         #region Variables
 
         private List<FSLSoundObject> _soundObjectVector = new List<FSLSoundObject>();
         private bool _initSound;
         private FSLListener _listener;
+
+        private object lockSync = new object();
 
         protected Thread updaterThread;
 
@@ -24,7 +26,7 @@ namespace FSLOgreCS
             get { return updaterRunning; }
             set {
 
-                lock (this)
+                lock (LockSync)
                 {
                     this.updaterRunning = value;
                 }
@@ -48,7 +50,7 @@ namespace FSLOgreCS
         /// Gets the instance.
         /// </summary>
         /// <value>The instance.</value>
-        public static FSLSoundManager Instance
+       /* public static FSLSoundManager Instance
         {
             get { return SingletonCreator.instance; }
         }
@@ -62,7 +64,7 @@ namespace FSLOgreCS
             }
 
             internal static readonly FSLSoundManager instance = new FSLSoundManager();
-        }
+        }*/
 
         #endregion
 
@@ -86,7 +88,7 @@ namespace FSLOgreCS
         }
         public bool InitializeSound(CameraListenerBase listener, FreeSL.FSL_SOUND_SYSTEM soundSystem)
         {
-            lock(this)
+            lock (LockSync)
             {
                
                 _listener = new FSLListener(listener);
@@ -101,10 +103,10 @@ namespace FSLOgreCS
                 /*FreeSL.ErrorCallbackDelegate ErrorDelegate = new FreeSL.ErrorCallbackDelegate(ErrorCallback);
                 GCHandle AllocatedDelegate = GCHandle.Alloc(ErrorDelegate);
                 FreeSL.fslSetErrorCallback(ErrorDelegate);*/
-               
+              
                
                 updaterThread = new Thread(new ThreadStart((UpdateSoundObjects)));
-				updaterThread.Name = "Wof - sound updater thread";
+                updaterThread.Name = "Wof - sound updater thread " + updaterThread.GetHashCode();
                 updaterThread.Start();
                 return true;
                 
@@ -119,7 +121,7 @@ namespace FSLOgreCS
 
         public void ShutDown()
         {
-            lock(this)
+            lock (LockSync)
             {
                 FreeSL.fslShutDown();
                 _initSound = false;
@@ -143,9 +145,14 @@ namespace FSLOgreCS
             get { return _soundObjectVector; }
         }
 
+        public object LockSync
+        {
+            get { return lockSync; }
+        }
+
         public void RemoveSound(string name)
         {
-            lock (this)
+            lock (LockSync)
             {
                 FSLSoundObject sound = GetSound(name);
                 if (sound == null)
@@ -162,7 +169,7 @@ namespace FSLOgreCS
 
         public FSLSoundObject GetSound(string name)
         {
-            lock (this)
+            lock (LockSync)
             {
                 if (SoundObjectVector.Count == 0)
                     return null;
@@ -182,7 +189,7 @@ namespace FSLOgreCS
             {
             	 try
                  {
-		                lock(this)
+                        lock (LockSync)
 		                {
 		                   
 		                    if (killUpdater)
@@ -192,10 +199,10 @@ namespace FSLOgreCS
 		                        return;
 		                    }
 		                }
-		                
-		                lock(this)
-		                {
-	                        if (updaterRunning)
+
+                        lock (LockSync)
+                        {
+                            if (updaterRunning)
 	                        {
 	
 	                            //updaterRunning = true;
@@ -219,13 +226,27 @@ namespace FSLOgreCS
 	                              
 	
 	                            }
-	
-	                            FreeSL.fslUpdate();
+	                            try
+	                            {
+                                    if (SoundObjectVector.Count > 0)
+                                    {
+                                        FreeSL.fslUpdate();
+                                    }
+                                    
+	                            }
+	                            catch (Exception)
+	                            {
+                                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "YEAH THATS RIGHT");
+	                                throw;
+	                            }
+	                            
 	
 	                            // Console.WriteLine("Running");
+
 	                        }
+                            FreeSL.fslSleep(0.01f);
 		                }
-                        FreeSL.fslSleep(0.01f);
+                       
                        /* k++;
                         if(k == 2000) {
                         	k = 0;
@@ -237,7 +258,7 @@ namespace FSLOgreCS
                 }                
             	catch (Exception ex)
                 {
-            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception in sound updater: "+ex);
+            	//	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception in sound updater: "+ex);
                 }
                  
                
@@ -265,20 +286,20 @@ namespace FSLOgreCS
 
         public FSLSoundObject CreateAmbientSoundMusic(string musicFile, string name, bool loop, bool streaming)
         {
-            lock (this)
+            lock (LockSync)
             {
                 int before = Environment.TickCount;
                 FSLSoundObject obj = AddSound(new FSLAmbientSoundMusic(musicFile, name, loop, streaming));
                 if(!streaming && LogManager.Singleton != null)
                 {
-                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Ambient sound music preloaded within "+ (Environment.TickCount - before)+ "ms");
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Ambient sound music '"+name+"' preloaded within "+ (Environment.TickCount - before)+ "ms");
                 }
                 return obj;
             }
         }
         public FSLSoundObject CreateAmbientSound(string soundFile, string name, bool loop, bool streaming)
         {
-            lock (this)
+            lock (LockSync)
             {
                 int before = Environment.TickCount;
                 FSLSoundObject obj = AddSound(new FSLAmbientSound(soundFile, name, loop, streaming));
@@ -293,7 +314,7 @@ namespace FSLOgreCS
         public FSLSoundObject CreateSoundEntity(string soundFile, SceneNode renderable, string name, bool loop,
                                                 bool streaming)
         {
-             lock(this)
+             lock (LockSync)
              {
                  return AddSound(new FSLSoundEntity(soundFile, renderable, name, loop, streaming));
              }
@@ -303,7 +324,7 @@ namespace FSLOgreCS
         public FSLSoundObject CreateSoundEntity(string package, string soundFile, SceneNode renderable, string name,
                                                 bool loop)
         {
-            lock(this)
+            lock (LockSync)
             {
                 return AddSound(new FSLSoundEntity(package, soundFile, renderable, name, loop));
             }
@@ -321,7 +342,7 @@ namespace FSLOgreCS
 
         public void Destroy()
         {
-            lock (this)
+            lock (LockSync)
             {
                 updaterRunning = false;
                 killUpdater = true;
@@ -355,6 +376,7 @@ namespace FSLOgreCS
                 _listener = null;
             if (_initSound)
                 ShutDown();
+            _initSound = false;
             
         }
 
