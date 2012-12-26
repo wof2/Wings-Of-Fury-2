@@ -1059,7 +1059,7 @@ namespace Wof.Model.Level
         /// <returns>Zwraca liczbe zabitych zolnierzy.</returns>
         public int KillVulnerableSoldiers(int index, int step, bool dieFromExplosion)
         {
-            return KillSoldiers(index, step, false, true, dieFromExplosion);
+            return KillSoldiers(index, step, false, true, dieFromExplosion, false);
         }
         /// <summary>
         /// Zabija zolnierzy, ktorzy sa w polu razenia.
@@ -1071,7 +1071,7 @@ namespace Wof.Model.Level
         /// <param name="dieFromExplosion">Czy powodem byla ekspolozja (czy tez dzia³ko)</param>
         /// <author>Michal Ziober</author>
         /// <returns>Zwraca liczbe zabitych zolnierzy.</returns>
-        public int KillSoldiers(int index, int step, bool forceKill, bool scream, bool dieFromExplosion)
+        public int KillSoldiers(int index, int step, bool forceKill, bool scream, bool dieFromExplosion, bool unregisterFromView)
         {
             List<Soldier> soldiers =
                 soldierList.FindAll(Predicates.FindSoldierFromInterval(index - step, index + step));
@@ -1088,7 +1088,14 @@ namespace Wof.Model.Level
                         this.SoldiersCount--;
                         soldiers[i].Kill();
                         numberOfDeaths++;
-                        Controller.OnSoldierBeginDeath(soldiers[i], !dieFromExplosion, scream);
+                       
+                        if(unregisterFromView)
+                        {
+                            Controller.UnregisterSoldier(soldiers[i]);
+                        }else
+                        {
+                            Controller.OnSoldierBeginDeath(soldiers[i], !dieFromExplosion, scream);
+                        }
                     }
                 }
 
@@ -1101,7 +1108,15 @@ namespace Wof.Model.Level
                         this.GeneralsCount--;
                         generals[i].Kill();
                         numberOfDeaths++;
-                        Controller.OnSoldierBeginDeath(generals[i], !dieFromExplosion, scream);
+                        if (unregisterFromView)
+                        {
+                            Controller.UnregisterSoldier(generals[i]);
+                        }
+                        else
+                        {
+                            Controller.OnSoldierBeginDeath(generals[i], !dieFromExplosion, scream);
+                        }
+                        
                     }
                 }
 

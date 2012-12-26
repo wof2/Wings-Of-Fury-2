@@ -204,7 +204,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
                     (t as ShipBunkerTile).StartSinking();
                     refToLevel.Controller.OnTileDestroyed(this, null);
                     // kill soldiers
-                    refToLevel.KillSoldiers(t.TileIndex, 2, true, false, true);
+                    refToLevel.KillSoldiers(t.TileIndex, 2, true, false, true, false);
                 }
                 else
                 {
