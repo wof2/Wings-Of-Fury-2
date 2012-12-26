@@ -81,14 +81,30 @@ namespace Wof.Controller
         /// </summary>
         public static readonly bool C_IS_DEMO = false;
 
-        public static readonly bool IsEnhancedVersion = Licensing.IsEhnancedVersion();
-
+      
         public static readonly bool AdManagerDisabled = true;
 
 
 
 
-        public static readonly String C_LOCAL_DIRECTORY = Application.LocalUserAppDataPath;
+        public static readonly String C_LOCAL_DIRECTORY = getLocalDirectoryByReflection();/*Application.LocalUserAppDataPath;*/
+
+        public static string getLocalDirectoryByReflection()
+        {
+             string basePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                Assembly a = Assembly.GetAssembly(typeof(Game));
+                
+                string ret;
+                string company = ((AssemblyCompanyAttribute)Attribute.GetCustomAttribute(a, typeof(AssemblyCompanyAttribute), false)).Company;
+                string version = ((AssemblyFileVersionAttribute)Attribute.GetCustomAttribute(a, typeof(AssemblyFileVersionAttribute), false)).Version;
+                string product = ((AssemblyProductAttribute)Attribute.GetCustomAttribute(a, typeof(AssemblyProductAttribute), false)).Product;
+
+               ret = Path.Combine(basePath, company);
+               ret = Path.Combine(ret, product);
+               ret = Path.Combine(ret, version);
+            return ret;
+        }
+          
         
         public static readonly String C_ENGINE_CONFIG = Path.Combine(C_LOCAL_DIRECTORY, "wofconf.dat");
         public static readonly String C_FIRST_RUN = Path.Combine(C_LOCAL_DIRECTORY, "firstrun.dat");
@@ -108,7 +124,8 @@ namespace Wof.Controller
         public static readonly String C_WOF_NEWS_PAGE = C_WOF_HOME_PAGE+"/news.php";
         public static readonly String C_WOF_UPDATE_CHECK_PAGE = C_WOF_HOME_PAGE+"/update_chk.php";
         public static readonly String C_WOF_SUPPORT_PAGE = C_WOF_HOME_PAGE;
-    
+       
+        
 
         public static readonly bool UseLastHardwareSettings = false;
 
@@ -228,6 +245,8 @@ namespace Wof.Controller
              }
         }
 
+        public static readonly bool IsEnhancedVersion = Licensing.IsEhnancedVersion();
+       
         public static string CopyLogFileToErrorLogFile()
         {
             try
