@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
+using System.Net;
+using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Wof.Controller;
 using Wof.Controller.Screens;
+using Wof.Tools;
+
 namespace EnhancedVersionHelper
 {
     public partial class MainForm : Form
@@ -18,6 +24,8 @@ namespace EnhancedVersionHelper
 
         private void Form1_Load(object sender, EventArgs e)
         {
+           
+
             webBrowser1.Hide();
             DialogResult result =
                 MessageBox.Show(
@@ -37,10 +45,74 @@ namespace EnhancedVersionHelper
         {
     
         }
+        public string getEnhancedZipFileLocation()
+        {
+            String downloadPath = EngineConfig.getLocalDirectoryByReflection();
+            downloadPath = Path.Combine(downloadPath, @"enhanced.zip");
+            return downloadPath;
+        }
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
+            if (webBrowser1.Document != null && webBrowser1.Document.Body != null && webBrowser1.Document.Body.InnerHtml.Contains("WOF_ENHANCED_DOWNLOAD_LINK"))
+            {
+                Match match = Regex.Match(webBrowser1.Document.Body.InnerHtml, @"WOF_ENHANCED_DOWNLOAD_LINK:(.*) ", RegexOptions.IgnoreCase);
+                if (match.Success)
+                {
+                    // Finally, we get the Group value and display it.
+                    string url = match.Groups[1].Value;
+                    if (Uri.IsWellFormedUriString(url, UriKind.Absolute))
+                    {
+                        WebClient webClient = new WebClient();
+                        webClient.DownloadFileCompleted += new AsyncCompletedEventHandler(enhancedVersion_DownloadFileCompleted);
+                        webClient.DownloadProgressChanged += new DownloadProgressChangedEventHandler(enhancedVersion_DownloadProgressChanged);
 
+                        webClient.DownloadFileAsync(new Uri(url), getEnhancedZipFileLocation());
+                    }
+                }
+
+            }
+        }
+
+        private void enhancedVersion_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        {
+            HtmlElement element = getDownloadProgressElement(this.webBrowser1.Document);
+            if (element != null)
+            {
+                element.InnerHtml = "<strong>Download progress: " + e.ProgressPercentage + "%</strong>";
+            }
+
+        }
+
+        private HtmlElement getDownloadProgressElement(HtmlDocument doc)
+        {
+            if (doc != null && doc.Body != null && doc.Body.InnerHtml.Contains("WOF_ENHANCED_DOWNLOAD_LINK"))
+            {
+                HtmlElement element = webBrowser1.Document.GetElementById("download_progress");
+                return element;
+
+            }
+            return null;
+
+        }
+        private void enhancedVersion_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            HtmlElement element = getDownloadProgressElement(webBrowser1.Document);
+            if (element != null)
+            {
+
+                string location = getEnhancedZipFileLocation();
+                if (File.Exists(location))
+                {
+                    Zipfiles.ExtractZipFile(location, EngineConfig.C_LOCAL_DIRECTORY);
+                    element.InnerHtml = "<strong>Download completed - you can now play Wings of Fury 2 Enhanced edition.</strong>";
+                    element.InnerHtml += "<br />For future reference your license file is stored in directory: " + location;
+                }
+                else
+                {
+                    element.InnerHtml = "Download completed but file does not exist on local system. Please install Enhanced version manually. Check your e-mail for instructions";
+                }
+            }
         }
 
         private void webBrowser1_LocationChanged(object sender, EventArgs e)

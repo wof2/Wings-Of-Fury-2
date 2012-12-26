@@ -361,15 +361,15 @@ namespace Wof.Controller
 	    private bool isOffLine = false;
 	    private HtmlDocument evDownloadPage;
 
-        private string getEnhancedZipFileLocation()
+        public static string getEnhancedZipFileLocation()
         {
-            String downloadPath = System.IO.Directory.GetCurrentDirectory();
+            String downloadPath = EngineConfig.C_LOCAL_DIRECTORY;
             downloadPath = Path.Combine(downloadPath, @"enhanced.zip");
             return downloadPath;
             
         }
 
-        private bool downloadEnhancedVersion(HtmlDocument downloadLink)
+        public bool downloadEnhancedVersion(HtmlDocument downloadLink)
         {
             //<!-- WOF_ENHANCED_DOWNLOAD_LINK:http://wingsoffury2.com/enhanced_get.php?version=3.4&type=donate&email=graph12@wp.pl&hash=160;101;201;137;80;48;234;43;166;153;12;216;115;213;98;66;202;234;28;127;&directdownload=1 -->
             LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "webBrowser1_downloadEnhancedVersion");
@@ -397,20 +397,20 @@ namespace Wof.Controller
            
         }
 
-        private HtmlElement getDownloadProgressElement()
+        private HtmlElement getDownloadProgressElement(HtmlDocument doc)
         {
-            if (this.wofBrowser.Document != null && this.wofBrowser.Document.Body != null && wofBrowser.Document.Body.InnerHtml.Contains("WOF_ENHANCED_DOWNLOAD_LINK"))
+            if (doc != null && doc.Body != null && doc.Body.InnerHtml.Contains("WOF_ENHANCED_DOWNLOAD_LINK"))
             {
-                HtmlElement element = this.wofBrowser.Document.GetElementById("download_progress");
+                HtmlElement element = wofBrowser.Document.GetElementById("download_progress");
                 return element;
 
             }
             return null;
 
         }
-        void enhancedVersion_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
+        private void enhancedVersion_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            HtmlElement element = getDownloadProgressElement();
+            HtmlElement element = getDownloadProgressElement(this.wofBrowser.Document);
             if (element != null)
             {
                 element.InnerHtml = "Download progress: "+e.ProgressPercentage+ "%";
@@ -423,15 +423,17 @@ namespace Wof.Controller
 
         void enhancedVersion_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            HtmlElement element = getDownloadProgressElement();
+            HtmlElement element = getDownloadProgressElement(wofBrowser.Document);
             if (element != null)
             {
                
                 string location = getEnhancedZipFileLocation();
                 if(File.Exists(location))
                 {
-                    Zipfiles.ExtractZipFile(location, EngineConfig.C_GAME_INSTALL_DIR);
+                    Zipfiles.ExtractZipFile(location, EngineConfig.C_LOCAL_DIRECTORY);
                     element.InnerHtml = "Download completed - please restart the game!";
+                    element.InnerHtml += "<br />For future reference your license file is stored in directory: "+location;
+                    
                     
                 }else
                 {

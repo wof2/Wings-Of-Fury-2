@@ -106,7 +106,7 @@ namespace Wof.Controller.Screens
             mGui.mFontSize = fontSize;
             initButtons(2, 1);
 
-            buttons[0] = guiWindow.createButton(new Vector4(5, 6 * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+            buttons[0] = guiWindow.createButton(new Vector4(5, 7 * GetTextVSpacing(), -10 + Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.GetEnhancedVersion),
                                                 cc, 0);
 

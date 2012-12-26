@@ -262,14 +262,20 @@ namespace Wof.Tools
            }
            return isAdmin;
        }
+       public static bool CanBuildEnhancedVersionHash()
+       {
+           BuildHash();
+           return hash != null;
 
-       public static bool IsEhnancedVersion()
+       }
+
+        public static bool IsEhnancedVersion()
        {
            
            BuildHash();
 
            string loc2 = EngineConfig.C_LOCAL_DIRECTORY + "\\" + C_LICENSE_FILE;
-           if (!File.Exists(C_LICENSE_FILE))
+           if (!File.Exists(C_LICENSE_FILE) && !File.Exists(loc2))
            {
                return false;
            }
@@ -279,13 +285,40 @@ namespace Wof.Tools
                {
                    // nie udalo sie stworzyc hasha. Ktos probuje odpalic wersje rozszerzona
                    MessageBox.Show("Unable to build Enhanced version hash.\r\nWe are sorry but " + EngineConfig.C_GAME_NAME +
-                                   " Enhanced version cannot be run under Windows Guest Account. Please run the game as the Administrator.r\\n" +
+                                   " Enhanced version cannot be run under Windows Guest Account. Please run the game under Administrator account.\r\n" +
                                    " Starting standard version", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
                    return false;
                }
            }
-           string contents = File.ReadAllText(C_LICENSE_FILE);
+           string contents;
+
+           try
+           {
+
+               if (File.Exists(C_LICENSE_FILE))
+               {
+                   contents = File.ReadAllText(C_LICENSE_FILE);
+               }
+               else if (File.Exists(loc2))
+               {
+                   contents = File.ReadAllText(loc2);
+               }
+               else
+               {
+                   return false;
+               }
+           }
+           catch (Exception ex)
+           {
+               MessageBox.Show("Unable to read Enhanced version license\r\nWe are sorry but " + EngineConfig.C_GAME_NAME +
+                                  " Enhanced version cannot be run under Windows Guest Account. Please run the game as the Administrator.\r\n" +
+                                  " Starting standard version \r\nThe error was:"+ex, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+               return false;
+           }
+          
+              
+           
            try
            {
            	
@@ -331,7 +364,8 @@ namespace Wof.Tools
            	   	   }
 	           	   catch(Exception ex)
 	           	   {
-	           	   	
+                        MessageBox.Show("The license 3.4 file was invalid. Starting standard version\r\nThe error was:" + ex, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                      
 	           	   		return false;
 	           	    }
 	           	   	
@@ -343,8 +377,10 @@ namespace Wof.Tools
 		     
               
            }
-           catch (Exception)
+           catch (Exception ex)
            {
+               MessageBox.Show("The license file was invalid. Starting standard version\r\nThe error was:" + ex, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                      
                return false;
            }
            
