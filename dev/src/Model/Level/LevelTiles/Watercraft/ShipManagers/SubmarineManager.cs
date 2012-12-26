@@ -50,6 +50,7 @@ using System;
 using System.Collections.Generic;
 using Wof.Model.Level.Common;
 using Wof.Model.Level.Infantry;
+using Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 
@@ -100,7 +101,7 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
         	}
         	
         	if(this[0].IsSinking) return;
-        	
+        
         	      		
         	bool doSubmerge = false;
 			 foreach(ISinkComponent tile in _sinkComponents)
@@ -150,14 +151,16 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 			 	{
 			 		timeSinceLastSubmerge = 0;
 
-
+                    foreach (BunkerTile tile in _shipBunkerTiles)
+                    {
+                        tile.ReconstructAndCollectSoldiers();
+                    }
                     
                     _refToLevel.Controller.OnShipBeginSubmerging(_shipTiles[0]); 
 			    		    
 			 		foreach(ISinkComponent tile in _sinkComponents)
 			 		{
-                        _refToLevel.KillSoldiers(tile.Tile.TileIndex, 2, true, false, true, true);
-                       
+                      
 						tile.StartSubmerging();
 			    	}
 			 		

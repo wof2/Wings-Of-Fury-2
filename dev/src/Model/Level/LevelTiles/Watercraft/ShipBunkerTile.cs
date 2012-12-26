@@ -87,13 +87,36 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
         public float DoSubmerge(float time, float timeUnit)
         {
             float amount = sinkComponent.DoSubmerge(time, timeUnit);
+            MoveSoldiersY(-amount);
+
+
             return amount;
+           
         }
 
         public float DoEmerge(float time, float timeUnit)
         {
             float amount = sinkComponent.DoEmerge(time, timeUnit);
+            MoveSoldiersY(amount);
             return amount;
+        }
+
+        protected void MoveSoldiersY(float amount)
+        {
+            List<Soldier> soldiers = refToLevel.SoldiersList.FindAll(Predicates.FindSoldierFromStartingIndex(TileIndex));
+
+            foreach (Soldier s in soldiers)
+            {
+                s.YPosition += amount;
+            }
+
+            List<General> generals = refToLevel.GeneralsList.FindAll(Predicates.FindGeneralFromStartingIndex(TileIndex));
+
+            foreach (General s in generals)
+            {
+                s.YPosition += amount;
+            }
+
         }
 
         public float DoSinking(float time, float timeUnit)
@@ -101,14 +124,8 @@ namespace Wof.Model.Level.LevelTiles.Watercraft
             float amount = sinkComponent.DoSinking(time, timeUnit);
             if (amount > 0)
             {
+                MoveSoldiersY(-amount);
 
-                List<Soldier> soldiers = refToLevel.SoldiersList.FindAll(Predicates.FindSoldierFromStartingIndex(TileIndex));
-
-                foreach (Soldier s in soldiers)
-                {
-                    s.YPosition -= amount;
-                    //   Console.WriteLine("model Y: " + s.Position.Y);
-                }
                 return amount;
             }
             return 0;

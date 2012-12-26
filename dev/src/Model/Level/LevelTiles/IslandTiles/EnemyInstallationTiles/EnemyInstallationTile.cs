@@ -224,6 +224,7 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             for (int i = 0; i < soldiersCount; i++)
             {
             	holdsBazooka = UnitConverter.RandomGen.Next(0,10) > 5;
+                
                 //Soldier.SoldierType stype = Soldier.SoldierType.SOLDIER;
                 if (this is ShipBunkerTile)
                 {

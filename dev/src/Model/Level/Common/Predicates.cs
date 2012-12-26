@@ -227,7 +227,7 @@ namespace Wof.Model.Level.Common
         /// <param name="end">Koncowy tile</param>
         /// <returns>True - jesli zolnierz znjaduje sie na kawalku planszy o indeksie spelniajacym 
         /// warunki przypadku false.</returns>
-        public static Predicate<Soldier> FindSoldierFromInterval(int start, int end)
+        public static Predicate<Soldier> FindAliveSoldierFromInterval(int start, int end)
         {
             return delegate(Soldier s)
             {
@@ -240,6 +240,18 @@ namespace Wof.Model.Level.Common
             };
         }
 
+        public static Predicate<Soldier> FindSoldierFromInterval(int start, int end)
+        {
+            return delegate(Soldier s)
+            {
+             
+                int pos = Mathematics.PositionToIndex(s.Position.X);
+                return start <= pos && pos <= end;
+                
+                return false;
+            };
+        }
+
         /// <summary>
         /// Predykat szuka genera³ów ktorzy znajduja sie na tiles o indeksach pomiedzy
         /// pierwszym a drugim parametrem.
@@ -248,7 +260,7 @@ namespace Wof.Model.Level.Common
         /// <param name="end">Koncowy tile</param>
         /// <returns>True - jesli genera³ znjaduje sie na kawalku planszy o indeksie spelniajacym 
         /// warunki przypadku false.</returns>
-        public static Predicate<General> FindGeneralFromInterval(int start, int end)
+        public static Predicate<General> FindAliveGeneralFromInterval(int start, int end)
         {
             return delegate(General s)
             {
@@ -273,6 +285,26 @@ namespace Wof.Model.Level.Common
                            return s.StartLevelIndex == index;
                        };
         }
+        public static Predicate<General> FindGeneralFromStartingIndex(int index)
+        {
+            return delegate(General s)
+            {
+                return s.StartLevelIndex == index;
+            };
+        }
+
+
+        public static Predicate<General> FindGeneralFromInterval(int start, int end)
+        {
+            return delegate(General s)
+            {
+               
+                int pos = Mathematics.PositionToIndex(s.Position.X);
+                return start <= pos && pos <= end;
+              
+                return false;
+            };
+        }
 
 
 
@@ -283,7 +315,7 @@ namespace Wof.Model.Level.Common
         /// <param name="position">Wspolrzedna trafienia.</param>
         /// <returns>True - jesli zolnierz znjaduje sie w trafionym polu w  
         /// innym przypadku false.</returns>
-        public static Predicate<Soldier> FindSoldierFromInterval(float position)
+        public static Predicate<Soldier> FindAliveSoldierFromInterval(float position)
         {
             return
                 delegate(Soldier s) { return position - JarringField <= s.Position.X && s.Position.X <= position + JarringField; };

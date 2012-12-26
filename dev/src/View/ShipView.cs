@@ -280,6 +280,10 @@ namespace Wof.View
             if (!EngineConfig.LowDetails)
             {
                 WaterSplashes(3, shipTile);
+                Vector2 v = UnitConverter.LogicToWorldUnits(new PointD(Mathematics.IndexToPosition(shipTile.TileIndex), 1.5f));
+                BubblesWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), shipTile.GetHashCode().ToString(), 8, new Vector2(6, 6), new Vector2(6, 6));
+                BubblesWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), shipTile.GetHashCode() + "2", 8, new Vector2(10, 10), new Vector2(20, 20));
+
             }
         
         	
@@ -336,7 +340,7 @@ namespace Wof.View
                 }
 
             }
-
+         
            
         }
        
@@ -347,7 +351,12 @@ namespace Wof.View
             string name;
 
             SinkingWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), tile.GetHashCode().ToString(), 3, new Vector2(6, 6), new Vector2(25, 25));
-            
+            if (!EngineConfig.LowDetails)
+            {
+                BubblesWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), shipTile.GetHashCode().ToString(), 8, new Vector2(6, 6), new Vector2(6, 6));
+                BubblesWaterAnimation(sceneMgr, new Vector3(v.x, v.y, 0), shipTile.GetHashCode() + "2", 8, new Vector2(10, 10), new Vector2(20, 20));
+
+            }
            
             // zgaœ ogieñ - pierwotnie mia³o byæ realizowane przez LevelView.OnShipUnderWater. Z przyczyn technicznych realizowane jest tutaj
             for (uint i = 0; i < 6; i++ )
