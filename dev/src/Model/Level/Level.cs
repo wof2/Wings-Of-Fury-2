@@ -607,7 +607,7 @@ namespace Wof.Model.Level
                     CheckPlaneCollisionWithGround(ep, scaleFactor);
 
                     // kolizje z samolotem gracza
-                    if (userPlane.Bounds.Intersects(ep.Bounds))
+                    if (userPlane.Bounds.Intersects(ep.Bounds) && !userPlane.IsOnAircraftCarrier)
                     {
                         // zniszcz samolot gracza przy kolizji
                         if (EngineConfig.Difficulty.Equals(EngineConfig.DifficultyLevel.Hard) || MissionType == Model.Level.MissionType.Survival)
