@@ -57,7 +57,7 @@ namespace Wof.View
             if (engineSound != null)
             {
                 SoundManager3D.Instance.RemoveSound(engineSound.Name);
-                engineSound.Destroy();
+                //engineSound.Destroy();
                 engineSound = null;
             }
 
@@ -65,7 +65,7 @@ namespace Wof.View
             if (warCrySound != null)
             {
                 SoundManager3D.Instance.RemoveSound(warCrySound.Name);
-                warCrySound.Destroy();
+               // warCrySound.Destroy();
                 warCrySound = null;
             }
 
@@ -73,14 +73,14 @@ namespace Wof.View
             if (warCrySound2 != null)
             {
                 SoundManager3D.Instance.RemoveSound(warCrySound2.Name);
-                warCrySound2.Destroy();
+               // warCrySound2.Destroy();
                 warCrySound2 = null;
             }
 
             if (gunSound != null)
             {
                 SoundManager3D.Instance.RemoveSound(gunSound.Name);
-                gunSound.Destroy();
+               // gunSound.Destroy();
                 gunSound = null;
             }
 
