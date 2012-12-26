@@ -83,6 +83,8 @@ namespace Wof.Controller
 
         public void SetMusicVolume(uint volume)
         {
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Changing music volume to: " + volume);
+
         	EngineConfig.MusicVolume = (int)volume;
             if (EngineConfig.MusicVolume == 0)
             {
@@ -104,6 +106,8 @@ namespace Wof.Controller
         {
            
            // FreeSL.fslSetVolume(volume / 100.0f);
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Changing sound volume to: "+volume);
+
         	EngineConfig.SoundVolume = (int)volume;
             foreach (FSLSoundObject soundObject in SoundManager3D.Instance.SoundObjectVector)
             {

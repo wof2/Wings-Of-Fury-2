@@ -92,12 +92,17 @@ namespace Wof.Controller
         public static string getLocalDirectoryByReflection()
         {
              string basePath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                Assembly a = Assembly.GetAssembly(typeof(Game));
+             string ret;
+              /*  Assembly a = Assembly.GetAssembly(typeof(Game));
                 
-                string ret;
+                
                 string company = ((AssemblyCompanyAttribute)Attribute.GetCustomAttribute(a, typeof(AssemblyCompanyAttribute), false)).Company;
                 string version = ((AssemblyFileVersionAttribute)Attribute.GetCustomAttribute(a, typeof(AssemblyFileVersionAttribute), false)).Version;
                 string product = ((AssemblyProductAttribute)Attribute.GetCustomAttribute(a, typeof(AssemblyProductAttribute), false)).Product;
+            */
+               string company = "Ravenlore";
+               string version = "3.4.0.0";
+               string product = "Wings of Fury 2";
 
                ret = Path.Combine(basePath, company);
                ret = Path.Combine(ret, product);

@@ -410,6 +410,7 @@ namespace BetaGUI
             // naciskanie klawiszy musi byæ wolne
             if (keyDelay.Milliseconds > 5*C_RESPONSE_DELAY*1000)
             {
+                b.callback.LSInternal.onButtonPress(b);
                 b.callback.LS.onButtonPress(b);
                
                 ResetButtonTimer();
@@ -418,11 +419,15 @@ namespace BetaGUI
             return false;
         }
 
+
+
+
         public static bool TryToPressButton(Button b, float manualDelay)
         {
             // naciskanie klawiszy musi byæ wolne
             if (keyDelay.Milliseconds > manualDelay)
             {
+                b.callback.LSInternal.onButtonPress(b);
                 b.callback.LS.onButtonPress(b);
                 ResetButtonTimer();
                 return true;
@@ -586,6 +591,7 @@ namespace BetaGUI
         public float x, y, w, h;
         public GUI mGUI;
         public OverlayContainer mO;
+        public string mC;
                 
         public List<Button> mB = new List<Button>();
         public List<TextInput> mT = new List<TextInput>();
@@ -786,6 +792,7 @@ namespace BetaGUI
             y =  D.y;
             w =  D.z;
             h =  D.w;
+            mC = C;
             mGUI = G;
             mTB = null;
             mRZ = null;
@@ -918,6 +925,8 @@ namespace BetaGUI
                         //mAB.callback.fp(mAB); // FIX / what is this
                         return ret;
                     case 2:
+
+                        mAB.callback.LSInternal.onButtonPress(mAB);
                         mAB.callback.LS.onButtonPress(mAB);
                         return ret;
                     case 3:
@@ -1014,11 +1023,12 @@ namespace BetaGUI
         void onButtonPress(Button referer);
     }
 
+    
     public class Callback
     {
         public uint t;
         public BetaGUIListener LS;
-
+        public BetaGUIListener LSInternal;
         public Callback()
         {
             t = 0;
@@ -1028,6 +1038,28 @@ namespace BetaGUI
         {
             t = 2;
             LS = L;
+            LSInternal = new InternalCallback();
         }
+    }
+
+    internal class InternalCallback : BetaGUIListener 
+    {
+        #region Implementation of BetaGUIListener
+
+        public void onButtonPress(Button referer)
+        {
+
+            try
+            {
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Button : '" + referer.text + "' clicked on window '" + referer.Window.mC + "'");
+            }
+            catch 
+            {
+            }
+           
+
+        }
+
+        #endregion
     }
 }

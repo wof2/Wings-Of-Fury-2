@@ -81,7 +81,7 @@ namespace Wof.View
             }
         }
 
-        public override string GetMainMeshName()
+        public static new string GetMainMeshName()
         {
             return "A6M.mesh";
         }

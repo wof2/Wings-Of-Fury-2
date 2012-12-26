@@ -94,8 +94,9 @@ namespace Wof.Controller
 
             List<object> aaOptions = FrameWorkStaticHelper.GetAntialiasingModes();
             int maxAA = aaOptions.Count - 1;
-            
-            
+
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Performance test results. FPS: " + fps);
+                    
             if(fps < 50)
             {
                 // very low
