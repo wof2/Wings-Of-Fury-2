@@ -169,7 +169,7 @@ namespace FSLOgreCS
 
         public FSLSoundObject GetSound(string name)
         {
-            lock (LockSync)
+           // lock (LockSync)
             {
                 if (SoundObjectVector.Count == 0)
                     return null;
@@ -222,7 +222,7 @@ namespace FSLOgreCS
 	                            }
 	                            catch(Exception e)
 	                            {
-	                            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error in sound loop:"+ e.Message+ e.StackTrace);
+	                            	//LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error in sound loop:"+ e.Message+ e.StackTrace);
 	                              
 	
 	                            }
@@ -236,17 +236,17 @@ namespace FSLOgreCS
 	                            }
 	                            catch (Exception)
 	                            {
-                                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "YEAH THATS RIGHT");
-	                                throw;
+                                   // LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "YEAH THATS RIGHT");
+	                               // throw;
 	                            }
 	                            
 	
 	                            // Console.WriteLine("Running");
 
 	                        }
-                            FreeSL.fslSleep(0.01f);
+                           
 		                }
-                       
+                        FreeSL.fslSleep(0.01f);
                        /* k++;
                         if(k == 2000) {
                         	k = 0;
@@ -286,7 +286,7 @@ namespace FSLOgreCS
 
         public FSLSoundObject CreateAmbientSoundMusic(string musicFile, string name, bool loop, bool streaming)
         {
-            lock (LockSync)
+          //  lock (LockSync)
             {
                 int before = Environment.TickCount;
                 FSLSoundObject obj = AddSound(new FSLAmbientSoundMusic(musicFile, name, loop, streaming));
@@ -299,7 +299,7 @@ namespace FSLOgreCS
         }
         public FSLSoundObject CreateAmbientSound(string soundFile, string name, bool loop, bool streaming)
         {
-            lock (LockSync)
+           // lock (LockSync)
             {
                 int before = Environment.TickCount;
                 FSLSoundObject obj = AddSound(new FSLAmbientSound(soundFile, name, loop, streaming));
@@ -314,7 +314,7 @@ namespace FSLOgreCS
         public FSLSoundObject CreateSoundEntity(string soundFile, SceneNode renderable, string name, bool loop,
                                                 bool streaming)
         {
-             lock (LockSync)
+           //  lock (LockSync)
              {
                  return AddSound(new FSLSoundEntity(soundFile, renderable, name, loop, streaming));
              }
@@ -324,7 +324,7 @@ namespace FSLOgreCS
         public FSLSoundObject CreateSoundEntity(string package, string soundFile, SceneNode renderable, string name,
                                                 bool loop)
         {
-            lock (LockSync)
+          //  lock (LockSync)
             {
                 return AddSound(new FSLSoundEntity(package, soundFile, renderable, name, loop));
             }

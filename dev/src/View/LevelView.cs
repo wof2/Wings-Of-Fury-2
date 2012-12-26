@@ -273,7 +273,7 @@ namespace Wof.View
                 
             }
 
-            SoundManager3D.Instance.UpdaterRunning = true;
+            //SoundManager3D.Instance.UpdaterRunning = true;
             ViewHelper.DetachQuadrangles(sceneMgr);
         }
 

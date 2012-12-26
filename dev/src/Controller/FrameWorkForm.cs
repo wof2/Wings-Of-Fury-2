@@ -934,9 +934,12 @@ namespace Wof.Controller
         protected virtual void CreateCamera()
         {
             // Create the camera
+            bool reinitSound = false;
             if (EngineConfig.SoundEnabled && SoundManager3D.Instance.Initialized)
             {
                 SoundManager3D.Instance.UpdaterRunning = false;
+               // SoundManager3D.Instance.Destroy();
+                reinitSound = true;
             }
 
             camera = sceneMgr.CreateCamera("mainCamera");
@@ -955,15 +958,16 @@ namespace Wof.Controller
 
             SetupShadows(camera);
 
-           
-          
-            if (EngineConfig.SoundEnabled && SoundManager3D.Instance.Initialized)
+
+
+            if (EngineConfig.SoundEnabled && reinitSound)
             {
                 // update camera
+                
                 if (!FrameWorkStaticHelper.CreateSoundSystem(cameraListener, EngineConfig.SoundSystem))
                     EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
 
-                SoundManager3D.Instance.UpdaterRunning = true;
+               // SoundManager3D.Instance.UpdaterRunning = true;
             }
         }
 
