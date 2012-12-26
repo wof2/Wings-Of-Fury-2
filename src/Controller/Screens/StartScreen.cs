@@ -68,7 +68,7 @@ namespace Wof.Controller.Screens
 
      //   private GUI updatesGUI;
       //  private Window updatesGUIWindow;
-
+        private object lockSync = new object();
 
         private const float C_QUIT_AD_PROBABILITY = 1.0f;
         private Thread newUpdatesThread;
@@ -237,7 +237,7 @@ namespace Wof.Controller.Screens
         public override void FrameStarted(FrameEvent evt)
         {
             base.FrameStarted(evt);
-        	lock(this)
+            lock (lockSync)
         	{
         		if(areUpdatesAvailable)
         		{
@@ -337,7 +337,7 @@ namespace Wof.Controller.Screens
                        
 				       string content = reader.ReadToEnd();
 				       updatesChecked = true;
-				       lock(this)
+                       lock (lockSync)
 				       {
 				       		areUpdatesAvailable = "1".Equals(content);
 				       }
