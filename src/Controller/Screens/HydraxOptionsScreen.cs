@@ -73,7 +73,7 @@ namespace Wof.Controller.Screens
             int h = (int)GetTextVSpacing();
             float width = 3*guiWindow.w/4 - h;
 
-            guiWindow.createStaticImage(new Vector4(guiWindow.w / 6, (2 + availableOptions.Count) * h, width, 32.0f / 52.0f * width), EngineConfig.UseHydrax ? "hydrax.png" : "hydrax_off.png");
+            guiWindow.createStaticImage(new Vector4(guiWindow.w / 6, (3 + availableOptions.Count) * h, width, 32.0f / 52.0f * width), EngineConfig.UseHydrax ? "hydrax.png" : "hydrax_off.png");
                                          
         }
         protected override List<object> GetAvailableOptions()
