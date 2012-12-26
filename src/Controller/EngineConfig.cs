@@ -181,7 +181,7 @@ namespace Wof.Controller
  		
  		public static int HardwareTexturePreloaderTextureLimit = 64;
 
-        public static bool AudioStreaming = true;
+        public static bool AudioStreaming = false;
  		
     //    public static string Language = "en-GB";
 
