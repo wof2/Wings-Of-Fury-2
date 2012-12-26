@@ -29,7 +29,7 @@ namespace Wof.View.Effects
         /// <summary>
         /// Które materia³y maja byc dolaczone do hydrax depth techniques
         /// </summary>
-        private List<string> hydraxDepthMaterials = new List<string> { "Island", "Concrete", "Steel", "Torpedo", "SubmarineBody"};
+        private List<string> hydraxDepthMaterials = new List<string> { "Island", "Concrete", "Concrete2", "Steel", "Steel2", "Torpedo", "SubmarineBody", "Carrier/Panels", "GreenSteel"};
 
         /// <summary>
         /// Zawiera mapê: nazwa materialu vs. iloœæ technik (przed dodaniem depth technique). Umozliwia to pozniejsze usuniecie depthtechnique

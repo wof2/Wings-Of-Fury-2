@@ -305,6 +305,57 @@ namespace Wof.Model.Level.LevelTiles.IslandTiles.EnemyInstallationTiles
             }
 
         }
+        public virtual void ReconstructAndCollectSoldiers()
+        {
+            List<Soldier> soldiers = refToLevel.SoldiersList.FindAll(Predicates.FindSoldierFromStartingIndex(TileIndex));
+            List<General> generals = refToLevel.GeneralsList.FindAll(Predicates.FindGeneralFromStartingIndex(TileIndex));
+            bool reconstruct = false;
+            if (soldiers.Count > 0)
+            {
+                for (int i = 0; i < soldiers.Count; i++)
+                {
+                    if (soldiers[i].IsAlive)
+                    {
+                        AddSoldier();
+                        //wyslam sygnal do controllera aby usunal zolnierza z widoku.
+                        refToLevel.Controller.UnregisterSoldier(soldiers[i]);
+                        soldiers[i].ReturnToBunker();
+                        reconstruct = true;
+                        //usuwam zolnierza z planszy.
+                    }
+                  
+                   
+                    
+                }
+            }
+
+            if (generals.Count > 0)
+            {
+                for (int i = 0; i < generals.Count; i++)
+                {
+                    if (generals[i].IsAlive)
+                    {
+                        AddGeneral();
+                        //wyslam sygnal do controllera aby usunal zolnierza z widoku.
+                        refToLevel.Controller.UnregisterSoldier(generals[i]);
+                        generals[i].ReturnToBunker();
+                        reconstruct = true;
+                    }
+                  
+                    //usuwam zolnierza z planszy.
+
+                }
+            }
+
+
+            if (reconstruct)
+            {
+                Reconstruct();
+                refToLevel.Controller.OnTileRestored(this);
+            }
+            
+           
+        }
 
         /// <summary>
         /// Odbudowuje bunkier.
