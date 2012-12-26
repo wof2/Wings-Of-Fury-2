@@ -89,8 +89,9 @@ namespace Wof.Controller
             	videoOptions.Add("800 x 600 @ 32-bit colour");
             	MessageBox.Show("Your system is incapable of displaying 800x600 or better resolution. Trying to force 800x600","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-			int maxVO = videoOptions.Count - 1;
-           
+			int maxVO = 0;
+            int minVO = videoOptions.Count - 1;
+
             List<object> aaOptions = FrameWorkStaticHelper.GetAntialiasingModes();
             int maxAA = aaOptions.Count - 1;
             
@@ -99,7 +100,7 @@ namespace Wof.Controller
             {
                 // very low
                 quality= GraphicsQuality.VeryLow;
-                videoMode = videoOptions[0];
+                videoMode = videoOptions[minVO];
                 antialiasing = aaOptions[0].ToString();
                 vsync = "No";
                 EngineConfig.UseHydrax = false;
@@ -111,7 +112,7 @@ namespace Wof.Controller
             {
                 // low
                 quality = GraphicsQuality.Low;
-                videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.10f)];
+                videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.70f)];
                 antialiasing = aaOptions[0].ToString();
                 vsync = "No";
                 EngineConfig.UseHydrax = false;
@@ -124,7 +125,7 @@ namespace Wof.Controller
             {
                 // medium
                 quality = GraphicsQuality.Medium;
-                videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.20f)];
+                videoMode = videoOptions[(int)System.Math.Floor(minVO * 0.50f)];
                 antialiasing = aaOptions[0].ToString();
                 vsync = "No";
                 EngineConfig.UseHydrax = false;
@@ -138,7 +139,7 @@ namespace Wof.Controller
                 // medium - better
                 quality = GraphicsQuality.UpperMedium;
                 vsync = "Yes";
-                videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.40f)];
+                videoMode = videoOptions[maxVO];
                 antialiasing = aaOptions[(int)System.Math.Floor(maxAA * 0.50f)].ToString();
                 EngineConfig.UseHydrax = false;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Low;
@@ -151,7 +152,7 @@ namespace Wof.Controller
                 // high
                 quality = GraphicsQuality.High;
                 vsync = "Yes";
-                videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.75f)];
+                videoMode = videoOptions[maxVO];
                 antialiasing = aaOptions[(int)System.Math.Floor(maxAA * 0.75f)].ToString();
                 EngineConfig.UseHydrax = hiEndVS;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Low;
@@ -164,7 +165,7 @@ namespace Wof.Controller
                 // higher
                 quality = GraphicsQuality.VeryHigh;
                 vsync = "Yes";
-                videoMode = videoOptions[(int)System.Math.Floor(maxVO * 0.85f)];
+                videoMode = videoOptions[maxVO];
                 antialiasing = aaOptions[(int)System.Math.Floor(maxAA * 0.85f)].ToString();
                 EngineConfig.UseHydrax = hiEndVS;
                 EngineConfig.ShadowsQuality = EngineConfig.ShadowsQualityTypes.Medium;
