@@ -141,10 +141,10 @@ const
 // This is where all starts.
 //*********************************************************************************
 
-function CheckPassword(Password: String): Boolean;
-begin 
-  if Password = 'Panas$Test' then Result:= True;
-end;
+//function CheckPassword(Password: String): Boolean;
+//begin 
+//  if Password = 'Panas$Test' then Result:= True;
+//end;
 
 function InitializeSetup(): Boolean;
 
