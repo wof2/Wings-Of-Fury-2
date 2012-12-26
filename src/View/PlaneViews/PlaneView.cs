@@ -138,7 +138,10 @@ namespace Wof.View
             get { return animationState; }
         }
 
-        public abstract string GetMainMeshName();
+        public static new string GetMainMeshName()
+        {
+            return null;
+        }
         
 
         #region SceneNodes

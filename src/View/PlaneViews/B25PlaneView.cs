@@ -251,8 +251,8 @@ namespace Wof.View
             // AIRSCREW
           
         }
-        
-		public override string GetMainMeshName()
+
+        public static new string GetMainMeshName()
         {
             return "B25.mesh";
         }

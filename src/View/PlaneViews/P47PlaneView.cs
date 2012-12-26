@@ -97,7 +97,7 @@ namespace Wof.View
         }
 
 
-        public override string GetMainMeshName()
+        public static string GetMainMeshName()
         {
             return "P47Body.mesh";
         }

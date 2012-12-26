@@ -158,7 +158,8 @@ namespace Wof.View.Effects
         private List<String> additionalPreloadedMeshes =  new List<String> ( new string[] { 
                                                                      "HUD.mesh",
                                                                      "Bazooka.mesh",
-                                                                     "Arrow.mesh"
+                                                                     "Arrow.mesh",
+                                                                     "Carrier.mesh"
         });
 
         public void RegisterAdditionalPreloadedTextures(Entity entity)

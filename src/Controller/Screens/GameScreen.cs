@@ -635,15 +635,28 @@ namespace Wof.Controller.Screens
 
 
                     LogManager.Singleton.LogMessage("About to register enemy planes", LogMessageLevel.LML_CRITICAL);
-                    
-                    
+
+                    if (currentLevel.ShouldRegisterEnemyBomber)
+                    {
+                        EffectsManager.Singleton.PreloadMesh(EnemyBomberView.GetMainMeshName());
+                        EffectsManager.Singleton.PreloadMesh("Betty001.mesh"); // hadcode - LOD !!!
+
+                        
+                    }
+
+                    if (currentLevel.ShouldRegisterEnemyFighter)
+                    {
+                        EffectsManager.Singleton.PreloadMesh(EnemyFighterView.GetMainMeshName());
+                    }
+
                     if (currentLevel.EnemyPlanes.Count > 0) //warunek dodany przez Emila
                     {
                         Plane p = currentLevel.EnemyPlanes[currentLevel.EnemyPlanes.Count - 1];
                         OnRegisterPlane(p);
                         PlaneView pv = levelView.FindPlaneView(p);
-                        EffectsManager.Singleton.PreloadMesh(pv.GetMainMeshName());
                     }
+
+                 
                         
 
                     LogManager.Singleton.LogMessage("About to register storage planes", LogMessageLevel.LML_CRITICAL);
@@ -930,14 +943,10 @@ namespace Wof.Controller.Screens
 
                 overlayMaterial = null;
                 string caption;
-                if(levelNo == 0)
-                {
-                    caption = LevelInfo.GetCustomLevelName(LevelFile);
-                }
-                else
-                {
-                    caption = levelNo.ToString();
-                }
+                
+              
+
+                caption = this.LevelInfo.ToString();
 
                 loadingText.Caption = LanguageResources.GetString(LanguageKey.Level) + ": " + caption + " " + LanguageResources.GetString(LanguageKey.MissionType) + ": " + LanguageResources.GetString(CurrentLevel.MissionType.ToString());
                 loadingText.SetParameter("font_name", FontManager.CurrentFont);
@@ -2285,7 +2294,7 @@ namespace Wof.Controller.Screens
         	//volumes    
         
             string styleOn = "bgui.selected.button";
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Button : '" + referer.text + "' clicked");
+         //   LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Button : '" + referer.text + "' clicked");
 
         	foreach(KeyValuePair<Button,uint> pair in soundButtonIds)
         	{        
