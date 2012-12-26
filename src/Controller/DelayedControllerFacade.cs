@@ -23,6 +23,7 @@ namespace Wof.Controller
         private Dictionary<int, KeyValuePair<String, object[]>> jobs;
 
         private int lastId = 0;
+        private object lockSync = new object();
 
         private IController controller;
 
@@ -34,7 +35,7 @@ namespace Wof.Controller
 
         public void ClearJobs()
         {
-            lock (this)
+            lock (lockSync)
             {
                 //Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " - clear jobs");
                 jobs.Clear();
@@ -44,7 +45,7 @@ namespace Wof.Controller
 
         private void AddJob(String methodName)
         {
-            lock (this)
+            lock (lockSync)
             {
                 //Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " - new job: " + methodName);
                 jobs.Add(lastId++, new KeyValuePair<String, object[]>(methodName, null));
@@ -53,7 +54,7 @@ namespace Wof.Controller
 
         private void AddJob(String methodName, object[] arguments)
         {
-            lock (this)
+            lock (lockSync)
             {
                 //Console.WriteLine(Thread.CurrentThread.ManagedThreadId + " - new job: " + methodName);
                 jobs.Add(lastId++, new KeyValuePair<String, object[]>(methodName, arguments));
@@ -62,7 +63,7 @@ namespace Wof.Controller
 
         public void DoJobs()
         {
-            lock (this)
+            lock (lockSync)
             {
                 try
                 {

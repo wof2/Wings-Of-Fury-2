@@ -109,7 +109,7 @@ namespace Wof.Controller.AdAction
 
         public void Work(Camera c)
         {
-        	lock(this)
+        	//lock(this)
         	{
         		try
         		{
