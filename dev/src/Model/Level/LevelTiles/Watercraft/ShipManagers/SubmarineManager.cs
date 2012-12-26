@@ -47,6 +47,9 @@
  */
 
 using System;
+using System.Collections.Generic;
+using Wof.Model.Level.Common;
+using Wof.Model.Level.Infantry;
 using Wof.Model.Level.Planes;
 using Wof.Model.Level.Weapon;
 
@@ -146,10 +149,15 @@ namespace Wof.Model.Level.LevelTiles.Watercraft.ShipManagers
 				if(doSubmerge)
 			 	{
 			 		timeSinceLastSubmerge = 0;
+
+
+                    
                     _refToLevel.Controller.OnShipBeginSubmerging(_shipTiles[0]); 
 			    		    
 			 		foreach(ISinkComponent tile in _sinkComponents)
-			 		{	  
+			 		{
+                        _refToLevel.KillSoldiers(tile.Tile.TileIndex, 2, true, false, true, true);
+                       
 						tile.StartSubmerging();
 			    	}
 			 		
