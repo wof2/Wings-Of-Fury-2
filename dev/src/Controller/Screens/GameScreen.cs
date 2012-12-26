@@ -1895,18 +1895,12 @@ namespace Wof.Controller.Screens
                             if (!isGamePaused)
                             {
                                 DisplayPauseScreen();
-                                SoundManager.Instance.HaltEngineSound(currentLevel.UserPlane);
-                                SoundManager.Instance.HaltWaterBubblesSound();
-                                SoundManager.Instance.HaltOceanSound();
+                               
                             }
                             else
                             {
                                 ClearPauseScreen();
-                                SoundManager.Instance.LoopOceanSound();
-                                if (mayPlaySound)
-                                {
-                                    SoundManager.Instance.LoopEngineSound(currentLevel.UserPlane);
-                                }
+                               
                             }
                             Button.ResetButtonTimer();
                         }
@@ -2327,11 +2321,6 @@ namespace Wof.Controller.Screens
             if (referer == resumeButton)
             {
                 ClearPauseScreen();
-                SoundManager.Instance.LoopOceanSound();
-                if (mayPlaySound)
-                {
-                    SoundManager.Instance.LoopEngineSound(currentLevel.UserPlane);
-                }
             }
             if (referer == resumeFinishedLevelButton)
             {
@@ -2518,6 +2507,12 @@ namespace Wof.Controller.Screens
         
         private void DisplayPauseScreen()
         {
+            isStillFireGun = false;
+            SoundManager.Instance.HaltEngineSound(currentLevel.UserPlane);
+            SoundManager.Instance.HaltWaterBubblesSound();
+            SoundManager.Instance.HaltOceanSound();
+            SoundManager.Instance.HaltGunFireSound();
+
         	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Showing pause screen");
             
             isGamePaused = true;
@@ -2612,6 +2607,11 @@ namespace Wof.Controller.Screens
         
         private void ClearPauseScreen()
         {
+            SoundManager.Instance.LoopOceanSound();
+            if (mayPlaySound)
+            {
+                SoundManager.Instance.LoopEngineSound(currentLevel.UserPlane);
+            }
             isGamePaused = false;
             isInPauseMenu = false;
             mGui.killGUI();
