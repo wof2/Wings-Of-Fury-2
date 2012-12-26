@@ -429,7 +429,7 @@ namespace Wof.View
                 if (planePassSound != null)
                 {
                     SoundManager3D.Instance.RemoveSound(planePassSound.Name);
-                    planePassSound.Destroy();
+                   // planePassSound.Destroy();
                     planePassSound = null;
                 }
             }

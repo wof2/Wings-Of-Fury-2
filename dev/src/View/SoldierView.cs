@@ -117,13 +117,13 @@ namespace Wof.View
             if (dieSound != null)
             {
                  SoundManager3D.Instance.RemoveSound(dieSound.Name);
-                 dieSound.Destroy();
+                 //dieSound.Destroy();
                  dieSound = null; 
             }
             if(prepareToFireSound != null)
             {
                 SoundManager3D.Instance.RemoveSound(prepareToFireSound.Name);
-                prepareToFireSound.Destroy();
+               // prepareToFireSound.Destroy();
                 prepareToFireSound = null; 
             }
         
