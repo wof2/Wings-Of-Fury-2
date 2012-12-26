@@ -177,7 +177,7 @@ namespace wingitor
                 
 
              } 
-             lock (this)
+             lock (locker)
              {
                  Destroy();
              }

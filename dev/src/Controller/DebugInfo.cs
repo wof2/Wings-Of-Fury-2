@@ -9,21 +9,26 @@ namespace Wof.Controller
         private string debugName;
       
         private SortedDictionary<string, string> items;
-
+        private object lockSync = new object();
         private List<string> keysUpdated = new List<string>();
 
         public DebugInfo(string debugName)
         {
-            lock (this)
+            lock (LockSync)
             {
                 this.debugName = debugName;
                 items = new SortedDictionary<string, string>();
             }
         }
 
+        public object LockSync
+        {
+            get { return lockSync; }
+        }
+
         public void ClearNotUpdated()
         {
-            lock (this)
+            lock(LockSync)
             {
                 foreach (string key in keysUpdated)
                 {
@@ -36,7 +41,7 @@ namespace Wof.Controller
 
         public void Update(string key, string value)
         {
-            lock (this)
+            lock (LockSync)
             {
                 if (!keysUpdated.Contains(key))
                 {
@@ -48,7 +53,7 @@ namespace Wof.Controller
 
         public string[] ToStringArray()
         {
-            lock (this)
+            lock (LockSync)
             {
                 string[] ret = new string[items.Count + 1];
                 int i = 0;

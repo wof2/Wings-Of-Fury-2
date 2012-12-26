@@ -29,7 +29,7 @@ namespace Wingitor
         
         private void DebugBoxUpdater(Object myObject,
                                             EventArgs myEventArgs) {
-        	lock (this)
+        	lock (lockSync)
             {
 	        	this.listBox1.Items.Clear();
 	            foreach (var info in debugInfos)
@@ -103,10 +103,11 @@ namespace Wingitor
         }
 
         private List<DebugInfo> debugInfos = new List<DebugInfo>();
+        private object lockSync = new object();
 
         public void UpdateDebugBox(DebugInfo debugInfo)
         {
-            lock (this)
+            lock (lockSync)
             {
                 int index = debugInfos.IndexOf(debugInfo);
                 if (index >= 0)
