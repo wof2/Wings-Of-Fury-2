@@ -1,3 +1,4 @@
+using Mogre;
 using Wof.Controller;
 
 namespace FSLOgreCS
@@ -12,7 +13,14 @@ namespace FSLOgreCS
         {
         }
 
-     
+        private bool _isOnPlaylist = false;
+
+        public bool IsOnPlaylist
+        {
+            get { return _isOnPlaylist; }
+            set { _isOnPlaylist = value; }
+        }
+
         public override void ApplyGain()
         {
             SetGain(_baseGain * EngineConfig.MusicVolume / 100.0f);
@@ -20,11 +28,15 @@ namespace FSLOgreCS
         public override void Update()
         { 
         	base.Update();
-            if(this.IsPlaying())
+            if (_isOnPlaylist && _shouldBePlaying && !IsPlaying())
             {
-            
-             //   FreeSL.fslUpdate();
-                //FreeSL.fslSleep(0.01f);
+                if (!_loop)
+                {
+                    LogManager.Singleton.LogMessage("Track '" + this.Name + "' finished -> ShouldLoadNextMusic");
+                    // Console.WriteLine("ShouldLoadNextMusic=true : "+this.SoundFile);
+                    SoundManager3D.Instance.ShouldLoadNextMusic = true;
+                }
+
             }
         }
     }

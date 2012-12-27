@@ -350,13 +350,22 @@ namespace Wof.Controller
 
         public void PlayEndingTheme()
         {
-            SoundManager3D.Instance.PlayAmbientMusic("music/ending.ogg", EngineConfig.MusicVolume, false, true, EngineConfig.AudioStreaming);
+            FSLSoundObject obj = SoundManager3D.Instance.PlayAmbientMusic("music/ending.ogg", EngineConfig.MusicVolume, false, true, EngineConfig.AudioStreaming);
+            if (obj != null && obj is FSLAmbientSoundMusic)
+            {
+                (obj as FSLAmbientSoundMusic).IsOnPlaylist = false;
+            }
+
             // Play(mainTheme);
         }
 
         public void PlayMainTheme()
         {
-            SoundManager3D.Instance.PlayAmbientMusic("music/themesong.ogg", EngineConfig.MusicVolume, false, true, EngineConfig.AudioStreaming);
+            FSLSoundObject obj = SoundManager3D.Instance.PlayAmbientMusic("music/themesong.ogg", EngineConfig.MusicVolume, false, true, EngineConfig.AudioStreaming);
+            if(obj != null && obj is FSLAmbientSoundMusic)
+            {
+                (obj as FSLAmbientSoundMusic).IsOnPlaylist = false;
+            }
             // Play(mainTheme);
         }
 

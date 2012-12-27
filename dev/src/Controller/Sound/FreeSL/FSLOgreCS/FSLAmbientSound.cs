@@ -1,4 +1,5 @@
 using System;
+using Mogre;
 using Wof.Controller;
 
 namespace FSLOgreCS
@@ -8,6 +9,8 @@ namespace FSLOgreCS
     /// </summary>
     public class FSLAmbientSound : FSLSoundObject
     {
+    
+
         public FSLAmbientSound(string soundFile, string name, bool loop, bool streaming)
             : base(soundFile, name, loop, streaming)
         {
@@ -19,21 +22,15 @@ namespace FSLOgreCS
         {
             FreeSL.fslSoundSetSourceRelative(_sound, true);
         }
-        
+
+       
+
         public override void Update()
         { 
         	base.Update();
           //  if (_streaming)
             {
-                if (_shouldBePlaying && !IsPlaying())
-                {
-                    if (!_loop)
-                    {
-                        Console.WriteLine("ShouldLoadNextMusic=true : "+this.SoundFile);
-                        SoundManager3D.Instance.ShouldLoadNextMusic = true;
-                    }
-
-                }
+         
             }
            
 

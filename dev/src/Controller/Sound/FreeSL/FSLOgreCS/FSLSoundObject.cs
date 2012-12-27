@@ -74,6 +74,8 @@ namespace FSLOgreCS
             RemoveSound();
             if (File.Exists(soundFile) == false)
                 throw new FileNotFoundException("The sound file at : " + soundFile + " does not exist.");
+
+
             lock(SoundManager3D.Instance.LockSync)
             {
                 if (streaming)

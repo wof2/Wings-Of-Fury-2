@@ -282,19 +282,21 @@ namespace FSLOgreCS
             return _listener;
         }
 
-        
 
-        public FSLSoundObject CreateAmbientSoundMusic(string musicFile, string name, bool loop, bool streaming)
+
+        public FSLAmbientSoundMusic CreateAmbientSoundMusic(string musicFile, string name, bool loop, bool streaming)
         {
           //  lock (LockSync)
             {
                 int before = Environment.TickCount;
-                FSLSoundObject obj = AddSound(new FSLAmbientSoundMusic(musicFile, name, loop, streaming));
+               FSLAmbientSoundMusic music =  new FSLAmbientSoundMusic(musicFile, name, loop, streaming);
+                music.IsOnPlaylist = true;
+                AddSound(music);
                 if(!streaming && LogManager.Singleton != null)
                 {
                     LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Ambient sound music '"+name+"' preloaded within "+ (Environment.TickCount - before)+ "ms");
                 }
-                return obj;
+                return music;
             }
         }
         public FSLSoundObject CreateAmbientSound(string soundFile, string name, bool loop, bool streaming)
