@@ -15,6 +15,7 @@ namespace EnhancedVersionHelper
         {
             try
             {
+
                 if (!Licensing.CanBuildEnhancedVersionHash())
                 {
                     // nie udalo sie stworzyc hasha. Ktos probuje odpalic wersje rozszerzona

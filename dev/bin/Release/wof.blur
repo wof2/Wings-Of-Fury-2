@@ -8,6 +8,9 @@
       <Assembly override="false">
         <Path>.\Wof.exe</Path>
       </Assembly>
+      <Assembly override="false">
+        <Path>.\EnhancedVersionHelper.exe</Path>
+      </Assembly>
     </Assemblies>
     <Builds />
     <ProbingPaths />
@@ -35,6 +38,8 @@
         <Path>W:\wings\WoF\bin\Release\wof.renamed.xml</Path>
       </MappingFile>
       <ExcludeTypes>
+        <ExcludeNamespace name="EnhancedVersionHelper" />
+        <ExcludeNamespace name="EnhancedVersionHelper.Properties" />
         <ExcludeNamespace name="FSLOgreCS">
           <ExcludeType name="FreeSL.FSL_SOUND_SYSTEM">
             <ExcludeField regEx="true" name=".*" />
