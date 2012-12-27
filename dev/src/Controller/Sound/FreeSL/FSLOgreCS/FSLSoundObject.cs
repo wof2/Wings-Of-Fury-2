@@ -39,7 +39,7 @@ namespace FSLOgreCS
             }
             catch(Exception ex)
             {
-                
+            //    string x = ex.Message;
             }
             
         }
@@ -74,15 +74,20 @@ namespace FSLOgreCS
             RemoveSound();
             if (File.Exists(soundFile) == false)
                 throw new FileNotFoundException("The sound file at : " + soundFile + " does not exist.");
-            if (streaming)
+            lock(SoundManager3D.Instance.LockSync)
             {
-                Console.WriteLine("Streaming sound: " + soundFile);
-                _sound = FreeSL.fslStreamSound(soundFile);
+                if (streaming)
+                {
+                    Console.WriteLine("Streaming sound: " + soundFile);
+                    _sound = FreeSL.fslStreamSound(soundFile);
+                }
+                else
+                    _sound = FreeSL.fslLoadSound(soundFile);
+                _streaming = streaming;
+                if (!streaming) LoopSound(loop);
+                
             }
-            else
-                _sound = FreeSL.fslLoadSound(soundFile);
-            _streaming = streaming;
-            if(!streaming) LoopSound(loop);
+          
            _loop = loop;
            _soundFile = soundFile;
             _withSound = true;
@@ -93,8 +98,11 @@ namespace FSLOgreCS
             RemoveSound();
             if (File.Exists(package) == false)
                 throw new FileNotFoundException("The sound file at : " + soundFile + " does not exist.");
-            FreeSL.fslLoadSoundFromZip(package, soundFile);
-            LoopSound(loop);
+            lock (SoundManager3D.Instance.LockSync)
+            {
+                FreeSL.fslLoadSoundFromZip(package, soundFile);
+                LoopSound(loop);
+            }
             _withSound = true;
         }
 

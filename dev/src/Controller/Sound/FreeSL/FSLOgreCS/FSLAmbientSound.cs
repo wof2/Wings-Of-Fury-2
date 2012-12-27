@@ -23,18 +23,19 @@ namespace FSLOgreCS
         public override void Update()
         { 
         	base.Update();
-            if (_streaming)
+          //  if (_streaming)
             {
                 if (_shouldBePlaying && !IsPlaying())
                 {
                     if (!_loop)
                     {
                         Console.WriteLine("ShouldLoadNextMusic=true : "+this.SoundFile);
-                        SoundManager.Instance.ShouldLoadNextMusic = true;
+                        SoundManager3D.Instance.ShouldLoadNextMusic = true;
                     }
 
                 }
             }
+           
 
             if(this.IsPlaying())
             {

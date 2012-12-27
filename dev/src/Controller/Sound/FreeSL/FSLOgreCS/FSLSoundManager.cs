@@ -299,13 +299,13 @@ namespace FSLOgreCS
         }
         public FSLSoundObject CreateAmbientSound(string soundFile, string name, bool loop, bool streaming)
         {
-           // lock (LockSync)
+         //   lock (LockSync)
             {
                 int before = Environment.TickCount;
                 FSLSoundObject obj = AddSound(new FSLAmbientSound(soundFile, name, loop, streaming));
                 if(!streaming && LogManager.Singleton != null)
                 {
-                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Ambient sound preloaded within "+ (Environment.TickCount - before)+ "ms");
+                    LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Ambient sound '" + name + "' preloaded within " + (Environment.TickCount - before) + "ms");
                 }
                 return obj;
             }
@@ -340,7 +340,7 @@ namespace FSLOgreCS
             return true;
         }
 
-        public void Destroy()
+        public virtual void Destroy()
         {
             lock (LockSync)
             {
@@ -357,6 +357,9 @@ namespace FSLOgreCS
                 }
                 
             }
+           
+
+            
            
             killUpdater = false;
             updaterThread = new Thread(UpdateSoundObjects);

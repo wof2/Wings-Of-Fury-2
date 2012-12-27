@@ -607,8 +607,8 @@ namespace Wof.Controller.Screens
                     levelView = new LevelView(framework, this);
                 
                     LogManager.Singleton.LogMessage("Preloading music (if streaming disabled)", LogMessageLevel.LML_CRITICAL);
-                    SoundManager.Instance.PreloadRandomIngameMusic();
-
+                    
+                   
                     LogManager.Singleton.LogMessage("About to register level " + levelNo + " - " + LevelFile + " to view...", LogMessageLevel.LML_CRITICAL);
                     
                     levelView.OnRegisterLevel(currentLevel);
@@ -705,8 +705,15 @@ namespace Wof.Controller.Screens
 
                     }
                   //  OnLevelFinished();
-        
 
+                    if (EngineConfig.AudioStreaming)
+                    {
+                        SoundManager.Instance.PreloadRandomIngameMusic();
+                    }
+                    else
+                    {
+                        SoundManager.Instance.PreloadAndPlayNextRandomIngameMusicWhenFlagged();
+                    }
                     loading = false;
                 }
                 catch (SEHException sex)
@@ -1104,8 +1111,9 @@ namespace Wof.Controller.Screens
                         {
                             if (EngineConfig.DebugInfo)
                             {
-                                if (inputKeyboard.IsKeyDown(KeyCode.KC_B) && Button.CanChangeSelectedButton())
+                                if (inputKeyboard.IsKeyDown(KeyCode.KC_B) && Button.CanChangeSelectedButton(5.0f))
                                 {
+                                  //  SoundManager3D.Instance.ShouldLoadNextMusic = true;
                                     levelView.SceneMgr.ShowBoundingBoxes = !levelView.SceneMgr.ShowBoundingBoxes;
                                     Button.ResetButtonTimer();
                                 }
@@ -2033,13 +2041,27 @@ namespace Wof.Controller.Screens
                             levelView.OnFrameStarted(evt);
 
 
-                            if (SoundManager.Instance.ShouldLoadNextMusic)
+                            if (SoundManager3D.Instance.ShouldLoadNextMusic)
                             {
-                                
-                                SoundManager.Instance.ShouldLoadNextMusic = false;
-                                SoundManager.Instance.PreloadRandomIngameMusic();
-                                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Starting next track: " + SoundManager.Instance.LastRandomMusicTrackNo);
-                                SoundManager.Instance.PlayRandomIngameMusic(EngineConfig.MusicVolume);
+
+                                SoundManager3D.Instance.ShouldLoadNextMusic = false;
+                                if(!EngineConfig.AudioStreaming)
+                                {
+                                    SoundManager.Instance.PreloadAndPlayNextRandomIngameMusicWhenFlagged();
+                                    SoundManager3D.Instance.SetReadyToPlayPreloadedMusic();
+ 									LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Preloading and starting next track: " + SoundManager.Instance.LastRandomMusicTrackNo);
+
+                                }
+                                else
+                                {
+                                    SoundManager.Instance.PreloadRandomIngameMusic();
+                                    SoundManager.Instance.PlayRandomIngameMusic(EngineConfig.MusicVolume);
+								    LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Starting next track: " + SoundManager.Instance.LastRandomMusicTrackNo);
+
+                                }
+                               
+                               
+                              
                             }
                             //    controller.DoJobs();
 
@@ -3145,7 +3167,16 @@ namespace Wof.Controller.Screens
                 startEngineSound_Ending(this, null); // this will loop regular engine sound
             }
             
-            SoundManager.Instance.PlayRandomIngameMusic(EngineConfig.MusicVolume);
+            if(EngineConfig.AudioStreaming)
+            { 
+                SoundManager.Instance.PlayRandomIngameMusic(EngineConfig.MusicVolume);
+            }
+            else
+            {
+                SoundManager3D.Instance.SetReadyToPlayPreloadedMusic();
+                
+            }
+           
 
             // wy³¹cz komunikat 
             gameMessages.ClearMessages(GetHintMessage());
