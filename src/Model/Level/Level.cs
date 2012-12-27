@@ -172,6 +172,12 @@ namespace Wof.Model.Level
         /// </summary>
         private List<AircraftCarrierTile> aircraftTiles;
 
+
+        /// <summary>
+        /// Mimimalny czas do pierwszego samolotu - nie moze byc mniejszy bo musi sie preloadowaæ muzyka a samolot bedzie chcial ladowac swoja i bedzie przeskok
+        /// </summary>
+        private float minTimeToFirstEnemyPlane = 4000;
+
         /// <summary>
         /// Obiekt lotniskowca.
         /// </summary>
@@ -407,14 +413,17 @@ namespace Wof.Model.Level
             //this.enemyPlane = new EnemyFighter(this);
             //this.enemyPlane.RegisterWeaponEvent += new RegisterWeapon(enemyPlane_RegisterWeaponEvent);
             enemyPlanes = new List<Plane>();
+
+           
+
             if (MissionType != MissionType.Dogfight && MissionType != MissionType.Survival)
             {
-                timeToFirstEnemyPlane = LevelParser.TimeToFirstEnemyPlane;
+                timeToFirstEnemyPlane = LevelParser.TimeToFirstEnemyPlane > minTimeToFirstEnemyPlane ? LevelParser.TimeToFirstEnemyPlane : minTimeToFirstEnemyPlane;
                 timeToNextEnemyPlane = LevelParser.TimeToNextEnemyPlane;
             }
             else
             {
-                timeToFirstEnemyPlane = 0;
+                timeToFirstEnemyPlane = minTimeToFirstEnemyPlane;
                 timeToNextEnemyPlane = LevelParser.TimeToNextEnemyPlane * 0.5f;
             }
 

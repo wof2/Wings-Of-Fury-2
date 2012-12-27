@@ -254,11 +254,11 @@ namespace Wof.Controller
         /// <param name="preloadOnly">czy tylko preloadowaæ muzykê</param>
         /// <param name="loop">zapêtlenie dziêku</param>
         /// <param name="streaming"></param>
-        public void PlayAmbientMusic(String sound, int volume, bool preloadOnly, bool loop, bool streaming)
+        public FSLSoundObject PlayAmbientMusic(String sound, int volume, bool preloadOnly, bool loop, bool streaming)
         {
            // streaming = false;
 
-            if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return;
+            if (EngineConfig.SoundSystem == FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM) return null;
 
             try 
             {
@@ -319,6 +319,8 @@ namespace Wof.Controller
             catch(Exception ex) {            	
             	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Error while trying to play ambient music:"+ ex.ToString());            	
             }
+
+            return ambientSound;
         }
 
 
