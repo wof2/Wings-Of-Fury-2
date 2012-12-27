@@ -116,8 +116,10 @@ namespace Wof.Controller
             get { return lastRandomMusicTrackNo; }
         }
 
+       
+
         private int maxMusicTrackNo = 1;
-        private int lastRandomMusicTrackNo = 1;
+        private int lastRandomMusicTrackNo = 0;
 
 
 
@@ -182,7 +184,7 @@ namespace Wof.Controller
         private Buffer currentEngineIdleSound;
         private Random random;
 
-        public bool ShouldLoadNextMusic = false;
+     
 
         private SoundManager()
         {
@@ -294,25 +296,42 @@ namespace Wof.Controller
        
         public void PreloadRandomIngameMusic()
         {
-            random = new Random();
-            if (lastRandomMusicTrackNo == 0)
-            {
-                lastRandomMusicTrackNo = random.Next(1, MaxMusicTrackNo + 1);
-            }else
-            {
-                lastRandomMusicTrackNo++;
-                if(lastRandomMusicTrackNo > maxMusicTrackNo)
-                {
-                    lastRandomMusicTrackNo = 1;
-                }
-            }
+            RandomizeTrackNo();
             
             if (!EngineConfig.AudioStreaming)
             {
                 PlayIngameMusic(LastRandomMusicTrackNo, EngineConfig.MusicVolume, true);
             }
         }
+        
+        private void RandomizeTrackNo()
+        {
+           
+            if (lastRandomMusicTrackNo == 0)
+            {
+                lastRandomMusicTrackNo = random.Next(1, MaxMusicTrackNo + 1);
+            }
+            else
+            {
+                lastRandomMusicTrackNo++;
+                if (lastRandomMusicTrackNo > maxMusicTrackNo)
+                {
+                    lastRandomMusicTrackNo = 1;
+                }
+            }
+        }
 
+        /// <summary>
+        /// NO STREAMING
+        /// </summary>
+        public void PreloadAndPlayNextRandomIngameMusicWhenFlagged()
+        {
+            RandomizeTrackNo();
+            
+            SoundManager3D.Instance.PrepareMusic("music/music" + LastRandomMusicTrackNo + ".ogg", false);
+        }
+
+      
 
         /// <summary>
         /// Plays random music track
@@ -858,8 +877,7 @@ namespace Wof.Controller
             }
         }
 
-      
-    	
-		
+
+        
     }
 }

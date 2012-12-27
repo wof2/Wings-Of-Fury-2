@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using FSLOgreCS;
 using Mogre;
 
@@ -160,10 +161,90 @@ namespace Wof.Controller
             return sound;
         }
 
+        private Thread soundPreloaderWorker;
 
-       
+        public void PrepareMusic(String sound, bool loop)
+        {
+            SoundPreloader preloader = new SoundPreloader(sound, loop);
+            if (soundPreloaderWorker != null && !IsSoundPreloadWorkerReady)
+            {
+                KillPreoloadWorker();
+            }
+            soundPreloaderWorker = new Thread(new ThreadStart(preloader.Work));
+            soundPreloaderWorker.Start();
 
-     
+        }
+
+        public bool IsSoundPreloadWorkerReady
+        {
+            get {
+                return soundPreloaderWorker != null &&
+                       (soundPreloaderWorker.ThreadState == ThreadState.Stopped ||
+                        soundPreloaderWorker.ThreadState == ThreadState.Unstarted); }
+        }
+
+        public bool ShouldLoadNextMusic
+        {
+            get { return _shouldLoadNextMusic; }
+            set
+            {
+                if (value == true)
+                {
+                    if (IsSoundPreloadWorkerReady)
+                    {
+                        _shouldLoadNextMusic = value;
+                    }
+                }
+                else
+                {
+                    _shouldLoadNextMusic = value;
+                }
+               
+            }
+
+        }
+
+        private bool _shouldLoadNextMusic = false;
+
+        private bool readyToPlayPreloadedMusic = false;
+        public void SetReadyToPlayPreloadedMusic()
+        {
+            readyToPlayPreloadedMusic = true;
+        }
+
+        internal class SoundPreloader
+        {
+            protected string sound;
+            protected bool loop;
+
+            public SoundPreloader(String sound, bool loop)
+            {
+                this.sound = sound;
+                this.loop = loop;
+            }
+
+            public void Work()
+            {
+                FSLSoundObject obj = Instance.CreateAmbientSoundMusic(sound, sound + "_Ambient", loop, false);
+                Instance.OnSoundPreloaded(sound, obj, loop);
+            }
+        }
+
+        public void OnSoundPreloaded(string sound, FSLSoundObject obj, bool loop)
+        {
+            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Sound preloaded: " + sound);
+            ambientSounds[sound] = obj;
+            
+            while (!readyToPlayPreloadedMusic)
+            {
+                Thread.Sleep(100);
+            }
+			 LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Playback of sound: " + sound);
+            
+            PlayAmbientMusic(sound, EngineConfig.MusicVolume, false, loop, false);
+            readyToPlayPreloadedMusic = false;
+        }
+
 
         /// <summary>
         /// Odgrywa dŸwiêk/muzykê jako ambient (slychaæ z tak¹ sam¹ g³oœnoœci¹ bez wzglêdu na po³o¿enie kamery)
@@ -196,8 +277,7 @@ namespace Wof.Controller
 	                if (ambientSound != null)
 	                {
 	                     RemoveSound(ambientSound.Name);
-	                     ambientSound.Destroy();
-	                    ambientSounds.Remove(sound);
+                         ambientSounds.Remove(ambientSound.SoundFile);
 	                }
 	
 	
@@ -276,6 +356,33 @@ namespace Wof.Controller
         {
             root.FrameStarted += new FrameListener.FrameStartedHandler(FrameStarted);
             //Add sound listener so it will update every frame
+        }
+
+        protected void KillPreoloadWorker()
+        {
+            if (soundPreloaderWorker != null)
+            {
+                try
+                {
+                    soundPreloaderWorker.Abort();
+                }
+                catch (Exception)
+                {
+                }
+
+                while (soundPreloaderWorker.ThreadState != ThreadState.Stopped && soundPreloaderWorker.ThreadState != ThreadState.Aborted)
+                {
+                    Thread.Sleep(100);
+                }
+                soundPreloaderWorker = null;
+            }
+
+        }
+        public override void Destroy()
+        {
+            KillPreoloadWorker();
+          
+            base.Destroy();
         }
 
         public void Dispose()
