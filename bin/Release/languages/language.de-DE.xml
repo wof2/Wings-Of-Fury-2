@@ -145,10 +145,10 @@
     <value>Höchste Bildrate (FPS)</value>
   </data>
   <data name="ChooseAntialiasingMode">
-    <value>Wählen Sie die Stärke der Kantenglättung</value>
+    <value>Wählen Sie den Grad der Kantenglättung</value>
   </data>
   <data name="ChooseLevelOfDetail">
-    <value>Wählen Sie den Grad an Bilddetails</value>
+    <value>Wählen Sie den Grad der Bilddetails</value>
   </data>
   <data name="ChooseVideoMode">
     <value>Wählen Sie die Bildschirmauflösung</value>
@@ -163,10 +163,10 @@
     <value>Strahlende Farben (Bloom) verwenden</value>
   </data>
   <data name="EnableSound">
-    <value>Ton-Einstellung ändern</value>
+    <value>Toneinstellung ändern</value>
   </data>
   <data name="EnableVSync">
-    <value>Bild-Synchronisation einschalten (VSync)</value>
+    <value>Bildsynchronisation einschalten (VSync)</value>
   </data>
   <data name="EnemyPlaneApproachingFromTheLeft">
     <value>Feindliches Flugzeug kommt von links.</value>
@@ -190,7 +190,7 @@
     <value>Niedrig</value>
   </data>
   <data name="LowFuelWarning">
-    <value>WARNUNG: DER TREIBSTOFFTANK IST FAST LEER!</value>
+    <value>WARNUNG: TREIBSTOFFTANK IST FAST LEER!</value>
   </data>
   <data name="LowOilWarning">
     <value>WARNUNG: ÖLDRUCK ZU NIEDRIG!</value>
@@ -202,7 +202,7 @@
     <value>Nein</value>
   </data>
   <data name="PressEToTurnOnTheEngine">
-    <value>Drücken Sie '{0}', bis der Motor gestartet ist.</value>
+    <value>Halten Sie '{0}' gedrückt, bis der Motor startet.</value>
   </data>
       
   <data name="PressXToChangeAmmo">
@@ -229,22 +229,22 @@
     <value>Herr Pilot, versuchen Sie die Sterne zu erreichen?</value>
   </data>
   <data name="EnemyInstallationDestroyed">
-    <value>Gegnerische Anlagen wurden zestört!</value>
+    <value>Gegnerische Anlagen wurden zerstört!</value>
   </data>
   <data name="EnemyInstallationsAreBothSideCaptain">
-    <value>Gegnerische Anlagen auf beiden Seiten!</value>
+    <value>Gegnerische Einheiten auf beiden Seiten!</value>
   </data>
   <data name="EnemyInstallationsAreLeftCaptain">
-    <value>Gegnerische Anlagen auf der linken Seite.</value>
+    <value>Gegnerische Einheiten auf der linken Seite.</value>
   </data>
   <data name="EnemyInstallationsAreRightCaptain">
-    <value>Gegnerische Anlagen auf der rechten Seite.</value>
+    <value>Gegnerische Einheiten auf der rechten Seite.</value>
   </data>
   <data name="EnemyPlaneDownIRepeat">
     <value>Feindliches Flugzeug zerstört! Ich wiederhole. Feindliches Flugzeug zerstört!</value>
   </data>
   <data name="KillAllEnemySoldiers">
-    <value>Töten Sie alle gegnerischen Soldaten!</value>
+    <value>Töten Sie sämtliche gegnerischen Soldaten!</value>
   </data>
   <data name="OhNoEnemySoldiersAreRebuildingBunker">
     <value>Oh, nein! Die gegnerischen Soldaten bauen den Bunker wieder auf!</value>
@@ -253,10 +253,10 @@
     <value>Drücken Sie '{0}', um das Fahrwerk einzufahren.</value>
   </data>
   <data name="WARNINGProtectTheCarrierFromEnemyPlane">
-    <value>Warnung: Schützen Sie Ihren Flugzeugträger vor Angriffen feindlicher Flugzeuge!</value>
+    <value>Warnung: Schützen Sie Ihren Flugzeugträger vor feindlichen Flugzeugangriffen!</value>
   </data>
   <data name="WeAreNotLeavingYetCaptain">
-    <value>Wir geben noch nicht auf, Herr Pilot!</value>
+    <value>Wir geben nicht auf, Herr Pilot!</value>
   </data>
   <data name="Languages">
     <value>Sprache</value>
@@ -267,50 +267,50 @@
   <!-- meaning primary / main team -->
   
  <data name="CoreTeam">
- <value>Haupt-Entwickler</value>
+ 	<value>Hauptentwickler</value>
  </data>
  <data name="SupportTeam">
- <value>Unterstützung der Entwickler</value>
+ 	<value>Unterstützung der Entwickler</value>
  </data>
  <data name="Graphics">
- <value>Grafiken</value>
+ 	<value>Grafiken</value>
  </data>
  <data name="CommunityTranslations">
- <value>Sprachübersetzungen</value>
+ 	<value>Sprachübersetzungen</value>
  </data>
  <data name="Poland">
- <value>Polen</value>
+ 	<value>Polen</value>
  </data>
  <data name="Donate">
- <value>Erweiterte Version erhalten</value>
+ 	<value>Erweiterte Version erhalten</value>
  </data>
  <data name="CheckForUpdates">
- <value>Suche nach Aktualisierungen</value>
+ 	<value>Suche nach Aktualisierungen</value>
  </data>
   
  <!--
         Next 5 messages will be concatenated into one.        
  -->
  <data name="DonateMessagePart1">
- <value>Wenn Ihnen das Spiel </value>
+ 	<value>Wenn Ihnen das Spiel </value>
  </data>
  <!-- here will goes "Wings of fury 2" - but it's translated already -->
  <data name="DonateMessagePart2">
- <value>gefallen hat, würden wir uns</value>
+ 	<value>gefallen hat, würden wir uns</value>
  </data>
  <data name="DonateMessagePart3">
- <value>sehr über eine kleine Spende freuen.</value>
+	 <value>sehr über eine kleine Spende freuen.</value>
  </data>
  <data name="DonateMessagePart4">
- <value>Damit unterstützen Sie die</value>
+	 <value>Damit unterstützen Sie die</value>
  </data>
  <data name="DonateMessagePart5">
- <value>Weiterentwicklung des Spieles.</value>
+ 	<value>Weiterentwicklung des Spieles.</value>
  </data>
  
  
  <data name="CameraChanged">
- <value>Kamera-Ansicht geändert</value>
+ 	<value>Kamera-Ansicht geändert</value>
  </data>
 
   <!-- added to rev. 265 -->
@@ -340,7 +340,7 @@
   </data>
 
   <data name="GunShellsFired">
-    <value>Abgefeuerte Maschinengewehrschüsse:</value>
+    <value>Abgegebene Maschinengewehrschüsse:</value>
   </data>
 
   <data name="GunAccuracy">
@@ -415,10 +415,10 @@
 
  <!-- added 25.03.2009 -->
   <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
-    <value>Alle feindlichen Flugzeuge wurden zerstört. Landen Sie auf dem Flugzeugträger und drücken Sie '{0}'</value>
+    <value>Alle feindlichen Flugzeuge wurden zerstört. Landen Sie auf dem Flugzeugträger und drücken Sie '{0}'.</value>
   </data>
   <data name="EnemyPlanesLeft">
-    <value>Verbliebene feindliche Flugzeuge</value>
+    <value>Verbleibende feindliche Flugzeuge</value>
   </data>
   <data name="Target">
     <value>Ziel</value>
@@ -431,16 +431,16 @@
   </data> 
   
   <data name="TargetNeutralizedLandOnCarrierAndPressX">
-      <value>Das Ziel wurde neutralisiert. Landen Sie auf dem Flugzeugträger und drücken Sie '{0}'</value>
+      <value>Das Ziel wurde neutralisiert. Landen Sie auf dem Flugzeugträger und drücken Sie '{0}'.</value>
   </data> 
   <data name="EnemyShipsLeft">
-    <value>Verbliebene feindliche Schiffe</value>
+    <value>Verbleibende feindliche Schiffe</value>
   </data>
   <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
-    <value>Alle feindlichen Schiffe zerstört. Landen Sie auf dem Flugzeugträger und drücken Sie '{0}'</value>
+    <value>Alle feindlichen Schiffe zerstört. Landen Sie auf dem Flugzeugträger und drücken Sie '{0}'.</value>
   </data>
   <data name="EnemyInstallationDamaged">
-    <value>Feindliche Anlagen zerstört, Herr Pilot!</value>
+    <value>Zerstörte feindliche Anlagen</value>
   </data>
   
   <data name="TorpedoTooHigh">
@@ -451,14 +451,14 @@
     <value>Der Torpedo hat keinen Treibstoff mehr. Fliegen Sie näher an das Ziel.</value>
     <!-- CHECK IF LENGTH IS OK (maybe too long) -->
   </data>
-
-<!-- Hydrax is a water effects library -->
+	
+	<!-- Hydrax is a water effects library -->
   <data name="HydraxWater">
-    <value>Hydrax Wasser-Effekte</value>
+    <value>Hydrax-Wassereffekte</value>
   </data>
 
   <data name="Blood">
-    <value>Blut-Darstellung</value>
+    <value>Blutdarstellung</value>
   </data>
 
   <!-- Used in the options context like so: "shadows: none" -->
@@ -472,7 +472,7 @@
 
   <!-- Bullet time effect - like in Matrix :) -->
   <data name="BulletTime">
-    <value>Zeitlupen-Modus</value>
+    <value>Zeitlupenmodus</value>
   </data>
 
   <data name="MissionType">
@@ -506,19 +506,19 @@
   </data>
 
   <data name="KeyboardInfo2">
-    <value>die Datei (Spiel-Verzeichnis)\Release\KeyMap.ini.</value>
+    <value>die Datei (Spielverzeichnis)\Release\KeyMap.ini.</value>
   </data>
   
   <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
   <data name="Tutorial0">
    <value>
-     Missionstypen:
-     Es gibt verschiedene Missionstypen, die Sie während des Spiels antreffen:
-     Luftschlacht – Schießen Sie alle feindlichen Flugzeuge ab, um die Mission zu erfüllen.
-     Bomben abwerfen – Vernichten Sie alle feindlichen Soldaten.
+     Missionstypen
+     Während des Spiels lernen Sie verschiedene Missionstypen kennen:
+     Luftschlacht - Schießen Sie alle feindlichen Flugzeuge ab, um die Mission zu erfüllen.
+     Bomben abwerfen - Vernichten Sie alle feindlichen Soldaten.
      
-     Attentat - Feindliche Generäle verstecken sich in Gebäuden irgendwo auf den Inseln. SetzenSie Raketen ein, um sie zu töten.
-     Seeschlacht - VersenkenSie alle gegnerischen Schiffe mit Torpedos. Denken Sie daran, dass Sie möglichst niedrig auf Schiffe zufliegen, ehe die Torpedos abgeworfen werden.
+     Attentat - Feindliche Generäle verstecken sich in Gebäuden irgendwo auf den Inseln. Setzen Sie Raketen ein, um sie zu töten.
+     Seeschlacht - Versenken Sie alle gegnerischen Schiffe mit Torpedos. Denken Sie daran, möglichst niedrig auf die Schiffe zuzufliegen, ehe die Torpedos abgeworfen werden.
    </value>
   </data>
   
@@ -532,7 +532,7 @@
 
 
   <data name="PressLeftUpToTakeOff">
-    <value>Drücken Sie '{0}','{1}' zum Abheben</value>
+    <value>Zum Abheben drücken Sie '{0}','{1}'.</value>
   </data>
 
 
@@ -543,16 +543,16 @@
 
   <!-- "{0}" will be substituted for the real key -->
   <data name="PressUpToLand">
-    <value>Drücken Sie "{0}" zum Landen.</value>
+    <value>Zum Landen drücken Sie "{0}".</value>
   </data>
   
   <!-- don't worry about the line breaks in the strings below --> 
   <data name="News404_1">
-    <value>Kann keine Neuigkeiten von der Wings of Fury 2 Website laden.</value>
+    <value>Kann keine Neuigkeiten von der "Wings of Fury 2"-Website laden.</value>
   </data>
   
   <data name="News404_2">
-    <value>Keine Internet-Verbindung vorhanden.</value>
+    <value>Keine Internetverbindung vorhanden.</value>
   </data>
   
   <data name="News404_3">
@@ -570,7 +570,7 @@
   
 
   <data name="EnhancedVersionDetails">
-    <value>Die erweiterte Spielversion ist werbefrei und enthält zusätzliche Levels, Flugzeuge und Bonus-Inhalte. Sie ist gegen eine kleine Spende oder Mithilfe am Projekt erhältlich.</value>
+    <value>Die erweiterte Spielversion ist werbefrei und enthält zusätzliche Levels, Flugzeuge und Bonusinhalte. Sie ist erhältlich gegen eine kleine Spende oder Mithilfe am Projekt.</value>
   </data>
 
   <data name="Planes">
@@ -595,7 +595,7 @@
 
 
    <data name="TorpedoesFired">
-    <value>Abgefeuerte Torpedos:</value>
+    <value>Abgeworfene Torpedos:</value>
   </data>
 
   <data name="TorpedoesAccuracy">
