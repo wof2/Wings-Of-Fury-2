@@ -69,7 +69,7 @@ namespace Wof.Controller
         /// <summary>
         /// Wersja tej kompilacji WOfa. Powinna byæ w formacie X.XX
         /// </summary>
-        public static readonly String C_WOF_VERSION = "3.4";
+        public static readonly String C_WOF_VERSION = "3.5";
 
         public static readonly bool C_IS_INTERNAL_TEST = false;
         public static readonly String C_IS_INTERNAL_TEST_INFO = "!!! Internal test version !!! ";
@@ -101,7 +101,7 @@ namespace Wof.Controller
                 string product = ((AssemblyProductAttribute)Attribute.GetCustomAttribute(a, typeof(AssemblyProductAttribute), false)).Product;
             */
                string company = "Ravenlore";
-               string version = "3.4.0.0";
+               string version = "3.5.0.0";
                string product = "Wings of Fury 2";
 
                ret = Path.Combine(basePath, company);

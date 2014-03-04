@@ -16,7 +16,7 @@
     <ProbingPaths />
     <Options verbose="false" preset="auto" autoExclusion="true" />
     <SignWith />
-    <OutputFolder>W:\wings\WoF\bin\Release\wof_secure</OutputFolder>
+    <OutputFolder>G:\Workspace\wings\WoF\bin\Release\wof_secure</OutputFolder>
     <Analyze>
       <Analyzer guid="16B7D61B-200C-46D5-BEB2-FAB3BD4D9139" enabled="true" />
       <Analyzer guid="5052094B-55D3-4A4E-84FE-BF2AB42D4CA3" enabled="true" />
@@ -35,7 +35,7 @@
     <Rename>
       <Options renamingScheme="LowercaseLetters" namespaceObfuscationType="remove" />
       <MappingFile>
-        <Path>W:\wings\WoF\bin\Release\wof.renamed.xml</Path>
+        <Path>G:\Workspace\wings\WoF\bin\Release\wof.renamed.xml</Path>
       </MappingFile>
       <ExcludeTypes>
         <ExcludeNamespace name="EnhancedVersionHelper" />
