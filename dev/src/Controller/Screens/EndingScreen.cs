@@ -106,6 +106,8 @@ namespace Wof.Controller.Screens
                                     "Sychospy",
                                     "tboc.razor",
                                     "Marcelo Eiras",
+									"Nico",
+									"Tung Nguyen",
                                     String.Empty,
                                     LanguageResources.GetString(LanguageKey.CommunitySupport),
                                     "Marcelo Eiras",

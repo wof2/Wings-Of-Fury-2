@@ -1,0 +1,651 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- FOR ALL TRANSLATORS: please translate everything between <value> and </value> tags. Leave rest of the stuff unchanged  -->
+  <data name="Antialiasing">
+    <value>Khử răng cưa</value>
+  </data>
+  <data name="Back">
+    <value>Quay lại</value>
+  </data>
+
+  <!-- "bloom" effect -->
+  <data name="Bloom">
+    <value>Chói sáng</value>
+  </data>
+  <data name="Bombs">
+    <value>Bom</value>
+  </data>
+  <data name="ChangeOptionMessage1">
+    <value>Các thay đổi trong Tùy chọn sẽ có </value>
+  </data>
+  <data name="ChangeOptionMessage2">
+    <value>tác dụng sau khi bật lại Trò chơi.</value>
+  </data>
+  <data name="ChooseDifficulty">
+    <value>Chọn độ khó</value>
+  </data>
+  <data name="CompletedLevels">
+    <value>Cấp bậc đã Hoàn thành</value>
+  </data>
+  <data name="Congratulations">
+    <value>Chúc mừng</value>
+  </data>
+  <data name="Controls">
+    <value>Điều khiển</value>
+  </data>
+  <data name="CreatingGameObjects">
+    <value>Tạo đối tượng trò chơi</value>
+  </data>
+  <data name="CreatingScene">
+    <value>Tạo cảnh</value>
+  </data>
+  <data name="CreatingTheRootObject">
+    <value>Tạo đối tượng gốc</value>
+  </data>
+  <data name="CreatorOfOriginalWingsOfFury">
+    <value>Người sáng lập của Wings of Fury (1987) đâu tiên</value>
+  </data>
+  <data name="Credits">
+    <value>Công trạng</value>
+  </data>
+  <data name="Details">
+    <value>Chi tiết</value>
+  </data>
+  <data name="Difficulty">
+    <value>Độ khó</value>
+  </data>
+  <data name="EnterYourName">
+    <value>Nhập tên của bạn</value>
+  </data>
+  <data name="ExitToMenu">
+    <value>Thoát khỏi bảng chọn</value>
+  </data>
+  <data name="GameOver">
+    <value>Trò chơi Kết thúc</value>
+  </data>
+  <data name="HallOfFame">
+    <value>Bảng Phong thần</value>
+  </data>
+  <data name="Highscores">
+    <value>Bảng Xếp hạng</value>
+  </data>
+  <data name="InitializingSound">
+    <value>Đang khởi tạo Âm thanh</value>
+  </data>
+  <!-- ID of the current language -->
+  <data name="LanguageID">
+    <value>Vietnamese (Tieng Viet)</value>
+  </data>
+  <!-- level / stage of the game -->
+  <data name="Level">
+    <value>Cấp bậc</value>
+  </data>
+  <data name="LoadingResources">
+    <value>Đang nạp Tài nguyên</value>
+  </data>
+  <data name="NewGame">
+    <value>Chơi Mới</value>
+  </data>
+  <!-- next menu option -->
+  <data name="Next">
+    <value>Tiếp</value>
+  </data>
+  <data name="OK">
+    <value>OK</value>
+  </data>
+  <data name="Options">
+    <value>Tùy chọn</value>
+  </data>
+  <data name="Pause">
+    <value>Tạm dừng</value>
+  </data>
+  <!-- previous menu option -->
+  <data name="Previous">
+    <value>Quay lại</value>
+  </data>
+  <data name="Quit">
+    <value>Thoát</value>
+  </data>
+  <data name="Resume">
+    <value>Tiếp tục</value>
+  </data>
+  <data name="Rockets">
+    <value>Tên lửa</value>
+  </data>
+  <data name="SelectAmmunition">
+    <value>Chọn vũ khí</value>
+  </data>
+  <data name="SetupingResources">
+    <value>Đang thiết lập Tài nguyên</value>
+  </data>
+  <data name="Sound">
+    <value>Âm thanh</value>
+  </data>
+  <data name="SpecialThanksToSteveWaldo">
+    <value>Chân thành cảm ơn Steve Waldo</value>
+  </data>
+  <data name="Tutorial">
+    <value>Hướng dẫn</value>
+  </data>
+  <data name="VideoMode">
+    <value>Chế độ Hình ảnh</value>
+  </data>
+  <data name="VideoOptions">
+    <value>Tùy biến Hình ảnh</value>
+  </data>
+  <data name="VSync">
+    <value>VSync</value>
+  </data>
+  <data name="YouWonTheGame">
+    <value>Bạn đã thắng</value>
+  </data>
+  <data name="AddingCompositors">
+    <value>Đang thêm các Tác nhân</value>
+  </data>
+  <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
+    <!--<value>All enemy soldiers eliminated, land on the carrier and press X</value>-->
+    <value>Quân định đã hoàn toàn bị tiêu diệt, đáp máy bay trên tàu sân bay và nhấn phím '{0}'</value>
+  </data>
+  <data name="AverageFPS">
+    <value>FPS trung bình</value>
+  </data>
+  <data name="BestFPS">
+    <value>FPS tốt nhất</value>
+  </data>
+  <data name="ChooseAntialiasingMode">
+    <value>Chọn chế độ Khử răng cưa</value>
+  </data>
+  <data name="ChooseLevelOfDetail">
+    <value>Chọn mức độ của Chi tiết</value>
+  </data>
+  <data name="ChooseVideoMode">
+    <value>Chọn chế độ Hình ảnh</value>
+  </data>
+  <data name="CreatingInput">
+    <value>Đang tạo đầu vào</value>
+  </data>
+  <data name="CurrentFPS">
+    <value>FPS hiện thời</value>
+  </data>
+  <data name="EnableBloom">
+    <value>Cho phép Chói sáng</value>
+  </data>
+  <data name="EnableSound">
+    <value>Cho phép Âm thanh</value>
+  </data>
+  <data name="EnableVSync">
+    <value>Cho phép VSync</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheLeft">
+    <value>Máy bay định đang tiến đến từ bên trái</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheRight">
+    <value>Máy bay định đang tiến đến từ bên phải</value>
+  </data>
+  <!-- high difficulty / details -->
+  <data name="High">
+    <value>Nhiều</value>
+  </data>
+  <data name="InverseKeys">
+    <value>Các phím đảo ngược</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRefuel">
+    <!--<value>Land on the carrier and press 'X' to refuel</value>-->
+    <value>Đáp máy bay trên tàu sân bay và nhấn phím '{0}' để tiếp xăng</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRepair">
+    <!--<value>Land on the carrier and press 'X' to repair</value>-->
+    <value>Đáp máy bay trên tàu sân bay và nhấn phím '{0}' để sửa chữa</value>
+  </data>
+  <!-- low difficulty / details -->
+  <data name="Low">
+    <value>Ít</value>
+  </data>
+  <data name="LowFuelWarning">
+    <value>CẢNH BÁO CẠN XĂNG</value>
+  </data>
+  <data name="LowOilWarning">
+    <value>CẢNH BÁO CẠN DẦU</value>
+  </data>
+  
+  <data name="Medium">
+    <value>Trung bình</value>
+  </data>
+  <data name="No">
+    <value>Không</value>
+  </data>
+  
+  <data name="PressEToTurnOnTheEngine">
+    <value>Nhấn và GIỮ '{0}' để bật động cơ</value>
+  </data>
+  
+  <data name="PressXToChangeAmmo">
+    <value>Nhấn '{0}' để thay đổi vũ khí, sửa chữa và tiếp xăng</value>
+  </data>
+  
+  
+  <data name="ScreenshotWrittenTo">
+    <value>Cảnh chụp được lưu ở</value>
+  </data>
+  <data name="StartFrom">
+    <value>Bắt đầu từ</value>
+  </data>
+  <data name="TriangleCount">
+    <value>Số lượng tam giác</value>
+  </data>
+  <data name="WorstFPS">
+    <value>FPS xấu nhất</value>
+  </data>
+  <data name="Yes">
+    <value>Đồng ý</value>
+  </data>
+  <data name="AreYouTryingToReachStarsCaptain">
+    <value>Bạn đang cố gắng để được ngôi sao đội trưởng phải không?</value>
+  </data>
+  <data name="EnemyInstallationDestroyed">
+    <value>Phòng thủ của địch đã bị phá hủy, thưa Sếp!</value>
+  </data>
+  <data name="EnemyInstallationsAreBothSideCaptain">
+    <value>Phòng thủ của địch đã bị phá hủy ở cả hai bên!</value>
+  </data>
+  <data name="EnemyInstallationsAreLeftCaptain">
+    <value>Phòng thủ của địch đã bị phá hủy ở bên trái!</value>
+  </data>
+  <data name="EnemyInstallationsAreRightCaptain">
+    <value>Phòng thủ của địch đã bị phá hủy ở bên phải!</value>
+  </data>
+  <data name="EnemyPlaneDownIRepeat">
+    <value>Máy bay địch bị bắt rơi! Nhắc lại! Máy bay địch bị bắt rơi!</value>
+  </data>
+  <data name="KillAllEnemySoldiers">
+    <value>Tiêu diệt toàn bộ quân địch. Tiến lên!</value>
+  </data>
+  <data name="OhNoEnemySoldiersAreRebuildingBunker">
+    <value>Oh, không! Địch đang xây lại hầm trú ẩn!</value>
+  </data>
+  <data name="RetractYourLandingGearWithG">
+    <value>Thả bộ đáp bằng phím '{0}'</value>
+  </data>
+  <data name="WARNINGProtectTheCarrierFromEnemyPlane">
+    <value>CẤP BÁO! Bảo vệ tàu sân bay khỏi máy bay địch!</value>
+  </data>
+  <data name="WeAreNotLeavingYetCaptain">
+    <value>Chúng ta chưa thể rút, thưa Sếp!</value>
+  </data>
+  <data name="Languages">
+    <value>Ngôn ngữ</value>
+  </data>
+  <!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
+  <data name="CoreTeam">
+    <value>Đội nòng cốt</value>
+  </data>
+  <data name="SupportTeam">
+    <value>Đội hỗ trợ</value>
+  </data>
+  <data name="Graphics">
+    <value>Đồ họa</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>Cộng đồng dịch thuật</value>
+  </data>
+  <data name="Poland">
+    <value>Ba Lan</value>
+  </data>
+  <data name="Donate">
+    <value>Tài trợ</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>Kiểm tra bản cập nhật</value>
+  </data>
+   <!--
+        Next 5 messages will be concatenated into one.        
+    -->
+  <data name="DonateMessagePart1">   
+    <value>Nếu bạn yêu thích</value>
+  </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
+  <data name="DonateMessagePart2">
+    <value>vui lòng tài trợ </value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>thông qua Paypal. Chúng tôi rất mong</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>những tài trợ để tiếp tục</value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>phát triển trò chơi.</value>
+  </data>
+  <!-- message displayed after pressing 'c' (change camera) key. -->
+  <data name="CameraChanged">
+    <value>Thay đổi Góc nhìn</value>
+  </data>
+
+  <!-- added to rev. 265 -->
+  <data name="EnemySoldiersLeft">
+    <value>Địch ở bên trái</value>
+  </data>
+
+  <!-- added to rev. 305 - Level stats -->
+  <data name="LevelStats">
+    <value>Cấp bậc hiện thời</value>
+  </data>
+
+  <data name="BombsDropped">
+    <value>Lượng bom đã thả:</value>
+  </data>
+
+  <data name="BombsAccuracy">
+    <value>Lượng bom chính xác:</value>
+  </data>
+
+  <data name="RocketsFired">
+    <value>Lượng tên lửa đã bắn:</value>
+  </data>
+
+  <data name="RocketsAccuracy">
+    <value>Lượng tên lửa chính xác:</value>
+  </data>
+
+  <data name="GunShellsFired">
+    <value>Lượng đạn đã bắn:</value>
+  </data>
+
+  <data name="GunAccuracy">
+    <value>Lượng đạn chính xác:</value>
+  </data>
+
+  <data name="PlanesDestroyed">
+    <value>Lượng máy bay đã bị bắn hạ:</value>
+  </data>
+
+  <data name="LevelCompleted">
+    <value>Cấp bậc Hoàn thành</value>
+  </data>
+
+  <data name="Engine"><!-- plane engine -->
+    <value>Động cơ</value>
+  </data>
+
+  <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
+    <value>Gia tốc/Thắng/Quay</value>
+  </data>
+
+  <data name="Pitch"><!-- changing of plane's altitude. -->
+    <value>Nâng/hạ</value>
+  </data>
+
+  <data name="Spin"><!-- rolling the plane around its longwise -->
+    <value>Lộn nhào</value>
+  </data>
+
+  <data name="Gear"><!-- landing gear -->
+    <value>Thiết bị đáp</value>
+  </data>
+
+  <data name="Gun">
+    <value>Súng</value>
+  </data>
+
+  <data name="Camera">
+    <value>Góc nhìn</value>
+  </data>
+
+  <data name="Zoomin">
+    <value>Phóng to</value>
+  </data>
+
+
+  <data name="Zoomout">
+    <value>Thu nhỏ</value>
+  </data>
+
+  <data name="RearmEndMission">
+    <value>Tiếp đạn / Kết thúc Nhiệm vụ</value>
+  </data>
+  
+  <data name="Rearm">
+    <value>Tiếp đạn </value>
+  </data>
+  <data name="EndMission">
+    <value> Kết thúc Nhiệm vụ</value>
+  </data>
+  <!-- added 2.01.2009 -->
+
+  <data name="Torpedo">
+    <value>Ngư lôi</value>
+  </data>
+  <data name="Torpedoes">
+    <value>Ngư lôi</value>
+  </data>
+
+ <!-- added 25.03.2009 -->
+  <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
+    <value>Toàn bộ máy bay địch đã bị tiêu diệt, đáp máy bay trên tàu sân bay và nhấn phím '{0}'</value>
+  </data>
+  
+  <data name="EnemyPlanesLeft">
+    <value>Máy bay địch ở bên trái</value>
+  </data>
+  
+  <data name="Target">
+    <value>Mục tiêu</value>
+  </data>
+  
+  <data name="Neutralized">
+    <value>Vô hiệu hóa</value>
+  </data>
+  
+  <data name="Alive">
+    <value>Sống sót</value>
+  </data> 
+  
+  <data name="TargetNeutralizedLandOnCarrierAndPressX">
+      <value>Mục tiêu đã vô hiệu hóa. Đáp máy bay trên tàu sân bay và nhấn phím '{0}'</value>
+  </data> 
+  
+  <!-- enemy ships left to be sunk -->
+  <data name="EnemyShipsLeft">
+    <value>Tàu địch ở bên trái</value>
+  </data>
+  
+  <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
+    <value>Toàn bộ tàu địch đã bị tiêu diệt, đáp máy bay trên tàu sân bay và nhấn phím '{0}'</value>
+  </data>
+  
+  <data name="EnemyInstallationDamaged">
+    <value>Phòng thủ của địch đã bị hủy, thưa Sếp!</value>
+  </data>
+  
+  <data name="TorpedoTooHigh">
+    <value>Độ cao quá cao! Ngư lôi đã hỏng</value>
+  </data>
+  
+  <data name="TorpedoLongTravelDistance">
+    <value>Ngư lôi đã hết nhiên liệu! Tiến đến gần hơn</value>
+  </data>
+	
+	<!-- Hydrax is a water effects library -->
+  <data name="HydraxWater">
+    <value>Hydrax Water</value>
+  </data>
+
+  <data name="Blood">
+    <value>Máu me</value>
+  </data>
+
+  <!-- Used in the options context like so: "shadows: none" -->
+  <data name="None">
+    <value>Không</value>
+  </data>
+
+ <data name="Shadows">
+    <value>Bóng đổ</value>
+  </data>
+
+  <!-- Bullet time effect - like in Matrix :) -->
+  <data name="BulletTime">
+    <value>Đứng thời gian</value>
+  </data>
+
+  <data name="MissionType">
+    <value>Mission type</value>
+  </data>
+  
+  <!-- available mission types: -->
+  <data name="Dogfight">
+    <value>Cẩu chiến</value> <!-- destroying planes -->
+  </data>
+  
+  
+  <data name="BombingRun">
+    <value>Bom rải thảm</value>
+  </data>
+  
+  
+  <data name="Assassination">
+    <value>Hành thích</value> <!-- "kill the generals" -->
+  </data>
+  
+  
+  <data name="Naval">
+    <value>Nhận chìm</value> <!-- sink all ships -->
+  </data>
+
+
+  <data name="KeyboardInfo1">
+    <value>Hãy sử dụng tập tin (game_directory)\Release\KeyMap.ini, </value>
+  </data>
+  
+  <data name="KeyboardInfo2">
+    <value>để thay đổi bộ phím</value>
+  </data>
+  
+  <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
+  <data name="Tutorial0">
+   <value>
+     Các dạng nhiệm vụ:
+     Có rất nhiều dạng nhiệm vụ để bạn có thể theo đuổi trong trò chơi:
+     Cẩu chiến - bắt hạ toàn bộ máy bay địch.
+     Bom rải thảm - tiêu diệt toàn bộ lính địch.
+     Hành thích - tướng địch đang lẩn trốn trong rừng. Sử dụng tên lửa để tiêu diệt.
+     Nhận chìm - tiêu diệt toàn bộ tàu địch bằng ngư lôi. Nhớ rằng bạn cần phải bay thấp và ổn định trước khi phóng ngư lôi.
+   </value>
+  </data>
+  
+  <data name="EnemyGenerals">
+    <value>Tướng giặc đã ra đi</value>
+  </data>
+ 
+  <data name="Altitude">
+    <value>Độ cao</value>
+  </data>
+
+
+  <data name="PressLeftUpToTakeOff">
+    <value>Nhấn '{0}','{1}' để cất cách</value>
+  </data>
+
+  <data name="CustomLevels">
+    <value>Tùy biến Cấp bậc</value>
+  </data>
+
+ <data name="PressUpToLand">
+    <value>Nhấn '{0}' để đáp máy bay</value>
+  </data>
+
+  <!-- don't worry about the line breaks in the strings below -->
+  <data name="News404_1">
+    <value>Lỗi truy cập đến thông tin dự án WOF2</value>
+  </data>
+
+  <data name="News404_2">
+    <value>Không thể thiết lập kết nối Internet</value>
+  </data>
+
+  <data name="News404_3">
+    <value>Hãy cho phép WOF2 thông qua tưởng lửa của bạn. Bạn sẽ có thể tải xuống các Cấp mới, cập nhật và các hỗ trờ của trò chơi!</value>
+  </data>
+
+  <data name="News404_4">
+    <value>Làm điều này thế nào?</value>
+  </data>
+
+  <data name="EnhancedVersion">
+    <value>Phiên bản nâng cấp</value>
+  </data>
+
+  <data name="EnhancedVersionDetails">
+    <value>Phiên bản nâng cấp của trò chơi bao gồm các cấp mới, may báy mới và nhiệm vụ mới. Tất cả các quảng cáo được gỡ bỏ. Sẵn sàng cho các nhà tài trợ và các hỗ trợ viên.</value>
+  </data>
+  
+  <data name="Planes">
+    <value>Máy bay</value>
+  </data>
+
+
+  <data name="P47">
+    <value>P47</value>
+  </data>
+
+  <data name="F4U">
+    <value>F4U</value>
+  </data>
+  
+  <data name="B25">
+    <value>B-25 Mitchell</value>
+  </data>
+  
+  
+  <data name="GetEnhancedVersion">
+    <value>Hãy sử dụng phiên bản nâng cao!</value>
+  </data>
+  
+  
+  <data name="TorpedoesFired">
+    <value>Lượng ngư lôi đã phóng:</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>Lương ngư lôi chính xác:</value>
+  </data>
+  
+   <data name="SurvivalTime">
+    <value>Thời gian sống sót:</value>
+  </data>
+  
+  
+  <data name="CommunitySupport">
+    <value>Cộng đồng hỗ trợ</value>
+  </data>
+  
+   <data name="Hold"> <!-- to hold the button / key. Shown in controls screen -->
+       <value>Giữ</value>
+  </data>
+  
+    <data name="WinnerOfFirstDogfight"> <!-- credits screen -->
+       <value>Người chiến thắng của giải Cẩu chiến cầu tiên</value>
+  </data>
+
+  <data name="LanguageDebugMode"> 
+       <value>Chế độ rà soát ngôn ngữ</value>
+  </data>
+  
+  <data name="TranslationCompleteness"> 
+       <value>Dịch thuật hoàn thành {0}/{1}</value>
+  </data>
+  
+  <data name="PossibleCharacters"> 
+       <value>Ký tự có khả năng</value>
+  </data>
+  
+   <data name="Achievements"> 
+       <value>Thành quả</value>
+  </data>
+  
+  
+</root>
+
+

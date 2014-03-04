@@ -145,3 +145,12 @@ Wof_he-IL
 	#code_points 33-126 224-250 732-733  8211-8249 2817-2818 64285-64335
 	code_points 33-126 1488-1514 1520-1524
 }
+
+Wof_vi-VI
+{	
+	type 		truetype
+	source 		UVNNguyenDu.TTF
+	size 		20
+	resolution 	96	
+	code_points 33-126 192-432 7840-7929
+}

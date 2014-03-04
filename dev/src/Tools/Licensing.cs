@@ -364,7 +364,7 @@ namespace Wof.Tools
            	   	   }
 	           	   catch(Exception ex)
 	           	   {
-                        MessageBox.Show("The license 3.4 file was invalid. Starting standard version\r\nThe error was:" + ex, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("The license 3.4/3.5 file was invalid. Starting standard version\r\nThe error was:" + ex, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                       
 	           	   		return false;
 	           	    }

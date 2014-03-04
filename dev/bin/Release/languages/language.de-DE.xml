@@ -136,7 +136,7 @@
     <value>Lade Pixel-Shader</value>
   </data>
   <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
-    <value>Alle gegnerischen Soldaten wurden getötet. Landen Sie auf dem Flugzeugträger und drücken Sie '{0}'</value>
+    <value>Alle gegnerischen Soldaten wurden getötet. Landen Sie auf dem Flugzeugträger und drücken Sie '{0}'.</value>
   </data>
   <data name="AverageFPS">
     <value>Durchschnittliche Bildrate (FPS)</value>
@@ -360,7 +360,7 @@
   </data>
 
   <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
-    <value>Beschleunigung / Bremsen / Drehung</value>
+    <value>Beschleunigen / Bremsen / Wenden</value>
   </data>
 
   <data name="Pitch"><!-- changing of plane's altitude. -->
