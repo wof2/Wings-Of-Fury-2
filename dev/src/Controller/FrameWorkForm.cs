@@ -1367,7 +1367,7 @@ namespace Wof.Controller
 
             if (inputJoystick !=null)
             {
-                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick);
+                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick,false);
                 if (joyVector.x != 0) camera.Yaw(-joyVector.x * scaleRotate);
                 if (joyVector.y != 0) camera.Pitch(joyVector.y * scaleRotate);
             }

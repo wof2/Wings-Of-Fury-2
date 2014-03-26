@@ -1096,8 +1096,9 @@ namespace Wof.Controller.Screens
                // inputMouse.Capture();
                 //inputKeyboard.Capture();
                 //if(inputJoystick != null) inputJoystick.Capture();
-                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick);
-
+                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick,false);
+				//Console.WriteLine("Joystick status: "+joyVector);
+				
                
 
                 // jezeli uzytkownik bedzie w stanie pauzy, to nie
@@ -1405,7 +1406,7 @@ namespace Wof.Controller.Screens
                 }
 
 
-                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick);
+                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick, false);
 
                 // przyciski - pauza
                 if (isInPauseMenu)
@@ -1894,7 +1895,7 @@ namespace Wof.Controller.Screens
                         inputMouse.Capture();
                         inputKeyboard.Capture();
                         if (inputJoystick != null) inputJoystick.Capture();
-                        Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick);
+                        Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick, false);
 
                         if(changingAmmo)
                         {
