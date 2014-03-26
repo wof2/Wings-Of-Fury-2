@@ -55,6 +55,7 @@ using System.Collections.Generic;
 using System.Text;
 using Mogre;
 using Wof.Controller;
+using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Model.Configuration;
 using Wof.Model.Level;
 using Wof.Model.Level.Carriers;
@@ -1965,7 +1966,9 @@ namespace Wof.Model.Level.Planes
                             {
                                // movementVector.X = 0;
                                // movementVector.Y = 0;
-                                TurnRound(newDirection, TurnType.Carrier);
+								if(inputVector == null || joyScale > KeyMap.Instance.JoystickDeadZone * 2.5f) {
+									 TurnRound(newDirection, TurnType.Carrier);
+								}                               
                             }
                             //hamowanie samolotu (MOCNE)
                             float subSpeed = GetConsts().BreakingPower*scaleFactor*
@@ -2023,7 +2026,9 @@ namespace Wof.Model.Level.Planes
                     else //kierunek przeciwny do kierunku lotu
                         if (CanTurnAround) //sprawdzam czy mo¿e zawróciæ
                         {
-                            TurnRound(newDirection, TurnType.Airborne);
+							if(inputVector == null || joyScale > KeyMap.Instance.JoystickDeadZone * 2.5f) {
+                            	TurnRound(newDirection, TurnType.Airborne);
+							}
                         }
                     break;
             }

@@ -321,8 +321,9 @@ namespace Wof.Controller
             return false;
         }
 
-        public static Vector2 GetJoystickVector(JoyStick j)
+        public static Vector2 GetJoystickVector(JoyStick j, Boolean lowSens)
         {
+			
             if(j!=null)
             {
                 if(j.JoyStickState.VectorCount > 0)
@@ -355,13 +356,13 @@ namespace Wof.Controller
                         double h = (1.0 * axisH.abs / JoyStick.MAX_AXIS);
 
                         // Console.WriteLine(h + " " + v);
-                     
-                      
-                        if (Math.Abs(v) < KeyMap.Instance.JoystickDeadZone) v = 0;
+						double dead = KeyMap.Instance.JoystickDeadZone;
+						dead = lowSens ? 3*dead : dead;					
+                        if (Math.Abs(v) < dead) v = 0;
                         else if (v > 1) v = 1;
                         else if (v < -1) v = -1;
 
-                        if (Math.Abs(h) < KeyMap.Instance.JoystickDeadZone) h = 0;
+                        if (Math.Abs(h) < dead) h = 0;
                         else if (h > 1) h = 1;
                         else if (h < -1) h = -1;
                      

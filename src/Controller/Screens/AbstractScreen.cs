@@ -1147,7 +1147,7 @@ namespace Wof.Controller.Screens
                         wasEnterKeyPressed = false;
                     }
 
-                    Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick);
+                    Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick, true);
 
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_UP))
                     {
@@ -1263,7 +1263,7 @@ namespace Wof.Controller.Screens
 
         private void receiveKeys(Keyboard inputKeyboard, JoyStick joystick)
         {
-            Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(joystick);
+            Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(joystick,true);
             if(joyVector != Vector2.ZERO)
             {
                 //Console.WriteLine(joyVector);
