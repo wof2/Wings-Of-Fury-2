@@ -12,7 +12,7 @@ Wof_pl-PL
 	source 		solo5PL.ttf
 	size 		16
 	resolution 	96
-	code_points     33-125 193-205 211-214 220-220 225-233 237-237 242-246 252-252 260-263 280-281 321-324 346-347 377-380
+	code_points  33-126 193-205 211-214 220-220 225-233 237-237 242-246 252-252 260-263 280-281 321-324 346-347 377-380
 	
 }
 
@@ -22,7 +22,7 @@ Wof_ru-RU
 	source 	     Archangelsk.ttf
 	size 		20
 	resolution 	96
-        code_points     33-122 1040-1103
+    code_points     33-126 1040-1103
         
 }
 
@@ -32,7 +32,7 @@ Wof_ua-UA
 	source 		ru.ttf
 	size 		20
 	resolution 	96
-	code_points 33-122 1025-1273
+	code_points 33-126 1025-1273
 }
 
 Wof_de-DE
@@ -41,7 +41,7 @@ Wof_de-DE
 	source 		solo5.ttf
 	size 		16
 	resolution 	96
-	code_points     33-380
+	code_points 33-380
 
 }
 
@@ -51,7 +51,7 @@ Wof_nl-NL
 	source 		solo5.ttf
 	size 		16
 	resolution 	96
-	code_points     33-380
+	code_points 33-380
 
 }
 
@@ -61,7 +61,7 @@ Wof_gr-GR
 	source 		solo5.ttf
 	size 		20
 	resolution 	96
-	code_points 33-122 900-974
+	code_points 33-126 900-974
 }
 
 Wof_pt-PT
@@ -70,7 +70,7 @@ Wof_pt-PT
 	source 		solo5.ttf
 	size 		20
 	resolution 	96
-	code_points 33-122 193-245
+	code_points 33-126 193-245
 }
 
 Wof_pt-BR
@@ -79,7 +79,7 @@ Wof_pt-BR
 	source 		solo5.ttf
 	size 		20
 	resolution 	96
-	code_points 33-122 193-245
+	code_points 33-126 193-245
 }
 
 Wof_es-ES
@@ -88,7 +88,7 @@ Wof_es-ES
 	source 		bodegasansblacksmallcaps.ttf
 	size 		20
 	resolution 	96
-	code_points 33-122 161-161 191-245
+	code_points 33-126 161-161 191-245
 }
 
 Wof_es-AR
@@ -97,7 +97,7 @@ Wof_es-AR
 	source 		bodegasansblacksmallcaps.ttf
 	size 		20
 	resolution 	96
-	code_points 33-122 161-161 191-245
+	code_points 33-126 161-161 191-245
 }
 
 Wof_es-CA
@@ -106,7 +106,7 @@ Wof_es-CA
 	source 		bodegasansblacksmallcaps.ttf
 	size 		20
 	resolution 	96
-	code_points 33-122 161-161 191-245
+	code_points 33-126 161-161 191-245
 }
 
 Wof_it-IT
@@ -115,7 +115,7 @@ Wof_it-IT
 	source 		solo5.ttf
 	size 		20
 	resolution 	96
-	code_points 33-122 161-161 191-245
+	code_points 33-126 161-161 191-245
 }
 
 Wof_fr-FR
@@ -124,7 +124,7 @@ Wof_fr-FR
 	source 		solo5.ttf
 	size 		20
 	resolution 	96
-	code_points 33-122 193-246
+	code_points 33-126 193-246
 }
 
 Wof_sv-SV
@@ -153,4 +153,14 @@ Wof_vi-VI
 	size 		20
 	resolution 	96	
 	code_points 33-126 192-432 7840-7929
+}
+
+Wof_hu-HU
+{	
+	type 		truetype
+	source 		Bevan.ttf
+	size 		20
+	resolution 	96
+	code_points 33-126 161-255 336-337 368-369
+
 }

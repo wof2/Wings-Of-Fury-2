@@ -1,0 +1,653 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- FOR ALL TRANSLATORS: please translate everything between <value> and </value> tags. Leave rest of the stuff unchanged  -->
+  <data name="Antialiasing">
+    <value>Élsimítás</value>
+  </data>
+  <data name="Back">
+    <value>Vissza</value>
+  </data>
+
+  <!-- "bloom" effect -->
+  <data name="Bloom">
+    <value>Fényhatások</value>
+  </data>
+  <data name="Bombs">
+    <value>Bomba</value>
+  </data>
+  <data name="ChangeOptionMessage1">
+    <value>Néhány opció megváltoztatása csak a</value>
+  </data>
+  <data name="ChangeOptionMessage2">
+    <value>játék újraindítása után lép érvénybe.</value>
+  </data>
+  <data name="ChooseDifficulty">
+    <value>Nehézségi szint</value>
+  </data>
+  <data name="CompletedLevels">
+    <value>Teljesített szintek</value>
+  </data>
+  <data name="Congratulations">
+    <value>Gratulálunk!</value>
+  </data>
+  <data name="Controls">
+    <value>Irányítás</value>
+  </data>
+  <data name="CreatingGameObjects">
+    <value>Játékobjektumok betöltése</value>
+  </data>
+  <data name="CreatingScene">
+    <value>Hátterek betöltése</value>
+  </data>
+  <data name="CreatingTheRootObject">
+    <value>Gyökérobjektum betöltése</value>
+  </data>
+  <data name="CreatorOfOriginalWingsOfFury">
+    <value>Az eredeti Wings of Fury (1987) alkotója</value>
+  </data>
+  <data name="Credits">
+    <value>Közreműködők</value>
+  </data>
+  <data name="Details">
+    <value>Részletek</value>
+  </data>
+  <data name="Difficulty">
+    <value>Nehézségi szint</value>
+  </data>
+  <data name="EnterYourName">
+    <value>Név</value>
+  </data>
+  <data name="ExitToMenu">
+    <value>Kilépés a menübe</value>
+  </data>
+  <data name="GameOver">
+    <value>Játék vége</value>
+  </data>
+  <data name="HallOfFame">
+    <value>Dicsőségfal</value>
+  </data>
+  <data name="Highscores">
+    <value>Pontszámok</value>
+  </data>
+  <data name="InitializingSound">
+    <value>Hangeffektek beállítása</value>
+  </data>
+  <!-- ID of the current language -->
+  <data name="LanguageID">
+    <value>Hungarian</value>
+  </data>
+  <!-- level / stage of the game -->
+  <data name="Level">
+    <value>Szint</value>
+  </data>
+  <data name="LoadingResources">
+    <value>Erőforrások betöltése</value>
+  </data>
+  <data name="NewGame">
+    <value>Új játék</value>
+  </data>
+  <!-- next menu option -->
+  <data name="Next">
+    <value>Következő</value>
+  </data>
+  <data name="OK">
+    <value>OK</value>
+  </data>
+  <data name="Options">
+    <value>Beállítások</value>
+  </data>
+  <data name="Pause">
+    <value>Szünet</value>
+  </data>
+  <!-- previous menu option -->
+  <data name="Previous">
+    <value>Előző</value>
+  </data>
+  <data name="Quit">
+    <value>Kilépés</value>
+  </data>
+  <data name="Resume">
+    <value>Folytatás</value>
+  </data>
+  <data name="Rockets">
+    <value>Rakéta</value>
+  </data>
+  <data name="SelectAmmunition">
+    <value>Lőszertípus</value>
+  </data>
+  <data name="SetupingResources">
+    <value>Erőforrások telepítése</value>
+  </data>
+  <data name="Sound">
+    <value>Hang</value>
+  </data>
+  <data name="SpecialThanksToSteveWaldo">
+    <value>Külön köszönet Steve Waldónak</value>
+  </data>
+  <data name="Tutorial">
+    <value>Útmutató</value>
+  </data>
+  <data name="VideoMode">
+    <value>Videomód</value>
+  </data>
+  <data name="VideoOptions">
+    <value>Képbeállítások</value>
+  </data>
+  <data name="VSync">
+    <value>VSync</value>
+  </data>
+  <data name="YouWonTheGame">
+    <value>Megnyerted a játékot!</value>
+  </data>
+  <data name="AddingCompositors">
+    <value>Adding compositors</value>
+  </data>
+  <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
+    <!--<value>Minden ellenséges katona megsemmisítve. Landolj a repülőgép-anyahajón, és nyomd meg az X-et</value>-->
+    <value>Minden ellenséges katona megsemmisítve. Landolj a repülőgép-anyahajón, és nyomd meg az '{0}'-et</value>
+  </data>
+  <data name="AverageFPS">
+    <value>Átlagos FPS</value>
+  </data>
+  <data name="BestFPS">
+    <value>Legmagasabb FPS</value>
+  </data>
+  <data name="ChooseAntialiasingMode">
+    <value>Élsimítási mód</value>
+  </data>
+  <data name="ChooseLevelOfDetail">
+    <value>Részletességi szint</value>
+  </data>
+  <data name="ChooseVideoMode">
+    <value>Videomód</value>
+  </data>
+  <data name="CreatingInput">
+    <value>Bemenet létrehozása</value>
+  </data>
+  <data name="CurrentFPS">
+    <value>Aktuális FPS</value>
+  </data>
+  <data name="EnableBloom">
+    <value>Fényhatások aktiválása</value>
+  </data>
+  <data name="EnableSound">
+    <value>Hang aktiválása</value>
+  </data>
+  <data name="EnableVSync">
+    <value>VSync aktiválása</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheLeft">
+    <value>Ellenséges repülőgép közeledik balról</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheRight">
+    <value>Ellenséges repülőgép közeledik jobbról</value>
+  </data>
+  <!-- high difficulty / details -->
+  <data name="High">
+    <value>Magas</value>
+  </data>
+  <data name="InverseKeys">
+    <value>Inverz billentyűk</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRefuel">
+    <!--<value>Landolj a repülőgép-anyahajón, és nyomd meg az 'X'-et a tankoláshoz</value>-->
+    <value>Landolj a repülőgép-anyahajón, és nyomd meg az '{0}'-et a tankoláshoz</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRepair">
+    <!--<value>Landolj a repülőgép-anyahajón, és nyomd meg az 'X'-et a javításhoz</value>-->
+    <value>Landolj a repülőgép-anyahajón, és nyomd meg az '{0}'-et a javításhoz</value>
+  </data>
+  <!-- low difficulty / details -->
+  <data name="Low">
+    <value>Alacsony</value>
+  </data>
+  <data name="LowFuelWarning">
+    <value>FIGYELEM! KEVÉS AZ ÜZEMANYAG!</value>
+  </data>
+  <data name="LowOilWarning">
+    <value>FIGYELEM! KEVÉS AZ OLAJ!</value>
+  </data>
+  
+  <data name="Medium">
+    <value>Közepes</value>
+  </data>
+  <data name="No">
+    <value>Nem</value>
+  </data>
+  
+  <data name="PressEToTurnOnTheEngine">
+    <value>Tartsd lenyomva az '{0}'-t a motor beindításához</value>
+  </data>
+  
+  <data name="PressXToChangeAmmo">
+    <value>Nyomd meg az '{0}'-et a lőszerváltáshoz, a javításhoz és a tankoláshoz</value>
+  </data>
+  
+  
+  <data name="ScreenshotWrittenTo">
+    <value>Képernyőfelvétel mentve</value>
+  </data>
+  <data name="StartFrom">
+    <value>Start innen</value>
+  </data>
+  <data name="TriangleCount">
+    <value>Háromszögszámlálás</value>
+  </data>
+  <data name="WorstFPS">
+    <value>Legkevesebb FPS</value>
+  </data>
+  <data name="Yes">
+    <value>Igen</value>
+  </data>
+  <data name="AreYouTryingToReachStarsCaptain">
+    <value>A csillagokat próbálod elérni, Kapitány?</value>
+  </data>
+  <data name="EnemyInstallationDestroyed">
+    <value>Az ellenséges objektum megsemmisítve!</value>
+  </data>
+  <data name="EnemyInstallationsAreBothSideCaptain">
+    <value>Ellenséges objektumok mindkét oldalon, Kapitány!</value>
+  </data>
+  <data name="EnemyInstallationsAreLeftCaptain">
+    <value>Ellenséges objektumok a bal oldalon, Kapitány!</value>
+  </data>
+  <data name="EnemyInstallationsAreRightCaptain">
+    <value>Ellenséges objektumok a jobb oldalon, Kapitány!</value>
+  </data>
+  <data name="EnemyPlaneDownIRepeat">
+    <value>Az ellenséges repülőgép lezuhant! Ismétlem! Az ellenséges repülőgép lezuhant!</value>
+  </data>
+  <data name="KillAllEnemySoldiers">
+    <value>Likvidáld az összes ellenséges katonát. Kapd el őket, Kapitány!</value>
+  </data>
+  <data name="OhNoEnemySoldiersAreRebuildingBunker">
+    <value>Oh, nem! Az ellenséges katonák újjáépítik a bunkert!</value>
+  </data>
+  <data name="RetractYourLandingGearWithG">
+    <value>Húzd vissza a futóművet a '{0}' megnyomásával</value>
+  </data>
+  <data name="WARNINGProtectTheCarrierFromEnemyPlane">
+    <value>FIGYELEM! Védd meg a repülőgép-anyahajót az ellenséges vadászgéptől!</value>
+  </data>
+  <data name="WeAreNotLeavingYetCaptain">
+    <value>Még nem végeztünk, Kapitány!</value>
+  </data>
+  <data name="Languages">
+    <value>Nyelvek</value>
+  </data>
+  <!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
+  <data name="CoreTeam">
+    <value>Alapcsapat</value>
+  </data>
+  <data name="SupportTeam">
+    <value>Támogató csapat</value>
+  </data>
+  <data name="Graphics">
+    <value>Grafika</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>Közösségi fordítások</value>
+  </data>
+  <data name="Poland">
+    <value>Lengyelország</value>
+  </data>
+  <data name="Donate">
+    <value>Adományozás</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>Frissítések keresése</value>
+  </data>
+   <!--
+        Next 5 messages will be concatenated into one.        
+    -->
+  <data name="DonateMessagePart1">   
+    <value>Ha tetszett a játék,</value>
+  </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
+  <data name="DonateMessagePart2">
+    <value>kérjük, fontold meg az adományozást</value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>Paypalen keresztül. Forrásokat keresünk,</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>hogy támogathassuk a további</value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>játékfejlesztéseket.</value>
+  </data>
+  <!-- message displayed after pressing 'c' (change camera) key. -->
+  <data name="CameraChanged">
+    <value>A látószög megváltozott</value>
+  </data>
+
+  <!-- added to rev. 265 -->
+  <data name="EnemySoldiersLeft">
+    <value>Ellenséges katonák balra</value>
+  </data>
+
+  <!-- added to rev. 305 - Level stats -->
+  <data name="LevelStats">
+    <value>A játékszint statisztikái</value>
+  </data>
+
+  <data name="BombsDropped">
+    <value>Ledobott bomba:</value>
+  </data>
+
+  <data name="BombsAccuracy">
+    <value>Bombatalálati pontosság:</value>
+  </data>
+
+  <data name="RocketsFired">
+    <value>Kilőtt rakéta:</value>
+  </data>
+
+  <data name="RocketsAccuracy">
+    <value>Rakétatalálati pontosság:</value>
+  </data>
+
+  <data name="GunShellsFired">
+    <value>Kilőtt gépágyútöltény:</value>
+  </data>
+
+  <data name="GunAccuracy">
+    <value>Gépágyútalálati pontosság:</value>
+  </data>
+
+  <data name="PlanesDestroyed">
+    <value>Lelőtt repülőgép:</value>
+  </data>
+
+  <data name="LevelCompleted">
+    <value>Szint teljesítve</value>
+  </data>
+
+  <data name="Engine"><!-- plane engine -->
+    <value>Motor</value>
+  </data>
+
+  <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
+    <value>Gyorsítás/Fék/Fordulás</value>
+  </data>
+
+  <data name="Pitch"><!-- changing of plane's altitude. -->
+    <value>Legnagyobb repülési magasság</value>
+  </data>
+
+  <data name="Spin"><!-- rolling the plane around its longwise -->
+    <value>Forgás</value>
+  </data>
+
+  <data name="Gear"><!-- landing gear -->
+    <value>Futómű</value>
+  </data>
+
+  <data name="Gun">
+    <value>Gépágyú</value>
+  </data>
+
+  <data name="Camera">
+    <value>Látószög</value>
+  </data>
+
+  <data name="Zoomin">
+    <value>Nagyítás</value>
+  </data>
+
+
+  <data name="Zoomout">
+    <value>Kicsinyítés</value>
+  </data>
+
+  <data name="RearmEndMission">
+    <value>Fegyverzet újratöltése / Küldetés vége</value>
+  </data>
+  
+  <data name="Rearm">
+    <value>Fegyverzet újratöltése</value>
+  </data>
+  <data name="EndMission">
+    <value>Küldetés vége</value>
+  </data>
+  <!-- added 2.01.2009 -->
+
+  <data name="Torpedo">
+    <value>Torpedó</value>
+  </data>
+  <data name="Torpedoes">
+    <value>Torpedók</value>
+  </data>
+
+ <!-- added 25.03.2009 -->
+  <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
+    <value>Minden ellenséges repülőgép megsemmisítve. Landolj a repülőgép-anyahajón, és nyomd meg az '{0}'-et</value>
+  </data>
+  
+  <data name="EnemyPlanesLeft">
+    <value>Ellenséges repülőgép balra</value>
+  </data>
+  
+  <data name="Target">
+    <value>Célpont</value>
+  </data>
+  
+  <data name="Neutralized">
+    <value>Semlegesítve</value>
+  </data>
+  
+  <data name="Alive">
+    <value>Életben van</value>
+  </data> 
+  
+  <data name="TargetNeutralizedLandOnCarrierAndPressX">
+      <value>Célpont semlegesítve. Landolj a repülőgép-anyahajón, és nyomd meg az '{0}'-et</value>
+  </data> 
+  
+  <!-- enemy ships left to be sunk -->
+  <data name="EnemyShipsLeft">
+    <value>Ellenséges hajók balra</value>
+  </data>
+  
+  <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
+    <value>Minden ellenséges hajó megsemmisítve. Landolj a repülőgép-anyahajón, és nyomd meg az '{0}'-et</value>
+  </data>
+  
+  <data name="EnemyInstallationDamaged">
+    <value>Az ellenséges objektum megrongálódott!</value>
+  </data>
+  
+  <data name="TorpedoTooHigh">
+    <value>A repülési szint túl magas! A torpedóindítás sikertelen</value>
+  </data>
+  
+  <data name="TorpedoLongTravelDistance">
+    <value>A torpedó kifutott az üzemanyagból! Közelebbről indítsd!</value>
+  </data>
+	
+	<!-- Hydrax is a water effects library -->
+  <data name="HydraxWater">
+    <value>Vízi fényhatások</value>
+  </data>
+
+  <data name="Blood">
+    <value>Vér</value>
+  </data>
+
+  <!-- Used in the options context like so: "shadows: none" -->
+  <data name="None">
+    <value>Nincs</value>
+  </data>
+
+ <data name="Shadows">
+    <value>Árnyékok</value>
+  </data>
+
+  <!-- Bullet time effect - like in Matrix :) -->
+  <data name="BulletTime">
+    <value>Lassított felvétel</value>
+  </data>
+
+  <data name="MissionType">
+    <value>A küldetés típusa</value>
+  </data>
+  
+  <!-- available mission types: -->
+  <data name="Dogfight">
+    <value>Légipárbaj</value> <!-- destroying planes -->
+  </data>
+  
+  
+  <data name="BombingRun">
+    <value>Bombatámadás</value>
+  </data>
+  
+  
+  <data name="Assassination">
+    <value>Merénylet: ellenséges tábornokok likvidálása</value> <!-- "kill the generals" -->
+  </data>
+  
+  
+  <data name="Naval">
+    <value>Torpedótámadás hajók ellen</value> <!-- sink all ships -->
+  </data>
+
+
+  <data name="KeyboardInfo1">
+    <value>Módosítsd a (játékkönyvtár)\Release\KeyMap.ini fájlt</value>
+  </data>
+  
+  <data name="KeyboardInfo2">
+    <value>a billentyűzetkiosztás megváltoztatásához</value>
+  </data>
+  
+  <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
+  <data name="Tutorial0">
+   <value>
+     Küldetéstípusok
+     Különböző küldetéstípusokkal találkozhatsz a játék folyamán:
+     Légipárbaj - a küldetés teljesítéséhez lődd le az összes ellenséges repülőgépet.
+     Bombatámadás - likvidáld az összes ellenséges katonát.
+
+
+     Merénylet  - az ellenséges tábornokok erődítményben bujkálnak valahol a területen. Használj rakétákat a megsemmisítésükhöz.
+     Torpedótámadás - torpedók használatával süllyeszd el az összes ellenséges hajót. Ne feledd, hogy alacsonyan és stabilan kell repülnöd, mielőtt kilövöd a torpedókat.
+   </value>
+  </data>
+  
+  <data name="EnemyGenerals">
+    <value>Ellenséges tábornokok balra</value>
+  </data>
+ 
+  <data name="Altitude">
+    <value>Magasság</value>
+  </data>
+
+
+  <data name="PressLeftUpToTakeOff">
+    <value>Nyomd együtt a '{0}','{1}'-t a felszálláshoz</value>
+  </data>
+
+  <data name="CustomLevels">
+    <value>Alapszintek</value>
+  </data>
+
+ <data name="PressUpToLand">
+    <value>Nyomd meg a "{0}"-t a landoláshoz</value>
+  </data>
+
+  <!-- don't worry about the line breaks in the strings below -->
+  <data name="News404_1">
+    <value>Hiba a WOF2 projekthírekhez való kapcsolódás során</value>
+  </data>
+
+  <data name="News404_2">
+    <value>Az internetkapcsolat nem jött létre</value>
+  </data>
+
+  <data name="News404_3">
+    <value>Engedd át a WOF2-t a tűzfalon. Lehetővé válik új szintek, frissítések letöltése, és ugyanakkor támogatni is tudod a játékprojektet!</value>
+  </data>
+
+  <data name="News404_4">
+    <value>Ezt hogyan kell csinálni?</value>
+  </data>
+
+  <data name="EnhancedVersion">
+    <value>Bővített verzió</value>
+  </data>
+
+  <data name="EnhancedVersionDetails">
+    <value>A játék bővített verziójában újabb szinteket, repülőgéptípusokat és bónusz tartalmakat találsz. Az összes reklám eltávolításra kerül. Elérhető minden WOF2 adományozónak és támogatónak.</value>
+  </data>
+  
+  <data name="Planes">
+    <value>Repülőgépek</value>
+  </data>
+
+
+  <data name="P47">
+    <value>P47</value>
+  </data>
+
+  <data name="F4U">
+    <value>F4U</value>
+  </data>
+  
+  <data name="B25">
+    <value>B-25 Mitchell</value>
+  </data>
+  
+  
+  <data name="GetEnhancedVersion">
+    <value>Szerezd be a bővített verziót!</value>
+  </data>
+  
+  
+  <data name="TorpedoesFired">
+    <value>Kilőtt torpedó:</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>Torpedótalálati pontosság:</value>
+  </data>
+  
+   <data name="SurvivalTime">
+    <value>Túlélési idő:</value>
+  </data>
+  
+  
+  <data name="CommunitySupport">
+    <value>Közösségi támogatás</value>
+  </data>
+  
+   <data name="Hold"> <!-- to hold the button / key. Shown in controls screen -->
+       <value>Tartsd lenyomva</value>
+  </data>
+  
+    <data name="WinnerOfFirstDogfight"> <!-- credits screen -->
+       <value>Az első légipárbajverseny győztese</value>
+  </data>
+
+  <data name="LanguageDebugMode"> 
+       <value>Nyelvi hibakereső mód</value>
+  </data>
+  
+  <data name="TranslationCompleteness"> 
+       <value>Teljes fordítás {0}/{1}</value>
+  </data>
+  
+  <data name="PossibleCharacters"> 
+       <value>Lehetséges karakterek</value>
+  </data>
+  
+   <data name="Achievements"> 
+       <value>Eredmények</value>
+  </data>
+  
+  
+</root>
+
+
