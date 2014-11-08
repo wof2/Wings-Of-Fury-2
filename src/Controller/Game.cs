@@ -715,10 +715,19 @@ namespace Wof.Controller
 
 
             SetCompositorEnabled(CompositorTypes.BLOOM, EngineConfig.BloomEnabled);
-            currentScreen = new GameScreen(this, this, directSound, 2, levelInfo, userPlaneType);
+            currentScreen = new GameScreen(this, this, directSound, 2, levelInfo, userPlaneType);           
             currentScreen.DisplayGUI(false);
         }
 
+        
+		public override void CreateInput()
+		{
+			base.CreateInput();
+			if(currentScreen is GameScreen) {
+				(currentScreen as GameScreen).CreateControlsChangerHelper(inputKeyboard);
+			}
+
+		}
       
 
         public void GotoNextLevel()
@@ -766,7 +775,7 @@ namespace Wof.Controller
                 SetCompositorEnabled(CompositorTypes.BLOOM, EngineConfig.BloomEnabled);
 
                 currentScreen = new GameScreen(this, this, directSound, lives,new LevelInfo(level.Value + 1), EngineConfig.CurrentPlayerPlaneType);
-                ((GameScreen) currentScreen).Score = score;
+                 ((GameScreen) currentScreen).Score = score;
                
                 currentScreen.DisplayGUI(false);
             }
@@ -1497,7 +1506,7 @@ namespace Wof.Controller
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
             initScreenAfter(currentScreen);
-            currentScreen = new ControlsOptionsScreen(this, this, viewport, camera);
+            currentScreen = new ControlsOptionsScreen(this, this, viewport, camera, inputKeyboard);
 
             if (ss != null)
             {

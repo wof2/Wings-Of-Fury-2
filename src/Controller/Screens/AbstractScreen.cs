@@ -1667,6 +1667,7 @@ namespace Wof.Controller.Screens
         protected void selectButton(int i, bool playSound)
         {
            if (i == -1) return;
+           if(i>=buttons.Length) return;
            buttons[i].activate(true);
            
 

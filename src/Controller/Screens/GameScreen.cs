@@ -205,6 +205,9 @@ namespace Wof.Controller.Screens
         	return new Vector2(viewport.ActualWidth * 0.01f, viewport.ActualHeight * 0.3f);
         }
         
+        protected ControlsChangerHelper controlsChangerHelper;    	
+    	
+        
          /// <summary>
         /// Pobiera kontrolke zawierajaca screen
         /// </summary>
@@ -452,12 +455,37 @@ namespace Wof.Controller.Screens
 
             indicatorControl = new IndicatorControl(framework.OverlayMgr, framework.OverlayViewport, framework.MinimapViewport, this);
             gameMessages = new GameMessages(framework.Viewport);
-
+			
            
         }
-        
-        
-       
+
+		void controlsChangerHelper_onControlsChanged()
+		{
+			ResetPauseScreen();
+		}
+		
+		/// <summary>
+		/// Czy jest aktualnie pobierany nowy klawisz (zmiana ustawien klawiszy)
+		/// </summary>
+		bool isCapturingControlKey = false;
+			
+		void controlsChangerHelper_onControlsCaptureStarted()
+		{
+			isCapturingControlKey = true;
+		}
+
+		void controlsChangerHelper_onControlsCaptureEnded()
+		{
+			isCapturingControlKey = false;
+		}
+        public void CreateControlsChangerHelper(Keyboard keyboard) {        	
+        	controlsChangerHelper = new ControlsChangerHelper(keyboard, this);
+        	controlsChangerHelper.onControlsChanged += controlsChangerHelper_onControlsChanged;        	
+        	controlsChangerHelper.onControlsCaptureStarted += controlsChangerHelper_onControlsCaptureStarted;
+        	controlsChangerHelper.onControlsCaptureEnded += controlsChangerHelper_onControlsCaptureEnded;;
+        	
+        	
+        }
         
         private void UpdateHints(bool forceRefresh)
         {
@@ -1409,7 +1437,7 @@ namespace Wof.Controller.Screens
                 Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoysticks, false);
 
                 // przyciski - pauza
-                if (isInPauseMenu)
+                if (isInPauseMenu && !isCapturingControlKey)
                 {
 
                     if (Button.CanChangeSelectedButton())
@@ -1911,20 +1939,23 @@ namespace Wof.Controller.Screens
                         UpdateMenusGui(inputMouse, inputKeyboard, inputJoysticks);
 
                        
-                        if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape)) && Button.CanChangeSelectedButton(3.5f) &&
-                           !changingAmmo)
+                        if(!isCapturingControlKey)
                         {
-                            if (!isGamePaused)
-                            {
-                                DisplayPauseScreen();
-                               
-                            }
-                            else
-                            {
-                                ClearPauseScreen();
-                               
-                            }
-                            Button.ResetButtonTimer();
+	                        if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape)) && Button.CanChangeSelectedButton(3.5f) &&
+	                           !changingAmmo)
+	                        {
+	                            if (!isGamePaused)
+	                            {
+	                                DisplayPauseScreen();
+	                               
+	                            }
+	                            else
+	                            {
+	                                ClearPauseScreen();
+	                               
+	                            }
+	                            Button.ResetButtonTimer();
+	                        }
                         }
 
                        
@@ -2540,10 +2571,16 @@ namespace Wof.Controller.Screens
             
         }
         
+        public void ResetPauseScreen() {
+        	mGui.killGUI();
+            mGui = null;
+        	DisplayPauseScreen();
+        }
         
         private void DisplayPauseScreen()
         {
             isStillFireGun = false;
+            
             SoundManager.Instance.HaltEngineSound(currentLevel.UserPlane);
             SoundManager.Instance.HaltWaterBubblesSound();
             SoundManager.Instance.HaltOceanSound();
@@ -2554,8 +2591,8 @@ namespace Wof.Controller.Screens
             isGamePaused = true;
             isInPauseMenu = true;
 			OverlayContainer c;
-            int left = 20;
-            int top = 10;
+			const int left = 20;
+			const int top = 10;
             int width = -10 + (int)(viewport.ActualWidth * 0.7f);
             int y = 0;
             int h = (int)GetTextVSpacing();
@@ -2587,8 +2624,8 @@ namespace Wof.Controller.Screens
             resumeButton.activate(true);
             
 
-            
-            y = AbstractOptionsScreen.AddControlsInfoToGui(guiWindow, mGui, left, top, y, width, h, (uint)(fontSize * 0.67f));
+          
+            y = AbstractOptionsScreen.AddControlsInfoToGui(controlsChangerHelper, guiWindow, mGui, left, top, y, width, h, (uint)(fontSize * 0.67f));
             
 
             y += (int)(2*h);

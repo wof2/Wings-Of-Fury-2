@@ -599,32 +599,32 @@ namespace BetaGUI
 
 
         // Adam Witczak
-        public Button createButton(Vector4 D, String M, String T, Callback C, uint ID)
+        public Button createButton(Vector4 D, String material, String title, Callback C, uint ID)
         {
-            Button x = new Button(D, M, T, C, this, ID, this);
+            Button x = new Button(D, material, title, C, this, ID, this);
             mB.Add(x);
             return x;
         }
 
 
-        public Button createButton(Vector4 D, String M, String T, Callback C)
+        public Button createButton(Vector4 D, String material, String title, Callback C)
         {
-            Button x = new Button(D, M, T, C, this, this);
+            Button x = new Button(D, material, title, C, this, this);
             mB.Add(x);
             return x;
         }
 
-        public Button createInmovableButton(Vector4 D, String M, String T, Callback C, uint ID)
+        public Button createInmovableButton(Vector4 D, String material, String title, Callback C, uint ID)
         {
-            Button x = new InmovableButton(D, M, T, C, this, ID, this);
+            Button x = new InmovableButton(D, material, title, C, this, ID, this);
             mB.Add(x);
             return x;
         }
 
 
-        public Button createInmovableButton(Vector4 D, String M, String T, Callback C)
+        public Button createInmovableButton(Vector4 D, String material, String title, Callback C)
         {
-            Button x = new InmovableButton(D, M, T, C, this, this);
+            Button x = new InmovableButton(D, material, title, C, this, this);
             mB.Add(x);
             return x;
         }
