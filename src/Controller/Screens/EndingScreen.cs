@@ -108,6 +108,7 @@ namespace Wof.Controller.Screens
                                     "Marcelo Eiras",
 									"Nico",
 									"Tung Nguyen",
+									"mental-hacker",
                                     String.Empty,
                                     LanguageResources.GetString(LanguageKey.CommunitySupport),
                                     "Marcelo Eiras",

@@ -206,7 +206,13 @@ namespace Wof.Languages
         public const string InverseKeys = @"InverseKeys";
 
         #endregion
-
+		
+		
+		#region ---J---
+		public const string Joystick = @"Joystick";   
+		public const string JoystickOptions = @"JoystickOptions";     
+ 		#endregion
+		
         #region ---K---
 
         public const string KeyboardInfo1 = @"KeyboardInfo1";
@@ -306,7 +312,9 @@ namespace Wof.Languages
         public const string ScreenshotWrittenTo = @"ScreenshotWrittenTo";
         public const string SelectAmmunition = @"SelectAmmunition";
         public const string SetupingResources = @"SetupingResources";
-        public const string Shadows = @"Shadows";        
+        public const string Shadows = @"Shadows";  
+		  
+		
         public const string Sound = @"Sound";
         public const string SpecialThanksToSteveWaldo = @"SpecialThanksToSteveWaldo";
         public const string Spin = @"Spin";

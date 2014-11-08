@@ -177,7 +177,7 @@ namespace Wof.Controller
     
         protected InputManager inputManager;
         protected Keyboard inputKeyboard;
-        protected JoyStick inputJoystick;
+        protected IList<JoyStick> inputJoysticks;
         protected Mouse inputMouse;
         
 	
@@ -1179,7 +1179,7 @@ namespace Wof.Controller
             return !shutDown;
         }
 
-        public void HandleCameraInput(Keyboard inputKeyboard, Mouse inputMouse, JoyStick inputJoystick, FrameEvent evt, Camera camera,
+        public void HandleCameraInput(Keyboard inputKeyboard, Mouse inputMouse, IList<JoyStick> inputJoysticks, FrameEvent evt, Camera camera,
                                       Camera minimapCamera, Plane playerPlane)
         {
             // Move about 100 units per second,
@@ -1338,9 +1338,13 @@ namespace Wof.Controller
 
 
             inputKeyboard.Capture();
-            if(inputJoystick != null) inputJoystick.Capture();
+            if(inputJoysticks != null) {
+            	foreach(JoyStick j in inputJoysticks) {
+            		j.Capture();            		
+            	}
+            }
 
-            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)) 
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape)) 
             {
                 // stop rendering loop
                 shutDown = true;
@@ -1365,9 +1369,9 @@ namespace Wof.Controller
                 camera.Pitch(-scaleRotate);
             }
 
-            if (inputJoystick !=null)
+            if (inputJoysticks !=null)
             {
-                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick,false);
+                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoysticks,false);
                 if (joyVector.x != 0) camera.Yaw(-joyVector.x * scaleRotate);
                 if (joyVector.y != 0) camera.Pitch(joyVector.y * scaleRotate);
             }
@@ -1457,7 +1461,7 @@ namespace Wof.Controller
        //     if(Focused)  inputMouse.Capture();
            
             //inputMouse.MouseState.X
-            HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt, camera, minimapCamera, null);
+            HandleCameraInput(inputKeyboard, inputMouse, inputJoysticks, evt, camera, minimapCamera, null);
         }
 
         protected void TakeScreenshot()
@@ -1572,16 +1576,24 @@ namespace Wof.Controller
 
             //Create all devices (We only catch joystick exceptions here, as, most people have Key/Mouse)
             inputKeyboard = (Keyboard) inputManager.CreateInputObject(Type.OISKeyboard, UseBufferedInput);
-
-            try
-            {
-                inputJoystick = (JoyStick)inputManager.CreateInputObject(Type.OISJoyStick, UseBufferedInput);
-            }
-            catch(Exception)
-            {
-                inputJoystick = null; 
-            }
-           
+  			int joysticks = inputManager.GetNumberOfDevices(Type.OISJoyStick);
+			
+  			
+  			inputJoysticks = new List<JoyStick>();
+  			
+			for(int i=0; i < joysticks; ++i){
+				try {
+  					inputJoysticks.Add((MOIS.JoyStick)inputManager.CreateInputObject(Type.OISJoyStick, UseBufferedInput));
+  					LogManager.Singleton.LogMessage("Created Joystick no. "+(i+1)+". Vendor: "+inputJoysticks[inputJoysticks.Count-1].Vendor());
+	            }
+	            catch(Exception ex) {
+	            	LogManager.Singleton.LogMessage("Error while initializing Joystick no. "+(i+1)+". Ex: "+ex.Message+"; "+ex.);
+	                       
+	            }
+			
+			}				
+			
+  			FrameWorkStaticHelper.SetNumberOfAvailableJoysticks(inputJoysticks.Count);  
 
             inputMouse = (Mouse) inputManager.CreateInputObject(Type.OISMouse, UseBufferedInput);
         }

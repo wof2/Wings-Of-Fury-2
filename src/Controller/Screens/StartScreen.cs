@@ -47,6 +47,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -249,9 +250,9 @@ namespace Wof.Controller.Screens
         }
      
         
-        public override void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        public override void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
         {
-            base.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoystick);
+            base.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoysticks);
             
                    
             if (inputKeyboard.IsKeyDown(KeyCode.KC_H))

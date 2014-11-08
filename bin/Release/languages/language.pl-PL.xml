@@ -629,5 +629,13 @@
   <data name="Achievements"> 
        <value>Osiągnięcia</value>
   </data>
+  
+   <data name="Joystick"> 
+       <value>Joystick</value>
+  </data>
+   <data name="JoystickOptions"> 
+       <value>Ustawienia joysticka</value>
+  </data>
+  
 
 </root>

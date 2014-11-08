@@ -843,7 +843,7 @@ namespace Wof.Controller.Screens
         }
 
         protected float lastTimeSinceLastFrame;
-        public virtual void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        public virtual void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
         {
             if (EngineConfig.UseHydrax)
             {
@@ -878,7 +878,7 @@ namespace Wof.Controller.Screens
         	
         }
         
-        public virtual void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        public virtual void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
         {
         	
             screenTime += evt.timeSinceLastFrame;            
@@ -916,9 +916,13 @@ namespace Wof.Controller.Screens
                 	
                 	inputKeyboard.Capture();
                 } 
-                if (inputJoystick != null) inputJoystick.Capture();
+				if (inputJoysticks != null){
+					foreach(JoyStick j in inputJoysticks) {
+						j.Capture();
+					}
+				}
 
-                receiveKeys(inputKeyboard, inputJoystick);
+                receiveKeys(inputKeyboard, inputJoysticks);
 
                 if (inputMouse.MouseState.ButtonDown(MouseButtonID.MB_Left))
                 {
@@ -941,7 +945,7 @@ namespace Wof.Controller.Screens
                     uint screeny;
 
                   //  GetMouseScreenCoordinates(mouseState);
-                    doCheating(inputKeyboard, inputJoystick);
+                    doCheating(inputKeyboard, inputJoysticks);
 
 
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_BACK))
@@ -1125,7 +1129,7 @@ namespace Wof.Controller.Screens
                         mGui.injectKey("z", MousePos);
                         KeyReceived("z");
                     }
-                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)))
+                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape)))
                     {
                         KeyReceived("ESC");
                         if (tryToPressBackButton()) return;
@@ -1136,7 +1140,7 @@ namespace Wof.Controller.Screens
                     }
 
 
-                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter)))
+                    if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter)))
                     {
                         KeyReceived("ENTER");
                         wasEnterKeyPressed = true;
@@ -1147,7 +1151,7 @@ namespace Wof.Controller.Screens
                         wasEnterKeyPressed = false;
                     }
 
-                    Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick, true);
+                    Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoysticks, true);
 
                     if (inputKeyboard.IsKeyDown(KeyCode.KC_UP))
                     {
@@ -1231,7 +1235,7 @@ namespace Wof.Controller.Screens
                 }
             }
 
-            wereAllKeysReleased = areAllKeysReleased(inputKeyboard, inputJoystick);
+            wereAllKeysReleased = areAllKeysReleased(inputKeyboard, inputJoysticks);
         }
 
 
@@ -1255,15 +1259,15 @@ namespace Wof.Controller.Screens
 
         }
         
-        public void OnUpdateModel(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        public void OnUpdateModel(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoystick)
         {
 
           
         }
 
-        private void receiveKeys(Keyboard inputKeyboard, JoyStick joystick)
+        private void receiveKeys(Keyboard inputKeyboard, IList<JoyStick> joysticks)
         {
-            Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(joystick,true);
+            Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(joysticks,true);
             if(joyVector != Vector2.ZERO)
             {
                 //Console.WriteLine(joyVector);
@@ -1324,7 +1328,7 @@ namespace Wof.Controller.Screens
             }
            */
 
-            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(joystick, KeyMap.Instance.JoystickEnter)) 
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(joysticks, KeyMap.Instance.JoystickEnter)) 
             {
             	
                 wasEnterKeyPressed = true;
@@ -1482,7 +1486,7 @@ namespace Wof.Controller.Screens
             {
                 KeyReceived("z");
             }
-            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(joystick, KeyMap.Instance.JoystickEscape)) 
+            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(joysticks, KeyMap.Instance.JoystickEscape)) 
             {
                 KeyReceived("ESC");
             }
@@ -1498,7 +1502,7 @@ namespace Wof.Controller.Screens
         /// <param name="inputKeyboard">Mo¿na przekazaæ null</param>
         /// <param name="inputJoystick">Mo¿na przekazaæ null</param>
         /// <returns>True jeœli nic nie by³o wciœniête</returns>
-        protected virtual bool areAllKeysReleased(Keyboard inputKeyboard, JoyStick inputJoystick)
+        protected virtual bool areAllKeysReleased(Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
         {
             if(inputKeyboard != null)
             {
@@ -1510,22 +1514,24 @@ namespace Wof.Controller.Screens
 
             }
           
-            if (inputJoystick != null)
+            if (inputJoysticks != null)
             {
-                for (int i = 0; i < inputJoystick.JoyStickState.ButtonCount; i++)
-                {
-                    if (inputJoystick.JoyStickState.GetButton(i)) return false;
-                }
+            	foreach(JoyStick j in inputJoysticks) {
+	                for (int i = 0; i < j.JoyStickState.ButtonCount; i++)
+	                {
+	                    if (j.JoyStickState.GetButton(i)) return false;
+	                }
+            	}
             }
            
             return true;
         }
 
-        protected virtual bool doCheating(Keyboard inputKeyboard, JoyStick inputJoystick)
+        protected virtual bool doCheating(Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
         {
             if (wereAllKeysReleased)
             {
-                if (areAllKeysReleased(inputKeyboard, inputJoystick)) return true;
+                if (areAllKeysReleased(inputKeyboard, inputJoysticks)) return true;
 
                 KeyValuePair<VoidDelegateVoid, uint> info;
                 ICollection<KeyCode[]> keys = cheats.Keys;

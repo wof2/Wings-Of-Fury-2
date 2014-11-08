@@ -1,5 +1,5 @@
-/*
- * Copyright 2008 Adam Witczak, Jakub Tê¿ycki, Kamil S³awiñski, Tomasz Bilski, Emil Hornung, Micha³ Ziober
+ï»¿/*
+ * Copyright 2008 Adam Witczak, Jakub TÄ™Å¼ycki, Kamil SÅ‚awiÅ„ski, Tomasz Bilski, Emil Hornung, MichaÅ‚ Ziober
  *
  * This file is part of Wings Of Fury 2.
  * 
@@ -47,42 +47,53 @@
  */
 
 
-using System;
 using System.Collections.Generic;
+using BetaGUI;
 using Mogre;
-using MOIS;
-using System.Windows.Forms;
+using Wof.Languages;
 
 namespace Wof.Controller.Screens
 {
-    public interface MenuScreen
+    internal class JoystickOptionsScreen : AbstractOptionsScreen, BetaGUIListener
     {
-        void DisplayGUI(Boolean justMenu);
-        
-        bool Displayed();
-        void CleanUp(Boolean justMenu);
-        void OnUpdateModel(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoystick);
-        void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoystick);
-        void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoystick);
-        
-        Control GetContainer();
-        Vector2 GetMargin();
-        
-        Vector2 ViewportToScreen(Vector2 screen);
-        
-        /// <summary>
-        /// Zwraca bazow¹ wielkoœæ czcionki u¿ytej na screenie w pikselach
-        /// </summary>
-        /// <returns></returns>
-        uint GetFontSize();
+        public JoystickOptionsScreen(GameEventListener gameEventListener,
+                                      IFrameWork framework, Viewport viewport, Camera camera) :
+                                         base(gameEventListener, framework, viewport, camera)
+        {
+        }
 
-        void SetFontSize(uint fontSize);
+        protected override string getTitle()
+        {
+            return LanguageResources.GetString(LanguageKey.JoystickOptions);
+        }
 
-        /// <summary>
-        /// Zwraca bazow¹ wysokoœæ (w pikselach) linii tekstu. Zazwyczaj to samo co wysokoœæ przycisków, odstêpów miêdzy liniami tekstu.
-        /// </summary>
-        /// <returns></returns>
-        uint GetTextVSpacing();
+        protected override List<object> GetAvailableOptions()
+        {
+            List<object> availableModes = new List<object>();
+			for(int i=0; i< FrameWorkStaticHelper.GetNumberOfAvailableJoysticks(); i++){
+				availableModes.Add(LanguageResources.GetString(LanguageKey.Joystick)+": "+i);				
+			}
+           
+            return availableModes;
+        }
+
+        protected override void ProcessOptionSelection(ButtonHolder holder)
+        {
+            bool restart = false;
+			string[] opts = holder.Value.Split(new string[]{": "}, System.StringSplitOptions.RemoveEmptyEntries);
+		//	holder.Value.Split(
+			int i = int.Parse(opts[1]);
+			
+           // i;
+           
+        }
+
+        protected override bool IsOptionSelected(string option)
+        {
+			string[] opts = option.Split(new string[]{": "}, System.StringSplitOptions.RemoveEmptyEntries);
+			int i = int.Parse(opts[1]);
+						
+            return false;
+        }
     }
-
 }

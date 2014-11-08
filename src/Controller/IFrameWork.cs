@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Mogre;
 using MOIS;
 using Plane=Wof.Model.Level.Planes.Plane;
@@ -39,7 +40,7 @@ namespace Wof.Controller
   
       
    
-        void HandleCameraInput(Keyboard inputKeyboard, Mouse inputMouse, JoyStick inputJoystick, FrameEvent evt, Camera camera,
+        void HandleCameraInput(Keyboard inputKeyboard, Mouse inputMouse, IList<JoyStick> inputJoysticks, FrameEvent evt, Camera camera,
                                Camera minimapCamera, Plane playerPlane);
 
         void TakeScreenshot(string fileName);

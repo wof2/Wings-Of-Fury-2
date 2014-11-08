@@ -183,7 +183,7 @@ namespace Wof.View.AmmunitionViews
         public override void postInitOnScene()
         {
 
-            Console.WriteLine("FREE BULLETS: " + GunBulletView.missileAvailablePool.Count);
+          //  Console.WriteLine("FREE BULLETS: " + GunBulletView.missileAvailablePool.Count);
            
         	if (ammunition is GunBullet)
             {
