@@ -1556,7 +1556,7 @@ namespace Wof.Controller
 
         public virtual bool UseBufferedInput
         {
-            get { return false; }
+            get { return true; }
         }
 
        
@@ -1587,7 +1587,7 @@ namespace Wof.Controller
   					LogManager.Singleton.LogMessage("Created Joystick no. "+(i+1)+". Vendor: "+inputJoysticks[inputJoysticks.Count-1].Vendor());
 	            }
 	            catch(Exception ex) {
-	            	LogManager.Singleton.LogMessage("Error while initializing Joystick no. "+(i+1)+". Ex: "+ex.Message+"; "+ex.);
+	            	LogManager.Singleton.LogMessage("Error while initializing Joystick no. "+(i+1)+". Ex: "+ex.Message+"; "+ex.InnerException);
 	                       
 	            }
 			

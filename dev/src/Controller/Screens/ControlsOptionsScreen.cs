@@ -49,6 +49,7 @@
 
 using System;
 using System.Collections.Generic;
+using MOIS;
 using BetaGUI;
 using Mogre;
 using Wof.Languages;
@@ -57,14 +58,46 @@ namespace Wof.Controller.Screens
 {
     internal class ControlsOptionsScreen : AbstractOptionsScreen, BetaGUIListener
     { 
-    
-        public ControlsOptionsScreen(GameEventListener gameEventListener, IFrameWork framework, Viewport viewport, Camera camera) :
+    	
+    	protected readonly ControlsChangerHelper controlsChangerHelper;
+
+	
+    	
+    	  
+        public ControlsOptionsScreen(GameEventListener gameEventListener, IFrameWork framework, Viewport viewport, Camera camera, Keyboard keyboard) :
                                          base(gameEventListener, framework, viewport, camera)
         {
           //  this.fontSize = (uint)(0.75f * fontSize); // mniejsza czcionka w opcjach
     		C_MAX_OPTIONS = 3;
-    		showRestartRequiredMessage = false;
+    		showRestartRequiredMessage = false;   
+    		controlsChangerHelper = new ControlsChangerHelper(keyboard, this);
+    		controlsChangerHelper.onControlsChanged += controlsChangerHelper_onControlsChanged;
+    		controlsChangerHelper.onControlsCaptureStarted += controlsChangerHelper_onControlsCaptureStarted;
+			controlsChangerHelper.onControlsCaptureEnded += controlsChangerHelper_onControlsCaptureEnded;
+        	
+        		
         }
+
+		void controlsChangerHelper_onControlsChanged()
+		{
+			this.mGui.killGUI();
+			this.CreateGUI();
+			return;
+		}
+		
+		void controlsChangerHelper_onControlsCaptureStarted()
+		{
+			// todo
+			return;
+			
+		}
+		
+		void controlsChangerHelper_onControlsCaptureEnded()
+		{
+			// todo
+			return;
+		}
+		
 
         protected override string getTitle()
         {
@@ -101,7 +134,7 @@ namespace Wof.Controller.Screens
             string info1 = LanguageResources.GetString(LanguageKey.KeyboardInfo1);
             string info2 = LanguageResources.GetString(LanguageKey.KeyboardInfo2);
 
-            float y = AbstractOptionsScreen.AddControlsInfoToGui(guiWindow, mGui, (int) (GetTextVSpacing()), (int)(GetTextVSpacing() * 3), 0, viewport.ActualWidth * 0.75f, 1.3f* GetTextVSpacing(), GetFontSize());
+            float y = AbstractOptionsScreen.AddControlsInfoToGui(controlsChangerHelper, guiWindow, mGui, (int) (GetTextVSpacing()), (int)(GetTextVSpacing() * 3), 0, viewport.ActualWidth * 0.75f, 1.3f* GetTextVSpacing(), GetFontSize());
 
             guiWindow.createStaticTextAutoSplit(new Vector4(GetTextVSpacing(), (int)(GetTextVSpacing() * 3) + y + 2.0f * GetTextVSpacing(), window.w, 2* GetTextVSpacing()), info1 + info2);
         /*

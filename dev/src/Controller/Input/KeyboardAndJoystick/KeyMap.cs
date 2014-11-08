@@ -741,15 +741,21 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 PropertyInfo[] properties = KeyMap.Instance.GetType().GetProperties();
                 for (int i = 0; i < properties.Length; i++)
                 {
-                    tmpKeyCode = (KeyCode)properties[i].GetValue(Instance, null);
-                    if (tmpKeyCode == newKeyCode)
-                        return true;
+                	object obj = properties[i].GetValue(Instance, null);
+                	if(obj is KeyCode){
+                		tmpKeyCode = (KeyCode)obj;
+                		if (tmpKeyCode == newKeyCode){
+	                        return true;
+                		}
+                	}
+                  
                 }
             }
             return false;
         }
         
-        
+        // todo
+        // || obj is MOIS.Keyboard.Modifier
         
         
         private static string GetRussianName(KeyCode keyCode)

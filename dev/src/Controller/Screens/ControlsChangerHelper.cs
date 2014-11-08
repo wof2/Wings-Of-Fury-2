@@ -1,0 +1,295 @@
+﻿/*
+ * Copyright 2008 Adam Witczak, Jakub Tężycki, Kamil Sławiński, Tomasz Bilski, Emil Hornung, Michał Ziober
+ *
+ * This file is part of Wings Of Fury 2.
+ * 
+ * Freeware Licence Agreement
+ * 
+ * This licence agreement only applies to the free version of this software.
+ * Terms and Conditions
+ * 
+ * BY DOWNLOADING, INSTALLING, USING, TRANSMITTING, DISTRIBUTING OR COPYING THIS SOFTWARE ("THE SOFTWARE"), YOU AGREE TO THE TERMS OF THIS AGREEMENT (INCLUDING THE SOFTWARE LICENCE AND DISCLAIMER OF WARRANTY) WITH WINGSOFFURY2.COM THE OWNER OF ALL RIGHTS IN RESPECT OF THE SOFTWARE.
+ * 
+ * PLEASE READ THIS DOCUMENT CAREFULLY BEFORE USING THE SOFTWARE.
+ *  
+ * IF YOU DO NOT AGREE TO ANY OF THE TERMS OF THIS LICENCE THEN DO NOT DOWNLOAD, INSTALL, USE, TRANSMIT, DISTRIBUTE OR COPY THE SOFTWARE.
+ * 
+ * THIS DOCUMENT CONSTITUES A LICENCE TO USE THE SOFTWARE ON THE TERMS AND CONDITIONS APPEARING BELOW.
+ * 
+ * The Software is licensed to you without charge for use only upon the terms of this licence, and WINGSOFFURY2.COM reserves all rights not expressly granted to you. WINGSOFFURY2.COM retains ownership of all copies of the Software.
+ * 1. Licence
+ * 
+ * You may use the Software without charge.
+ *  
+ * You may distribute exact copies of the Software to anyone.
+ * 2. Restrictions
+ * 
+ * WINGSOFFURY2.COM reserves the right to revoke the above distribution right at any time, for any or no reason.
+ *  
+ * YOU MAY NOT MODIFY, ADAPT, TRANSLATE, RENT, LEASE, LOAN, SELL, REQUEST DONATIONS OR CREATE DERIVATE WORKS BASED UPON THE SOFTWARE OR ANY PART THEREOF.
+ * 
+ * The Software contains trade secrets and to protect them you may not decompile, reverse engineer, disassemble or otherwise reduce the Software to a humanly perceivable form. You agree not to divulge, directly or indirectly, until such trade secrets cease to be confidential, for any reason not your own fault.
+ * 3. Termination
+ * 
+ * This licence is effective until terminated. The Licence will terminate automatically without notice from WINGSOFFURY2.COM if you fail to comply with any provision of this Licence. Upon termination you must destroy the Software and all copies thereof. You may terminate this Licence at any time by destroying the Software and all copies thereof. Upon termination of this licence for any reason you shall continue to be bound by the provisions of Section 2 above. Termination will be without prejudice to any rights WINGSOFFURY2.COM may have as a result of this agreement.
+ * 4. Disclaimer of Warranty, Limitation of Remedies
+ * 
+ * TO THE FULL EXTENT PERMITTED BY LAW, WINGSOFFURY2.COM HEREBY EXCLUDES ALL CONDITIONS AND WARRANTIES, WHETHER IMPOSED BY STATUTE OR BY OPERATION OF LAW OR OTHERWISE, NOT EXPRESSLY SET OUT HEREIN. THE SOFTWARE, AND ALL ACCOMPANYING FILES, DATA AND MATERIALS ARE DISTRIBUTED "AS IS" AND WITH NO WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED. WINGSOFFURY2.COM DOES NOT WARRANT, GUARANTEE OR MAKE ANY REPRESENTATIONS REGARDING THE USE, OR THE RESULTS OF THE USE, OF THE SOFTWARE WITH RESPECT TO ITS CORRECTNESS, ACCURACY, RELIABILITY, CURRENTNESS OR OTHERWISE. THE ENTIRE RISK OF USING THE SOFTWARE IS ASSUMED BY YOU. WINGSOFFURY2.COM MAKES NO EXPRESS OR IMPLIED WARRANTIES OR CONDITIONS INCLUDING, WITHOUT LIMITATION, THE WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE WITH RESPECT TO THE SOFTWARE. NO ORAL OR WRITTEN INFORMATION OR ADVICE GIVEN BY WINGSOFFURY2.COM, IT'S DISTRIBUTORS, AGENTS OR EMPLOYEES SHALL CREATE A WARRANTY, AND YOU MAY NOT RELY ON ANY SUCH INFORMATION OR ADVICE.
+ * 
+ * IMPORTANT NOTE: Nothing in this Agreement is intended or shall be construed as excluding or modifying any statutory rights, warranties or conditions which by virtue of any national or state Fair Trading, Trade Practices or other such consumer legislation may not be modified or excluded. If permitted by such legislation, however, WINGSOFFURY2.COM' liability for any breach of any such warranty or condition shall be and is hereby limited to the supply of the Software licensed hereunder again as WINGSOFFURY2.COM at its sole discretion may determine to be necessary to correct the said breach.
+ * 
+ * IN NO EVENT SHALL WINGSOFFURY2.COM BE LIABLE FOR ANY SPECIAL, INCIDENTAL, INDIRECT OR CONSEQUENTIAL DAMAGES (INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF BUSINESS PROFITS, BUSINESS INTERRUPTION, AND THE LOSS OF BUSINESS INFORMATION OR COMPUTER PROGRAMS), EVEN IF WINGSOFFURY2.COM OR ANY WINGSOFFURY2.COM REPRESENTATIVE HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES. IN ADDITION, IN NO EVENT DOES WINGSOFFURY2.COM AUTHORISE YOU TO USE THE SOFTWARE IN SITUATIONS WHERE FAILURE OF THE SOFTWARE TO PERFORM CAN REASONABLY BE EXPECTED TO RESULT IN A PHYSICAL INJURY, OR IN LOSS OF LIFE. ANY SUCH USE BY YOU IS ENTIRELY AT YOUR OWN RISK, AND YOU AGREE TO HOLD WINGSOFFURY2.COM HARMLESS FROM ANY CLAIMS OR LOSSES RELATING TO SUCH UNAUTHORISED USE.
+ * 5. General
+ * 
+ * All rights of any kind in the Software which are not expressly granted in this Agreement are entirely and exclusively reserved to and by WINGSOFFURY2.COM.
+ * 
+ * 
+ */
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using MOIS;
+using Mogre;
+using BetaGUI;
+using Wof.Controller.Input.KeyboardAndJoystick;
+using Wof.Languages;
+
+namespace Wof.Controller.Screens
+{
+	/// <summary>
+	/// Description of ControlsChangerHelper.
+	/// </summary>
+	public class ControlsChangerHelper : BetaGUIListener
+	{
+	
+		
+		uint lastId = 1;
+		MenuScreen parent;
+		Callback callback;
+		Keyboard keyboard;
+		Window parentGuiWindow;
+		Window controlChangeWindow;
+		public delegate void OnControlsChanged();		
+		public event OnControlsChanged onControlsChanged;
+		
+		public delegate void OnControlsCaptureStarted();		
+		public event OnControlsCaptureStarted onControlsCaptureStarted;
+		
+		public delegate void OnControlsCaptureEnded();		
+		public event OnControlsCaptureEnded onControlsCaptureEnded;
+		
+		readonly IDictionary<String, uint> identifiers = new Dictionary<String, uint>();
+		GUI parentGui;
+		
+		uint currentKeyId;
+		
+		protected void ActivateKeyboard()
+		{
+			keyboard.KeyPressed+= keyboard_KeyPressed;
+			keyboard.KeyReleased += keyboard_KeyReleased;			
+		}
+		
+		protected void DisableKeyboard()
+		{
+			keyboard.KeyPressed-= keyboard_KeyPressed;
+			keyboard.KeyReleased -= keyboard_KeyReleased;
+		}
+		
+		bool keyboard_KeyPressed(KeyEvent arg)
+		{
+			return true;
+		}
+
+		bool keyboard_KeyReleased(KeyEvent arg)
+		{
+			if(arg.key.Equals(KeyCode.KC_ESCAPE)){
+				CloseControlChangeWindow();
+				return false;
+			}
+						
+			String langKey = GetLanguageKeyById(currentKeyId);
+			
+			// check for conflicts
+			
+			if(!langKey.Equals(LanguageKey.Pitch)) {
+				
+				/*if(KeyMap.CheckKeyCodeConflict(KeyMap.Instance.p, arg.key)) {
+					// handle
+					return true;
+				}*/
+			}
+			
+			// keys
+			if(langKey.Equals(LanguageKey.Engine)){
+				KeyMap.Instance.Engine = arg.key;				
+			}
+			if(langKey.Equals(LanguageKey.Spin)){
+				KeyMap.Instance.Spin = arg.key;				
+			}
+			if(langKey.Equals(LanguageKey.Gear)){
+				KeyMap.Instance.Gear = arg.key;				
+			}
+			if(langKey.Equals(LanguageKey.Gun)){
+				KeyMap.Instance.GunFire = arg.key;				
+			}
+			if(langKey.Equals(LanguageKey.Bombs)){
+				KeyMap.Instance.AltFire = arg.key;				
+			}
+			if(langKey.Equals(LanguageKey.Camera)){
+				KeyMap.Instance.Camera = arg.key;				
+			}
+			if(langKey.Equals(LanguageKey.Camera)){
+				KeyMap.Instance.Camera = arg.key;				
+			}
+			
+			// pitch
+			if(langKey.Equals(LanguageKey.Pitch)){
+				
+				if(twoStep == 1) {	
+					twoStep++;
+					KeyMap.Instance.Up = arg.key;	
+					controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), "OK. Now step 2...");
+					return true; // only first step
+				}else {
+				  	twoStep = 1;
+				  	if(KeyMap.CheckKeyCodeConflict(KeyMap.Instance.Down, arg.key)) {
+						// handle
+						return true;
+					}
+				  	KeyMap.Instance.Down = arg.key;					  
+				  	// finish
+				}
+				
+			}
+				
+			if(langKey.Equals(LanguageKey.AccelerateBreakTurn)){
+				
+				if(twoStep == 1) {	
+					twoStep++;
+					KeyMap.Instance.Left = arg.key;	
+					controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), "OK. Now step 2...");
+					return true; // only first step
+				}else {
+				  	twoStep = 1;
+				  	if(KeyMap.CheckKeyCodeConflict(KeyMap.Instance.Right, arg.key)) {
+						// handle
+						return true;
+					}
+				  	KeyMap.Instance.Right = arg.key;					  
+				  	// finish
+				}
+				
+			}		
+		
+			KeyMap.Instance.Value = KeyMap.Instance.Value;
+			
+			CloseControlChangeWindow();
+			
+			// notify parent to refresh
+			if(onControlsChanged != null){
+				onControlsChanged();
+			}
+			return true;
+		}
+		
+		int twoStep = 1;
+		
+
+		public ControlsChangerHelper(Keyboard keyboard, MenuScreen parent) {
+			
+			this.parent = parent;
+			this.callback = new Callback(this); 
+			this.keyboard = keyboard;
+			
+			
+		}
+		
+		public void Setup(GUI parentGui, Window parentGuiWindow) {
+			this.parentGui = parentGui;
+			this.parentGuiWindow = parentGuiWindow;
+		}
+
+		protected String GetLanguageKeyById(uint id) {
+			String key = null;
+			foreach(KeyValuePair<String, uint> o in identifiers) {
+				if(o.Value.Equals(id)) {
+					key = o.Key;
+					break;
+				}
+			}
+			return key;
+		}
+		
+		void DisplayControlChangeWindow(uint id)
+		{
+			 if(onControlsCaptureStarted != null){
+				onControlsCaptureStarted();
+			 }
+			  ActivateKeyboard();
+			  string caption = "";
+			  currentKeyId = id;
+			 
+			
+			  caption += LanguageResources.GetString( GetLanguageKeyById(id));
+			
+			  caption += " = ... ";			  
+			  //LanguageResources.GetString(LanguageKey.Pause);
+			  controlChangeWindow = parentGui.createWindow(new Vector4(parentGuiWindow.x + parentGuiWindow.w/4,parentGuiWindow.y+ parentGuiWindow.h/4,parentGuiWindow.w/2,parentGuiWindow.h/2),
+                                          "bgui.window", (int) wt.NONE, caption);
+			  
+			  if( GetLanguageKeyById(id).Equals(LanguageKey.Pitch)) {
+			  	  controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize, controlChangeWindow.w, parentGui.mFontSize ), "Step 1...");
+					
+			  }
+			  
+			  controlChangeWindow.show();
+        
+		}
+		
+		void CloseControlChangeWindow()
+		{		
+			DisableKeyboard();
+		//	controlChangeWindow.hide();		
+			parentGui.killWindow(controlChangeWindow);			
+			controlChangeWindow = null;
+			if(onControlsCaptureEnded != null){
+				onControlsCaptureEnded();
+			}
+		}
+		
+		
+		#region BetaGUIListener implementation
+		public void onButtonPress(Button referer){
+		
+			
+			// wylacz obsluge klawiatury w oknie powyzej
+			// pokaz okno, czekaj na guzik
+			
+			DisplayControlChangeWindow(referer.id);
+			
+		}
+		#endregion		
+		
+			
+		public Button AddChangeButton(Vector2 topLeft, uint buttonSize, String identifier)
+        {
+			
+    	  	// if (holder == null) return;
+    	  	uint curId;
+    	  	if(identifiers.ContainsKey(identifier)) {
+    	  		curId = identifiers[identifier];
+    	  	}else {
+    	  		curId = ++lastId;
+    	  		identifiers[identifier] = curId;
+    	  	}
+    	  	
+			var vector4 = new Vector4(topLeft.x, topLeft.y, buttonSize, buttonSize);
+			//guiWindow.createStaticImage(vector4, "gear.png", (ushort)(1100));
+         
+			return parentGuiWindow.createButton(vector4, "bgui.button.gear","" , callback, curId);
+    	 	 
+    	}
+	
+	}
+}
