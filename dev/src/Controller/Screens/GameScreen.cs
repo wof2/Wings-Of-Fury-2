@@ -1076,7 +1076,7 @@ namespace Wof.Controller.Screens
         
 
 
-        public void OnUpdateModel(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        public void OnUpdateModel(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
         {
         	if(levelView == null || currentLevel == null) return; // moze sie zdarzyc kiedy level nie jest jeszcze zaladowany
           
@@ -1096,7 +1096,7 @@ namespace Wof.Controller.Screens
                // inputMouse.Capture();
                 //inputKeyboard.Capture();
                 //if(inputJoystick != null) inputJoystick.Capture();
-                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick,false);
+                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoysticks,false);
 				//Console.WriteLine("Joystick status: "+joyVector);
 				
                
@@ -1174,7 +1174,7 @@ namespace Wof.Controller.Screens
                             // uzytkownik moze wlaczyc i wylaczyc silnik w kazdym 
                             // momencie lotu w polaczeniu z kazda kombinacja klawiszy
                             if (inputKeyboard.IsKeyDown(KeyMap.Instance.Engine) ||
-                                FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEngine))
+                                FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEngine))
                             {
                                 currentLevel.OnToggleEngineOn();
                             }
@@ -1183,7 +1183,7 @@ namespace Wof.Controller.Screens
                             // podwozie w kazdym momencie lotu, o mozliwosc zajscia
                             //zdarzenia decyduje model
                             if (inputKeyboard.IsKeyDown(KeyMap.Instance.Gear) ||
-                                FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickGear))
+                                FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickGear))
                             {
                                 currentLevel.OnToggleGear();
                             }
@@ -1191,7 +1191,7 @@ namespace Wof.Controller.Screens
                           
                             // strzal z rakiety
                             if (inputKeyboard.IsKeyDown(KeyMap.Instance.AltFire) ||
-                                FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickRocket))
+                                FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickRocket))
                             {
                                 currentLevel.OnFireSecondaryWeapon();
                             }
@@ -1199,7 +1199,7 @@ namespace Wof.Controller.Screens
                             isStillFireGun = false;
                             // strzal z dzialka
                             if (inputKeyboard.IsKeyDown(KeyMap.Instance.GunFire) ||
-                                FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickGun))
+                                FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickGun))
                             {
                             	//this.levelView.FindPlaneView(this.currentLevel.UserPlane).PlayPlanePass();
 
@@ -1231,7 +1231,7 @@ namespace Wof.Controller.Screens
 
                             // bullet time
                             bool backspaceKeyDown = inputKeyboard.IsKeyDown(KeyMap.Instance.BulletTimeEffect) ||
-                                                    FrameWorkStaticHelper.GetJoystickButton(inputJoystick,
+                                                    FrameWorkStaticHelper.GetJoystickButton(inputJoysticks,
                                                                                 KeyMap.Instance.
                                                                                     JoystickBulletiTimeEffect);
 
@@ -1360,7 +1360,7 @@ namespace Wof.Controller.Screens
         }
 
 
-        private void UpdateMenusGui(Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        private void UpdateMenusGui(Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
         {
 
             if (mGui != null)
@@ -1406,7 +1406,7 @@ namespace Wof.Controller.Screens
                 }
 
 
-                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick, false);
+                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoysticks, false);
 
                 // przyciski - pauza
                 if (isInPauseMenu)
@@ -1428,7 +1428,7 @@ namespace Wof.Controller.Screens
                         }
                     }
 
-                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter))
+                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter))
                     {
                         if (exitButton.activated) Button.TryToPressButton(exitButton, 0.1f);
                         else
@@ -1441,7 +1441,7 @@ namespace Wof.Controller.Screens
 
 
                 // przyciski - game over
-                if (isInGameOverMenu && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter)))
+                if (isInGameOverMenu && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter)))
                 {
                     Button.TryToPressButton(gameOverButton);
 
@@ -1511,7 +1511,7 @@ namespace Wof.Controller.Screens
                         }
                     }
 
-                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter))
+                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter))
                     {
                         Button buttonToPress = null;
                         switch (nextLevelMenuSelectedIndex)
@@ -1539,7 +1539,7 @@ namespace Wof.Controller.Screens
 
                     }
             
-                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape))
+                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape))
                     {
                         onButtonPress(resumeFinishedLevelButton);
                         Button.ResetButtonTimer();
@@ -1635,7 +1635,7 @@ namespace Wof.Controller.Screens
                     }
 
 
-                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || inputKeyboard.IsKeyDown(KeyCode.KC_B) || inputKeyboard.IsKeyDown(KeyCode.KC_R) || inputKeyboard.IsKeyDown(KeyCode.KC_T) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEnter))
+                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || inputKeyboard.IsKeyDown(KeyCode.KC_B) || inputKeyboard.IsKeyDown(KeyCode.KC_R) || inputKeyboard.IsKeyDown(KeyCode.KC_T) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter))
                     {
 
                         Button buttonToPress = null;
@@ -1678,7 +1678,7 @@ namespace Wof.Controller.Screens
                         
                     }
 
-                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape))
+                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape))
                     {
                         if (CanClearRestoreAmmunitionScreen)
                         {
@@ -1700,7 +1700,7 @@ namespace Wof.Controller.Screens
         }
 
 
-        public void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        public void OnHandleViewUpdateEnded(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoystick)
         {
             if(levelView != null)
             {
@@ -1788,7 +1788,7 @@ namespace Wof.Controller.Screens
         }
       
 
-        public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, JoyStick inputJoystick)
+        public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
         {
             if (levelView == null && !isFirstLoadingFrame)
             {
@@ -1894,8 +1894,12 @@ namespace Wof.Controller.Screens
 
                         inputMouse.Capture();
                         inputKeyboard.Capture();
-                        if (inputJoystick != null) inputJoystick.Capture();
-                        Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick, false);
+                        if (inputJoysticks != null){
+	                        foreach(JoyStick j in inputJoysticks) {		                
+	                        	j.Capture();
+	                        }
+                        }
+                        Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoysticks, false);
 
                         if(changingAmmo)
                         {
@@ -1904,10 +1908,10 @@ namespace Wof.Controller.Screens
                             DelayedChangeAmmoAndCloseScreen();
                         }
 
-                        UpdateMenusGui(inputMouse, inputKeyboard, inputJoystick);
+                        UpdateMenusGui(inputMouse, inputKeyboard, inputJoysticks);
 
                        
-                        if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickEscape)) && Button.CanChangeSelectedButton(3.5f) &&
+                        if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape)) && Button.CanChangeSelectedButton(3.5f) &&
                            !changingAmmo)
                         {
                             if (!isGamePaused)
@@ -2004,7 +2008,7 @@ namespace Wof.Controller.Screens
                                 }
 
                                 if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Camera) ||
-                                     FrameWorkStaticHelper.GetJoystickButton(inputJoystick, KeyMap.Instance.JoystickCamera)) &&
+                                     FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickCamera)) &&
                                     Button.CanChangeSelectedButton(2.5f))
                                 {
                                     SwitchCamera();
@@ -2026,13 +2030,13 @@ namespace Wof.Controller.Screens
 
                                 if (levelView.CurrentCameraHolderIndex == 0)
                                 {
-                                    framework.HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt,
+                                    framework.HandleCameraInput(inputKeyboard, inputMouse, inputJoysticks, evt,
                                                                 framework.Camera,
                                                                 framework.MinimapCamera, currentLevel.UserPlane);
                                 }
                                 else
                                 {
-                                    framework.HandleCameraInput(inputKeyboard, inputMouse, inputJoystick, evt, null,
+                                    framework.HandleCameraInput(inputKeyboard, inputMouse, inputJoysticks, evt, null,
                                                                 framework.MinimapCamera, currentLevel.UserPlane);
                                 }
 

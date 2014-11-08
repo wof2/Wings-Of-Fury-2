@@ -213,4 +213,12 @@ Navale – affonda tutte le navi nemiche usando i siluri. Ricorda che devi volar
        <value>Achievements</value>
   </data>
   
+   <data name="Joystick"> 
+       <value>Joystick</value>
+  </data>
+   <data name="JoystickOptions"> 
+       <value>Joystick options</value>
+  </data>
+  
+  
 </root>

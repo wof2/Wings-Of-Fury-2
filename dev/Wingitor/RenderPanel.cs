@@ -89,7 +89,7 @@ namespace wingitor
 
         protected InputManager inputManager;
         protected Keyboard inputKeyboard;
-        protected JoyStick inputJoystick;
+        protected IList<JoyStick> inputJoysticks;
        // protected Mouse inputMouse;
 
         protected static float camSpeed = 50f;
@@ -277,8 +277,11 @@ namespace wingitor
 
 
             inputKeyboard.Capture();
-            if (inputJoystick != null) inputJoystick.Capture();
-
+            if (inputJoysticks != null){
+                foreach(JoyStick j in inputJoysticks) {		                
+                	j.Capture();
+                }
+            }
          /*
             if (inputKeyboard.IsKeyDown(KeyMap.Instance.Left))
             {
@@ -300,9 +303,9 @@ namespace wingitor
                 camera.Pitch(-scaleRotate);
             }*/
 
-            if (inputJoystick != null)
+            if (inputJoysticks != null)
             {
-                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoystick,true);
+                Vector2 joyVector = FrameWorkStaticHelper.GetJoystickVector(inputJoysticks,true);
                 if (joyVector.x != 0) camera.Yaw(-joyVector.x * scaleRotate);
                 if (joyVector.y != 0) camera.Pitch(joyVector.y * scaleRotate);
             }
@@ -373,10 +376,10 @@ namespace wingitor
             }
          
           //  inputMouse.Capture();
-            HandleCameraInput(inputKeyboard, null, inputJoystick, evt, camera, null, null);
+            HandleCameraInput(inputKeyboard, null, inputJoysticks, evt, camera, null, null);
         }
     
-        public void HandleCameraInput(Keyboard inputKeyboard, Mouse inputMouse, JoyStick inputJoystick, FrameEvent evt, Camera camera, Camera minimapCamera, Plane playerPlane)
+        public void HandleCameraInput(Keyboard inputKeyboard, Mouse inputMouse, IList<JoyStick> inputJoysticks, FrameEvent evt, Camera camera, Camera minimapCamera, Plane playerPlane)
         {
            
             // Move about 100 units per second,

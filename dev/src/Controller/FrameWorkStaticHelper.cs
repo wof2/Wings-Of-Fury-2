@@ -300,85 +300,108 @@ namespace Wof.Controller
             return SoundManager3D.Instance.InitializeSound(listener, ss);
         }
 
-        public static bool GetJoystickButton(JoyStick j, int button)
+        public static bool GetJoystickButton(IList<JoyStick> joysticks, int button)
         {
-            if(j!=null)
+            if(joysticks!=null)
             {
-                if ((int)button - 1 < j.JoyStickState.ButtonCount)// indexed from 0
-                {
-                    try
-                    {
-                        return j.JoyStickState.GetButton((int)button - 1); 
-                    }
-                    catch (Exception ex)
-                    {
-                        LogManager.Singleton.LogMessage("Unable to read joystick button state (" + button +"), please check your joystick and Keymap.ini file");
-                        return false;
-                    }
-                  
-                }
+            	bool state = false;
+            	foreach(JoyStick j in joysticks) {
+            		 
+	                if ((int)button - 1 < j.JoyStickState.ButtonCount)// indexed from 0
+	                {
+	                    try
+	                    {
+	                        state = j.JoyStickState.GetButton((int)button - 1); 
+	                        if(state) {
+	                        	return true;
+	                        }
+	                    }
+	                    catch (Exception ex)
+	                    {
+	                        LogManager.Singleton.LogMessage("Unable to read joystick button state (" + button +"), please check your joystick and Keymap.ini file");
+	                        return false;
+	                    }
+	                  
+	                }
+            	}
             }
             return false;
         }
-
-        public static Vector2 GetJoystickVector(JoyStick j, Boolean lowSens)
+		
+		protected static int numberOfAvailableJoysticks=0;
+		public static void SetNumberOfAvailableJoysticks(int i)
         {
-			
-            if(j!=null)
+			numberOfAvailableJoysticks = i;
+		
+		}
+		public static int GetNumberOfAvailableJoysticks()
+        {
+			return numberOfAvailableJoysticks;
+		}
+		
+		
+        public static Vector2 GetJoystickVector(IList<JoyStick> joysticks, Boolean lowSens)
+        {			
+            if(joysticks!=null)
             {
-                if(j.JoyStickState.VectorCount > 0)
-                {
-                    MOIS.Vector3 v = j.JoyStickState.GetVector(0);
-                    return new Vector2(v.x, v.y);
-                } else 
-                {
-                    int num = j.JoyStickState.AxisCount;
-                    if(num >= 2)
-                    {
-                        int axisCount = j.JoyStickState.AxisCount;
-
-                        if (KeyMap.Instance.JoystickVerticalAxisNo > axisCount - 1)
-                        {
-                            throw new Exception("JoystickVerticalAxisNo is greater than number of axes. Please change it in your KeyMap.ini");
-                        }
-
-                        if (KeyMap.Instance.JoystickHorizontalAxisNo > axisCount - 1)
-                        {
-                            throw new Exception("JoystickHorizontalAxisNo is greater than number of axes. Please change it in your KeyMap.ini");
-                        }
-
-
-                        Axis_NativePtr axisV = j.JoyStickState.GetAxis(KeyMap.Instance.JoystickVerticalAxisNo);
-                        Axis_NativePtr axisH = j.JoyStickState.GetAxis(KeyMap.Instance.JoystickHorizontalAxisNo);
-                     
-
-                        double v = (1.0 * axisV.abs / JoyStick.MAX_AXIS);
-                        double h = (1.0 * axisH.abs / JoyStick.MAX_AXIS);
-
-                        // Console.WriteLine(h + " " + v);
-						double dead = KeyMap.Instance.JoystickDeadZone;
-						dead = lowSens ? 3*dead : dead;					
-                        if (Math.Abs(v) < dead) v = 0;
-                        else if (v > 1) v = 1;
-                        else if (v < -1) v = -1;
-
-                        if (Math.Abs(h) < dead) h = 0;
-                        else if (h > 1) h = 1;
-                        else if (h < -1) h = -1;
-                     
-                      
-                        return new Vector2((float)h, (float)-v);
-                    } else
-                    {
-                        // no joys and no POVs 
-                        return Vector2.ZERO;
-                    }
+            	foreach(JoyStick j in joysticks) {
+	                if(j.JoyStickState.VectorCount > 0)
+	                {
+	                    MOIS.Vector3 v = j.JoyStickState.GetVector(0);
+	                    return new Vector2(v.x, v.y);
+	                } else 
+	                {
+	                    int num = j.JoyStickState.AxisCount;
+	                    if(num >= 2)
+	                    {
+	                        int axisCount = j.JoyStickState.AxisCount;
+	
+	                        if (KeyMap.Instance.JoystickVerticalAxisNo > axisCount - 1)
+	                        {
+	                            throw new Exception("JoystickVerticalAxisNo is greater than number of axes. Please change it in your KeyMap.ini");
+	                        }
+	
+	                        if (KeyMap.Instance.JoystickHorizontalAxisNo > axisCount - 1)
+	                        {
+	                            throw new Exception("JoystickHorizontalAxisNo is greater than number of axes. Please change it in your KeyMap.ini");
+	                        }
+	
+	
+	                        Axis_NativePtr axisV = j.JoyStickState.GetAxis(KeyMap.Instance.JoystickVerticalAxisNo);
+	                        Axis_NativePtr axisH = j.JoyStickState.GetAxis(KeyMap.Instance.JoystickHorizontalAxisNo);
+	                     
+	
+	                        double v = (1.0 * axisV.abs / JoyStick.MAX_AXIS);
+	                        double h = (1.0 * axisH.abs / JoyStick.MAX_AXIS);
+	
+	                        // Console.WriteLine(h + " " + v);
+							double dead = KeyMap.Instance.JoystickDeadZone;
+							dead = lowSens ? 3*dead : dead;					
+	                        if (Math.Abs(v) < dead) v = 0;
+	                        else if (v > 1) v = 1;
+	                        else if (v < -1) v = -1;
+	
+	                        if (Math.Abs(h) < dead) h = 0;
+	                        else if (h > 1) h = 1;
+	                        else if (h < -1) h = -1;
+	                     
+	                        if(h==0 && v==0) {
+	                        	continue;
+	                        }
+	                        return new Vector2((float)h, (float)-v);
+	                    } else
+	                    {
+	                        // no joys and no POVs 
+	                        return Vector2.ZERO;
+	                    }
+	                    
+	                }
                 }
             } else
             {
                 return Vector2.ZERO;
             }
-
+			return Vector2.ZERO;
         }
         public static void ReloadAllReources(IFrameWork framework)
         {

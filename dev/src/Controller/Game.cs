@@ -243,7 +243,7 @@ namespace Wof.Controller
             if (currentScreen != null)
             {
             	
-                currentScreen.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoystick);
+                currentScreen.OnHandleViewUpdateEnded(evt, inputMouse, inputKeyboard, inputJoysticks);
 
 
                 if (browser != null && !browser.IsDisposed && browser.Visible)  
@@ -346,7 +346,7 @@ namespace Wof.Controller
             if (currentScreen != null)
             {
                 if(HydraxManager.Singleton.USE_UPDATER_THREAD)  Monitor.Enter(HydraxManager.Singleton);
-                currentScreen.OnHandleViewUpdate(evt, inputMouse, inputKeyboard, inputJoystick);
+                currentScreen.OnHandleViewUpdate(evt, inputMouse, inputKeyboard, inputJoysticks);
                 if (HydraxManager.Singleton.USE_UPDATER_THREAD) Monitor.Exit(HydraxManager.Singleton);
             }
 
@@ -363,7 +363,7 @@ namespace Wof.Controller
         {
             if (currentScreen != null)
             {
-                currentScreen.OnUpdateModel(evt, inputMouse, inputKeyboard, inputJoystick);
+                currentScreen.OnUpdateModel(evt, inputMouse, inputKeyboard, inputJoysticks);
             }
         }
 

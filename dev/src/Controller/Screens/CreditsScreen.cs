@@ -98,6 +98,7 @@ namespace Wof.Controller.Screens
                                     "Marcelo Eiras",
 									"Nico",
 									"Tung Nguyen",
+									"mental-hacker",
                                     String.Empty,
                                     LanguageResources.GetString(LanguageKey.CommunitySupport),
                                     "Marcelo Eiras",
@@ -123,7 +124,7 @@ namespace Wof.Controller.Screens
         /// 
         /// </summary>
         /// <param name="gameEventListener"></param>
-        /// <param name="sceneMgr"></param>
+        /// <param name="framework"></param>
         /// <param name="viewport"></param>
         /// <param name="camera"></param>
         /// <param name="startFromBottom"></param>

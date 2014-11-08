@@ -634,6 +634,13 @@
   <data name="Achievements"> 
        <value>Erfolge</value>
   </data>
+   <data name="Joystick"> 
+       <value>Joystick</value>
+  </data>
+   <data name="JoystickOptions"> 
+       <value>Joystick options</value>
+  </data>
+  
   
   
 </root>
