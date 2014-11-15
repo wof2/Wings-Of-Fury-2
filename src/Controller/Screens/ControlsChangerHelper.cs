@@ -54,6 +54,7 @@ using Mogre;
 using BetaGUI;
 using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
+using Wof.Misc;
 
 namespace Wof.Controller.Screens
 {
@@ -79,10 +80,15 @@ namespace Wof.Controller.Screens
 		public delegate void OnControlsCaptureEnded();		
 		public event OnControlsCaptureEnded onControlsCaptureEnded;
 		
+		public delegate void OnChangeButtonAdded(Button button);		
+		public event OnChangeButtonAdded onChangeButtonAdded;
+		
+		
 		readonly IDictionary<String, uint> identifiers = new Dictionary<String, uint>();
 		GUI parentGui;
 		
 		uint currentKeyId;
+		bool capturingKeys = false;
 		
 		protected void ActivateKeyboard()
 		{
@@ -112,12 +118,13 @@ namespace Wof.Controller.Screens
 			
 			// check for conflicts
 			
-			if(!langKey.Equals(LanguageKey.Pitch)) {
+			if(!langKey.Equals(LanguageKey.Pitch) && !langKey.Equals(LanguageKey.AccelerateBreakTurn)) {
 				
-				/*if(KeyMap.CheckKeyCodeConflict(KeyMap.Instance.p, arg.key)) {
+				if(KeyMap.CheckKeyCodeConflict(langKey, arg.key)) {
 					// handle
 					return true;
-				}*/
+				}
+				
 			}
 			
 			// keys
@@ -131,30 +138,35 @@ namespace Wof.Controller.Screens
 				KeyMap.Instance.Gear = arg.key;				
 			}
 			if(langKey.Equals(LanguageKey.Gun)){
-				KeyMap.Instance.GunFire = arg.key;				
+				KeyMap.Instance.Gun = arg.key;				
 			}
 			if(langKey.Equals(LanguageKey.Bombs)){
-				KeyMap.Instance.AltFire = arg.key;				
+				KeyMap.Instance.Bombs = arg.key;				
 			}
 			if(langKey.Equals(LanguageKey.Camera)){
 				KeyMap.Instance.Camera = arg.key;				
 			}
-			if(langKey.Equals(LanguageKey.Camera)){
-				KeyMap.Instance.Camera = arg.key;				
+			if(langKey.Equals(LanguageKey.Zoomin)){
+				KeyMap.Instance.ZoomIn = arg.key;				
+			}
+			if(langKey.Equals(LanguageKey.Zoomout)){
+				KeyMap.Instance.ZoomOut = arg.key;				
 			}
 			
 			// pitch
 			if(langKey.Equals(LanguageKey.Pitch)){
 				
 				if(twoStep == 1) {	
+					if(KeyMap.CheckKeyCodeConflict("Up", arg.key, new [] {"Down"})) {						
+						return true;
+					}
 					twoStep++;
 					KeyMap.Instance.Up = arg.key;	
 					controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), "OK. Now step 2...");
 					return true; // only first step
 				}else {
 				  	twoStep = 1;
-				  	if(KeyMap.CheckKeyCodeConflict(KeyMap.Instance.Down, arg.key)) {
-						// handle
+				  	if(KeyMap.CheckKeyCodeConflict("Down", arg.key, new [] {"Up"})) {						
 						return true;
 					}
 				  	KeyMap.Instance.Down = arg.key;					  
@@ -166,13 +178,16 @@ namespace Wof.Controller.Screens
 			if(langKey.Equals(LanguageKey.AccelerateBreakTurn)){
 				
 				if(twoStep == 1) {	
+					if(KeyMap.CheckKeyCodeConflict("Left", arg.key, new [] {"Right"})) {						
+						return true;
+					}
 					twoStep++;
 					KeyMap.Instance.Left = arg.key;	
 					controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), "OK. Now step 2...");
 					return true; // only first step
 				}else {
 				  	twoStep = 1;
-				  	if(KeyMap.CheckKeyCodeConflict(KeyMap.Instance.Right, arg.key)) {
+				  	if(KeyMap.CheckKeyCodeConflict("Right", arg.key, new [] {"Left"})) {
 						// handle
 						return true;
 					}
@@ -194,17 +209,24 @@ namespace Wof.Controller.Screens
 		}
 		
 		int twoStep = 1;
-		
 
+		void ControlsChangerHelper_onControlsCaptureStarted()
+		{
+			capturingKeys = true;
+		}
+
+		void ControlsChangerHelper_onControlsCaptureEnded()
+		{
+			capturingKeys = false;
+		}
 		public ControlsChangerHelper(Keyboard keyboard, MenuScreen parent) {
 			
 			this.parent = parent;
 			this.callback = new Callback(this); 
 			this.keyboard = keyboard;
-			
-			
+			onControlsCaptureStarted += ControlsChangerHelper_onControlsCaptureStarted;
+			onControlsCaptureEnded += ControlsChangerHelper_onControlsCaptureEnded;
 		}
-		
 		public void Setup(GUI parentGui, Window parentGuiWindow) {
 			this.parentGui = parentGui;
 			this.parentGuiWindow = parentGuiWindow;
@@ -235,7 +257,12 @@ namespace Wof.Controller.Screens
 			
 			  caption += " = ... ";			  
 			  //LanguageResources.GetString(LanguageKey.Pause);
-			  controlChangeWindow = parentGui.createWindow(new Vector4(parentGuiWindow.x + parentGuiWindow.w/4,parentGuiWindow.y+ parentGuiWindow.h/4,parentGuiWindow.w/2,parentGuiWindow.h/2),
+			  
+			  
+              float width = ViewHelper.MeasureText(parentGui.mFont, caption, parentGui.mFontSize);
+			  
+			  
+              controlChangeWindow = parentGui.createWindow(new Vector4(parentGuiWindow.x + (parentGuiWindow.w - width)/2.0f,parentGuiWindow.y+ parentGuiWindow.h/4,width,parentGuiWindow.h/2),
                                           "bgui.window", (int) wt.NONE, caption);
 			  
 			  if( GetLanguageKeyById(id).Equals(LanguageKey.Pitch)) {
@@ -265,7 +292,9 @@ namespace Wof.Controller.Screens
 			
 			// wylacz obsluge klawiatury w oknie powyzej
 			// pokaz okno, czekaj na guzik
-			
+			if(capturingKeys) {
+				return;
+			}
 			DisplayControlChangeWindow(referer.id);
 			
 		}
@@ -287,9 +316,157 @@ namespace Wof.Controller.Screens
 			var vector4 = new Vector4(topLeft.x, topLeft.y, buttonSize, buttonSize);
 			//guiWindow.createStaticImage(vector4, "gear.png", (ushort)(1100));
          
-			return parentGuiWindow.createButton(vector4, "bgui.button.gear","" , callback, curId);
+			
+			Button b = parentGuiWindow.createButton(vector4, "bgui.button.gear","" , callback, curId);
+			if(onChangeButtonAdded != null){
+				onChangeButtonAdded(b);
+			}
+			return b;
     	 	 
     	}
+		
+		public int AddControlsInfoToGui(Window guiWindow, GUI mGui, int left, int top, int initialTopSpacing, float width, float textVSpacing, uint fontSize)
+        {
+        	
+        	int y = initialTopSpacing;
+        	int h = (int)textVSpacing;
+            uint oldFontSize = mGui.mFontSize;
+
+            int leftOrg = left;
+            
+            // przesuniecie o szerokosc guzika (fontsize) + fontSize
+            left += (int)(fontSize + fontSize);
+            
+            //imgVDiff = 0;
+          
+
+            OverlayContainer c;
+            y += (int)(h*2);
+            c = guiWindow.createStaticText(new Vector4(left - 10, top + y, width, h), LanguageResources.GetString(LanguageKey.Controls));
+            AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
+
+          
+            mGui.mFontSize = fontSize;
+            float spaceSize = ViewHelper.MeasureText(mGui.mFont, " ", mGui.mFontSize);
+            float imgSize = fontSize;
+            float imgVDiff = - Mogre.Math.Abs(imgSize - fontSize)*0.5f;
+
+            y += (int)h;
+			var pos = new Vector4(left, top + y, width, h);
+            c =
+                guiWindow.createStaticText(pos,
+				LanguageResources.GetString(LanguageKey.Engine) + ": " + KeyMap.GetName(KeyMap.Instance.Engine) + " (" + LanguageResources.GetString(LanguageKey.Hold) + ")");
+           
+            
+            Setup(mGui, guiWindow);          
+            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Engine );
+            
+            // "Engine: E (hold)");
+            y += (int)(h * 0.83f);
+
+            
+            AddChangeButton(new Vector2(leftOrg, top + y), fontSize, LanguageKey.AccelerateBreakTurn);
+            
+            if(KeyMap.Instance.Left == KeyCode.KC_LEFT && KeyMap.Instance.Right == KeyCode.KC_RIGHT )
+            { 
+                string ctrl1 = LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + ": ";
+                float width1 = ViewHelper.MeasureText(mGui.mFont, ctrl1, mGui.mFontSize);
+
+            	c =
+                guiWindow.createStaticText(new Vector4(left, top + y, width, h), ctrl1);
+
+
+                guiWindow.createStaticImage(new Vector4(left + width1, top + y + imgVDiff, imgSize, imgSize), "arrow_left.png");
+                guiWindow.createStaticImage(new Vector4(left + width1 + imgSize + spaceSize * 0.5f, top + y + imgVDiff, imgSize, imgSize), "arrow_right.png");
+            } else
+            { 
+            	c =
+                guiWindow.createStaticText(new Vector4(left, top + y, width, h),
+            		                           LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + ": " + KeyMap.GetName(KeyMap.Instance.Left) + "/" +  KeyMap.GetName(KeyMap.Instance.Right));
+            	
+            }
+           
+
+            y += (int)(h * 0.83f);    
+            
+            AddChangeButton(new Vector2(leftOrg, top + y),fontSize, LanguageKey.Pitch);
+            
+            
+            if(KeyMap.Instance.Up == KeyCode.KC_UP && KeyMap.Instance.Down == KeyCode.KC_DOWN )
+            {
+                string ctrl2 = LanguageResources.GetString(LanguageKey.Pitch) + ": ";
+                float width2 = ViewHelper.MeasureText(mGui.mFont, ctrl2, mGui.mFontSize);
+
+            	c =
+                guiWindow.createStaticText(new Vector4(left, top + y, width, h), ctrl2);
+
+                guiWindow.createStaticImage(new Vector4(left + width2,                              top + y + imgVDiff, imgSize, imgSize), "arrow_up.png");
+                guiWindow.createStaticImage(new Vector4(left + width2 + imgSize + spaceSize * 0.5f, top + y + imgVDiff, imgSize, imgSize), "arrow_down.png");
+
+            } else
+            {
+            	c =
+                guiWindow.createStaticText(new Vector4(left, top + y, width, h),
+                                           LanguageResources.GetString(LanguageKey.Pitch) + ": "  + KeyMap.GetName(KeyMap.Instance.Up) + "/" +  KeyMap.GetName(KeyMap.Instance.Down));
+            }
+
+
+
+            y += (int)(h * 0.83f);
+            pos = new Vector4(left, top + y, width, h);
+            c = guiWindow.createStaticText(pos,  
+                                           LanguageResources.GetString(LanguageKey.Spin) + ": " + KeyMap.GetName(KeyMap.Instance.Spin));
+            
+            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Spin);
+            
+            
+            y += (int)(h * 0.83f);
+            pos = new Vector4(left, top + y, width, h);
+            c = guiWindow.createStaticText(pos, 
+                                           LanguageResources.GetString(LanguageKey.Gear) + ": " + KeyMap.GetName(KeyMap.Instance.Gear));
+            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Gear);
+            
+
+            y += (int)(h * 0.83f);
+            pos = new Vector4(left, top + y, width, h);
+            c = guiWindow.createStaticText(pos, 
+                                           LanguageResources.GetString(LanguageKey.Gun) + ": " + KeyMap.GetName(KeyMap.Instance.Gun));
+            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Gun);
+            
+            y += (int)(h * 0.83f);
+			pos = new Vector4(left, top + y, width, h);
+            c = guiWindow.createStaticText(pos,
+                                           LanguageResources.GetString(LanguageKey.Bombs) + "/" + LanguageResources.GetString(LanguageKey.Rockets)+ ": " + KeyMap.GetName(KeyMap.Instance.Bombs));
+            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Bombs);
+            
+            y += (int)(h * 0.83f);
+            pos = new Vector4(left, top + y, width, h);
+            c = guiWindow.createStaticText(pos,
+                                           LanguageResources.GetString(LanguageKey.Camera) + ": " + KeyMap.GetName(KeyMap.Instance.Camera));
+            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Camera);
+            
+            y += (int)(h * 0.83f);
+            pos = new Vector4(left, top + y, width, h);
+            c = guiWindow.createStaticText(pos,
+                                           LanguageResources.GetString(LanguageKey.Zoomin) + ": " +  KeyMap.GetName(KeyMap.Instance.ZoomIn));
+ 			AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Zoomin);
+           
+            y += (int)(h * 0.83f);
+            pos = new Vector4(left, top + y, width, h);
+            c = guiWindow.createStaticText(pos,
+                                           LanguageResources.GetString(LanguageKey.Zoomout) + ": " +  KeyMap.GetName(KeyMap.Instance.ZoomOut));
+            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Zoomout);
+            
+            y += (int)(h * 0.83f);
+            pos = new Vector4(left, top + y, width, h);
+            c = guiWindow.createStaticText(pos,
+                                           LanguageResources.GetString(LanguageKey.RearmEndMission) + ": " + KeyMap.GetName(KeyMap.Instance.Bombs));
+            
+
+            mGui.mFontSize = oldFontSize;
+            
+            return y;
+        }
 	
 	}
 }

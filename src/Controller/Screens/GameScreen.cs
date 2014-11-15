@@ -471,18 +471,27 @@ namespace Wof.Controller.Screens
 			
 		void controlsChangerHelper_onControlsCaptureStarted()
 		{
-			isCapturingControlKey = true;
+			isCapturingControlKey = true;			
+			//guiWindow.hide();
 		}
 
 		void controlsChangerHelper_onControlsCaptureEnded()
 		{
 			isCapturingControlKey = false;
+		//	guiWindow.show();
 		}
+
+		void controlsChangerHelper_onChangeButtonAdded(Button button)
+		{
+			// todo
+		}
+
         public void CreateControlsChangerHelper(Keyboard keyboard) {        	
         	controlsChangerHelper = new ControlsChangerHelper(keyboard, this);
         	controlsChangerHelper.onControlsChanged += controlsChangerHelper_onControlsChanged;        	
         	controlsChangerHelper.onControlsCaptureStarted += controlsChangerHelper_onControlsCaptureStarted;
         	controlsChangerHelper.onControlsCaptureEnded += controlsChangerHelper_onControlsCaptureEnded;;
+        	controlsChangerHelper.onChangeButtonAdded += controlsChangerHelper_onChangeButtonAdded;
         	
         	
         }
@@ -792,7 +801,7 @@ namespace Wof.Controller.Screens
         }
         private static String GetChangeAmmoMessage()
         {
-            return String.Format(LanguageResources.GetString(LanguageKey.PressXToChangeAmmo), KeyMap.GetName(KeyMap.Instance.AltFire));
+            return String.Format(LanguageResources.GetString(LanguageKey.PressXToChangeAmmo), KeyMap.GetName(KeyMap.Instance.Bombs));
         }
 
 
@@ -1218,7 +1227,7 @@ namespace Wof.Controller.Screens
 
                           
                             // strzal z rakiety
-                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.AltFire) ||
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Bombs) ||
                                 FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickRocket))
                             {
                                 currentLevel.OnFireSecondaryWeapon();
@@ -1226,7 +1235,7 @@ namespace Wof.Controller.Screens
                             
                             isStillFireGun = false;
                             // strzal z dzialka
-                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.GunFire) ||
+                            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Gun) ||
                                 FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickGun))
                             {
                             	//this.levelView.FindPlaneView(this.currentLevel.UserPlane).PlayPlanePass();
@@ -2279,7 +2288,7 @@ namespace Wof.Controller.Screens
             {
                 if (!prevFuelTooLow)
                 {
-                    string message = String.Format("{0}!", LanguageResources.GetString(LanguageKey.LowFuelWarning)) + " " +  String.Format(LanguageResources.GetString(LanguageKey.LandOnTheCarrierAndPressXToRefuel), KeyMap.GetName(KeyMap.Instance.AltFire));
+                    string message = String.Format("{0}!", LanguageResources.GetString(LanguageKey.LowFuelWarning)) + " " +  String.Format(LanguageResources.GetString(LanguageKey.LandOnTheCarrierAndPressXToRefuel), KeyMap.GetName(KeyMap.Instance.Bombs));
                     gameMessages.AppendMessage(message);
                     prevFuelTooLow = true;
                 }
@@ -2294,7 +2303,7 @@ namespace Wof.Controller.Screens
             {
                 if (!prevOilTooLow)
                 {
-                    string message = String.Format("{0}!", LanguageResources.GetString(LanguageKey.LowOilWarning)) + " " + String.Format(LanguageResources.GetString(LanguageKey.LandOnTheCarrierAndPressXToRepair), KeyMap.GetName(KeyMap.Instance.AltFire));
+                    string message = String.Format("{0}!", LanguageResources.GetString(LanguageKey.LowOilWarning)) + " " + String.Format(LanguageResources.GetString(LanguageKey.LandOnTheCarrierAndPressXToRepair), KeyMap.GetName(KeyMap.Instance.Bombs));
                     gameMessages.AppendMessage(message);
                     prevOilTooLow = true;
                 }
@@ -2348,6 +2357,9 @@ namespace Wof.Controller.Screens
 
         public void onButtonPress(BetaGUI.Button referer)
         {
+        	if(isCapturingControlKey) { 
+        		return;
+        	}
         	
         	//volumes    
         
@@ -2625,7 +2637,7 @@ namespace Wof.Controller.Screens
             
 
           
-            y = AbstractOptionsScreen.AddControlsInfoToGui(controlsChangerHelper, guiWindow, mGui, left, top, y, width, h, (uint)(fontSize * 0.67f));
+            y = controlsChangerHelper.AddControlsInfoToGui(guiWindow, mGui, left, top, y, width, h, (uint)(fontSize * 0.67f));
             
 
             y += (int)(2*h);
@@ -3659,7 +3671,7 @@ namespace Wof.Controller.Screens
                 message =
                     String.Format(
                         LanguageResources.GetString(LanguageKey.AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX),
-                        KeyMap.GetName(KeyMap.Instance.AltFire));
+                        KeyMap.GetName(KeyMap.Instance.Bombs));
                          
             }
             else if (currentLevel.MissionType == MissionType.Dogfight)
@@ -3667,7 +3679,7 @@ namespace Wof.Controller.Screens
                 message =
                    String.Format(
                        LanguageResources.GetString(LanguageKey.AllEnemyPlanesDestroyedLandOnCarrierAndPressX),
-                       KeyMap.GetName(KeyMap.Instance.AltFire));
+                       KeyMap.GetName(KeyMap.Instance.Bombs));
              
             }
             else if (currentLevel.MissionType == MissionType.Survival)
@@ -3675,7 +3687,7 @@ namespace Wof.Controller.Screens
                 message =
                    String.Format(
                        LanguageResources.GetString(LanguageKey.AllEnemyPlanesDestroyedLandOnCarrierAndPressX),
-                       KeyMap.GetName(KeyMap.Instance.AltFire));
+                       KeyMap.GetName(KeyMap.Instance.Bombs));
 
             }
             else if (currentLevel.MissionType == MissionType.Assassination)
@@ -3683,7 +3695,7 @@ namespace Wof.Controller.Screens
                 message =
                    String.Format(
                        LanguageResources.GetString(LanguageKey.TargetNeutralizedLandOnCarrierAndPressX),
-                       KeyMap.GetName(KeyMap.Instance.AltFire));
+                       KeyMap.GetName(KeyMap.Instance.Bombs));
              
             }
             else if (currentLevel.MissionType == MissionType.Naval)
@@ -3691,7 +3703,7 @@ namespace Wof.Controller.Screens
                 message =
                    String.Format(
                        LanguageResources.GetString(LanguageKey.AllEnemyShipsDestroyedLandOnCarrierAndPressX),
-                       KeyMap.GetName(KeyMap.Instance.AltFire));
+                       KeyMap.GetName(KeyMap.Instance.Bombs));
               
             }
             gameMessages.ClearMessages();

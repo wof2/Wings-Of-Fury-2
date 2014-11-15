@@ -445,7 +445,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za strzelanie z dzialka samolotu.
         /// </summary>
-        public KeyCode GunFire
+        public KeyCode Gun
         {
             get { return _gunFire; }
             set { _gunFire = value; }
@@ -507,7 +507,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za strzelanie rakietami, zrzucaniem bomb i torped, itp.
         /// </summary>
-        public KeyCode AltFire
+        public KeyCode Bombs
         {
             get { return _altFire; }
             set { _altFire = value; }
@@ -756,6 +756,43 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         
         // todo
         // || obj is MOIS.Keyboard.Modifier
+        
+        public static bool CheckKeyCodeConflict(String propertyName, KeyCode newKeyCode)
+        {
+        	return  CheckKeyCodeConflict(propertyName, newKeyCode, new String[] {});
+        }
+        
+        public static bool CheckKeyCodeConflict(String propertyName, KeyCode newKeyCode, String[] exceptions)
+        {
+        	
+            KeyCode tmpKeyCode;
+            PropertyInfo[] properties = KeyMap.Instance.GetType().GetProperties();
+            for (int i = 0; i < properties.Length; i++)
+            {
+            	
+            	if(-1 != Array.FindIndex(exceptions, (String exception) => properties[i].Name.Equals(exception, StringComparison.InvariantCultureIgnoreCase))){
+            		// 
+            		continue;
+            	}
+       				
+            	
+            	
+            	if(!properties[i].Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase)) {
+            		     
+					// other key            		
+	            	object obj = properties[i].GetValue(Instance, null);
+	            	if(obj is KeyCode){
+	            		tmpKeyCode = (KeyCode)obj;
+	            		if (tmpKeyCode == newKeyCode){
+	                        return true;
+	            		}
+	            	}
+            	}
+              
+            }
+           
+            return false;
+        }
         
         
         private static string GetRussianName(KeyCode keyCode)
