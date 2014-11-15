@@ -117,148 +117,7 @@ namespace Wof.Controller.Screens
         
         protected List<object>availableOptions;
 
-        public static int AddControlsInfoToGui(ControlsChangerHelper controlsChangerHelper, Window guiWindow, GUI mGui, int left, int top, int initialTopSpacing, float width, float textVSpacing, uint fontSize)
-        {
-        	
-        	int y = initialTopSpacing;
-        	int h = (int)textVSpacing;
-            uint oldFontSize = mGui.mFontSize;
-
-            int leftOrg = left;
-            
-            // przesuniecie o szerokosc guzika (fontsize) + fontSize
-            left += (int)(fontSize + fontSize);
-            
-            //imgVDiff = 0;
-          
-
-            OverlayContainer c;
-            y += (int)(h*2);
-            c = guiWindow.createStaticText(new Vector4(left - 10, top + y, width, h), LanguageResources.GetString(LanguageKey.Controls));
-            AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
-
-          
-            mGui.mFontSize = fontSize;
-            float spaceSize = ViewHelper.MeasureText(mGui.mFont, " ", mGui.mFontSize);
-            float imgSize = fontSize;
-            float imgVDiff = - Math.Abs(imgSize - fontSize)*0.5f;
-
-            y += (int)h;
-			var pos = new Vector4(left, top + y, width, h);
-            c =
-                guiWindow.createStaticText(pos,
-				LanguageResources.GetString(LanguageKey.Engine) + ": " + KeyMap.GetName(KeyMap.Instance.Engine) + " (" + LanguageResources.GetString(LanguageKey.Hold) + ")");
-           
-            
-            controlsChangerHelper.Setup(mGui, guiWindow);          
-            controlsChangerHelper.AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Engine );
-            
-            // "Engine: E (hold)");
-            y += (int)(h * 0.83f);
-
-            
-            controlsChangerHelper.AddChangeButton(new Vector2(leftOrg, top + y), fontSize, LanguageKey.AccelerateBreakTurn);
-            
-            if(KeyMap.Instance.Left == KeyCode.KC_LEFT && KeyMap.Instance.Right == KeyCode.KC_RIGHT )
-            { 
-                string ctrl1 = LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + ": ";
-                float width1 = ViewHelper.MeasureText(mGui.mFont, ctrl1, mGui.mFontSize);
-
-            	c =
-                guiWindow.createStaticText(new Vector4(left, top + y, width, h), ctrl1);
-
-
-                guiWindow.createStaticImage(new Vector4(left + width1, top + y + imgVDiff, imgSize, imgSize), "arrow_left.png");
-                guiWindow.createStaticImage(new Vector4(left + width1 + imgSize + spaceSize * 0.5f, top + y + imgVDiff, imgSize, imgSize), "arrow_right.png");
-            } else
-            { 
-            	c =
-                guiWindow.createStaticText(new Vector4(left, top + y, width, h),
-            		                           LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + ": " + KeyMap.GetName(KeyMap.Instance.Left) + "/" +  KeyMap.GetName(KeyMap.Instance.Right));
-            	
-            }
-           
-
-            y += (int)(h * 0.83f);    
-            
-            controlsChangerHelper.AddChangeButton(new Vector2(leftOrg, top + y),fontSize, LanguageKey.Pitch);
-            
-            
-            if(KeyMap.Instance.Up == KeyCode.KC_UP && KeyMap.Instance.Down == KeyCode.KC_DOWN )
-            {
-                string ctrl2 = LanguageResources.GetString(LanguageKey.Pitch) + ": ";
-                float width2 = ViewHelper.MeasureText(mGui.mFont, ctrl2, mGui.mFontSize);
-
-            	c =
-                guiWindow.createStaticText(new Vector4(left, top + y, width, h), ctrl2);
-
-                guiWindow.createStaticImage(new Vector4(left + width2,                              top + y + imgVDiff, imgSize, imgSize), "arrow_up.png");
-                guiWindow.createStaticImage(new Vector4(left + width2 + imgSize + spaceSize * 0.5f, top + y + imgVDiff, imgSize, imgSize), "arrow_down.png");
-
-            } else
-            {
-            	c =
-                guiWindow.createStaticText(new Vector4(left, top + y, width, h),
-                                           LanguageResources.GetString(LanguageKey.Pitch) + ": "  + KeyMap.GetName(KeyMap.Instance.Up) + "/" +  KeyMap.GetName(KeyMap.Instance.Down));
-            }
-
-
-
-            y += (int)(h * 0.83f);
-            pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos,  
-                                           LanguageResources.GetString(LanguageKey.Spin) + ": " + KeyMap.GetName(KeyMap.Instance.Spin));
-            
-            controlsChangerHelper.AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Spin);
-            
-            
-            y += (int)(h * 0.83f);
-            pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos, 
-                                           LanguageResources.GetString(LanguageKey.Gear) + ": " + KeyMap.GetName(KeyMap.Instance.Gear));
-            controlsChangerHelper.AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Gear);
-            
-
-            y += (int)(h * 0.83f);
-            pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos, 
-                                           LanguageResources.GetString(LanguageKey.Gun) + ": " + KeyMap.GetName(KeyMap.Instance.GunFire));
-            controlsChangerHelper.AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Gun);
-            
-            y += (int)(h * 0.83f);
-			pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos,
-                                           LanguageResources.GetString(LanguageKey.Bombs) + "/" + LanguageResources.GetString(LanguageKey.Rockets)+ ": " + KeyMap.GetName(KeyMap.Instance.AltFire));
-            controlsChangerHelper.AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Bombs);
-            
-            y += (int)(h * 0.83f);
-            pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos,
-                                           LanguageResources.GetString(LanguageKey.Camera) + ": " + KeyMap.GetName(KeyMap.Instance.Camera));
-            controlsChangerHelper.AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Camera);
-            
-            y += (int)(h * 0.83f);
-            pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos,
-                                           LanguageResources.GetString(LanguageKey.Zoomin) + ": " + "Page UP");
- 			controlsChangerHelper.AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Zoomin);
-           
-            y += (int)(h * 0.83f);
-            pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos,
-                                           LanguageResources.GetString(LanguageKey.Zoomout) + ": " + "Page DOWN");
-            controlsChangerHelper.AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Zoomout);
-            
-            y += (int)(h * 0.83f);
-            pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos,
-                                           LanguageResources.GetString(LanguageKey.RearmEndMission) + ": " + KeyMap.GetName(KeyMap.Instance.AltFire));
-            
-
-            mGui.mFontSize = oldFontSize;
-            
-            return y;
-        }
+   
 
         private void createScreen()
         {
@@ -524,7 +383,7 @@ namespace Wof.Controller.Screens
             gameEventListener.GotoOptionsScreen();
         }
 
-        public void onButtonPress(Button referer)
+        public virtual void onButtonPress(Button referer)
         {
             if (screenTime > C_RESPONSE_DELAY)
             {

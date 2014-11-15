@@ -134,7 +134,7 @@ namespace wingitor
                     currentLevel.OnToggleGear();
                 }
 
-                 if (inputKeyboard.IsKeyDown(KeyMap.Instance.GunFire) )
+                 if (inputKeyboard.IsKeyDown(KeyMap.Instance.Gun) )
                  {
                      currentLevel.OnFireGun();
                  }

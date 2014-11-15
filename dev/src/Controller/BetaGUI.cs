@@ -650,7 +650,7 @@ namespace BetaGUI
         /// <returns></returns>
         public OverlayContainer createStaticTextAutoSplit(Vector4 D, String T)
         {
-            h = this.mGUI.mFontSize; // margin and font size
+            uint h = this.mGUI.mFontSize; // margin and font size
             Font font = (Font)(Mogre.FontManager.Singleton.GetByName(this.mGUI.mFont).Target);
             Vector2 averageSize = ViewHelper.GetTextAverageSize(T, font, h);
 
