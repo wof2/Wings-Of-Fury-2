@@ -116,7 +116,7 @@ namespace Wof.Controller.EffectBars
               
             uint oldFontSize = _gui2.mFontSize;
             _gui2.mFontSize = (uint)(oldFontSize * 0.55f);           
-            _text = _bar2.createStaticText(new Vector4(min * 1.0f, - 9.0f *min, _width, _height * 0.90f), LanguageResources.GetString(LanguageKey.BulletTime), _colour1);
+            _text = _bar2.createStaticText(new Vector4(min * 1.0f, - 9.0f *min, _width, _height * 0.90f), LanguageResources.GetString(LanguageKey.BulletTimeEffect), _colour1);
             _gui2.mFontSize = oldFontSize;
             
         }

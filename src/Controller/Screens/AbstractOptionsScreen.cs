@@ -350,7 +350,7 @@ namespace Wof.Controller.Screens
             backButtonIndex = (int) totalOptions - 1;
             if(showRestartRequiredMessage)
             {
-                guiWindow.createStaticTextAutoSplit(new Vector4(GetMargin().x, exitButton.Y + 2 * GetTextVSpacing(), window.w - GetMargin().x *2, GetTextVSpacing() * 2), LanguageResources.GetString(LanguageKey.ChangeOptionMessage1) + LanguageResources.GetString(LanguageKey.ChangeOptionMessage2));
+                guiWindow.createStaticTextAutoSplit(new Vector4(GetMargin().x, exitButton.Y + 2 * GetTextVSpacing(), window.w - GetMargin().x *2, GetTextVSpacing() * 2), LanguageResources.GetString(LanguageKey.ChangeOptionMessage1)+ " " + LanguageResources.GetString(LanguageKey.ChangeOptionMessage2));
           /*
             	guiWindow.createStaticText(
                     new Vector4(GetMargin().x, exitButton.Y + 1 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),

@@ -17,6 +17,10 @@ namespace Wof.Controller
         Viewport OverlayViewport { get; }
         void Go();
 
+ 		Keyboard InputKeyboard
+        {
+            get;
+        }
 
         SceneManager SceneMgr
         {

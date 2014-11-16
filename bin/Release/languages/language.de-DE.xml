@@ -13,7 +13,7 @@
     <value>Bomben</value>
   </data>
   <data name="ChangeOptionMessage1">
-    <value>Einige Einstellungen werden </value>
+    <value>Einige Einstellungen werden</value>
   </data>
   <data name="ChangeOptionMessage2">
     <value>erst nach dem Neustart wirksam.</value>
@@ -471,7 +471,7 @@
   </data>
 
   <!-- Bullet time effect - like in Matrix :) -->
-  <data name="BulletTime">
+  <data name="BulletTimeEffect">
     <value>Zeitlupenmodus</value>
   </data>
 
@@ -537,8 +537,8 @@
 
 
   <!-- similar to "additional levels" -->
-  <data name="CustomLevels">
-    <value>Eigene Levels</value>
+  <data name="EnhancedLevels">
+    <value>Extra Levels</value>
   </data>
 
   <!-- "{0}" will be substituted for the real key -->

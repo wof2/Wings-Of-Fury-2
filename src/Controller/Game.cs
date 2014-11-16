@@ -722,11 +722,7 @@ namespace Wof.Controller
         
 		public override void CreateInput()
 		{
-			base.CreateInput();
-			if(currentScreen is GameScreen) {
-				(currentScreen as GameScreen).CreateControlsChangerHelper(inputKeyboard);
-			}
-
+			base.CreateInput();			
 		}
       
 
@@ -823,6 +819,7 @@ namespace Wof.Controller
             {
 
             }
+            
         }
 
       
@@ -1057,7 +1054,7 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoCustomLevelsScreen()
+        public void GotoEnhancedLevelsScreen()
         {
             Boolean justMenu = IsMenuScreen(currentScreen);
 
@@ -1070,7 +1067,7 @@ namespace Wof.Controller
 
             SoundManager.Instance.PlayMainTheme();
 
-            currentScreen = new CustomLevelsScreen(this, this, viewport, camera);
+            currentScreen = new EnhancedLevelsScreen(this, this, viewport, camera);
             if (ss != null)
             {
                 ((AbstractScreen)currentScreen).SetScreenState(ss);

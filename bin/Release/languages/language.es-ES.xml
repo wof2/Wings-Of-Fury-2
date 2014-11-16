@@ -505,7 +505,7 @@
   </data>
 
   <!-- Bullet time effect - like in Matrix :) -->
-  <data name="BulletTime">
+  <data name="BulletTimeEffect">
     <value>Efecto tiempo en balas</value>
   </data>
 
@@ -572,7 +572,7 @@
     <value>Pulse'{0}','{1}' para despegar</value>
   </data>
 
-  <data name="CustomLevels">
+  <data name="EnhancedLevels">
     <value>Niveles personalizados</value>
   </data>
 

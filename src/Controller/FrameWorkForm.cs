@@ -103,6 +103,11 @@ namespace Wof.Controller
         protected Camera camera, minimapCamera, minimapNoseCamera, overlayCamera;
         protected CameraListener cameraListener;
 
+		public Keyboard InputKeyboard {
+			get {
+        		return inputKeyboard;
+			}
+		}
         public Camera Camera
         {
             get { return camera; }

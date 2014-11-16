@@ -465,7 +465,7 @@
     <value>Тіні</value>
   </data>
 
- <data name="BulletTime">
+ <data name="BulletTimeEffect">
     <value>Уповільнення часу</value>
   </data>
 
@@ -528,7 +528,7 @@
     <value>Натисніть "{0}","{1}" щоб літак злетів</value>
   </data>
 
-  <data name="CustomLevels">
+  <data name="EnhancedLevels">
     <value>Додаткові місії</value>
   </data>
   

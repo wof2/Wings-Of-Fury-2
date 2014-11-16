@@ -163,7 +163,7 @@ namespace Wof.Controller.Screens
                                                 "bgui.button", LanguageResources.GetString(LanguageKey.CompletedLevels),
                                                 cc, i++);
             buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * h, Viewport.ActualWidth / 2, h),
-                                              "bgui.button", LanguageResources.GetString(LanguageKey.CustomLevels),
+                                              "bgui.button", LanguageResources.GetString(LanguageKey.EnhancedLevels),
                                               cc, i++);
             pinImageToButton(buttons[i - 1], "pin.png", 1.6f);
 
@@ -373,7 +373,7 @@ namespace Wof.Controller.Screens
 
                 string NewGame = LanguageResources.GetString(LanguageKey.NewGame);
                 string CompletedLevels = LanguageResources.GetString(LanguageKey.CompletedLevels);
-                string CustomLevels = LanguageResources.GetString(LanguageKey.CustomLevels);
+                string EnhancedLevels = LanguageResources.GetString(LanguageKey.EnhancedLevels);
                 string Highscores = LanguageResources.GetString(LanguageKey.Highscores);
                 string Options = LanguageResources.GetString(LanguageKey.Options);
                 string Tutorial = LanguageResources.GetString(LanguageKey.Tutorial);
@@ -394,11 +394,11 @@ namespace Wof.Controller.Screens
                 {
                     gameEventListener.GotoLoadGameScreen();
                 }
-                else if(referer.text.Equals(CustomLevels))
+                else if(referer.text.Equals(EnhancedLevels))
                 {
                     if(EngineConfig.IsEnhancedVersion)
                     {
-                        gameEventListener.GotoCustomLevelsScreen();
+                        gameEventListener.GotoEnhancedLevelsScreen();
                     } else
                     {
                         gameEventListener.GotoEnhancedVersionScreen();

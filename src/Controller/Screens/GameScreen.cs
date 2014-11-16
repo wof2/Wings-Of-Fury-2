@@ -455,8 +455,7 @@ namespace Wof.Controller.Screens
 
             indicatorControl = new IndicatorControl(framework.OverlayMgr, framework.OverlayViewport, framework.MinimapViewport, this);
             gameMessages = new GameMessages(framework.Viewport);
-			
-           
+			           
         }
 
 		void controlsChangerHelper_onControlsChanged()
@@ -830,6 +829,8 @@ namespace Wof.Controller.Screens
 
         public void DisplayGUI(Boolean justMenu)
         {
+        	
+			
 			displayed = true;
             LogManager.Singleton.LogMessage("About to load model...", LogMessageLevel.LML_CRITICAL);
             
@@ -1284,7 +1285,7 @@ namespace Wof.Controller.Screens
                                     this.framework.SetCompositorEnabled(FrameWorkForm.CompositorTypes.MOTION_BLUR, true);
                                 }
                                 if (gameMessages.IsMessageQueueEmpty())
-                                    gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.BulletTime));
+                                    gameMessages.AppendMessage(LanguageResources.GetString(LanguageKey.BulletTimeEffect));
                                 EngineConfig.CurrentGameSpeedMultiplier = EngineConfig.GameSpeedMultiplierSlow;
                             }
                             else
@@ -2138,7 +2139,7 @@ namespace Wof.Controller.Screens
                         TimeSpan diff = DateTime.Now.Subtract(loadingStart);
                         LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Level loaded in "+ (int)diff.TotalMilliseconds + "[ms]");
 
-
+						CreateControlsChangerHelper(framework.InputKeyboard);
 
                         // reklama w czasie gry
                         if (changingAmmoAd == null && !changingAmmoAdTried)
@@ -2640,7 +2641,7 @@ namespace Wof.Controller.Screens
             y = controlsChangerHelper.AddControlsInfoToGui(guiWindow, mGui, left, top, y, width, h, (uint)(fontSize * 0.67f));
             
 
-            y += (int)(2*h);
+            y += (int)(1*h);
             
             // Opcje dzwieku
             float soundWidth = width / 13.0f;

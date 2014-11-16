@@ -16,7 +16,7 @@
     <value>Bom</value>
   </data>
   <data name="ChangeOptionMessage1">
-    <value>Các thay đổi trong Tùy chọn sẽ có </value>
+    <value>Các thay đổi trong Tùy chọn sẽ có</value>
   </data>
   <data name="ChangeOptionMessage2">
     <value>tác dụng sau khi bật lại Trò chơi.</value>
@@ -486,7 +486,7 @@
   </data>
 
   <!-- Bullet time effect - like in Matrix :) -->
-  <data name="BulletTime">
+  <data name="BulletTimeEffect">
     <value>Đứng thời gian</value>
   </data>
 
@@ -548,7 +548,7 @@
     <value>Nhấn '{0}','{1}' để cất cách</value>
   </data>
 
-  <data name="CustomLevels">
+  <data name="EnhancedLevels">
     <value>Tùy biến Cấp bậc</value>
   </data>
 

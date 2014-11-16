@@ -3,7 +3,7 @@
 <data name="Back"><value>Indietro</value></data>
 <data name="Bloom"><value>Bloom</value></data>
 <data name="Bombs"><value>Bombe</value></data>
-<data name="ChangeOptionMessage1"><value>Alcuni cambiamenti saranno visibili </value></data>
+<data name="ChangeOptionMessage1"><value>Alcuni cambiamenti saranno visibili</value></data>
 <data name="ChangeOptionMessage2"><value>solo dopo aver riavviato il gioco.</value></data>
 <data name="ChooseDifficulty"><value>Scegli il livello di difficoltà</value></data>
 <data name="CompletedLevels"><value>Livello completato</value></data>
@@ -143,7 +143,7 @@
 <data name="Blood"><value>Sangue</value></data>
 <data name="None"><value>Nessuno</value></data>
 <data name="Shadows"><value>Ombre</value></data>
-<data name="BulletTime"><value>Bullet Time</value></data>
+<data name="BulletTimeEffect"><value>Bullet Time</value></data>
 <data name="MissionType"><value>Tipo di missione</value></data>
 <data name="Dogfight"><value>Combattimento aereo</value></data>
 <data name="BombingRun"><value>Bombardamento</value></data>
@@ -168,7 +168,7 @@ Navale – affonda tutte le navi nemiche usando i siluri. Ricorda che devi volar
 <data name="EnemyGenerals"><value>Generali nemici rimasti</value></data>
 <data name="Altitude"><value>Altitudine</value></data>
 <data name="PressLeftUpToTakeOff"><value>Premi '{0}','{1}' per decollare</value></data>
-<data name="CustomLevels"><value>Livelli personalizzati</value></data>
+<data name="EnhancedLevels"><value>Livelli personalizzati</value></data>
 <data name="PressUpToLand"><value>Premi "{0}" per atterrare</value></data>
 <data name="News404_1"><value>Errore riscontrato nell'accesso alle notizie sul progetto WOF2</value></data>
 <data name="News404_2"><value>Impossibile stabilire una connessione internet</value></data>

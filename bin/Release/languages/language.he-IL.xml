@@ -16,7 +16,7 @@
   <data name="Bombs">
     <value>פצצות</value>
   </data>
-  <data name="ChangeOptionMessage1">
+  <data name="ChangeOptionMessage1"> 
     <value>השינויים יחלו</value>
   </data>
   <data name="ChangeOptionMessage2">
@@ -489,7 +489,7 @@
   </data>
 
   <!-- Bullet time effect - like in Matrix :) -->
-  <data name="BulletTime">
+  <data name="BulletTimeEffect">
     <value>זמן הגעת קליע</value>
   </data>
 
@@ -554,7 +554,7 @@
     <value>לחץ '{0}','{1}' להמריא</value>
   </data>
 
-  <data name="CustomLevels">
+  <data name="EnhancedLevels">
     <value>רמות מיוחדות</value>
   </data>
 

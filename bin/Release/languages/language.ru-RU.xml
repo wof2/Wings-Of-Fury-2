@@ -487,7 +487,7 @@
   </data>
 
   <!-- Bullet time effect - like in Matrix :) -->
-  <data name="BulletTime">
+  <data name="BulletTimeEffect">
     <value>Замедление времени</value>
   </data>
 
@@ -551,7 +551,7 @@
     <value>Нажмите "{0}","{1}" для взлета</value>
   </data>
 
-  <data name="CustomLevels">
+  <data name="EnhancedLevels">
     <value>Дополнительные уровни</value>
   </data>
 

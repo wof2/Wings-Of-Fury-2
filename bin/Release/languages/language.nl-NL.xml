@@ -489,7 +489,7 @@
   </data>
 
   <!-- Bullet time effect - like in Matrix :) -->
-  <data name="BulletTime">
+  <data name="BulletTimeEffect">
     <value>Tijdsvertraging</value>
   </data>
 
@@ -551,7 +551,7 @@
   </data>
 
 
- <data name="CustomLevels"> <!-- similar to 'additional levels' -->
+ <data name="EnhancedLevels"> <!-- similar to 'additional levels' -->
     <value>Extra Levels</value>
   </data>
 

@@ -19,7 +19,7 @@ namespace Wof.Model.Level
 	[Serializable()]
 	public class LevelInfo : IEquatable<LevelInfo>, IComparable<LevelInfo>
 	{
-		 public const string C_CUSTOM_LEVELS_DIR = "custom_levels/";
+		 public const string C_ENHANCED_LEVELS_DIR = "enhanced_levels/";
 		 
 		private string filename;
 		
@@ -92,7 +92,7 @@ namespace Wof.Model.Level
 	    public static string GetCustomLevelName(string path)
         {
             int maxLen = 30;
-            string name = path.Substring(C_CUSTOM_LEVELS_DIR.Length);
+            string name = path.Substring(C_ENHANCED_LEVELS_DIR.Length);
             if (name.Length > maxLen)
             {
                 name = name.Substring(0, maxLen);
@@ -121,7 +121,7 @@ namespace Wof.Model.Level
 		
 		public int CompareTo(LevelInfo other)
 		{
-			return this.Filename.CompareTo(other.Filename);
+			return string.Compare(this.Filename, other.Filename, StringComparison.InvariantCulture);
 		}
 	}
 }

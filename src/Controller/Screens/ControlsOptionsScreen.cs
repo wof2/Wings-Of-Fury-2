@@ -151,7 +151,7 @@ namespace Wof.Controller.Screens
             string info2 = LanguageResources.GetString(LanguageKey.KeyboardInfo2);
 
             
-            guiWindow.createStaticTextAutoSplit(new Vector4(GetTextVSpacing(), (int)(GetTextVSpacing() * 3) + y + 2.0f * GetTextVSpacing(), window.w, 2* GetTextVSpacing()), info1 + info2);
+            guiWindow.createStaticTextAutoSplit(new Vector4(GetTextVSpacing(), (int)(GetTextVSpacing() * 3) + y + 1.0f * GetTextVSpacing(), window.w, 2* GetTextVSpacing()), info1 + info2);
        		
             
             /*
