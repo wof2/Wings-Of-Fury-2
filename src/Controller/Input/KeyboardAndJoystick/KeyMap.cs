@@ -708,7 +708,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         private double _joystickDeadZone;
         public double JoystickDeadZone
         {
-            get { return _joystickDeadZone; }
+        	get { return _joystickDeadZone>0.95 ? 0.95 : _joystickDeadZone; }
             set { _joystickDeadZone = value; }
         }
 

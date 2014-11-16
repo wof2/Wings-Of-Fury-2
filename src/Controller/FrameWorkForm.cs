@@ -1349,7 +1349,7 @@ namespace Wof.Controller
             	}
             }
 
-            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape)) 
+            if (FrameWorkStaticHelper.IsEscapePressed(inputKeyboard, inputJoysticks)) 
             {
                 // stop rendering loop
                 shutDown = true;
