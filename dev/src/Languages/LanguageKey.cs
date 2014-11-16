@@ -95,7 +95,7 @@ namespace Wof.Languages
 
         
         public const string Bloom = @"Bloom";
-        public const string BulletTime = @"BulletTime"; 
+        public const string BulletTimeEffect = @"BulletTimeEffect"; 
         
 
         #endregion
@@ -123,7 +123,7 @@ namespace Wof.Languages
         public const string Controls = @"Controls";
         public const string CoreTeam = @"CoreTeam";
         public const string CurrentFPS = @"CurrentFPS";
-        public const string CustomLevels = @"CustomLevels";
+        public const string EnhancedLevels = @"EnhancedLevels";
         
 
         #endregion

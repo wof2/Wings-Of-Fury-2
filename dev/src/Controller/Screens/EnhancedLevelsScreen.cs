@@ -60,27 +60,27 @@ using Wof.Model.Level;
 
 namespace Wof.Controller.Screens
 {
-    internal class CustomLevelsScreen : AbstractOptionsScreen
+    internal class EnhancedLevelsScreen : AbstractOptionsScreen
     {
 
         protected Dictionary<ButtonHolder, bool> enhancedMissionsMap = new Dictionary<ButtonHolder, bool>();
 		protected Dictionary<ButtonHolder, LevelInfo> levelInfoMap = new Dictionary<ButtonHolder, LevelInfo>();
 
-        #region CustomLevelsScreen Members
+        #region EnhancedLevelsScreen Members
 
-        public CustomLevelsScreen(GameEventListener gameEventListener,
+        public EnhancedLevelsScreen(GameEventListener gameEventListener,
                                IFrameWork framework, Viewport viewport, Camera camera) :
             base(gameEventListener, framework, viewport, camera)
         {
 
          //   fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
-            this.OnOptionCreated += new OptionCreated(CustomLevelsScreen_OnOptionCreated);
+            this.OnOptionCreated += new OptionCreated(EnhancedLevelsScreen_OnOptionCreated);
             showRestartRequiredMessage = false;
             autoGoBack = false;
            
 
         }
-        protected void CustomLevelsScreen_OnOptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page, ButtonHolder holder)
+        protected void EnhancedLevelsScreen_OnOptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page, ButtonHolder holder)
         {
             if (holder == null) return;
            
@@ -141,12 +141,12 @@ namespace Wof.Controller.Screens
 
         protected override string getTitle()
         {
-            return LanguageResources.GetString(LanguageKey.CustomLevels);
+            return LanguageResources.GetString(LanguageKey.EnhancedLevels);
         }
 
         protected override List<object> GetAvailableOptions()
         {
-            return LoadGameUtil.GetCustomLevels();
+            return LoadGameUtil.GetEnhancedLevels();
         }
 
         protected override string GetOptionDisplayText(string option)

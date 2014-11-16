@@ -470,7 +470,7 @@
     <value>Cienie</value>
   </data>
 
- <data name="BulletTime">
+ <data name="BulletTimeEffect">
     <value>Bullet Time</value>
  </data>
 
@@ -534,7 +534,7 @@
     <value>Naciśnij '{0}','{1}' aby wystartować</value>
   </data>
 
-  <data name="CustomLevels">
+  <data name="EnhancedLevels">
     <value>Misje dodatkowe</value>
   </data>
 	

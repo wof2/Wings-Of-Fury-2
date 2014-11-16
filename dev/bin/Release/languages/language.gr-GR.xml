@@ -480,7 +480,7 @@
   </data>
 
   <!-- Bullet time effect - like in Matrix :) -->
-  <data name="BulletTime">
+  <data name="BulletTimeEffect">
     <value>Επιβράδυνση χωροχρόνου</value>
   </data>
 
@@ -545,7 +545,7 @@
   </data>
 
  
-  <data name="CustomLevels">
+  <data name="EnhancedLevels">
     <value>Επίπεδα ειδικής κατασκευής</value>
   </data>
 

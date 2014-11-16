@@ -78,7 +78,7 @@ namespace Wof.Controller
         void GotoLanguagesOptionsScreen();
         void GotoTutorialScreen();
         void GotoLoadGameScreen();
-        void GotoCustomLevelsScreen();
+        void GotoEnhancedLevelsScreen();
         void GotoDifficultyOptionsScreen();
         void GotoDonateScreen();
         void GotoQuitScreen();

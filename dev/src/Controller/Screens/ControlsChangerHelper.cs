@@ -152,7 +152,9 @@ namespace Wof.Controller.Screens
 			if(langKey.Equals(LanguageKey.Zoomout)){
 				KeyMap.Instance.ZoomOut = arg.key;				
 			}
-			
+			if(langKey.Equals(LanguageKey.BulletTimeEffect)){
+				KeyMap.Instance.BulletTimeEffect = arg.key;				
+			}
 			// pitch
 			if(langKey.Equals(LanguageKey.Pitch)){
 				
@@ -456,6 +458,13 @@ namespace Wof.Controller.Screens
             c = guiWindow.createStaticText(pos,
                                            LanguageResources.GetString(LanguageKey.Zoomout) + ": " +  KeyMap.GetName(KeyMap.Instance.ZoomOut));
             AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Zoomout);
+            
+            y += (int)(h * 0.83f);
+            pos = new Vector4(left, top + y, width, h);
+            c = guiWindow.createStaticText(pos,
+                                           LanguageResources.GetString(LanguageKey.BulletTimeEffect) + ": " +  KeyMap.GetName(KeyMap.Instance.BulletTimeEffect));
+            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.BulletTimeEffect);
+            
             
             y += (int)(h * 0.83f);
             pos = new Vector4(left, top + y, width, h);

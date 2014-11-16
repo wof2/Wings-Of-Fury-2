@@ -461,6 +461,14 @@
     <Content Include="media\testFramework\Soldier.skeleton" />
     <Content Include="media\testFramework\Soldiers.material" />
     <Content Include="bin\Release\COPYING" />
+    <None Include="bin\Release\enhanced_levels\enhanced-1.xml" />
+    <None Include="bin\Release\enhanced_levels\enhanced-2.xml" />
+    <None Include="bin\Release\enhanced_levels\enhanced-3.xml" />
+    <None Include="bin\Release\enhanced_levels\enhanced-4.xml" />
+    <None Include="bin\Release\enhanced_levels\enhanced-5.xml" />
+    <None Include="bin\Release\enhanced_levels\enhanced-6.xml" />
+    <None Include="bin\Release\enhanced_levels\enhanced-7.xml" />
+    <None Include="bin\Release\enhanced_levels\enhanced-8.xml" />
     <None Include="bin\Release\game.dat" />
     <None Include="bin\Release\highscores.dat" />
     <Content Include="bin\Release\KeyMap.ini" />
@@ -526,6 +534,16 @@
     <Content Include="media\models\F4U.mesh" />
     <Content Include="media\models\Pilot.mesh" />
     <Content Include="media\models\RadarDome.mesh" />
+    <None Include="bin\Release\languages\language.es-AR.xml" />
+    <None Include="bin\Release\languages\language.es-CA.xml" />
+    <None Include="bin\Release\languages\language.es-ES.xml" />
+    <None Include="bin\Release\languages\language.fr-FR.xml" />
+    <None Include="bin\Release\languages\language.he-IL.xml" />
+    <None Include="bin\Release\languages\language.hu-HU.xml" />
+    <None Include="bin\Release\languages\language.it-IT.xml" />
+    <None Include="bin\Release\languages\language.pt-BR.xml" />
+    <None Include="bin\Release\languages\language.sv-SV.xml" />
+    <None Include="bin\Release\languages\language.vi-VI.xml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -616,7 +634,7 @@
     <Compile Include="src\Controller\RootInitializationException.cs" />
     <Compile Include="src\Controller\Screens\BloodOptionsScreen.cs" />
     <Compile Include="src\Controller\Screens\PlanesScreen.cs" />
-    <Compile Include="src\Controller\Screens\CustomLevelsScreen.cs" />
+    <Compile Include="src\Controller\Screens\EnhancedLevelsScreen.cs" />
     <Compile Include="src\Controller\Screens\EnhancedVersionScreen.cs" />
     <Compile Include="src\Controller\Screens\HydraxOptionsScreen.cs" />
     <Compile Include="src\Controller\Screens\QuitScreen.cs" />
@@ -1443,7 +1461,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Release\bik\" />
-    <Folder Include="bin\Release\custom_levels\" />
+    <Folder Include="bin\Release\enhanced_levels" />
     <Folder Include="media\materials\textures\ads\" />
     <Folder Include="src\Tests\ModelTest\LevelTest\LevelTilesTest\EnemyInstallationTest\" />
   </ItemGroup>

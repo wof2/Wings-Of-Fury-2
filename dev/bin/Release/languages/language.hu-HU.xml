@@ -16,10 +16,10 @@
     <value>Bomba</value>
   </data>
   <data name="ChangeOptionMessage1">
-    <value>Néhány opció megváltoztatása csak a</value>
+    <value>Néhány opció megváltoztatása csak</value>
   </data>
   <data name="ChangeOptionMessage2">
-    <value>játék újraindítása után lép érvénybe.</value>
+    <value>a játék újraindítása után lép érvénybe.</value>
   </data>
   <data name="ChooseDifficulty">
     <value>Nehézségi szint</value>
@@ -43,7 +43,7 @@
     <value>Gyökérobjektum betöltése</value>
   </data>
   <data name="CreatorOfOriginalWingsOfFury">
-    <value>Az eredeti Wings of Fury (1987) alkotója</value>
+    <value>az eredeti Wings of Fury (1987) alkotójának</value>
   </data>
   <data name="Credits">
     <value>Közreműködők</value>
@@ -74,7 +74,7 @@
   </data>
   <!-- ID of the current language -->
   <data name="LanguageID">
-    <value>Hungarian</value>
+    <value>Magyar</value>
   </data>
   <!-- level / stage of the game -->
   <data name="Level">
@@ -122,13 +122,13 @@
     <value>Hang</value>
   </data>
   <data name="SpecialThanksToSteveWaldo">
-    <value>Külön köszönet Steve Waldónak</value>
+    <value>Külön köszönet Steve Waldónak,</value>
   </data>
   <data name="Tutorial">
     <value>Útmutató</value>
   </data>
   <data name="VideoMode">
-    <value>Videomód</value>
+    <value>Képernyőfelbontás</value>
   </data>
   <data name="VideoOptions">
     <value>Képbeállítások</value>
@@ -140,7 +140,7 @@
     <value>Megnyerted a játékot!</value>
   </data>
   <data name="AddingCompositors">
-    <value>Adding compositors</value>
+    <value>Speciális effektek hozzáadása</value>
   </data>
   <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
     <!--<value>Minden ellenséges katona megsemmisítve. Landolj a repülőgép-anyahajón, és nyomd meg az X-et</value>-->
@@ -159,7 +159,7 @@
     <value>Részletességi szint</value>
   </data>
   <data name="ChooseVideoMode">
-    <value>Videomód</value>
+    <value>Képernyőfelbontás</value>
   </data>
   <data name="CreatingInput">
     <value>Bemenet létrehozása</value>
@@ -187,7 +187,7 @@
     <value>Magas</value>
   </data>
   <data name="InverseKeys">
-    <value>Inverz billentyűk</value>
+    <value>Fordított billentyűk ('Le' és 'Fel')</value>
   </data>
   <data name="LandOnTheCarrierAndPressXToRefuel">
     <!--<value>Landolj a repülőgép-anyahajón, és nyomd meg az 'X'-et a tankoláshoz</value>-->
@@ -303,11 +303,11 @@
         Next 5 messages will be concatenated into one.        
     -->
   <data name="DonateMessagePart1">   
-    <value>Ha tetszett a játék,</value>
+    <value>Ha tetszett a </value>
   </data>
   <!-- here will goes "Wings of fury 2" - but it's translated already -->
   <data name="DonateMessagePart2">
-    <value>kérjük, fontold meg az adományozást</value>
+    <value>játék, kérjük, fontold meg az adományozást</value>
   </data>
   <data name="DonateMessagePart3">
     <value>Paypalen keresztül. Forrásokat keresünk,</value>
@@ -374,7 +374,7 @@
   </data>
 
   <data name="Pitch"><!-- changing of plane's altitude. -->
-    <value>Legnagyobb repülési magasság</value>
+    <value>Repülési magasság</value>
   </data>
 
   <data name="Spin"><!-- rolling the plane around its longwise -->
@@ -418,7 +418,7 @@
     <value>Torpedó</value>
   </data>
   <data name="Torpedoes">
-    <value>Torpedók</value>
+    <value>Torpedó</value>
   </data>
 
  <!-- added 25.03.2009 -->
@@ -469,7 +469,7 @@
 	
 	<!-- Hydrax is a water effects library -->
   <data name="HydraxWater">
-    <value>Vízi fényhatások</value>
+    <value>Hydrax vízhatások</value>
   </data>
 
   <data name="Blood">
@@ -486,7 +486,7 @@
   </data>
 
   <!-- Bullet time effect - like in Matrix :) -->
-  <data name="BulletTime">
+  <data name="BulletTimeEffect">
     <value>Lassított felvétel</value>
   </data>
 
@@ -516,14 +516,14 @@
 
 
   <data name="KeyboardInfo1">
-    <value>Módosítsd a (játékkönyvtár)\Release\KeyMap.ini fájlt</value>
+    <value>A billentyűzetkiosztás megváltoztatásához </value>
   </data>
   
   <data name="KeyboardInfo2">
-    <value>a billentyűzetkiosztás megváltoztatásához</value>
+    <value>módosítsd a (játékkönyvtár)\Release\KeyMap.ini fájlt</value>
   </data>
   
-  <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
+  <!-- this is the contents of a new tutorial screen. I decided to put it here anyway -->
   <data name="Tutorial0">
    <value>
      Küldetéstípusok
@@ -547,15 +547,15 @@
 
 
   <data name="PressLeftUpToTakeOff">
-    <value>Nyomd együtt a '{0}','{1}'-t a felszálláshoz</value>
+    <value>Nyomd le együtt a '{0}','{1}'-ot a felszálláshoz</value>
   </data>
 
-  <data name="CustomLevels">
-    <value>Alapszintek</value>
+  <data name="EnhancedLevels">
+    <value>Bővített szintek</value>
   </data>
 
  <data name="PressUpToLand">
-    <value>Nyomd meg a "{0}"-t a landoláshoz</value>
+    <value>Nyomd meg az "{0}"-ot a landoláshoz</value>
   </data>
 
   <!-- don't worry about the line breaks in the strings below -->
@@ -651,7 +651,7 @@
        <value>Joystick</value>
   </data>
    <data name="JoystickOptions"> 
-       <value>Joystick options</value>
+       <value>Joystick opciók</value>
   </data>
   
   

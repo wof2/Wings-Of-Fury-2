@@ -141,11 +141,11 @@ namespace Wof.Controller.Screens
 
        
 
-        public static List<object> GetCustomLevels()
+        public static List<object> GetEnhancedLevels()
         {
             try
             {
-            	string[] files = Directory.GetFiles(LevelInfo.C_CUSTOM_LEVELS_DIR, "*" + XmlLevelParser.C_LEVEL_POSTFIX);
+            	string[] files = Directory.GetFiles(LevelInfo.C_ENHANCED_LEVELS_DIR, "*" + XmlLevelParser.C_LEVEL_POSTFIX);
             	List<object> ret = new List<object>();
             	foreach(string filename in files)
             	{	

@@ -207,7 +207,7 @@
   </data>
 
   <!-- Bullet time effect - like in Matrix :) -->
-  <data name="BulletTime">
+  <data name="BulletTimeEffect">
     <value>Efeito camera lenta</value>
   </data>
 
@@ -271,7 +271,7 @@
     <value>Pressione '{0}','{1}' para decolar</value>
   </data>
 
-  <data name="CustomLevels">
+  <data name="EnhancedLevels">
     <value>Níveis personalizados</value>
   </data>
 

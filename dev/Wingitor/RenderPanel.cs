@@ -77,6 +77,12 @@ namespace wingitor
 
             }
         }
+        
+        public Keyboard InputKeyboard {
+			get {
+        		return inputKeyboard;
+			}
+		}
 
         protected System.Windows.Forms.Timer mouseTimer;
 

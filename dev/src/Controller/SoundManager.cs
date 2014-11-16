@@ -649,7 +649,7 @@ namespace Wof.Controller
         {
            if(!p.IsEnemy)
            {
-               if (currentEngineIdleSound.Status.Playing)
+               if (currentEngineIdleSound!=null &&currentEngineIdleSound.Status.Playing)
                {
                     HaltDXSound(currentEngineIdleSound);
                     LoopEngineSound(p);
@@ -735,7 +735,10 @@ namespace Wof.Controller
                 {
                     SelectEngineIdleSound(p);
                 }
-                currentEngineIdleSound.Frequency = currentEngineIdleSound.Format.SamplesPerSecond + (int)p.AirscrewSpeed * 7;
+                if(currentEngineIdleSound != null)
+                {
+                	currentEngineIdleSound.Frequency = currentEngineIdleSound.Format.SamplesPerSecond + (int)p.AirscrewSpeed * 7;
+                }
                
             }
             catch (Exception)

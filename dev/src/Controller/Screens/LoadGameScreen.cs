@@ -72,7 +72,7 @@ namespace Wof.Controller.Screens
 
           //  fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
           
-            this.OnOptionCreated += new OptionCreated(CustomLevelsScreen_OnOptionCreated);
+            this.OnOptionCreated += new OptionCreated(EnhancedLevelsScreen_OnOptionCreated);
             showRestartRequiredMessage = false;
             autoGoBack = false;
             
@@ -103,7 +103,7 @@ namespace Wof.Controller.Screens
 
 
 
-        protected void CustomLevelsScreen_OnOptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page, ButtonHolder holder)
+        protected void EnhancedLevelsScreen_OnOptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page, ButtonHolder holder)
         {     
         	LevelInfo info =(LevelInfo) availableOptions.ToArray()[index];
         
