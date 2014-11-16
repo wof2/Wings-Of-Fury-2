@@ -2599,7 +2599,7 @@ namespace Wof.Model.Level.Planes
             }
             float scaleFactor = time/timeUnit;
 
-            //ZMIANA STANY SILNIKA
+            //ZMIANA STANU SILNIKA
             if (isEngineKeyPressed)
             {
                 if (!IsEngineWorking)
@@ -2657,6 +2657,18 @@ namespace Wof.Model.Level.Planes
                         if (isLeftPressed || isRightPressed)
                         {
                             Direction steerDir = isLeftPressed ? Direction.Left : Direction.Right;
+                            if(steerDir != this.direction) {
+                            	// zmiana kierunku
+                            	var joyHorizontal = GetInputVectorValueNormalised(DirectionAxis.Horizontal);
+                            	
+                            	
+                            	if(joyHorizontal > 0 && joyHorizontal < 3*KeyMap.Instance.JoystickDeadZone)
+                            	{
+                            		Console.WriteLine("nie bedzie zawracania bo "+joyHorizontal +" < "+(3*KeyMap.Instance.JoystickDeadZone));
+                            		steerDir = direction; // nie zmieniamy jednak kierunku bo wychy³ by³ za ma³y
+                            	}
+                            }
+                            
                             SteerHorizontal(steerDir, scaleFactor);
                         }
                         else

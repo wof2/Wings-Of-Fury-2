@@ -300,6 +300,18 @@ namespace Wof.Controller
             return SoundManager3D.Instance.InitializeSound(listener, ss);
         }
 
+        
+        public static bool IsEnterPressed(Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
+		{
+			return inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter) ||
+				   FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickGun);
+		}
+        
+        public static bool IsEscapePressed(Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
+		{
+			return inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape);
+		}
+        
         public static bool GetJoystickButton(IList<JoyStick> joysticks, int button)
         {
             if(joysticks!=null)
@@ -369,8 +381,8 @@ namespace Wof.Controller
 	
 	                        Axis_NativePtr axisV = j.JoyStickState.GetAxis(KeyMap.Instance.JoystickVerticalAxisNo);
 	                        Axis_NativePtr axisH = j.JoyStickState.GetAxis(KeyMap.Instance.JoystickHorizontalAxisNo);
+	                        
 	                     
-	
 	                        double v = (1.0 * axisV.abs / JoyStick.MAX_AXIS);
 	                        double h = (1.0 * axisH.abs / JoyStick.MAX_AXIS);
 	
@@ -384,10 +396,16 @@ namespace Wof.Controller
 	                        if (Math.Abs(h) < dead) h = 0;
 	                        else if (h > 1) h = 1;
 	                        else if (h < -1) h = -1;
-	                     
+	                        
+	                        
+	                        	                     
 	                        if(h==0 && v==0) {
 	                        	continue;
 	                        }
+	                  //     Console.WriteLine("Joystick X=" + axisH.abs  +"/"+ JoyStick.MAX_AXIS + "; Y=" + axisV.abs  +"/"+ JoyStick.MAX_AXIS );
+	                  		h = Math.Log(1+h);
+	                        v = Math.Log(1+v);
+	                        
 	                        return new Vector2((float)h, (float)-v);
 	                    } else
 	                    {

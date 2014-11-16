@@ -1066,12 +1066,14 @@ namespace Wof.Controller.Screens
 					
 				} else {
 				
-					if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape))) {
+					if (wereAllKeysReleased && FrameWorkStaticHelper.IsEscapePressed(inputKeyboard, inputJoysticks)) {
 						KeyReceived("ESC");
 						if (tryToPressBackButton())
 							return;
-					}				
-					if (wereAllKeysReleased && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter))) {
+					}	
+
+					if (wereAllKeysReleased && FrameWorkStaticHelper.IsEnterPressed(inputKeyboard, inputJoysticks))                   					
+					{
 						KeyReceived("ENTER");
 						wasEnterKeyPressed = true;
 						if (buttons != null && Button.TryToPressButton(buttons[currentButton]))
@@ -1250,8 +1252,8 @@ namespace Wof.Controller.Screens
             }
            */
 
-            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(joysticks, KeyMap.Instance.JoystickEnter)) 
-            {
+           if (FrameWorkStaticHelper.IsEnterPressed(inputKeyboard, joysticks))                 
+           {
             	
                 wasEnterKeyPressed = true;
                 KeyReceived("ENTER");
@@ -1408,7 +1410,7 @@ namespace Wof.Controller.Screens
             {
                 KeyReceived("z");
             }
-            if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(joysticks, KeyMap.Instance.JoystickEscape)) 
+            if (FrameWorkStaticHelper.IsEscapePressed(inputKeyboard, joysticks)) 
             {
                 KeyReceived("ESC");
             }

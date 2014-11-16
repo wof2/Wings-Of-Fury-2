@@ -1397,6 +1397,7 @@ namespace Wof.Controller.Screens
             }
         }
 
+		
 
         private void UpdateMenusGui(Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
         {
@@ -1466,7 +1467,7 @@ namespace Wof.Controller.Screens
                         }
                     }
 
-                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter))
+                    if (FrameWorkStaticHelper.IsEnterPressed(inputKeyboard, inputJoysticks)) 
                     {
                         if (exitButton.activated) Button.TryToPressButton(exitButton, 0.1f);
                         else
@@ -1479,7 +1480,7 @@ namespace Wof.Controller.Screens
 
 
                 // przyciski - game over
-                if (isInGameOverMenu && (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter)))
+                if (isInGameOverMenu && FrameWorkStaticHelper.IsEnterPressed(inputKeyboard, inputJoysticks)) 
                 {
                     Button.TryToPressButton(gameOverButton);
 
@@ -1549,7 +1550,7 @@ namespace Wof.Controller.Screens
                         }
                     }
 
-                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter))
+                    if (FrameWorkStaticHelper.IsEnterPressed(inputKeyboard, inputJoysticks))
                     {
                         Button buttonToPress = null;
                         switch (nextLevelMenuSelectedIndex)
@@ -1577,7 +1578,7 @@ namespace Wof.Controller.Screens
 
                     }
             
-                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape))
+                    if (FrameWorkStaticHelper.IsEscapePressed(inputKeyboard, inputJoysticks))
                     {
                         onButtonPress(resumeFinishedLevelButton);
                         Button.ResetButtonTimer();
@@ -1672,8 +1673,7 @@ namespace Wof.Controller.Screens
                         }
                     }
 
-
-                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || inputKeyboard.IsKeyDown(KeyCode.KC_B) || inputKeyboard.IsKeyDown(KeyCode.KC_R) || inputKeyboard.IsKeyDown(KeyCode.KC_T) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter))
+					if (FrameWorkStaticHelper.IsEnterPressed(inputKeyboard, inputJoysticks) || inputKeyboard.IsKeyDown(KeyCode.KC_B) || inputKeyboard.IsKeyDown(KeyCode.KC_R) || inputKeyboard.IsKeyDown(KeyCode.KC_T)) 
                     {
 
                         Button buttonToPress = null;
@@ -1716,7 +1716,7 @@ namespace Wof.Controller.Screens
                         
                     }
 
-                    if (inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape))
+                    if (FrameWorkStaticHelper.IsEscapePressed(inputKeyboard, inputJoysticks))
                     {
                         if (CanClearRestoreAmmunitionScreen)
                         {
@@ -1951,7 +1951,7 @@ namespace Wof.Controller.Screens
                        
                         if(!isCapturingControlKey)
                         {
-	                        if ((inputKeyboard.IsKeyDown(KeyMap.Instance.Escape) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEscape)) && Button.CanChangeSelectedButton(3.5f) &&
+	                        if (FrameWorkStaticHelper.IsEscapePressed(inputKeyboard, inputJoysticks) && Button.CanChangeSelectedButton(3.5f) &&
 	                           !changingAmmo)
 	                        {
 	                            if (!isGamePaused)
