@@ -516,11 +516,11 @@
 
 
   <data name="KeyboardInfo1">
-    <value>Please use (game_directory)\Release\KeyMap.ini, </value>
+    <value>You can use (game_directory)\bin\release\KeyMap.ini, </value>
   </data>
   
   <data name="KeyboardInfo2">
-    <value>file to change key mapping</value>
+    <value>to adjust other keyboard/joystick settings.</value>
   </data>
   
   <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->

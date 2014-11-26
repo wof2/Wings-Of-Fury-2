@@ -1,16 +1,17 @@
 Wof_en-GB
 {	
 	type 		truetype
-	source 		solo5PL.ttf
-	size 		16
+	source 		Aroania_B.otf
+	size 		20
 	resolution 	96
+	/*code_points 33-126*/
 }
 
 Wof_pl-PL
 {	
 	type 		truetype
-	source 		solo5PL.ttf
-	size 		16
+	source 		Aroania_B.otf
+	size 		26
 	resolution 	96
 	code_points  33-126 193-205 211-214 220-220 225-233 237-237 242-246 252-252 260-263 280-281 321-324 346-347 377-380
 	
@@ -19,17 +20,17 @@ Wof_pl-PL
 Wof_ru-RU
 {	
 	type 		truetype
-	source 	     Archangelsk.ttf
+	source 	    Aroania_B.otf
 	size 		20
 	resolution 	96
-    code_points     33-126 1040-1103
+    code_points     33-126 1040-1103 
         
 }
 
 Wof_ua-UA
 {	
 	type 		truetype
-	source 		ru.ttf
+	source 		Aroania_B.otf
 	size 		20
 	resolution 	96
 	code_points 33-126 1025-1273
@@ -38,27 +39,30 @@ Wof_ua-UA
 Wof_de-DE
 {	
 	type 		truetype
-	source 		solo5.ttf
-	size 		16
+	source 	    Aroania_B.otf
+	size 		25
 	resolution 	96
-	code_points 33-380
+	/*code_points 33-380*/
+	code_points 33-126 196-196 201-201 214-214 220-220 223-223 228-228 233-233 246-246 252-252
 
 }
 
 Wof_nl-NL
 {	
 	type 		truetype
-	source 		solo5.ttf
-	size 		16
+	source 		Aroania_B.otf
+	size 		25
 	resolution 	96
-	code_points 33-380
-
+	/*code_points 33-380*/
+	/*code_points 33-255 */
+	code_points 33-126 203-203 235-235 /* uses only e with accent */
+	
 }
 
 Wof_gr-GR
 {	
 	type 		truetype
-	source 		solo5.ttf
+	source 		Aroania_B.otf
 	size 		20
 	resolution 	96
 	code_points 33-126 900-974
@@ -67,8 +71,8 @@ Wof_gr-GR
 Wof_pt-PT
 {	
 	type 		truetype
-	source 		solo5.ttf
-	size 		20
+	source 		Aroania_B.otf
+	size 		25
 	resolution 	96
 	code_points 33-126 193-245
 }
@@ -76,8 +80,8 @@ Wof_pt-PT
 Wof_pt-BR
 {	
 	type 		truetype
-	source 		solo5.ttf
-	size 		20
+	source 		Aroania_B.otf
+	size 		25
 	resolution 	96
 	code_points 33-126 193-245
 }
@@ -85,8 +89,8 @@ Wof_pt-BR
 Wof_es-ES
 {	
 	type 		truetype
-	source 		bodegasansblacksmallcaps.ttf
-	size 		20
+	source 		Aroania_B.otf
+	size 		25
 	resolution 	96
 	code_points 33-126 161-161 191-245
 }
@@ -94,8 +98,8 @@ Wof_es-ES
 Wof_es-AR
 {	
 	type 		truetype
-	source 		bodegasansblacksmallcaps.ttf
-	size 		20
+	source 		Aroania_B.otf
+	size 		25
 	resolution 	96
 	code_points 33-126 161-161 191-245
 }
@@ -103,8 +107,8 @@ Wof_es-AR
 Wof_es-CA
 {	
 	type 		truetype
-	source 		bodegasansblacksmallcaps.ttf
-	size 		20
+	source 		Aroania_B.otf
+	size 		25
 	resolution 	96
 	code_points 33-126 161-161 191-245
 }
@@ -112,8 +116,8 @@ Wof_es-CA
 Wof_it-IT
 {	
 	type 		truetype
-	source 		solo5.ttf
-	size 		20
+	source 		Aroania_B.otf
+	size 		25
 	resolution 	96
 	code_points 33-126 161-161 191-245
 }
@@ -121,8 +125,8 @@ Wof_it-IT
 Wof_fr-FR
 {	
 	type 		truetype
-	source 		solo5.ttf
-	size 		20
+	source 		Aroania_B.otf
+	size 		25
 	resolution 	96
 	code_points 33-126 193-246
 }
@@ -130,10 +134,11 @@ Wof_fr-FR
 Wof_sv-SV
 {	
 	type 		truetype
-	source 		solo5SV.ttf
-	size 		20
+	source 		Aroania_B.otf
+	size 		25
 	resolution 	96
-	code_points 33-376
+	/*code_points 33-376*/
+	code_points 33-255
 }
 
 Wof_he-IL
@@ -158,7 +163,7 @@ Wof_vi-VI
 Wof_hu-HU
 {	
 	type 		truetype
-	source 		Bevan.ttf
+	source 		Aroania_B.otf
 	size 		20
 	resolution 	96
 	code_points 33-126 161-255 336-337 368-369

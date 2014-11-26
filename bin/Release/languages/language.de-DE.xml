@@ -506,7 +506,7 @@
   </data>
 
   <data name="KeyboardInfo2">
-    <value>die Datei (Spielverzeichnis)\Release\KeyMap.ini.</value>
+    <value>die Datei (Spielverzeichnis)\bin\release\KeyMap.ini</value>
   </data>
   
   <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
@@ -538,7 +538,7 @@
 
   <!-- similar to "additional levels" -->
   <data name="EnhancedLevels">
-    <value>Extra Levels</value>
+    <value>Erweiterte Levels</value>
   </data>
 
   <!-- "{0}" will be substituted for the real key -->

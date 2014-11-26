@@ -518,7 +518,7 @@
   </data>
 
   <data name="KeyboardInfo1">
-    <value>Gebruik a.u.b. (game_directory)\Release\KeyMap.ini, </value>
+    <value>Gebruik a.u.b. (game_directory)\bin\release\KeyMap.ini, </value>
   </data>
 
   <data name="KeyboardInfo2">
@@ -552,7 +552,7 @@
 
 
  <data name="EnhancedLevels"> <!-- similar to 'additional levels' -->
-    <value>Extra Levels</value>
+    <value>Geavanceerde levels</value>
   </data>
 
  <data name="PressUpToLand">

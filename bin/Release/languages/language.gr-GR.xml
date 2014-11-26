@@ -509,7 +509,7 @@
   </data>
 
   <data name="KeyboardInfo1">
-    <value>Παρακαλώ χρησιμοποιήστε (game_directory)\Release\KeyMap.ini, </value>
+    <value>Παρακαλώ χρησιμοποιήστε (game_directory)\bin\release\KeyMap.ini, </value>
   </data>
 
   <data name="KeyboardInfo2">
@@ -546,7 +546,7 @@
 
  
   <data name="EnhancedLevels">
-    <value>Επίπεδα ειδικής κατασκευής</value>
+    <value>προχωρημένα επίπεδα</value>
   </data>
 
   <data name="PressUpToLand">
@@ -573,7 +573,7 @@
 
 
   <data name="EnhancedVersion">
-    <value>Enhanced version</value>
+    <value>βελτιωμένη έκδοση</value>
   </data>
  
   <data name="EnhancedVersionDetails">

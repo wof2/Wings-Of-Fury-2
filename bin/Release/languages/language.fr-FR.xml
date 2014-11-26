@@ -517,7 +517,7 @@
 
 
   <data name="KeyboardInfo1">
-    <value>Merci d'éditer le fichier (game_directory)\Release\KeyMap.ini, </value>
+    <value>Merci d'éditer le fichier (game_directory)\bin\release\KeyMap.ini, </value>
   </data>
   
   <data name="KeyboardInfo2">
@@ -552,7 +552,7 @@
   </data>
 
   <data name="EnhancedLevels">
-    <value>Niveaux personnalisés</value>
+    <value>Niveaux améliorés</value>
   </data>
 
  <data name="PressUpToLand">

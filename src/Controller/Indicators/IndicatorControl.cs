@@ -632,7 +632,7 @@ namespace Wof.Controller.Screens
         
         public static void ConfigureElement(OverlayElement element, int width, int height, String caption)
         {
-            ConfigureElement(element, width, height, caption, "BlueHighway");
+            ConfigureElement(element, width, height, caption, FontManager.CurrentFont);
         }
 
         public static void ConfigureElement(OverlayElement element, int width, int height, String caption, String fontName)

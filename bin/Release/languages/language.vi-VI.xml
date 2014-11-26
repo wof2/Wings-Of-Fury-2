@@ -516,7 +516,7 @@
 
 
   <data name="KeyboardInfo1">
-    <value>Hãy sử dụng tập tin (game_directory)\Release\KeyMap.ini, </value>
+    <value>Hãy sử dụng tập tin (game_directory)\bin\release\KeyMap.ini, </value>
   </data>
   
   <data name="KeyboardInfo2">
@@ -549,8 +549,9 @@
   </data>
 
   <data name="EnhancedLevels">
-    <value>Tùy biến Cấp bậc</value>
+    <value>Cấp bậc Nâng cao</value>
   </data>
+
 
  <data name="PressUpToLand">
     <value>Nhấn '{0}' để đáp máy bay</value>

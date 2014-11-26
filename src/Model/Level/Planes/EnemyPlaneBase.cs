@@ -313,7 +313,7 @@ namespace Wof.Model.Level.Planes
                     {
                     	
                     	//Console.WriteLine(this.Name+"-"+this.planeType+"; ydiff" + YDistanceToTile(st) + " ->" + (15*height));
-                    	Console.WriteLine(this.Name+": Avoiding ship crash!!!");
+                    	//Console.WriteLine(this.Name+": Avoiding ship crash!!!");
              
                         return true;
                     }

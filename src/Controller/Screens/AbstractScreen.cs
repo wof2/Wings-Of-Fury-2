@@ -167,7 +167,7 @@ namespace Wof.Controller.Screens
 
         public uint GetTextVSpacing()
         {
-            return (uint)(fontSize * 1.2f);
+            return (uint)(fontSize * 1.25f);
         }
         
         

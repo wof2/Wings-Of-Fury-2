@@ -536,7 +536,7 @@
 
 
   <data name="KeyboardInfo1">
-    <value>Por favor use el archivo (directorio_juego)\Release\KeyMap.ini, </value>
+    <value>Por favor use el archivo (directorio_juego)\bin\release\KeyMap.ini, </value>
   </data>
   
   <data name="KeyboardInfo2">
@@ -574,7 +574,7 @@
   </data>
 
   <data name="EnhancedLevels">
-    <value>Niveles personalizados</value>
+    <value>Niveles mejorados</value>
   </data>
 
  <data name="PressUpToLand">
@@ -599,13 +599,13 @@
   </data>
 
   <data name="EnhancedVersion"><!-- enhanced version of the game -->
-    <value>Versión Enhanced</value>
+    <value>Versión mejorada</value>
   </data>
   
 
 
   <data name="EnhancedVersionDetails">
-    <value>La versión Enhanced del juego contiene niveles adicionales y contenido bonus. También son retirados todos los anuncios. Esta versión esta disponible para todos aquellos que hayan donado y apoyado el desarrollo del juego.</value>
+    <value>La versión mejorada del juego contiene niveles adicionales y contenido bonus. También son retirados todos los anuncios. Esta versión esta disponible para todos aquellos que hayan donado y apoyado el desarrollo del juego.</value>
   </data>
   
   <data name="Planes"><!-- airplanes -->

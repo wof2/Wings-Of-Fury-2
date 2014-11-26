@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <root><data name="Antialiasing"><value>Antialiasing</value></data>
 <data name="Back"><value>Indietro</value></data>
 <data name="Bloom"><value>Bloom</value></data>
@@ -149,7 +149,7 @@
 <data name="BombingRun"><value>Bombardamento</value></data>
 <data name="Assassination"><value>Assassinio</value></data>
 <data name="Naval"><value>Navale</value></data>
-<data name="KeyboardInfo1"><value>Usa il file (game_directory)\Release\KeyMap.ini,</value></data>
+<data name="KeyboardInfo1"><value>Usa il file (game_directory)\bin\release\KeyMap.ini,</value></data>
 <data name="KeyboardInfo2"><value>per modificare l'assegnazione dei controlli</value></data>
 
 
@@ -168,7 +168,7 @@ Navale – affonda tutte le navi nemiche usando i siluri. Ricorda che devi volar
 <data name="EnemyGenerals"><value>Generali nemici rimasti</value></data>
 <data name="Altitude"><value>Altitudine</value></data>
 <data name="PressLeftUpToTakeOff"><value>Premi '{0}','{1}' per decollare</value></data>
-<data name="EnhancedLevels"><value>Livelli personalizzati</value></data>
+<data name="EnhancedLevels"><value>Livelli avanzati</value></data>
 <data name="PressUpToLand"><value>Premi "{0}" per atterrare</value></data>
 <data name="News404_1"><value>Errore riscontrato nell'accesso alle notizie sul progetto WOF2</value></data>
 <data name="News404_2"><value>Impossibile stabilire una connessione internet</value></data>

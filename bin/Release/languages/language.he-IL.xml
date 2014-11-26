@@ -16,7 +16,7 @@
   <data name="Bombs">
     <value>פצצות</value>
   </data>
-  <data name="ChangeOptionMessage1"> 
+  <data name="ChangeOptionMessage1">
     <value>השינויים יחלו</value>
   </data>
   <data name="ChangeOptionMessage2">
@@ -555,7 +555,7 @@
   </data>
 
   <data name="EnhancedLevels">
-    <value>רמות מיוחדות</value>
+    <value>רמות מתקדמות</value>
   </data>
 
  <data name="PressUpToLand">

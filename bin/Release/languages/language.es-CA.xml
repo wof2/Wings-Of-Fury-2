@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- FOR ALL TRANSLATORS: please translate everything between <value> and </value> tags. Leave rest of the stuff unchanged  -->
   <data name="Antialiasing">
@@ -517,7 +517,7 @@
 
 
   <data name="KeyboardInfo1">
-    <value>Utilitzeu l'arxiu (directori_del_joc)\Release\KeyMap.ini, </value>
+    <value>Utilitzeu l'arxiu (directori_del_joc)\bin\release\KeyMap.ini, </value>
   </data>
   
   <data name="KeyboardInfo2">
@@ -552,7 +552,7 @@
   </data>
 
   <data name="EnhancedLevels">
-    <value>Nivells modificats</value>
+    <value>Nivells millorats</value>
   </data>
 
  <data name="PressUpToLand">
