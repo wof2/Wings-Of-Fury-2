@@ -517,7 +517,7 @@
 
 
   <data name="KeyboardInfo1">
-    <value>Пожалуйста, используйте файл (папка_с_игрой)\Release\KeyMap.ini, </value>
+    <value>Пожалуйста, используйте файл (папка_с_игрой)\bin\release\KeyMap.ini, </value>
   </data>
   
   <data name="KeyboardInfo2">

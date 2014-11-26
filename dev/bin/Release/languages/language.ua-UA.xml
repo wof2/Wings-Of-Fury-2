@@ -498,7 +498,7 @@
   </data>
 
   <data name="KeyboardInfo2">
-    <value>будь ласка, використовуйте цей файл: (каталог_ігри)\Release\KeyMap.ini</value>
+    <value>будь ласка, використовуйте цей файл: (каталог_ігри)\bin\release\KeyMap.ini</value>
   </data>
   
   <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
@@ -529,7 +529,7 @@
   </data>
 
   <data name="EnhancedLevels">
-    <value>Додаткові місії</value>
+    <value>Додаткові рівні</value>
   </data>
   
    <data name="PressUpToLand">
@@ -556,7 +556,7 @@
 
 
   <data name="EnhancedVersion">
-    <value>Розширення</value>
+    <value>Pозширена версія</value>
   </data>
   
 

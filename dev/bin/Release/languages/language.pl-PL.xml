@@ -500,10 +500,10 @@
   </data>
 
   <data name="KeyboardInfo1">
-    <value>Proszę użyj pliku (katalog_gry)\Release\KeyMap.ini, </value>
+    <value>W pliku (katalog_gry)\bin\release\KeyMap.ini, </value>
   </data>
   <data name="KeyboardInfo2">
-    <value>aby zmienić mapowanie klawiszy</value>
+    <value>znajdziesz dodatkowe ustawienia klawiatury i joysticka</value>
   </data>
   
   <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->

@@ -285,7 +285,7 @@ namespace Wof.Languages
         private  static void UpdateFontSize(string lang)
         {
             EngineConfig.CurrentFontSize = 0.035f;
-            if (lang.Equals("en-GB"))
+          /*  if (lang.Equals("en-GB"))
             {
                 EngineConfig.CurrentFontSize *= 0.75f;
             }
@@ -298,7 +298,7 @@ namespace Wof.Languages
             if (lang.Equals("ua-UA"))
             {
                 EngineConfig.CurrentFontSize *= 1.1f;
-            } 
+            } */
         }
         private static void SetLanguage(string lang)
         {

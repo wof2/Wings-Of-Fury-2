@@ -520,7 +520,7 @@
   </data>
   
   <data name="KeyboardInfo2">
-    <value>módosítsd a (játékkönyvtár)\Release\KeyMap.ini fájlt</value>
+    <value>módosítsd a (játékkönyvtár)\bin\release\KeyMap.ini fájlt</value>
   </data>
   
   <!-- this is the contents of a new tutorial screen. I decided to put it here anyway -->

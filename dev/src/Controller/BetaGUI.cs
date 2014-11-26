@@ -465,9 +465,9 @@ namespace BetaGUI
                                       new Vector2(x, y), new Vector2(w, h), M, "", false);
 
             mCP = P.mGUI.createOverlay(mO.Name + "c",
-                                       new Vector2(4, (h - P.mGUI.mFontSize)/2),
+                                       new Vector2(6, (h - P.mGUI.mFontSize)/2),
                                        new Vector2(w, h), "", T, false);
-           
+          
             P.mO.AddChild(mO);
             mO.Show();
             mO.AddChild(mCP);

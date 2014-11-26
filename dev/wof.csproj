@@ -243,9 +243,6 @@
     <Content Include="media\fonts\ru.ttf" />
     <Content Include="media\fonts\solo5PL.ttf" />
     <Content Include="media\fonts\wof.fontdef" />
-    <Content Include="media\gui\bluehighway-10.font" />
-    <Content Include="media\gui\bluehighway-12.font" />
-    <Content Include="media\gui\bluehighway-8.font" />
     <Content Include="media\gui\Font.xsd" />
     <Content Include="media\gui\GUILayout.xsd" />
     <Content Include="media\gui\GUIScheme.xsd" />
@@ -491,9 +488,7 @@
     <Content Include="bin\Release\music\music2.ogg" />
     <Content Include="bin\Release\music\themesong.ogg" />
     <Content Include="bin\Release\Plugins.cfg" />
-    <Content Include="bin\Release\resources.cfg" />
     <Content Include="bin\Release\test_resources.cfg" />
-    <Content Include="bin\Release\wofconf.dat" />
     <Content Include="media\materials\textures\carrier.dds" />
     <Content Include="media\materials\textures\carrier_normal.dds" />
     <Content Include="media\materials\textures\concrete.dds" />
@@ -1084,7 +1079,6 @@
     <Compile Include="src\View\VertexAnimation\VertexAnimable.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\dxwebsetup.exe" />
     <Content Include="bin\Release\AdManaged.dll" />
     <Content Include="bin\Release\AdvertApi.dll" />
     <Content Include="bin\Release\alut.dll" />
