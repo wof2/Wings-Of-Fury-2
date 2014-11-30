@@ -126,53 +126,20 @@ namespace Wof.Controller.Screens
             char[] allchars = LanguageResources.BuildCharmap(fullString.ToString());
             
             
-            // get all ranges
-            string rangeString = "";
-            int lastValue = -1;
-            int rangeFrom = -1, rangeTo = -1;
-            bool nextRange = true;
-            var allcharsint = new int[allchars.Length];
-            
-            int i=0;
-            foreach(char c in allchars) {            	
-            	allcharsint[i++] = Convert.ToInt32(c);            	
-            }
-            Array.Sort(allcharsint);
-            
-            
-            foreach(int value in allcharsint) {
-            	            	
-            	
-            	if(lastValue + 1 == value) {
-            		// kontynuacja
-            		rangeTo = value;
-            	}else {
-            		// koniec range
-            		rangeString += rangeFrom + "-" + rangeTo+ " ";
-            		nextRange = true;
-            		rangeFrom = value;
-            	}
-            	lastValue = value;
-            	
-            	if(nextRange) {
-            		rangeFrom = rangeTo = lastValue = value;            	
-            		nextRange = false;
-            		continue;
-            	}
-            	
-            //	Console.WriteLine(	Convert.ToInt32(c));
-            	
-            }
-            
+            	Array.Sort(allchars);           
+            	string output = "";
+        	foreach(char c in allchars) {
+        		output+=c;
+        		arrFull.Add("Char U"+Convert.ToInt32(c)+"="+c);
+        	     	
+            }         
 
-            IEnumerable<string> lines = LanguageResources.SplitByLength(new string(allchars), charsLimitPerLine);
-           
-            
-            
-            foreach (string line in lines)
-            {
-                arrFull.Add(line);
-            }
+        //    IEnumerable<string> lines = LanguageResources.SplitByLength(new string(allchars), charsLimitPerLine);
+                                   
+          //  foreach (string line in lines)
+         //   {
+         //       arrFull.Add(line);
+       //    }
             arrFull.Add(""); arrFull.Add("");
             arrFull.AddRange(arr);
 
