@@ -285,10 +285,12 @@ namespace Wof.Languages
         private  static void UpdateFontSize(string lang)
         {
             EngineConfig.CurrentFontSize = 0.035f;
-          /*  if (lang.Equals("en-GB"))
+            if (lang.Equals("zh-TW"))
             {
-                EngineConfig.CurrentFontSize *= 0.75f;
+                EngineConfig.CurrentFontSize *= 1.15f;
             }
+           
+           /*
             else
             if (lang.Equals("ru-RU"))
             {

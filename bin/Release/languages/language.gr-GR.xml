@@ -289,7 +289,7 @@
    <!--
         Next 5 messages will be concatenated into one.        
     -->
-  <data name="DonateMessag?Part1">   
+  <data name="DonateMessagePart1">   
     <value>Εάν σου άρεσε</value>
   </data>
   <!-- here will goes "Wings of fury 2" - but it's translated already -->

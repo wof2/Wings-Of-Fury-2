@@ -622,6 +622,7 @@
     </Compile>
     <Compile Include="src\Tests\ModelTest\GunTest.cs" />
     <Compile Include="src\Tests\ModelTest\LevelTest\LevelUtilsTest.cs" />
+    <Compile Include="src\Tools\GenerateFontRanges.cs" />
     <Compile Include="src\Tools\Licensing.cs" />
     <Compile Include="src\Controller\PerformanceTestFramework.cs">
       <SubType>Form</SubType>
