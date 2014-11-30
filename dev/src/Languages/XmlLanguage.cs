@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Xml;
+using Ogre;
 
 namespace Wof.Languages
 {
@@ -26,8 +27,9 @@ namespace Wof.Languages
                 reader = XmlReader.Create(path, readerSettings);
                 Read(reader);
             }
-            catch
+            catch (System.Exception ex)
             {
+            	Mogre.LogManager.Singleton.LogMessage(Mogre.LogMessageLevel.LML_CRITICAL, "Unable to parse language file: "+ ex.Message+ "; "+ex.InnerException);
                 mLanguages = null;
             }
             finally
@@ -51,7 +53,7 @@ namespace Wof.Languages
                     reader.MoveToAttribute("name");
                     key = reader.Value;
                     if (String.IsNullOrEmpty(key))
-                        throw new Exception("Wrong key!");
+                        throw new System.Exception("Wrong key!");
                     reader.Read();
                     reader.Read();
                     mLanguages.Add(key, reader.Value);

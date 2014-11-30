@@ -124,9 +124,51 @@ namespace Wof.Controller.Screens
             // all possible chars 
             arrFull.Add(LanguageResources.GetString(LanguageKey.PossibleCharacters));
             char[] allchars = LanguageResources.BuildCharmap(fullString.ToString());
+            
+            
+            // get all ranges
+            string rangeString = "";
+            int lastValue = -1;
+            int rangeFrom = -1, rangeTo = -1;
+            bool nextRange = true;
+            var allcharsint = new int[allchars.Length];
+            
+            int i=0;
+            foreach(char c in allchars) {            	
+            	allcharsint[i++] = Convert.ToInt32(c);            	
+            }
+            Array.Sort(allcharsint);
+            
+            
+            foreach(int value in allcharsint) {
+            	            	
+            	
+            	if(lastValue + 1 == value) {
+            		// kontynuacja
+            		rangeTo = value;
+            	}else {
+            		// koniec range
+            		rangeString += rangeFrom + "-" + rangeTo+ " ";
+            		nextRange = true;
+            		rangeFrom = value;
+            	}
+            	lastValue = value;
+            	
+            	if(nextRange) {
+            		rangeFrom = rangeTo = lastValue = value;            	
+            		nextRange = false;
+            		continue;
+            	}
+            	
+            //	Console.WriteLine(	Convert.ToInt32(c));
+            	
+            }
+            
 
             IEnumerable<string> lines = LanguageResources.SplitByLength(new string(allchars), charsLimitPerLine);
            
+            
+            
             foreach (string line in lines)
             {
                 arrFull.Add(line);

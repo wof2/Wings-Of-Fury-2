@@ -1,0 +1,660 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- FOR ALL TRANSLATORS: please translate everything between <value> and </value> tags. Leave rest of the stuff unchanged  -->
+  <data name="Antialiasing">
+    <value>抗鋸齒</value>
+  </data>
+  <data name="Back">
+    <value>返回</value>
+  </data>
+
+  <!-- "bloom" effect -->
+  <data name="Bloom">
+    <value>爆炸效果</value>
+  </data>
+  <data name="Bombs">
+    <value>炸彈</value>
+  </data>
+  <data name="ChangeOptionMessage1">
+    <value>某些選項更改後需要重新啟動遊戲</value>
+  </data>
+  <data name="ChangeOptionMessage2">
+    <value>才會生效</value>
+  </data>
+  <data name="ChooseDifficulty">
+    <value>選擇難易度</value>
+  </data>
+  <data name="CompletedLevels">
+    <value>完成的關卡</value>
+  </data>
+  <data name="Congratulations">
+    <value>恭喜</value>
+  </data>
+  <data name="Controls">
+    <value>控制</value>
+  </data>
+  <data name="CreatingGameObjects">
+    <value>創建遊戲物件</value>
+  </data>
+  <data name="CreatingScene">
+    <value>創建場景</value>
+  </data>
+  <data name="CreatingTheRootObject">
+    <value>創建主要物件</value>
+  </data>
+  <data name="CreatorOfOriginalWingsOfFury">
+    <value>光榮之翼(Wings of Fury 1987)的原始創建者</value>
+  </data>
+  <data name="Credits">
+    <value>開發人員</value>
+  </data>
+  <data name="Details">
+    <value>細節</value>
+  </data>
+  <data name="Difficulty">
+    <value>困難度</value>
+  </data>
+  <data name="EnterYourName">
+    <value>輸入您的姓名</value>
+  </data>
+  <data name="ExitToMenu">
+    <value>回到主選單</value>
+  </data>
+  <data name="GameOver">
+    <value>遊戲結束</value>
+  </data>
+  <data name="HallOfFame">
+    <value>名人堂</value>
+  </data>
+  <data name="Highscores">
+    <value>高分榜</value>
+  </data>
+  <data name="InitializingSound">
+    <value>初始化聲音</value>
+  </data>
+  <!-- ID of the current language -->
+  <data name="LanguageID">
+    <value>Traditional Chinese</value>
+  </data>
+  <!-- level / stage of the game -->
+  <data name="Level">
+    <value>關卡</value>
+  </data>
+  <data name="LoadingResources">
+    <value>載入資源</value>
+  </data>
+  <data name="NewGame">
+    <value>開始新遊戲</value>
+  </data>
+  <!-- next menu option -->
+  <data name="Next">
+    <value>下一頁</value>
+  </data>
+  <data name="OK">
+    <value>確認</value>
+  </data>
+  <data name="Options">
+    <value>選項</value>
+  </data>
+  <data name="Pause">
+    <value>暫停</value>
+  </data>
+  <!-- previous menu option -->
+  <data name="Previous">
+    <value>上一頁</value>
+  </data>
+  <data name="Quit">
+    <value>退出遊戲</value>
+  </data>
+  <data name="Resume">
+    <value>繼續遊戲</value>
+  </data>
+  <data name="Rockets">
+    <value>火箭</value>
+  </data>
+  <data name="SelectAmmunition">
+    <value>選擇彈藥種類</value>
+  </data>
+  <data name="SetupingResources">
+    <value>設定資源</value>
+  </data>
+  <data name="Sound">
+    <value>聲音</value>
+  </data>
+  <data name="SpecialThanksToSteveWaldo">
+    <value>特別感謝Steve Waldo</value>
+  </data>
+  <data name="Tutorial">
+    <value>教學模式</value>
+  </data>
+  <data name="VideoMode">
+    <value>影像模式</value>
+  </data>
+  <data name="VideoOptions">
+    <value>影像選單</value>
+  </data>
+  <data name="VSync">
+    <value>垂直同步</value>
+  </data>
+  <data name="YouWonTheGame">
+    <value>你贏了遊戲</value>
+  </data>
+  <data name="AddingCompositors">
+    <value>加入混音器</value>
+  </data>
+  <data name="AllEnemySoldiersEliminatedLandOnTheCarrierAndPressX">
+    <!--<value>All enemy soldiers eliminated, land on the carrier and press X</value>-->
+    <value>所有敵兵均已消滅！降落在航空母艦上並按'{0}'鍵</value>
+  </data>
+  <data name="AverageFPS">
+    <value>平均每秒顯示幀數</value>
+  </data>
+  <data name="BestFPS">
+    <value>最佳每秒顯示幀數</value>
+  </data>
+  <data name="ChooseAntialiasingMode">
+    <value>選擇抗鋸齒模式</value>
+  </data>
+  <data name="ChooseLevelOfDetail">
+    <value>選擇詳細程度</value>
+  </data>
+  <data name="ChooseVideoMode">
+    <value>選擇影像模式</value>
+  </data>
+  <data name="CreatingInput">
+    <value>創建輸入單元</value>
+  </data>
+  <data name="CurrentFPS">
+    <value>目前每秒顯示幀數</value>
+  </data>
+  <data name="EnableBloom">
+    <value>啟動爆炸效果</value>
+  </data>
+  <data name="EnableSound">
+    <value>啟動聲音</value>
+  </data>
+  <data name="EnableVSync">
+    <value>啟動垂直同步</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheLeft">
+    <value>敵機從左側接近中</value>
+  </data>
+  <data name="EnemyPlaneApproachingFromTheRight">
+    <value>敵機從右側接近中</value>
+  </data>
+  <!-- high difficulty / details -->
+  <data name="High">
+    <value>高</value>
+  </data>
+  <data name="InverseKeys">
+    <value>反轉按鍵</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRefuel">
+    <!--<value>Land on the carrier and press 'X' to refuel</value>-->
+    <value>降落在航空母艦上並按'{0}'鍵加油</value>
+  </data>
+  <data name="LandOnTheCarrierAndPressXToRepair">
+    <!--<value>Land on the carrier and press 'X' to repair</value>-->
+    <value>降落在航空母艦上並按'{0}'鍵修復</value>
+  </data>
+  <!-- low difficulty / details -->
+  <data name="Low">
+    <value>低</value>
+  </data>
+  <data name="LowFuelWarning">
+    <value>警告！燃料即將耗盡</value>
+  </data>
+  <data name="LowOilWarning">
+    <value>警告！油料即將耗盡</value>
+  </data>
+  
+  <data name="Medium">
+    <value>中</value>
+  </data>
+  <data name="No">
+    <value>否</value>
+  </data>
+  
+  <data name="PressEToTurnOnTheEngine">
+    <value>按住'{0}'鍵不放以啟動引擎</value>
+  </data>
+  
+  <data name="PressXToChangeAmmo">
+    <value>按下'{0}'鍵改變武器、維修及加油</value>
+  </data>
+  
+  
+  <data name="ScreenshotWrittenTo">
+    <value>螢幕擷圖存放到</value>
+  </data>
+  <data name="StartFrom">
+    <value>開始於</value>
+  </data>
+  <data name="TriangleCount">
+    <value>三角形數量</value>
+  </data>
+  <data name="WorstFPS">
+    <value>最差每秒顯示幀數</value>
+  </data>
+  <data name="Yes">
+    <value>是</value>
+  </data>
+  <data name="AreYouTryingToReachStarsCaptain">
+    <value>你想到達星星嗎？長官。</value>
+  </data>
+  <data name="EnemyInstallationDestroyed">
+    <value>報告！敵軍設施已摧毀！</value>
+  </data>
+  <data name="EnemyInstallationsAreBothSideCaptain">
+    <value>報告長官！左右兩邊都有敵軍設施！</value>
+  </data>
+  <data name="EnemyInstallationsAreLeftCaptain">
+    <value>報告長官！左邊有敵軍設施！</value>
+  </data>
+  <data name="EnemyInstallationsAreRightCaptain">
+    <value>報告長官！右邊有敵軍設施！</value>
+  </data>
+  <data name="EnemyPlaneDownIRepeat">
+    <value>敵機被擊落！重複！敵機被擊落！</value>
+  </data>
+  <data name="KillAllEnemySoldiers">
+    <value>報告長官！去殺光所有敵兵吧！</value>
+  </data>
+  <data name="OhNoEnemySoldiersAreRebuildingBunker">
+    <value>糟糕！敵兵正在重新建造碉堡！</value>
+  </data>
+  <data name="RetractYourLandingGearWithG">
+    <value>按'{0}'鍵收起你的起落架</value>
+  </data>
+  <data name="WARNINGProtectTheCarrierFromEnemyPlane">
+    <value>警告！保護航空母艦避免被敵機攻擊！</value>
+  </data>
+  <data name="WeAreNotLeavingYetCaptain">
+    <value>報告長官！我們還不能離開！</value>
+  </data>
+  <data name="Languages">
+    <value>語言</value>
+  </data>
+  <!-- Added: 23.05.2008, additional menu options -->
+
+  <!-- meaning primary / main team -->
+  <data name="CoreTeam">
+    <value>核心團隊</value>
+  </data>
+  <data name="SupportTeam">
+    <value>支援團隊</value>
+  </data>
+  <data name="Graphics">
+    <value>繪圖</value>
+  </data>
+  <data name="CommunityTranslations">
+    <value>翻譯論壇</value>
+  </data>
+  <data name="Poland">
+    <value>波蘭</value>
+  </data>
+  <data name="Donate">
+    <value>捐款</value>
+  </data>
+  <data name="CheckForUpdates">
+    <value>檢查更新</value>
+  </data>
+   <!--
+        Next 5 messages will be concatenated into one.        
+    -->
+  <data name="DonateMessagePart1">   
+    <value>如果您喜歡這遊戲，</value>
+  </data>
+  <!-- here will goes "Wings of fury 2" - but it's translated already -->
+  <data name="DonateMessagePart2">
+    <value>請考慮透過Paypal捐款</value>
+  </data>
+  <data name="DonateMessagePart3">
+    <value>，我們正在尋求資金，</value>
+  </data>
+  <data name="DonateMessagePart4">
+    <value>以支持進一步的遊戲</value>
+  </data>
+  <data name="DonateMessagePart5">
+    <value>開發。</value>
+  </data>
+  <!-- message displayed after pressing 'c' (change camera) key. -->
+  <data name="CameraChanged">
+    <value>視角改變</value>
+  </data>
+
+  <!-- added to rev. 265 -->
+  <data name="EnemySoldiersLeft">
+    <value>敵兵剩下</value>
+  </data>
+
+  <!-- added to rev. 305 - Level stats -->
+  <data name="LevelStats">
+    <value>關卡統計</value>
+  </data>
+
+  <data name="BombsDropped">
+    <value>炸彈投擲數：</value>
+  </data>
+
+  <data name="BombsAccuracy">
+    <value>投彈精準度：</value>
+  </data>
+
+  <data name="RocketsFired">
+    <value>火箭發射數：</value>
+  </data>
+
+  <data name="RocketsAccuracy">
+    <value>火箭精準度：</value>
+  </data>
+
+  <data name="GunShellsFired">
+    <value>機槍發射數：</value>
+  </data>
+
+  <data name="GunAccuracy">
+    <value>機槍精準度：</value>
+  </data>
+
+  <data name="PlanesDestroyed">
+    <value>敵機摧毀數：</value>
+  </data>
+
+  <data name="LevelCompleted">
+    <value>關卡完成</value>
+  </data>
+
+  <data name="Engine"><!-- plane engine -->
+    <value>引擎</value>
+  </data>
+
+  <data name="AccelerateBreakTurn"><!-- turn in sense of turning around -->
+    <value>加速/減速/轉向</value>
+  </data>
+
+  <data name="Pitch"><!-- changing of plane's altitude. -->
+    <value>改變高度</value>
+  </data>
+
+  <data name="Spin"><!-- rolling the plane around its longwise -->
+    <value>翻滾</value>
+  </data>
+
+  <data name="Gear"><!-- landing gear -->
+    <value>起落架</value>
+  </data>
+
+  <data name="Gun">
+    <value>機槍</value>
+  </data>
+
+  <data name="Camera">
+    <value>視角</value>
+  </data>
+
+  <data name="Zoomin">
+    <value>放大</value>
+  </data>
+
+
+  <data name="Zoomout">
+    <value>縮小</value>
+  </data>
+
+  <data name="RearmEndMission">
+    <value>重新裝彈/結束任務</value>
+  </data>
+  
+  <data name="Rearm">
+    <value>重新裝彈 </value>
+  </data>
+  <data name="EndMission">
+    <value>結束任務</value>
+  </data>
+  <!-- added 2.01.2009 -->
+
+  <data name="Torpedo">
+    <value>魚雷</value>
+  </data>
+  <data name="Torpedoes">
+    <value>魚雷</value>
+  </data>
+
+ <!-- added 25.03.2009 -->
+  <data name="AllEnemyPlanesDestroyedLandOnCarrierAndPressX">
+    <value>所有敵機已摧毀，降落航空母艦並按'{0}'鍵</value>
+  </data>
+  
+  <data name="EnemyPlanesLeft">
+    <value>敵機剩下</value>
+  </data>
+  
+  <data name="Target">
+    <value>目標</value>
+  </data>
+  
+  <data name="Neutralized">
+    <value>消滅</value>
+  </data>
+  
+  <data name="Alive">
+    <value>生存</value>
+  </data> 
+  
+  <data name="TargetNeutralizedLandOnCarrierAndPressX">
+      <value>目標消滅。降落航空母艦並按'{0}'鍵</value>
+  </data> 
+  
+  <!-- enemy ships left to be sunk -->
+  <data name="EnemyShipsLeft">
+    <value>敵艦剩下</value>
+  </data>
+  
+  <data name="AllEnemyShipsDestroyedLandOnCarrierAndPressX">
+    <value>所有的敵艦摧毀，降落航空母艦並按'{0}'鍵</value>
+  </data>
+  
+  <data name="EnemyInstallationDamaged">
+    <value>報告長官！敵軍設施已摧毀！</value>
+  </data>
+  
+  <data name="TorpedoTooHigh">
+    <value>高度過高！魚雷失效</value>
+  </data>
+  
+  <data name="TorpedoLongTravelDistance">
+    <value>魚雷燃料用盡！靠近一些再發射</value>
+  </data>
+	
+	<!-- Hydrax is a water effects library -->
+  <data name="HydraxWater">
+    <value>水波光影特效</value>
+  </data>
+
+  <data name="Blood">
+    <value>流血效果</value>
+  </data>
+
+  <!-- Used in the options context like so: "shadows: none" -->
+  <data name="None">
+    <value>無</value>
+  </data>
+
+ <data name="Shadows">
+    <value>光影</value>
+  </data>
+
+  <!-- Bullet time effect - like in Matrix :) -->
+  <data name="BulletTimeEffect">
+    <value>子彈時間</value>
+  </data>
+
+  <data name="MissionType">
+    <value>任務類型</value>
+  </data>
+  
+  <!-- available mission types: -->
+  <data name="Dogfight">
+    <value>空戰</value> <!-- destroying planes -->
+  </data>
+  
+  
+  <data name="BombingRun">
+    <value>轟炸</value>
+  </data>
+  
+  
+  <data name="Assassination">
+    <value>暗殺</value> <!-- "kill the generals" -->
+  </data>
+  
+  
+  <data name="Naval">
+    <value>海戰</value> <!-- sink all ships -->
+  </data>
+
+
+  <data name="KeyboardInfo1">
+    <value>請修改(遊戲路徑)\Release\KeyMap.ini 檔案，</value>
+  </data>
+  
+  <data name="KeyboardInfo2">
+    <value>改變按鍵配置</value>
+  </data>
+  
+  <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
+  <data name="Tutorial0">
+   <value>
+     任務類型：
+     在整個遊戲中，你會遇到幾種任務類型：
+     空戰 - 擊落所有敵人的飛機來完成任務。
+     轟炸 - 消滅所有的敵人士兵。
+
+
+     暗殺 - 敵方將領都躲在戰場中的某處堡壘。使用您的火箭彈來摧毀他們。
+     海戰 - 用魚雷擊沉所有敵方艦艇。請記住，發射魚雷之前你需要先低空穩定飛行。
+   </value>
+  </data>
+  
+  <data name="EnemyGenerals">
+    <value>敵軍將領剩下</value>
+  </data>
+ 
+  <data name="Altitude">
+    <value>高度</value>
+  </data>
+
+
+  <data name="PressLeftUpToTakeOff">
+    <value>按住'{0}','{1}'鍵來起飛</value>
+  </data>
+
+  <data name="EnhancedLevels">
+    <value>自製關卡</value>
+  </data>
+
+ <data name="PressUpToLand">
+    <value>按住"{0}"鍵來降落</value>
+  </data>
+
+  <!-- don't worry about the line breaks in the strings below -->
+  <data name="News404_1">
+    <value>導航到WOF2最新消息發生錯誤</value>
+  </data>
+
+  <data name="News404_2">
+    <value>無法建立網路連線</value>
+  </data>
+
+  <data name="News404_3">
+    <value>請允許WOF2通過你的防火牆。您將可同時下載新的關卡、遊戲更新並支持本遊戲！</value>
+  </data>
+
+  <data name="News404_4">
+    <value>如何做到？</value>
+  </data>
+
+  <data name="EnhancedVersion">
+    <value>增強版</value>
+  </data>
+
+  <data name="EnhancedVersionDetails">
+    <value>遊戲增強版包含附加的關卡、飛機和獎勵內容。所有廣告都會被移除。該版適用於所有WOF2捐款者和支援者。</value>
+  </data>
+  
+  <data name="Planes">
+    <value>飛機</value>
+  </data>
+
+
+  <data name="P47">
+    <value>P47</value>
+  </data>
+
+  <data name="F4U">
+    <value>F4U</value>
+  </data>
+  
+  <data name="B25">
+    <value>B-25 米切爾型轟炸機</value>
+  </data>
+  
+  
+  <data name="GetEnhancedVersion">
+    <value>獲得增強版！</value>
+  </data>
+  
+  
+  <data name="TorpedoesFired">
+    <value>魚雷發射數：</value>
+  </data>
+
+  <data name="TorpedoesAccuracy">
+    <value>魚雷精準度：</value>
+  </data>
+  
+   <data name="SurvivalTime">
+    <value>生存時間：</value>
+  </data>
+  
+  
+  <data name="CommunitySupport">
+    <value>論壇支持</value>
+  </data>
+  
+   <data name="Hold"> <!-- to hold the button / key. Shown in controls screen -->
+       <value>按住</value>
+  </data>
+  
+    <data name="WinnerOfFirstDogfight"> <!-- credits screen -->
+       <value>第一個空戰競爭的優勝者</value>
+  </data>
+
+  <data name="LanguageDebugMode"> 
+       <value>語言除錯模式</value>
+  </data>
+  
+  <data name="TranslationCompleteness"> 
+       <value>翻譯完整性 {0}/{1}</value>
+  </data>
+  
+  <data name="PossibleCharacters"> 
+       <value>可能的字元</value>
+  </data>
+  
+   <data name="Achievements"> 
+       <value>成就</value>
+  </data>
+   
+   <data name="Joystick"> 
+       <value>Joystick</value>
+  </data>
+   <data name="JoystickOptions"> 
+       <value>Joystick settings</value>
+  </data>
+  
+  
+</root>
+
+
