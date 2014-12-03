@@ -99,6 +99,7 @@ namespace Wof.Controller.Screens
 									"Nico",
 									"Tung Nguyen",
 									"mental-hacker",
+									"Renn Li",
                                     String.Empty,
                                     LanguageResources.GetString(LanguageKey.CommunitySupport),
                                     "Marcelo Eiras",

@@ -1824,7 +1824,14 @@ namespace Wof.Controller.Screens
                 }
             }
         }
-      
+
+		string TakeScreenshot()
+		{
+			string[] temp = Directory.GetFiles(EngineConfig.C_LOCAL_DIRECTORY, "screenshot*.jpg");
+			string fileName = string.Format("screenshot{0}.jpg", temp.Length + 1);
+			framework.TakeScreenshot(EngineConfig.C_LOCAL_DIRECTORY + "\\" + fileName);
+			return fileName;
+		}
 
         public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
         {
@@ -1974,7 +1981,17 @@ namespace Wof.Controller.Screens
                             levelView.OnHangaringFinished();
                         }
 
-                      
+                        // screenshots
+                        if (inputKeyboard.IsKeyDown(KeyCode.KC_SYSRQ) && Button.CanChangeSelectedButton())
+                        {
+
+                            var fileName = TakeScreenshot();
+                            gameMessages.AppendMessage(String.Format("{0} '{1}'",
+                                                                     LanguageResources.GetString(
+                                                                         LanguageKey.ScreenshotWrittenTo),
+                                                                     fileName));
+                            Button.ResetButtonTimer();
+                        }
                         if (!isGamePaused)
                         {
                             if (!changingAmmo)
@@ -2055,19 +2072,7 @@ namespace Wof.Controller.Screens
                                     SwitchCamera();
                                 }
 
-                                // screenshots
-                                if (inputKeyboard.IsKeyDown(KeyCode.KC_SYSRQ) && Button.CanChangeSelectedButton())
-                                {
-
-                                    string[] temp = Directory.GetFiles(EngineConfig.C_LOCAL_DIRECTORY, "screenshot*.jpg");
-                                    string fileName = string.Format("screenshot{0}.jpg", temp.Length + 1);
-                                    framework.TakeScreenshot(EngineConfig.C_LOCAL_DIRECTORY+"\\"+fileName);
-                                    gameMessages.AppendMessage(String.Format("{0} '{1}'",
-                                                                             LanguageResources.GetString(
-                                                                                 LanguageKey.ScreenshotWrittenTo),
-                                                                             fileName));
-                                    Button.ResetButtonTimer();
-                                }
+                              
 
                                 if (levelView.CurrentCameraHolderIndex == 0)
                                 {
@@ -2637,8 +2642,8 @@ namespace Wof.Controller.Screens
             resumeButton.activate(true);
             
 
-          
-            y = controlsChangerHelper.AddControlsInfoToGui(guiWindow, mGui, left, top, y, width, h, (uint)(fontSize * 0.67f));
+            y += (int)(1*h);
+            y = controlsChangerHelper.AddControlsInfoToGui(guiWindow, mGui, left, top, y, width, h*0.67f, (uint)(fontSize * 0.67f));
             
 
             y += (int)(1*h);

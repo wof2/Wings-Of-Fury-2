@@ -343,7 +343,7 @@ namespace Wof.Controller.Screens
           
 
             OverlayContainer c;
-            y += (int)(h*2);
+            y += (int)(h*1);
             c = guiWindow.createStaticText(new Vector4(left - 10, top + y, width, h), LanguageResources.GetString(LanguageKey.Controls));
             AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
 
@@ -353,7 +353,7 @@ namespace Wof.Controller.Screens
             float imgSize = fontSize;
             float imgVDiff = - Mogre.Math.Abs(imgSize - fontSize)*0.5f;
 
-            y += (int)h;
+            y += (int)(h*1.5f);
 			var pos = new Vector4(left, top + y, width, h);
             c =
                 guiWindow.createStaticText(pos,
@@ -364,7 +364,7 @@ namespace Wof.Controller.Screens
             AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Engine );
             
             // "Engine: E (hold)");
-            y += (int)(h * 0.83f);
+            y += (int)(h*1);
 
             
             AddChangeButton(new Vector2(leftOrg, top + y), fontSize, LanguageKey.AccelerateBreakTurn);
@@ -389,7 +389,7 @@ namespace Wof.Controller.Screens
             }
            
 
-            y += (int)(h * 0.83f);    
+            y += (int)(h*1); 
             
             AddChangeButton(new Vector2(leftOrg, top + y),fontSize, LanguageKey.Pitch);
             
@@ -414,7 +414,7 @@ namespace Wof.Controller.Screens
 
 
 
-            y += (int)(h * 0.83f);
+            y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
             c = guiWindow.createStaticText(pos,  
                                            LanguageResources.GetString(LanguageKey.Spin) + ": " + KeyMap.GetName(KeyMap.Instance.Spin));
@@ -422,51 +422,51 @@ namespace Wof.Controller.Screens
             AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Spin);
             
             
-            y += (int)(h * 0.83f);
+            y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
             c = guiWindow.createStaticText(pos, 
                                            LanguageResources.GetString(LanguageKey.Gear) + ": " + KeyMap.GetName(KeyMap.Instance.Gear));
             AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Gear);
             
 
-            y += (int)(h * 0.83f);
+            y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
             c = guiWindow.createStaticText(pos, 
                                            LanguageResources.GetString(LanguageKey.Gun) + ": " + KeyMap.GetName(KeyMap.Instance.Gun));
             AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Gun);
             
-            y += (int)(h * 0.83f);
+            y += (int)(h*1);
 			pos = new Vector4(left, top + y, width, h);
             c = guiWindow.createStaticText(pos,
                                            LanguageResources.GetString(LanguageKey.Bombs) + "/" + LanguageResources.GetString(LanguageKey.Rockets)+ ": " + KeyMap.GetName(KeyMap.Instance.Bombs));
             AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Bombs);
             
-            y += (int)(h * 0.83f);
+            y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
             c = guiWindow.createStaticText(pos,
                                            LanguageResources.GetString(LanguageKey.Camera) + ": " + KeyMap.GetName(KeyMap.Instance.Camera));
             AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Camera);
             
-            y += (int)(h * 0.83f);
+            y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
             c = guiWindow.createStaticText(pos,
                                            LanguageResources.GetString(LanguageKey.Zoomin) + ": " +  KeyMap.GetName(KeyMap.Instance.ZoomIn));
  			AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Zoomin);
            
-            y += (int)(h * 0.83f);
+            y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
             c = guiWindow.createStaticText(pos,
                                            LanguageResources.GetString(LanguageKey.Zoomout) + ": " +  KeyMap.GetName(KeyMap.Instance.ZoomOut));
             AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Zoomout);
             
-            y += (int)(h * 0.83f);
+            y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
             c = guiWindow.createStaticText(pos,
                                            LanguageResources.GetString(LanguageKey.BulletTimeEffect) + ": " +  KeyMap.GetName(KeyMap.Instance.BulletTimeEffect));
             AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.BulletTimeEffect);
             
             
-            y += (int)(h * 0.83f);
+            y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
             c = guiWindow.createStaticText(pos,
                                            LanguageResources.GetString(LanguageKey.RearmEndMission) + ": " + KeyMap.GetName(KeyMap.Instance.Bombs));
@@ -474,7 +474,7 @@ namespace Wof.Controller.Screens
 
             mGui.mFontSize = oldFontSize;
             
-            return y;
+            return y+top;
         }
 	
 	}

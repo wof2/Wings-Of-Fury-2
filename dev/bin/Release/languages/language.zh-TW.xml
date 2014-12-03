@@ -516,11 +516,11 @@
 
 
   <data name="KeyboardInfo1">
-    <value>請修改(遊戲路徑)\Release\KeyMap.ini 檔案，</value>
+    <value>欲進階設置鍵盤/搖桿，請修改檔案：</value>
   </data>
   
   <data name="KeyboardInfo2">
-    <value>改變按鍵配置</value>
+    <value>(遊戲路徑)\bin\release\KeyMap.ini</value>
   </data>
   
   <!-- this is the contents af a new tutorial screen. I decided to put it here anyway -->
@@ -584,7 +584,7 @@
   </data>
   
   <data name="Planes">
-    <value>飛機</value>
+    <value>選擇飛機</value>
   </data>
 
 
@@ -648,10 +648,10 @@
   </data>
    
    <data name="Joystick"> 
-       <value>Joystick</value>
+       <value>搖桿</value>
   </data>
    <data name="JoystickOptions"> 
-       <value>Joystick settings</value>
+       <value>設定搖桿</value>
   </data>
   
   
