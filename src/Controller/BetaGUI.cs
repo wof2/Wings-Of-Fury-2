@@ -1051,7 +1051,7 @@ namespace BetaGUI
 
             try
             {
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Button : '" + referer.text + "' clicked on window '" + referer.Window.mC + "'");
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Button : '" + referer.text + "', id: "+referer.id+" clicked on window '" + referer.Window.mC + "'");
             }
             catch 
             {

@@ -145,13 +145,13 @@ namespace Wof.Controller.Screens
         {
             base.LayoutOptions(availableOptions, window, cc);
 
-            float y = controlsChangerHelper.AddControlsInfoToGui(guiWindow, mGui, (int) (GetTextVSpacing()), (int)(GetTextVSpacing() * 3), 0, viewport.ActualWidth * 0.75f, 1.3f* GetTextVSpacing(), GetFontSize());
+            float y = controlsChangerHelper.AddControlsInfoToGui(guiWindow, mGui, (int) (GetTextVSpacing()), (int)(GetTextVSpacing() * 5), 0, viewport.ActualWidth * 0.75f, 0.75f* GetTextVSpacing(),(uint)(GetFontSize() * 0.75f));
 
             string info1 = LanguageResources.GetString(LanguageKey.KeyboardInfo1);
             string info2 = LanguageResources.GetString(LanguageKey.KeyboardInfo2);
 
             
-            guiWindow.createStaticTextAutoSplit(new Vector4(GetTextVSpacing(), (int)(GetTextVSpacing() * 3) + y + 1.0f * GetTextVSpacing(), window.w, 2* GetTextVSpacing()), info1 + info2);
+            guiWindow.createStaticTextAutoSplit(new Vector4(GetTextVSpacing(), y + 1.0f * GetTextVSpacing(), window.w, 2* GetTextVSpacing()), info1 +" " + info2);
        		
             
             /*
