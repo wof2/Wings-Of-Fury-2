@@ -196,6 +196,8 @@ namespace Wof.Controller.Screens
         public static CompletedLevelsInfo GetCompletedLevels()
         {
             CompletedLevelsInfo  completedLevels = new CompletedLevelsInfo ();
+            completedLevels.CompletedLevels = new SerializableDictionary<LevelInfo, List<Achievement>>();
+            
 			List<Achievement> emptyAchievements = new List<Achievement>();
             if (!File.Exists(EngineConfig.C_COMPLETED_LEVELS_FILE))
             {

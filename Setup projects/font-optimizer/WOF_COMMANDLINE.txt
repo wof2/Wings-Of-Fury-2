@@ -1,0 +1,2 @@
+#perlowy kod
+./subset.pl --charsfile="chars.txt" uming.ttf uming_optimized.ttf

@@ -1,0 +1,57 @@
+<project outputDir="G:\Workspace\wings\WoF\bin\Release\wof_secure" baseDir="G:\Workspace\wings\WoF\bin\Release" seed="456yeytre754h345" xmlns="http://confuser.codeplex.com">
+  <rule pattern="true" preset="minimum">
+    <protection id="anti ildasm" />
+    <protection id="anti tamper" />
+    <protection id="anti dump" />
+    <protection id="anti debug" />
+  </rule>
+  <module path="Wof.exe">
+    <rule pattern="match('Licensing')">
+      <protection id="rename">
+        <argument name="mode" value="decodable" />
+      </protection>
+    </rule>
+    <rule pattern="match-type-name('Game')">
+      <protection id="rename">
+        <argument name="mode" value="decodable" />
+      </protection>
+    </rule>
+    <rule pattern="match-type-name('LevelView')">
+      <protection id="rename">
+        <argument name="mode" value="decodable" />
+      </protection>
+    </rule>
+    <rule pattern="name('IsEnhancedVersion')">
+      <protection id="rename">
+        <argument name="mode" value="decodable" />
+      </protection>
+    </rule>
+    <rule pattern="name('AdManagerDisabled')">
+      <protection id="rename">
+        <argument name="mode" value="decodable" />
+      </protection>
+    </rule>
+    <rule pattern="match-type-name('Achievement')">
+      <protection id="rename" action="remove">      
+      </protection>
+    </rule>
+	<rule pattern="match-type-name('LevelInfo')">
+      <protection id="rename" action="remove">      
+      </protection>
+    </rule>
+	<rule pattern="match-type-name('CompletedLevelsInfo')">
+      <protection id="rename" action="remove">      
+      </protection>
+    </rule>
+	<rule pattern="match-type-name('SerializableDictionary')">
+      <protection id="rename" action="remove">      
+      </protection>
+    </rule>
+	<rule pattern="match-type-name('AchievementType')">
+      <protection id="rename" action="remove">      
+      </protection>
+    </rule>
+	
+  </module>
+  <module path="EnhancedVersionHelper.exe" />
+</project>

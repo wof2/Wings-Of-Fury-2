@@ -269,10 +269,9 @@ namespace Wof.Tools
 
        }
 
-        public static bool IsEhnancedVersion()
-       {
-           
-        	return true;
+       public static bool IsEhnancedVersion()
+       {          
+        
            BuildHash();
 
            string loc2 = EngineConfig.C_LOCAL_DIRECTORY + "\\" + C_LICENSE_FILE;

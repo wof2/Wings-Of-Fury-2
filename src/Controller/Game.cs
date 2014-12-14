@@ -521,11 +521,7 @@ namespace Wof.Controller
         protected static Point consolePosition = new Point(Screen.PrimaryScreen.WorkingArea.Width-700,0);
       
         
-		public override void Go()
-		{			
-			base.Go();
-			
-		}
+		
         /// <summary>
         /// Uruchamia pierwsza instancje na tym komputerze
         /// </summary>
