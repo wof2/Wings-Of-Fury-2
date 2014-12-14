@@ -3,17 +3,22 @@
 ; DEPENDENCIES: 
 ; DONE WITH Inno Setup 5 UNICODE!, InnoIDE (editor), 
 ; isxdl.dll in scripts is a file from IsTool program - required!
+
+#pragma option -v+
+#pragma verboselevel 9
+
 #define MyAppNameShort "WOF2_RotL_"
 #define MyAppName "Wings of Fury 2 - Return of the legend"
-#define MyAppVersion "3.4"
+#define MyAppVersion "3.5"
 #define MyAppPublisher "Ravenlore"
 #define MyAppURL "http://www.wingsoffury2.com"
 #define MyAppExeName "Wof.exe"
-#define MyAppSetupPath "W:\wings\WoF\Setup projects\InnoSetup"
-#define MyAppSourcePath "W:\wings\WoF"
+#define MyAppSetupPath "G:\Workspace\wings\WoF\Setup projects\InnoSetup"
+#define MyAppSourcePath "G:\Workspace\wings\WoF"
 #define MyDXRedistVer "directx_mar2009_redist_small"
 #define MyDOTNETURL "http://download.microsoft.com/download/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe"
 #define MyDOTNETRequired "2.0"
+
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -32,7 +37,7 @@ AppUpdatesURL={#MyAppURL}
 DefaultDirName={pf}\{#MyAppName} {#MyAppVersion}
 DefaultGroupName={#MyAppName}
 AllowNoIcons=false
-InfoAfterFile=W:\wings\WoF\Setup projects\InnoSetup\after.txt
+InfoAfterFile=G:\Workspace\wings\WoF\Setup projects\InnoSetup\after.txt
 OutputDir={#MyAppSetupPath}\output
 OutputBaseFilename={#MyAppNameShort}{#MyAppVersion}
 SetupIconFile=WofIcon.ico
@@ -43,13 +48,12 @@ MinVersion=5.1.2600sp1
 VersionInfoCompany=Ravenlore
 VersionInfoDescription=WW2 plane simulator and shooter
 VersionInfoProductName=Wings of Fury 2 - Return of the legend
-VersionInfoProductVersion=3.4
+VersionInfoProductVersion=3.5
 PrivilegesRequired=poweruser
 UninstallDisplayIcon={app}\bin\release\Wof.exe
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
-Name: "basque"; MessagesFile: "compiler:Languages\Basque.isl"
 Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 Name: "catalan"; MessagesFile: "compiler:Languages\Catalan.isl"
 Name: "czech"; MessagesFile: "compiler:Languages\Czech.isl"
@@ -66,9 +70,10 @@ Name: "norwegian"; MessagesFile: "compiler:Languages\Norwegian.isl"
 Name: "polish"; MessagesFile: "compiler:Languages\Polish.isl"
 Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
 Name: "russian"; MessagesFile: "compiler:Languages\Russian.isl"
-Name: "slovak"; MessagesFile: "compiler:Languages\Slovak.isl"
 Name: "slovenian"; MessagesFile: "compiler:Languages\Slovenian.isl"
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "turkish"; MessagesFile: "compiler:Languages\Turkish.isl"
+Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
@@ -78,7 +83,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 Source: "{#MyAppSourcePath}\WofIcon.ico"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "{#MyAppSourcePath}\WofIconE.ico"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "{#MyAppSourcePath}\Wof.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: {#MyAppSourcePath}\bin\Release\*; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "wof_secure,\*.vshost.exe,\Wof.blur,\Wof.exe,\none.xml,\ogre.cfg,\custom_levels\*.xml,\levels\*.xml,\survival.dat,*.old,\wof.renamed.xml,*.lnk,\enhanced.dat*,\wofconf.dat,\game.dat,\highscores.dat,*.manifest,*.config,\firstrun.dat,*.pdb,*.log,*.manifest,_ReSharper.Wof,_ReSharper.Wof.vshost"
+Source: {#MyAppSourcePath}\bin\Release\*; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "wof_secure,\*.vshost.exe,\wof_confuser.crproj,\Wof.exe,\none.xml,\ogre.cfg,\enhanced_levels\*.xml,\levels\*.xml,\survival.dat,*.old,\RunConfuser.cmd,*.lnk,\enhanced.dat*,\wofconf.dat,\game.dat,\highscores.dat,*.manifest,*.config,\firstrun.dat,*.pdb,*.log,*.backup,*.manifest,_ReSharper.Wof,_ReSharper.Wof.vshost"
 Source: {#MyAppSourcePath}\bin\Release\wof_secure\Wof.exe; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; 
 ;Source: {#MyAppSourcePath}\bin\Release\wof_secure\EnhancedVersionHelper.exe; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; 
 
