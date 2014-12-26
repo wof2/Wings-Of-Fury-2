@@ -182,7 +182,8 @@ namespace Wof.Controller
     
         protected InputManager inputManager;
         protected Keyboard inputKeyboard;
-        protected IList<JoyStick> inputJoysticks;
+        protected IList<JoyStick> inputJoysticks;        
+       
         protected Mouse inputMouse;
         
 	
@@ -467,8 +468,9 @@ namespace Wof.Controller
                         EngineConfig.SoundSystem = FreeSL.FSL_SOUND_SYSTEM.FSL_SS_NOSYSTEM;
                 }
             
-
-
+  				splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingInput, false)));             
+				CreateInput();
+				
                 // Create the scene
                 splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingScene, false)));
                 CreateScene();
@@ -481,9 +483,8 @@ namespace Wof.Controller
 
                 WireEventListeners();
 
-                splash.Increment(String.Format(splashFormat, LanguageResources.GetString(LanguageKey.CreatingInput, false)));
-             
-                CreateInput();
+              
+                
                 
                 
             }
@@ -1587,8 +1588,15 @@ namespace Wof.Controller
   			inputJoysticks = new List<JoyStick>();
   			
 			for(int i=0; i < joysticks; ++i){
-				try {
+				try {  					
   					inputJoysticks.Add((MOIS.JoyStick)inputManager.CreateInputObject(Type.OISJoyStick, UseBufferedInput));
+  					
+  					string jid = inputJoysticks[inputJoysticks.Count-1].Vendor()+"_"+inputJoysticks[inputJoysticks.Count-1].ID;
+  					
+  					if( jid.Equals(KeyMap.Instance.CurrentJoystick)) {  						
+  						FrameWorkStaticHelper.SetCurrentJoystickIndex(i);  
+  					}
+  					
   					LogManager.Singleton.LogMessage("Created Joystick no. "+(i+1)+". Vendor: "+inputJoysticks[inputJoysticks.Count-1].Vendor());
 	            }
 	            catch(Exception ex) {
@@ -1598,6 +1606,7 @@ namespace Wof.Controller
 			
 			}				
 			
+				
   			FrameWorkStaticHelper.SetNumberOfAvailableJoysticks(inputJoysticks.Count);  
 
             inputMouse = (Mouse) inputManager.CreateInputObject(Type.OISMouse, UseBufferedInput);

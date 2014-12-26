@@ -891,7 +891,8 @@ namespace Wof.Controller.Screens
 				inputKeyboard.Capture();
 			}
 			if (inputJoysticks != null) {
-				foreach (JoyStick j in inputJoysticks) {
+        		var j = FrameWorkStaticHelper.GetCurrentJoystick(inputJoysticks);
+        		if(j != null) {
 					j.Capture();
 				}
 			}
@@ -1062,6 +1063,7 @@ namespace Wof.Controller.Screens
 				
 				if(skipHandlingGuiButtons) {
 					// po prostu myszka
+					Console.WriteLine("skipHandlingGuiButtons");
 					mGui.injectMouse(MousePos, false);
 					
 				} else {
@@ -1074,6 +1076,7 @@ namespace Wof.Controller.Screens
 
 					if (wereAllKeysReleased && FrameWorkStaticHelper.IsEnterPressed(inputKeyboard, inputJoysticks))                   					
 					{
+						Console.WriteLine("nacisnieto enter");
 						KeyReceived("ENTER");
 						wasEnterKeyPressed = true;
 						if (buttons != null && Button.TryToPressButton(buttons[currentButton]))

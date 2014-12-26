@@ -158,10 +158,10 @@ namespace Wof.Controller
         public static bool BloomEnabled = false;
        
        
-        public const float GameSpeedMultiplierSlow = 0.5f;
+        public const float GameSpeedMultiplierSlow = 0.6f;
  		public const float GameSpeedMultiplierNormal = 1.0f;
 
-        
+               
  		
         /// <summary>
         /// Do efektu bullet-time

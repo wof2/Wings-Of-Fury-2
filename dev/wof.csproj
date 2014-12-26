@@ -6,11 +6,11 @@
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{F101F624-0894-4B82-BE03-002A6D0E94F5}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Wof</RootNamespace>
     <AssemblyName>Wof</AssemblyName>
-    <StartupObject>Wof.Controller.Game</StartupObject>
+    <StartupObject>Wof.Tests.ControllerTest.JoystickOptionsGamesTest</StartupObject>
     <ApplicationIcon>WofIcon.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -575,9 +575,11 @@
     <Compile Include="src\Controller\Indicators\AchievementIcon.cs" />
     <Compile Include="src\Controller\Indicators\CenteredMessageEntry.cs" />
     <Compile Include="src\Controller\Indicators\IconedCenteredMessageEntry.cs" />
+    <Compile Include="src\Controller\Input\KeyboardAndJoystick\ControlTypeAttribute.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyCodeConflictException.cs" />
     <Compile Include="src\Controller\Input\KeyboardAndJoystick\KeyMap.cs" />
     <Compile Include="src\Controller\Screens\ControlsChangerHelper.cs" />
+    <Compile Include="src\Controller\Screens\JoystickChangerHelper.cs" />
     <Compile Include="src\Controller\Screens\JoystickOptionsScreen.cs" />
     <Compile Include="src\Controller\Screens\LanguageDebugScreen.cs" />
     <Compile Include="src\Controller\Sound\FreeSL\FSLOgreCS\FSLAmbientSoundMusic.cs" />
@@ -600,6 +602,7 @@
     <Compile Include="src\Model\Level\Weapon\FlakBullet.cs" />
     <Compile Include="src\Model\Level\Weapon\GunBullet.cs" />
     <Compile Include="src\Model\Level\Weapon\MissileBase.cs" />
+    <Compile Include="src\Tests\ControllerTest\JoystickOptionsGamesTest.cs" />
     <Compile Include="src\Tests\ModelTest\GunTestForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1473,14 +1476,9 @@
     <StartAction>Project</StartAction>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
-    <PostBuildEvent>rem "$(ProjectDir)Setup projects\ConfuserEx_bin\Confuser.CLI.exe" $(ProjectDir)bin\Release\wof_confuser.crproj</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'LincenseBuilder' ">
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <PostBuildEvent>"$(ProjectDir)Setup projects\ConfuserEx_bin\Confuser.CLI.exe" $(ProjectDir)bin\Release\wof_confuser.crproj</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <PostBuildEvent>"$(ProjectDir)Setup projects\ConfuserEx_bin\Confuser.CLI.exe" $(ProjectDir)bin\Release\wof_confuser.crproj</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

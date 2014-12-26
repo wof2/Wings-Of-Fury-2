@@ -164,7 +164,7 @@ namespace Wof.Controller.Screens
             gameEventListener.StartGame(levelNo, EngineConfig.CurrentPlayerPlaneType);
         }
 
-        protected override bool IsOptionSelected(string option)
+        protected override bool IsOptionSelected(int index, string option)
         {
             return false;
         }

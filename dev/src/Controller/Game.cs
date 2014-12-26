@@ -85,6 +85,7 @@ namespace Wof.Controller
     /// </summary>
     public class Game : FrameWorkForm, GameEventListener
     {
+	
        
 
         public delegate void DelegateVoidVoid();
@@ -94,7 +95,7 @@ namespace Wof.Controller
         private static Game game;
         private static PerformanceTestFramework performanceTest;
 
-        private MenuScreen currentScreen;
+        protected MenuScreen currentScreen;
 
 
         public static bool ShouldReload
@@ -109,7 +110,7 @@ namespace Wof.Controller
         private static Object browserLock = new object();
 
         private static Boolean shouldReload = false;
-        private DelegateVoidVoid afterExit = null;
+        protected DelegateVoidVoid afterExit = null;
 
         private Thread browserThread;
         protected bool browserNotNull = false;
@@ -168,6 +169,7 @@ namespace Wof.Controller
            
         }
 
+		
         protected override void WireEventListeners()
         {
 
@@ -370,7 +372,7 @@ namespace Wof.Controller
         #region Main Method
 
         [STAThread]   
-        private static void Main(string[] args)
+        protected static void Main(string[] args)
         {
 
         //    Licensing.BuildLicenseFile();
@@ -461,7 +463,7 @@ namespace Wof.Controller
         /// Sprawdza czy juz zostala uruchomiana apliakcja.
         /// Jesli nie to ja uruchamia.
         /// </summary>
-        private static void StartWOFApplication()
+        protected static void StartWOFApplication()
         {
             try
             {
@@ -525,7 +527,7 @@ namespace Wof.Controller
         /// <summary>
         /// Uruchamia pierwsza instancje na tym komputerze
         /// </summary>
-        private static void StartFirstInstance()
+        protected static void StartFirstInstance()
         {
             try
             {
@@ -582,23 +584,28 @@ namespace Wof.Controller
                 */				
                // ShellExecute(0, "open", filename, param, dir, 1);
                
-  				string param="-SkipIntro"; // nie bedziemy meczyc intro jesli ktos chce tylko zmienic rozdzielczosc
-                ProcessStartInfo startInfo = new ProcessStartInfo();
-		        startInfo.CreateNoWindow = false;
-		        startInfo.UseShellExecute = false;
+  				ReloadGame(); 
 
-                startInfo.FileName = Process.GetCurrentProcess().MainModule.FileName.Replace(".vshost","");
-		        startInfo.WindowStyle = ProcessWindowStyle.Normal;
-		        startInfo.Arguments = param;
-				Process exeProcess = Process.Start(startInfo);
 				
-				//User32.SetForegroundWindow(exeProcess.Handle);
-				//SetFocusToPreviousInstance();
-				game.Hide();
 			
             }
         }
 
+		protected static void ReloadGame()
+		{
+			string param = "-SkipIntro";
+			// nie bedziemy meczyc intro jesli ktos chce tylko zmienic rozdzielczosc
+			ProcessStartInfo startInfo = new ProcessStartInfo();
+			startInfo.CreateNoWindow = false;
+			startInfo.UseShellExecute = false;
+			startInfo.FileName = Process.GetCurrentProcess().MainModule.FileName.Replace(".vshost", "");
+			startInfo.WindowStyle = ProcessWindowStyle.Normal;
+			startInfo.Arguments = param;
+			Process exeProcess = Process.Start(startInfo);
+			//User32.SetForegroundWindow(exeProcess.Handle);
+			//SetFocusToPreviousInstance();
+			game.Hide();
+		}
         public static void SetModelSettingsFromFile(int index)
         {
             string[] configFiles = ConfigurationManager.GetAvailableConfigurationFiles();
@@ -1508,6 +1515,26 @@ namespace Wof.Controller
 
             currentScreen.DisplayGUI(justMenu);
         }
+        
+        public void GotoJoystickOptionsScreen()
+		{
+			 Boolean justMenu = IsMenuScreen(currentScreen);
+
+            ScreenState ss = null;
+            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
+            {
+                ss = (currentScreen as AbstractScreen).GetScreenState();
+            }
+            initScreenAfter(currentScreen);
+            currentScreen = new JoystickOptionsScreen(this, this, viewport, camera, inputKeyboard, inputJoysticks);
+
+            if (ss != null)
+            {
+                ((AbstractScreen)currentScreen).SetScreenState(ss);
+            }
+
+            currentScreen.DisplayGUI(justMenu);
+		}
 
         public void GotoLanguagesOptionsScreen()
         {
@@ -1548,6 +1575,15 @@ namespace Wof.Controller
 
             currentScreen.DisplayGUI(justMenu);
         }
+        
+        
+        void GameEventListener.MaximizeWindow()
+		{
+        	
+        	this.WindowState = FormWindowState.Maximized;
+			//this.Window.SetVisible(false);
+		}
+
 
         public void MinimizeWindow()
         {

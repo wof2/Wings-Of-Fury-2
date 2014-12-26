@@ -47,6 +47,9 @@
  */
 
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
 using BetaGUI;
 using Mogre;
 using Wof.Languages;
@@ -79,14 +82,21 @@ namespace Wof.Controller.Screens
 
         protected override void ProcessOptionSelection(ButtonHolder holder)
         {
-            /*
+           /*
             this.gameEventListener.MinimizeWindow();
-            Thread.Sleep(1000);
-            Process movieProcess = Process.Start("bik/1.exe");
+            Thread.Sleep(500);
+            
+            string directory = System.Environment.CurrentDirectory;
+            
+            var pinfo = new ProcessStartInfo();
+            pinfo.FileName = Path.Combine(directory,"bik/1.exe");
+            pinfo.CreateNoWindow = true;
+            
+            Process movieProcess = Process.Start(pinfo);
             movieProcess.WaitForExit();
             
             this.gameEventListener.MaximizeWindow();
-            */
+         */
             string selected = holder.Value;
             if (LanguageResources.GetString(LanguageKey.High).Equals(selected))
             {
@@ -104,7 +114,7 @@ namespace Wof.Controller.Screens
             EngineConfig.SaveEngineConfig();
         }
 
-        protected override bool IsOptionSelected(string option)
+        protected override bool IsOptionSelected(int index, string option)
         {
             if (EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Hard)
             {

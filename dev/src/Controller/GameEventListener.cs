@@ -74,6 +74,7 @@ namespace Wof.Controller
         void GotoLodOptionsScreen();
         void GotoShadowsOptionsScreen();
         void GotoControlsOptionsScreen();
+        void GotoJoystickOptionsScreen();        
         void GotoSoundOptionsScreen();
         void GotoLanguagesOptionsScreen();
         void GotoTutorialScreen();
@@ -88,8 +89,8 @@ namespace Wof.Controller
 
         void GotoEnhancedVersionWebPage();
 
-       //void MinimizeWindow();
-        //void MaximizeWindow();
+        void MinimizeWindow();
+        void MaximizeWindow();
         void GotoDonateWebPage();
         void GotoUpdateWebPage();
 
