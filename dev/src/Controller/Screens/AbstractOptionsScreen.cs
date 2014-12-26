@@ -121,15 +121,7 @@ namespace Wof.Controller.Screens
 
         private void createScreen()
         {
-        	/*
-            if (mGui != null)
-            {
-                mGui.killGUI();
-            }*/
-            currentButton = 0;
-           // mGui = new GUI(FontManager.CurrentFont, fontSize);
-          //  createMouse();
-
+       
             Vector2 m = GetMargin();
             int h = (int)GetTextVSpacing();
 
@@ -346,7 +338,7 @@ namespace Wof.Controller.Screens
             }
 
             buttons[totalOptions - 1] = exitButton;
-            selectButton(0);
+            selectButton(currentButton);
             backButtonIndex = (int) totalOptions - 1;
             if(showRestartRequiredMessage)
             {

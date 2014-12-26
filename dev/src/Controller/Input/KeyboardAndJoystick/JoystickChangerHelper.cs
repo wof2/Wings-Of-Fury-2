@@ -49,6 +49,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using MOIS;
 using Mogre;
 using BetaGUI;
@@ -61,20 +62,26 @@ namespace Wof.Controller.Screens
 	/// <summary>
 	/// Description of JoystickChangerHelper.
 	/// </summary>
-	public class JoystickChangerHelper : BetaGUIListener
+	public class JoystickChangerHelper : AbstractChangerHelper
 	{
 	
-		
-		uint lastId = 1;
-		MenuScreen parent;
-		Callback callback;
+		#region implemented abstract members of AbstractChangerHelper
+
+		protected override void OnChangeButtonAddedDo(Button b)
+		{			
+			if (onChangeButtonAdded != null) {
+				onChangeButtonAdded(b);
+			}
+			
+		}
+
+		#endregion
 		protected IList<JoyStick> joysticks;
 		
 		protected JoyStick currentJoystick;
 		
-		Keyboard keyboard;
-		Window parentGuiWindow;
-		Window controlChangeWindow;
+		protected TextInput joystickHorizontalAxisNoTi;
+	
 		public delegate void OnControlsChanged();		
 		public event OnControlsChanged onControlsChanged;
 		
@@ -88,18 +95,23 @@ namespace Wof.Controller.Screens
 		public event OnChangeButtonAdded onChangeButtonAdded;
 		
 		
-		readonly IDictionary<String, uint> identifiers = new Dictionary<String, uint>();
-		GUI parentGui;
+		public JoystickChangerHelper(Keyboard keyboard, IList<JoyStick> joysticks, MenuScreen parent)  : base(keyboard, parent) {
+			
+			this.joysticks = joysticks;
+			UpdateCurrentJoystick();
+			onControlsCaptureStarted += ControlsChangerHelper_onControlsCaptureStarted;
+			onControlsCaptureEnded += ControlsChangerHelper_onControlsCaptureEnded;
+			
+		}
 		
-		uint currentKeyId;
-		bool capturingKeys = false;
 		
+				
 		public void UpdateCurrentJoystick() {
-			//DisableJoysticks();
+		
 			if(FrameWorkStaticHelper.GetNumberOfAvailableJoysticks() >0){
 				currentJoystick = joysticks[FrameWorkStaticHelper.GetCurrentJoystickIndex()];
 			}
-			//ActivateJoysticks();
+		
 		}
 		
 		protected void ActivateJoysticks()
@@ -123,15 +135,13 @@ namespace Wof.Controller.Screens
 			
 		}
 		
-		
-		bool joystick_ButtonReleased(JoyStickEvent arg, int button)
+		bool joystick_ButtonPressed(JoyStickEvent arg, int button)		
 		{
 			return true;
 		}
 		
-		bool joystick_ButtonPressed(JoyStickEvent arg, int button)
-		{
-				
+		bool joystick_ButtonReleased(JoyStickEvent arg, int button)
+		{			
 			if(button.Equals(KeyMap.Instance.JoystickEscape)){
 				CloseControlChangeWindow();
 				return false;
@@ -276,9 +286,6 @@ namespace Wof.Controller.Screens
 		}
 		
 		
-		
-		int twoStep = 1;
-
 		void ControlsChangerHelper_onControlsCaptureStarted()
 		{
 			capturingKeys = true;
@@ -288,39 +295,14 @@ namespace Wof.Controller.Screens
 		{
 			capturingKeys = false;
 		}
-		public JoystickChangerHelper(Keyboard keyboard, IList<JoyStick> joysticks, MenuScreen parent) {
-			
-			this.parent = parent;
-			this.callback = new Callback(this); 
-			this.keyboard = keyboard;
-			this.joysticks = joysticks;
-			UpdateCurrentJoystick();
-			onControlsCaptureStarted += ControlsChangerHelper_onControlsCaptureStarted;
-			onControlsCaptureEnded += ControlsChangerHelper_onControlsCaptureEnded;
-			
-		}
-		public void Setup(GUI parentGui, Window parentGuiWindow) {
-			this.parentGui = parentGui;
-			this.parentGuiWindow = parentGuiWindow;
-		}
-
-		protected String GetLanguageKeyById(uint id) {
-			String key = null;
-			foreach(KeyValuePair<String, uint> o in identifiers) {
-				if(o.Value.Equals(id)) {
-					key = o.Key;
-					break;
-				}
-			}
-			return key;
-		}
 		
-		void DisplayControlChangeWindow(uint id)
+		
+		protected override void DisplayControlChangeWindow(uint id)
 		{
 			 if(onControlsCaptureStarted != null){
 				onControlsCaptureStarted();
 			 }
-			Console.WriteLine("DisplayControlChangeWindow");
+		//	Console.WriteLine("DisplayControlChangeWindow");
 			  ActivateJoysticks();
 			  ActivateKeyboard();
 			  string caption = "";
@@ -348,7 +330,7 @@ namespace Wof.Controller.Screens
         
 		}
 		
-		void CloseControlChangeWindow()
+		protected override void CloseControlChangeWindow()
 		{		
 			DisableJoysticks();
 			DisableKeyboard();
@@ -362,8 +344,30 @@ namespace Wof.Controller.Screens
 		
 		
 		#region BetaGUIListener implementation
-		public void onButtonPress(Button referer){
+		public override void onButtonPress(Button referer){
 		
+			try {
+				
+				if(referer.id.Equals(JoystickHorizontalAxisNoButtonID)){ // horizontal
+					var val = joystickHorizontalAxisNoTi.getValue();
+					KeyMap.Instance.JoystickHorizontalAxisNo = Int32.Parse(val);
+					KeyMap.Instance.Value = KeyMap.Instance.Value;
+					return;
+				}
+				if(referer.id.Equals(JoystickDeadzoneNoButtonID)){ // horizontal
+					var val = joystickDeadzoneTi.getValue();					 
+					KeyMap.Instance.JoystickDeadZone = Double.Parse("0."+Int32.Parse(val), new System.Globalization.CultureInfo("en-US"));
+					KeyMap.Instance.Value = KeyMap.Instance.Value;
+					return;
+				}
+				
+				
+					
+			}
+			catch(FormatException fe) {
+				// todo
+			}
+			
 			// wylacz obsluge klawiatury w oknie powyzej
 			// pokaz okno, czekaj na guzik
 			if(capturingKeys) {
@@ -375,44 +379,52 @@ namespace Wof.Controller.Screens
 		#endregion		
 		
 			
-		public Button AddChangeButton(Vector2 topLeft, uint buttonSize, String identifier)
-        {
 			
-    	  	// if (holder == null) return;
-    	  	uint curId;
-    	  	if(identifiers.ContainsKey(identifier)) {
-    	  		curId = identifiers[identifier];
-    	  	}else {
-    	  		curId = ++lastId;
-    	  		identifiers[identifier] = curId;
-    	  	}
-    	  	
-			var vector4 = new Vector4(topLeft.x, topLeft.y, buttonSize, buttonSize);
-			//guiWindow.createStaticImage(vector4, "gear.png", (ushort)(1100));
-         
+		private string getButtonImageName(int joybutton){
 			
-			Button b = parentGuiWindow.createButton(vector4, "bgui.button.gear","" , callback, curId);
-			if(onChangeButtonAdded != null){
-				onChangeButtonAdded(b);
+			if(joybutton == -1) return "keyUnknown.png";
+			return "key"+(joybutton+1)+".png";
+		}
+		int AddControlLine(string languageKey, int button, string additionalComment, Window guiWindow, GUI mGui, int left, int top, float width, uint fontSize, int y, int h, int leftOrg)
+		{
+			return AddControlLine(languageKey, button, additionalComment, guiWindow,mGui, left, top, width, fontSize, y, h, leftOrg, false);
+		}
+		int AddControlLine(string languageKey, int button, string additionalComment, Window guiWindow, GUI mGui, int left, int top, float width, uint fontSize, int y, int h, int leftOrg, bool noButton)
+		{
+			OverlayContainer c;
+			float spaceSize = ViewHelper.MeasureText(mGui.mFont, " ", mGui.mFontSize);
+			float imgSize = fontSize;
+			float imgVDiff = -Mogre.Math.Abs(imgSize - fontSize) * 0.5f;
+			
+			var pos = new Vector4(left, top + y, width, h);
+			var controlTxt = LanguageResources.GetString(languageKey) + ": "+additionalComment;
+			c = guiWindow.createStaticText(pos, controlTxt);
+			float controlTxtWidth = ViewHelper.MeasureText(mGui.mFont, controlTxt, mGui.mFontSize);
+			guiWindow.createStaticImage(new Vector4(pos.x + controlTxtWidth, pos.y + imgVDiff, imgSize, imgSize), getButtonImageName(button));
+			if(!noButton){
+				AddChangeButton(new Vector2(leftOrg, pos.y), fontSize, languageKey);
 			}
-			return b;
-    	 	 
-    	}
-	
-		public int AddJoystickControlsInfoToGui(Window guiWindow, GUI mGui, int left, int top, int initialTopSpacing, float width, float textVSpacing, uint fontSize)
+			return y;
+		}
+
+		const int JoystickHorizontalAxisNoButtonID = 100;
+		const int JoystickDeadzoneNoButtonID = 101;
+
+		TextInput joystickDeadzoneTi;
+		
+		public override int AddControlsInfoToGui(Window guiWindow, GUI mGui, int left, int top, int initialTopSpacing, float width, float textVSpacing, uint fontSize)
         {
         	
         	int y = initialTopSpacing;
         	int h = (int)textVSpacing;
             uint oldFontSize = mGui.mFontSize;
-
+			float spaceSize = ViewHelper.MeasureText(mGui.mFont, " ", mGui.mFontSize);
             int leftOrg = left;
-            
+            Button b;
             // przesuniecie o szerokosc guzika (fontsize) + fontSize
             left += (int)(fontSize + fontSize);
-            
-            //imgVDiff = 0;
-          
+            Vector4 pos;
+        
   			Setup(mGui, guiWindow);          
             OverlayContainer c;
             y += (int)(h*1);
@@ -420,79 +432,80 @@ namespace Wof.Controller.Screens
             AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
 
           
+            y += (int)(h * 1.5f);
             mGui.mFontSize = fontSize;
-            float spaceSize = ViewHelper.MeasureText(mGui.mFont, " ", mGui.mFontSize);
-            float imgSize = fontSize;
-            float imgVDiff = - Mogre.Math.Abs(imgSize - fontSize)*0.5f;
-
-            y += (int)(h*1.5f);
-			var pos = new Vector4(left, top + y, width, h);
-			
-            c = guiWindow.createStaticText(pos,
-                                           LanguageResources.GetString(LanguageKey.OK) + ": " +  KeyMap.Instance.JoystickEnter);
-            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.OK);
+            y = AddControlLine(LanguageKey.OK, KeyMap.Instance.JoystickEnter, "", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg);
             
             
-            y += (int)(h*1);
-            pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos,
-                                           LanguageResources.GetString(LanguageKey.Back) + ": " +  KeyMap.Instance.JoystickEscape);
-            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Back);
-            
-
-            y += (int)(h*1);        
-            pos = new Vector4(left, top + y, width, h);
-            c =
-                guiWindow.createStaticText(pos,
-				LanguageResources.GetString(LanguageKey.Engine) + ": " + KeyMap.Instance.JoystickEngine + " (" + LanguageResources.GetString(LanguageKey.Hold) + ")");
-           
+            y += (int)(h*1); 
+            y = AddControlLine(LanguageKey.Back, KeyMap.Instance.JoystickEscape, "", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg);
             
           
-            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Engine );
+            y += (int)(h*1);  
+            y = AddControlLine(LanguageKey.Engine, KeyMap.Instance.JoystickEngine, " (" + LanguageResources.GetString(LanguageKey.Hold) + ")", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg);
             
-                     
+            y += (int)(h*1);  
+            y = AddControlLine(LanguageKey.Gear, KeyMap.Instance.JoystickGear, "", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg);
+             
+            y += (int)(h*1);
+            y = AddControlLine(LanguageKey.Gun, KeyMap.Instance.JoystickGun, "", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg);
+            
+        	y += (int)(h*1);
+            y = AddControlLine(LanguageKey.Bombs, KeyMap.Instance.JoystickRocket, "/" + LanguageResources.GetString(LanguageKey.Rockets)+ ": ", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg);
+           
+            y += (int)(h*1);
+            y = AddControlLine(LanguageKey.Camera, KeyMap.Instance.JoystickCamera, "", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg);
+            
+            y += (int)(h*1);
+            y = AddControlLine(LanguageKey.BulletTimeEffect, KeyMap.Instance.JoystickBulletiTimeEffect, "", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg);
+           
+           
+            y += (int)(h*1);
+            
+            y = AddControlLine(LanguageKey.RearmEndMission, KeyMap.Instance.JoystickRocket, "", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg, true);
+           
             y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos, 
-                                           LanguageResources.GetString(LanguageKey.Gear) + ": " + KeyMap.Instance.JoystickGear);
-            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Gear);
-            
-
-            y += (int)(h*1);
-            pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos, 
-                                           LanguageResources.GetString(LanguageKey.Gun) + ": " + KeyMap.Instance.JoystickGun);
-            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Gun);
-            
-            y += (int)(h*1);
-			pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos,
-                                           LanguageResources.GetString(LanguageKey.Bombs) + "/" + LanguageResources.GetString(LanguageKey.Rockets)+ ": " + KeyMap.Instance.JoystickRocket);
-            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Bombs);
-            
-            y += (int)(h*1);
-            pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos,
-                                           LanguageResources.GetString(LanguageKey.Camera) + ": " + KeyMap.Instance.JoystickCamera);
-            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.Camera);
+       
+			// horizontal axis            
+            string txt;
+            float controlTxtWidth;
+            //FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.VectorCount
+            txt = "JoystickHorizontalAxisNo: (max. "+FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount+" )";
+            controlTxtWidth = ViewHelper.MeasureText(mGui.mFont, txt, mGui.mFontSize);
+			
+            guiWindow.createStaticText(pos, txt); 
+            pos.x += controlTxtWidth + spaceSize ;
+          //  pos.y -= mGui.mFontSize
+            pos.z = spaceSize*2;
+            joystickHorizontalAxisNoTi = guiWindow.createTextInput(pos, "bgui.textinput", KeyMap.Instance.JoystickHorizontalAxisNo.ToString(), 1 );
+            joystickHorizontalAxisNoTi.Validator = new NumberInRangeValidator(0, FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount);
+              
+            pos.x += pos.z + spaceSize;
+            pos.z = spaceSize + ViewHelper.MeasureText(mGui.mFont, LanguageResources.GetString(LanguageKey.OK), mGui.mFontSize);
+			b = guiWindow.createButton(pos, "bgui.button", LanguageResources.GetString(LanguageKey.OK), new Callback(this), JoystickHorizontalAxisNoButtonID);
+            OnChangeButtonAddedDo(b);
+			
             
             y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos,
-                                           LanguageResources.GetString(LanguageKey.BulletTimeEffect) + ": " +  KeyMap.Instance.JoystickBulletiTimeEffect);
-            AddChangeButton(new Vector2(leftOrg, pos.y),fontSize, LanguageKey.BulletTimeEffect);
             
+        // deadzone           
+            txt = "Joystick Deadzone: 0.";
+            controlTxtWidth = ViewHelper.MeasureText(mGui.mFont, txt, mGui.mFontSize);
+			
+            guiWindow.createStaticText(pos, txt); 
+            pos.x += controlTxtWidth;
+            pos.z = spaceSize*2;
+            joystickDeadzoneTi = guiWindow.createTextInput(pos, "bgui.textinput",  KeyMap.Instance.JoystickDeadZone.ToString().Substring(2, 2).PadRight(2, '0'), 2 );
+            joystickDeadzoneTi.Validator = new NumberValidator();
             
- 
-            
-            y += (int)(h*1);
-            pos = new Vector4(left, top + y, width, h);
-            c = guiWindow.createStaticText(pos,
-                                           LanguageResources.GetString(LanguageKey.RearmEndMission) + ": " + KeyMap.Instance.JoystickRocket);
-            
-
-            
-               /*   
+            pos.x += pos.z + spaceSize;
+            pos.z = spaceSize + ViewHelper.MeasureText(mGui.mFont, LanguageResources.GetString(LanguageKey.OK), mGui.mFontSize);
+			b = guiWindow.createButton(pos, "bgui.button", LanguageResources.GetString(LanguageKey.OK), new Callback(this), JoystickDeadzoneNoButtonID);
+            OnChangeButtonAddedDo(b);
+                   
+			/*
 			
             k._joystickVerticalAxisNo = GetInteger("_joystickVerticalAxisNo", 0);
             k._joystickHorizontalAxisNo = GetInteger("_joystickHorizontalAxisNo", 1);            
