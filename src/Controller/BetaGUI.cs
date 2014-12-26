@@ -43,6 +43,22 @@ namespace BetaGUI
         private uint oldMouseX = 0;
         private uint oldMouseY = 0;
 
+		public uint OldMouseY {
+			get {
+				return oldMouseY;
+			}
+			set {
+				oldMouseY = value;
+			}
+		}
+		public uint OldMouseX {
+			get {
+				return oldMouseX;
+			}
+			set {
+				oldMouseX = value;
+			}
+		}
         public void SetZOrder(ushort zorder)
         {
         	mO.ZOrder = zorder;
@@ -184,21 +200,25 @@ namespace BetaGUI
                     if (mXW == win)
                     {
                         mXW.killWindow();
-                        WN.RemoveAt(i);
-                        oldMouseX = x;  oldMouseY = y;
+                        WN.RemoveAt(i);                       
+                        oldMouseX = x;  oldMouseY = y;  
                         return -1;
                     }
                     i++;
                 }
             } 
 
+            
             // by Adam - jeœli nie by³o ruchu myszk¹ to nie przekszkadzamy klawiaturze
             if (x == oldMouseX && y == oldMouseY && !LMB)
             {
                 return -1;
             }
+           
+          //  Console.WriteLine("Checking for deselection "+x +"=="+ oldMouseX +", "+y+ "=="+ oldMouseY);   
             for (int i = 0; i < WN.Count; i++)
             {
+            //Console.WriteLine("["+ WN[i].mC +"] Old points :"+oldMouseX+" "+oldMouseY);
                 int ret = WN[i].check(x, y, LMB);
                 if (ret >= 0)
                 {
@@ -206,7 +226,7 @@ namespace BetaGUI
                     return ret;
                 }
             } 
-            oldMouseX = x; oldMouseY = y;
+           	oldMouseX = x; oldMouseY = y;
             return -1;
         }
 		public bool injectKey(String key, Point mousePos)
@@ -216,9 +236,12 @@ namespace BetaGUI
 		}
         public bool injectKey(String key, uint x, uint y)
         {
-            if (keyDelay == null)
+        	bool firstTime = false;
+        	if (keyDelay == null) {
+        		firstTime = true;
                 keyDelay = new Timer();
-            if (keyDelay.Milliseconds > 150)
+        	}
+            if (firstTime || keyDelay.Milliseconds > 150)
             {
                 for (int i = 0; i < WN.Count; i++)
                 {
@@ -513,13 +536,58 @@ namespace BetaGUI
             return (!(mx >= x + px && my >= y + py)) || (!(mx <= x + px + w && my <= y + py + h));
         }
     }
-
+    public interface TextInputValidator {
+    	
+    	bool validate(string newInput);
+    }
+    
+    public class NumberValidator : TextInputValidator {
+		
+		public bool validate(string newInput)
+		{
+			int n;
+			return int.TryParse(newInput, out n);			
+		}
+		
+    	
+    }
+    
+     public class NumberInRangeValidator : TextInputValidator {
+		readonly int minNumber;
+    	readonly int maxNumber;
+    	
+    	public NumberInRangeValidator(int minNumber, int maxNumber) {
+    		this.minNumber = minNumber;
+    		this.maxNumber = maxNumber;
+    	}
+    	
+		public bool validate(string newInput)
+		{
+			int n;
+			if(!int.TryParse(newInput, out n)) return false;			
+			return n <= maxNumber && n >= minNumber;
+		}
+		
+    	
+    }
+    
     public class TextInput
     {
         public OverlayContainer mO, mCP;
         public String mmn, mma, value;
         public float x, y, w, h, length;
 
+        
+        protected TextInputValidator validator;
+
+		public TextInputValidator Validator {
+			get {
+				return validator;
+			}
+			set {
+				validator = value;
+			}
+		}
         public String getValue()
         {
             return value;
@@ -529,6 +597,7 @@ namespace BetaGUI
         {
             mO.Caption = value = v;
         } // mCP here if ...
+        
 
         public TextInput(Vector4 D, String M, String V, uint L, Window P)
         {
@@ -981,6 +1050,13 @@ namespace BetaGUI
 
             if (mATI.value.Length >= mATI.length)
                 return true;
+            
+            if(mATI.Validator != null) {
+            	if(!mATI.Validator.validate(k)) {
+            		return false;
+            	}
+            }
+            
             if (k != "!b")
                 mATI.value += k;
             foreach (OverlayElement element in mATI.mCP.GetChildIterator()) // take from mCP if ...

@@ -61,16 +61,22 @@ namespace Wof.Controller.Screens
 	/// <summary>
 	/// Description of ControlsChangerHelper.
 	/// </summary>
-	public class ControlsChangerHelper : BetaGUIListener
-	{
-	
+	public class ControlsChangerHelper : AbstractChangerHelper
+	{ 
 		
-		uint lastId = 1;
-		MenuScreen parent;
-		Callback callback;
-		Keyboard keyboard;
-		Window parentGuiWindow;
-		Window controlChangeWindow;
+		#region implemented abstract members of AbstractChangerHelper
+
+		protected override void OnChangeButtonAddedDo(Button b)
+		{			
+			if (onChangeButtonAdded != null) {
+				onChangeButtonAdded(b);
+			}
+			
+		}
+
+		#endregion
+
+	
 		public delegate void OnControlsChanged();		
 		public event OnControlsChanged onControlsChanged;
 		
@@ -83,12 +89,12 @@ namespace Wof.Controller.Screens
 		public delegate void OnChangeButtonAdded(Button button);		
 		public event OnChangeButtonAdded onChangeButtonAdded;
 		
-		
-		readonly IDictionary<String, uint> identifiers = new Dictionary<String, uint>();
-		GUI parentGui;
-		
-		uint currentKeyId;
-		bool capturingKeys = false;
+		public ControlsChangerHelper(Keyboard keyboard, MenuScreen parent) : base(keyboard, parent) {
+			
+			onControlsCaptureStarted += ControlsChangerHelper_onControlsCaptureStarted;
+			onControlsCaptureEnded += ControlsChangerHelper_onControlsCaptureEnded;
+	    	
+		}
 		
 		protected void ActivateKeyboard()
 		{
@@ -221,31 +227,10 @@ namespace Wof.Controller.Screens
 		{
 			capturingKeys = false;
 		}
-		public ControlsChangerHelper(Keyboard keyboard, MenuScreen parent) {
-			
-			this.parent = parent;
-			this.callback = new Callback(this); 
-			this.keyboard = keyboard;
-			onControlsCaptureStarted += ControlsChangerHelper_onControlsCaptureStarted;
-			onControlsCaptureEnded += ControlsChangerHelper_onControlsCaptureEnded;
-		}
-		public void Setup(GUI parentGui, Window parentGuiWindow) {
-			this.parentGui = parentGui;
-			this.parentGuiWindow = parentGuiWindow;
-		}
-
-		protected String GetLanguageKeyById(uint id) {
-			String key = null;
-			foreach(KeyValuePair<String, uint> o in identifiers) {
-				if(o.Value.Equals(id)) {
-					key = o.Key;
-					break;
-				}
-			}
-			return key;
-		}
 		
-		void DisplayControlChangeWindow(uint id)
+		
+		
+	    protected override void DisplayControlChangeWindow(uint id)
 		{
 			 if(onControlsCaptureStarted != null){
 				onControlsCaptureStarted();
@@ -276,7 +261,7 @@ namespace Wof.Controller.Screens
         
 		}
 		
-		void CloseControlChangeWindow()
+		protected override void CloseControlChangeWindow()
 		{		
 			DisableKeyboard();
 		//	controlChangeWindow.hide();		
@@ -289,9 +274,8 @@ namespace Wof.Controller.Screens
 		
 		
 		#region BetaGUIListener implementation
-		public void onButtonPress(Button referer){
+		public override void onButtonPress(Button referer){
 		
-			
 			// wylacz obsluge klawiatury w oknie powyzej
 			// pokaz okno, czekaj na guzik
 			if(capturingKeys) {
@@ -303,31 +287,8 @@ namespace Wof.Controller.Screens
 		#endregion		
 		
 			
-		public Button AddChangeButton(Vector2 topLeft, uint buttonSize, String identifier)
-        {
-			
-    	  	// if (holder == null) return;
-    	  	uint curId;
-    	  	if(identifiers.ContainsKey(identifier)) {
-    	  		curId = identifiers[identifier];
-    	  	}else {
-    	  		curId = ++lastId;
-    	  		identifiers[identifier] = curId;
-    	  	}
-    	  	
-			var vector4 = new Vector4(topLeft.x, topLeft.y, buttonSize, buttonSize);
-			//guiWindow.createStaticImage(vector4, "gear.png", (ushort)(1100));
-         
-			
-			Button b = parentGuiWindow.createButton(vector4, "bgui.button.gear","" , callback, curId);
-			if(onChangeButtonAdded != null){
-				onChangeButtonAdded(b);
-			}
-			return b;
-    	 	 
-    	}
-		
-		public int AddControlsInfoToGui(Window guiWindow, GUI mGui, int left, int top, int initialTopSpacing, float width, float textVSpacing, uint fontSize)
+	
+		public override int AddControlsInfoToGui(Window guiWindow, GUI mGui, int left, int top, int initialTopSpacing, float width, float textVSpacing, uint fontSize)
         {
         	
         	int y = initialTopSpacing;

@@ -303,7 +303,7 @@ namespace Wof.Controller
         
         public static bool IsEnterPressed(Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
 		{
-			return inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter) ||
+			return inputKeyboard.IsKeyDown(KeyMap.Instance.Enter) || inputKeyboard.IsKeyDown(KeyCode.KC_NUMPADENTER) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickEnter) ||
 				   FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickGun);
 		}
         

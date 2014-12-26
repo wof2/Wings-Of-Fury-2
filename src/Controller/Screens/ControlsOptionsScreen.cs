@@ -75,10 +75,21 @@ namespace Wof.Controller.Screens
     		controlsChangerHelper = new ControlsChangerHelper(keyboard, this);
     		controlsChangerHelper.onControlsChanged += controlsChangerHelper_onControlsChanged;
     		controlsChangerHelper.onControlsCaptureStarted += controlsChangerHelper_onControlsCaptureStarted;
-			controlsChangerHelper.onControlsCaptureEnded += controlsChangerHelper_onControlsCaptureEnded;
-        	
+			controlsChangerHelper.onControlsCaptureEnded += controlsChangerHelper_onControlsCaptureEnded;        	
+        	controlsChangerHelper.onChangeButtonAdded += controlsChangerHelper_onChangeButtonAdded;
         		
         }
+		
+		void controlsChangerHelper_onChangeButtonAdded(Button button)
+		{
+			Button[] arr = new Button[buttons.Length +1];
+			buttons.CopyTo(arr, 0);
+			arr[arr.Length -1] = button;			
+			buttons = arr;
+			buttonsCount++;			
+			options.Add(new ButtonHolder(button, button.text));
+			
+		}
 
 		void controlsChangerHelper_onControlsChanged()
 		{
@@ -144,23 +155,8 @@ namespace Wof.Controller.Screens
         protected override void LayoutOptions(List<object>availableOptions, Window window, Callback cc)
         {
             base.LayoutOptions(availableOptions, window, cc);
-
             float y = controlsChangerHelper.AddControlsInfoToGui(guiWindow, mGui, (int) (GetTextVSpacing()), (int)(GetTextVSpacing() * 5), 0, viewport.ActualWidth * 0.75f, 0.75f* GetTextVSpacing(),(uint)(GetFontSize() * 0.75f));
-
-            string info1 = LanguageResources.GetString(LanguageKey.KeyboardInfo1);
-            string info2 = LanguageResources.GetString(LanguageKey.KeyboardInfo2);
-
-            
-            guiWindow.createStaticTextAutoSplit(new Vector4(GetTextVSpacing(), y + 1.0f * GetTextVSpacing(), window.w, 2* GetTextVSpacing()), info1 +" " + info2);
-       		
-            
-            /*
-            guiWindow.createStaticText(
-               new Vector4(GetTextVSpacing(), C_MAX_OPTIONS * GetTextVSpacing() + 15 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
-               info1);
-            guiWindow.createStaticText(
-               new Vector4(GetTextVSpacing(), C_MAX_OPTIONS * GetTextVSpacing() + 16 * GetTextVSpacing(), window.w / 2, GetTextVSpacing()),
-               info2);*/
+			selectButton(currentButton);
         }
     }
 
