@@ -56,11 +56,12 @@ namespace Wof.src.Tests.ControllerTest.Input.Keyboard
     {
         public static void Main(string[] args)
         {
+        	/*
             KeyMap.CheckKeyCodeConflict(KeyCode.KC_B, KeyCode.KC_A);
             bool result = KeyMap.CheckKeyCodeConflict(KeyCode.KC_BACK, KeyCode.KC_Z);
             Console.WriteLine("Z jest zajete: " + result);
             result = KeyMap.CheckKeyCodeConflict(KeyCode.KC_Z, KeyCode.KC_A);
-            Console.WriteLine("A jest zajete: " + result);
+            Console.WriteLine("A jest zajete: " + result);*/
         }
     }
 }

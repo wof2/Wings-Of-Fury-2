@@ -48,21 +48,74 @@
 
 
 using System.Collections.Generic;
+using MOIS;
 using BetaGUI;
 using Mogre;
+using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
 
 namespace Wof.Controller.Screens
 {
-    internal class JoystickOptionsScreen : AbstractOptionsScreen, BetaGUIListener
+    class JoystickOptionsScreen : AbstractOptionsScreen, BetaGUIListener
     {
+    	protected readonly JoystickChangerHelper joystickChangerHelper;
+		bool controlsCaptureStarted = false;
+		
+		protected IList<JoyStick> joysticks;
+		
         public JoystickOptionsScreen(GameEventListener gameEventListener,
-                                      IFrameWork framework, Viewport viewport, Camera camera) :
+                                      IFrameWork framework, Viewport viewport, Camera camera, Keyboard keyboard, IList<JoyStick> joysticks) :
                                          base(gameEventListener, framework, viewport, camera)
         {
+			this.joysticks = joysticks;
+			
+    		C_MAX_OPTIONS = 5;
+    		showRestartRequiredMessage = false;  
+    		//autoGoBack = false;
+    		
+    		    		
+    		joystickChangerHelper = new JoystickChangerHelper(keyboard, joysticks, this);
+    		joystickChangerHelper.onControlsChanged += controlsChangerHelper_onControlsChanged;
+    		joystickChangerHelper.onControlsCaptureStarted += controlsChangerHelper_onControlsCaptureStarted;
+			joystickChangerHelper.onControlsCaptureEnded += controlsChangerHelper_onControlsCaptureEnded;
+        	joystickChangerHelper.onChangeButtonAdded += joystickChangerHelper_onChangeButtonAdded;
         }
 
-        protected override string getTitle()
+		void joystickChangerHelper_onChangeButtonAdded(Button button)
+		{
+			Button[] arr = new Button[buttons.Length +1];
+			buttons.CopyTo(arr, 0);
+			arr[arr.Length -1] = button;			
+			buttons = arr;
+			buttonsCount++;
+			
+		}
+
+		void controlsChangerHelper_onControlsChanged()
+		{
+			this.mGui.killGUI();
+			this.CreateGUI();
+			return;
+		}
+		
+		void controlsChangerHelper_onControlsCaptureStarted()
+		{
+			// todo
+			controlsCaptureStarted = true;
+			skipHandlingGuiButtons = true;
+			return;
+			
+		}
+		
+		void controlsChangerHelper_onControlsCaptureEnded()
+		{
+			controlsCaptureStarted = false;
+			skipHandlingGuiButtons = false;
+			return;
+		}
+		
+		
+  		protected override string getTitle()
         {
             return LanguageResources.GetString(LanguageKey.JoystickOptions);
         }
@@ -70,30 +123,87 @@ namespace Wof.Controller.Screens
         protected override List<object> GetAvailableOptions()
         {
             List<object> availableModes = new List<object>();
-			for(int i=0; i< FrameWorkStaticHelper.GetNumberOfAvailableJoysticks(); i++){
-				availableModes.Add(LanguageResources.GetString(LanguageKey.Joystick)+": "+i);				
-			}
-           
+                   
+            FrameWorkStaticHelper.GetNumberOfAvailableJoysticks();
+            
+            for(int i=0; i< joysticks.Count; i++){            	
+            	availableModes.Add(LanguageResources.GetString(LanguageKey.Joystick)+" "+(i+1)+" - ID=" +joysticks[i].Vendor()+"_"+joysticks[i].ID);
+			}      
             return availableModes;
         }
+  
 
         protected override void ProcessOptionSelection(ButtonHolder holder)
         {
             bool restart = false;
-			string[] opts = holder.Value.Split(new string[]{": "}, System.StringSplitOptions.RemoveEmptyEntries);
-		//	holder.Value.Split(
-			int i = int.Parse(opts[1]);
+			string[] opts = holder.Value.Split(new string[]{"ID="}, System.StringSplitOptions.RemoveEmptyEntries);
 			
-           // i;
-           
+			string jid = opts[1];
+			
+			KeyMap.Instance.CurrentJoystick = jid;
+			KeyMap.Instance.Value = KeyMap.Instance.Value;
+			
+			for(int i=0; i< joysticks.Count; i++){    
+				if(jid.Equals(joysticks[i].Vendor()+"_"+joysticks[i].ID)) {
+					FrameWorkStaticHelper.SetCurrentJoystickIndex(i);
+					joystickChangerHelper.UpdateCurrentJoystick();
+					
+					this.mGui.killGUI(); // recreate gui
+					this.CreateGUI();					
+					break;
+				}
+			}
+			
+		}
+        
+        protected override bool IsOptionSelected(int index, string option)
+        {
+        	
+        	if( FrameWorkStaticHelper.GetNumberOfAvailableJoysticks() == 1 && index == 0) return true;
+        	
+			string[] opts = option.Split(new string[]{"ID="}, System.StringSplitOptions.RemoveEmptyEntries);			
+			string jid = opts[1];
+						
+			return jid.Equals(KeyMap.Instance.CurrentJoystick);
+        }
+        
+  		public override void onButtonPress(Button referer)
+        {
+  			if(controlsCaptureStarted) {
+  				return;
+  			}
+  			base.onButtonPress(referer);  			
+  		}
+  		
+  		protected override Vector4 GetOptionPos(uint index, Window window)
+        {
+            return new Vector4(0, (index + 2) * GetTextVSpacing(), window.w, GetTextVSpacing());
         }
 
-        protected override bool IsOptionSelected(string option)
+  		
+        protected override void LayoutOptions(List<object>availableOptions, Window window, Callback cc)
         {
-			string[] opts = option.Split(new string[]{": "}, System.StringSplitOptions.RemoveEmptyEntries);
-			int i = int.Parse(opts[1]);
-						
-            return false;
+            base.LayoutOptions(availableOptions, window, cc);
+           
+            if(FrameWorkStaticHelper.GetNumberOfAvailableJoysticks()==0) {
+            	
+            	float imgSize = fontSize * 10;
+            	window.createStaticImage(new Vector4((window.w - imgSize) * 0.5f, (window.h - imgSize) * 0.5f , imgSize, imgSize), "nojoysticks.png");
+            	return;
+            }
+			
+          
+            //totalOptions
+            float y = joystickChangerHelper.AddJoystickControlsInfoToGui(guiWindow, mGui, (int) (GetTextVSpacing()), (int)(GetTextVSpacing() * (availableOptions.Count + 3)), 0, viewport.ActualWidth * 0.75f, 0.75f* GetTextVSpacing(),(uint)(GetFontSize() * 0.75f));
+
+
         }
+    	
+
+      
+
+      
+
+       
     }
 }

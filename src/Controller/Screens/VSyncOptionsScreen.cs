@@ -98,7 +98,7 @@ namespace Wof.Controller.Screens
             return availableModes;
         }
 
-        protected override bool IsOptionSelected(string option)
+        protected override bool IsOptionSelected(int index, string option)
         {
 
 

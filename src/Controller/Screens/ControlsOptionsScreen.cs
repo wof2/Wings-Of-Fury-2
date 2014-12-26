@@ -126,7 +126,7 @@ namespace Wof.Controller.Screens
             EngineConfig.SaveEngineConfig();
         }
 
-        protected override bool IsOptionSelected(string option)
+        protected override bool IsOptionSelected(int index, string option)
         {
             //return EngineConfig.InverseKeys == "Yes".Equals(option);
             return EngineConfig.InverseKeys == LanguageResources.GetString(LanguageKey.Yes).Equals(option);

@@ -84,7 +84,7 @@ namespace Wof.Controller.Screens
             Root.Singleton.SaveConfig();
         }
 
-        protected override bool IsOptionSelected(string option)
+        protected override bool IsOptionSelected(int index, string option)
         {
             return Root.Singleton.RenderSystem.GetConfigOptions()[C_ANTIALIASING].currentValue.Equals(option);
         }

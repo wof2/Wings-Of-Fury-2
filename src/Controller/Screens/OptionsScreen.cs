@@ -83,7 +83,7 @@ namespace Wof.Controller.Screens
           
             Callback cc = new Callback(this); // remember to give your program the BetaGUIListener interface
 
-            initButtons(13, 12);
+            initButtons(14, 13);
             uint i = 0;
             buttons[i] = guiWindow.createButton(new Vector4(0, (i+2) *  GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.VideoMode), cc, i++);
@@ -109,6 +109,8 @@ namespace Wof.Controller.Screens
             buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Controls), cc, i++);
             buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
+                                                LanguageResources.GetString(LanguageKey.JoystickOptions), cc, i++);
+            buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Languages), cc, i++);
             buttons[i] = guiWindow.createButton(new Vector4(0, (i + 2) * GetTextVSpacing(), Viewport.ActualWidth / 2, GetTextVSpacing()), "bgui.button",
                                                 LanguageResources.GetString(LanguageKey.Sound), cc, i++);
@@ -117,11 +119,11 @@ namespace Wof.Controller.Screens
 
             if(restartRequired)
             {
-                Button b = buttons[12];
+                Button b = buttons[13];
                 float size = 2.0f * GetTextVSpacing();
                 guiWindow.createStaticImage(new Vector4(b.X + b.w * 0.5f - 0.5f*size,  buttons[12].Y + GetTextVSpacing(), size, size), "restart.png");
             }
-            selectButton(12);
+            selectButton(13);
             guiWindow.show();
         }
 
@@ -172,15 +174,19 @@ namespace Wof.Controller.Screens
                 {
                     gameEventListener.GotoControlsOptionsScreen();
                 }
-                else if (referer == buttons[10])
+                 else if (referer == buttons[10])
                 {
-                    gameEventListener.GotoLanguagesOptionsScreen();
+                    gameEventListener.GotoJoystickOptionsScreen();
                 }
                 else if (referer == buttons[11])
                 {
-                    gameEventListener.GotoSoundOptionsScreen();
+                    gameEventListener.GotoLanguagesOptionsScreen();
                 }
                 else if (referer == buttons[12])
+                {
+                    gameEventListener.GotoSoundOptionsScreen();
+                }
+                else if (referer == buttons[13])
                 {
                     gameEventListener.GotoStartScreen();
                 }

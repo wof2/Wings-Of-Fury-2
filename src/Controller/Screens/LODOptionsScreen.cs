@@ -82,7 +82,7 @@ namespace Wof.Controller.Screens
             EngineConfig.SaveEngineConfig();
         }
 
-        protected override bool IsOptionSelected(string option)
+        protected override bool IsOptionSelected(int index, string option)
         {
             return EngineConfig.LowDetails == LanguageResources.GetString(LanguageKey.Low).Equals(option);
         }

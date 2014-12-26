@@ -215,7 +215,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             sb.AppendLine("_spin:" + _spin);
            
             sb.AppendLine("Joystick options");
-
+  			sb.AppendLine("_currentJoystick:" + _currentJoystick);
             sb.AppendLine("_joystickBulletTimeEffect:" + _joystickBulletTimeEffect);
             sb.AppendLine("_joystickCamera:" + _joystickCamera);
             sb.AppendLine("_joystickEngine:" + _joystickEngine);
@@ -267,8 +267,8 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 {
                     k._spin = GetKeyCode("_spin", "KC_S");
                 }
-
-
+                
+                k._currentJoystick = GetString("_currentJoystick",null);	                
                 k._joystickBulletTimeEffect = GetInteger("_joystickBulletTimeEffect", 7);
                 k._joystickCamera = GetInteger("_joystickCamera",6);
                 k._joystickEngine = GetInteger("_joystickEngine",2);
@@ -317,7 +317,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 WriteString("_engine", _engine.ToString());
                 WriteString("_spin", _spin.ToString());
 
-
+				WriteString("_currentJoystick", _currentJoystick);
                 WriteString("_joystickBulletTimeEffect", _joystickBulletTimeEffect.ToString());
                 WriteString("_joystickCamera", _joystickCamera.ToString());
                 WriteString("_joystickEngine", _joystickEngine.ToString());
@@ -348,6 +348,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmianę kamery
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Cam1
         {
             get { return _cam1; }
@@ -360,6 +361,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmianę kamery
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Cam2
         {
             get { return _cam2; }
@@ -371,6 +373,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmianę kamery
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Cam3
         {
             get { return _cam3; }
@@ -383,6 +386,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmianę kamery
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)] 
         public KeyCode Cam4
         {
             get { return _cam4; }
@@ -395,6 +399,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmianę kamery
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)] 
         public KeyCode Cam5
         {
             get { return _cam5; }
@@ -406,6 +411,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmianę kamery
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Cam6
         {
             get { return _cam6; }
@@ -418,6 +424,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za reset kamery
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode ResetCamera
         {
             get { return _resetCamera; }
@@ -430,14 +437,12 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za reset kamery
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode PausePlane
         {
             get { return _pausePlane; }
             set { _pausePlane = value; }
-        }
-        
-       
-        
+        }        
 
 
         private KeyCode _gunFire = KeyCode.KC_Z;
@@ -445,6 +450,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za strzelanie z dzialka samolotu.
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)] 
         public KeyCode Gun
         {
             get { return _gunFire; }
@@ -457,6 +463,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za strzelania z dzialka samolotu.
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Up
         {
             get { return _up; }
@@ -469,6 +476,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za nacisniecie strzalki do dołu
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Down
         {
             get { return _down; }
@@ -481,6 +489,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za nacisniecie strzalki do lewo
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Left
         {
             get { return _left; }
@@ -493,6 +502,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za nacisniecie strzalki do lewo
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Right
         {
             get { return _right; }
@@ -507,6 +517,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za strzelanie rakietami, zrzucaniem bomb i torped, itp.
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Bombs
         {
             get { return _altFire; }
@@ -515,11 +526,13 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
 
         //---------------------------------------------------
 
+        
         private KeyCode _bulletTimeEffect;
 
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za wlaczenie efektu BulletTime.
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode BulletTimeEffect
         {
             get { return _bulletTimeEffect; }
@@ -527,13 +540,12 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         }
         
         
-        
-        
         private KeyCode _enter;
 
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za enter.
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Enter
         {
             get { return _enter; }
@@ -547,18 +559,20 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za esc.
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Escape
         {
             get { return _back; }
             set { _back = value; }
         }
         
-        
+       
         private KeyCode _gear;
        
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za nacisniecie gear
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Gear
         {
             get { return _gear; }
@@ -566,11 +580,13 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         }
         
         
+        
         private KeyCode _camera;
 
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zmiane kamery.
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Camera
         {
             get { return _camera; }
@@ -578,22 +594,26 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         }
         
          
+       
         private KeyCode _zoomIn;
 
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zoom in.
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode ZoomIn
         {
             get { return _zoomIn; }
             set { _zoomIn = value; }
         }
         
+       
         private KeyCode _zoomOut;
 
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za zoom out.
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode ZoomOut
         {
             get { return _zoomOut; }
@@ -601,12 +621,13 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         }
         
         
-        
+      
         private KeyCode _engine;
        
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za nacisniecie strzalki do lewo
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public KeyCode Engine
         {
             get { return _engine; }
@@ -619,6 +640,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <summary>
         /// Pobiera lub ustawia kod klawisza, ktory odpowiada za nacisniecie spina
         /// </summary>
+        [ControlType(TypeOfControl.Keyboard)]
         public object Spin
         {
             get { return _spin; }
@@ -629,9 +651,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
 
         #region Joystick
 
-
-  
-
+         
         private int _joystickVerticalAxisNo;
         public int JoystickVerticalAxisNo
         {
@@ -648,57 +668,87 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
 
 
 
-
+		
         private int _joystickBulletTimeEffect;
+        
+        [ControlType(TypeOfControl.Joystick)]
         public int JoystickBulletiTimeEffect
         {
             get { return _joystickBulletTimeEffect; }
             set { _joystickBulletTimeEffect = value; }
         }
 
+       
         private int _joystickGun;
+        
+        [ControlType(TypeOfControl.Joystick)]
         public int JoystickGun
         {
             get { return _joystickGun; }
             set { _joystickGun = value; }
         }
 
+       
         private int _joystickEnter;
+        
+        [ControlType(TypeOfControl.Joystick)]
         public int JoystickEnter
         {
             get { return _joystickEnter; }
             set { _joystickEnter = value; }
         }
 
+       
         private int _joystickGear;
+        
+        [ControlType(TypeOfControl.Joystick)]
         public int JoystickGear
         {
             get { return _joystickGear; }
             set { _joystickGear = value; }
         }
 
+        
         private int _joystickRocket;
+        
+        [ControlType(TypeOfControl.Joystick)]
         public int JoystickRocket
         {
             get { return _joystickRocket; }
             set { _joystickRocket = value; }
         }
 
+        
         private int _joystickCamera;
+        
+        [ControlType(TypeOfControl.Joystick)]
         public int JoystickCamera
         {
             get { return _joystickCamera; }
             set { _joystickCamera = value; }
         }
-
+        
+        
+        private string _currentJoystick;
+        public string CurrentJoystick
+        {
+            get { return _currentJoystick; }
+            set { _currentJoystick = value; }
+        }
+               
         private int _joystickEngine;
+        
+        [ControlType(TypeOfControl.Joystick)]
         public int JoystickEngine
         {
             get { return _joystickEngine; }
             set { _joystickEngine = value; }
         }
 
+        
         private int _joystickEscape;
+        
+        [ControlType(TypeOfControl.Joystick)]
         public int JoystickEscape
         {
             get { return _joystickEscape; }
@@ -713,9 +763,6 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         }
 
     
-
-
-       
 
         #endregion
 
@@ -733,6 +780,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         /// <returns>Jesli oba parametry sa rowne, to nie ma konfliktu - zwroci false.
         /// Jesli KeyCode podany w drugim parametrze jest zajety przez jakas funkjonalnosc, to metoda zwroci true.
         /// W przeciwnym przypadku false.</returns>
+        /*
         public static bool CheckKeyCodeConflict(KeyCode presentKeyCode, KeyCode newKeyCode)
         {
             if (presentKeyCode != newKeyCode)
@@ -754,15 +802,100 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             return false;
         }
         
-        // todo
-        // || obj is MOIS.Keyboard.Modifier
+       
+      
+      
+         */
         
-        public static bool CheckKeyCodeConflict(String propertyName, KeyCode newKeyCode)
-        {
-        	return  CheckKeyCodeConflict(propertyName, newKeyCode, new String[] {});
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="newValue"></param>
+        /// <param name="type"></param>
+        /// <param name="conflictExceptions"></param>
+        /// <returns></returns>
+        public static bool UpdateProperty(String propertyName, object newValue,  TypeOfControl type, String[] conflictExceptions) {
+        	
+        	if(CheckKeyCodeConflict(propertyName, newValue, type, conflictExceptions)) {
+        	   	return false;
+        	}
+        	
+        	PropertyInfo[] properties = KeyMap.Instance.GetType().GetProperties();
+            for (int i = 0; i < properties.Length; i++)
+            {
+            	if(properties[i].Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase)) {
+            		properties[i].SetValue(KeyMap.Instance, newValue, null);
+            		KeyMap.Instance.Value = KeyMap.Instance.Value;
+            		return true;
+            	}
+            }
+        	
+        	return false; // no such property
         }
         
-        public static bool CheckKeyCodeConflict(String propertyName, KeyCode newKeyCode, String[] exceptions)
+        public static bool UpdateProperty(String propertyName, object newValue,  TypeOfControl type) {
+        	return UpdateProperty(propertyName, newValue, type, new string[0]{});
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propertyName"></param>
+        /// <param name="newKeyCode"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool CheckKeyCodeConflict(String propertyName, object newKeyCode, TypeOfControl type)
+        {
+        	
+        	return  CheckKeyCodeConflict(propertyName, newKeyCode, type, new String[0] {});
+       
+        }
+        
+        public static bool ClearOtherControlsWithSameKey(String propertyName, object keyCode, TypeOfControl type, String[] exceptions)
+        {
+         	
+        	KeyCode tmpKeyCode;
+            PropertyInfo[] properties = KeyMap.Instance.GetType().GetProperties();
+            for (int i = 0; i < properties.Length; i++)
+            {
+            	
+            	if(-1 != Array.FindIndex(exceptions, (String exception) => properties[i].Name.Equals(exception, StringComparison.InvariantCultureIgnoreCase))){
+            		// 
+            		continue;
+            	}
+       				
+            	var attribute = Attribute.GetCustomAttribute(properties[i], typeof(ControlTypeAttribute)) as ControlTypeAttribute;
+            
+            	
+            	if(attribute != null && !properties[i].Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase)) {
+            		    
+            		if(!attribute.Type.Equals(type)) {
+            			continue;
+            		}
+            		
+					// other key            		
+	            	object obj = properties[i].GetValue(Instance, null);
+	            	if(obj is KeyCode && keyCode is KeyCode){
+	            		tmpKeyCode = (KeyCode)obj;
+	            		if (tmpKeyCode == (KeyCode)keyCode){
+	                       properties[i].SetValue(KeyMap.Instance, null, null);
+	            		}
+	            	}
+	            	if(obj is int && keyCode is int){
+	            		if (obj.Equals(keyCode)){
+	                         properties[i].SetValue(KeyMap.Instance, -1, null);
+	            		}
+	            	}
+            	}
+              
+            }
+           
+            return false;
+        }
+             
+        public static bool CheckKeyCodeConflict(String propertyName, object newKeyCode, TypeOfControl type, String[] exceptions)
         {
         	
             KeyCode tmpKeyCode;
@@ -775,15 +908,24 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             		continue;
             	}
        				
+            	var attribute = Attribute.GetCustomAttribute(properties[i], typeof(ControlTypeAttribute)) as ControlTypeAttribute;
+            
             	
-            	
-            	if(!properties[i].Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase)) {
-            		     
+            	if(attribute != null && !properties[i].Name.Equals(propertyName, StringComparison.InvariantCultureIgnoreCase)) {
+            		    
+            		if(!attribute.Type.Equals(type)) {
+            			continue;
+            		}
 					// other key            		
 	            	object obj = properties[i].GetValue(Instance, null);
-	            	if(obj is KeyCode){
+	            	if(obj is KeyCode && newKeyCode is KeyCode){
 	            		tmpKeyCode = (KeyCode)obj;
-	            		if (tmpKeyCode == newKeyCode){
+	            		if (tmpKeyCode == (KeyCode)newKeyCode){
+	                        return true;
+	            		}
+	            	}
+	            	if(obj is int && newKeyCode is int){
+	            		if (obj.Equals(newKeyCode)){
 	                        return true;
 	            		}
 	            	}

@@ -425,7 +425,9 @@ namespace Wof.View
         protected bool isDestroyed = false;
         public virtual void Destroy()
         {
-            LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Destroying plane view: " + Name);
+        	if(LogManager.Singleton != null) {
+            	LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Destroying plane view: " + Name);
+        	}
             isDestroyed = true;
             if (EngineConfig.SoundEnabled)
             {

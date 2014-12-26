@@ -178,7 +178,7 @@ namespace Wof.Controller.Screens
             
         }
 
-        protected override bool IsOptionSelected(string option)
+        protected override bool IsOptionSelected(int index, string option)
         {
             return false;
         }

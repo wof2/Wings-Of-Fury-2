@@ -316,14 +316,22 @@ namespace Wof.Controller
         {
             if(joysticks!=null)
             {
+            	int i =0;
             	bool state = false;
             	foreach(JoyStick j in joysticks) {
+            		
+            		if(i != GetCurrentJoystickIndex()){
+            			i++;
+            			continue;
+            		}
+            		i++;
+            		
             		 
-	                if ((int)button - 1 < j.JoyStickState.ButtonCount)// indexed from 0
+	                if (button >= 0 && (int)button < j.JoyStickState.ButtonCount)// indexed from 0
 	                {
 	                    try
 	                    {
-	                        state = j.JoyStickState.GetButton((int)button - 1); 
+	                        state = j.JoyStickState.GetButton((int)button); 
 	                        if(state) {
 	                        	return true;
 	                        }
@@ -339,8 +347,27 @@ namespace Wof.Controller
             }
             return false;
         }
+
+        protected static int currentJoystickIndex=0;
+		public static void SetCurrentJoystickIndex(int i)
+        {
+			currentJoystickIndex = i;
+		
+		}
+		public static int GetCurrentJoystickIndex()
+        {
+			return currentJoystickIndex;
+		}
+		public static JoyStick GetCurrentJoystick(IList<JoyStick> joysticks)
+        {
+			if(GetNumberOfAvailableJoysticks() == 0 || GetCurrentJoystickIndex() >= GetNumberOfAvailableJoysticks()) return null;
+			
+			return joysticks[GetCurrentJoystickIndex()];
+		}
+		
 		
 		protected static int numberOfAvailableJoysticks=0;
+		
 		public static void SetNumberOfAvailableJoysticks(int i)
         {
 			numberOfAvailableJoysticks = i;
@@ -351,12 +378,23 @@ namespace Wof.Controller
 			return numberOfAvailableJoysticks;
 		}
 		
+			
 		
         public static Vector2 GetJoystickVector(IList<JoyStick> joysticks, Boolean lowSens)
         {			
             if(joysticks!=null)
             {
+            	int i =0;
             	foreach(JoyStick j in joysticks) {
+            		
+            		
+            		if(i != GetCurrentJoystickIndex()){
+            			i++;
+            			continue;
+            		}
+            		i++;
+            		
+            		
 	                if(j.JoyStickState.VectorCount > 0)
 	                {
 	                    MOIS.Vector3 v = j.JoyStickState.GetVector(0);

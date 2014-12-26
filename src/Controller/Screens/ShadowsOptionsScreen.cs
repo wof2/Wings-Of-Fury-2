@@ -128,7 +128,7 @@ namespace Wof.Controller.Screens
            
         }
 
-        protected override bool IsOptionSelected(string option)
+        protected override bool IsOptionSelected(int index, string option)
         {
             if(LanguageResources.GetString(LanguageKey.None).Equals(option))
             {
