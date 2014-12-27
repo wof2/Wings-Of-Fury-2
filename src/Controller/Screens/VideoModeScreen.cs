@@ -87,11 +87,11 @@ namespace Wof.Controller.Screens
             Root.Singleton.SaveConfig();
         }
 
-        protected override bool IsOptionSelected(int index, string option)
+        protected override bool IsOptionSelected(int index, ButtonHolder holder)
         {
             return
                 Root.Singleton.RenderSystem.GetConfigOptions()[C_VIDEO_MODE]
-                    .currentValue.Equals(option);
+                    .currentValue.Equals(holder.Value);
         }
 
        

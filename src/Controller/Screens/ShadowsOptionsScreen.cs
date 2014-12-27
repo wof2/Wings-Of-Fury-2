@@ -60,6 +60,7 @@ namespace Wof.Controller.Screens
                                       IFrameWork framework, Viewport viewport, Camera camera) :
                                          base(gameEventListener, framework, viewport, camera)
         {
+    		autoGoBack = false;
         }
 
         protected override string getTitle()
@@ -117,19 +118,21 @@ namespace Wof.Controller.Screens
                     restart = true;
                 }
             } 
-           
+            
             EngineConfig.SaveEngineConfig();
 
             if (restart && EngineConfig.UseHydrax)
             {
                 OptionsScreen.restartRequired = true;
             }
+            RecreateGUI();
             
            
         }
 
-        protected override bool IsOptionSelected(int index, string option)
+        protected override bool IsOptionSelected(int index, ButtonHolder holder)
         {
+        	string option = holder.Value;
             if(LanguageResources.GetString(LanguageKey.None).Equals(option))
             {
             	return EngineConfig.ShadowsQuality == EngineConfig.ShadowsQualityTypes.None;

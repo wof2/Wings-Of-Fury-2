@@ -53,6 +53,7 @@ using BetaGUI;
 using Mogre;
 using Wof.Controller.Input.KeyboardAndJoystick;
 using Wof.Languages;
+using Wof.Misc;
 
 namespace Wof.Controller.Screens
 {
@@ -63,6 +64,13 @@ namespace Wof.Controller.Screens
 		
 		protected IList<JoyStick> joysticks;
 		
+		float joystickWindowsInitialY;
+        readonly List<Window> joystickWindows = new List<Window>();
+        readonly List<Window> joystickPointers = new List<Window>();
+        readonly List<int> joystickPointerAxis = new List<int>();
+        
+        const int resetButtonID = 1234;
+		
         public JoystickOptionsScreen(GameEventListener gameEventListener,
                                       IFrameWork framework, Viewport viewport, Camera camera, Keyboard keyboard, IList<JoyStick> joysticks) :
                                          base(gameEventListener, framework, viewport, camera)
@@ -71,7 +79,7 @@ namespace Wof.Controller.Screens
 			
     		C_MAX_OPTIONS = 5;
     		showRestartRequiredMessage = false;  
-    		//autoGoBack = false;
+    		autoGoBack = false;
     		
     		    		
     		joystickChangerHelper = new JoystickChangerHelper(keyboard, joysticks, this);
@@ -95,8 +103,7 @@ namespace Wof.Controller.Screens
 
 		void controlsChangerHelper_onControlsChanged()
 		{
-			this.mGui.killGUI();	
-			this.CreateGUI();
+			RecreateGUI();
 			return;
 		}
 		
@@ -137,10 +144,30 @@ namespace Wof.Controller.Screens
 
         protected override void ProcessOptionSelection(ButtonHolder holder)
         {
+        	
+        	string jid;
+        	if(holder.Option.id.Equals(resetButtonID)){
+				KeyMap.Instance.BackToDefaults(joysticks);
+				KeyMap.Instance.Value = KeyMap.Instance.Value;
+				//FrameWorkStaticHelper.SetCurrentJoystickIndex(0);
+				
+				for(int i = 0; i <FrameWorkStaticHelper.GetNumberOfAvailableJoysticks(); i++) {
+					 jid= joysticks[i].Vendor()+"_"+joysticks[i].ID;
+  					
+					if( jid.Equals(KeyMap.Instance.CurrentJoystick)) {  						
+						FrameWorkStaticHelper.SetCurrentJoystickIndex(i);  
+						break;
+					}
+				}
+				joystickChangerHelper.UpdateCurrentJoystick();
+				RecreateGUI();
+				return;
+			}
+			
             bool restart = false;
 			string[] opts = holder.Value.Split(new string[]{"ID="}, System.StringSplitOptions.RemoveEmptyEntries);
 			
-			string jid = opts[1];
+			jid = opts[1];
 			
 			KeyMap.Instance.CurrentJoystick = jid;
 			KeyMap.Instance.Value = KeyMap.Instance.Value;
@@ -150,8 +177,7 @@ namespace Wof.Controller.Screens
 					FrameWorkStaticHelper.SetCurrentJoystickIndex(i);
 					joystickChangerHelper.UpdateCurrentJoystick();
 					
-					this.mGui.killGUI(); // recreate gui
-					this.CreateGUI();					
+					RecreateGUI();					
 					break;
 				}
 			}
@@ -159,12 +185,14 @@ namespace Wof.Controller.Screens
 		}
         
        
-        protected override bool IsOptionSelected(int index, string option)
+        protected override bool IsOptionSelected(int index, ButtonHolder holder)
         {
+        	string option = holder.Value;
+        	if(holder.Option.id.Equals(resetButtonID)){
+        		return false;
+        	}
+       
         	
-        //	if(lastSelectedButtonIndex != -1 && lastSelectedButtonIndex == index) return true;
-        	
-        	//  selectButton(0);
         	if( FrameWorkStaticHelper.GetNumberOfAvailableJoysticks() == 1 && index == 0) return true;
         	
 			string[] opts = option.Split(new string[]{"ID="}, System.StringSplitOptions.RemoveEmptyEntries);			
@@ -173,13 +201,23 @@ namespace Wof.Controller.Screens
 			return jid.Equals(KeyMap.Instance.CurrentJoystick);
         	
         }
-        
+
+		
+		
   		public override void onButtonPress(Button referer)
         {
   			if(controlsCaptureStarted) {
   				return;
+  			}  			
+  			base.onButtonPress(referer);  
+  			if(referer.text.Contains("ID=")) {
+				
+  				RecreateGUI();	
+				
   			}
-  			base.onButtonPress(referer);  			
+  			
+  				
+  			
   		}
   		
   		protected override Vector4 GetOptionPos(uint index, Window window)
@@ -187,24 +225,130 @@ namespace Wof.Controller.Screens
             return new Vector4(0, (index + 2) * GetTextVSpacing(), window.w, GetTextVSpacing());
         }
 
-  		
+		void CreateJoystickPointerControl(Window parentWindow, float y, int axisNo)
+		{
+			ColourValue cv;		   
+			string windowMaterial = "bgui.window";
+			if(axisNo == KeyMap.Instance.JoystickHorizontalAxisNo || axisNo == KeyMap.Instance.JoystickVerticalAxisNo) {
+		    	cv = new ColourValue(1.0f, 0.8f, 0.0f);
+		    	windowMaterial =  "bgui.window.yellow";
+		    }else {
+		    	cv = ColourValue.White;
+		    }
+			float pointerWindowSize = parentWindow.w * 0.5f;
+						
+			int yshift = (int)(joystickWindows.Count * (0.85f*GetTextVSpacing()));
+			
+			var pos = new Vector4(parentWindow.x + 0.5f*(parentWindow.w  - pointerWindowSize  ), parentWindow.y + y + GetTextVSpacing() + yshift,  pointerWindowSize, 0.75f*GetTextVSpacing());
+			joystickWindows.Add(mGui.createWindow(pos, windowMaterial, (int)wt.NONE, ""));
+		    int index =joystickWindows.Count-1;
+		    
+		    pos.x = GetTextVSpacing(); // left
+		    pos.y -= parentWindow.y;
+		    pos.w = GetTextVSpacing(); // height
+		    
+		   
+		    
+		    parentWindow.createStaticText(pos, "Joy Axis "+ axisNo, cv);
+			
+			joystickPointerAxis.Add(axisNo);
+			joystickPointers.Add(mGui.createWindow(getJoystickPointerRect(joystickWindows[index], axisNo), "bgui.window.pointer", (int)wt.NONE, ""));
+			
+			
+		}
+
+		void CreateJoystickPointerControls(Window window)
+		{
+			joystickWindows.Clear();
+			joystickPointers.Clear();
+			joystickPointerAxis.Clear();
+			for (int z = 0; z < FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount; z ++) {
+				CreateJoystickPointerControl(window, joystickWindowsInitialY, z);			
+			}
+		}
+  	
+		
         protected override void LayoutOptions(List<object>availableOptions, Window window, Callback cc)
-        {
-            base.LayoutOptions(availableOptions, window, cc);
-           
+        {   
+        	
+          	uint oldFontSize = fontSize;
+          
+          	SetFontSize((uint)(fontSize * 0.8f));
+          	mGui.mFontSize = fontSize;
+          		
+            base.LayoutOptions(availableOptions, window, cc); 
+  			SetFontSize(oldFontSize);		
+  			mGui.mFontSize  = oldFontSize;
+  			
             if(FrameWorkStaticHelper.GetNumberOfAvailableJoysticks()==0) {
             	
             	float imgSize = fontSize * 10;
             	window.createStaticImage(new Vector4((window.w - imgSize) * 0.5f, (window.h - imgSize) * 0.5f , imgSize, imgSize), "nojoysticks.png");
             	return;
             }
-          
+            float h = GetTextVSpacing();
             //totalOptions
-            float y = joystickChangerHelper.AddControlsInfoToGui(guiWindow, mGui, (int) (GetTextVSpacing()), (int)(GetTextVSpacing() * (availableOptions.Count + 3)), 0, viewport.ActualWidth * 0.75f, 0.75f* GetTextVSpacing(),(uint)(GetFontSize() * 0.75f));
+            float y = joystickChangerHelper.AddControlsInfoToGui(guiWindow, mGui, (int) h, (int)(GetTextVSpacing() * 0.8f * (availableOptions.Count + 3)), 0, viewport.ActualWidth * 0.75f, 0.75f* GetTextVSpacing(),(uint)(GetFontSize() * 0.75f));
+			
+            
+			y += (int)(h*1);
+			
+			const string txt = "Reset";
+			var txtSize = ViewHelper.MeasureText(mGui.mFont, txt, fontSize);
+			
+            var pos = new Vector4(h, y, txtSize, h);            
+			var resetButton = guiWindow.createButton(pos, "bgui.button", txt, new Callback(this), resetButtonID);
+			joystickChangerHelper_onChangeButtonAdded(resetButton);
+			
+			y += (int)(h*0.5f);
+			
+			joystickWindowsInitialY = y;			
+			
+			
+			CreateJoystickPointerControls(window);
 			selectButton(currentButton);
+			
+           // mGui.mFontSize = oldFontSize;
+           
+              // joystick info
+	       // var txt = "Current joystick reading: "+ FrameWorkStaticHelper.GetJoystickVector(joysticks, false);
+           // guiWindow.createStaticText(pos, txt); 
+           
+           
+            
 
         }
-    	
+       
+        
+        protected Vector4 getJoystickPointerRect(Window joystickWindow, int axisNo) {
+        	float value = FrameWorkStaticHelper.GetJoystickVector(joysticks, false, axisNo);
+        	//vvector.y *= EngineConfig.InverseKeys ? -1.0f : 1.0f;
+        	
+            float pointerSize = joystickWindow.h;
+            
+            Vector4 pos = new Vector4(joystickWindow.x, joystickWindow.y,pointerSize,pointerSize);
+            pos.x += joystickWindow.w * 0.5f + (joystickWindow.w * 0.5f - pointerSize * 0.5f) * value - pointerSize * 0.5f;
+            pos.y += joystickWindow.h * 0.5f - pointerSize * 0.5f;
+          
+            return pos;
+        }
+        
+         public override void FrameStarted(FrameEvent evt)
+         {
+         	
+         	base.FrameStarted(evt);
+         	
+         	int i = 0;
+         	foreach(var jp in joystickPointers) {         
+         		var newPos = getJoystickPointerRect(joystickWindows[i], joystickPointerAxis[i]);
+         		jp.SetRect(newPos);
+         		i++;
+         		
+         	}
+         
+           
+         	
+         }
 
       
 

@@ -98,17 +98,17 @@ namespace Wof.Controller.Screens
             return availableModes;
         }
 
-        protected override bool IsOptionSelected(int index, string option)
+        protected override bool IsOptionSelected(int index, ButtonHolder holder)
         {
 
-
+			
             string curr = Root.Singleton.RenderSystem.GetConfigOptions()[C_VSYNC].currentValue;
             if(curr.Equals("Yes"))
             {
-                return LanguageResources.GetString(LanguageKey.Yes).Equals(option);
+                return LanguageResources.GetString(LanguageKey.Yes).Equals(holder.Value);
             } else
             {
-                return LanguageResources.GetString(LanguageKey.No).Equals(option);
+                return LanguageResources.GetString(LanguageKey.No).Equals(holder.Value);
             }
               
           

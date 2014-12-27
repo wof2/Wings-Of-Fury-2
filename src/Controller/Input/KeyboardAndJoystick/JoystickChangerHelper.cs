@@ -81,6 +81,11 @@ namespace Wof.Controller.Screens
 		protected JoyStick currentJoystick;
 		
 		protected TextInput joystickHorizontalAxisNoTi;
+		protected TextInput joystickVerticalAxisNoTi;
+		protected TextInput joystickDeadzoneTi;
+		protected TextInput joystickSensitivityTi;
+		
+		
 	
 		public delegate void OnControlsChanged();		
 		public event OnControlsChanged onControlsChanged;
@@ -341,38 +346,134 @@ namespace Wof.Controller.Screens
 				onControlsCaptureEnded();
 			}
 		}
+		void joystickHorizontalAxisNoTi_onValueChanged(string delta)
+		{
+			bool error = false;
+			try {
+				bool recreate = false;
+			    // horizontal
+				var val = joystickHorizontalAxisNoTi.getValue();
+				
+				if(joystickHorizontalAxisNoTi.getValue().Length == 0 || joystickHorizontalAxisNoTi.getValue().Equals(joystickVerticalAxisNoTi.getValue())) {
+					throw new Exception("Same values");
+				}
+				if(Int32.Parse(val) != KeyMap.Instance.JoystickHorizontalAxisNo) {
+					recreate = true;
+				}
+				KeyMap.Instance.JoystickHorizontalAxisNo = Int32.Parse(val);
+				KeyMap.Instance.Value = KeyMap.Instance.Value;	
+				if(recreate) {
+					parent.RecreateGUI();
+				}
+				return;
+			}
+			catch(Exception fe) {
+				error = true;
+			}
+			
+			if(error) {
+				joystickHorizontalAxisNoTi.error();
+			}else {
+				joystickHorizontalAxisNoTi.noerror();
+			}
+			
+		}
 		
+		void joystickVerticalAxisNoTi_onValueChanged(string delta)
+		{
+			bool error = false;
+			try {
+				bool recreate = false;
+			    // horizontal
+				var val = joystickVerticalAxisNoTi.getValue();
+				
+				if(joystickVerticalAxisNoTi.getValue().Length == 0 || joystickHorizontalAxisNoTi.getValue().Equals(joystickVerticalAxisNoTi.getValue())) {
+					throw new Exception("Same values");
+				}
+				if(Int32.Parse(val) != KeyMap.Instance.JoystickVerticalAxisNo) {
+					recreate = true;
+				}
+				KeyMap.Instance.JoystickVerticalAxisNo = Int32.Parse(val);
+				KeyMap.Instance.Value = KeyMap.Instance.Value;	
+				if(recreate) {
+					parent.RecreateGUI();
+				}
+				return;
+			}
+			catch(Exception fe) {
+				error = true;
+			}
+			
+			if(error) {
+				joystickVerticalAxisNoTi.error();
+			}else {
+				joystickVerticalAxisNoTi.noerror();
+			}
+			
+		}
+		void joystickDeadzoneTi_onValueChanged(string delta)
+		{
+			bool error = false;
+			try {
+				var val = joystickDeadzoneTi.getValue();					 
+				KeyMap.Instance.JoystickDeadZone = Double.Parse("0."+Int32.Parse(val), ci);
+				KeyMap.Instance.Value = KeyMap.Instance.Value;			
+					
+			}
+			catch(FormatException fe) {
+				error = true;			
+			}
+			if(error) {
+				joystickDeadzoneTi.error();
+			}else {
+				joystickDeadzoneTi.noerror();
+			}
+			
+		}
+		
+		readonly CultureInfo ci = new CultureInfo("en-US");
+		
+		void joystickSensitivityTi_onValueChanged(string delta)
+		{
+			
+			bool error = false;
+			try {
+				
+				var val = joystickSensitivityTi.getValue();			
+				
+				double newVal = Double.Parse(val, ci);				
+				KeyMap.Instance.JoystickSensivity = newVal;	
+				if(newVal > 3.0 || newVal < 0.01) {
+					throw new FormatException();
+				}			
+				KeyMap.Instance.Value = KeyMap.Instance.Value;
+								
+			}
+			catch(FormatException fe) {
+				error = true;				
+			}
+			
+			if(error) {
+				joystickSensitivityTi.error();
+			}else {
+				joystickSensitivityTi.noerror();
+			}
+			
+		}
+		
+		
+		
+
 		
 		#region BetaGUIListener implementation
 		public override void onButtonPress(Button referer){
 		
-			try {
-				
-				if(referer.id.Equals(JoystickHorizontalAxisNoButtonID)){ // horizontal
-					var val = joystickHorizontalAxisNoTi.getValue();
-					KeyMap.Instance.JoystickHorizontalAxisNo = Int32.Parse(val);
-					KeyMap.Instance.Value = KeyMap.Instance.Value;
-					return;
-				}
-				if(referer.id.Equals(JoystickDeadzoneNoButtonID)){ // horizontal
-					var val = joystickDeadzoneTi.getValue();					 
-					KeyMap.Instance.JoystickDeadZone = Double.Parse("0."+Int32.Parse(val), new System.Globalization.CultureInfo("en-US"));
-					KeyMap.Instance.Value = KeyMap.Instance.Value;
-					return;
-				}
-				
-				
-					
-			}
-			catch(FormatException fe) {
-				// todo
-			}
-			
 			// wylacz obsluge klawiatury w oknie powyzej
 			// pokaz okno, czekaj na guzik
 			if(capturingKeys) {
 				return;
 			}
+		
 			DisplayControlChangeWindow(referer.id);
 			
 		}
@@ -407,14 +508,14 @@ namespace Wof.Controller.Screens
 			return y;
 		}
 
-		const int JoystickHorizontalAxisNoButtonID = 100;
-		const int JoystickDeadzoneNoButtonID = 101;
+		
+		
 
-		TextInput joystickDeadzoneTi;
 		
 		public override int AddControlsInfoToGui(Window guiWindow, GUI mGui, int left, int top, int initialTopSpacing, float width, float textVSpacing, uint fontSize)
         {
         	
+			var joystick = FrameWorkStaticHelper.GetCurrentJoystick(joysticks);
         	int y = initialTopSpacing;
         	int h = (int)textVSpacing;
             uint oldFontSize = mGui.mFontSize;
@@ -428,11 +529,7 @@ namespace Wof.Controller.Screens
   			Setup(mGui, guiWindow);          
             OverlayContainer c;
             y += (int)(h*1);
-            c = guiWindow.createStaticText(new Vector4(left - 10, top + y, width, h), LanguageResources.GetString(LanguageKey.JoystickOptions));
-            AbstractScreen.SetOverlayColor(c, new ColourValue(1.0f, 0.8f, 0.0f), new ColourValue(0.9f, 0.7f, 0.0f));
-
-          
-            y += (int)(h * 1.5f);
+                  
             mGui.mFontSize = fontSize;
             y = AddControlLine(LanguageKey.OK, KeyMap.Instance.JoystickEnter, "", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg);
             
@@ -467,11 +564,11 @@ namespace Wof.Controller.Screens
             y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
        
-			// horizontal axis            
+		// horizontal axis            
             string txt;
             float controlTxtWidth;
             //FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.VectorCount
-            txt = "JoystickHorizontalAxisNo: (max. "+FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount+" )";
+            txt = "JoystickHorizontalAxisNo: (max. "+(FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount-1)+" )";
             controlTxtWidth = ViewHelper.MeasureText(mGui.mFont, txt, mGui.mFontSize);
 			
             guiWindow.createStaticText(pos, txt); 
@@ -479,16 +576,28 @@ namespace Wof.Controller.Screens
           //  pos.y -= mGui.mFontSize
             pos.z = spaceSize*2;
             joystickHorizontalAxisNoTi = guiWindow.createTextInput(pos, "bgui.textinput", KeyMap.Instance.JoystickHorizontalAxisNo.ToString(), 1 );
-            joystickHorizontalAxisNoTi.Validator = new NumberInRangeValidator(0, FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount);
-              
-            pos.x += pos.z + spaceSize;
-            pos.z = spaceSize + ViewHelper.MeasureText(mGui.mFont, LanguageResources.GetString(LanguageKey.OK), mGui.mFontSize);
-			b = guiWindow.createButton(pos, "bgui.button", LanguageResources.GetString(LanguageKey.OK), new Callback(this), JoystickHorizontalAxisNoButtonID);
-            OnChangeButtonAddedDo(b);
-			
-            
+            joystickHorizontalAxisNoTi.Validator = new NumberInRangeValidator(0, FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount-1);
+            joystickHorizontalAxisNoTi.onValueChanged += joystickHorizontalAxisNoTi_onValueChanged;
+             
             y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
+            
+        // vertical axis  
+            //FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.VectorCount
+            txt = "JoystickVerticalAxisNo: (max. "+(FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount-1)+" )";
+            controlTxtWidth = ViewHelper.MeasureText(mGui.mFont, txt, mGui.mFontSize);
+			
+            guiWindow.createStaticText(pos, txt); 
+            pos.x += controlTxtWidth + spaceSize ;
+          //  pos.y -= mGui.mFontSize
+            pos.z = spaceSize*2;
+            joystickVerticalAxisNoTi = guiWindow.createTextInput(pos, "bgui.textinput", KeyMap.Instance.JoystickVerticalAxisNo.ToString(), 1 );
+            joystickVerticalAxisNoTi.Validator = new NumberInRangeValidator(0, FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount-1);
+            joystickVerticalAxisNoTi.onValueChanged += joystickVerticalAxisNoTi_onValueChanged;
+             
+            y += (int)(h*1);
+            pos = new Vector4(left, top + y, width, h);
+            
             
         // deadzone           
             txt = "Joystick Deadzone: 0.";
@@ -497,23 +606,28 @@ namespace Wof.Controller.Screens
             guiWindow.createStaticText(pos, txt); 
             pos.x += controlTxtWidth;
             pos.z = spaceSize*2;
-            joystickDeadzoneTi = guiWindow.createTextInput(pos, "bgui.textinput",  KeyMap.Instance.JoystickDeadZone.ToString().Substring(2, 2).PadRight(2, '0'), 2 );
+            
+            
+            
+            joystickDeadzoneTi = guiWindow.createTextInput(pos, "bgui.textinput",KeyMap.Instance.JoystickDeadZone.ToString(ci).Substring(2).PadRight(2, '0')  , 2 );
             joystickDeadzoneTi.Validator = new NumberValidator();
-            
-            pos.x += pos.z + spaceSize;
-            pos.z = spaceSize + ViewHelper.MeasureText(mGui.mFont, LanguageResources.GetString(LanguageKey.OK), mGui.mFontSize);
-			b = guiWindow.createButton(pos, "bgui.button", LanguageResources.GetString(LanguageKey.OK), new Callback(this), JoystickDeadzoneNoButtonID);
-            OnChangeButtonAddedDo(b);
-                   
-			/*
+            joystickDeadzoneTi.onValueChanged += joystickDeadzoneTi_onValueChanged;
+              
+		
+            y += (int)(h*1);
+            pos = new Vector4(left, top + y, width, h);
+        // sensitivity
+            txt = "Joystick Sensitivity (0.01 - 3.00): ";
+            controlTxtWidth = ViewHelper.MeasureText(mGui.mFont, txt, mGui.mFontSize);
 			
-            k._joystickVerticalAxisNo = GetInteger("_joystickVerticalAxisNo", 0);
-            k._joystickHorizontalAxisNo = GetInteger("_joystickHorizontalAxisNo", 1);            
-            k._joystickDeadZone = double.Parse(GetString("_joystickDeadZone", "0.01"), new System.Globalization.CultureInfo("en-US"));
-		*/   
-            
-            mGui.mFontSize = oldFontSize;
-            
+            guiWindow.createStaticText(pos, txt); 
+            pos.x += controlTxtWidth;
+            pos.z = spaceSize*3;
+            joystickSensitivityTi = guiWindow.createTextInput(pos, "bgui.textinput", KeyMap.Instance.JoystickSensivity.ToString(ci), 4 );
+            joystickSensitivityTi.Validator = new NumberAndDotValidator();
+            joystickSensitivityTi.onValueChanged += joystickSensitivityTi_onValueChanged;
+              
+          
             return y+top;
         }
 			

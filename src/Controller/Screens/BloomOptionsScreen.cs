@@ -82,9 +82,9 @@ namespace Wof.Controller.Screens
             EngineConfig.SaveEngineConfig();
         }
 
-        protected override bool IsOptionSelected(int index, string option)
+        protected override bool IsOptionSelected(int index, ButtonHolder holder)
         {
-            return EngineConfig.BloomEnabled == LanguageResources.GetString(LanguageKey.Yes).Equals(option);
+            return EngineConfig.BloomEnabled == LanguageResources.GetString(LanguageKey.Yes).Equals(holder.Value);
         }
     }
 }

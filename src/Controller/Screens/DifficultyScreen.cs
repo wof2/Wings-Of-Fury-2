@@ -114,8 +114,9 @@ namespace Wof.Controller.Screens
             EngineConfig.SaveEngineConfig();
         }
 
-        protected override bool IsOptionSelected(int index, string option)
+        protected override bool IsOptionSelected(int index, ButtonHolder holder)
         {
+        	string option = holder.Value;
             if (EngineConfig.Difficulty == EngineConfig.DifficultyLevel.Hard)
             {
                 return LanguageResources.GetString(LanguageKey.High).Equals(option);

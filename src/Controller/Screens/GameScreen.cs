@@ -204,7 +204,13 @@ namespace Wof.Controller.Screens
         {
         	return new Vector2(viewport.ActualWidth * 0.01f, viewport.ActualHeight * 0.3f);
         }
+
         
+		public void RecreateGUI()
+		{
+			throw new NotImplementedException();
+		}
+		
         protected ControlsChangerHelper controlsChangerHelper;    	
     	
         

@@ -60,6 +60,7 @@ namespace Wof.Controller.Screens
                                     base(gameEventListener, framework, viewport, camera)
         {
     		showRestartRequiredMessage = false;
+    		autoGoBack = false;
         }
 
         protected override string getTitle()
@@ -80,11 +81,12 @@ namespace Wof.Controller.Screens
         {
             EngineConfig.LowDetails = LanguageResources.GetString(LanguageKey.Low).Equals(holder.Value);
             EngineConfig.SaveEngineConfig();
+            RecreateGUI();
         }
 
-        protected override bool IsOptionSelected(int index, string option)
+        protected override bool IsOptionSelected(int index, ButtonHolder holder)
         {
-            return EngineConfig.LowDetails == LanguageResources.GetString(LanguageKey.Low).Equals(option);
+            return EngineConfig.LowDetails == LanguageResources.GetString(LanguageKey.Low).Equals(holder.Value);
         }
     }
 }

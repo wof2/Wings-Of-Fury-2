@@ -227,8 +227,78 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             sb.AppendLine("_joystickVerticalAxisNo:" + _joystickVerticalAxisNo);
             sb.AppendLine("_joystickHorizontalAxisNo:" + _joystickHorizontalAxisNo);
             sb.AppendLine("_joystickDeadZone:" + _joystickDeadZone);
+            sb.AppendLine("_joystickSensivity:" + _joystickSensivity);
+            
             return sb.ToString();
         }
+        
+        public void BackToDefaults(IList<JoyStick> joysticks)
+		{
+        	_cam1 =KeyCode.KC_F1;        	
+            _cam2 = KeyCode.KC_F2;
+            _cam3 = KeyCode.KC_F3;
+            _cam4 = KeyCode.KC_F4;
+            _cam5 = KeyCode.KC_F5;
+            _cam6 = KeyCode.KC_F6;
+            _resetCamera = KeyCode.KC_V;
+            _pausePlane = KeyCode.KC_P;
+
+            _altFire = KeyCode.KC_X;
+            _gunFire = KeyCode.KC_Z;
+            _up = KeyCode.KC_UP;
+            _down = KeyCode.KC_DOWN;
+            _left = KeyCode.KC_LEFT;
+            _right = KeyCode.KC_RIGHT;        	
+            _bulletTimeEffect = KeyCode.KC_SPACE;
+            _enter = KeyCode.KC_RETURN;
+            _back = KeyCode.KC_ESCAPE;
+            _gear = KeyCode.KC_G;
+            _camera = KeyCode.KC_C;
+            _zoomIn = KeyCode.KC_PGUP;
+            _zoomOut = KeyCode.KC_PGDOWN;
+            _engine = KeyCode.KC_E;
+    		
+            try
+            {
+            	_spin =KeyCode.KC_RCONTROL;
+            }
+            catch
+            {
+                _spin = KeyCode.KC_S;
+            }
+            
+            bool found = false;
+            for(int k = 0 ; k < joysticks.Count; k++ ) {
+            	if((joysticks[k].Vendor()+"_"+joysticks[k].ID).Equals(_currentJoystick)){
+            		found = true;
+            		break;
+            	}
+            }
+            if(!found) {
+            	 _currentJoystick = null;            
+	            if(joysticks.Count >0) {            	
+	            	_currentJoystick = joysticks[0].Vendor()+"_"+joysticks[0].ID;
+	            }
+            }
+          
+            
+            _joystickBulletTimeEffect =  7;
+            _joystickCamera = 6;
+            _joystickEngine = 2;
+            _joystickEnter = 4;
+            _joystickEscape =5;
+            _joystickGear = 3;
+            _joystickGun = 4;
+            _joystickRocket = 1;
+
+            _joystickVerticalAxisNo = 0;
+            _joystickHorizontalAxisNo = 1;
+            _joystickDeadZone = 0.16;
+            _joystickSensivity = 1.00;
+            
+                
+       	
+		}
         
         public override KeyMap Value
         {
@@ -280,12 +350,9 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
 
                 k._joystickVerticalAxisNo = GetInteger("_joystickVerticalAxisNo", 0);
                 k._joystickHorizontalAxisNo = GetInteger("_joystickHorizontalAxisNo", 1);
-                k._joystickDeadZone = double.Parse(GetString("_joystickDeadZone", "0.01"), new System.Globalization.CultureInfo("en-US"));
+                k._joystickDeadZone = double.Parse(GetString("_joystickDeadZone", "0.16"), new System.Globalization.CultureInfo("en-US"));
+                k._joystickSensivity = double.Parse(GetString("_joystickSensivity", "1.00"), new System.Globalization.CultureInfo("en-US"));
 
-
-                
-
-             
                 return k;
             }
             set 
@@ -331,9 +398,8 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 WriteString("_joystickHorizontalAxisNo", _joystickHorizontalAxisNo.ToString());
 
                 WriteString("_joystickDeadZone", _joystickDeadZone.ToString(new System.Globalization.CultureInfo("en-US")));
-                
-
-               
+                WriteString("_joystickSensivity", _joystickSensivity.ToString(new System.Globalization.CultureInfo("en-US")));
+           
 
 
             }
@@ -651,24 +717,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
 
         #region Joystick
 
-         
-        private int _joystickVerticalAxisNo;
-        public int JoystickVerticalAxisNo
-        {
-            get { return _joystickVerticalAxisNo; }
-            set { _joystickVerticalAxisNo = value; }
-        }
-
-        private int _joystickHorizontalAxisNo;
-        public int JoystickHorizontalAxisNo
-        {
-            get { return _joystickHorizontalAxisNo; }
-            set { _joystickHorizontalAxisNo = value; }
-        }
-
-
-
-		
+       
         private int _joystickBulletTimeEffect;
         
         [ControlType(TypeOfControl.Joystick)]
@@ -727,15 +776,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             get { return _joystickCamera; }
             set { _joystickCamera = value; }
         }
-        
-        
-        private string _currentJoystick;
-        public string CurrentJoystick
-        {
-            get { return _currentJoystick; }
-            set { _currentJoystick = value; }
-        }
-               
+          
         private int _joystickEngine;
         
         [ControlType(TypeOfControl.Joystick)]
@@ -754,6 +795,14 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             get { return _joystickEscape; }
             set { _joystickEscape = value; }
         }
+        
+        
+        private string _currentJoystick;
+        public string CurrentJoystick
+        {
+            get { return _currentJoystick; }
+            set { _currentJoystick = value; }
+        }
 
         private double _joystickDeadZone;
         public double JoystickDeadZone
@@ -761,6 +810,34 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
         	get { return _joystickDeadZone>0.95 ? 0.95 : _joystickDeadZone; }
             set { _joystickDeadZone = value; }
         }
+        
+        private double _joystickSensivity;
+        public double JoystickSensivity
+        {
+        	get { 
+        		if(_joystickSensivity <= 0.01) {
+        			return 0.01;
+        		}
+        		return _joystickSensivity>3.0 ? 3.0 : _joystickSensivity;
+        	}
+            set { _joystickSensivity = value; }
+        }
+        
+   		private int _joystickVerticalAxisNo;
+        public int JoystickVerticalAxisNo
+        {
+            get { return _joystickVerticalAxisNo; }
+            set { _joystickVerticalAxisNo = value; }
+        }
+
+        private int _joystickHorizontalAxisNo;
+        public int JoystickHorizontalAxisNo
+        {
+            get { return _joystickHorizontalAxisNo; }
+            set { _joystickHorizontalAxisNo = value; }
+        }
+
+
 
     
 
