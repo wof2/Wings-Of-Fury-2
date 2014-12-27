@@ -538,18 +538,42 @@ namespace BetaGUI
     }
     public interface TextInputValidator {
     	
-    	bool validate(string newInput);
+    	bool validate(string inputSoFar, string newInput);
     }
-    
+    public class NumberAndDotValidator : TextInputValidator {
+		
+		public bool validate(string inputSoFar,string newInput)
+		{
+			int n;
+			if(int.TryParse(newInput, out n)) {
+				return true;
+			}
+			
+			if(inputSoFar.Contains(".")) return false;
+						
+			return newInput.Equals(".");
+		}
+    }
     public class NumberValidator : TextInputValidator {
 		
-		public bool validate(string newInput)
+		public bool validate(string inputSoFar,string newInput)
 		{
 			int n;
 			return int.TryParse(newInput, out n);			
 		}
+    }
+    
+    public class JoystickSensitivityValidator : TextInputValidator {
 		
-    	
+		public bool validate(string inputSoFar,string newInput)
+		{			
+			double n;
+			if(!double.TryParse(newInput, out n)) {
+				return false;
+			}
+			return n >= 0.1 && n <= 3.0;
+			
+		}
     }
     
      public class NumberInRangeValidator : TextInputValidator {
@@ -561,7 +585,7 @@ namespace BetaGUI
     		this.maxNumber = maxNumber;
     	}
     	
-		public bool validate(string newInput)
+		public bool validate(string inputSoFar, string newInput)
 		{
 			int n;
 			if(!int.TryParse(newInput, out n)) return false;			
@@ -574,9 +598,16 @@ namespace BetaGUI
     public class TextInput
     {
         public OverlayContainer mO, mCP;
-        public String mmn, mma, value;
+        public String mme,mmn, mma, value;
         public float x, y, w, h, length;
 
+        public delegate void OnValueChanged(String delta);
+        public event OnValueChanged onValueChanged;
+        
+        
+        public void OnValueChangedDo(String delta) {
+        	onValueChanged(delta);
+        }
         
         protected TextInputValidator validator;
 
@@ -607,6 +638,7 @@ namespace BetaGUI
             h = D.w;
             value = V;
             mmn = M;
+            mme = M;
             mma = M;
             length = L;
 
@@ -614,6 +646,12 @@ namespace BetaGUI
             if (ma != null)
                 mma += ".active";
             ma = null;
+            
+            ma = MaterialManager.Singleton.GetByName(mmn + ".active.error");
+            if (ma != null)
+                mme += ".active.error";
+            ma = null;
+            
             mO = P.mGUI.createOverlay(P.mO.Name + "t" +
                                       StringConverter.ToString(P.mGUI.tc++),
                                       new Vector2(x, y), new Vector2(w, h), M, "", false);
@@ -636,12 +674,31 @@ namespace BetaGUI
             mO.Parent.RemoveChild(mO.Name);
             OverlayManager.Singleton.DestroyOverlayElement(mO);
         }
-
+ 
+        public void error()
+        {
+            if (mme != "")
+                mO.MaterialName = mme;
+           
+        }
+ 
+        public void noerror()
+        {
+            if (mmn != "")
+                mO.MaterialName = mmn;
+           
+        }
         public void activate(bool a)
         {
-            if (!a && mmn != "")
-                mO.MaterialName = mmn;
-
+        	
+        	if(mme.Equals(mO.MaterialName)) {
+        		// if error - skip
+        		return;
+        	}
+        	
+        	if (!a && mmn != "")
+        		mO.MaterialName = mmn;
+         
             if (a && mma != "")
                 mO.MaterialName = mma;
         }
@@ -855,6 +912,40 @@ namespace BetaGUI
             return mO.IsVisible;
         }
 
+        public void SetRect(Vector4 rect) {
+        	
+           
+            bool changedPos = false;
+            if(x != rect.x) {
+            	x =  rect.x;    
+            	changedPos= true;
+            }
+            if(y != rect.y) {
+            	y =  rect.y;
+            	changedPos= true;
+            }
+            if(changedPos) {
+            	mO.SetPosition(x, y);
+            }
+            
+            
+            bool changedDim = false;
+            if( w !=  rect.z) {
+            	 w =  rect.z;   
+            	changedDim= true;
+            }
+            if( h !=  rect.w) {
+            	 h =  rect.w;
+            	changedDim= true;
+            }
+           
+            if(changedDim) {
+            	 mO.SetDimensions(w, h);
+            }
+            
+           
+        	
+        }
         public Window(Vector4 D, String M, int t, String C, GUI G)
         {
             x =  D.x;
@@ -1029,7 +1120,10 @@ namespace BetaGUI
             }
             return ret;
         }
-
+        	
+		
+      
+        
         public bool checkKey(String k, uint px, uint py)
         {
             if (mATI == null)
@@ -1042,6 +1136,7 @@ namespace BetaGUI
             if (k == "!b" && mATI.value.Length > 0)
             {
                 mATI.setValue(mATI.value.Substring(0, mATI.value.Length - 1));
+                mATI.OnValueChangedDo(k);
                 foreach (OverlayElement element in mATI.mCP.GetChildIterator())
                     element.Caption = mATI.value;
                 mGUI.keyDelay.Reset();
@@ -1052,16 +1147,20 @@ namespace BetaGUI
                 return true;
             
             if(mATI.Validator != null) {
-            	if(!mATI.Validator.validate(k)) {
+            	if(!mATI.Validator.validate(mATI.getValue() ,k)) {
             		return false;
             	}
             }
-            
-            if (k != "!b")
+             
+            if (k != "!b"){
                 mATI.value += k;
+            }
             foreach (OverlayElement element in mATI.mCP.GetChildIterator()) // take from mCP if ...
                 element.Caption = mATI.value;
             mGUI.keyDelay.Reset();
+            if (k != "!b"){
+            	mATI.OnValueChangedDo(k);
+            }
             return true;
         }
     }

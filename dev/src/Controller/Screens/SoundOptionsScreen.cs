@@ -87,6 +87,7 @@ namespace Wof.Controller.Screens
         {
             showRestartRequiredMessage = false;
             soundSystems = SoundSystems; // init
+            autoGoBack = false;
         }
 
         protected override string getTitle()
@@ -131,8 +132,9 @@ namespace Wof.Controller.Screens
             return availableModes;
         }
 
-        protected override bool IsOptionSelected(int index, string option)
+        protected override bool IsOptionSelected(int index, ButtonHolder holder)
         {
+        	string option = holder.Value;
             // music volume
             if (option.StartsWith("Music volume: "))
             {
@@ -182,7 +184,9 @@ namespace Wof.Controller.Screens
             {
                // autoGoBack = false;
                 SoundManager3D.Instance.SetMusicVolume(uint.Parse(selected.Substring("Music volume: ".Length)));
+                RecreateGUI(1);               
                 return;
+                
             }
 
             // sound volume
@@ -190,7 +194,8 @@ namespace Wof.Controller.Screens
             {
               //  autoGoBack = false;
             	SoundManager3D.SetSoundVolume(uint.Parse(selected.Substring("Sound volume: ".Length)));
-                return;
+                RecreateGUI(2);
+            	return;
             }
 
 
@@ -236,7 +241,7 @@ namespace Wof.Controller.Screens
                     
                 //    SoundManager3D.Instance.PlayAmbientMusic(SoundManager3D.Instance.CurrentMusic, EngineConfig.MusicVolume);
                 }
-
+                RecreateGUI();
                 EngineConfig.SaveEngineConfig();
             }
             catch (Exception ex )

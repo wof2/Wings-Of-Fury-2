@@ -119,9 +119,9 @@ namespace Wof.Controller.Screens
 
             if(restartRequired)
             {
-                Button b = buttons[13];
+                Button b = buttons[buttons.Length - 1];
                 float size = 2.0f * GetTextVSpacing();
-                guiWindow.createStaticImage(new Vector4(b.X + b.w * 0.5f - 0.5f*size,  buttons[12].Y + GetTextVSpacing(), size, size), "restart.png");
+                guiWindow.createStaticImage(new Vector4(b.X + b.w * 0.5f - 0.5f*size,  b.Y + GetTextVSpacing(), size, size), "restart.png");
             }
             selectButton(13);
             guiWindow.show();

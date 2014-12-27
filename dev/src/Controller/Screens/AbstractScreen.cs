@@ -200,6 +200,13 @@ namespace Wof.Controller.Screens
         protected float screenTime;
 
         protected delegate void VoidDelegateVoid();
+        
+        
+        public virtual void RecreateGUI()
+		{
+			this.mGui.killGUI();
+			this.CreateGUI();
+		}
 
         /// <summary>
         /// Wszystkie cheaty dostêpne w menu. 
@@ -981,6 +988,12 @@ namespace Wof.Controller.Screens
 				mGui.injectKey("0", MousePos);
 				KeyReceived("0");
 			}
+			
+			if (inputKeyboard.IsKeyDown(KeyCode.KC_COMMA) || inputKeyboard.IsKeyDown(KeyCode.KC_NUMPADCOMMA) || inputKeyboard.IsKeyDown(KeyCode.KC_PERIOD)) {
+				mGui.injectKey(".", MousePos);
+				KeyReceived(".");
+			}
+			
 			if (inputKeyboard.IsKeyDown(KeyCode.KC_A)) {
 				mGui.injectKey("a", MousePos);
 				KeyReceived("a");

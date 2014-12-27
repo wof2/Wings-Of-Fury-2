@@ -114,12 +114,24 @@ namespace Wof.Controller.Screens
             currentScreen = 0;
             createScreen();
         }
-        
+        protected virtual void CreateGUI(int screenNo)
+        {
+            base.CreateGUI();
+            currentScreen = screenNo;
+            createScreen();
+        }
         protected List<object>availableOptions;
 
-   
+    
+        public virtual void RecreateGUI(int screenNo)
+		{
+			this.mGui.killGUI();
+			this.CreateGUI(screenNo);
+		}
 
-        private void createScreen()
+       
+
+        protected void createScreen()
         {
        
             Vector2 m = GetMargin();
@@ -232,15 +244,28 @@ namespace Wof.Controller.Screens
                 }
 
 
-              
                
-                bool selected = IsOptionSelected((int)j, option);
+               
                 Button button = guiWindow.createButton(
                         pos,
-                        selected ? "bgui.selected.button" : "bgui.button",
+                        "",
                         GetOptionDisplayText(option), cc, j);
+                 ButtonHolder holder = new ButtonHolder(button, option);
+                 
+                 bool selected = IsOptionSelected((int)j, holder);
+                 
+                 if(selected) {
+                 	button.mmn = "bgui.selected.button";
+                 	button.mma = "bgui.selected.button.active";                 	
+                 	button.mO.MaterialName = button.mmn;
+                 }else {
+                 	button.mmn = "bgui.button";
+                 	button.mma = "bgui.button.active";                 	
+                 	button.mO.MaterialName = button.mmn;
+                 }
+                
 
-                ButtonHolder holder = new ButtonHolder(button, option);
+               
                  options.Add(holder);
                 if(OnOptionCreated != null)
                 {
@@ -360,7 +385,7 @@ namespace Wof.Controller.Screens
 
         protected abstract void ProcessOptionSelection(ButtonHolder selected);
 
-        protected abstract bool IsOptionSelected(int index, String option);
+        protected abstract bool IsOptionSelected(int index, ButtonHolder holder);
 
         public delegate void OptionCreated(Vector4 pos, bool selected, string optionDisplayText, uint index, int page, ButtonHolder holder);
 
@@ -401,7 +426,7 @@ namespace Wof.Controller.Screens
                 {                	
                     if (holder.Option == referer)
                     {
-                        if (IsOptionSelected(k, holder.Value))
+                        if (IsOptionSelected(k, holder))
                         {
                             return;
                         }
@@ -413,8 +438,12 @@ namespace Wof.Controller.Screens
                     }
                     k++;
                 }
+                
                 PlayClickSound();
-                GoToBack(referer);
+                if (referer == buttons[backButtonIndex])
+                {
+                	GoToBack(referer);
+                }
                
             }
         }

@@ -116,9 +116,9 @@ namespace Wof.Controller.Screens
             }
         }*/
 
-        protected override bool IsOptionSelected(int index, string option)
+        protected override bool IsOptionSelected(int index, ButtonHolder holder)
         {
-            return LanguageManager.ActualLanguageName.Equals(option);
+            return LanguageManager.ActualLanguageName.Equals(holder.Value);
         }
     }
 }

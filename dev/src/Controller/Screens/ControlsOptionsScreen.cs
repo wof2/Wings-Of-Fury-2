@@ -71,7 +71,7 @@ namespace Wof.Controller.Screens
           //  this.fontSize = (uint)(0.75f * fontSize); // mniejsza czcionka w opcjach
     		C_MAX_OPTIONS = 3;
     		showRestartRequiredMessage = false;  
-    		//autoGoBack = false;
+    		autoGoBack = false;
     		controlsChangerHelper = new ControlsChangerHelper(keyboard, this);
     		controlsChangerHelper.onControlsChanged += controlsChangerHelper_onControlsChanged;
     		controlsChangerHelper.onControlsCaptureStarted += controlsChangerHelper_onControlsCaptureStarted;
@@ -93,8 +93,7 @@ namespace Wof.Controller.Screens
 
 		void controlsChangerHelper_onControlsChanged()
 		{
-			this.mGui.killGUI();
-			this.CreateGUI();
+			RecreateGUI();
 			return;
 		}
 		
@@ -135,12 +134,13 @@ namespace Wof.Controller.Screens
             //EngineConfig.InverseKeys = "Yes".Equals(selected);
             EngineConfig.InverseKeys = LanguageResources.GetString(LanguageKey.Yes).Equals(holder.Value);
             EngineConfig.SaveEngineConfig();
+            RecreateGUI();
         }
 
-        protected override bool IsOptionSelected(int index, string option)
+        protected override bool IsOptionSelected(int index, ButtonHolder holder)
         {
             //return EngineConfig.InverseKeys == "Yes".Equals(option);
-            return EngineConfig.InverseKeys == LanguageResources.GetString(LanguageKey.Yes).Equals(option);
+            return EngineConfig.InverseKeys == LanguageResources.GetString(LanguageKey.Yes).Equals(holder.Value);
         }
         
         

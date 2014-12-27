@@ -170,7 +170,7 @@ namespace Wof.Controller.Screens
 					}
 					twoStep++;
 					KeyMap.Instance.Up = arg.key;	
-					controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), "OK. Now step 2...");
+					controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), "2/2");
 					return true; // only first step
 				}else {
 				  	twoStep = 1;
@@ -191,7 +191,7 @@ namespace Wof.Controller.Screens
 					}
 					twoStep++;
 					KeyMap.Instance.Left = arg.key;	
-					controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), "OK. Now step 2...");
+					controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), "2/2");
 					return true; // only first step
 				}else {
 				  	twoStep = 1;

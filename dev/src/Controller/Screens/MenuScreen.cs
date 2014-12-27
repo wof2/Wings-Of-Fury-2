@@ -68,6 +68,8 @@ namespace Wof.Controller.Screens
         Control GetContainer();
         Vector2 GetMargin();
         
+        void RecreateGUI();
+        
         Vector2 ViewportToScreen(Vector2 screen);
         
         /// <summary>

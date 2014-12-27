@@ -61,6 +61,7 @@ namespace Wof.Controller.Screens
                                       base(gameEventListener, framework, viewport, camera)
         {
     		showRestartRequiredMessage = false;
+    		autoGoBack = false;
         }
 
         protected override string getTitle()
@@ -101,6 +102,7 @@ namespace Wof.Controller.Screens
                 {
                     OptionsScreen.restartRequired = true;
                 }
+                RecreateGUI();
             }
 
             
@@ -108,9 +110,9 @@ namespace Wof.Controller.Screens
            
         }
 
-        protected override bool IsOptionSelected(int index, string option)
+        protected override bool IsOptionSelected(int index, ButtonHolder holder)
         {
-            return EngineConfig.UseHydrax == LanguageResources.GetString(LanguageKey.Yes).Equals(option);
+            return EngineConfig.UseHydrax == LanguageResources.GetString(LanguageKey.Yes).Equals(holder.Value);
         }
     }
 }

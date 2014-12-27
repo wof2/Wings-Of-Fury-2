@@ -377,12 +377,15 @@ namespace Wof.Controller
         {
 			return numberOfAvailableJoysticks;
 		}
-		
+		public static float GetJoystickVector(IList<JoyStick> joysticks, Boolean lowSens, int axisNo)
+        {
+			var vect = GetJoystickVector(joysticks, lowSens, axisNo, 0);
+			return vect.x;
+		}
 			
-		
-        public static Vector2 GetJoystickVector(IList<JoyStick> joysticks, Boolean lowSens)
-        {			
-            if(joysticks!=null)
+		public static Vector2 GetJoystickVector(IList<JoyStick> joysticks, Boolean lowSens, int axisX, int axisY)
+        {	
+		 	 if(joysticks!=null)
             {
             	int i =0;
             	foreach(JoyStick j in joysticks) {
@@ -393,71 +396,75 @@ namespace Wof.Controller
             			continue;
             		}
             		i++;
-            		
-            		
-	                if(j.JoyStickState.VectorCount > 0)
-	                {
-	                    MOIS.Vector3 v = j.JoyStickState.GetVector(0);
-	                    return new Vector2(v.x, v.y);
-	                } else 
-	                {
-	                    int num = j.JoyStickState.AxisCount;
-	                    if(num >= 2)
-	                    {
-	                        int axisCount = j.JoyStickState.AxisCount;
-	
-	                        if (KeyMap.Instance.JoystickVerticalAxisNo > axisCount - 1)
-	                        {
-	                            throw new Exception("JoystickVerticalAxisNo is greater than number of axes. Please change it in your KeyMap.ini");
-	                        }
-	
-	                        if (KeyMap.Instance.JoystickHorizontalAxisNo > axisCount - 1)
-	                        {
-	                            throw new Exception("JoystickHorizontalAxisNo is greater than number of axes. Please change it in your KeyMap.ini");
-	                        }
-	
-	
-	                        Axis_NativePtr axisV = j.JoyStickState.GetAxis(KeyMap.Instance.JoystickVerticalAxisNo);
-	                        Axis_NativePtr axisH = j.JoyStickState.GetAxis(KeyMap.Instance.JoystickHorizontalAxisNo);
-	                        
-	                     
-	                        double v = (1.0 * axisV.abs / JoyStick.MAX_AXIS);
-	                        double h = (1.0 * axisH.abs / JoyStick.MAX_AXIS);
-	
-	                        // Console.WriteLine(h + " " + v);
-							double dead = KeyMap.Instance.JoystickDeadZone;
-							dead = lowSens ? 3*dead : dead;					
-	                        if (Math.Abs(v) < dead) v = 0;
-	                        else if (v > 1) v = 1;
-	                        else if (v < -1) v = -1;
-	
-	                        if (Math.Abs(h) < dead) h = 0;
-	                        else if (h > 1) h = 1;
-	                        else if (h < -1) h = -1;
-	                        
-	                        
-	                        	                     
-	                        if(h==0 && v==0) {
-	                        	continue;
-	                        }
-	                  //     Console.WriteLine("Joystick X=" + axisH.abs  +"/"+ JoyStick.MAX_AXIS + "; Y=" + axisV.abs  +"/"+ JoyStick.MAX_AXIS );
-	                  		h = Math.Log(1+h);
-	                        v = Math.Log(1+v);
-	                        
-	                        return new Vector2((float)h, (float)-v);
-	                    } else
-	                    {
-	                        // no joys and no POVs 
-	                        return Vector2.ZERO;
-	                    }
-	                    
-	                }
+	              
+                    int num = j.JoyStickState.AxisCount;
+                    if(num >= 2)
+                    {
+                    	
+                        int axisCount = j.JoyStickState.AxisCount;
+
+                        if (axisY > axisCount - 1)
+                        {
+                        	axisY = 0;                        	
+                          //  throw new Exception("JoystickVerticalAxisNo is greater than number of axes. Please change it in your KeyMap.ini");
+                        }
+
+                        if (axisX > axisCount - 1)
+                        {
+                        	axisX = 1;
+                            //throw new Exception("JoystickHorizontalAxisNo is greater than number of axes. Please change it in your KeyMap.ini");
+                        }
+
+                        Axis_NativePtr axisHPtr = j.JoyStickState.GetAxis(axisX);
+                        Axis_NativePtr axisVPtr = j.JoyStickState.GetAxis(axisY);
+                        /*
+                        for(int z=0; z< j.JoyStickState.VectorCount; z++) {
+                        	Console.Write("vector "+z+": "+j.JoyStickState.GetVector(z)+", ");	                        
+                        }
+                        Console.WriteLine();*/
+                        
+                        
+                     
+                        double v = (KeyMap.Instance.JoystickSensivity * axisVPtr.abs / JoyStick.MAX_AXIS);
+                        double h = (KeyMap.Instance.JoystickSensivity * axisHPtr.abs / JoyStick.MAX_AXIS);
+
+                        // Console.WriteLine(h + " " + v);
+						double dead = KeyMap.Instance.JoystickDeadZone;
+						dead = lowSens ? 3*dead : dead;					
+                        if (Math.Abs(v) < dead) v = 0;
+                        else if (v > 1) v = 1;
+                        else if (v < -1) v = -1;
+
+                        if (Math.Abs(h) < dead) h = 0;
+                        else if (h > 1) h = 1;
+                        else if (h < -1) h = -1;
+                        
+                  //     Console.WriteLine("Joystick X=" + axisH.abs  +"/"+ JoyStick.MAX_AXIS + "; Y=" + axisV.abs  +"/"+ JoyStick.MAX_AXIS );
+                  		
+                  		
+                  	//	h = Math.Log(1+h);
+                     //   v = Math.Log(1+v);
+                        
+                    //    Console.WriteLine("Joystick X=" + h  +" Y=" + v  ); 
+                        
+                        return new Vector2((float)h, (float)-v);
+                    } else
+                    {
+                        // no joys and no POVs 
+                        return Vector2.ZERO;
+                    }
+	               
                 }
             } else
             {
                 return Vector2.ZERO;
             }
 			return Vector2.ZERO;
+		}
+		
+        public static Vector2 GetJoystickVector(IList<JoyStick> joysticks, Boolean lowSens)
+        {			
+        	return GetJoystickVector(joysticks, lowSens, KeyMap.Instance.JoystickHorizontalAxisNo, KeyMap.Instance.JoystickVerticalAxisNo);
         }
         public static void ReloadAllReources(IFrameWork framework)
         {
