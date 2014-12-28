@@ -214,7 +214,7 @@ namespace Wof.Controller.Screens
 
 
             
-            selectButton(0);
+           
             if (!screenStateSet)
             {
                //  SetMousePosition((uint)(guiWindow.x + buttons[0].x + (Viewport.ActualWidth / 4)), (uint)(guiWindow.y + buttons[0].y + h / 2.0F));
@@ -231,7 +231,11 @@ namespace Wof.Controller.Screens
                 newUpdatesThread.Start(); 
             }
            
-           
+            if(!currentButtonRestored)
+            {
+            	currentButton = 0;
+            }
+            selectButton(currentButton);
      
 		
         }
@@ -384,7 +388,7 @@ namespace Wof.Controller.Screens
                 string CheckForUpdates = LanguageResources.GetString(LanguageKey.CheckForUpdates);
                 string Quit = LanguageResources.GetString(LanguageKey.Quit);
 
-
+				
 
                 if (referer.text.Equals(NewGame))
                 {
@@ -392,46 +396,46 @@ namespace Wof.Controller.Screens
                 }
                 else if(referer.text.Equals(CompletedLevels))
                 {
-                    gameEventListener.GotoLoadGameScreen();
+                    gameEventListener.GotoLoadGameScreen(referer);
                 }
                 else if(referer.text.Equals(EnhancedLevels))
                 {
                     if(EngineConfig.IsEnhancedVersion)
                     {
-                        gameEventListener.GotoEnhancedLevelsScreen();
+                        gameEventListener.GotoEnhancedLevelsScreen(referer);
                     } else
                     {
-                        gameEventListener.GotoEnhancedVersionScreen();
+                        gameEventListener.GotoEnhancedVersionScreen(referer);
                     }
                     
                 }
                 else  if(referer.text.Equals(Highscores))
                 {
-                    gameEventListener.GotoHighscoresScreen();
+                    gameEventListener.GotoHighscoresScreen(referer);
                 }
                 else if (referer.text.Equals(Options))
                 {
-                    gameEventListener.GotoOptionsScreen();
+                    gameEventListener.GotoOptionsScreen(referer);
                 }
                 else if (referer.text.Equals(Tutorial))
                 {
-                    gameEventListener.GotoTutorialScreen();
+                    gameEventListener.GotoTutorialScreen(referer);
                 }
                 else if (referer.text.Equals(Credits))
                 {
-                    gameEventListener.GotoCreditsScreen();
+                    gameEventListener.GotoCreditsScreen(referer);
                 }
                 else if (referer.text.Equals(Donate))
                 {
-                    gameEventListener.GotoDonateScreen();
+                    gameEventListener.GotoDonateScreen(referer);
                 }
                 else if (referer.text.Equals(EnhancedVersion))
                 {
-                    gameEventListener.GotoEnhancedVersionScreen();
+                    gameEventListener.GotoEnhancedVersionScreen(referer);
                 }
                 else if (referer.text.Equals(Planes))
                 {
-                    gameEventListener.GotoPlanesScreen();
+                    gameEventListener.GotoPlanesScreen(referer);
                 }
                 else if (referer.text.Equals(CheckForUpdates))
                 {
@@ -441,7 +445,7 @@ namespace Wof.Controller.Screens
                 {
                     if(!EngineConfig.IsEnhancedVersion && Mogre.Math.RangeRandom(0, 1) > (1 - C_QUIT_AD_PROBABILITY))
                     {
-                        gameEventListener.GotoQuitScreen();
+                        gameEventListener.GotoQuitScreen(referer);
                     }
                     else
                     {

@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows.Forms.VisualStyles;
 using Mogre;
 using System.Drawing;
 using Wof.Controller;
@@ -27,6 +28,7 @@ namespace BetaGUI
 
     public class GUI
     {
+    	public static readonly int OVERLAY_TITLE_MARGIN = 6;
         public uint wc, bc, tc, oc;
         public Overlay mO, mMPo;
         public Overlay mOTop;
@@ -212,13 +214,16 @@ namespace BetaGUI
             // by Adam - jeœli nie by³o ruchu myszk¹ to nie przekszkadzamy klawiaturze
             if (x == oldMouseX && y == oldMouseY && !LMB)
             {
+
+            //	Console.WriteLine("Mouse did not change" + DateTime.Now);
+          
                 return -1;
             }
            
           //  Console.WriteLine("Checking for deselection "+x +"=="+ oldMouseX +", "+y+ "=="+ oldMouseY);   
             for (int i = 0; i < WN.Count; i++)
             {
-            //Console.WriteLine("["+ WN[i].mC +"] Old points :"+oldMouseX+" "+oldMouseY);
+              // Console.WriteLine("["+ WN[i].mC +"] Old points: "+oldMouseX+" "+oldMouseY+", new: "+x+" "+y);
                 int ret = WN[i].check(x, y, LMB);
                 if (ret >= 0)
                 {
@@ -285,6 +290,9 @@ namespace BetaGUI
             }
                
         }
+
+		
+
         public OverlayContainer createOverlay(String N, Vector2 P, Vector2 D,
                                               String M, String C, bool A, Overlay target){
         	String t = "Panel";
@@ -303,8 +311,8 @@ namespace BetaGUI
             {
                 if(A)
                 {
-                    e.Top = 6;
-                    e.Left = 6;
+					e.Top = OVERLAY_TITLE_MARGIN;
+                    e.Left = OVERLAY_TITLE_MARGIN;
                 }
                
                 e.Caption = C;
@@ -368,8 +376,18 @@ namespace BetaGUI
         public Callback callback;
         protected float x;
         protected float y;
-        public float w, h;
+        public float w, h;  
+        protected bool clickedByKeyboard;
 
+		public bool ClickedByKeyboard {
+			get {
+				return clickedByKeyboard;
+			}
+			set {
+				clickedByKeyboard = value;
+			}
+		}
+  
         protected Window window;
 
         public Window Window
@@ -408,6 +426,7 @@ namespace BetaGUI
 
 
         private static Timer keyDelay = new Timer();
+        private static bool timerFirstTime = true;
         public String text;
         public uint id = 0;
         public bool activated = false;
@@ -420,22 +439,33 @@ namespace BetaGUI
 
         public static bool CanChangeSelectedButton()
         {
+        	if(timerFirstTime) {
+        		timerFirstTime = false;
+        		return true;
+        	}
             return (keyDelay.Milliseconds > C_RESPONSE_DELAY*1000);
         }
 
         public static bool CanChangeSelectedButton(float delayModifier)
         {
+        	if(timerFirstTime) {
+        		timerFirstTime = false;
+        		return true;
+        	}
             return (keyDelay.Milliseconds > delayModifier*C_RESPONSE_DELAY*1000);
         }
 
         public static bool TryToPressButton(Button b)
         {
             // naciskanie klawiszy musi byæ wolne
-            if (keyDelay.Milliseconds > 5*C_RESPONSE_DELAY*1000)
+          
+            if (timerFirstTime || keyDelay.Milliseconds > 5*C_RESPONSE_DELAY*1000)
             {
+            	timerFirstTime = false;	
+            	b.clickedByKeyboard = true;            	
                 b.callback.LSInternal.onButtonPress(b);
                 b.callback.LS.onButtonPress(b);
-               
+               	
                 ResetButtonTimer();
                 return true;
             }
@@ -448,8 +478,10 @@ namespace BetaGUI
         public static bool TryToPressButton(Button b, float manualDelay)
         {
             // naciskanie klawiszy musi byæ wolne
-            if (keyDelay.Milliseconds > manualDelay)
+            if (timerFirstTime || keyDelay.Milliseconds > manualDelay)
             {
+            	timerFirstTime = false;
+            	b.clickedByKeyboard = true;  
                 b.callback.LSInternal.onButtonPress(b);
                 b.callback.LS.onButtonPress(b);
                 ResetButtonTimer();
@@ -488,7 +520,7 @@ namespace BetaGUI
                                       new Vector2(x, y), new Vector2(w, h), M, "", false);
 
             mCP = P.mGUI.createOverlay(mO.Name + "c",
-                                       new Vector2(6, (h - P.mGUI.mFontSize)/2),
+                                       new Vector2(GUI.OVERLAY_TITLE_MARGIN, (h - P.mGUI.mFontSize)/2),
                                        new Vector2(w, h), "", T, false);
           
             P.mO.AddChild(mO);
@@ -1085,7 +1117,7 @@ namespace BetaGUI
                         //mAB.callback.fp(mAB); // FIX / what is this
                         return ret;
                     case 2:
-
+						mAB.ClickedByKeyboard = false;  
                         mAB.callback.LSInternal.onButtonPress(mAB);
                         mAB.callback.LS.onButtonPress(mAB);
                         return ret;
@@ -1226,7 +1258,8 @@ namespace BetaGUI
 
             try
             {
-                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Button : '" + referer.text + "', id: "+referer.id+" clicked on window '" + referer.Window.mC + "'");
+            	
+                LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Button : '" + referer.text + "', id: "+referer.id+" clicked on window '" + referer.Window.mC + "', clicked by keyboard: "+referer.ClickedByKeyboard);
             }
             catch 
             {

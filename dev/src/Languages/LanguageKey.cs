@@ -61,8 +61,7 @@ namespace Wof.Languages
     {
        
         #region ---A---
-
-      
+ 		
         public const string AddingCompositors = @"AddingCompositors";
         public const string AccelerateBreakTurn = @"AccelerateBreakTurn";
         public const string Achievements = @"Achievements";
@@ -109,7 +108,9 @@ namespace Wof.Languages
         public const string ChooseAntialiasingMode = @"ChooseAntialiasingMode";
         public const string ChooseDifficulty = @"ChooseDifficulty";
         public const string ChooseLevelOfDetail = @"ChooseLevelOfDetail";
-        public const string ChooseVideoMode = @"ChooseVideoMode";
+        public const string ChooseVideoMode = @"ChooseVideoMode";        
+        public const string ChooseHorizontalAxisNo = @"ChooseHorizontalAxisNo";    
+        public const string ChooseVerticalAxisNo = @"ChooseVerticalAxisNo";    
         public const string Congratulations = @"Congratulations";
         public const string CommunityTranslations = @"CommunityTranslations";
         public const string CommunitySupport = @"CommunitySupport";
@@ -130,6 +131,7 @@ namespace Wof.Languages
 
         #region ---D---
 
+	 	public const string JoystickDeadzone = @"JoystickDeadzone";
         public const string Details = @"Details";
         public const string Difficulty = @"Difficulty";
         public const string Dogfight = @"Dogfight";
@@ -210,7 +212,10 @@ namespace Wof.Languages
 		
 		#region ---J---
 		public const string Joystick = @"Joystick";   
-		public const string JoystickOptions = @"JoystickOptions";     
+		public const string JoystickAxis = @"JoystickAxis";   
+		public const string JoystickOptions = @"JoystickOptions";    
+		public const string JoystickSensitivity = @"JoystickSensitivity";
+       		
  		#endregion
 		
         #region ---K---
@@ -308,8 +313,7 @@ namespace Wof.Languages
         #endregion
 
         #region ---S---
-
-        public const string ScreenshotWrittenTo = @"ScreenshotWrittenTo";
+		public const string ScreenshotWrittenTo = @"ScreenshotWrittenTo";
         public const string SelectAmmunition = @"SelectAmmunition";
         public const string SetupingResources = @"SetupingResources";
         public const string Shadows = @"Shadows";  

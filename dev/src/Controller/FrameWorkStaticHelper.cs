@@ -299,7 +299,28 @@ namespace Wof.Controller
         {
             return SoundManager3D.Instance.InitializeSound(listener, ss);
         }
+        
+  
+        public static bool IsSpinPressed(Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
+		{
+        	if (KeyMap.Instance.Spin is Keyboard.Modifier)
+            {
+                if (inputKeyboard.IsModifierDown((Keyboard.Modifier) KeyMap.Instance.Spin))
+                {
+                	return true;
+                }
+            }
+            else
+            {
+                if (inputKeyboard.IsKeyDown((KeyCode) KeyMap.Instance.Spin) || FrameWorkStaticHelper.GetJoystickButton(inputJoysticks, KeyMap.Instance.JoystickSpin))
+                {
+                	return true;
+                }
 
+            }
+            return false;
+
+		}
         
         public static bool IsEnterPressed(Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
 		{

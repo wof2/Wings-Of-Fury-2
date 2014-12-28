@@ -397,7 +397,7 @@ namespace Wof.Controller.Screens
 
         protected virtual void GoToBack(Button referer)
         {
-            gameEventListener.GotoOptionsScreen();
+            gameEventListener.GotoOptionsScreen(referer);
         }
 
         public virtual void onButtonPress(Button referer)

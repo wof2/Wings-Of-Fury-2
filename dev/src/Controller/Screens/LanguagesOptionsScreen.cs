@@ -95,7 +95,7 @@ namespace Wof.Controller.Screens
                     LanguageManager.SetLanguage(lang.Value);
                     if (EngineConfig.LanguageDebugMode)
                     {
-                        gameEventListener.GotoLanguageDebugScreen();
+                        gameEventListener.GotoLanguageDebugScreen(holder.Option);
                     }
                     //EngineConfig.SaveEngineConfig();
                     break;

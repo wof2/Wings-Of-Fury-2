@@ -654,6 +654,25 @@
        <value>設定搖桿</value>
   </data>
   
+   <data name="ChooseHorizontalAxisNo"> 
+       <value>Choose horizontal axis no</value>
+  </data>
+  
+  <data name="ChooseVerticalAxisNo"> 
+       <value>Choose vertical axis no</value>
+  </data>
+  
+   <data name="JoystickDeadzone"> 
+       <value>Dead zone</value>
+  </data>
+  
+   <data name="JoystickSensitivity"> 
+       <value>Sensitivity</value>
+  </data>
+  
+   <data name="JoystickAxis"> 
+       <value>Joystick axis</value>
+  </data>
   
 </root>
 

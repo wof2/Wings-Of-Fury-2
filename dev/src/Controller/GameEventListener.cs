@@ -46,6 +46,7 @@
  * 
  */
 
+using BetaGUI;
 using Wof.Controller.Screens;
 using Wof.Model.Level;
 using Wof.Model.Level.Planes;
@@ -58,33 +59,33 @@ namespace Wof.Controller
         void StartGame(uint levelNo, PlaneType userPlaneType);
          void StartGame(LevelInfo levelInfo, PlaneType userPlaneType);
         void ExitGame();
-        void GotoStartScreen();
+        void GotoStartScreen(Button referer);
         void GotoNextLevel();
-        void GotoHighscoresScreen();
+        void GotoHighscoresScreen(Button referer);
         void GotoEnterScoreScreen(int score, float survivalTime);
-        void GotoCreditsScreen();
+        void GotoCreditsScreen(Button referer);
         void GotoEndingScreen(int highscore, float survivalTime);
-        void GotoVideoModeScreen();
-        void GotoOptionsScreen();
-        void GotoAntialiasingOptionsScreen();
-        void GotoVSyncOptionsScreen();
-        void GotoBloomOptionsScreen();
-        void GotoHydraxOptionsScreen();
-        void GotoBloodOptionsScreen();
-        void GotoLodOptionsScreen();
-        void GotoShadowsOptionsScreen();
-        void GotoControlsOptionsScreen();
-        void GotoJoystickOptionsScreen();        
-        void GotoSoundOptionsScreen();
-        void GotoLanguagesOptionsScreen();
-        void GotoTutorialScreen();
-        void GotoLoadGameScreen();
-        void GotoEnhancedLevelsScreen();
-        void GotoDifficultyOptionsScreen();
-        void GotoDonateScreen();
-        void GotoQuitScreen();
-        void GotoEnhancedVersionScreen();
-        void GotoPlanesScreen();
+        void GotoVideoModeScreen(Button referer);
+        void GotoOptionsScreen(Button referer);
+        void GotoAntialiasingOptionsScreen(Button referer);
+        void GotoVSyncOptionsScreen(Button referer);
+        void GotoBloomOptionsScreen(Button referer);
+        void GotoHydraxOptionsScreen(Button referer);
+        void GotoBloodOptionsScreen(Button referer);
+        void GotoLodOptionsScreen(Button referer);
+        void GotoShadowsOptionsScreen(Button referer);
+        void GotoControlsOptionsScreen(Button referer);
+        void GotoJoystickOptionsScreen(Button referer);        
+        void GotoSoundOptionsScreen(Button referer);
+        void GotoLanguagesOptionsScreen(Button referer);
+        void GotoTutorialScreen(Button referer);
+        void GotoLoadGameScreen(Button referer);
+        void GotoEnhancedLevelsScreen(Button referer);
+        void GotoDifficultyOptionsScreen(Button referer);
+        void GotoDonateScreen(Button referer);
+        void GotoQuitScreen(Button referer);
+        void GotoEnhancedVersionScreen(Button referer);
+        void GotoPlanesScreen(Button referer);
         
 
         void GotoEnhancedVersionWebPage();
@@ -95,7 +96,7 @@ namespace Wof.Controller
         void GotoUpdateWebPage();
 
         MenuScreen GetCurrentScreen();
-        void GotoLanguageDebugScreen();
+        void GotoLanguageDebugScreen(Button referer);
 
     }
 }

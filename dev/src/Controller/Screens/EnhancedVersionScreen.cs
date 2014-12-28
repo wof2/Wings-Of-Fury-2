@@ -129,7 +129,7 @@ namespace Wof.Controller.Screens
                 if (referer == buttons[backButtonIndex])
                 {
                     PlayClickSound();
-                    gameEventListener.GotoStartScreen();
+                    gameEventListener.GotoStartScreen(referer);
                 }
 
                 if (referer == buttons[0])

@@ -104,7 +104,7 @@ namespace Wof.Controller.Screens
                 String name = nameInput.getValue();
                 saveHighscore(name, score, survivalTime);
                 PlayClickSound();
-                gameEventListener.GotoHighscoresScreen();
+                gameEventListener.GotoHighscoresScreen(referer);
             }
         }
 

@@ -152,7 +152,7 @@ namespace Wof.Controller.Screens
                 if (referer == buttons[backButtonIndex])
                 {
                     PlayClickSound();
-                    gameEventListener.GotoStartScreen();
+                    gameEventListener.GotoStartScreen(referer);
                 }else
                 if (referer == buttons[0])
                 {
@@ -162,7 +162,7 @@ namespace Wof.Controller.Screens
                 if (referer == buttons[1])
                 {
                     PlayClickSound();
-                    if(!EngineConfig.IsEnhancedVersion) gameEventListener.GotoEnhancedVersionScreen();
+                    if(!EngineConfig.IsEnhancedVersion) gameEventListener.GotoEnhancedVersionScreen(referer);
                 }
             }
         }

@@ -136,7 +136,7 @@ namespace Wof.Controller.Screens
         
         protected override void GoToBack(Button referer)
         {
-            gameEventListener.GotoStartScreen();
+            gameEventListener.GotoStartScreen(referer);
         }
 
         protected override string getTitle()
@@ -165,7 +165,7 @@ namespace Wof.Controller.Screens
         {
             if(! EngineConfig.IsEnhancedVersion && enhancedMissionsMap[holder] )
             {
-                gameEventListener.GotoEnhancedVersionScreen();
+                gameEventListener.GotoEnhancedVersionScreen(holder.Option);
                 return;
             }
 

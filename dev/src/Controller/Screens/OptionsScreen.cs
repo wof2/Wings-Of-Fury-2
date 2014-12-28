@@ -60,11 +60,16 @@ namespace Wof.Controller.Screens
      
         public static Boolean restartRequired = false;
         public static Boolean shutdownRequired = false;
+        
+      
 
         public OptionsScreen(GameEventListener gameEventListener,
                             IFrameWork framework, Viewport viewport, Camera camera) :
                                  base(gameEventListener, framework, viewport, camera)
         {
+        //	if(currentButton == 0){
+        //		currentButton = 13;
+        //	}
             this.fontSize = (uint)(0.83f * fontSize); // mniejsza czcionka na ekranie opcji
         }
 
@@ -123,7 +128,13 @@ namespace Wof.Controller.Screens
                 float size = 2.0f * GetTextVSpacing();
                 guiWindow.createStaticImage(new Vector4(b.X + b.w * 0.5f - 0.5f*size,  b.Y + GetTextVSpacing(), size, size), "restart.png");
             }
-            selectButton(13);
+            if(!currentButtonRestored)
+            {
+            	currentButton = buttons.Length - 1;
+            }
+            if(AbstractScreen.ScreenInitiatedByKeyboard){
+            	selectButton(currentButton);
+            }
             guiWindow.show();
         }
 
@@ -136,59 +147,59 @@ namespace Wof.Controller.Screens
                 PlayClickSound();
                 if (referer == buttons[0])
                 {
-                    gameEventListener.GotoVideoModeScreen();
+                    gameEventListener.GotoVideoModeScreen(referer);
                 }
                 else if (referer == buttons[1])
                 {
-                    gameEventListener.GotoAntialiasingOptionsScreen();
+                    gameEventListener.GotoAntialiasingOptionsScreen(referer);
                 }
                 else if (referer == buttons[2])
                 {
-                    gameEventListener.GotoVSyncOptionsScreen();
+                    gameEventListener.GotoVSyncOptionsScreen(referer);
                 }
                 else if (referer == buttons[3])
                 {
-                    gameEventListener.GotoBloomOptionsScreen();
+                    gameEventListener.GotoBloomOptionsScreen(referer);
                 }
                 else if (referer == buttons[4])
                 {
-                    gameEventListener.GotoHydraxOptionsScreen();
+                    gameEventListener.GotoHydraxOptionsScreen(referer);
                 }
                 else if (referer == buttons[5])
                 {
-                    gameEventListener.GotoBloodOptionsScreen();
+                    gameEventListener.GotoBloodOptionsScreen(referer);
                 }
                 else if (referer == buttons[6])
                 {
-                    gameEventListener.GotoDifficultyOptionsScreen();
+                    gameEventListener.GotoDifficultyOptionsScreen(referer);
                 }
                 else if (referer == buttons[7])
                 {
-                    gameEventListener.GotoLodOptionsScreen();
+                    gameEventListener.GotoLodOptionsScreen(referer);
                 }
                 else if (referer == buttons[8])
                 {
-                    gameEventListener.GotoShadowsOptionsScreen();
+                    gameEventListener.GotoShadowsOptionsScreen(referer);
                 }
                 else if (referer == buttons[9])
                 {
-                    gameEventListener.GotoControlsOptionsScreen();
+                    gameEventListener.GotoControlsOptionsScreen(referer);
                 }
                  else if (referer == buttons[10])
                 {
-                    gameEventListener.GotoJoystickOptionsScreen();
+                    gameEventListener.GotoJoystickOptionsScreen(referer);
                 }
                 else if (referer == buttons[11])
                 {
-                    gameEventListener.GotoLanguagesOptionsScreen();
+                    gameEventListener.GotoLanguagesOptionsScreen(referer);
                 }
                 else if (referer == buttons[12])
                 {
-                    gameEventListener.GotoSoundOptionsScreen();
+                    gameEventListener.GotoSoundOptionsScreen(referer);
                 }
                 else if (referer == buttons[13])
                 {
-                    gameEventListener.GotoStartScreen();
+                    gameEventListener.GotoStartScreen(referer);
                 }
             }
         }

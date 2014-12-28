@@ -170,7 +170,8 @@ namespace Wof.Controller.Screens
 					}
 					twoStep++;
 					KeyMap.Instance.Up = arg.key;	
-					controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), "2/2");
+					controlChangeWindow.createStaticText(new Vector4(GUI.OVERLAY_TITLE_MARGIN,  GUI.OVERLAY_TITLE_MARGIN + parentGui.mFontSize*2, controlChangeWindow.w, parentGui.mFontSize ), KeyMap.Instance.Up.ToString(), new ColourValue(0.9f, 0.7f, 0.0f));
+					controlChangeWindow.createStaticText(new Vector4(GUI.OVERLAY_TITLE_MARGIN,  GUI.OVERLAY_TITLE_MARGIN + parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), LanguageResources.GetString(LanguageKey.Pitch) + " (2/2)");
 					return true; // only first step
 				}else {
 				  	twoStep = 1;
@@ -191,7 +192,10 @@ namespace Wof.Controller.Screens
 					}
 					twoStep++;
 					KeyMap.Instance.Left = arg.key;	
-					controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), "2/2");
+					controlChangeWindow.createStaticText(new Vector4(GUI.OVERLAY_TITLE_MARGIN,GUI.OVERLAY_TITLE_MARGIN + parentGui.mFontSize*2, controlChangeWindow.w, parentGui.mFontSize ), KeyMap.Instance.Left.ToString(), new ColourValue(0.9f, 0.7f, 0.0f));
+					controlChangeWindow.createStaticText(new Vector4(GUI.OVERLAY_TITLE_MARGIN, GUI.OVERLAY_TITLE_MARGIN +  parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + " (2/2)");
+					
+
 					return true; // only first step
 				}else {
 				  	twoStep = 1;
@@ -246,17 +250,20 @@ namespace Wof.Controller.Screens
 			  //LanguageResources.GetString(LanguageKey.Pause);
 			  
 			  
-              float width = ViewHelper.MeasureText(parentGui.mFont, caption, parentGui.mFontSize);
+              float width = ViewHelper.MeasureText(parentGui.mFont, caption+" (1/2) ", parentGui.mFontSize);
 			  
 			  
               controlChangeWindow = parentGui.createWindow(new Vector4(parentGuiWindow.x + (parentGuiWindow.w - width)/2.0f,parentGuiWindow.y+ parentGuiWindow.h/4,width,parentGuiWindow.h/2),
                                           "bgui.window", (int) wt.NONE, caption);
 			  
 			  if( GetLanguageKeyById(id).Equals(LanguageKey.Pitch)) {
-			  	  controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize, controlChangeWindow.w, parentGui.mFontSize ), "Step 1...");
+			  	  controlChangeWindow.createStaticText(new Vector4(GUI.OVERLAY_TITLE_MARGIN, parentGui.mFontSize +GUI.OVERLAY_TITLE_MARGIN, controlChangeWindow.w, parentGui.mFontSize ), LanguageResources.GetString(LanguageKey.Pitch) + " (1/2)");
 					
 			  }
-			  
+			    if( GetLanguageKeyById(id).Equals(LanguageKey.AccelerateBreakTurn)) {
+			  	  controlChangeWindow.createStaticText(new Vector4(GUI.OVERLAY_TITLE_MARGIN, parentGui.mFontSize + GUI.OVERLAY_TITLE_MARGIN, controlChangeWindow.w, parentGui.mFontSize ), LanguageResources.GetString(LanguageKey.AccelerateBreakTurn) + " (1/2)");
+					
+			  }
 			  controlChangeWindow.show();
         
 		}

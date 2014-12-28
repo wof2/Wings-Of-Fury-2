@@ -49,6 +49,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using MOIS;
 using Mogre;
@@ -78,14 +79,12 @@ namespace Wof.Controller.Screens
 		#endregion
 		protected IList<JoyStick> joysticks;
 		
-		protected JoyStick currentJoystick;
-		
-		protected TextInput joystickHorizontalAxisNoTi;
-		protected TextInput joystickVerticalAxisNoTi;
+		protected JoyStick currentJoystick;		
+	
 		protected TextInput joystickDeadzoneTi;
 		protected TextInput joystickSensitivityTi;
 		
-		
+		protected IList<uint> horizontalAxesButtonIDs = new List<uint>(), verticalAxesButtonIDs  = new List<uint>();
 	
 		public delegate void OnControlsChanged();		
 		public event OnControlsChanged onControlsChanged;
@@ -98,6 +97,15 @@ namespace Wof.Controller.Screens
 		
 		public delegate void OnChangeButtonAdded(Button button);		
 		public event OnChangeButtonAdded onChangeButtonAdded;
+		
+		
+		public void Clear() {
+			horizontalAxesButtonIDs.Clear();
+			verticalAxesButtonIDs.Clear();
+			identifiers.Clear();
+			lastButtonId = 0;
+		}
+				
 		
 		
 		public JoystickChangerHelper(Keyboard keyboard, IList<JoyStick> joysticks, MenuScreen parent)  : base(keyboard, parent) {
@@ -171,6 +179,9 @@ namespace Wof.Controller.Screens
 			if(langKey.Equals(LanguageKey.Bombs)){
 				property = "JoystickRocket";
 			}
+			if(langKey.Equals(LanguageKey.Spin)){
+				property = "JoystickSpin";
+			}
 			if(langKey.Equals(LanguageKey.Camera)){
 				property = "JoystickCamera";
 			}			
@@ -195,62 +206,13 @@ namespace Wof.Controller.Screens
 				exceptions = new String[]{"JoystickEscape", "JoystickEnter"};
 			}
 			
-			/*if(langKey.Equals(LanguageKey.Back) ) {
-
-				
-			}else*/
+			
 			if(!langKey.Equals(LanguageKey.Pitch) && !langKey.Equals(LanguageKey.AccelerateBreakTurn)) {
 				KeyMap.ClearOtherControlsWithSameKey(property, button, TypeOfControl.Joystick, exceptions);
 				KeyMap.UpdateProperty(property, button, TypeOfControl.Joystick);
 						
 			}
 			
-			
-			
-			// pitch
-			/*
-			if(langKey.Equals(LanguageKey.Pitch)){
-				
-				if(twoStep == 1) {	
-					if(KeyMap.CheckKeyCodeConflict("Up", arg.key, new [] {"Down"})) {						
-						return true;
-					}
-					twoStep++;
-					KeyMap.Instance.Up = arg.key;	
-					controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), "OK. Now step 2...");
-					return true; // only first step
-				}else {
-				  	twoStep = 1;
-				  	if(KeyMap.CheckKeyCodeConflict("Down", arg.key, new [] {"Up"})) {						
-						return true;
-					}
-				  	KeyMap.Instance.Down = arg.key;					  
-				  	// finish
-				}
-				
-			}
-				
-			if(langKey.Equals(LanguageKey.AccelerateBreakTurn)){
-				
-				if(twoStep == 1) {	
-					if(KeyMap.CheckKeyCodeConflict("Left", arg.key, new [] {"Right"})) {						
-						return true;
-					}
-					twoStep++;
-					KeyMap.Instance.Left = arg.key;	
-					controlChangeWindow.createStaticText(new Vector4(parentGui.mFontSize, parentGui.mFontSize*3, controlChangeWindow.w, parentGui.mFontSize ), "OK. Now step 2...");
-					return true; // only first step
-				}else {
-				  	twoStep = 1;
-				  	if(KeyMap.CheckKeyCodeConflict("Right", arg.key, new [] {"Left"})) {
-						// handle
-						return true;
-					}
-				  	KeyMap.Instance.Right = arg.key;					  
-				  	// finish
-				}
-				
-			}	*/	
 		
 			
 			CloseControlChangeWindow();
@@ -346,6 +308,7 @@ namespace Wof.Controller.Screens
 				onControlsCaptureEnded();
 			}
 		}
+		/*
 		void joystickHorizontalAxisNoTi_onValueChanged(string delta)
 		{
 			bool error = false;
@@ -410,7 +373,8 @@ namespace Wof.Controller.Screens
 				joystickVerticalAxisNoTi.noerror();
 			}
 			
-		}
+		}*/
+		
 		void joystickDeadzoneTi_onValueChanged(string delta)
 		{
 			bool error = false;
@@ -462,7 +426,8 @@ namespace Wof.Controller.Screens
 		}
 		
 		
-		
+			
+	
 
 		
 		#region BetaGUIListener implementation
@@ -473,6 +438,38 @@ namespace Wof.Controller.Screens
 			if(capturingKeys) {
 				return;
 			}
+			
+			if(horizontalAxesButtonIDs.Contains(referer.id)) {
+				// change horizontal axis no
+				var newAxis = horizontalAxesButtonIDs.IndexOf(referer.id);
+				if(newAxis.Equals(KeyMap.Instance.JoystickHorizontalAxisNo)) {
+					return;
+				}	
+				if(newAxis.Equals(KeyMap.Instance.JoystickVerticalAxisNo)) {
+					return;
+				}
+				
+				KeyMap.Instance.JoystickHorizontalAxisNo = newAxis;		
+				parent.RecreateGUI();
+				
+				return;
+			}
+			
+			if(verticalAxesButtonIDs.Contains(referer.id)) {
+				// change horizontal axis no
+				var newAxis = verticalAxesButtonIDs.IndexOf(referer.id);
+				if(newAxis.Equals(KeyMap.Instance.JoystickHorizontalAxisNo)) {
+					return;
+				}	
+				if(newAxis.Equals(KeyMap.Instance.JoystickVerticalAxisNo)) {
+					return;
+				}				
+				KeyMap.Instance.JoystickVerticalAxisNo = newAxis;				
+				parent.RecreateGUI();
+				return;
+			}
+			
+			// change of other controls
 		
 			DisplayControlChangeWindow(referer.id);
 			
@@ -551,6 +548,9 @@ namespace Wof.Controller.Screens
             y = AddControlLine(LanguageKey.Bombs, KeyMap.Instance.JoystickRocket, "/" + LanguageResources.GetString(LanguageKey.Rockets)+ ": ", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg);
            
             y += (int)(h*1);
+            y = AddControlLine(LanguageKey.Spin, KeyMap.Instance.JoystickSpin, "", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg);
+           
+            y += (int)(h*1);
             y = AddControlLine(LanguageKey.Camera, KeyMap.Instance.JoystickCamera, "", guiWindow, mGui, left, top, width, fontSize, y, h, leftOrg);
             
             y += (int)(h*1);
@@ -567,48 +567,56 @@ namespace Wof.Controller.Screens
 		// horizontal axis            
             string txt;
             float controlTxtWidth;
-            //FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.VectorCount
-            txt = "JoystickHorizontalAxisNo: (max. "+(FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount-1)+" )";
+           
+            	
+            txt = LanguageResources.GetString(LanguageKey.ChooseHorizontalAxisNo)+":";
             controlTxtWidth = ViewHelper.MeasureText(mGui.mFont, txt, mGui.mFontSize);
 			
             guiWindow.createStaticText(pos, txt); 
             pos.x += controlTxtWidth + spaceSize ;
           //  pos.y -= mGui.mFontSize
             pos.z = spaceSize*2;
-            joystickHorizontalAxisNoTi = guiWindow.createTextInput(pos, "bgui.textinput", KeyMap.Instance.JoystickHorizontalAxisNo.ToString(), 1 );
-            joystickHorizontalAxisNoTi.Validator = new NumberInRangeValidator(0, FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount-1);
-            joystickHorizontalAxisNoTi.onValueChanged += joystickHorizontalAxisNoTi_onValueChanged;
-             
+            
+            for(int i = 0; i < FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount; i++) {
+            	horizontalAxesButtonIDs.Add(++lastButtonId);
+            	var material = (KeyMap.Instance.JoystickHorizontalAxisNo != i) ? "bgui.button" : "bgui.selected.button";
+            	
+            	OnChangeButtonAddedDo(guiWindow.createButton(pos, material, i.ToString(), new Callback(this), lastButtonId));
+			 	pos.x +=  pos.z ;            	
+            }
+            
             y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
             
         // vertical axis  
             //FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.VectorCount
-            txt = "JoystickVerticalAxisNo: (max. "+(FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount-1)+" )";
+            txt = LanguageResources.GetString(LanguageKey.ChooseVerticalAxisNo)+":";
             controlTxtWidth = ViewHelper.MeasureText(mGui.mFont, txt, mGui.mFontSize);
 			
             guiWindow.createStaticText(pos, txt); 
             pos.x += controlTxtWidth + spaceSize ;
           //  pos.y -= mGui.mFontSize
             pos.z = spaceSize*2;
-            joystickVerticalAxisNoTi = guiWindow.createTextInput(pos, "bgui.textinput", KeyMap.Instance.JoystickVerticalAxisNo.ToString(), 1 );
-            joystickVerticalAxisNoTi.Validator = new NumberInRangeValidator(0, FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount-1);
-            joystickVerticalAxisNoTi.onValueChanged += joystickVerticalAxisNoTi_onValueChanged;
-             
+            
+            for(int i = 0; i < FrameWorkStaticHelper.GetCurrentJoystick(joysticks).JoyStickState.AxisCount; i++) {
+            	verticalAxesButtonIDs.Add(++lastButtonId);
+            	var material = (KeyMap.Instance.JoystickVerticalAxisNo != i) ? "bgui.button" : "bgui.selected.button";
+            	
+            	OnChangeButtonAddedDo(guiWindow.createButton(pos, material, i.ToString(), new Callback(this), lastButtonId));
+			 	pos.x += pos.z ;            	
+            }
+                       
             y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
             
             
         // deadzone           
-            txt = "Joystick Deadzone: 0.";
+            txt = LanguageResources.GetString(LanguageKey.JoystickDeadzone)+" 0.";
             controlTxtWidth = ViewHelper.MeasureText(mGui.mFont, txt, mGui.mFontSize);
 			
             guiWindow.createStaticText(pos, txt); 
             pos.x += controlTxtWidth;
             pos.z = spaceSize*2;
-            
-            
-            
             joystickDeadzoneTi = guiWindow.createTextInput(pos, "bgui.textinput",KeyMap.Instance.JoystickDeadZone.ToString(ci).Substring(2).PadRight(2, '0')  , 2 );
             joystickDeadzoneTi.Validator = new NumberValidator();
             joystickDeadzoneTi.onValueChanged += joystickDeadzoneTi_onValueChanged;
@@ -617,11 +625,11 @@ namespace Wof.Controller.Screens
             y += (int)(h*1);
             pos = new Vector4(left, top + y, width, h);
         // sensitivity
-            txt = "Joystick Sensitivity (0.01 - 3.00): ";
+            txt = LanguageResources.GetString(LanguageKey.JoystickSensitivity)+ " (0.01 - 3.00):";
             controlTxtWidth = ViewHelper.MeasureText(mGui.mFont, txt, mGui.mFontSize);
 			
             guiWindow.createStaticText(pos, txt); 
-            pos.x += controlTxtWidth;
+            pos.x += controlTxtWidth+ spaceSize;
             pos.z = spaceSize*3;
             joystickSensitivityTi = guiWindow.createTextInput(pos, "bgui.textinput", KeyMap.Instance.JoystickSensivity.ToString(ci), 4 );
             joystickSensitivityTi.Validator = new NumberAndDotValidator();

@@ -1254,23 +1254,10 @@ namespace Wof.Controller.Screens
                                 
                             }
 
-                            // obrót z 'pleców na brzuch' samolotu
-                            // tymczasowo wy³¹czone - problematyczny obrót samolotu w modelu
-
-                            if (KeyMap.Instance.Spin is MOIS.Keyboard.Modifier)
+                            // obrót z 'pleców na brzuch' samolotu                           
+                            if(FrameWorkStaticHelper.IsSpinPressed(inputKeyboard, inputJoysticks))
                             {
-                                if (inputKeyboard.IsModifierDown((MOIS.Keyboard.Modifier) KeyMap.Instance.Spin))
-                                {
-                                    currentLevel.OnSpinPressed();
-                                }
-                            }
-                            else
-                            {
-                                if (inputKeyboard.IsKeyDown((KeyCode) KeyMap.Instance.Spin))
-                                {
-                                    currentLevel.OnSpinPressed();
-                                }
-
+                               	currentLevel.OnSpinPressed();
                             }
 
                             // bullet time
@@ -1928,7 +1915,7 @@ namespace Wof.Controller.Screens
                         { 
                         	// customowy poziom - koniec
 							LoadGameUtil.NewLevelCompleted(levelInfo, CompletedAchievements);
-                            gameEventListener.GotoStartScreen();
+                            gameEventListener.GotoStartScreen(null);
                         }
                         else
                         {
@@ -2462,7 +2449,7 @@ namespace Wof.Controller.Screens
                 
                 
                 
-                gameEventListener.GotoStartScreen();
+                gameEventListener.GotoStartScreen(referer);
             }
             if (referer == gameOverButton)
             {
@@ -2516,7 +2503,7 @@ namespace Wof.Controller.Screens
                 }
                 else
                 {
-                    gameEventListener.GotoHighscoresScreen();
+                    gameEventListener.GotoHighscoresScreen(referer);
                     isInGameOverMenu = false;
                     return;
                 }
@@ -2595,11 +2582,28 @@ namespace Wof.Controller.Screens
             
         }
         
+        private void ClearPauseScreen()
+        {
+            SoundManager.Instance.LoopOceanSound();
+            if (mayPlaySound)
+            {
+                SoundManager.Instance.LoopEngineSound(currentLevel.UserPlane);
+            }
+            isGamePaused = false;
+            isInPauseMenu = false;
+          
+            mGui.killGUI();
+            mGui = null;
+        }
+
+        
         public void ResetPauseScreen() {
+        	
         	mGui.killGUI();
             mGui = null;
         	DisplayPauseScreen();
         }
+       
         
         private void DisplayPauseScreen()
         {
@@ -2623,8 +2627,13 @@ namespace Wof.Controller.Screens
 
             levelView.OnStopPlayingEnemyPlaneEngineSounds();
 
+	
             mGui = new GUI(FontManager.CurrentFont, fontSize);
             mGui.SetZOrder(1000);
+            
+            mGui.OldMouseX = mousePosX;
+	        mGui.OldMouseY = mousePosY;
+            
             mGui.createMousePointer(new Vector2(30, 30), "bgui.pointer");
             guiWindow = mGui.createWindow(new Vector4(viewport.ActualWidth * 0.15f - 10,
                                                       viewport.ActualHeight / 8 - 10, viewport.ActualWidth * 0.7f + 10, 19.0f * h),
@@ -2702,19 +2711,7 @@ namespace Wof.Controller.Screens
 
         
         
-        private void ClearPauseScreen()
-        {
-            SoundManager.Instance.LoopOceanSound();
-            if (mayPlaySound)
-            {
-                SoundManager.Instance.LoopEngineSound(currentLevel.UserPlane);
-            }
-            isGamePaused = false;
-            isInPauseMenu = false;
-            mGui.killGUI();
-            mGui = null;
-        }
-
+  
         private void BuildStatsScreen(Window window)
         {
            // uint oldSize = mGui.mFontSize;

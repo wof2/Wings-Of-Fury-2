@@ -20,7 +20,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
 	/// </summary>
 	public abstract class AbstractChangerHelper  : BetaGUIListener
 	{
-		protected uint lastId = 1;
+		protected uint lastButtonId = 1;
 		protected MenuScreen parent;
 		protected Callback callback;
 		protected MOIS.Keyboard keyboard;
@@ -60,7 +60,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
     	  	if(identifiers.ContainsKey(identifier)) {
     	  		curId = identifiers[identifier];
     	  	}else {
-    	  		curId = ++lastId;
+    	  		curId = ++lastButtonId;
     	  		identifiers[identifier] = curId;
     	  	}
     	  	

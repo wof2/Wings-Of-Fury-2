@@ -136,7 +136,7 @@ namespace Wof.Controller.Screens
         {
             tutorialOverlay.Hide();
             tutorialOverlay.Dispose();
-            gameEventListener.GotoStartScreen();
+            gameEventListener.GotoStartScreen(null);
         }
 
 
