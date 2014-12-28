@@ -926,10 +926,9 @@ namespace Wof.Controller
                 }
         	}
         }
-
-        public void GotoIntroScreen()
-        {
-        	
+        
+        ScreenState ss = null;
+        protected bool initScreen(BetaGUI.Button referer) {
         	if (OptionsScreen.restartRequired)
             {
                 OptionsScreen.restartRequired = false;
@@ -942,21 +941,31 @@ namespace Wof.Controller
             	shouldReload = false;
             	shutDown = true;
             }
-           
-            ScreenState ss = null;
+            
+            if(referer != null)
+        	{
+            	AbstractScreen.ScreenInitiatedByKeyboard = referer.ClickedByKeyboard;
+        	}
+            
+            
             if (currentScreen != null && currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
             {
                 ss = (currentScreen as AbstractScreen).GetScreenState();
             }
-          
+
             Boolean justMenu = IsMenuScreen(currentScreen);
             initScreenAfter(currentScreen);
+            return justMenu;
+        }
+        
+
+        public void GotoIntroScreen()
+        {
+        	
+        	bool justMenu = initScreen(null);
 
             SoundManager.Instance.PlayMainTheme();
-           
-
-            currentScreen = new IntroScreen(this, this, viewport, camera);
-         
+            currentScreen = new IntroScreen(this, this, viewport, camera);         
 
             if (ss != null)
             {
@@ -969,34 +978,12 @@ namespace Wof.Controller
         
             }
         }
-        public void GotoStartScreen()
+        public void GotoStartScreen(BetaGUI.Button referer)
         {
         	
-        	
-            if (OptionsScreen.restartRequired)
-            {
-                OptionsScreen.restartRequired = false;
-                shouldReload = true;
-                shutDown = true;
-            }
-            if(OptionsScreen.shutdownRequired)
-            {
-            	OptionsScreen.shutdownRequired = false;
-            	shouldReload = false;
-            	shutDown = true;
-            }
-          
-            
-            ScreenState ss = null;
-            if (currentScreen != null && currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-
-            Boolean justMenu = IsMenuScreen(currentScreen);
-            initScreenAfter(currentScreen);
-
+            bool justMenu = initScreen(referer);
             SoundManager.Instance.PlayMainTheme();
+           
            
             currentScreen = new StartScreen(this, this, viewport, camera);
            // if (!browserNotNull) StartBrowser();
@@ -1036,16 +1023,9 @@ namespace Wof.Controller
         }
 
 
-        public void GotoLoadGameScreen()
+        public void GotoLoadGameScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+            bool justMenu = initScreen(referer);
 
             SoundManager.Instance.PlayMainTheme();
 
@@ -1057,16 +1037,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoEnhancedLevelsScreen()
+        public void GotoEnhancedLevelsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+           bool justMenu =  initScreen(referer);
 
             SoundManager.Instance.PlayMainTheme();
 
@@ -1078,15 +1051,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoHighscoresScreen()
+        public void GotoHighscoresScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+            bool justMenu = initScreen(referer);
             SoundManager.Instance.PlayMainTheme();
 
             currentScreen = new HighscoresScreen(this, this, viewport, camera);
@@ -1099,15 +1066,9 @@ namespace Wof.Controller
 
         public void GotoEnterScoreScreen(int score, float survivalTime)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
+           
             HideBrowser();
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-
-            initScreenAfter(currentScreen);
+            bool justMenu = initScreen(null);
 
             SoundManager.Instance.PlayEndingTheme();
             currentScreen = new ScoreEnterScreen(this, this, viewport, camera, score, survivalTime);
@@ -1121,15 +1082,9 @@ namespace Wof.Controller
         }
 
 
-        public void GotoDonateScreen()
+        public void GotoDonateScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+           bool justMenu = initScreen(referer);
             SoundManager.Instance.PlayMainTheme();
 
             currentScreen = new DonateScreen(this, this, viewport, camera);
@@ -1140,15 +1095,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoEnhancedVersionScreen()
+        public void GotoEnhancedVersionScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+             bool justMenu = initScreen(referer);
             SoundManager.Instance.PlayMainTheme();
 
             currentScreen = new EnhancedVersionScreen(this, this, viewport, camera);
@@ -1159,15 +1108,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoPlanesScreen()
+        public void GotoPlanesScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+             bool justMenu = initScreen(referer);
             SoundManager.Instance.PlayMainTheme();
 
             currentScreen = new PlanesScreen(this, this, viewport, camera);
@@ -1180,7 +1123,7 @@ namespace Wof.Controller
 
         
 
-        public void GotoQuitScreen()
+        public void GotoQuitScreen(BetaGUI.Button referer)
         {
         	DisposeBrowser();
             if(currentScreen is AbstractScreen)
@@ -1209,14 +1152,9 @@ namespace Wof.Controller
 
         public void GotoEndingScreen(int highscore, float survivalTime)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
+           
             HideBrowser();
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+            bool justMenu = initScreen(null);
             SoundManager.Instance.PlayEndingTheme();
 
             currentScreen = new EndingScreen(this, this, viewport, camera, true, 25, highscore, survivalTime);
@@ -1229,17 +1167,11 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         } 
 
-        public void GotoCreditsScreen()
+        public void GotoCreditsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
+           
 			HideBrowser();
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
-
+            bool justMenu = initScreen(referer);
             SoundManager.Instance.PlayEndingTheme();
             currentScreen = new CreditsScreen(this, this, viewport, camera, true, 65);
 
@@ -1251,16 +1183,11 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoLanguageDebugScreen()
+        public void GotoLanguageDebugScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
+          
 			HideBrowser();
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+             bool justMenu = initScreen(referer);
            
             currentScreen = new LanguageDebugScreen(this, this, viewport, camera, false, 75);
 
@@ -1271,16 +1198,9 @@ namespace Wof.Controller
 
             currentScreen.DisplayGUI(justMenu);
         }
-        public void GotoOptionsScreen()
+        public void GotoOptionsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
- 		
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+            bool justMenu = initScreen(referer);
 
             currentScreen = new OptionsScreen(this, this, viewport, camera);
 
@@ -1292,17 +1212,11 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoTutorialScreen()
+        public void GotoTutorialScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
+          
             HideBrowser();
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+            bool justMenu = initScreen(referer);
             currentScreen = new TutorialScreen(this, this, viewport, camera);
 
             if (ss != null)
@@ -1313,16 +1227,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoVideoModeScreen()
+        public void GotoVideoModeScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+            bool justMenu = initScreen(referer);
             currentScreen = new VideoModeScreen(this, this, viewport, camera);
 
             if (ss != null)
@@ -1333,16 +1240,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoAntialiasingOptionsScreen()
+        public void GotoAntialiasingOptionsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+            bool justMenu = initScreen(referer);       
             currentScreen = new AntialiasingOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
@@ -1353,16 +1253,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoVSyncOptionsScreen()
+        public void GotoVSyncOptionsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-
-            initScreenAfter(currentScreen);
+            bool justMenu = initScreen(referer);
             currentScreen = new VSyncOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
@@ -1373,16 +1266,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoDifficultyOptionsScreen()
+        public void GotoDifficultyOptionsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+           bool justMenu = initScreen(referer);
             currentScreen = new DifficultyScreen(this, this, viewport, camera);
 
             if (ss != null)
@@ -1393,16 +1279,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoBloomOptionsScreen()
+        public void GotoBloomOptionsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+            bool justMenu = initScreen(referer);
             currentScreen = new BloomOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
@@ -1413,16 +1292,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
         
-  		public void GotoHydraxOptionsScreen()
+  		public void GotoHydraxOptionsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+           bool justMenu = initScreen(referer);
             currentScreen = new HydraxOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
@@ -1433,16 +1305,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoBloodOptionsScreen()
+        public void GotoBloodOptionsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+         bool justMenu = initScreen(referer);
             currentScreen = new BloodOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
@@ -1455,16 +1320,9 @@ namespace Wof.Controller
 
   		
   		
-        public void GotoLodOptionsScreen()
+        public void GotoLodOptionsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+           bool justMenu = initScreen(referer);
             currentScreen = new LODOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
@@ -1475,16 +1333,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
         
-        public void GotoShadowsOptionsScreen()
+        public void GotoShadowsOptionsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+          bool justMenu = initScreen(referer);
             currentScreen = new ShadowsOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
@@ -1496,16 +1347,9 @@ namespace Wof.Controller
         }
         
 
-        public void GotoControlsOptionsScreen()
+        public void GotoControlsOptionsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+          bool justMenu = initScreen(referer);
             currentScreen = new ControlsOptionsScreen(this, this, viewport, camera, inputKeyboard);
 
             if (ss != null)
@@ -1516,16 +1360,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
         
-        public void GotoJoystickOptionsScreen()
+        public void GotoJoystickOptionsScreen(BetaGUI.Button referer)
 		{
-			 Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+			 bool justMenu = initScreen(referer);
             currentScreen = new JoystickOptionsScreen(this, this, viewport, camera, inputKeyboard, inputJoysticks);
 
             if (ss != null)
@@ -1536,15 +1373,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
 		}
 
-        public void GotoLanguagesOptionsScreen()
+        public void GotoLanguagesOptionsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof(AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+          bool justMenu = initScreen(referer);
             currentScreen = new LanguagesOptionsScreen(this, this, viewport, camera);
 
             if (ss != null)
@@ -1555,16 +1386,9 @@ namespace Wof.Controller
             currentScreen.DisplayGUI(justMenu);
         }
 
-        public void GotoSoundOptionsScreen()
+        public void GotoSoundOptionsScreen(BetaGUI.Button referer)
         {
-            Boolean justMenu = IsMenuScreen(currentScreen);
-
-            ScreenState ss = null;
-            if (currentScreen.GetType().IsSubclassOf(typeof (AbstractScreen)))
-            {
-                ss = (currentScreen as AbstractScreen).GetScreenState();
-            }
-            initScreenAfter(currentScreen);
+            bool justMenu = initScreen(referer);
             currentScreen = new SoundOptionsScreen(this, this, viewport, camera);
 
             if(ss!=null)

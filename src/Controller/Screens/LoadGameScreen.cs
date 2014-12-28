@@ -81,7 +81,7 @@ namespace Wof.Controller.Screens
 
         protected override void GoToBack(Button referer)
         {
-            gameEventListener.GotoStartScreen();
+            gameEventListener.GotoStartScreen(referer);
         }
 
         protected override string getTitle()

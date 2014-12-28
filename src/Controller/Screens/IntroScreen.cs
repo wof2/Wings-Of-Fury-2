@@ -432,7 +432,7 @@ namespace Wof.Controller.Screens
         {
             overlay.Hide();
             overlay.Dispose();
-            gameEventListener.GotoStartScreen();
+            gameEventListener.GotoStartScreen(null);
         }
 
 

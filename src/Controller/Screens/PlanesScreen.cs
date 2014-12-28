@@ -225,7 +225,7 @@ namespace Wof.Controller.Screens
                 if (!EngineConfig.IsEnhancedVersion)
                 {
                     PlayClickSound();
-                    gameEventListener.GotoEnhancedVersionScreen();
+                    gameEventListener.GotoEnhancedVersionScreen(referer);
                     return;
                 }
 
@@ -291,7 +291,7 @@ namespace Wof.Controller.Screens
 
                 if(back)
                 {
-                    gameEventListener.GotoStartScreen();
+                    gameEventListener.GotoStartScreen(referer);
                     return;
                 }
             }

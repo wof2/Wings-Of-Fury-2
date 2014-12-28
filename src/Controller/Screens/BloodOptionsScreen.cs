@@ -60,6 +60,7 @@ namespace Wof.Controller.Screens
                                    IFrameWork framework, Viewport viewport, Camera camera) :
                                       base(gameEventListener, framework, viewport, camera)
         {
+    		autoGoBack = false;
     		showRestartRequiredMessage = false;
         }
 
@@ -82,6 +83,7 @@ namespace Wof.Controller.Screens
         {
             EngineConfig.Gore = LanguageResources.GetString(LanguageKey.Yes).Equals(holder.Value);
             EngineConfig.SaveEngineConfig();
+            RecreateGUI();
         }
 
         protected override bool IsOptionSelected(int index, ButtonHolder holder)

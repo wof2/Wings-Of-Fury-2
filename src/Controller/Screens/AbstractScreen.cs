@@ -95,6 +95,8 @@ namespace Wof.Controller.Screens
         }
         protected List<SceneNode> cloudNodes;
         
+        
+       
 /*
         public uint MousePosX
         {
@@ -122,11 +124,14 @@ namespace Wof.Controller.Screens
 			set { mousePos = value; }
 		}
 		
-        public ScreenState(List<PlaneView> planeViews, List<SceneNode> cloudNodes, Point mousePos)
+				
+					
+		public ScreenState(List<PlaneView> planeViews, List<SceneNode> cloudNodes, Point mousePos)
         {
             this.planeViews = planeViews;
             this.cloudNodes = cloudNodes;
             this.mousePos = mousePos;
+         
           //  this.mousePosX = mousePosX;
          //   this.mousePosY = mousePosY;
             
@@ -139,7 +144,20 @@ namespace Wof.Controller.Screens
     /// </summary>
     public class AbstractScreen : MenuScreen
     {
+    	
+    	protected static Dictionary<string, int> lastSelectedButtons = new  Dictionary<string, int>();
+ 
+    	protected static bool screenInitiatedByKeyboard;
 
+		public static bool ScreenInitiatedByKeyboard {
+			get {
+				return screenInitiatedByKeyboard;
+			}
+			set {
+				screenInitiatedByKeyboard = value;
+			}
+		}
+    	
         protected int C_MAX_OPTIONS = 12;
         protected int currentScreen;
 
@@ -257,6 +275,7 @@ namespace Wof.Controller.Screens
         protected int buttonsCount = 0; // iloœæ przycisków w menu
         protected int backButtonIndex = -1; // indeks przycisku 'powrót'.
         
+        protected bool currentButtonRestored = false; // przycisk byl juz wczesniej zaznczony (teraz screen budowany jest na nowo)
         
         private float XScale
         {
@@ -357,48 +376,6 @@ namespace Wof.Controller.Screens
         {
             get { return viewport; }
         }
-
-        /*
-		/// <summary>
-		/// Wsp. w pikselach viewportowych
-		/// </summary>
-        public uint MousePosX
-        {
-            get
-            {
-         
-
-                int x =  (framework as Form).PointToClient(Cursor.Position).X;
-                if (x >= (framework as Form).ClientSize.Width)
-                {
-                    x = (framework as Form).ClientSize.Width - 1;
-                }
-                if (x < 0) x = 0;
-
-                return (uint)(x * XScale);
-      
-            }
-           
-        }
-
-        public uint MousePosY
-        {
-            get {
-              
-
-                int y = (framework as Form).PointToClient(Cursor.Position).Y;
-                if (y >= (framework as Form).ClientSize.Height)
-                {
-                    y = (framework as Form).ClientSize.Height - 1;
-                }
-                if (y < 0) y = 0;
-
-                return (uint)(y * YScale);
-         
-            }
-           
-        }
-*/
      
 
         protected Boolean initialized;
@@ -411,10 +388,7 @@ namespace Wof.Controller.Screens
         /// </summary>
         private bool wereAllKeysReleased = false; 
         
-        
        
-        
-
         public AbstractScreen(GameEventListener gameEventListener,
                               IFrameWork framework, Viewport viewport, Camera camera)
             : this(gameEventListener, framework, viewport, camera, 0)
@@ -440,6 +414,21 @@ namespace Wof.Controller.Screens
             this.camera = camera;
             initialized = false;
             screenTime = 0;
+            
+                        
+            if(screenInitiatedByKeyboard) {
+            	if(AbstractScreen.lastSelectedButtons.ContainsKey(GetType().ToString())){
+	               	currentButton = AbstractScreen.lastSelectedButtons[this.GetType().ToString()];
+	               	currentButtonRestored = true;
+	            }else {
+	            	currentButtonRestored = false;
+	            }
+            }else {
+            	currentButtonRestored = false;
+            }
+            
+           
+            
          //   CenterMousePosition();
             wasUpKeyPressed = false;
             wasDownKeyPressed = false;
@@ -499,6 +488,8 @@ namespace Wof.Controller.Screens
         }
 
         protected bool screenStateSet = false;
+        
+        
         /// <summary>
         /// Wymusza nowy stan screena: samoloty oraz po³o¿enie myszki
         /// </summary>
@@ -507,7 +498,7 @@ namespace Wof.Controller.Screens
         {
             screenStateSet = true;
             planeViews = ss.PlaneViews;
-            cloudNodes = ss.CloudNodes;
+            cloudNodes = ss.CloudNodes;    
             SetMousePosition(ss);
          
         }
@@ -724,18 +715,29 @@ namespace Wof.Controller.Screens
         protected virtual void CreateGUI()
         {
         	
-        	
+        	// wyrownanie myszy - po to zeby injectMouse -> check() myslalo ze mysz nie zmienila polozenia od poprzedniego ekranu
+        	// bez tego przyciski  moga siê odznaczyc (bo mysz niby sie ruszyla) - niekorzystne jesli weszlismy tu przy uzyciu klawiatury
         	uint oldMouseX = 0, oldMouseY = 0;
         	if(mGui != null) {
         		oldMouseX = mGui.OldMouseX;
         		oldMouseY = mGui.OldMouseY;
+        	}else {
+				oldMouseX = (uint)MousePos.X;
+				oldMouseY = (uint)MousePos.Y;
         	}
+        	
         	
             int h = (int)GetTextVSpacing();
             mGui = new GUI(FontManager.CurrentFont, fontSize);
-            mGui.OldMouseX = oldMouseX;
-            mGui.OldMouseY = oldMouseY;
             
+            
+            if(AbstractScreen.ScreenInitiatedByKeyboard) { 
+				// wyrownanie tylko jesli nie uzywamy myszki
+				// dzieki temu nie odznacz¹ nam siê aktualnie zaznaczone przyciski 				
+	            mGui.OldMouseX = oldMouseX;
+	            mGui.OldMouseY = oldMouseY;
+	           
+            }
             
             createMouse();
             string version = "v. " + EngineConfig.C_WOF_VERSION;
@@ -1557,6 +1559,8 @@ namespace Wof.Controller.Screens
             {
                 currentButton = newCurrentOption;
                 deselectButtons();
+           
+           		
                 selectButton(currentButton);
                 keyDelay.Reset();
             }
@@ -1592,8 +1596,10 @@ namespace Wof.Controller.Screens
         }
         protected void selectButton(int i, bool playSound)
         {
+        	
            if (i == -1) return;
            if(i>=buttons.Length) return;
+           AbstractScreen.lastSelectedButtons[this.GetType().ToString()] = i; 
            buttons[i].activate(true);
            
 

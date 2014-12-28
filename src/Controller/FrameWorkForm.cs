@@ -1586,7 +1586,7 @@ namespace Wof.Controller
 			
   			
   			inputJoysticks = new List<JoyStick>();
-  			
+  			bool foundOld = false;
 			for(int i=0; i < joysticks; ++i){
 				try {  					
   					inputJoysticks.Add((MOIS.JoyStick)inputManager.CreateInputObject(Type.OISJoyStick, UseBufferedInput));
@@ -1594,7 +1594,8 @@ namespace Wof.Controller
   					string jid = inputJoysticks[inputJoysticks.Count-1].Vendor()+"_"+inputJoysticks[inputJoysticks.Count-1].ID;
   					
   					if( jid.Equals(KeyMap.Instance.CurrentJoystick)) {  						
-  						FrameWorkStaticHelper.SetCurrentJoystickIndex(i);  
+  						FrameWorkStaticHelper.SetCurrentJoystickIndex(i); 
+  						foundOld = true;
   					}
   					
   					LogManager.Singleton.LogMessage("Created Joystick no. "+(i+1)+". Vendor: "+inputJoysticks[inputJoysticks.Count-1].Vendor());
@@ -1604,7 +1605,11 @@ namespace Wof.Controller
 	                       
 	            }
 			
-			}				
+			}		
+  			if(!foundOld) {
+  				KeyMap.Instance.CurrentJoystick = null;
+  				FrameWorkStaticHelper.SetCurrentJoystickIndex(0); 
+  			}
 			
 				
   			FrameWorkStaticHelper.SetNumberOfAvailableJoysticks(inputJoysticks.Count);  

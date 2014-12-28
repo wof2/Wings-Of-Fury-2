@@ -637,5 +637,23 @@
        <value>Ustawienia joysticka</value>
   </data>
   
+   <data name="ChooseHorizontalAxisNo"> 
+       <value>Wybierz oś poziomą</value>
+  </data>
+  
+  <data name="ChooseVerticalAxisNo"> 
+       <value>Wybierz oś pionową</value>
+  </data>
+  
+   <data name="JoystickDeadzone"> 
+       <value>Próg ruchu</value>
+  </data>
+  
+   <data name="JoystickSensitivity"> 
+       <value>Czułość</value>
+  </data>
+   <data name="JoystickAxis"> 
+       <value>Oś joysticka</value>
+  </data>
 
 </root>

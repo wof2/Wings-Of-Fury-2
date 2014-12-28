@@ -252,7 +252,7 @@ namespace Wof.Controller.Screens
                 } else
                 {
                     PlayClickSound();
-                    gameEventListener.GotoHighscoresScreen();
+                    gameEventListener.GotoHighscoresScreen(referer);
                 }
             }
         }

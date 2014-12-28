@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Wof</RootNamespace>
     <AssemblyName>Wof</AssemblyName>
-    <StartupObject>Wof.Tests.ControllerTest.JoystickOptionsGamesTest</StartupObject>
+    <StartupObject>Wof.Controller.Game</StartupObject>
     <ApplicationIcon>WofIcon.ico</ApplicationIcon>
     <FileUpgradeFlags>
     </FileUpgradeFlags>

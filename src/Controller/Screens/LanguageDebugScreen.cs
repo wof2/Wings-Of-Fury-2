@@ -249,7 +249,7 @@ namespace Wof.Controller.Screens
             if (referer == buttons[backButtonIndex])
             { 
                 PlayClickSound();
-                gameEventListener.GotoLanguagesOptionsScreen();
+                gameEventListener.GotoLanguagesOptionsScreen(referer);
             }
             if (referer == buttons[1] && !OutOfBounds)
             {

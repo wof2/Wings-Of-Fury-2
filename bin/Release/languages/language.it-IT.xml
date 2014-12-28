@@ -220,5 +220,23 @@ Navale – affonda tutte le navi nemiche usando i siluri. Ricorda che devi volar
        <value>Joystick options</value>
   </data>
   
+   <data name="ChooseHorizontalAxisNo"> 
+       <value>Choose horizontal axis no</value>
+  </data>
+  
+  <data name="ChooseVerticalAxisNo"> 
+       <value>Choose vertical axis no</value>
+  </data>
+  
+   <data name="JoystickDeadzone"> 
+       <value>Dead zone</value>
+  </data>
+  
+   <data name="JoystickSensitivity"> 
+       <value>Sensitivity</value>
+  </data>
+   <data name="JoystickAxis"> 
+       <value>Joystick axis</value>
+  </data>
   
 </root>

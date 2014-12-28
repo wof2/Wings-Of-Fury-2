@@ -63,6 +63,7 @@ namespace Wof.Controller.Screens
                                     base(gameEventListener, framework, viewport, camera)
         {
     		showRestartRequiredMessage = false;
+    		autoGoBack = false;
         }
 
         protected override string getTitle()
@@ -112,6 +113,7 @@ namespace Wof.Controller.Screens
             }
 
             EngineConfig.SaveEngineConfig();
+            RecreateGUI();
         }
 
         protected override bool IsOptionSelected(int index, ButtonHolder holder)

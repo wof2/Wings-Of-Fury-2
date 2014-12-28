@@ -224,6 +224,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             sb.AppendLine("_joystickGear:" + _joystickGear);
             sb.AppendLine("_joystickGun:" + _joystickGun);
             sb.AppendLine("_joystickRocket:" + _joystickRocket);
+            sb.AppendLine("_joystickSpin:" + _joystickSpin);
             sb.AppendLine("_joystickVerticalAxisNo:" + _joystickVerticalAxisNo);
             sb.AppendLine("_joystickHorizontalAxisNo:" + _joystickHorizontalAxisNo);
             sb.AppendLine("_joystickDeadZone:" + _joystickDeadZone);
@@ -282,7 +283,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             }
           
             
-            _joystickBulletTimeEffect =  7;
+            _joystickBulletTimeEffect = 8;
             _joystickCamera = 6;
             _joystickEngine = 2;
             _joystickEnter = 4;
@@ -290,6 +291,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             _joystickGear = 3;
             _joystickGun = 4;
             _joystickRocket = 1;
+            _joystickSpin = 7;
 
             _joystickVerticalAxisNo = 0;
             _joystickHorizontalAxisNo = 1;
@@ -339,7 +341,7 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 }
                 
                 k._currentJoystick = GetString("_currentJoystick",null);	                
-                k._joystickBulletTimeEffect = GetInteger("_joystickBulletTimeEffect", 7);
+                k._joystickBulletTimeEffect = GetInteger("_joystickBulletTimeEffect", 8);
                 k._joystickCamera = GetInteger("_joystickCamera",6);
                 k._joystickEngine = GetInteger("_joystickEngine",2);
                 k._joystickEnter = GetInteger("_joystickEnter",4);
@@ -347,6 +349,8 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 k._joystickGear = GetInteger("_joystickGear",3);
                 k._joystickGun = GetInteger("_joystickGun",4);
                 k._joystickRocket = GetInteger("_joystickRocket",1);
+                k._joystickSpin = GetInteger("_joystickSpin",7);
+                
 
                 k._joystickVerticalAxisNo = GetInteger("_joystickVerticalAxisNo", 0);
                 k._joystickHorizontalAxisNo = GetInteger("_joystickHorizontalAxisNo", 1);
@@ -393,6 +397,8 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
                 WriteString("_joystickGear", _joystickGear.ToString());
                 WriteString("_joystickGun", _joystickGun.ToString());
                 WriteString("_joystickRocket", _joystickRocket.ToString());
+                WriteString("_joystickSpin", _joystickSpin.ToString());
+                
 
                 WriteString("_joystickVerticalAxisNo", _joystickVerticalAxisNo.ToString());
                 WriteString("_joystickHorizontalAxisNo", _joystickHorizontalAxisNo.ToString());
@@ -766,6 +772,17 @@ namespace Wof.Controller.Input.KeyboardAndJoystick
             get { return _joystickRocket; }
             set { _joystickRocket = value; }
         }
+        
+        private int _joystickSpin;
+        
+        [ControlType(TypeOfControl.Joystick)]
+        public int JoystickSpin
+        {
+            get { return _joystickSpin; }
+            set { _joystickSpin = value; }
+        }
+        
+        
 
         
         private int _joystickCamera;

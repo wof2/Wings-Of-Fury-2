@@ -131,20 +131,22 @@ namespace Wof.Controller.Screens
 
         protected override List<object> GetAvailableOptions()
         {
-            List<object> availableModes = new List<object>();
-                   
-            FrameWorkStaticHelper.GetNumberOfAvailableJoysticks();
-            
+            List<object> availableModes = new List<object>();                   
+            FrameWorkStaticHelper.GetNumberOfAvailableJoysticks();            
             for(int i=0; i< joysticks.Count; i++){            	
             	availableModes.Add(LanguageResources.GetString(LanguageKey.Joystick)+" "+(i+1)+" - ID=" +joysticks[i].Vendor()+"_"+joysticks[i].ID);
 			}      
             return availableModes;
         }
   
+        public override void RecreateGUI()
+		{
+         	joystickChangerHelper.Clear();          	
+          	base.RecreateGUI();
+		}
 
         protected override void ProcessOptionSelection(ButtonHolder holder)
-        {
-        	
+        {        	
         	string jid;
         	if(holder.Option.id.Equals(resetButtonID)){
 				KeyMap.Instance.BackToDefaults(joysticks);
@@ -152,7 +154,7 @@ namespace Wof.Controller.Screens
 				//FrameWorkStaticHelper.SetCurrentJoystickIndex(0);
 				
 				for(int i = 0; i <FrameWorkStaticHelper.GetNumberOfAvailableJoysticks(); i++) {
-					 jid= joysticks[i].Vendor()+"_"+joysticks[i].ID;
+					jid= joysticks[i].Vendor()+"_"+joysticks[i].ID;
   					
 					if( jid.Equals(KeyMap.Instance.CurrentJoystick)) {  						
 						FrameWorkStaticHelper.SetCurrentJoystickIndex(i);  
@@ -160,7 +162,7 @@ namespace Wof.Controller.Screens
 					}
 				}
 				joystickChangerHelper.UpdateCurrentJoystick();
-				RecreateGUI();
+				this.RecreateGUI();			
 				return;
 			}
 			
@@ -177,11 +179,10 @@ namespace Wof.Controller.Screens
 					FrameWorkStaticHelper.SetCurrentJoystickIndex(i);
 					joystickChangerHelper.UpdateCurrentJoystick();
 					
-					RecreateGUI();					
+					this.RecreateGUI();			
 					break;
 				}
-			}
-			
+			}			
 		}
         
        
@@ -190,8 +191,7 @@ namespace Wof.Controller.Screens
         	string option = holder.Value;
         	if(holder.Option.id.Equals(resetButtonID)){
         		return false;
-        	}
-       
+        	}       
         	
         	if( FrameWorkStaticHelper.GetNumberOfAvailableJoysticks() == 1 && index == 0) return true;
         	
@@ -201,8 +201,6 @@ namespace Wof.Controller.Screens
 			return jid.Equals(KeyMap.Instance.CurrentJoystick);
         	
         }
-
-		
 		
   		public override void onButtonPress(Button referer)
         {
@@ -210,14 +208,9 @@ namespace Wof.Controller.Screens
   				return;
   			}  			
   			base.onButtonPress(referer);  
-  			if(referer.text.Contains("ID=")) {
-				
-  				RecreateGUI();	
-				
-  			}
-  			
-  				
-  			
+  			if(referer.text.Contains("ID=")) {				
+  				RecreateGUI();			
+  			}  			
   		}
   		
   		protected override Vector4 GetOptionPos(uint index, Window window)
@@ -235,7 +228,7 @@ namespace Wof.Controller.Screens
 		    }else {
 		    	cv = ColourValue.White;
 		    }
-			float pointerWindowSize = parentWindow.w * 0.5f;
+			float pointerWindowSize = parentWindow.w * 0.4f;
 						
 			int yshift = (int)(joystickWindows.Count * (0.85f*GetTextVSpacing()));
 			
@@ -247,9 +240,9 @@ namespace Wof.Controller.Screens
 		    pos.y -= parentWindow.y;
 		    pos.w = GetTextVSpacing(); // height
 		    
-		   
 		    
-		    parentWindow.createStaticText(pos, "Joy Axis "+ axisNo, cv);
+		    
+		    parentWindow.createStaticText(pos, LanguageResources.GetString(LanguageKey.JoystickAxis)+ " "+ axisNo, cv);
 			
 			joystickPointerAxis.Add(axisNo);
 			joystickPointers.Add(mGui.createWindow(getJoystickPointerRect(joystickWindows[index], axisNo), "bgui.window.pointer", (int)wt.NONE, ""));

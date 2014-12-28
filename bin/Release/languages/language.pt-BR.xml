@@ -372,9 +372,30 @@
    <data name="Joystick"> 
        <value>Joystick</value>
   </data>
-   <data name="JoystickOptions"> 
+ 
+  <data name="JoystickOptions"> 
        <value>Joystick options</value>
   </data>
+    
+  <data name="ChooseHorizontalAxisNo"> 
+       <value>Choose horizontal axis no</value>
+  </data>
+  
+  <data name="ChooseVerticalAxisNo"> 
+       <value>Choose vertical axis no</value>
+  </data>
+  
+   <data name="JoystickDeadzone"> 
+       <value>Dead zone</value>
+  </data>
+  
+   <data name="JoystickSensitivity"> 
+       <value>Sensitivity</value>
+  </data>
+   <data name="JoystickAxis"> 
+       <value>Joystick axis</value>
+  </data>
+  
   
 
 </root>
