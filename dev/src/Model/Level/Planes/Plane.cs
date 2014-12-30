@@ -2662,9 +2662,9 @@ namespace Wof.Model.Level.Planes
                             	var joyHorizontal = GetInputVectorValueNormalised(DirectionAxis.Horizontal);
                             	
                             	
-                            	if(joyHorizontal > 0 && joyHorizontal < 3*KeyMap.Instance.JoystickDeadZone)
+                            	if(joyHorizontal > 0 && joyHorizontal < System.Math.Min(4*KeyMap.Instance.JoystickDeadZone, 0.6f))
                             	{
-                            		Console.WriteLine("nie bedzie zawracania bo "+joyHorizontal +" < "+(3*KeyMap.Instance.JoystickDeadZone));
+                            		Console.WriteLine("nie bedzie zawracania bo "+joyHorizontal +" < "+(4*KeyMap.Instance.JoystickDeadZone));
                             		steerDir = direction; // nie zmieniamy jednak kierunku bo wychy³ by³ za ma³y
                             	}
                             }

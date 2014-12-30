@@ -553,7 +553,7 @@ namespace Wof.Controller.Screens
             ConfigureContainer(ammoContainer, ammoElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
                                UnitConverter.AspectDependentHorizontalProportion(0.061f, viewport),
-                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.272f));
+                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.276f));
         }
 
        
@@ -572,8 +572,8 @@ namespace Wof.Controller.Screens
 
             ConfigureContainer(livesContainer, livesElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
-                               UnitConverter.AspectDependentHorizontalProportion(0.1275f, viewport),
-                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.272f));
+                               UnitConverter.AspectDependentHorizontalProportion(0.1260f, viewport),
+                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.276f));
         }
 
         private void CreateScoreContainer()
@@ -589,7 +589,7 @@ namespace Wof.Controller.Screens
             ConfigureContainer(scoreContainer, scoreElement,
                                minimapViewport.ActualWidth, minimapViewport.ActualHeight,
                                UnitConverter.AspectDependentHorizontalProportion(0.870f, viewport),
-                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.36f));
+                               (int)(viewport.ActualHeight - minimapViewport.ActualHeight * 0.3725f));
                               
         }
 
@@ -642,7 +642,12 @@ namespace Wof.Controller.Screens
             element.SetDimensions(width, height);
             element.SetPosition(0, 0);
             element.SetParameter("font_name", fontName);
-            element.SetParameter("char_height", "12");
+            int fontSize = 13;
+            if(LanguageManager.ActualLanguageCode.Equals("zh-TW")) {
+            	fontSize = 15;
+            }
+            
+            element.SetParameter("char_height", fontSize.ToString());
             element.SetParameter("colour_top", MessageEntry.DefaultColourTopString);
             element.SetParameter("colour_bottom", MessageEntry.DefaultColourBottomString);
            

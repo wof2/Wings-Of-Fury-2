@@ -102,7 +102,7 @@ namespace Wof.Controller.Screens
                                     "RedFox2879",
                                     "Jack Flushell",
                                     "Paszmina",
-                                    "Sébastien Ligez",
+                                    "Sebastien Ligez",
                                     "Sychospy",
                                     "tboc.razor",
                                     "Marcelo Eiras",
@@ -126,7 +126,7 @@ namespace Wof.Controller.Screens
                                     String.Empty,
                                     LanguageResources.GetString(LanguageKey.SpecialThanksToSteveWaldo),
                                     LanguageResources.GetString(LanguageKey.CreatorOfOriginalWingsOfFury),
-                                    String.Format(@"{0} 2012", LanguageResources.GetString(LanguageKey.Poland)) 
+                                    String.Format(@"{0} 2015", LanguageResources.GetString(LanguageKey.Poland)) 
                                  };
 
         private float survivalTime = 0;

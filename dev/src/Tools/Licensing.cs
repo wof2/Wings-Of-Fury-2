@@ -272,10 +272,10 @@ namespace Wof.Tools
        public static bool IsEhnancedVersion()
        {          
         
-           BuildHash();
+		   BuildHash();
 
            string loc2 = EngineConfig.C_LOCAL_DIRECTORY + "\\" + C_LICENSE_FILE;
-           if (!File.Exists(C_LICENSE_FILE) && !File.Exists(loc2))
+           if (!File.Exists(C_LICENSE_FILE) && !File.Exists(loc2) && !File.Exists("../../"+C_LICENSE_FILE))
            {
                return false;
            }
@@ -303,6 +303,9 @@ namespace Wof.Tools
                else if (File.Exists(loc2))
                {
                    contents = File.ReadAllText(loc2);
+               } else if (File.Exists("../../"+C_LICENSE_FILE))
+               {
+                   contents = File.ReadAllText("../../"+C_LICENSE_FILE);
                }
                else
                {
