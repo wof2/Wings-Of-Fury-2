@@ -155,7 +155,7 @@ Wof/MessageBarBg
 		left 0 
 		top 0
 		width 1
-		height 0.07
+		height 0.08
 		material Panels/MessageBarIconBg
 	}
 }

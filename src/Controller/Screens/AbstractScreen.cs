@@ -239,7 +239,11 @@ namespace Wof.Controller.Screens
   		protected KeyCode[] cheatLives = { KeyCode.KC_GRAVE, KeyCode.KC_I, KeyCode.KC_M, KeyCode.KC_L, KeyCode.KC_A, KeyCode.KC_M, KeyCode.KC_E};
       
 
-  	
+  		/// <summary>
+  		/// Czy ignorowac nacisniecie enter / escape
+  		/// brak wartosci oznacza ze nie zostala jeszcze ustalona (bo ekran nie zostal jeszcze zaladowany
+  		/// </summary>
+  		protected bool? ignoreKeyInput = null;
 
         protected List<PlaneView> planeViews;
 
@@ -386,8 +390,8 @@ namespace Wof.Controller.Screens
         /// <summary>
         /// Czy w poprzedniej klatce wszystkie przyciski by³y puszczone
         /// </summary>
+      
         private bool wereAllKeysReleased = false; 
-        
        
         public AbstractScreen(GameEventListener gameEventListener,
                               IFrameWork framework, Viewport viewport, Camera camera)
@@ -773,6 +777,7 @@ namespace Wof.Controller.Screens
 
 
             mGui.mFontSize = fontSize;
+			 
 
 
            /* buttonsCount = 0;
@@ -795,7 +800,7 @@ namespace Wof.Controller.Screens
                 CreateOcean();
                 CreateScene();
             }
-          
+            
             initialized = true;
         }
       
@@ -1114,15 +1119,15 @@ namespace Wof.Controller.Screens
 					KeyReceived("ESC");
 				//	Console.WriteLine("EscapePressed");
 					wasEscapeKeyPressed = false;
-					if (tryToPressBackButton())
+					if (tryToPressBackButton(0))
 						return;
 				}
 				
 				if (wereAllKeysReleased && wasEnterKeyPressed) {
 				//	Console.WriteLine("nacisnieto enter");
 					KeyReceived("ENTER");
-					wasEnterKeyPressed = false;
-					if (buttons != null && Button.TryToPressButton(buttons[currentButton]))
+					wasEnterKeyPressed = false;					
+					if (buttons != null && Button.TryToPressButton(buttons[currentButton],0))
 						return;
 				} else {
 					
@@ -1185,9 +1190,22 @@ namespace Wof.Controller.Screens
           
             if (initialized)
             {
+            	if(!ignoreKeyInput.HasValue) {
+            		// first frame - setup value
+            		inputKeyboard.Capture();
+            		ignoreKeyInput = !areAllKeysReleased(inputKeyboard, inputJoysticks);  // the key is still pressed (from the last screen). We need to discard it            		
+            	}
+            	
                 FrameStarted(evt);   
-                wereAllKeysReleased = areAllKeysReleased(inputKeyboard, inputJoysticks);
+                wereAllKeysReleased = areAllKeysReleased(inputKeyboard, inputJoysticks); 
+                
+                if(ignoreKeyInput.Value && wereAllKeysReleased) { // we were ignoring the input and no keys are currently pressed. Since wereAllKeysReleased=false this would trigger an action...
+                	wereAllKeysReleased = false; // .. which we will discard
+                	ignoreKeyInput = false; // from now on stop ignoring new inputs
+                }
+             
                 HandleInput(inputMouse, inputKeyboard, inputJoysticks); 
+            
             }
 
            
@@ -1252,16 +1270,20 @@ namespace Wof.Controller.Screens
                 }
                    
             }
-           
+            
             if (FrameWorkStaticHelper.IsEnterPressed(inputKeyboard, joysticks)) {   
-                wasEnterKeyPressed = true;
-                KeyReceived("ENTER");
+            	if(!ignoreKeyInput.Value){
+	            	wasEnterKeyPressed = true;            	
+	                KeyReceived("ENTER");
+            	}
+            	
             }
-            if (FrameWorkStaticHelper.IsEscapePressed(inputKeyboard, joysticks))                 
-           
-            {
-                wasEscapeKeyPressed = true;
-                KeyReceived("ESC");
+            if (FrameWorkStaticHelper.IsEscapePressed(inputKeyboard, joysticks)) 
+            {       
+				if(!ignoreKeyInput.Value){            	
+	            	wasEscapeKeyPressed = true;            	
+	                KeyReceived("ESC");     
+            	}
             }
            
            
@@ -1444,7 +1466,8 @@ namespace Wof.Controller.Screens
           
             if (inputJoysticks != null)
             {
-            	foreach(JoyStick j in inputJoysticks) {
+            	var j =FrameWorkStaticHelper.GetCurrentJoystick(inputJoysticks);
+            	if(j!=null) {            	
 	                for (int i = 0; i < j.JoyStickState.ButtonCount; i++)
 	                {
 	                    if (j.JoyStickState.GetButton(i)) return false;
@@ -1536,11 +1559,11 @@ namespace Wof.Controller.Screens
         
 
 
-        protected Boolean tryToPressBackButton()
+        protected Boolean tryToPressBackButton(float manualDelay)
         {
             if (backButtonIndex != -1)
             {
-                return Button.TryToPressButton(buttons[backButtonIndex]);
+                return Button.TryToPressButton(buttons[backButtonIndex], manualDelay);
             }
             return false;
         }

@@ -665,7 +665,10 @@ namespace Wof.Controller
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+            	if(LogManager.Singleton != null) {
+            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_NORMAL, "Exception in EngineConfig: "+ex.Message+" "+ex.InnerException+", "+ex.StackTrace);
+            	}
+                //Console.WriteLine(ex.ToString());
             }
 
            
