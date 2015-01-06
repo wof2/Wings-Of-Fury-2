@@ -1835,6 +1835,9 @@ namespace Wof.Controller.Screens
 			return fileName;
 		}
 
+		const int initialGpuPreloadWaitingFrames = 100;
+		int gpuPreloadWaitingFrames = initialGpuPreloadWaitingFrames;
+		
         public void OnHandleViewUpdate(FrameEvent evt, Mouse inputMouse, Keyboard inputKeyboard, IList<JoyStick> inputJoysticks)
         {
             if (levelView == null && !isFirstLoadingFrame)
@@ -1859,7 +1862,7 @@ namespace Wof.Controller.Screens
                         OverlayElement preloaderScreen = OverlayManager.Singleton.GetOverlayElement("Wof/PreloaderScreen");
                         preloaderScreen.MaterialName = preloadingMaterial.Name;
                         LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Presenting hardware preloader overlay.");
-                        preloaderScreen.Show();
+                     //   preloaderScreen.Show();
                         preloadingOverlay.Show();
                       
                         
@@ -2160,7 +2163,20 @@ namespace Wof.Controller.Screens
                         ControlGunFireSound();
 
                     }
-                    else if (loading == false && levelView != null)
+                    else if (loading == false && levelView != null && loadingOverlay != null && gpuPreloadWaitingFrames < initialGpuPreloadWaitingFrames) {
+                    	
+                    		// loading finished, 
+							gpuPreloadWaitingFrames--;
+							if(gpuPreloadWaitingFrames <= 0) {
+								ViewHelper.ChangeOpacityOfTexture("SplashScreen", 1.0f); // back to normal for future reference
+								loadingOverlay.Hide();
+								loadingOverlay.Dispose();
+								loadingOverlay = null;
+								gpuPreloadWaitingFrames = initialGpuPreloadWaitingFrames;								
+							}
+                    	
+                    }
+                    else if (loading == false && levelView != null && loadingOverlay != null && gpuPreloadWaitingFrames == initialGpuPreloadWaitingFrames)
                     {
                         isFirstFrame = true;
                         TimeSpan diff = DateTime.Now.Subtract(loadingStart);
@@ -2238,14 +2254,14 @@ namespace Wof.Controller.Screens
                             {
                                 AdManager.Singleton.CloseAd(loadingAd);
                             }
-
-                            loadingOverlay.Hide();
-                            loadingOverlay.Dispose();
-                            loadingOverlay = null;
-
+                          
+                           // this unhides the 1% of the actual graphics - preload
+                          	ViewHelper.ChangeOpacityOfTexture("SplashScreen", 0.99f);
+                            gpuPreloadWaitingFrames--;
                             FreeSplashScreens();
                             SoundManager3D.Instance.UpdaterRunning = true;
-                            SoundManager.Instance.LoopOceanSound();
+							SoundManager.Instance.LoopOceanSound();
+                   
                                         
                         }
                     }

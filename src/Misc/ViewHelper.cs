@@ -362,7 +362,19 @@ namespace Wof.Misc
                 }
             }
         }
-
+        
+        public static void ChangeOpacityOfTexture(string materialName, float opacity)
+        { 
+        	try{
+          		((Mogre.MaterialPtr)(Mogre.MaterialManager.Singleton.GetByName(materialName))).GetBestTechnique().GetPass(0).GetTextureUnitState(0).SetAlphaOperation(LayerBlendOperationEx.LBX_MODULATE,LayerBlendSource.LBS_TEXTURE, LayerBlendSource.LBS_MANUAL, 1.0f, opacity);
+        	}
+        	catch(Exception ex) {
+        		
+        	}
+        		
+        }
+        
+        
         public static MaterialPtr BuildPreloaderMaterial(int maxTextures)
         {
         	Pass pass = null;           
