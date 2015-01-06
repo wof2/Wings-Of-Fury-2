@@ -91,7 +91,7 @@ namespace Wof.View
 
         private const int C_AD_SIZE = 32;
 
-        public const int C_AD_DYNAMIC_ADS_COUNT = 3;
+        public const int C_AD_DYNAMIC_ADS_COUNT = 2;
         private float[] C_AD_MAX_DISPLAY_TIMES = new float[C_AD_DYNAMIC_ADS_COUNT];
         
 
