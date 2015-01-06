@@ -638,7 +638,9 @@ namespace BetaGUI
         
         
         public void OnValueChangedDo(String delta) {
-        	onValueChanged(delta);
+        	if(onValueChanged != null) {
+        		onValueChanged(delta);
+        	}
         }
         
         protected TextInputValidator validator;

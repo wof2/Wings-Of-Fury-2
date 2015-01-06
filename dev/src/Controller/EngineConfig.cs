@@ -289,6 +289,17 @@ namespace Wof.Controller
         /// Pokazuje dodatkowe informacje w trakcie gry
         /// </summary>
         public static bool DebugInfo = false;
+        
+        /// <summary>
+        /// jesli jest na tak to nacisniecie przycisku 'N' powoduje przejscie do nastepnego poziomu.
+        /// </summary>
+        public static bool DebugNextLevel = false;
+          
+        /// <summary>
+        /// jesli jest na tak to nacisniecie przycisku 'K' powoduje zniszczenie samolotu gracza
+        /// </summary>
+        public static bool DebugKillPlane = false;
+        
 
         /// <summary>
         /// Szybki start z pominiêciem intro oraz menu
