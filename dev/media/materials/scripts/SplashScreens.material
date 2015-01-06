@@ -5,7 +5,7 @@ material SplashScreen
 		pass
 		{			
 			depth_write off
-			//scene_blend alpha_blend 
+			scene_blend alpha_blend 
 			// wartosc podmieniana dynamicznie
 			texture_unit 
 			{

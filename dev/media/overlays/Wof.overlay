@@ -9,7 +9,7 @@ Wof/Loading
 		top 0
 		width 1
 		height 1
-		material SplashScreenBg
+		//material SplashScreenBg
 
 
         element TextArea(Wof/LoadingScreenText)

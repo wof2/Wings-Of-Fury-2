@@ -317,7 +317,7 @@ namespace Wof.Controller
         public static uint DebugStartLevel = 1;
 
 
-        public static readonly int C_LOADING_DELAY_AD = 2000;
+        public static readonly int C_LOADING_DELAY_AD = 0;
 
         /// <summary>
         /// Bazowa wysokoœæ czcionki wyra¿ona w procentowej wysokoœci wzglêdem ekranu. Wykorzystywane przez AbstractScreen
