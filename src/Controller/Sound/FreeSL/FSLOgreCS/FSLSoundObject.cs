@@ -62,10 +62,16 @@ namespace FSLOgreCS
         {
             if (_withSound)
             {
+            	try{
                 Console.WriteLine("Destroying: " + this._soundFile);
                 FreeSL.fslSoundSetGain(_sound, 0.1f);
                 FreeSL.fslFreeSound(_sound, true);
                 _withSound = false;
+            	}
+            	catch(Exception ex) {
+            		LogManager.Singleton.LogMessage(LogMessageLevel.LML_CRITICAL, "Exception while trying to remove sound: " + _soundFile +" ("+ex.Message+") " + ex.StackTrace);
+             
+            	}
             }
         }
 

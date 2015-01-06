@@ -166,10 +166,10 @@ namespace Wof.Controller.Screens
            
             List<object> all = GetAllPossibleLevelsFull();
             
-            
-            foreach (LevelInfo info in completedLevels.Keys)
+            // foreach (LevelInfo info in completedLevels.Keys)
+            foreach (LevelInfo info in all)
             {
-            	if(all.Contains(info)) {
+            	if(completedLevels.ContainsKey(info)) {
             		ret.Add(info);
             	}
             	

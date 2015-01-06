@@ -83,6 +83,7 @@ namespace Wof.Controller.Screens
                                     "Adam Witczak",
                                     String.Empty,
                                     String.Format(NamesFormat, LanguageResources.GetString(LanguageKey.Sound)),
+                                    "DJ Metalhead",
                                     "Jakub Tezycki",
                                     String.Empty,
                                     String.Format(@"WOF2 {0}:", LanguageResources.GetString(LanguageKey.CommunityTranslations)),

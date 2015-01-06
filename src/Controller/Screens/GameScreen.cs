@@ -441,7 +441,16 @@ namespace Wof.Controller.Screens
             showingChangingAmmoAds = false;
             changeAmmoToWhenCanClearRestoreAmmunitionScreen = null;
             loadingLock = new object();
-            score = 0;
+            
+            if (EngineConfig.DebugNextLevel){
+            	HighscoreUtil util = new HighscoreUtil();
+                score =util.FindLeastHighscore() + 1;
+                
+            }else {
+            	score = 0;	
+            }
+               
+          
             survivalTime = 0;
             if(GameConsts.Game.LivesCheat) 
             {
@@ -2017,8 +2026,28 @@ namespace Wof.Controller.Screens
                                   
                                     Button.ResetButtonTimer();
                                 }
+                                
+                                
+                                if (EngineConfig.DebugNextLevel && inputKeyboard.IsKeyDown(KeyCode.KC_N) &&
+                                   Button.CanChangeSelectedButton(3.0f))
+                                {
+                                 OnLevelFinished();
 
+                                 
+                                }
+                                    
 
+                                
+                                // destroy the plane
+                                if (EngineConfig.DebugKillPlane && inputKeyboard.IsKeyDown(KeyCode.KC_K) &&
+                                   Button.CanChangeSelectedButton(3.0f))
+                                {
+                                	currentLevel.UserPlane.Hit(currentLevel.UserPlane.MaxOil,0);
+                                 
+                                }
+                                
+                                
+                                
                                 // przeladuj hydrax jesli nacisnieto H
                                 if (EngineConfig.DebugInfo && inputKeyboard.IsKeyDown(KeyCode.KC_H) && Button.CanChangeSelectedButton(3.0f))
                                 {
@@ -3766,6 +3795,11 @@ namespace Wof.Controller.Screens
 
         public void OnChangeAmmunition()
         {
+        	
+        	
+        	
+        	
+        	
             //currentLevel.OnCheckVictoryConditions();
             levelView.OnStopPlayingEnemyPlaneEngineSounds();
         //  readyForLevelEnd = true;

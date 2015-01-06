@@ -421,6 +421,14 @@ namespace Wof.Controller
                     {
                         EngineConfig.DebugInfo = true;
                     }
+                    else if (args[i].Equals("-DebugNextLevel"))
+                    {
+                        EngineConfig.DebugNextLevel = true;
+                    }   
+ 					else if (args[i].Equals("-DebugKillPlane"))
+                    {
+                        EngineConfig.DebugKillPlane = true;
+                    }                      
                     else if (args[i].Equals("-DebugStartFlying"))
                     {
                         EngineConfig.DebugStartFlying = true;
@@ -1157,7 +1165,7 @@ namespace Wof.Controller
             bool justMenu = initScreen(null);
             SoundManager.Instance.PlayEndingTheme();
 
-            currentScreen = new EndingScreen(this, this, viewport, camera, true, 25, highscore, survivalTime);
+            currentScreen = new EndingScreen(this, this, viewport, camera, true, 55, highscore, survivalTime);
 
             if (ss != null)
             {
@@ -1173,7 +1181,7 @@ namespace Wof.Controller
 			HideBrowser();
             bool justMenu = initScreen(referer);
             SoundManager.Instance.PlayEndingTheme();
-            currentScreen = new CreditsScreen(this, this, viewport, camera, true, 65);
+            currentScreen = new CreditsScreen(this, this, viewport, camera, true, 70);
 
             if (ss != null)
             {

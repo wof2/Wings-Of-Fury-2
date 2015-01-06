@@ -1887,8 +1887,9 @@ namespace Wof.Model.Level.Planes
             }
 
             //czy ma w³¹czony silnik, jeœli nie to obrót samolotu, tak ¿eby spada³
-            if (!IsOnAircraftCarrier && planeState != PlaneState.Crashed && motorState == EngineState.SwitchedOff)
-                FallDown(time, timeUnit, GlideType.glider);
+            if (!IsOnAircraftCarrier && planeState != PlaneState.Crashed && motorState == EngineState.SwitchedOff) {
+            	FallDown(time, timeUnit, LocationState.Equals(LocationState.AirTurningRound) ? GlideType.destroyed : GlideType.glider);
+            }
 
             if (IsEngineWorking)
                 airscrewSpeed = minAirscrewSpeed + (int) Math.Abs((int) (15f*movementVector.X));
@@ -1913,8 +1914,7 @@ namespace Wof.Model.Level.Planes
                     if (sin > 0) sin *= -sin*17; // si³a unosz¹ca
                     else         sin *=  sin*26; // si³a sci¹gaj¹ca 
 
-                    float liftVectorY = 0.7f*(1 - sin);
-                   
+                    float liftVectorY = 0.7f*(1 - sin);                  
                     bounds.Move(0, liftVectorY*scaleFactor);
 
                     //Grawitacja
@@ -3678,6 +3678,24 @@ namespace Wof.Model.Level.Planes
         /// <param name="inputVector"></param>
         public void UpdateInputVector(Vector2? inputVector)
         {
+        	if(inputVector.HasValue && inputVector.Value.y != 0) {
+        		//Console.WriteLine("speed: "+Speed+" "+GetConsts().MaxSpeed+" , fraction: "+(1.0f*Speed/ GetConsts().MaxSpeed));
+        		
+        		
+        	// kiedy samolot leci szybko chcemy zmniejszyc dzialanie osi Y w joy'u (bo latwo sie zabic)
+        		float thresh = GetConsts().MaxSpeed * 0.45f;
+	        	if(this.Speed >= thresh) {
+        			float diff =  1.0f * (this.Speed - thresh) / (GetConsts().MaxSpeed);
+        			// diff [0 - 0.55]
+        			// 0 -> 1.0 (min speed - no change)
+        			// 0.55 -> 0.1 (decrease Y axis by 90%)
+        			float yCoeff = - (1.64f) * diff + 1;
+        			//Console.WriteLine("Y before: "+inputVector.Value.y+", Y now: "+(inputVector.Value.y *yCoeff)+", yCoeff: "+yCoeff);
+        			this.inputVector = new Vector2(inputVector.Value.x, inputVector.Value.y *yCoeff);
+        			
+        			return;
+	        	}
+        	}
             this.inputVector = inputVector;
         }
 

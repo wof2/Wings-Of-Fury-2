@@ -35,7 +35,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <StartAction>Project</StartAction>
-    <StartArguments>-DebugInfo -FreeLook -DebugStart 16 -DebsugStartFlying -LanguageDebugMode</StartArguments>
+    <StartArguments>-DebugInfo -FreeLook -DebugStart 17 -DebugStartFlying -LanguageDebugMode -DebugKillPlane</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'LincenseBuilder|AnyCPU' ">
     <StartArguments>-DebugInfo -FreeLook -DebfugStart 1 -SkipIntro</StartArguments>
