@@ -654,24 +654,23 @@
        <value>設定搖桿</value>
   </data>
   
-   <data name="ChooseHorizontalAxisNo"> 
-       <value>Choose horizontal axis no</value>
+  <data name="ChooseHorizontalAxisNo">
+      <value>選擇水平軸編號</value> <!-- no = number. Used to selecting joystick axis -->
   </data>
-  
-  <data name="ChooseVerticalAxisNo"> 
-       <value>Choose vertical axis no</value>
+
+  <data name="ChooseVerticalAxisNo">
+      <value>選擇垂直軸編號</value> <!-- no = number. Used to selecting joystick axis -->
   </data>
-  
-   <data name="JoystickDeadzone"> 
-       <value>Dead zone</value>
+
+  <data name="JoystickDeadzone">
+      <value>搖桿無作用位移量</value> <!-- this describes the amount of movement that is ignored -->
   </data>
-  
-   <data name="JoystickSensitivity"> 
-       <value>Sensitivity</value>
+
+  <data name="JoystickSensitivity">
+      <value>靈敏度</value>
   </data>
-  
-   <data name="JoystickAxis"> 
-       <value>Joystick axis</value>
+  <data name="JoystickAxis">
+      <value>搖桿軸</value>
   </data>
   
 </root>
