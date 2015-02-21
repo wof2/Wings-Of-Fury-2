@@ -55,6 +55,6 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseLight|x86' ">
     <StartAction>Project</StartAction>
-    <StartArguments>-DebugInfo -FreeLook -DebugStart 16 -DebsugStartFlying -LanguageDebugMode</StartArguments>
+    <StartArguments>-DebugInfo -FreeLook -DebugkStart 16 -DebsugStartFlying -LanguageDebugMode</StartArguments>
   </PropertyGroup>
 </Project>
