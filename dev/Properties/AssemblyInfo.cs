@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("Ravenlore")]
 [assembly: AssemblyProduct ("Wings Of Fury 2")]
-[assembly: AssemblyCopyright ("Copyright ©  2014")]
+[assembly: AssemblyCopyright ("Copyright ©  2015")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 // Setting ComVisible to false makes the types in this assembly not visible 
