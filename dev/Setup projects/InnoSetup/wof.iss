@@ -19,7 +19,6 @@
 #define MyDOTNETURL "http://download.microsoft.com/download/5/6/7/567758a3-759e-473e-bf8f-52154438565a/dotnetfx.exe"
 #define MyDOTNETRequired "2.0"
 
-
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
@@ -49,7 +48,7 @@ VersionInfoCompany=Ravenlore
 VersionInfoDescription=WW2 plane simulator and shooter
 VersionInfoProductName=Wings of Fury 2 - Return of the legend
 VersionInfoProductVersion=3.5
-PrivilegesRequired=poweruser
+PrivilegesRequired=lowest
 UninstallDisplayIcon={app}\bin\release\Wof.exe
 
 [Languages]
