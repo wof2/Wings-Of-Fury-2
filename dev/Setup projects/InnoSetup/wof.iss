@@ -9,7 +9,7 @@
 
 #define MyAppNameShort "WOF2_RotL_"
 #define MyAppName "Wings of Fury 2 - Return of the legend"
-#define MyAppVersion "3.5"
+#define MyAppVersion "3.51"
 #define MyAppPublisher "Ravenlore"
 #define MyAppURL "http://www.wingsoffury2.com"
 #define MyAppExeName "Wof.exe"
@@ -47,7 +47,7 @@ MinVersion=5.1.2600sp1
 VersionInfoCompany=Ravenlore
 VersionInfoDescription=WW2 plane simulator and shooter
 VersionInfoProductName=Wings of Fury 2 - Return of the legend
-VersionInfoProductVersion=3.5
+VersionInfoProductVersion=3.51
 PrivilegesRequired=lowest
 UninstallDisplayIcon={app}\bin\release\Wof.exe
 
@@ -82,7 +82,7 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 Source: "{#MyAppSourcePath}\WofIcon.ico"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "{#MyAppSourcePath}\WofIconE.ico"; DestDir: "{app}"; Flags: IgnoreVersion
 Source: "{#MyAppSourcePath}\Wof.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: {#MyAppSourcePath}\bin\Release\*; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "wof_secure,\*.vshost.exe,\wof_confuser.crproj,\Wof.exe,\none.xml,\ogre.cfg,\enhanced_levels\*.xml,\levels\*.xml,\survival.dat,*.old,\RunConfuser.cmd,*.lnk,\enhanced.dat*,\wofconf.dat,\game.dat,\highscores.dat,*.manifest,*.config,\firstrun.dat,*.pdb,*.log,*.backup,*.manifest,_ReSharper.Wof,_ReSharper.Wof.vshost"
+Source: {#MyAppSourcePath}\bin\Release\*; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; Excludes: "wof_secure,\GenerateFontRanges.exe,\Wingitor.exe,\EnhancedVersionHelper.exe,\*.vshost.exe,\wof_confuser.crproj,\Wof.exe,\none.xml,\ogre.cfg,\enhanced_levels\*.xml,\levels\*.xml,\survival.dat,*.old,\RunConfuser.cmd,*.lnk,\enhanced.dat*,\wofconf.dat,\game.dat,\highscores.dat,*.manifest,*.config,\firstrun.dat,*.pdb,*.log,*.backup,*.manifest,_ReSharper.Wof,_ReSharper.Wof.vshost"
 Source: {#MyAppSourcePath}\bin\Release\wof_secure\Wof.exe; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; 
 ;Source: {#MyAppSourcePath}\bin\Release\wof_secure\EnhancedVersionHelper.exe; DestDir: {app}\bin\release; Flags: ignoreversion recursesubdirs createallsubdirs; 
 
