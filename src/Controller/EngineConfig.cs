@@ -69,7 +69,7 @@ namespace Wof.Controller
         /// <summary>
         /// Wersja tej kompilacji WOfa. Powinna byæ w formacie X.XX
         /// </summary>
-        public static readonly String C_WOF_VERSION = "3.5";
+        public static readonly String C_WOF_VERSION = "3.51";
 
         public static readonly bool C_IS_INTERNAL_TEST = false;
         public static readonly String C_IS_INTERNAL_TEST_INFO = "!!! Internal test version !!! ";
@@ -253,7 +253,7 @@ namespace Wof.Controller
              }
         }
 
-        public static readonly bool IsEnhancedVersion = Licensing.IsEhnancedVersion();
+        public static readonly bool IsEnhancedVersion = true; // Licensing.IsEhnancedVersion();
        
         public static string CopyLogFileToErrorLogFile()
         {

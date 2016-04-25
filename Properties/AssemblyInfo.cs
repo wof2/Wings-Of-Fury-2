@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("Ravenlore")]
 [assembly: AssemblyProduct ("Wings Of Fury 2")]
-[assembly: AssemblyCopyright ("Copyright ©  2015")]
+[assembly: AssemblyCopyright ("Copyright ©  2016")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -27,5 +27,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion ("3.5.0.0")]
-[assembly: AssemblyFileVersion ("3.5.0.0")]
+[assembly: AssemblyVersion ("3.5.1.0")]
+[assembly: AssemblyFileVersion ("3.5.1.0")]

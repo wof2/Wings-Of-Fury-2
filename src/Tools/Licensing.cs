@@ -270,7 +270,7 @@ namespace Wof.Tools
        }
 
        public static bool IsEhnancedVersion()
-       {          
+       {          	  
         
 		   BuildHash();
 
