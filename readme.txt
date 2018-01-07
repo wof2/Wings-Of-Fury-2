@@ -2,6 +2,7 @@
 -- Wings Of Fury 2: Return of the legend
 -- Version 3.51 - 25.04.2016
 ---------------------------------------------------------------
+-- Open source as of 2018-01-07
 
 3.51 release credits:
   Adam Witczak
@@ -29,16 +30,16 @@
 
 2.0 release credits:  
   Adam Witczak
-  Kamil S³awiñski  
-  Micha³ Ziober
+  Kamil SÂ³awiÃ±ski  
+  MichaÂ³ Ziober
 
 1.0 release credits:  
   Tomasz Bilski    - programming
   Emil Hornung     - programming
-  Kamil S³awiñski  - graphics programming
-  Jakub Tê¿ycki    - management, sound
+  Kamil SÂ³awiÃ±ski  - graphics programming
+  Jakub TÃªÂ¿ycki    - management, sound
   Adam Witczak     - modelling, game visuals, graphics programming 
-  Micha³ Ziober    - programming
+  MichaÂ³ Ziober    - programming
 
 
 
